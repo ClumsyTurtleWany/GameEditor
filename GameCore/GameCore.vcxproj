@@ -18,6 +18,70 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Actor.h" />
+    <ClInclude Include="Component.hpp" />
+    <ClInclude Include="Define.h" />
+    <ClInclude Include="DXDevice.hpp" />
+    <ClInclude Include="DXSamplerState.hpp" />
+    <ClInclude Include="DXShaderManager.h" />
+    <ClInclude Include="DXTexture.hpp" />
+    <ClInclude Include="DXTextureManager.hpp" />
+    <ClInclude Include="DXWriter.hpp" />
+    <ClInclude Include="ECSCommon.hpp" />
+    <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="FMODSound.hpp" />
+    <ClInclude Include="FMODSoundManager.hpp" />
+    <ClInclude Include="GameCore.h" />
+    <ClInclude Include="Input.hpp" />
+    <ClInclude Include="Landscape.h" />
+    <ClInclude Include="LandscapeComponent.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MeshComponent.hpp" />
+    <ClInclude Include="MovementComponent.h" />
+    <ClInclude Include="MovementSystem.h" />
+    <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SkeletalMeshComponent.h" />
+    <ClInclude Include="StaticMeshComponent.h" />
+    <ClInclude Include="System.hpp" />
+    <ClInclude Include="Timer.hpp" />
+    <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="WindowsClient.h" />
+    <ClInclude Include="World.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="DXSamplerState.cpp" />
+    <ClCompile Include="DXShaderManager.cpp" />
+    <ClCompile Include="DXTexture.cpp" />
+    <ClCompile Include="DXTextureManager.cpp" />
+    <ClCompile Include="DXWriter.cpp" />
+    <ClCompile Include="FMODSound.cpp" />
+    <ClCompile Include="FMODSoundManager.cpp" />
+    <ClCompile Include="GameCore.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="WindowsClient.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="VS_SkeletalMesh.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="VS_StaticMesh.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -71,8 +135,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>../../Output/Debug/$(ProjectName)\</OutDir>
-    <IntDir>../../Output/Debug/$(ProjectName)\</IntDir>
+    <OutDir>../../Output/Debug/$(ProjectName)\\</OutDir>
+    <IntDir>../../Output/Debug/$(ProjectName)\\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -118,6 +182,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../include/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

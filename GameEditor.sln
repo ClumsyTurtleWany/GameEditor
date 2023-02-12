@@ -7,6 +7,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameCore", "GameCore\GameCo
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK_Desktop_2019", "DirectXTK-main\DirectXTK_Desktop_2019.vcxproj", "{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libarary", "Libarary", "{3EAC5D98-638A-4539-BDFD-F0AB22F6959A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Editor", "Editor", "{7782C9BD-61AC-41CC-8A18-C74550857A77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Toolkit", "Toolkit", "{2E9BDEF2-9858-4190-9DBE-800C8F381887}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapEditor", "MapEditor\MapEditor.vcxproj", "{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,9 +39,22 @@ Global
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Release|x64.Build.0 = Release|x64
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Release|x86.ActiveCfg = Release|Win32
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Release|x86.Build.0 = Release|Win32
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Debug|x64.ActiveCfg = Debug|x64
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Debug|x64.Build.0 = Debug|x64
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Debug|x86.ActiveCfg = Debug|Win32
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Debug|x86.Build.0 = Debug|Win32
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Release|x64.ActiveCfg = Release|x64
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Release|x64.Build.0 = Release|x64
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Release|x86.ActiveCfg = Release|Win32
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{331839E3-E6DA-4300-AD38-8FCE3401397D} = {3EAC5D98-638A-4539-BDFD-F0AB22F6959A}
+		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E} = {2E9BDEF2-9858-4190-9DBE-800C8F381887}
+		{8847D11E-3B9B-4968-B1F0-9C1E3906A71C} = {7782C9BD-61AC-41CC-8A18-C74550857A77}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {651D1FE4-E4D2-404F-8BC2-BA7B614DBE56}
