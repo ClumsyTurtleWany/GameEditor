@@ -58,3 +58,4 @@ protected:
 };
 
 #define DEVICE DXDevice::getInstance()
+#define CONTEXT DXDevice::getInstance()->GetContext()

@@ -1,5 +1,5 @@
 #pragma once
-#include "Define.hpp"
+#include "Define.h"
 #include "DXDevice.hpp"
 
 class DXSamplerState

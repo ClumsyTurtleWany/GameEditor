@@ -23,17 +23,19 @@
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DXDevice.hpp" />
+    <ClInclude Include="DXRenderTarget.hpp" />
     <ClInclude Include="DXSamplerState.hpp" />
+    <ClInclude Include="DXShader.h" />
     <ClInclude Include="DXShaderManager.h" />
     <ClInclude Include="DXTexture.hpp" />
     <ClInclude Include="DXTextureManager.hpp" />
-    <ClInclude Include="DXWriter.hpp" />
     <ClInclude Include="ECSCommon.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="FMODSound.hpp" />
     <ClInclude Include="FMODSoundManager.hpp" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="Input.hpp" />
+    <ClInclude Include="IWData.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="LandscapeComponent.h" />
     <ClInclude Include="Material.h" />
@@ -47,24 +49,36 @@
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexTransform.h" />
     <ClInclude Include="WindowsClient.h" />
     <ClInclude Include="World.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXDevice.cpp" />
+    <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="DXSamplerState.cpp" />
+    <ClCompile Include="DXShader.cpp" />
     <ClCompile Include="DXShaderManager.cpp" />
     <ClCompile Include="DXTexture.cpp" />
     <ClCompile Include="DXTextureManager.cpp" />
-    <ClCompile Include="DXWriter.cpp" />
     <ClCompile Include="FMODSound.cpp" />
     <ClCompile Include="FMODSoundManager.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WindowsClient.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="PS_Default.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="VS_SkeletalMesh.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
@@ -106,7 +120,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -189,6 +203,20 @@
       </SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <OutputFile>GameCore_d.lib</OutputFile>
+    </Lib>
+    <PreBuildEvent>
+      <Command>copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\output\\Debug\\$(TargetName)\\"
+copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"</Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>copy "*.h" "..\\include\\Core\\"
+copy "*.hpp" "..\\include\\Core\\"
+copy "GameCore_d.lib" "..\\lib\\Core\\"
+copy "*.txt" "..\\include\\Core\\HLSL\\"
+copy "*.hlsl" "..\\include\\Core\\HLSL\\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

@@ -36,8 +36,10 @@ using namespace Microsoft::WRL;
 #include <memory>
 //#include <fstream>
 
+// Struct
 #include "Vertex.h"
-
+#include "IWData.h"
+#include "VertexTransform.h"
 
 // Design Pattern
 template <class T>

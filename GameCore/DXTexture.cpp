@@ -132,7 +132,7 @@ std::vector<UINT>& DXTexture::getMappedResource()
 	// TODO: 여기에 return 문을 삽입합니다.
 }
 
-bool DXTexture::release()
+bool DXTexture::Release()
 {
 	if (m_pTextureResourceView != nullptr)
 	{

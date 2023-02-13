@@ -48,7 +48,7 @@ public:
 	std::vector<UINT>&			getMappedResource();
 
 public:
-	bool						release();
+	bool						Release();
 	
 public:
 	bool						CreateRenderTarget(float _width, float _height);

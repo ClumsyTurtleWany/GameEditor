@@ -43,6 +43,12 @@
     <Filter Include="Core">
       <UniqueIdentifier>{1187b91f-3211-4308-873d-a1c4e37ce8d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectX\HLSL\VertexShader">
+      <UniqueIdentifier>{c151e782-b5a1-4003-be17-db1273094eb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\HLSL\PixelShader">
+      <UniqueIdentifier>{ab7c5494-e8fb-4318-b305-1a46f0ba0bc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -114,9 +120,6 @@
     <ClInclude Include="DXTextureManager.hpp">
       <Filter>DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="DXWriter.hpp">
-      <Filter>DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="FMODSound.hpp">
       <Filter>Sound</Filter>
     </ClInclude>
@@ -135,6 +138,18 @@
     <ClInclude Include="DXShaderManager.h">
       <Filter>DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="DXRenderTarget.hpp">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="IWData.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexTransform.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DXShader.h">
+      <Filter>DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsClient.cpp">
@@ -150,9 +165,6 @@
       <Filter>DirectX</Filter>
     </ClCompile>
     <ClCompile Include="DXTextureManager.cpp">
-      <Filter>DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="DXWriter.cpp">
       <Filter>DirectX</Filter>
     </ClCompile>
     <ClCompile Include="FMODSound.cpp">
@@ -173,13 +185,28 @@
     <ClCompile Include="DXShaderManager.cpp">
       <Filter>DirectX</Filter>
     </ClCompile>
+    <ClCompile Include="DXRenderTarget.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="DXShader.cpp">
+      <Filter>DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VS_SkeletalMesh.hlsl">
-      <Filter>DirectX\HLSL</Filter>
+      <Filter>DirectX\HLSL\VertexShader</Filter>
     </FxCompile>
     <FxCompile Include="VS_StaticMesh.hlsl">
-      <Filter>DirectX\HLSL</Filter>
+      <Filter>DirectX\HLSL\VertexShader</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Default.hlsl">
+      <Filter>DirectX\HLSL\PixelShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

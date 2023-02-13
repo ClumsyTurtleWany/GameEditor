@@ -64,12 +64,12 @@ bool DXDevice::Create(HWND hWnd)
 	//////////////////////////////////////////////////////////////////////
 	CreateViewPort();
 
-	return false;
+	return true;
 }
 
 bool DXDevice::Resize()
 {
-	return false;
+	return true;
 }
 
 ID3D11Device* DXDevice::GetDevice()

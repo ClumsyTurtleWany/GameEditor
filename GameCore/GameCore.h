@@ -2,7 +2,6 @@
 #include "DXDevice.hpp"
 #include "Timer.hpp"
 #include "Input.hpp"
-#include "DXWriter.hpp"
 #include "DXSamplerState.hpp"
 #include "DXTextureManager.hpp"
 #include "FMODSoundManager.hpp"
@@ -10,14 +9,16 @@
 //#include "SpaceDivision.hpp"
 //#include "QuadTree.hpp"
 //#include "Octree.hpp"
+#include "DXRenderTarget.hpp"
 
 class GameCore
 {
-private:
+protected:
 	HWND _hWnd;
+	DXRenderTarget RenderTarget;
 
 public:
-	GameCore(HWND hWnd) : _hWnd(hWnd) {};
+	GameCore() {};
 
 public:
 	virtual bool Initialize() { return true; };
@@ -35,4 +36,7 @@ public:
 
 public:
 	bool Run();
+
+public:
+	void SetWindowHandle(HWND hWnd);
 };

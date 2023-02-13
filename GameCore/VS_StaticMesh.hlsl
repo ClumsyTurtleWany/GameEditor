@@ -25,9 +25,6 @@ struct VertexShader_output
 	float3 n : NORMAL;
 	float4 c : COLOR0; // COLOR0 과 COLOR1 밖에 없음.
 	float2 t : TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
-	float4 lightColor : TEXCOORD1;
-	float4 vWorld : TEXCOORD2;
-	float3 light : TEXCOORD3;
 };
 
 // 상수 버퍼는 레지스터 단위로만 저장됨.
@@ -39,10 +36,6 @@ cbuffer ConstantData : register(b0)
 	matrix g_matView : packoffset(c4);
 	matrix g_matProj : packoffset(c8);
 	float4 g_light : packoffset(c12);
-	//float g_nx : packoffset(c12.x);
-	//float g_ny : packoffset(c12.y);
-	//float g_nz : packoffset(c12.z);
-	//float g_nw : packoffset(c12.w);
 	//float  fTimer : packoffset(c12.z); // 이런식으로 레지스터에서 일정한 값만 등록 할 수도 있음.
 }
 
@@ -61,22 +54,23 @@ VertexShader_output VS(VertexShader_input _input)
 	// 따라서 응용프로그램 단에서 전치행렬로 만들어 보내거나, 아래와 같이 쉐이더에서 매번 전치행렬 변환작업 필요.
 	// matrix matTranspose = transpose(g_matWorld); // 매번 전치행렬 변환작업하는건 비효율적이므로 가급적 응용프로그램에서 전치해서 보내줄 것.
 
-	float4 vWorld = mul(vAnimation, g_matWorld);
+	float4 vWorld = mul(vLocal, g_matWorld);
 	float4 vView = mul(vWorld, g_matView);
 	float4 vProj = mul(vView, g_matProj);
 
 	output.p = vProj;
-	//output.n = _input.n;
-	output.n = vAnimationNormal;
+	output.n = _input.n;
 	output.c = _input.c;
 	output.t = _input.t;
 
-	output.vWorld = vWorld;
-
-	float3 vLight = g_light.xyz; // 이런식으로 사용 가능
-	float fdot = max(0.3f, dot(output.n, -vLight));// 내적값이 0이면 좋지 않음. 최소한의 값을 사용하여 윤곽이 살짝 보이게 하는것을 엠비언트 조명이라 함.
-	output.lightColor = float4(fdot, fdot, fdot, 1.0f);
-	output.light = vLight;
+	//float3 vLight = float3(0, 0, 1);
+	//float fdot = dot(_input.n, -vLight);
+	//output.c = float4(fdot, fdot, fdot, 1.0); // 내적값이 0이면 좋지 않음. 최소한의 값을 사용하여 윤곽이 살짝 보이게 하는것을 엠비언트 조명이라 함.
 
 	return output;
 }
+
+//float4 main( float4 pos : POSITION ) : SV_POSITION
+//{
+//	return pos;
+//}

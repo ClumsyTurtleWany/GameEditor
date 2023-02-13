@@ -1,5 +1,5 @@
 #pragma once
-#include "Define.hpp"
+#include "Define.h"
 
 // 교재 7강 Timer 참고할 것 나중에 HRT로 바꿀 것.
 class Timer : public Singleton<Timer>

@@ -8,6 +8,24 @@ bool GameCore::CoreInitialize()
 		return false;
 	}
 
+	DXShaderManager::getInstance()->SetDevice(DEVICE->GetDevice(), DEVICE->GetContext());
+	if (!DXShaderManager::getInstance()->Initialize())
+	{
+		OutputDebugString(L"WanyCore::DXShaderManager::Failed Initialize.\n");
+		return false;
+	}
+
+	RECT rc;
+	GetClientRect(_hWnd, &rc);
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	RenderTarget.SetDevice(DEVICE->GetDevice(), DEVICE->GetContext());
+	if (!RenderTarget.Create(0, 0, width, height))
+	{
+		OutputDebugString(L"WanyCore::DXRenderTarget::Failed Create Render Target.\n");
+		return false;
+	}
+
 	Input::getInstance()->setWndHandle(_hWnd);
 	if (!Input::getInstance()->initialize())
 	{
@@ -21,21 +39,9 @@ bool GameCore::CoreInitialize()
 		return false;
 	}
 
-	/*DXShaderManager::getInstance()->setDevice(m_pd3dDevice, m_pImmediateContext);
-	if (!DXShaderManager::getInstance()->initialize())
-	{
-		OutputDebugString(L"WanyCore::DXShaderManager::Failed Initialize.\n");
-		return false;
-	}*/
+	
 
 	DXTextureManager::getInstance()->setDevice(DEVICE->GetDevice(), DEVICE->GetContext());
-
-	/*DXShaderBorderManager::getInstance()->setDevice(m_pd3dDevice, m_pImmediateContext);
-	if (!DXShaderBorderManager::getInstance()->initialize())
-	{
-		OutputDebugString(L"WanyCore::DXShaderBorderManager::Failed Initialize.\n");
-		return false;
-	}*/
 
 	if (!FMODSoundManager::getInstance()->Initialize())
 	{
@@ -48,29 +54,6 @@ bool GameCore::CoreInitialize()
 	{
 		OutputDebugString(L"WanyCore::DXSamplerState::Failed Set State.\n");
 		return false;
-	}
-
-
-	// DXWriter
-	if (!DXWriter::getInstance()->initialize())
-	{
-		OutputDebugString(L"WanyCore::DXWriter::Failed Initialize.\n");
-		return false;
-	}
-	else
-	{
-		IDXGISurface* pBackBuffer;
-		// Buffer를 Surface 타입으로 가져 올 것이다. 0번 버퍼의 복사본(pBackBuffer에) 생성.
-		HRESULT rst = DEVICE->GetSwapChain()->GetBuffer(0, __uuidof(IDXGISurface), (void**)&pBackBuffer);
-		if (SUCCEEDED(rst))
-		{
-			if (!DXWriter::getInstance()->setBuffer(pBackBuffer))
-			{
-				OutputDebugString(L"WanyCore::DXWriter::Failed Set Buffer.\n");
-				return false;
-			}
-			pBackBuffer->Release();
-		}
 	}
 
 	return Initialize();
@@ -90,12 +73,6 @@ bool GameCore::CoreFrame()
 		return false;
 	}
 
-	if (!DXWriter::getInstance()->frame())
-	{
-		OutputDebugString(L"WanyCore::DXWriter::Failed Frame.\n");
-		return false;
-	}
-
 	if (!FMODSoundManager::getInstance()->Frame())
 	{
 		OutputDebugString(L"WanyCore::FMODSoundManager::Failed frame.\n");
@@ -107,49 +84,51 @@ bool GameCore::CoreFrame()
 
 bool GameCore::PreRender()
 {
-	//m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL); // m_pRTV 에 뿌린다.
-	DEVICE->GetContext()->OMSetRenderTargets(1, &m_pRTV, m_pDepthStencilView); // Depth Stencil View 추가.
-	//float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
-	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
-	DEVICE->GetContext()->ClearRenderTargetView(m_pRTV, color);
-	DEVICE->GetContext()->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0); // Depth는 1.0f, Stencil은 0으로 클리어.
-	//m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	RenderTarget.Begin();
+	////m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL); // m_pRTV 에 뿌린다.
+	//DEVICE->GetContext()->OMSetRenderTargets(1, &m_pRTV, m_pDepthStencilView); // Depth Stencil View 추가.
+	////float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
+	//float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
+	//DEVICE->GetContext()->ClearRenderTargetView(m_pRTV, color);
+	//DEVICE->GetContext()->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0); // Depth는 1.0f, Stencil은 0으로 클리어.
+	////m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
-	// View Port 설정
-	// 보통은 client 크기로 설정하지만, 미니맵의 경우 뷰포트 설정을 바꿔 출력 가능.
-	RECT rcClient = g_pWindow->getClientRect();
-	float width = rcClient.right - rcClient.left;
-	float height = rcClient.bottom - rcClient.top;
-	D3D11_VIEWPORT viewPort;
-	viewPort.TopLeftX = 0;
-	viewPort.TopLeftY = 0;
-	viewPort.Width = width; //1366; 
-	viewPort.Height = height; //786;
-	viewPort.MinDepth = 0;
-	viewPort.MaxDepth = 1;
-	DEVICE->GetContext()->RSSetViewports(1, &viewPort);
+	//// View Port 설정
+	//// 보통은 client 크기로 설정하지만, 미니맵의 경우 뷰포트 설정을 바꿔 출력 가능.
+	//RECT rcClient = g_pWindow->getClientRect();
+	//float width = rcClient.right - rcClient.left;
+	//float height = rcClient.bottom - rcClient.top;
+	//D3D11_VIEWPORT viewPort;
+	//viewPort.TopLeftX = 0;
+	//viewPort.TopLeftY = 0;
+	//viewPort.Width = width; //1366; 
+	//viewPort.Height = height; //786;
+	//viewPort.MinDepth = 0;
+	//viewPort.MaxDepth = 1;
+	//DEVICE->GetContext()->RSSetViewports(1, &viewPort);
 
-	// Sampler State 적용.
-	//m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
-	DEVICE->GetContext()->PSSetSamplers(0, 1, &DXSamplerState::pDefaultMirrorSamplerState);
+	//// Sampler State 적용.
+	////m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
+	//DEVICE->GetContext()->PSSetSamplers(0, 1, &DXSamplerState::pDefaultMirrorSamplerState);
 
-	// Rasterizer State 적용.
-	//m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSWireFrame);
-	DEVICE->GetContext()->RSSetState(DXSamplerState::pDefaultRSSolid);
+	//// Rasterizer State 적용.
+	////m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSWireFrame);
+	//DEVICE->GetContext()->RSSetState(DXSamplerState::pDefaultRSSolid);
 
-	// Blend State 적용.
-	DEVICE->GetContext()->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
+	//// Blend State 적용.
+	//DEVICE->GetContext()->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
 
-	// Depth Stencil State 적용.
-	DEVICE->GetContext()->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
-	//m_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pGreaterDepthStencil, 0xff); // Depth 큰것 출력하고 싶을 때.
+	//// Depth Stencil State 적용.
+	//DEVICE->GetContext()->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
+	////m_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pGreaterDepthStencil, 0xff); // Depth 큰것 출력하고 싶을 때.
 
 	return true;
 }
 
 bool GameCore::PostRender()
 {
+	RenderTarget.End();
 	DEVICE->GetSwapChain()->Present(0, 0); // 0번 버퍼를 뿌린다.
 	return true;
 }
@@ -200,10 +179,8 @@ bool GameCore::CoreRelease()
 	// initialize 역순으로 release 할 것!
 	FMODSoundManager::getInstance()->Release();
 	DXTextureManager::getInstance()->release();
-	//DXShaderBorderManager::getInstance()->release();
-	//DXShaderManager::getInstance()->release();
+	DXShaderManager::getInstance()->Release();
 	DXSamplerState::release();
-	DXWriter::getInstance()->release();
 	Input::getInstance()->release();
 	Timer::getInstance()->release();
 	
@@ -228,4 +205,9 @@ bool GameCore::Run()
 	{
 		return false;
 	}
+}
+
+void GameCore::SetWindowHandle(HWND hWnd)
+{
+	_hWnd = hWnd;
 }

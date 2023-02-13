@@ -140,7 +140,7 @@ bool DXTextureManager::release()
 			DXTexture* pTexture = it.second;
 			if (pTexture != nullptr)
 			{
-				pTexture->release();
+				pTexture->Release();
 				delete pTexture;
 			}
 		}
