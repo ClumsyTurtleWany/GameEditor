@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DXDevice.hpp" />

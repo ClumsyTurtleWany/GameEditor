@@ -154,10 +154,13 @@
       <Filter>DirectX</Filter>
     </ClInclude>
     <ClInclude Include="Frustum.h">
-      <Filter>Camera</Filter>
+      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Camera</Filter>
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraSystem.h">
+      <Filter>ECS\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,10 +213,10 @@
       <Filter>ECS\World</Filter>
     </ClCompile>
     <ClCompile Include="Frustum.cpp">
-      <Filter>Camera</Filter>
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Camera</Filter>
+      <Filter>ECS\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

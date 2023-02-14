@@ -61,8 +61,8 @@ bool Frustum::ClassifyBox(DirectX::BoundingBox box)
 	for (int idx = 0; idx < 6; idx++)
 	{
 		
-		DirectX::PlaneIntersectionType IntersectType = box.intersects(FrustumPlane[idx]);
-		box.Intersects(,)
+		//DirectX::PlaneIntersectionType IntersectType = box.intersects(FrustumPlane[idx]);
+		//box.Intersects(,)
 	}
 	return false;
 }

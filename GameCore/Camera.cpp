@@ -62,3 +62,8 @@ void Camera::Update()
 	Up.Normalize();
 	Look.Normalize();
 }
+
+bool Camera::Frame(float dt)
+{
+	return false;
+}

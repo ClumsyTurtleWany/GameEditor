@@ -24,6 +24,8 @@
 #include <wrl.h> // Microsoft::WRL::ComPtr
 using namespace Microsoft::WRL;
 
+#include <DirectXCollision.h>
+
 // Math
 #include "DXTK/SimpleMath.h"
 
