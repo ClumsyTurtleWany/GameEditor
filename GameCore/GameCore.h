@@ -15,7 +15,7 @@ class GameCore
 {
 protected:
 	HWND _hWnd;
-	DXRenderTarget RenderTarget;
+	//DXRenderTarget RenderTarget;
 
 public:
 	GameCore() {};

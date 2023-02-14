@@ -11,9 +11,13 @@ private:
 
 public:
 	bool Apply();
+
+public:
+	bool AddTexture(DXTexture* texture);
+	bool SetPixelShader(ID3D11PixelShader* pixelShader);
 };
 
-bool Material::Apply()
+inline bool Material::Apply()
 {
 	CONTEXT->PSSetShader(PixelShader, NULL, 0);
 	for (size_t idx = 0; idx < Textures.size(); idx++)
@@ -21,5 +25,17 @@ bool Material::Apply()
 		ID3D11ShaderResourceView* resourceView = Textures[idx]->getResourceView();
 		CONTEXT->PSSetShaderResources(idx, 1, &resourceView);
 	}
+	return true;
+}
 
+inline bool Material::AddTexture(DXTexture* texture)
+{
+	Textures.push_back(texture);
+	return true;
+}
+
+inline bool Material::SetPixelShader(ID3D11PixelShader* pixelShader)
+{
+	PixelShader = pixelShader;
+	return true;
 }

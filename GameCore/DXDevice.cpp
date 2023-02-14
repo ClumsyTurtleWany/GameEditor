@@ -9,7 +9,7 @@ bool DXDevice::Create(HWND hWnd)
 	//////////////////////////////////////////////////////////////////////
 	//if (FAILED(createFactory()))
 	//{
-	//	OutputDebugString(L"WanyCore::DXDevice::Failed Create Factory.\n");
+	//	OutputDebugStringA("WanyCore::DXDevice::Failed Create Factory.\n");
 	//	return false;
 	//}
 
@@ -19,7 +19,7 @@ bool DXDevice::Create(HWND hWnd)
 
 	if (FAILED(CreateDevice())) // 0도 성공으로 들어가 있어서 SUCCEED or FAILED로만 사용할 것.
 	{
-		OutputDebugString(L"WanyCore::DXDevice::Failed Create Device.\n");
+		OutputDebugStringA("WanyCore::DXDevice::Failed Create Device.\n");
 		return false;
 	}
 
@@ -28,7 +28,7 @@ bool DXDevice::Create(HWND hWnd)
 	////////////////////////////////////////////////////////////////////////
 	if (FAILED(CreateFactory()))
 	{
-		OutputDebugString(L"WanyCore::DXDevice::Failed Create Factory.\n");
+		OutputDebugStringA("WanyCore::DXDevice::Failed Create Factory.\n");
 		return false;
 	}
 
@@ -38,7 +38,7 @@ bool DXDevice::Create(HWND hWnd)
 
 	if (FAILED(CreateSwapChain()))
 	{
-		OutputDebugString(L"WanyCore::DXDevice::Failed Create Swap Chain.\n");
+		OutputDebugStringA("WanyCore::DXDevice::Failed Create Swap Chain.\n");
 		return false;
 	}
 
@@ -49,13 +49,13 @@ bool DXDevice::Create(HWND hWnd)
 
 	if (FAILED(CreateRenderTargetView()))
 	{
-		OutputDebugString(L"WanyCore::DXDevice::Failed Create Render Target View.\n");
+		OutputDebugStringA("WanyCore::DXDevice::Failed Create Render Target View.\n");
 		return false;
 	}
 
 	if (FAILED(CreateDepthStencilView()))
 	{
-		OutputDebugString(L"WanyCore::DXDevice::Failed Create Depth Stencil View.\n");
+		OutputDebugStringA("WanyCore::DXDevice::Failed Create Depth Stencil View.\n");
 		return false;
 	}
 
@@ -72,19 +72,67 @@ bool DXDevice::Resize()
 	return true;
 }
 
+bool DXDevice::Release()
+{
+	if (m_pDepthStencilView != nullptr)
+	{
+		m_pDepthStencilView->Release();
+		m_pDepthStencilView = nullptr;
+	}
+
+	if (m_pDSTexture != nullptr)
+	{
+		m_pDSTexture->Release();
+		m_pDSTexture = nullptr;
+	}
+
+	if (m_pRTV != nullptr)
+	{
+		m_pRTV->Release();
+		m_pRTV = nullptr;
+	}
+
+	if (m_pSwapChain != nullptr)
+	{
+		m_pSwapChain->Release();
+		m_pSwapChain = nullptr;
+	}
+
+	if (m_pGIFactory != nullptr)
+	{
+		m_pGIFactory->Release();
+		m_pGIFactory = nullptr;
+	}
+
+	if (m_pImmediateContext != nullptr)
+	{
+		m_pImmediateContext->ClearState();
+		m_pImmediateContext->Release();
+		m_pImmediateContext = nullptr;
+	}
+
+	if (m_pd3dDevice != nullptr)
+	{
+		m_pd3dDevice->Release();
+		m_pd3dDevice = nullptr;
+	}
+
+	return true;
+}
+
 ID3D11Device* DXDevice::GetDevice()
 {
-	return m_pd3dDevice.Get();
+	return m_pd3dDevice;
 }
 
 ID3D11DeviceContext* DXDevice::GetContext()
 {
-	return m_pImmediateContext.Get();
+	return m_pImmediateContext;
 }
 
 IDXGISwapChain* DXDevice::GetSwapChain()
 {
-	return m_pSwapChain.Get();
+	return m_pSwapChain;
 }
 
 HRESULT DXDevice::CreateDevice()
@@ -193,7 +241,7 @@ HRESULT DXDevice::CreateSwapChain()
 	// DXGI_SWAP_EFFECT_SEQUENTIAL = 1 : Present 호출 시 백 버퍼 내용 보존
 	// 플래그는 멀티 샘플링과 함께 사용 불가!
 
-	return m_pGIFactory->CreateSwapChain(m_pd3dDevice.Get(), &Desc, m_pSwapChain.GetAddressOf());
+	return m_pGIFactory->CreateSwapChain(m_pd3dDevice, &Desc, &m_pSwapChain);
 }
 
 HRESULT DXDevice::CreateRenderTargetView()
@@ -271,7 +319,7 @@ HRESULT DXDevice::CreateDepthStencilView()
 	DSdesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	DSdesc.Flags = 0;
 
-	rst = m_pd3dDevice->CreateDepthStencilView(m_pDSTexture.Get(), &DSdesc, &m_pDepthStencilView);
+	rst = m_pd3dDevice->CreateDepthStencilView(m_pDSTexture, &DSdesc, &m_pDepthStencilView);
 	if (FAILED(rst))
 	{
 		return rst;

@@ -17,15 +17,23 @@ public:
 	ID3D11Buffer*			TransformBuffer = nullptr;
 	VertexTransform			TransformData;
 
+	bool isCreated = false;
+
 public:
 	StaticMeshComponent() {};
 
 public:
 	bool Render();
+	bool Initialize();
 };
 
-bool StaticMeshComponent::Render()
+inline bool StaticMeshComponent::Render()
 {
+	if (!isCreated)
+	{
+		Initialize();
+	}
+
 	DEVICE->GetContext()->IASetInputLayout(VertexLayout);
 	DEVICE->GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	DEVICE->GetContext()->VSSetShader(VertexShader, NULL, 0);
@@ -38,4 +46,21 @@ bool StaticMeshComponent::Render()
 	{
 		it.Render();
 	}
+
+	return true;
+}
+
+inline bool StaticMeshComponent::Initialize()
+{
+	if (isCreated)
+	{
+		return true;
+	}
+
+	VertexLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
+	VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
+	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<VertexTransform>(TransformData);
+	isCreated = true;
+
+	return true;
 }

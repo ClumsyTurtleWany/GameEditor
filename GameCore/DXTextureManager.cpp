@@ -21,7 +21,7 @@ bool DXTextureManager::Load(std::wstring _filename)
 	if (FAILED(rst))
 	{
 		delete newTexture;
-		OutputDebugString(L"WanyCore::DXTextureManager::Failed Load File.\n");
+		OutputDebugStringA("WanyCore::DXTextureManager::Failed Load File.\n");
 		return false;
 	}
 
@@ -47,7 +47,7 @@ bool DXTextureManager::Load(std::string _filename)
 	if (FAILED(rst))
 	{
 		delete newTexture;
-		OutputDebugString(L"WanyCore::DXTextureManager::Failed Load File.\n");
+		OutputDebugStringA("WanyCore::DXTextureManager::Failed Load File.\n");
 		return false;
 	}
 
@@ -72,7 +72,7 @@ bool DXTextureManager::Load(const char* _filename)
 	if (FAILED(rst))
 	{
 		delete newTexture;
-		OutputDebugString(L"WanyCore::DXTextureManager::Failed Load File.\n");
+		OutputDebugStringA("WanyCore::DXTextureManager::Failed Load File.\n");
 		return false;
 	}
 

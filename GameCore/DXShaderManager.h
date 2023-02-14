@@ -30,10 +30,11 @@ private:
 	std::map<std::wstring, ID3D11GeometryShader*>	GeometryShaderMap;
 	std::map<std::wstring, ID3D11PixelShader*>		PixelShaderMap;
 
+	std::vector<ID3D11Buffer*>						BufferList;
 
 private:
 	DXShaderManager() {};
-	~DXShaderManager() { Release(); };
+	virtual ~DXShaderManager() { Release(); };
 
 public:
 	bool LoadVSCode(std::wstring filename);
@@ -93,7 +94,13 @@ inline ID3D11Buffer* DXShaderManager::CreateConstantBuffer(const T& constantData
 	ZeroMemory(&initialData, sizeof(initialData));
 	initialData.pSysMem = &constantData; // 배열이 아니면 시스템 메모리에 들어 갈 수 없음. 그래서 그냥 배열보다 편한 vector 사용.
 
-	ComPtr<ID3D11Buffer> pConstantBuffer;
+	//ID3D11Buffer* pConstantBuffer;
+	//HRESULT result = m_pd3dDevice->CreateBuffer(
+	//	&desc, // 버퍼 할당 
+	//	&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
+	//	&pConstantBuffer);
+
+	ID3D11Buffer* pConstantBuffer;
 	HRESULT result = m_pd3dDevice->CreateBuffer(
 		&desc, // 버퍼 할당 
 		&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
@@ -105,6 +112,7 @@ inline ID3D11Buffer* DXShaderManager::CreateConstantBuffer(const T& constantData
 	}
 	else
 	{
-		return pConstantBuffer.Get();
+		BufferList.push_back(pConstantBuffer);
+		return pConstantBuffer;
 	}
 }

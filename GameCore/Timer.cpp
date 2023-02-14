@@ -41,9 +41,9 @@ bool Timer::frame()
 
 bool Timer::render()
 {
-	std::wstring strTime = std::to_wstring(gameTime);
+	/*std::wstring strTime = std::to_wstring(gameTime);
 	std::wstring strFPS = std::to_wstring(fps);
-	strTime = strTime + L" : " + strFPS + L"\n";
+	strTime = strTime + " : " + strFPS + "\n";*/
 	//OutputDebugStringW(strTime.c_str());
 
 	return true;

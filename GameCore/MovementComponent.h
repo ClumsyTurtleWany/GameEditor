@@ -7,6 +7,6 @@ struct MovementComponent
 	Vector3 Forword;
 	float	Speed;
 
-	MovementComponent() : Location({ 0.0f, 0.0f, 0.0f }), Forword({ 0.0f, 0.0f, 0.0f }), Speed(0.0f) {};
+	MovementComponent() : Location(Vector3(0.0f, 0.0f, 0.0f)), Forword(Vector3(0.0f, 0.0f, 0.0f)), Speed(0.0f) {};
 	MovementComponent(Vector3 location, Vector3 forword, float speed) : Location(location), Forword(forword), Speed(speed) {};
 };

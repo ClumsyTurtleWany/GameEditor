@@ -74,8 +74,8 @@ bool Input::frame()
 
 bool Input::render()
 {
-	std::wstring mousePos = L"Mouse Cursor: " + std::to_wstring(m_ptPos.x) + L", " + std::to_wstring(m_ptPos.y) + L"\n";
-	//OutputDebugString(mousePos.c_str());
+	//std::wstring mousePos = "Mouse Cursor: " + std::to_wstring(m_ptPos.x) + ", " + std::to_wstring(m_ptPos.y) + "\n";
+	//OutputDebugStringA(mousePos.c_str());
 	return true;
 }
 

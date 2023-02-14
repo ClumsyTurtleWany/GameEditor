@@ -6,6 +6,9 @@ namespace ECS
 {
 	class Entity
 	{
+	public:
+		friend class World;
+
 	private:
 		std::unordered_map<ComponentID, std::shared_ptr<ECS::Component>> Components;
 		int ID;

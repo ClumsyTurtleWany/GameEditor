@@ -13,11 +13,11 @@ private:
 	// Texture Render Target View
 	D3D11_VIEWPORT					m_viewPort = D3D11_VIEWPORT();
 
-	ComPtr<ID3D11RenderTargetView>	m_pRenderTargetView = nullptr;
+	ComPtr<ID3D11RenderTargetView>			m_pRenderTargetView = nullptr;
 	DXTexture*						m_pTexture = nullptr;
 	
-	ComPtr<ID3D11DepthStencilView>	m_pDepthStencilView = nullptr;
-	ComPtr<ID3D11Texture2D>			m_pDSTexture = nullptr;
+	ComPtr<ID3D11DepthStencilView>			m_pDepthStencilView = nullptr;
+	ComPtr<ID3D11Texture2D>				m_pDSTexture = nullptr;
 
 	// For Save Prev View Infomation.
 	ID3D11RenderTargetView*			m_pOldRenderTargetView = nullptr;

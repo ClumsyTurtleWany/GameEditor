@@ -7,6 +7,10 @@ namespace ECS
 {
 	class World
 	{
+	public:
+		friend class System;
+		friend class Entity;
+
 	private:
 		std::vector<std::shared_ptr<ECS::Entity>> Entities;
 		std::vector<std::shared_ptr<ECS::System>> Systems;
@@ -38,7 +42,7 @@ namespace ECS
 		void DisableSystem(System* system);
 	};
 
-	void World::Tick(float time)
+	/*void World::Tick(float time)
 	{
 		for (auto& system : Systems)
 		{
@@ -55,7 +59,7 @@ namespace ECS
 	std::vector<std::shared_ptr<ECS::Entity>>& World::GetAllEntities()
 	{
 		return Entities;
-	}
+	}*/
 
 	template <typename T>
 	std::vector<std::shared_ptr<ECS::Entity>> World::GetEntities()
@@ -87,7 +91,7 @@ namespace ECS
 		return entities;
 	}
 
-	System* World::AddSystem(System* system)
+	/*System* World::AddSystem(System* system)
 	{
 		std::shared_ptr<System> newSystem(system);
 		Systems.push_back(newSystem);
@@ -114,7 +118,7 @@ namespace ECS
 			Systems.erase(it);
 			DisableSystems.push_back(disableSystem);
 		}
-	}
+	}*/
 
 
 

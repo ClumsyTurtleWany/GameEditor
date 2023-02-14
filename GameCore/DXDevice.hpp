@@ -10,32 +10,33 @@ public:
 	// 인터페이스 -> 하드웨어 직접 제어 -> 획득
 
 	// 리소스의 생성과 관련된 작업에 사용. 디바이스 장치 혹은 디바이스 객체라 부름
-	ComPtr<ID3D11Device>			m_pd3dDevice = nullptr;
+	ID3D11Device*				m_pd3dDevice = nullptr;
 
 	// 생성된 리소스들을 사용하여 랜더링 처리 및 제어, 즉시 랜더링
-	ComPtr<ID3D11DeviceContext>		m_pImmediateContext = nullptr;
+	ID3D11DeviceContext*		m_pImmediateContext = nullptr;
 
 	// Swap Chain의 생성과 관련된 작업에 사용.
-	ComPtr<IDXGIFactory>			m_pGIFactory = nullptr;
+	IDXGIFactory*				m_pGIFactory = nullptr;
 
 	// 전면 버퍼 및 후면 버퍼들을 생성 및 제어. 더블 버퍼링
-	ComPtr<IDXGISwapChain>			m_pSwapChain = nullptr;
+	IDXGISwapChain*				m_pSwapChain = nullptr;
 
 	// Render Target View: 생성된 후면 버퍼들 중에서 랜더링(출력) 될 대상 버퍼를 지정. 
-	ComPtr<ID3D11RenderTargetView>	m_pRTV = nullptr;
+	ID3D11RenderTargetView*		m_pRTV = nullptr;
 
 	// Depth Stencil View
-	ComPtr<ID3D11Texture2D>			m_pDSTexture = nullptr;
-	ComPtr<ID3D11DepthStencilView>	m_pDepthStencilView = nullptr;
+	ID3D11Texture2D*			m_pDSTexture = nullptr;
+	ID3D11DepthStencilView*		m_pDepthStencilView = nullptr;
 
-	D3D11_VIEWPORT					m_ViewPort;
+	D3D11_VIEWPORT				m_ViewPort;
 
 private:
-	HWND							m_hWnd;
+	HWND						m_hWnd;
 
 public:
 	bool Create(HWND hWnd);
 	bool Resize();
+	bool Release();
 	
 	ID3D11Device*			GetDevice();
 	ID3D11DeviceContext*	GetContext();

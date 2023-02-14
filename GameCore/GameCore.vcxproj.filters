@@ -49,6 +49,9 @@
     <Filter Include="DirectX\HLSL\PixelShader">
       <UniqueIdentifier>{ab7c5494-e8fb-4318-b305-1a46f0ba0bc0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{0eea25e6-a29b-41ab-a0f6-9eb41895a51d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -150,6 +153,12 @@
     <ClInclude Include="DXShader.h">
       <Filter>DirectX</Filter>
     </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsClient.cpp">
@@ -196,6 +205,15 @@
     </ClCompile>
     <ClCompile Include="DXShader.cpp">
       <Filter>DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>ECS\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

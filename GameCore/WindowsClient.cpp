@@ -64,7 +64,7 @@ bool WindowsClient::InitInstance(const WCHAR* title, LONG width, LONG height)
 
 	if (!hWnd)
 	{
-		OutputDebugString(L"WanyCore::WindowUI::Failed Create Window.\n");
+		OutputDebugStringA("WanyCore::WindowUI::Failed Create Window.\n");
 		return FALSE;
 	}
 
@@ -106,7 +106,7 @@ bool WindowsClient::Create(HINSTANCE instance, const WCHAR* title, LONG width, L
 	WORD rst = MyRegisterClass();
 	if (!InitInstance(title, width, height))
 	{
-		OutputDebugString(L"WanyCore::Windows::Failed InitInstance.\n");
+		OutputDebugStringA("WanyCore::Windows::Failed InitInstance.\n");
 		return false;
 	}
 	return true;

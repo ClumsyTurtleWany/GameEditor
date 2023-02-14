@@ -27,7 +27,7 @@ bool DXShaderManager::LoadVSCode(std::wstring filename)
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
 		result = D3DCompileFromFile(
-			filename.c_str(), //L"../../resource/shader/ShapeShader.txt",  //L"VertexShader.txt",
+			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"VS",
 			"vs_5_0",
@@ -77,7 +77,7 @@ bool DXShaderManager::LoadHSCode(std::wstring filename)
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
 		result = D3DCompileFromFile(
-			filename.c_str(), //L"../../resource/shader/ShapeShader.txt",  //L"VertexShader.txt",
+			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"HS",
 			"hs_5_0",
@@ -127,7 +127,7 @@ bool DXShaderManager::LoadDSCode(std::wstring filename)
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
 		result = D3DCompileFromFile(
-			filename.c_str(), //L"../../resource/shader/ShapeShader.txt",  //L"VertexShader.txt",
+			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"DS",
 			"ds_5_0",
@@ -177,7 +177,7 @@ bool DXShaderManager::LoadGSCode(std::wstring filename)
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
 		result = D3DCompileFromFile(
-			filename.c_str(), //L"../../resource/shader/ShapeShader.txt",  //L"VertexShader.txt",
+			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"GS",
 			"gs_5_0",
@@ -215,7 +215,7 @@ bool DXShaderManager::LoadPSCode(std::wstring filename)
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr; // 
 		result = D3DCompileFromFile(
-			filename.c_str(), //L"../../resource/shader/ShapeShader.txt", //L"PixelShader.txt",
+			filename.c_str(), //"../../resource/shader/ShapeShader.txt", //"PixelShader.txt",
 			NULL, NULL,
 			"PS",
 			"ps_5_0",
@@ -253,7 +253,7 @@ bool DXShaderManager::CreateVertexShader()
 
 		if (FAILED(result))
 		{
-			OutputDebugString(L"WanyCore::DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.\n");
+			OutputDebugStringA("WanyCore::DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.\n");
 			return false;
 		}
 		else
@@ -273,7 +273,7 @@ bool DXShaderManager::CreatePixelShader()
 
 		if (FAILED(result))
 		{
-			OutputDebugString(L"WanyCore::DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.\n");
+			OutputDebugStringA("WanyCore::DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.\n");
 			return false;
 		}
 		else
@@ -293,7 +293,8 @@ bool DXShaderManager::CreateStaticMeshInputLayout()
 		return false;
 	}
 
-	ComPtr<ID3D11InputLayout> StaticMeshLayout;
+	//ComPtr<ID3D11InputLayout> StaticMeshLayout;
+	ID3D11InputLayout* StaticMeshLayout = nullptr;
 	D3D11_INPUT_ELEMENT_DESC InputElementDescs[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -303,13 +304,13 @@ bool DXShaderManager::CreateStaticMeshInputLayout()
 	};
 
 	UINT NumElements = sizeof(InputElementDescs) / sizeof(InputElementDescs[0]);
-	HRESULT result = m_pd3dDevice->CreateInputLayout(InputElementDescs, NumElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), StaticMeshLayout.GetAddressOf());
+	HRESULT result = m_pd3dDevice->CreateInputLayout(InputElementDescs, NumElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &StaticMeshLayout);
 	if (FAILED(result))
 	{
 		return false;
 	}
 
-	InputLayoutMap.insert(std::make_pair(InputLayoutType::StaticMesh, StaticMeshLayout.Get()));
+	InputLayoutMap.insert(std::make_pair(InputLayoutType::StaticMesh, StaticMeshLayout));
 
 	return true;
 }
@@ -323,7 +324,7 @@ bool DXShaderManager::CreateSkeletalMeshInputLayout()
 		return false;
 	}
 
-	ComPtr<ID3D11InputLayout> SkeletalMeshLayout;
+	ID3D11InputLayout* SkeletalMeshLayout;
 	D3D11_INPUT_ELEMENT_DESC InputElementDescs[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -336,14 +337,14 @@ bool DXShaderManager::CreateSkeletalMeshInputLayout()
 	};
 
 	UINT NumElements = sizeof(InputElementDescs) / sizeof(InputElementDescs[0]);
-	HRESULT result = m_pd3dDevice->CreateInputLayout(InputElementDescs, NumElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), SkeletalMeshLayout.GetAddressOf());
+	HRESULT result = m_pd3dDevice->CreateInputLayout(InputElementDescs, NumElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &SkeletalMeshLayout);
 
 	if (FAILED(result))
 	{
 		return result;
 	}
 
-	InputLayoutMap.insert(std::make_pair(InputLayoutType::SkeletalMesh, SkeletalMeshLayout.Get()));
+	InputLayoutMap.insert(std::make_pair(InputLayoutType::SkeletalMesh, SkeletalMeshLayout));
 
 	return true;
 }
@@ -382,7 +383,13 @@ ID3D11Buffer* DXShaderManager::CreateVertexBuffer(const std::vector<Vertex>& ver
 	ZeroMemory(&initialData, sizeof(initialData));
 	initialData.pSysMem = &vertices.at(0); // 배열이 아니면 시스템 메모리에 들어 갈 수 없음. 그래서 그냥 배열보다 편한 vector 사용.
 
-	ComPtr<ID3D11Buffer> pVertexBuffer;
+	//ID3D11Buffer* pVertexBuffer;
+	//HRESULT result = m_pd3dDevice->CreateBuffer(
+	//	&desc, // 버퍼 할당 
+	//	&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
+	//	&pVertexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
+
+	ID3D11Buffer* pVertexBuffer;
 	HRESULT result = m_pd3dDevice->CreateBuffer(
 		&desc, // 버퍼 할당 
 		&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
@@ -394,7 +401,8 @@ ID3D11Buffer* DXShaderManager::CreateVertexBuffer(const std::vector<Vertex>& ver
 	}
 	else
 	{
-		return pVertexBuffer.Get();
+		BufferList.push_back(pVertexBuffer);
+		return pVertexBuffer;
 	}
 }
 
@@ -417,7 +425,13 @@ ID3D11Buffer* DXShaderManager::CreateIndexBuffer(const std::vector<DWORD>& indic
 	ZeroMemory(&initialData, sizeof(initialData));
 	initialData.pSysMem = &indices.at(0); // 배열이 아니면 시스템 메모리에 들어 갈 수 없음. 그래서 그냥 배열보다 편한 vector 사용.
 
-	ComPtr<ID3D11Buffer> pIndexBuffer;
+	//ID3D11Buffer* pIndexBuffer;
+	//HRESULT result = m_pd3dDevice->CreateBuffer(
+	//	&desc, // 버퍼 할당 
+	//	&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
+	//	&pIndexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
+
+	ID3D11Buffer* pIndexBuffer;
 	HRESULT result = m_pd3dDevice->CreateBuffer(
 		&desc, // 버퍼 할당 
 		&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
@@ -429,7 +443,8 @@ ID3D11Buffer* DXShaderManager::CreateIndexBuffer(const std::vector<DWORD>& indic
 	}
 	else
 	{
-		return pIndexBuffer.Get();
+		BufferList.push_back(pIndexBuffer);
+		return pIndexBuffer;
 	}
 }
 
@@ -453,7 +468,7 @@ ID3DBlob* DXShaderManager::GetVSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetVSCode::Failed Get Vertex Shader Code.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetVSCode::Failed Get Vertex Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -467,7 +482,7 @@ ID3DBlob* DXShaderManager::GetHSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetHSCode::Failed Get Hull Shader Code.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetHSCode::Failed Get Hull Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -481,7 +496,7 @@ ID3DBlob* DXShaderManager::GetDSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetDSCode::Failed Get Domain Shader Code.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetDSCode::Failed Get Domain Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -495,7 +510,7 @@ ID3DBlob* DXShaderManager::GetGSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetGSCode::Failed Get Geometry Shader Code.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetGSCode::Failed Get Geometry Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -509,7 +524,7 @@ ID3DBlob* DXShaderManager::GetPSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetPSCode::Failed Get Pixel Shader Code.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetPSCode::Failed Get Pixel Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -523,7 +538,7 @@ ID3D11VertexShader* DXShaderManager::GetVertexShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetVertexShader::Failed Get Vertex Shader.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetVertexShader::Failed Get Vertex Shader.\n");
 		return nullptr;
 	}
 }
@@ -537,7 +552,7 @@ ID3D11HullShader* DXShaderManager::GetHullShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetHullShader::Failed Get Hull Shader.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetHullShader::Failed Get Hull Shader.\n");
 		return nullptr;
 	}
 }
@@ -551,7 +566,7 @@ ID3D11DomainShader* DXShaderManager::GetDomainShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetDomainShader::Failed Get Domain Shader.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetDomainShader::Failed Get Domain Shader.\n");
 		return nullptr;
 	}
 }
@@ -565,7 +580,7 @@ ID3D11GeometryShader* DXShaderManager::GetGeometryShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::GetGeometryShader::Failed Get Geometry Shader.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::GetGeometryShader::Failed Get Geometry Shader.\n");
 		return nullptr;
 	}
 }
@@ -579,7 +594,7 @@ ID3D11PixelShader* DXShaderManager::GetPixelShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::getPixelShader::Failed Get Pixel Shader.\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::getPixelShader::Failed Get Pixel Shader.\n");
 		return nullptr;
 	}
 }
@@ -588,19 +603,19 @@ bool DXShaderManager::Initialize()
 {
 	if (!LoadVSCode(L"../include/Core/HLSL/VS_StaticMesh.hlsl"))
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
 		return false;
 	}
 
 	if (!LoadVSCode(L"../include/Core/HLSL/VS_SkeletalMesh.hlsl"))
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
 		return false;
 	}
 
 	if (!LoadPSCode(L"../include/Core/HLSL/PS_Default.hlsl"))
 	{
-		OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
+		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
 		return false;
 	}
 
@@ -609,66 +624,66 @@ bool DXShaderManager::Initialize()
 	CreateInputLayout();
 
 	//// Load Vertex Shader Code.
-	//if (!LoadVSCode(VSCodeType::Texture, L"../include/core/HLSL/VS_Texture.hlsl"))
+	//if (!LoadVSCode(VSCodeType::Texture, "../include/core/HLSL/VS_Texture.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Texture.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Texture.hlsl).\n");
 	//	return false;
 	//}
 
-	//if (!LoadVSCode(VSCodeType::ConstantBuffer, L"../include/core/HLSL/VS_ConstantBuffer.hlsl"))
+	//if (!LoadVSCode(VSCodeType::ConstantBuffer, "../include/core/HLSL/VS_ConstantBuffer.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_ConstantBuffer.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_ConstantBuffer.hlsl).\n");
 	//	return false;
 	//}
 
-	//if (!LoadVSCode(VSCodeType::Light, L"../include/core/HLSL/VS_Light.hlsl"))
+	//if (!LoadVSCode(VSCodeType::Light, "../include/core/HLSL/VS_Light.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Light.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Light.hlsl).\n");
 	//	return false;
 	//}
 
-	//if (!LoadVSCode(VSCodeType::Animation, L"../include/core/HLSL/VS_Animation.hlsl"))
+	//if (!LoadVSCode(VSCodeType::Animation, "../include/core/HLSL/VS_Animation.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Animation.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Animation.hlsl).\n");
 	//	return false;
 	//}
 
 	//// Load Pixel Shader Code.
-	//if (!LoadPSCode(PSCodeType::Normal, L"../include/core/HLSL/PS_Default.hlsl"))
+	//if (!LoadPSCode(PSCodeType::Normal, "../include/core/HLSL/PS_Default.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
 	//	return false;
 	//}
 
-	//if (!LoadPSCode(PSCodeType::Texture, L"../include/core/HLSL/PS_Texture.hlsl"))
+	//if (!LoadPSCode(PSCodeType::Texture, "../include/core/HLSL/PS_Texture.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Texture.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Texture.hlsl).\n");
 	//	return false;
 	//}
 
-	//if (!LoadPSCode(PSCodeType::Mask, L"../include/core/HLSL/PS_Mask.hlsl"))
+	//if (!LoadPSCode(PSCodeType::Mask, "../include/core/HLSL/PS_Mask.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Mask.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Mask.hlsl).\n");
 	//	return false;
 	//}
 
-	//if (!LoadPSCode(PSCodeType::Light, L"../include/core/HLSL/PS_Light.hlsl"))
+	//if (!LoadPSCode(PSCodeType::Light, "../include/core/HLSL/PS_Light.hlsl"))
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Light.hlsl).\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Light.hlsl).\n");
 	//	return false;
 	//}
 
 	//// Create Vertex Shader
 	//if (!CreateVertexShader())
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Create Vertex Shader.\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Create Vertex Shader.\n");
 	//	return false;
 	//}
 
 	//// Create Pixel Shader
 	//if (!CreatePixelShader())
 	//{
-	//	OutputDebugString(L"WanyCore::DXShaderManager::initialize::Failed Create Pixel Shader.\n");
+	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Create Pixel Shader.\n");
 	//	return false;
 	//}
 
@@ -708,6 +723,25 @@ bool DXShaderManager::Release()
 		pPS = nullptr;
 	}
 	PixelShaderMap.clear();
+
+	for (auto it : BufferList)
+	{
+		it->Release();
+	}
+	BufferList.clear();
+
+
+	for (auto& it : InputLayoutMap)
+	{
+		ID3D11InputLayout* pLayout = it.second;
+		if (pLayout == nullptr)
+		{
+			continue;
+		}
+		pLayout->Release();
+		pLayout = nullptr;
+	}
+	InputLayoutMap.clear();
 
 	return true;
 }

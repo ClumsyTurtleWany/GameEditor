@@ -44,7 +44,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	HRESULT rst = _pd3dDevice->CreateSamplerState(&SamplerDesc, &pDefaultSamplerState);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Sampler State.\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Sampler State.\n");
 		return false;
 	}
 
@@ -55,7 +55,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateSamplerState(&SamplerDesc, &pDefaultMirrorSamplerState);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Mirror Sampler State.\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Mirror Sampler State.\n");
 		return false;
 	}
 
@@ -81,7 +81,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateRasterizerState(&RSWireDesc, &pDefaultRSWireFrame);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Rasterizer State Wire Frame (Render Front Only).\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Rasterizer State Wire Frame (Render Front Only).\n");
 		return false;
 	}
 
@@ -89,7 +89,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateRasterizerState(&RSWireDesc, &pRSWireFrame_CullNone);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Rasterizer State Wire Frame (Render Double Side).\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Rasterizer State Wire Frame (Render Double Side).\n");
 		return false;
 	}
 
@@ -97,7 +97,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateRasterizerState(&RSWireDesc, &pRSWireFrame_CullFront);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Rasterizer State Wire Frame (Render Back Only).\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Rasterizer State Wire Frame (Render Back Only).\n");
 		return false;
 	}
 		
@@ -118,7 +118,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateRasterizerState(&RSSolidDesc, &pDefaultRSSolid);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Rasterizer State Solid (Render Front Only).\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Rasterizer State Solid (Render Front Only).\n");
 		return false;
 	}
 
@@ -126,7 +126,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateRasterizerState(&RSSolidDesc, &pRSSolid_CullNone);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Rasterizer State Solid (Render Double Side).\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Rasterizer State Solid (Render Double Side).\n");
 		return false;
 	}
 
@@ -134,7 +134,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateRasterizerState(&RSSolidDesc, &pRSSolid_CullFront);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Rasterizer State Solid (Render Back Only).\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Rasterizer State Solid (Render Back Only).\n");
 		return false;
 	}
 	
@@ -175,7 +175,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateBlendState(&BlendStateDesc, &pBlendSamplerState);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Blend State Solid.\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Blend State Solid.\n");
 		return false;
 	}
 
@@ -195,7 +195,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateDepthStencilState(&DSStateDesc, &pDefaultDepthStencil);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Default Depth Stencil State.\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Default Depth Stencil State.\n");
 		return false;
 	}
 
@@ -203,7 +203,7 @@ bool DXSamplerState::setState(ID3D11Device* _pd3dDevice)
 	rst = _pd3dDevice->CreateDepthStencilState(&DSStateDesc, &pGreaterDepthStencil);
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXSamplerState::Failed Create Greater Depth Stencil State.\n");
+		OutputDebugStringA("WanyCore::DXSamplerState::Failed Create Greater Depth Stencil State.\n");
 		return false;
 	}
 	

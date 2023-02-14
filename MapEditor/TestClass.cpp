@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "TestClass.h"
-#include "Actor.h"
 #include "StaticMeshComponent.h"
 #include "RenderSystem.h"
 #include "Timer.hpp"
+#include "Actor.h"
 
 TestClass::TestClass(HWND hWnd)
 {
@@ -12,8 +12,8 @@ TestClass::TestClass(HWND hWnd)
 
 bool TestClass::Initialize()
 {
-	std::shared_ptr<Actor> NewActor = std::make_shared<Actor>();
-	auto comp = NewActor.get()->AddComponent<StaticMeshComponent>();
+	Actor* NewActor = new Actor;
+	auto comp = NewActor->AddComponent<StaticMeshComponent>();
 	MeshComponent NewMesh;
 	NewMesh.Vertices.assign(4, Vertex());
 	NewMesh.Vertices[0].Pos = { -1.0f, +1.0f, 0.0f }; // p1-LT
@@ -21,9 +21,9 @@ bool TestClass::Initialize()
 	NewMesh.Vertices[2].Pos = { -1.0f, -1.0f, 0.0f }; // p3-LB
 	NewMesh.Vertices[3].Pos = { +1.0f, -1.0f, 0.0f }; // p4-LB
 
-	NewMesh.Vertices[0].Color = { 1.0f, 1.0f, 1.0f, 1.0f }; // p1-LT
-	NewMesh.Vertices[1].Color = { 1.0f, 1.0f, 1.0f, 1.0f }; // p2-RT
-	NewMesh.Vertices[2].Color = { 1.0f, 1.0f, 1.0f, 1.0f }; // p3-LB
+	NewMesh.Vertices[0].Color = { 1.0f, 0.0f, 0.0f, 1.0f }; // p1-LT
+	NewMesh.Vertices[1].Color = { 0.0f, 1.0f, 0.0f, 1.0f }; // p2-RT
+	NewMesh.Vertices[2].Color = { 0.0f, 0.0f, 1.0f, 1.0f }; // p3-LB
 	NewMesh.Vertices[3].Color = { 1.0f, 1.0f, 1.0f, 1.0f }; // p4-LB
 
 	NewMesh.Vertices[0].Texture = { 0.0f, 0.0f }; // p1-LT
@@ -42,22 +42,21 @@ bool TestClass::Initialize()
 	comp->Meshes.push_back(NewMesh);
 
 	World.AddSystem(new RenderSystem);
-	World.AddEntity(NewActor.get());
-
+	World.AddEntity(NewActor);
 
 	return false;
 }
 
 bool TestClass::Frame()
 {
-	float tickTime = Timer::getInstance()->getDeltaTime();
-	World.Tick(tickTime);
 	return false;
 }
 
 bool TestClass::Render()
 {
-	return false;
+	float tickTime = Timer::getInstance()->getDeltaTime();
+	World.Tick(tickTime);
+	return true;
 }
 
 bool TestClass::Release()

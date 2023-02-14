@@ -11,9 +11,11 @@ class RenderSystem : public ECS::System
 public:
 	virtual void Tick(ECS::World* world, float time) override
 	{
-		ComPtr<ID3D11RasterizerState> pOldRSState;
-		CONTEXT->RSGetState(pOldRSState.GetAddressOf());
+		ID3D11RasterizerState* pOldRSState;
+		CONTEXT->RSGetState(&pOldRSState);
 		CONTEXT->RSSetState(DXSamplerState::pDefaultRSSolid);
+		CONTEXT->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
+		CONTEXT->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
 		for (auto& entity : world->GetEntities<SkeletalMeshComponent>())
 		{
 			auto skeletalMesh = entity.get()->GetComponent<SkeletalMeshComponent>();
@@ -26,6 +28,10 @@ public:
 			staticMesh->Render();
 		}
 
-		CONTEXT->RSSetState(pOldRSState.Get());
+		CONTEXT->RSSetState(pOldRSState);
+		if (pOldRSState != nullptr)
+		{
+			pOldRSState->Release();
+		}
 	}
 };

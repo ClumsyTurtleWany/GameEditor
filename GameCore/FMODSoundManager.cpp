@@ -19,9 +19,9 @@ bool FMODSoundManager::Load(std::wstring _filename, SoundType _type)
 	{
 		delete newSound;
 
-		std::wstring debugStr = L"WanyCore::FMODSoundManager::Load::Failed Load FMODSound(";
-		debugStr += _filename + L").\n";
-		OutputDebugString(debugStr.c_str());
+		/*std::wstring debugStr = "WanyCore::FMODSoundManager::Load::Failed Load FMODSound(";
+		debugStr += _filename + ").\n";
+		OutputDebugStringA(debugStr.c_str());*/
 		return false;
 	}
 
@@ -57,7 +57,7 @@ bool FMODSoundManager::LoadDir(std::wstring _path)
 	{
 		std::wstring filename = file.path().filename();
 		std::wstring str = file.path();
-		if (file.path().extension() == L"")
+		if (file.path().extension() == "")
 		{
 			std::wstring dir = str + L"/";
 			LoadDir(dir);
@@ -86,14 +86,14 @@ bool FMODSoundManager::Initialize()
 	FMOD_RESULT rst = FMOD::System_Create(&m_pFmodSystem);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugString(L"WanyCore::FMODSoundManager::Initialize::Failed Create System.");
+		OutputDebugStringA("WanyCore::FMODSoundManager::Initialize::Failed Create System.");
 		return false;
 	}
 
 	rst = m_pFmodSystem->init(32, FMOD_INIT_NORMAL, 0); // 32: 최대 32개 까지 동시 출력 할 수 있다. 더 많이 사용 할 수 있으나 현 수준에선 32개 이상 불필요.
 	if (rst != FMOD_OK)
 	{
-		OutputDebugString(L"WanyCore::FMODSoundManager::Initialize::Failed Initialize System.");
+		OutputDebugStringA("WanyCore::FMODSoundManager::Initialize::Failed Initialize System.");
 		return false;
 	}
 
@@ -105,7 +105,7 @@ bool FMODSoundManager::Frame()
 	FMOD_RESULT rst = m_pFmodSystem->update();
 	if (rst != FMOD_OK)
 	{
-		OutputDebugString(L"WanyCore::FMODSound::frame::Failed Update FMODSound System.");
+		OutputDebugStringA("WanyCore::FMODSound::frame::Failed Update FMODSound System.");
 		return false;
 	}
 

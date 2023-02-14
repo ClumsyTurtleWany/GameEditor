@@ -27,17 +27,17 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 		m_pTexture->setDevice(m_pd3dDevice, m_pImmediateContext);
 		if (!m_pTexture->CreateRenderTarget(width, height))
 		{
-			OutputDebugString(L"WanyCore::DXRenderTarget::create::Failed Create Render Target Texture.\n");
+			OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Render Target Texture.\n");
 			//delete m_pTexture;
 			//m_pTexture = nullptr;
 			return false;
 		}
 	}
 
-	HRESULT rst = m_pd3dDevice->CreateRenderTargetView(m_pTexture->getResource(), NULL, &m_pRenderTargetView);
+	HRESULT rst = m_pd3dDevice->CreateRenderTargetView(m_pTexture->getResource(), NULL, m_pRenderTargetView.GetAddressOf());
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXRenderTarget::create::Failed Create Render Target View.\n");
+		OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Render Target View.\n");
 		return false;
 	}
 
@@ -55,10 +55,10 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 	desc.BindFlags = D3D11_BIND_DEPTH_STENCIL; // 중요! 어디에 적용 할 것인지 정하는 것.
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
-	rst = m_pd3dDevice->CreateTexture2D(&desc, NULL, &m_pDSTexture);
+	rst = m_pd3dDevice->CreateTexture2D(&desc, NULL, m_pDSTexture.GetAddressOf());
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXRenderTarget::create::Failed Create Depth Stencil Texture.\n");
+		OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Depth Stencil Texture.\n");
 		return false;
 	}
 
@@ -68,16 +68,29 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 	DSdesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	DSdesc.Flags = 0;
 
-	rst = m_pd3dDevice->CreateDepthStencilView(m_pDSTexture.Get(), &DSdesc, &m_pDepthStencilView);
+	rst = m_pd3dDevice->CreateDepthStencilView(m_pDSTexture.Get(), &DSdesc, m_pDepthStencilView.GetAddressOf());
 	if (FAILED(rst))
 	{
-		OutputDebugString(L"WanyCore::DXRenderTarget::create::Failed Create Depth Stencil View.\n");
+		OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Depth Stencil View.\n");
 		return false;
 	}
 
 	// Create Shader
 	if (1)
 	{
+		//ID3DBlob* vsCode = DXShaderManager::getInstance()->GetVSCode("../include/Core/HLSL/VS_StaticMesh.hlsl");
+		//D3D11_INPUT_ELEMENT_DESC InputElementDescs[] =
+		//{
+		//	{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		//	{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		//	{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
+		//	{"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0} // 28 == float * 28 // Vertex의 Texture 시작 바이트.
+		//};
+
+		//UINT NumElements = sizeof(InputElementDescs) / sizeof(InputElementDescs[0]);
+		//HRESULT result = m_pd3dDevice->CreateInputLayout(InputElementDescs, NumElements, vsCode->GetBufferPointer(), vsCode->GetBufferSize(), &InputLayout);
+
+	
 		InputLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
 
 		VertexList.assign(4, Vertex());
@@ -109,6 +122,9 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 		TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<VertexTransform>(VertexTransformData);
 
 		VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
+
+		/*ID3DBlob* psCode = DXShaderManager::getInstance()->GetPSCode("../include/Core/HLSL/PS_Default.hlsl");
+		result = m_pd3dDevice->CreatePixelShader(psCode->GetBufferPointer(), psCode->GetBufferSize(), NULL, &PixelShader);*/
 		PixelShader = DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Default.hlsl");
 
 		SamplerState = DXSamplerState::pDefaultSamplerState;
@@ -194,6 +210,9 @@ bool DXRenderTarget::Render()
 	m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &VertexList.at(0), 0, 0);
 	m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &VertexTransformData, 0, 0);
 
+	//ID3D11ShaderResourceView* cleanResourceView = NULL;
+	//m_pImmediateContext->PSSetShaderResources(0, 1, &cleanResourceView);
+
 	ID3D11ShaderResourceView* resourceView = m_pTexture->getResourceView();
 	m_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
 
@@ -211,8 +230,6 @@ bool DXRenderTarget::Release()
 		m_pRenderTargetView->Release();
 		m_pRenderTargetView = nullptr;
 	}
-
-	
 
 	if (m_pDepthStencilView != nullptr)
 	{

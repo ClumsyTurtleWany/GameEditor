@@ -48,7 +48,7 @@ class Singleton
 private:
 	static T* instance;
 
-protected:
+public:
 	Singleton() {};
 	virtual ~Singleton()
 	{

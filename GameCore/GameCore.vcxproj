@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="Component.hpp" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DXDevice.hpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="FMODSound.hpp" />
     <ClInclude Include="FMODSoundManager.hpp" />
+    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="IWData.h" />
@@ -54,6 +56,7 @@
     <ClInclude Include="World.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DXDevice.cpp" />
     <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="DXSamplerState.cpp" />
@@ -63,12 +66,14 @@
     <ClCompile Include="DXTextureManager.cpp" />
     <ClCompile Include="FMODSound.cpp" />
     <ClCompile Include="FMODSoundManager.cpp" />
+    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WindowsClient.cpp" />
+    <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PS_Default.hlsl">

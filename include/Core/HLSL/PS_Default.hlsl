@@ -22,5 +22,5 @@ float4 PS(PixelShader_input _input) : SV_Target
 	float4 vColor = g_txTextureA.Sample(g_SampleA, _input.t);
 	_input.c.a = 1.0f;
 	float fDot = max(0.3f, dot(_input.n, -_input.light)); // max 값으로 해주는 이유는 엠비언트 조명 효과를 내기 위함.
-	return vColor * _input.c * float4(fDot, fDot, fDot, 1.0f);
+	return vColor * _input.c; //* float4(fDot, fDot, fDot, 1.0f);
 }
