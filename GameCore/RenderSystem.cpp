@@ -1,18 +1,19 @@
 #include "RenderSystem.h"
-#include "Define.h"
+//#include "Define.h"
 #include "World.hpp"
 #include "StaticMeshComponent.h"
 #include "SkeletalMeshComponent.h"
 #include "DXSamplerState.hpp"
 #include "TransformComponent.h"
+#include "Landscape.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {
 	ID3D11RasterizerState* pOldRSState;
-	CONTEXT->RSGetState(&pOldRSState);
-	CONTEXT->RSSetState(DXSamplerState::pDefaultRSSolid);
-	CONTEXT->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
-	CONTEXT->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
+	Context->RSGetState(&pOldRSState);
+	Context->RSSetState(DXSamplerState::pDefaultRSSolid);
+	Context->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
+	Context->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
 	
 	/*DebugCamera* camera = world->GetDebugCamera();
 	if (camera != nullptr)
@@ -20,7 +21,16 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		CONTEXT->UpdateSubresource(camera->CameraMatrixBuffer, 0, NULL, &camera->CameraMatrixData, 0, 0);
 	}*/
 
-
+	for (auto& entity : world->GetEntities<Landscape>())
+	{
+		auto landscape = entity.get()->GetComponent<Landscape>();
+		auto transform = entity.get()->GetComponent<TransformComponent>();
+		if ((landscape != nullptr) && (transform != nullptr))
+		{
+			landscape->UpdateTransformMatrix(*transform);
+			landscape->Render();
+		}
+	}
 
 	for (auto& entity : world->GetEntities<SkeletalMeshComponent>())
 	{
@@ -40,9 +50,14 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	CONTEXT->RSSetState(pOldRSState);
+	Context->RSSetState(pOldRSState);
 	if (pOldRSState != nullptr)
 	{
 		pOldRSState->Release();
 	}
+}
+
+void RenderSystem::SetContext(ID3D11DeviceContext* context)
+{
+	Context = context;
 }

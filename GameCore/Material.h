@@ -6,8 +6,12 @@
 class Material
 {
 private:
+	ID3D11DeviceContext*			Context;
 	ID3D11PixelShader*				PixelShader;
 	std::vector<DXTexture*>			Textures;
+
+public:
+	Material();
 
 public:
 	bool Apply();
@@ -15,15 +19,22 @@ public:
 public:
 	bool AddTexture(DXTexture* texture);
 	bool SetPixelShader(ID3D11PixelShader* pixelShader);
+
+	void SetContext(ID3D11DeviceContext* context);
 };
+
+inline Material::Material()
+{
+	
+}
 
 inline bool Material::Apply()
 {
-	CONTEXT->PSSetShader(PixelShader, NULL, 0);
+	Context->PSSetShader(PixelShader, NULL, 0);
 	for (size_t idx = 0; idx < Textures.size(); idx++)
 	{
 		ID3D11ShaderResourceView* resourceView = Textures[idx]->getResourceView();
-		CONTEXT->PSSetShaderResources(idx, 1, &resourceView);
+		Context->PSSetShaderResources(idx, 1, &resourceView);
 	}
 	return true;
 }
@@ -38,4 +49,9 @@ inline bool Material::SetPixelShader(ID3D11PixelShader* pixelShader)
 {
 	PixelShader = pixelShader;
 	return true;
+}
+
+inline void Material::SetContext(ID3D11DeviceContext* context)
+{
+	Context = context;
 }

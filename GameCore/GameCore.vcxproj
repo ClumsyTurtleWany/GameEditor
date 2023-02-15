@@ -76,6 +76,7 @@
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WindowsClient.cpp" />

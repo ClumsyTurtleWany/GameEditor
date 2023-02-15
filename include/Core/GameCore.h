@@ -15,6 +15,7 @@ class GameCore
 {
 protected:
 	HWND _hWnd;
+	DXDevice Device;
 	//DXRenderTarget RenderTarget;
 
 public:

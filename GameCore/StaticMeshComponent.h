@@ -8,6 +8,9 @@
 
 class StaticMeshComponent
 {
+private:
+	ID3D11DeviceContext* Context;
+
 public:
 	std::vector<MeshComponent> Meshes;
 	ID3D11InputLayout*		VertexLayout = nullptr;
@@ -21,7 +24,10 @@ public:
 	bool isCreated = false;
 
 public:
-	StaticMeshComponent() { Initialize(); };
+	StaticMeshComponent() 
+	{
+		Initialize(); 
+	};
 
 public:
 	bool Render();
@@ -29,6 +35,7 @@ public:
 
 public:
 	void UpdateTransformMatrix(const TransformComponent& transform);
+	void SetContext(ID3D11DeviceContext* context);
 };
 
 inline bool StaticMeshComponent::Render()
@@ -38,14 +45,14 @@ inline bool StaticMeshComponent::Render()
 		Initialize();
 	}*/
 
-	CONTEXT->IASetInputLayout(VertexLayout);
-	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	CONTEXT->VSSetShader(VertexShader, NULL, 0);
-	CONTEXT->HSSetShader(HullShader, NULL, 0);
-	CONTEXT->DSSetShader(DomainShader, NULL, 0);
-	CONTEXT->GSSetShader(GeometryShader, NULL, 0);
-	CONTEXT->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
-	CONTEXT->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	Context->IASetInputLayout(VertexLayout);
+	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	Context->VSSetShader(VertexShader, NULL, 0);
+	Context->HSSetShader(HullShader, NULL, 0);
+	Context->DSSetShader(DomainShader, NULL, 0);
+	Context->GSSetShader(GeometryShader, NULL, 0);
+	Context->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	Context->VSSetConstantBuffers(0, 1, &TransformBuffer);
 	
 	for (auto& it : Meshes)
 	{
@@ -75,4 +82,9 @@ inline void StaticMeshComponent::UpdateTransformMatrix(const TransformComponent&
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(transform.Rotation);
 	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, transform.Translation, q, transform.Translation);
 	TransformData.Mat = TransformData.Mat.Transpose();
+}
+
+inline void StaticMeshComponent::SetContext(ID3D11DeviceContext* context)
+{
+	Context = context;
 }

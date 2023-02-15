@@ -6,6 +6,7 @@
 #include "Actor.h"
 #include "DebugCamera.h"
 #include "DebugCameraSystem.h"
+#include "Landscape.h"
 
 TestClass::TestClass(HWND hWnd)
 {
@@ -16,7 +17,9 @@ bool TestClass::Initialize()
 {
 	Actor* NewActor = new Actor;
 	auto comp = NewActor->AddComponent<StaticMeshComponent>();
+	comp->SetContext(Device.m_pImmediateContext);
 	MeshComponent NewMesh;
+	NewMesh.SetContext(Device.m_pImmediateContext);
 	NewMesh.Vertices.assign(4, Vertex());
 	NewMesh.Vertices[0].Pos = { -1.0f, +1.0f, 0.0f }; // p1-LT
 	NewMesh.Vertices[1].Pos = { +1.0f, +1.0f, 0.0f }; // p2-RT
@@ -43,14 +46,21 @@ bool TestClass::Initialize()
 
 	comp->Meshes.push_back(NewMesh);
 	DebugCamera* camera = new DebugCamera;
+	camera->SetContext(Device.m_pImmediateContext);
 	camera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
-	camera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DEVICE->m_ViewPort.Width) / (DEVICE->m_ViewPort.Height));
+	camera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
 	World.SetDebugCamera(camera);
 
 	World.AddSystem(new DebugCameraSystem);
 
-	World.AddSystem(new RenderSystem);
+	RenderSystem* renderSystem = new RenderSystem;
+	renderSystem->SetContext(Device.m_pImmediateContext);
+	World.AddSystem(renderSystem);
 	World.AddEntity(NewActor);
+
+	auto land = NewActor->AddComponent<Landscape>();
+	land->SetContext(Device.m_pImmediateContext);
+	land->Build(2, 2, 3);
 
 	return false;
 }

@@ -24,6 +24,7 @@ struct Face
 class MeshComponent
 {
 public:
+	ID3D11DeviceContext* Context;
 	std::vector<Vertex> Vertices;
 	std::vector<Face>	Faces;
 	std::vector<DWORD>	Indices;
@@ -49,6 +50,9 @@ public:
 public:
 	bool Render();
 	bool Initialize();
+
+public:
+	void SetContext(ID3D11DeviceContext* context) { Context = context; };
 };
 
 inline bool MeshComponent::Render()
@@ -60,14 +64,14 @@ inline bool MeshComponent::Render()
 
 	UINT Strides = sizeof(Vertex); // 정점 1개의 바이트 용량
 	UINT Offsets = 0; // 정점 버퍼에서 출발 지점(바이트)
-	DEVICE->GetContext()->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
-	DEVICE->GetContext()->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-	DEVICE->GetContext()->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
-	DEVICE->GetContext()->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
+	Context->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
+	Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+	Context->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
+	Context->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
 
 	MaterialSlot->Apply();
 
-	DEVICE->GetContext()->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
+	Context->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
 	//ID3D11ShaderResourceView* resourceView = NULL;
 	//CONTEXT->PSSetShaderResources(0, 1, &resourceView);
 
@@ -87,6 +91,7 @@ inline bool MeshComponent::Initialize()
 	if (MaterialSlot == nullptr)
 	{
 		MaterialSlot = new Material;
+		MaterialSlot->SetContext(Context);
 		DXTextureManager::getInstance()->Load(L"../resource/Default.bmp");
 		DXTexture* DefaultTexture = DXTextureManager::getInstance()->getTexture(L"../resource/Default.bmp");
 		MaterialSlot->AddTexture(DefaultTexture);

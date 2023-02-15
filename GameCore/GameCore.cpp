@@ -89,8 +89,8 @@ bool GameCore::PreRender()
 	Device.m_pImmediateContext->OMSetRenderTargets(1, &Device.m_pRTV, Device.m_pDepthStencilView); // Depth Stencil View 추가.
 	//float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
 	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
-	DEVICE->GetContext()->ClearRenderTargetView(DEVICE->m_pRTV, color);
-	DEVICE->GetContext()->ClearDepthStencilView(DEVICE->m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0); // Depth는 1.0f, Stencil은 0으로 클리어.
+	Device.m_pImmediateContext->ClearRenderTargetView(Device.m_pRTV, color);
+	Device.m_pImmediateContext->ClearDepthStencilView(Device.m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0); // Depth는 1.0f, Stencil은 0으로 클리어.
 	//m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
@@ -110,17 +110,17 @@ bool GameCore::PreRender()
 
 	// Sampler State 적용.
 	//m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
-	DEVICE->GetContext()->PSSetSamplers(0, 1, &DXSamplerState::pDefaultMirrorSamplerState);
+	Device.m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultMirrorSamplerState);
 
 	// Rasterizer State 적용.
 	//m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSWireFrame);
-	DEVICE->GetContext()->RSSetState(DXSamplerState::pDefaultRSSolid);
+	Device.m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
 
 	// Blend State 적용.
-	DEVICE->GetContext()->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
+	Device.m_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
 
 	// Depth Stencil State 적용.
-	DEVICE->GetContext()->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
+	Device.m_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
 	//m_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pGreaterDepthStencil, 0xff); // Depth 큰것 출력하고 싶을 때.
 
 	return true;
@@ -130,7 +130,7 @@ bool GameCore::PostRender()
 {
 	//RenderTarget.End();
 	//RenderTarget.Render();
-	DEVICE->GetSwapChain()->Present(0, 0); // 0번 버퍼를 뿌린다.
+	Device.m_pSwapChain->Present(0, 0); // 0번 버퍼를 뿌린다.
 	return true;
 }
 
@@ -188,7 +188,8 @@ bool GameCore::CoreRelease()
 	DXSamplerState::release();
 	Input::getInstance()->release();
 	Timer::getInstance()->release();
-	DXDevice::getInstance()->Release();
+	Device.Release();
+	//DXDevice::getInstance()->Release();
 	
 	return true;
 }

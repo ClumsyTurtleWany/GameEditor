@@ -120,9 +120,6 @@
     <ClInclude Include="Landscape.h">
       <Filter>ECS\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="StaticMeshComponent.h">
       <Filter>ECS\Component</Filter>
     </ClInclude>
@@ -198,6 +195,9 @@
     <ClInclude Include="DebugCamera.h">
       <Filter>ECS\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsClient.cpp">
@@ -250,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>ECS\System</Filter>
+    </ClCompile>
+    <ClCompile Include="Landscape.cpp">
+      <Filter>ECS\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

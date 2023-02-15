@@ -1,29 +1,9 @@
 #pragma once
 #include "Define.h"
+#include "MeshComponent.hpp"
 
-struct Face
+struct LandscapeComponent : public MeshComponent
 {
-	union
-	{
-		struct
-		{
-			DirectX::SimpleMath::Vector3 _v0;
-			DirectX::SimpleMath::Vector3 _v1;
-			DirectX::SimpleMath::Vector3 _v2;
-		}
-		v[3];
-	};
-};
-
-struct Section
-{
-	int Column;
 	int Row;
-	std::vector<Face> Faces;
-
-};
-
-struct LandscapeComponent
-{
-
+	int Column;
 };
