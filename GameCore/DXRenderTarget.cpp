@@ -119,7 +119,9 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 
 		VertexBuffer = DXShaderManager::getInstance()->CreateVertexBuffer(VertexList);
 		IndexBuffer = DXShaderManager::getInstance()->CreateIndexBuffer(IndexList);
-		TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<VertexTransform>(VertexTransformData);
+		
+		TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
+		CameraProjectionBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<CameraMatrix>(ProjectionData);
 
 		VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
 
@@ -208,7 +210,8 @@ bool DXRenderTarget::Render()
 	m_pImmediateContext->PSSetShader(PixelShader, NULL, 0);
 
 	m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &VertexList.at(0), 0, 0);
-	m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &VertexTransformData, 0, 0);
+	m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	m_pImmediateContext->UpdateSubresource(CameraProjectionBuffer, 0, NULL, &ProjectionData, 0, 0);
 
 	//ID3D11ShaderResourceView* cleanResourceView = NULL;
 	//m_pImmediateContext->PSSetShaderResources(0, 1, &cleanResourceView);

@@ -1,6 +1,5 @@
 #pragma once
-#include <vector>
-#include "SimpleMath.h"
+#include "Define.h"
 
 struct Face
 {

@@ -21,8 +21,11 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraMatrix.h" />
     <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="Component.hpp" />
+    <ClInclude Include="DebugCamera.h" />
+    <ClInclude Include="DebugCameraSystem.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DXDevice.hpp" />
     <ClInclude Include="DXRenderTarget.hpp" />
@@ -41,6 +44,7 @@
     <ClInclude Include="IWData.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="LandscapeComponent.h" />
+    <ClInclude Include="LightData.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshComponent.hpp" />
     <ClInclude Include="MovementComponent.h" />
@@ -51,6 +55,8 @@
     <ClInclude Include="System.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="TransformComponent.h" />
+    <ClInclude Include="TransformMatrix.h" />
+    <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="Vertex.h" />
     <ClInclude Include="VertexTransform.h" />
     <ClInclude Include="WindowsClient.h" />
@@ -70,8 +76,7 @@
     <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WindowsClient.cpp" />
     <ClCompile Include="World.cpp" />

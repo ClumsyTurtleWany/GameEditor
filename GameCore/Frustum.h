@@ -9,7 +9,6 @@ public:
 	Plane FrustumPlane[6];
 	DirectX::BoundingFrustum Frustum;
 
-
 public:
 	Matrix View;
 	Matrix Projection;

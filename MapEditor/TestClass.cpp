@@ -4,6 +4,8 @@
 #include "RenderSystem.h"
 #include "Timer.hpp"
 #include "Actor.h"
+#include "DebugCamera.h"
+#include "DebugCameraSystem.h"
 
 TestClass::TestClass(HWND hWnd)
 {
@@ -40,6 +42,12 @@ bool TestClass::Initialize()
 	NewMesh.Indices[5] = 3;
 
 	comp->Meshes.push_back(NewMesh);
+	DebugCamera* camera = new DebugCamera;
+	camera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
+	camera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DEVICE->m_ViewPort.Width) / (DEVICE->m_ViewPort.Height));
+	World.SetDebugCamera(camera);
+
+	World.AddSystem(new DebugCameraSystem);
 
 	World.AddSystem(new RenderSystem);
 	World.AddEntity(NewActor);

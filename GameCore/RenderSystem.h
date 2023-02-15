@@ -1,16 +1,11 @@
 #pragma once
-#include "Define.h"
 #include "System.hpp"
-#include "World.hpp"
-#include "StaticMeshComponent.h"
-#include "SkeletalMeshComponent.h"
-#include "DXSamplerState.hpp"
 
 class RenderSystem : public ECS::System
 {
 public:
-	virtual void Tick(ECS::World* world, float time) override
-	{
+	virtual void Tick(ECS::World* world, float time) override;
+	/*{
 		ID3D11RasterizerState* pOldRSState;
 		CONTEXT->RSGetState(&pOldRSState);
 		CONTEXT->RSSetState(DXSamplerState::pDefaultRSSolid);
@@ -25,6 +20,7 @@ public:
 		for (auto& entity : world->GetEntities<StaticMeshComponent>())
 		{
 			auto staticMesh = entity.get()->GetComponent<StaticMeshComponent>();
+			auto transform = entity.get()->GetComponent<TransformComponent
 			staticMesh->Render();
 		}
 
@@ -33,5 +29,5 @@ public:
 		{
 			pOldRSState->Release();
 		}
-	}
+	}*/
 };

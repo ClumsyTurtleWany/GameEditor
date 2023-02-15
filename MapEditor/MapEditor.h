@@ -29,6 +29,7 @@ class CMapEditorApp : public CWinAppEx
 public:
 	CMapEditorApp() noexcept;
 	TestClass* m_TestClass;
+	CWinThread* RenderThreadHandle = NULL;
 
 // 재정의입니다.
 public:
@@ -45,6 +46,9 @@ public:
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 	virtual BOOL OnIdle(LONG lCount);
+
+public:
+	static UINT RenderThread(LPVOID lpParam);
 };
 
 extern CMapEditorApp theApp;

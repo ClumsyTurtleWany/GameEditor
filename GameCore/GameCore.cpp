@@ -2,13 +2,13 @@
 
 bool GameCore::CoreInitialize()
 {
-	if (!DXDevice::getInstance()->Create(_hWnd))
+	if (!Device.Create(_hWnd))
 	{
 		OutputDebugStringA("WanyCore::DXDevice::Failed Initialize.\n");
 		return false;
 	}
 
-	DXShaderManager::getInstance()->SetDevice(DEVICE->GetDevice(), DEVICE->GetContext());
+	DXShaderManager::getInstance()->SetDevice(Device.m_pd3dDevice, Device.m_pImmediateContext);
 	if (!DXShaderManager::getInstance()->Initialize())
 	{
 		OutputDebugStringA("WanyCore::DXShaderManager::Failed Initialize.\n");
@@ -39,7 +39,7 @@ bool GameCore::CoreInitialize()
 		return false;
 	}
 
-	DXTextureManager::getInstance()->setDevice(DEVICE->GetDevice(), DEVICE->GetContext());
+	DXTextureManager::getInstance()->setDevice(Device.m_pd3dDevice, Device.m_pImmediateContext);
 
 	if (!FMODSoundManager::getInstance()->Initialize())
 	{
@@ -48,7 +48,7 @@ bool GameCore::CoreInitialize()
 	}
 
 	// Sampler State
-	if (!DXSamplerState::setState(DEVICE->GetDevice()))
+	if (!DXSamplerState::setState(Device.m_pd3dDevice))
 	{
 		OutputDebugStringA("WanyCore::DXSamplerState::Failed Set State.\n");
 		return false;
@@ -77,13 +77,16 @@ bool GameCore::CoreFrame()
 		return false;
 	}
 
+	std::string output = "time: " + std::to_string(Timer::getInstance()->secondPerFrame) + ", FPS: " + std::to_string(Timer::getInstance()->fps) + "\n";
+	OutputDebugStringA(output.c_str());
+
 	return Frame();
 }
 
 bool GameCore::PreRender()
 {
 	//m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL); // m_pRTV 에 뿌린다.
-	DEVICE->GetContext()->OMSetRenderTargets(1, &DEVICE->m_pRTV, DEVICE->m_pDepthStencilView); // Depth Stencil View 추가.
+	Device.m_pImmediateContext->OMSetRenderTargets(1, &Device.m_pRTV, Device.m_pDepthStencilView); // Depth Stencil View 추가.
 	//float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
 	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
 	DEVICE->GetContext()->ClearRenderTargetView(DEVICE->m_pRTV, color);

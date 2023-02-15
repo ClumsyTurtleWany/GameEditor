@@ -1,12 +1,14 @@
 #pragma once
-#include "Define.hpp"
+#include "Define.h"
 
-struct TransformComponent
+class TransformComponent
 {
-	Vector3f Location;
-	Vector3f Rotation;
-	Vector3f Scale;
+public:
+	Vector3 Translation;
+	Vector3 Rotation;
+	Vector3 Scale;
 
-	TransformComponent() : Location({ 0.0, 0.0, 0.0}), Rotation({ 0.0, 0.0, 0.0}), Scale({ 1.0, 1.0, 1.0}) {};
-	TransformComponent(Vector3f location, Vector3f rotation, Vector3f scale) : Location(location), Rotation(rotation), Scale(scale) {};
+public:
+	TransformComponent() : Translation(Vector3(0.0, 0.0, 0.0)), Rotation(Vector3(0.0, 0.0, 0.0)), Scale(Vector3(1.0, 1.0, 1.0)) {};
+	TransformComponent(Vector3 translation, Vector3 rotation, Vector3 scale) : Translation(translation), Rotation(rotation), Scale(scale) {};
 };

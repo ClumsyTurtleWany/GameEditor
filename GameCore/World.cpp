@@ -8,6 +8,40 @@ void ECS::World::Tick(float time)
 	}
 }
 
+void ECS::World::SetMainCamera(Camera* camera)
+{
+	/*if (MainCamera == nullptr)
+	{
+		MainCamera = std::make_shared<Camera>(camera);
+	}
+	else*/
+	{
+		MainCamera.reset(camera);
+	}
+}
+
+void ECS::World::SetDebugCamera(DebugCamera* camera)
+{
+	/*if (DebuggingCamera == nullptr)
+	{
+		DebuggingCamera = std::make_shared<DebugCamera>(camera);
+	}
+	else*/
+	{
+		DebuggingCamera.reset(camera);
+	}
+}
+
+Camera* ECS::World::GetMainCamera()
+{
+	return MainCamera.get();
+}
+
+DebugCamera* ECS::World::GetDebugCamera()
+{
+	return DebuggingCamera.get();
+}
+
 void ECS::World::AddEntity(ECS::Entity* entity)
 {
 	std::shared_ptr<Entity> newEntity(entity);

@@ -36,10 +36,12 @@ private:
 	ID3D11Buffer*					VertexBuffer = nullptr;
 	ID3D11Buffer*					IndexBuffer = nullptr;
 	ID3D11Buffer*					TransformBuffer = nullptr;
+	ID3D11Buffer*					CameraProjectionBuffer = nullptr;
 
 	std::vector<Vertex>				VertexList;
 	std::vector<DWORD>				IndexList;
-	VertexTransform					VertexTransformData;
+	TransformMatrix					TransformData;
+	CameraMatrix					ProjectionData;
 
 public:
 	DXRenderTarget();

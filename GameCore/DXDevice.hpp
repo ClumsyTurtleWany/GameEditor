@@ -1,10 +1,10 @@
 #pragma once
 #include "Define.h"
 
-class DXDevice : public Singleton<DXDevice>
+class DXDevice //: public Singleton<DXDevice>
 {
 private:
-	friend class Singleton<DXDevice>;
+	//friend class Singleton<DXDevice>;
 
 public:
 	// 인터페이스 -> 하드웨어 직접 제어 -> 획득
@@ -58,5 +58,5 @@ protected:
 	HRESULT CreateDepthStencilView();
 };
 
-#define DEVICE DXDevice::getInstance()
-#define CONTEXT DXDevice::getInstance()->GetContext()
+//#define DEVICE DXDevice::getInstance()
+//#define CONTEXT DXDevice::getInstance()->GetContext()

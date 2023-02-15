@@ -15,8 +15,9 @@ public:
 
 Actor::Actor()
 {
-	this->AddComponent<MeshComponent>();
+	//this->AddComponent<MeshComponent>();
 	this->AddComponent<MovementComponent>();
+	this->AddComponent<TransformComponent>();
 }
 
 Actor::~Actor()

@@ -1,8 +1,7 @@
 #pragma once
 #include "Define.h"
 
-
-struct Camera
+class Camera
 {
 public:
 	DirectX::BoundingFrustum Frustum;
@@ -13,6 +12,7 @@ public:
 	Vector3 Right;
 	Vector3 Up;
 
+public:
 	Matrix View;
 	Matrix Projection;
 
@@ -22,4 +22,17 @@ public:
 	float AspectRatio;
 	float FovX;
 	float FovY;
+
+public:
+	CameraMatrix CameraMatrixData;
+	ID3D11Buffer* CameraMatrixBuffer = nullptr;
+
+public:
+	Camera();
+	virtual ~Camera();
+
+public:
+	void CreateViewMatrix(const Vector3& eye, const Vector3& target, const Vector3& up);
+	void CreateProjectionMatrix(float nearDist, float farDist, float fov, float aspectRatio);
+	void Update();
 };

@@ -2,6 +2,7 @@
 #include "ECSCommon.hpp"
 #include "System.hpp"
 #include "Entity.hpp"
+#include "DebugCamera.h"
 
 namespace ECS
 {
@@ -16,11 +17,20 @@ namespace ECS
 		std::vector<std::shared_ptr<ECS::System>> Systems;
 		std::vector<std::shared_ptr<ECS::System>> DisableSystems;
 
+	private:
+		std::shared_ptr<DebugCamera>	DebuggingCamera;
+		std::shared_ptr<Camera>			MainCamera;
+
 	public:
 		//---------------------------------------------
 		// Common
 		//---------------------------------------------
 		void Tick(float time);
+		void			SetMainCamera(Camera* camera);
+		void			SetDebugCamera(DebugCamera* camera);
+
+		Camera*			GetMainCamera();
+		DebugCamera*	GetDebugCamera();
 
 		//---------------------------------------------
 		// Entity
@@ -34,6 +44,12 @@ namespace ECS
 		template <typename T, typename U, typename... Types>
 		std::vector<std::shared_ptr<ECS::Entity>> GetEntities();
 
+		template <typename T>
+		const int GetCount();
+
+		template <typename T, typename U, typename... Types>
+		const int GetCount();
+
 		//---------------------------------------------
 		// System
 		//---------------------------------------------
@@ -41,25 +57,6 @@ namespace ECS
 		void EnableSystem(System* system);
 		void DisableSystem(System* system);
 	};
-
-	/*void World::Tick(float time)
-	{
-		for (auto& system : Systems)
-		{
-			system.get()->Tick(this, time);
-		}
-	}
-
-	inline void World::AddEntity(Entity* entity)
-	{
-		std::shared_ptr<Entity> newEntity(entity);
-		Entities.push_back(newEntity);
-	}
-
-	std::vector<std::shared_ptr<ECS::Entity>>& World::GetAllEntities()
-	{
-		return Entities;
-	}*/
 
 	template <typename T>
 	std::vector<std::shared_ptr<ECS::Entity>> World::GetEntities()
@@ -91,35 +88,31 @@ namespace ECS
 		return entities;
 	}
 
-	/*System* World::AddSystem(System* system)
+	template<typename T>
+	inline const int World::GetCount()
 	{
-		std::shared_ptr<System> newSystem(system);
-		Systems.push_back(newSystem);
-		return system;
+		int cnt = 0;
+		for (auto& ent : Entities)
+		{
+			if (ent.get()->has<T>())
+			{
+				cnt++;
+			}
+		}
+		return cnt;
 	}
 
-	void World::EnableSystem(System* system)
+	template <typename T, typename U, typename... Types>
+	inline const int World::GetCount()
 	{
-		std::shared_ptr<System> enableSystem(system);
-		auto it = std::find(DisableSystems.begin(), DisableSystems.end(), enableSystem);
-		if (it != DisableSystems.end())
+		int cnt = 0;
+		for (auto& ent : Entities)
 		{
-			DisableSystems.erase(it);
-			Systems.push_back(enableSystem);
+			if (ent.get()->has<T, U, Types...>())
+			{
+				cnt++;
+			}
 		}
+		return cnt;
 	}
-
-	void World::DisableSystem(System* system)
-	{
-		std::shared_ptr<System> disableSystem(system);
-		auto it = std::find(Systems.begin(), Systems.end(), disableSystem);
-		if (it != Systems.end())
-		{
-			Systems.erase(it);
-			DisableSystems.push_back(disableSystem);
-		}
-	}*/
-
-
-
 }

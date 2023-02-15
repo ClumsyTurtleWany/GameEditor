@@ -1,4 +1,15 @@
 #include "Camera.h"
+#include "DXShaderManager.h"
+#include "DXDevice.hpp"
+
+Camera::Camera()
+{
+	CameraMatrixBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<CameraMatrix>(CameraMatrixData);
+}
+
+Camera::~Camera()
+{
+}
 
 void Camera::CreateViewMatrix(const Vector3& eye, const Vector3& target, const Vector3& up)
 {
@@ -61,9 +72,10 @@ void Camera::Update()
 	Right.Normalize();
 	Up.Normalize();
 	Look.Normalize();
-}
 
-bool Camera::Frame(float dt)
-{
-	return false;
+	CameraMatrixData.View = View.Transpose();
+	CameraMatrixData.Projection = Projection.Transpose();
+
+	CONTEXT->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
+	CONTEXT->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
 }

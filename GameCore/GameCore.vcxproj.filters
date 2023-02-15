@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -52,22 +44,45 @@
     <Filter Include="Camera">
       <UniqueIdentifier>{0eea25e6-a29b-41ab-a0f6-9eb41895a51d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectX\Data">
+      <UniqueIdentifier>{d0dcee0d-974c-4617-b439-9332bb54a732}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinAPI">
+      <UniqueIdentifier>{39ce7d6d-82a9-4293-b4c0-5b68c90bc392}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="WinAPI\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="WinAPI\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Sound\소스 파일">
+      <UniqueIdentifier>{72a9d2a1-ca14-493b-8d4a-104df781d1bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound\헤더 파일">
+      <UniqueIdentifier>{b573637d-ba06-4f27-9615-e845731df0c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\Data\ConstantData">
+      <UniqueIdentifier>{ea089d5d-1393-4e44-9abe-5eca912bba13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\Data\InputData">
+      <UniqueIdentifier>{e2d39618-6559-41b8-81db-ebe80edaff3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="WindowsClient.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>WinAPI\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ECSCommon.hpp">
       <Filter>ECS</Filter>
     </ClInclude>
     <ClInclude Include="Input.hpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>WinAPI\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
       <Filter>ECS\Entity</Filter>
@@ -123,38 +138,17 @@
     <ClInclude Include="DXTextureManager.hpp">
       <Filter>DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="FMODSound.hpp">
-      <Filter>Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="FMODSoundManager.hpp">
-      <Filter>Sound</Filter>
-    </ClInclude>
     <ClInclude Include="GameCore.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="Timer.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="DXSamplerState.hpp">
-      <Filter>헤더 파일</Filter>
+      <Filter>WinAPI\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="DXShaderManager.h">
       <Filter>DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="DXRenderTarget.hpp">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="IWData.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexTransform.h">
-      <Filter>Common</Filter>
-    </ClInclude>
     <ClInclude Include="DXShader.h">
       <Filter>DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>Common</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>ECS\Component</Filter>
@@ -162,13 +156,55 @@
     <ClInclude Include="CameraSystem.h">
       <Filter>ECS\System</Filter>
     </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>DirectX\Data\InputData</Filter>
+    </ClInclude>
+    <ClInclude Include="DXRenderTarget.hpp">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DXSamplerState.hpp">
+      <Filter>DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="FMODSound.hpp">
+      <Filter>Sound\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FMODSoundManager.hpp">
+      <Filter>Sound\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="IWData.h">
+      <Filter>DirectX\Data\InputData</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraMatrix.h">
+      <Filter>DirectX\Data\ConstantData</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexTransform.h">
+      <Filter>DirectX\Data\ConstantData</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformMatrix.h">
+      <Filter>DirectX\Data\ConstantData</Filter>
+    </ClInclude>
+    <ClInclude Include="LightData.h">
+      <Filter>DirectX\Data\ConstantData</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformSystem.h">
+      <Filter>ECS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCameraSystem.h">
+      <Filter>ECS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCamera.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsClient.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>WinAPI\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>WinAPI\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DXDevice.cpp">
       <Filter>DirectX</Filter>
@@ -179,32 +215,14 @@
     <ClCompile Include="DXTextureManager.cpp">
       <Filter>DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="FMODSound.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="FMODSoundManager.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
     <ClCompile Include="GameCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="DXSamplerState.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>WinAPI\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DXShaderManager.cpp">
       <Filter>DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="DXRenderTarget.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshComponent.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="DXShader.cpp">
       <Filter>DirectX</Filter>
@@ -212,11 +230,26 @@
     <ClCompile Include="World.cpp">
       <Filter>ECS\World</Filter>
     </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>ECS\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="DXRenderTarget.cpp">
+      <Filter>DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="DXSamplerState.cpp">
+      <Filter>DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="FMODSound.cpp">
+      <Filter>Sound\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FMODSoundManager.cpp">
+      <Filter>Sound\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
+      <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderSystem.cpp">
+      <Filter>ECS\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

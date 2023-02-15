@@ -4,6 +4,7 @@
 #include "Material.h"
 #include "MeshComponent.hpp"
 #include "DXShaderManager.h"
+#include "TransformComponent.h"
 
 class StaticMeshComponent
 {
@@ -15,32 +16,36 @@ public:
 	ID3D11DomainShader*		DomainShader = nullptr;
 	ID3D11GeometryShader*	GeometryShader = nullptr;
 	ID3D11Buffer*			TransformBuffer = nullptr;
-	VertexTransform			TransformData;
+	TransformMatrix			TransformData;
 
 	bool isCreated = false;
 
 public:
-	StaticMeshComponent() {};
+	StaticMeshComponent() { Initialize(); };
 
 public:
 	bool Render();
 	bool Initialize();
+
+public:
+	void UpdateTransformMatrix(const TransformComponent& transform);
 };
 
 inline bool StaticMeshComponent::Render()
 {
-	if (!isCreated)
+	/*if (!isCreated)
 	{
 		Initialize();
-	}
+	}*/
 
-	DEVICE->GetContext()->IASetInputLayout(VertexLayout);
-	DEVICE->GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	DEVICE->GetContext()->VSSetShader(VertexShader, NULL, 0);
-	DEVICE->GetContext()->HSSetShader(HullShader, NULL, 0);
-	DEVICE->GetContext()->DSSetShader(DomainShader, NULL, 0);
-	DEVICE->GetContext()->GSSetShader(GeometryShader, NULL, 0);
-	DEVICE->GetContext()->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	CONTEXT->IASetInputLayout(VertexLayout);
+	CONTEXT->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	CONTEXT->VSSetShader(VertexShader, NULL, 0);
+	CONTEXT->HSSetShader(HullShader, NULL, 0);
+	CONTEXT->DSSetShader(DomainShader, NULL, 0);
+	CONTEXT->GSSetShader(GeometryShader, NULL, 0);
+	CONTEXT->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	CONTEXT->VSSetConstantBuffers(0, 1, &TransformBuffer);
 	
 	for (auto& it : Meshes)
 	{
@@ -59,8 +64,15 @@ inline bool StaticMeshComponent::Initialize()
 
 	VertexLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
 	VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
-	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<VertexTransform>(TransformData);
+	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
 	isCreated = true;
 
 	return true;
+}
+
+inline void StaticMeshComponent::UpdateTransformMatrix(const TransformComponent& transform)
+{
+	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(transform.Rotation);
+	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, transform.Translation, q, transform.Translation);
+	TransformData.Mat = TransformData.Mat.Transpose();
 }

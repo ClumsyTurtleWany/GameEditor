@@ -24,6 +24,8 @@
 #include <wrl.h> // Microsoft::WRL::ComPtr
 using namespace Microsoft::WRL;
 
+#include <DirectXCollision.h>
+
 // Math
 #include "DXTK/SimpleMath.h"
 
@@ -39,6 +41,9 @@ using namespace Microsoft::WRL;
 // Struct
 #include "Vertex.h"
 #include "IWData.h"
+#include "CameraMatrix.h"
+#include "TransformMatrix.h"
+#include "LightData.h"
 #include "VertexTransform.h"
 
 // Design Pattern
@@ -72,3 +77,5 @@ public:
 
 template <class T>
 T* Singleton<T>::instance = nullptr;
+
+static const double PI = 3.141592;
