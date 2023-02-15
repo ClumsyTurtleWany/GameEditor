@@ -39,6 +39,7 @@ void Landscape::Build(int row, int column, int sectionSize)
 				}
 			}
 
+			size_t cellCnt = sectionSize * sectionSize;
 			size_t faceCnt = sectionSize * sectionSize * 2;
 			size_t IndexCount = faceCnt * 3;
 			component.Indices.resize(IndexCount);
