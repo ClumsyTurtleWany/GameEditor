@@ -47,7 +47,7 @@ bool TestClass::Initialize()
 	comp->Meshes.push_back(NewMesh);
 	DebugCamera* camera = new DebugCamera;
 	camera->SetContext(Device.m_pImmediateContext);
-	camera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0f, 0.0f));
+	camera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
 	camera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
 	World.SetDebugCamera(camera);
 

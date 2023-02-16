@@ -31,6 +31,28 @@ public:
 	virtual void OnInitialUpdate();
 
 public:
+	afx_msg void OnEditChangeLocationX();
+	afx_msg void OnEditChangeLocationY();
+	afx_msg void OnEditChangeLocationZ();
+	afx_msg void OnEditChangeRotationX();
+	afx_msg void OnEditChangeRotationY();
+	afx_msg void OnEditChangeRotationZ();
+	afx_msg void OnEditChangeScaleX();
+	afx_msg void OnEditChangeScaleY();
+	afx_msg void OnEditChangeScaleZ();
+
+public:
+	float LocationX;
+	float LocationY;
+	float LocationZ;
+	float RotationX;
+	float RotationY;
+	float RotationZ;
+	float ScaleX;
+	float ScaleY;
+	float ScaleZ;
+
+public:
 	CStatic* StaticLocation;
 	CStatic* StaticRotation;
 	CStatic* StaticScale;
