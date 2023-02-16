@@ -31,6 +31,7 @@ BEGIN_MESSAGE_MAP(LandscapeParentDlg, CDialog)
 	ON_WM_CREATE()
 	ON_BN_CLICKED(IDB_LandscapeManagement, &OnBtnClickedManagement)
 	ON_BN_CLICKED(IDB_LandscapeSculpting, &OnBtnClickedSculpting)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -88,4 +89,13 @@ BOOL LandscapeParentDlg::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+void LandscapeParentDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialog::OnSize(nType, cx, cy);
+
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	//m_ManagementView->MoveWindow(CRect(10, 50, cx, cy));
 }

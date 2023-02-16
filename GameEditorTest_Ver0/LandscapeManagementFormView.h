@@ -40,7 +40,13 @@ public:
 	afx_msg void OnEditChangeScaleX();
 	afx_msg void OnEditChangeScaleY();
 	afx_msg void OnEditChangeScaleZ();
+
 	afx_msg void OnBtnClickedFbxSelect();
+	afx_msg void OnComboChangedSection();
+	afx_msg void OnEditChangedCompWidth();
+	afx_msg void OnEditChangedCompHeight();
+	afx_msg void OnBtnClickedBuildLandscape();
+	afx_msg void OnSelChangeFbxFile();
 
 public:
 	float LocationX;
@@ -70,11 +76,21 @@ public:
 	CEdit* EditScaleY;
 	CEdit* EditScaleZ;
 
-	CListBox* ListBox;
 
+	CStatic* StaticSection;
+	CComboBox* ComboSection;
+
+	CStatic* StaticComponent;
+	CEdit* EditCompWidth;
+	CEdit* EditCompHeight;
+
+	CButton* BtnBuildLandscape;
+
+	CListBox* FbxFileListBox;
 	CButton* BtnFbxSelect;
 	
 	virtual void OnDraw(CDC* pDC);
+	
 };
 
 
