@@ -78,12 +78,12 @@ BOOL LandscapeParentDlg::OnInitDialog()
 	pView->OnInitialUpdate();
 	m_ManagementView = pView;
 
-	// Sculpting View 생성
-	pView = (CView*)RUNTIME_CLASS(LandscapeSculptingFormView)->CreateObject();
-	::ZeroMemory(&cc, sizeof(cc));
-	pView->Create(NULL, NULL, WS_CHILD, rc, this, IDD_LandscapeSculptingFormView, &cc);
-	pView->OnInitialUpdate();
-	m_SculptingView = pView;
+	//// Sculpting View 생성
+	//pView = (CView*)RUNTIME_CLASS(LandscapeSculptingFormView)->CreateObject();
+	//::ZeroMemory(&cc, sizeof(cc));
+	//pView->Create(NULL, NULL, WS_CHILD, rc, this, IDD_LandscapeSculptingFormView, &cc);
+	//pView->OnInitialUpdate();
+	//m_SculptingView = pView;
 
 
 	return TRUE;  // return TRUE unless you set the focus to a control

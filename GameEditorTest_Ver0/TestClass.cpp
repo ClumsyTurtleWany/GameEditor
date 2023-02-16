@@ -64,13 +64,13 @@ bool TestClass::Initialize()
 	land->Build(8, 8, 7);
 	land->SetCamera(camera);
 
-	if (FBXLoader::getInstance()->initialize())
+	/*if (FBXLoader::getInstance()->initialize())
 	{
 		FBXLoader::getInstance()->setResourceDirectory(L"../resource/FBX/");
 		FBXLoader::getInstance()->LoadDir(L"../resource/FBX/");
-	}
+	}*/
 
-	return false;
+	return true;
 }
 
 bool TestClass::Frame()
@@ -78,6 +78,43 @@ bool TestClass::Frame()
 	Camera* camera = World.GetDebugCamera();
 	Picker.View = camera->View;
 	Picker.Projection = camera->Projection;
+
+	if (!SelectedFilename.empty())
+	{
+		KeyState keyState_RButton = Input::getInstance()->getKey(VK_RBUTTON);
+		if (keyState_RButton == KeyState::Hold)
+		{
+			Picker.Update();
+			for (auto& it : World.GetEntities<Landscape>())
+			{
+				auto landscape = it->GetComponent<Landscape>();
+				for (auto& comp : landscape->Components)
+				{
+					for (auto& face : comp.Faces)
+					{
+						if (Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
+						{
+							auto mesh = StaticMeshMap.find(SelectedFilename);
+							if (mesh != StaticMeshMap.end())
+							{
+
+							}
+							else
+							{
+								std::unique_ptr<StaticMeshComponent> staticMesh = std::make_unique<StaticMeshComponent>();
+								if (FBXLoader::getInstance()->Load(L"../resource/FBX/" + SelectedFilename, staticMesh.get()))
+								{
+									StaticMeshMap.insert(std::make_pair(SelectedFilename, std::move(staticMesh)));
+								}
+							}
+						}
+					}
+					
+				}
+				
+			}
+		}
+	}
 
 	return true;
 }

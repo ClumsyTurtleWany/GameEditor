@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(LandscapeManagementFormView, CFormView)
 	ON_EN_CHANGE(ID_EDIT_SCALE_X, &OnEditChangeScaleX)
 	ON_EN_CHANGE(ID_EDIT_SCALE_Y, &OnEditChangeScaleY)
 	ON_EN_CHANGE(ID_EDIT_SCALE_Z, &OnEditChangeScaleZ)
+	ON_BN_CLICKED(IDB_FBX_SELECT, &OnBtnClickedFbxSelect)
 END_MESSAGE_MAP()
 
 
@@ -120,7 +121,18 @@ void LandscapeManagementFormView::OnInitialUpdate()
 	EditScaleZ = new CEdit();
 	EditScaleZ->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | ES_NUMBER, CRect(210, 70, 260, 100), this, ID_EDIT_SCALE_X);
 
+	ListBox = new CListBox();
+	ListBox->Create(WS_CHILD | WS_VISIBLE | WS_BORDER | WS_HSCROLL | WS_VSCROLL, CRect(10, 110, 260, 310), this, ID_STATICMESH_LIST_BOX);
+	std::vector<std::wstring> FBXList;
+	FBXLoader::getInstance()->GetFBXFileList(L"../resource/FBX/", FBXList);
+	for (auto it : FBXList)
+	{
+		ListBox->AddString(it.c_str());
+	}
 
+	BtnFbxSelect = new CButton();
+	BtnFbxSelect->Create(L"FbxSelect", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(10, 330, 80, 360), this, IDB_FBX_SELECT);
+	BtnFbxSelect->ShowWindow(SW_SHOW);
 }
 
 void LandscapeManagementFormView::OnEditChangeLocationX()
@@ -169,4 +181,18 @@ void LandscapeManagementFormView::OnEditChangeScaleY()
 void LandscapeManagementFormView::OnEditChangeScaleZ()
 {
 
+}
+
+void LandscapeManagementFormView::OnBtnClickedFbxSelect()
+{
+	int idx = ListBox->GetCurSel();
+	CString filename;
+	ListBox->GetText(idx, filename);
+	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
+}
+
+void LandscapeManagementFormView::OnDraw(CDC* pDC)
+{
+	BtnFbxSelect->ShowWindow(SW_SHOW);
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 }

@@ -12,6 +12,7 @@ private:
 
 public:
 	Material();
+	~Material();
 
 public:
 	bool Apply();
@@ -26,6 +27,11 @@ public:
 inline Material::Material()
 {
 	
+}
+
+inline Material::~Material()
+{
+	Textures.clear();
 }
 
 inline bool Material::Apply()

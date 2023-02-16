@@ -2,6 +2,7 @@
 #include "GameCore.h"
 #include "World.hpp"
 #include "MousePicker.h"
+#include "StaticMeshComponent.h"
 
 class TestClass : public GameCore
 {
@@ -10,6 +11,10 @@ private:
 
 public:
 	MousePicker Picker;
+
+	std::wstring SelectedFilename;
+
+	std::map<std::wstring, std::unique_ptr<StaticMeshComponent>> StaticMeshMap;
 
 public:
 	TestClass(HWND hWnd);

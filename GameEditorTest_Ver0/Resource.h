@@ -91,6 +91,8 @@
 #define ID_EDIT_SCALE_X					407
 #define ID_EDIT_SCALE_Y					408
 #define ID_EDIT_SCALE_Z					409
+#define ID_STATICMESH_LIST_BOX			410
+#define IDB_FBX_SELECT					411
 #define IDB_LandscapeSculpting			500
 
 

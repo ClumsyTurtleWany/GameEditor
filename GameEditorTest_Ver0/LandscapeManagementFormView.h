@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+#include "FBXLoader.hpp"
 
 
 // LandscapeManagementFormView 폼 보기
@@ -40,6 +40,7 @@ public:
 	afx_msg void OnEditChangeScaleX();
 	afx_msg void OnEditChangeScaleY();
 	afx_msg void OnEditChangeScaleZ();
+	afx_msg void OnBtnClickedFbxSelect();
 
 public:
 	float LocationX;
@@ -68,6 +69,12 @@ public:
 	CEdit* EditScaleX;
 	CEdit* EditScaleY;
 	CEdit* EditScaleZ;
+
+	CListBox* ListBox;
+
+	CButton* BtnFbxSelect;
+	
+	virtual void OnDraw(CDC* pDC);
 };
 
 

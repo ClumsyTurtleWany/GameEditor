@@ -68,6 +68,7 @@ public:
 	bool LoadDir(std::wstring _path);
 	bool Load(std::wstring _path, FBXObject* _dst);
 	bool Load(std::wstring _path, StaticMeshComponent* _dst);
+	bool GetFBXFileList(std::wstring _path, std::vector<std::wstring>& _dst);
 
 public:
 	FBXObject* getObject(std::wstring _key);

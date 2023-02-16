@@ -233,6 +233,28 @@ bool FBXLoader::Load(std::wstring _path, StaticMeshComponent* _dst)
 	return true;
 }
 
+bool FBXLoader::GetFBXFileList(std::wstring _path, std::vector<std::wstring>& _dst)
+{
+	std::filesystem::path path(_path);
+	for (auto& file : std::filesystem::directory_iterator(path))
+	{
+		std::wstring filename = file.path().filename();
+		std::wstring filepath = file.path();
+		std::wstring fileExtension = file.path().extension();
+
+		if ((fileExtension == L".FBX") || (fileExtension == L".fbx"))
+		{
+			_dst.push_back(filename);
+		}
+		else
+		{
+			continue;
+		}
+	}
+
+	return true;
+}
+
 bool FBXLoader::ParseScene(FbxScene* _scene, FBXFileData* _dst)
 {
 	if ((_scene == nullptr) || (_dst == nullptr))
@@ -1576,26 +1598,30 @@ bool FBXLoader::GenerateStaticMeshFromFileData(FBXFileData* _src, StaticMeshComp
 		}
 		else
 		{
-			for (auto material : it.Materials)
+			if (it.Materials.empty())
 			{
-				if (material.isValid())
-				{
-					MeshComponent mesh;
-					mesh.Vertices.assign(material.VertexList.begin(), material.VertexList.end());
-					mesh.Indices.assign(material.IndexList.begin(), material.IndexList.end());
-					if (DXTextureManager::getInstance()->Load(m_wstrResourceDir + material.DiffuseTexture))
-					{
-						DXTexture* pTexture = DXTextureManager::getInstance()->getTexture(m_wstrResourceDir + material.DiffuseTexture);
-						if (pTexture != nullptr)
-						{
-							mesh.MaterialSlot = new Material;
-							mesh.MaterialSlot->AddTexture(pTexture);
-						}
-					}
-					
-					_dst->Meshes.push_back(mesh);
-				}
+				continue;
 			}
+
+			size_t materialCnt = it.Materials.size();
+			_dst->Meshes.resize(materialCnt);
+			for (size_t idx = 0; idx < materialCnt; idx++)
+			{
+				auto material = it.Materials[idx];
+				_dst->Meshes[idx].Vertices.assign(material.VertexList.begin(), material.VertexList.end());
+				_dst->Meshes[idx].Indices.assign(material.IndexList.begin(), material.IndexList.end());
+				if (DXTextureManager::getInstance()->Load(m_wstrResourceDir + material.DiffuseTexture))
+				{
+					DXTexture* pTexture = DXTextureManager::getInstance()->getTexture(m_wstrResourceDir + material.DiffuseTexture);
+					if (pTexture != nullptr)
+					{
+						_dst->Meshes[idx].MaterialSlot = new Material;
+						_dst->Meshes[idx].MaterialSlot->AddTexture(pTexture);
+					}
+				}
+				
+			}
+			
 		}
 	}
 
