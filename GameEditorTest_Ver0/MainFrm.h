@@ -17,6 +17,7 @@
 #include "ClassView.h"
 #include "OutputWnd.h"
 #include "PropertiesWnd.h"
+#include "LandscapeDockPane.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -52,6 +53,7 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	CClassView        m_wndClassView;
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
+	LandscapeDockPane	m_wndLandscapeDockPane;
 
 // 생성된 메시지 맵 함수
 protected:

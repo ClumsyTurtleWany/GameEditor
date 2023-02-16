@@ -200,7 +200,12 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClInclude Include="GameEditorTest_Ver0.h" />
     <ClInclude Include="GameEditorTest_Ver0Doc.h" />
     <ClInclude Include="GameEditorTest_Ver0View.h" />
+    <ClInclude Include="LandscapeDockPane.h" />
+    <ClInclude Include="LandscapeManagementFormView.h" />
+    <ClInclude Include="LandscapeParentDlg.h" />
+    <ClInclude Include="LandscapeSculptingFormView.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MousePicker.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -215,7 +220,12 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClCompile Include="GameEditorTest_Ver0.cpp" />
     <ClCompile Include="GameEditorTest_Ver0Doc.cpp" />
     <ClCompile Include="GameEditorTest_Ver0View.cpp" />
+    <ClCompile Include="LandscapeDockPane.cpp" />
+    <ClCompile Include="LandscapeManagementFormView.cpp" />
+    <ClCompile Include="LandscapeParentDlg.cpp" />
+    <ClCompile Include="LandscapeSculptingFormView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

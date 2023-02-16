@@ -92,6 +92,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndProperties);
 
+	m_wndLandscapeDockPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndLandscapeDockPane);
+
 
 	// 모든 사용자 인터페이스 요소를 그리는 데 사용하는 비주얼 관리자를 설정합니다.
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2007));
@@ -151,6 +154,13 @@ BOOL CMainFrame::CreateDockingWindows()
 	bNameValid = strPropertiesWnd.LoadString(IDS_PROPERTIES_WND);
 	ASSERT(bNameValid);
 	if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("속성 창을 만들지 못했습니다.\n");
+		return FALSE; // 만들지 못했습니다.
+	}
+
+	// Landscape.
+	if (!m_wndLandscapeDockPane.Create(L"Landscape", this, CRect(0, 0, 200, 200), TRUE, ID_LANDSCAPE_DOCKPANE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("속성 창을 만들지 못했습니다.\n");
 		return FALSE; // 만들지 못했습니다.

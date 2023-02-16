@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{92c5f636-e2f7-4689-87a9-db0ee148ba7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEditorTest_Ver0.h">
@@ -57,6 +60,21 @@
     <ClInclude Include="TestClass.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="LandscapeDockPane.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePicker.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeParentDlg.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeManagementFormView.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeSculptingFormView.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEditorTest_Ver0.cpp">
@@ -90,6 +108,21 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="TestClass.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeDockPane.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePicker.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeParentDlg.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeManagementFormView.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeSculptingFormView.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
