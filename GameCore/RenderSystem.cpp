@@ -6,6 +6,7 @@
 #include "DXSamplerState.hpp"
 #include "TransformComponent.h"
 #include "Landscape.h"
+#include "DebugCamera.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {
@@ -23,8 +24,8 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 	for (auto& entity : world->GetEntities<Landscape>())
 	{
-		auto landscape = entity.get()->GetComponent<Landscape>();
-		auto transform = entity.get()->GetComponent<TransformComponent>();
+		auto landscape = entity->GetComponent<Landscape>();
+		auto transform = entity->GetComponent<TransformComponent>();
 		if ((landscape != nullptr) && (transform != nullptr))
 		{
 			landscape->UpdateTransformMatrix(*transform);
@@ -34,14 +35,14 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 	for (auto& entity : world->GetEntities<SkeletalMeshComponent>())
 	{
-		auto skeletalMesh = entity.get()->GetComponent<SkeletalMeshComponent>();
+		auto skeletalMesh = entity->GetComponent<SkeletalMeshComponent>();
 
 	}
 
 	for (auto& entity : world->GetEntities<StaticMeshComponent>())
 	{
-		auto staticMesh = entity.get()->GetComponent<StaticMeshComponent>();
-		auto transform = entity.get()->GetComponent<TransformComponent>();
+		auto staticMesh = entity->GetComponent<StaticMeshComponent>();
+		auto transform = entity->GetComponent<TransformComponent>();
 		
 		if ((staticMesh != nullptr) && (transform != nullptr))
 		{

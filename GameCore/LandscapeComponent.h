@@ -6,4 +6,5 @@ struct LandscapeComponent : public MeshComponent
 {
 	int Row;
 	int Column;
+	DirectX::BoundingOrientedBox Box;
 };

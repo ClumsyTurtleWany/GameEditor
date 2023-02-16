@@ -84,7 +84,10 @@ public:
 			//matView = *((Matrix4x4*)&view);
 			debugCamera->View = view;
 			debugCamera->Update();
-			debugCamera->Frustum = DirectX::BoundingFrustum(debugCamera->Projection);
+
+			//debugCamera->Frustum = DirectX::BoundingFrustum(debugCamera->Projection);
+			DirectX::BoundingFrustum newFrustum(debugCamera->Projection);
+			newFrustum.Transform(debugCamera->Frustum, world);
 
 			//frustum.createFrustum(&matView, &matProj_Perspective);
 			//return true;

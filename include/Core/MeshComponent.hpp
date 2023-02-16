@@ -98,5 +98,7 @@ inline bool MeshComponent::Initialize()
 		MaterialSlot->SetPixelShader(DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Default.hlsl"));
 	}
 
+	isCreated = true;
+
 	return true;
 }

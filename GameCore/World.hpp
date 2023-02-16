@@ -39,10 +39,10 @@ namespace ECS
 		std::vector<std::shared_ptr<ECS::Entity>>& GetAllEntities();
 
 		template <typename T>
-		std::vector<std::shared_ptr<ECS::Entity>> GetEntities();
+		std::vector<ECS::Entity*> GetEntities();
 
 		template <typename T, typename U, typename... Types>
-		std::vector<std::shared_ptr<ECS::Entity>> GetEntities();
+		std::vector<ECS::Entity*> GetEntities();
 
 		template <typename T>
 		const int GetCount();
@@ -59,14 +59,14 @@ namespace ECS
 	};
 
 	template <typename T>
-	std::vector<std::shared_ptr<ECS::Entity>> World::GetEntities()
+	std::vector<ECS::Entity*> World::GetEntities()
 	{
-		std::vector<std::shared_ptr<ECS::Entity>> entities;
+		std::vector<ECS::Entity*> entities;
 		for (auto& ent : Entities)
 		{
 			if (ent.get()->has<T>())
 			{
-				entities.push_back(ent);
+				entities.push_back(ent.get());
 			}
 		}
 
@@ -74,14 +74,14 @@ namespace ECS
 	}
 
 	template <typename T, typename U, typename... Types>
-	std::vector<std::shared_ptr<ECS::Entity>> World::GetEntities()
+	std::vector<ECS::Entity*> World::GetEntities()
 	{
-		std::vector<std::shared_ptr<ECS::Entity>> entities;
+		std::vector<ECS::Entity*> entities;
 		for (auto& ent : Entities)
 		{
 			if (ent.get()->has<T, U, Types...>())
 			{
-				entities.push_back(ent);
+				entities.push_back(ent.get());
 			}
 		}
 

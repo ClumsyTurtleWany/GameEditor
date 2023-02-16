@@ -70,7 +70,7 @@ CMapEditorApp theApp;
 
 BOOL CMapEditorApp::InitInstance()
 {
-	//_CrtSetBreakAlloc(78722);
+	_CrtSetBreakAlloc(208452);
 	
 	// 애플리케이션 매니페스트가 ComCtl32.dll 버전 6 이상을 사용하여 비주얼 스타일을
 	// 사용하도록 지정하는 경우, Windows XP 상에서 반드시 InitCommonControlsEx()가 필요합니다. 
@@ -250,7 +250,8 @@ BOOL CMapEditorApp::OnIdle(LONG lCount)
 	//}
 	m_TestClass->CoreFrame();
 	m_TestClass->CoreRender();
-	return CWinAppEx::OnIdle(lCount);
+	//return CWinAppEx::OnIdle(lCount);
+	return TRUE;
 }
 
 UINT __stdcall CMapEditorApp::RenderThread(LPVOID lpParam)

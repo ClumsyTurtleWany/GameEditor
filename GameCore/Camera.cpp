@@ -53,6 +53,8 @@ void Camera::CreateProjectionMatrix(float nearDist, float farDist, float fov, fl
 	Projection._43 = -q * NearDistance;
 	Projection._34 = 1.0f;
 	Projection._44 = 0.0f;
+
+	Frustum = DirectX::BoundingFrustum(Projection);
 }
 
 void Camera::SetContext(ID3D11DeviceContext* context)

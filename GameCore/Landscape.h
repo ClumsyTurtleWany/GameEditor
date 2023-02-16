@@ -2,6 +2,7 @@
 #include "Define.h"
 #include "LandscapeComponent.h"
 #include "TransformComponent.h"
+#include "DebugCamera.h"
 
 class Landscape
 {
@@ -19,6 +20,7 @@ public:
 	TransformMatrix			TransformData;
 
 public:
+	Camera* MainCamera;
 	
 
 public:
@@ -30,6 +32,7 @@ public:
 	void PreRender();
 	void Render();
 	void SetContext(ID3D11DeviceContext* context);
+	void SetCamera(Camera* camera);
 	void UpdateTransformMatrix(const TransformComponent& transform);
 
 public:

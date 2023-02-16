@@ -60,14 +60,15 @@ bool TestClass::Initialize()
 
 	auto land = NewActor->AddComponent<Landscape>();
 	land->SetContext(Device.m_pImmediateContext);
-	land->Build(2, 2, 3);
+	land->Build(64, 64, 15);
+	land->SetCamera(camera);
 
 	return false;
 }
 
 bool TestClass::Frame()
 {
-	return false;
+	return true;
 }
 
 bool TestClass::Render()
