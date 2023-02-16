@@ -75,6 +75,12 @@
     <ClInclude Include="LandscapeSculptingFormView.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="FBXLoader.hpp">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXObject.hpp">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEditorTest_Ver0.cpp">
@@ -124,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="LandscapeSculptingFormView.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FBXLoader.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="FBXObject.cpp">
+      <Filter>NewFilter1</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

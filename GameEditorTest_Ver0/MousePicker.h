@@ -9,8 +9,12 @@ public:
 	float ClientWidth;
 	float ClientHeight;
 
-	Matrix Projection;
 	Matrix View;
+	Matrix Projection;
+
+	Vector3 IntercetionPosition;
+
+	bool isPick = false;
 
 public:
 	MousePicker();
@@ -21,6 +25,6 @@ public:
 
 public:
 	bool CheckPick(const Vector3& v0, const Vector3& v1, const Vector3& v2);
-
+	bool IntersectTriangle(const Vector3& origin, const Vector3& direction, const Vector3& v0, const Vector3& v1, const Vector3& v2, float* distance);
 
 };

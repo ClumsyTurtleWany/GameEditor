@@ -27,7 +27,7 @@ public:
 
 	std::vector<Vertex>			VertexList;
 	std::vector<DWORD>			IndexList;
-	VertexTransform				VertexTransformData;
+	//VertexTransform				VertexTransformData;
 
 public:
 	bool SetInputLayout();

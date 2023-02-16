@@ -96,12 +96,12 @@
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../include/;../include/Core/;../include/FMOD/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;../include/Core/;../include/FMOD/;../include/FBX/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>../lib/;../lib/Core/;../lib/FMOD/;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GameCore_d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../lib/;../lib/Core/;../lib/FMOD/;../lib/FBX/debug/;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>GameCore_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -195,6 +195,8 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="FBXLoader.hpp" />
+    <ClInclude Include="FBXObject.hpp" />
     <ClInclude Include="FileView.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameEditorTest_Ver0.h" />
@@ -216,6 +218,8 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="FBXLoader.cpp" />
+    <ClCompile Include="FBXObject.cpp" />
     <ClCompile Include="FileView.cpp" />
     <ClCompile Include="GameEditorTest_Ver0.cpp" />
     <ClCompile Include="GameEditorTest_Ver0Doc.cpp" />

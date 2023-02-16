@@ -7,6 +7,7 @@
 #include "DebugCamera.h"
 #include "DebugCameraSystem.h"
 #include "Landscape.h"
+#include "FBXLoader.hpp"
 
 TestClass::TestClass(HWND hWnd)
 {
@@ -60,14 +61,24 @@ bool TestClass::Initialize()
 
 	auto land = NewActor->AddComponent<Landscape>();
 	land->SetContext(Device.m_pImmediateContext);
-	land->Build(64, 64, 15);
+	land->Build(8, 8, 7);
 	land->SetCamera(camera);
+
+	if (FBXLoader::getInstance()->initialize())
+	{
+		FBXLoader::getInstance()->setResourceDirectory(L"../resource/FBX/");
+		FBXLoader::getInstance()->LoadDir(L"../resource/FBX/");
+	}
 
 	return false;
 }
 
 bool TestClass::Frame()
 {
+	Camera* camera = World.GetDebugCamera();
+	Picker.View = camera->View;
+	Picker.Projection = camera->Projection;
+
 	return true;
 }
 

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="BindPoseAnimationData.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraMatrix.h" />
     <ClInclude Include="CameraSystem.h" />
@@ -38,7 +39,6 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="FMODSound.hpp" />
     <ClInclude Include="FMODSoundManager.hpp" />
-    <ClInclude Include="Frustum.h" />
     <ClInclude Include="GameCore.h" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="IWData.h" />
@@ -58,7 +58,6 @@
     <ClInclude Include="TransformMatrix.h" />
     <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="Vertex.h" />
-    <ClInclude Include="VertexTransform.h" />
     <ClInclude Include="WindowsClient.h" />
     <ClInclude Include="World.hpp" />
   </ItemGroup>
@@ -73,7 +72,6 @@
     <ClCompile Include="DXTextureManager.cpp" />
     <ClCompile Include="FMODSound.cpp" />
     <ClCompile Include="FMODSoundManager.cpp" />
-    <ClCompile Include="Frustum.cpp" />
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Landscape.cpp" />

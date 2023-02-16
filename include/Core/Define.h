@@ -44,7 +44,7 @@ using namespace Microsoft::WRL;
 #include "CameraMatrix.h"
 #include "TransformMatrix.h"
 #include "LightData.h"
-#include "VertexTransform.h"
+#include "BindPoseAnimationData.h"
 
 // Design Pattern
 template <class T>

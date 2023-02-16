@@ -41,9 +41,6 @@
     <Filter Include="DirectX\HLSL\PixelShader">
       <UniqueIdentifier>{ab7c5494-e8fb-4318-b305-1a46f0ba0bc0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Camera">
-      <UniqueIdentifier>{0eea25e6-a29b-41ab-a0f6-9eb41895a51d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DirectX\Data">
       <UniqueIdentifier>{d0dcee0d-974c-4617-b439-9332bb54a732}</UniqueIdentifier>
     </Filter>
@@ -168,16 +165,10 @@
     <ClInclude Include="FMODSoundManager.hpp">
       <Filter>Sound\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Frustum.h">
-      <Filter>Camera</Filter>
-    </ClInclude>
     <ClInclude Include="IWData.h">
       <Filter>DirectX\Data\InputData</Filter>
     </ClInclude>
     <ClInclude Include="CameraMatrix.h">
-      <Filter>DirectX\Data\ConstantData</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexTransform.h">
       <Filter>DirectX\Data\ConstantData</Filter>
     </ClInclude>
     <ClInclude Include="TransformMatrix.h">
@@ -197,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>ECS\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="BindPoseAnimationData.h">
+      <Filter>DirectX\Data\ConstantData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -244,9 +238,6 @@
     </ClCompile>
     <ClCompile Include="FMODSoundManager.cpp">
       <Filter>Sound\소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Frustum.cpp">
-      <Filter>Camera</Filter>
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>ECS\System</Filter>
