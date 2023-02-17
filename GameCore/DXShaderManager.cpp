@@ -408,6 +408,11 @@ ID3D11Buffer* DXShaderManager::CreateVertexBuffer(const std::vector<Vertex>& ver
 
 ID3D11Buffer* DXShaderManager::CreateIndexBuffer(const std::vector<DWORD>& indices)
 {
+	if (indices.empty())
+	{
+		return nullptr;
+	}
+
 	// CreateBuffer() Param
 	// D3D11_BUFFER_DESC* pDesc,
 	// D3D11_SUBRESOURCE_DATA* pInitialData,

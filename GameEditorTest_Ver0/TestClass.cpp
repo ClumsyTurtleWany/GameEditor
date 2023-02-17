@@ -59,16 +59,20 @@ bool TestClass::Initialize()
 	World.AddSystem(renderSystem);
 	World.AddEntity(NewActor);
 
-	auto land = NewActor->AddComponent<Landscape>();
+	/*auto land = NewActor->AddComponent<Landscape>();
 	land->SetContext(Device.m_pImmediateContext);
 	land->Build(8, 8, 7);
-	land->SetCamera(camera);
+	land->SetCamera(camera);*/
 
+	FBXLoader::getInstance()->initialize();
 	/*if (FBXLoader::getInstance()->initialize())
 	{
 		FBXLoader::getInstance()->setResourceDirectory(L"../resource/FBX/");
 		FBXLoader::getInstance()->LoadDir(L"../resource/FBX/");
 	}*/
+
+	Picker.ClientWidth = Device.m_ViewPort.Width;
+	Picker.ClientHeight = Device.m_ViewPort.Height;
 
 	return true;
 }
@@ -78,13 +82,15 @@ bool TestClass::Frame()
 	Camera* camera = World.GetDebugCamera();
 	Picker.View = camera->View;
 	Picker.Projection = camera->Projection;
+	
+	Picker.Update();
 
 	if (!SelectedFilename.empty())
 	{
 		KeyState keyState_RButton = Input::getInstance()->getKey(VK_RBUTTON);
 		if (keyState_RButton == KeyState::Hold)
 		{
-			Picker.Update();
+			
 			for (auto& it : World.GetEntities<Landscape>())
 			{
 				auto landscape = it->GetComponent<Landscape>();
@@ -97,7 +103,20 @@ bool TestClass::Frame()
 							auto mesh = StaticMeshMap.find(SelectedFilename);
 							if (mesh != StaticMeshMap.end())
 							{
+								StaticMeshComponent* meshComp = mesh->second.get();
+								Actor* NewActor = new Actor;
+								auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+								staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+								for (auto& it : staticMeshComp->Meshes)
+								{
+									it.SetContext(Device.m_pImmediateContext);
+								}
+								staticMeshComp->SetContext(Device.m_pImmediateContext);
 
+								auto transform = NewActor->GetComponent<TransformComponent>();
+								transform->Translation = Picker.IntercetionPosition;
+
+								World.AddEntity(NewActor);
 							}
 							else
 							{
@@ -105,6 +124,26 @@ bool TestClass::Frame()
 								if (FBXLoader::getInstance()->Load(L"../resource/FBX/" + SelectedFilename, staticMesh.get()))
 								{
 									StaticMeshMap.insert(std::make_pair(SelectedFilename, std::move(staticMesh)));
+								}
+
+								auto mesh = StaticMeshMap.find(SelectedFilename);
+								if (mesh != StaticMeshMap.end())
+								{
+									StaticMeshComponent* meshComp = mesh->second.get();
+									Actor* NewActor = new Actor;
+									auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+									staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+									//staticMeshComp = meshComp;
+									for (auto& it : staticMeshComp->Meshes)
+									{
+										it.SetContext(Device.m_pImmediateContext);
+									}
+									staticMeshComp->SetContext(Device.m_pImmediateContext);
+
+									auto transform = NewActor->GetComponent<TransformComponent>();
+									transform->Translation = Picker.IntercetionPosition;
+
+									World.AddEntity(NewActor);
 								}
 							}
 						}
@@ -129,4 +168,36 @@ bool TestClass::Render()
 bool TestClass::Release()
 {
 	return false;
+}
+
+ID3D11Device* TestClass::GetDevice()
+{
+	return Device.m_pd3dDevice;
+}
+
+ID3D11DeviceContext* TestClass::GetContext()
+{
+	return Device.m_pImmediateContext;
+}
+
+DebugCamera* TestClass::GetDebugCamera()
+{
+	return World.GetDebugCamera();
+}
+
+bool TestClass::CreateLandscape(int width, int height, int sectionSize)
+{
+	if (width <= 0 || height <= 0 || sectionSize <= 0)
+	{
+		return false;
+	}
+
+	Actor* LandscapeActor = new Actor;
+	auto land = LandscapeActor->AddComponent<Landscape>();
+	land->SetContext(Device.m_pImmediateContext);
+	land->Build(width, height, sectionSize);
+	land->SetCamera(World.GetDebugCamera());
+	World.AddEntity(LandscapeActor);
+
+	return true;
 }

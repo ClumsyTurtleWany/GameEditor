@@ -16,6 +16,7 @@ void MousePicker::Update()
 	Vector3 v;
 	v.x = (((2.0f * ptCursor.x) / ClientWidth) - 1) / Projection._11;
 	v.y = -(((2.0f * ptCursor.y) / ClientHeight) - 1) / Projection._22;
+	v.z = 1.0f;
 
 	Matrix inversedView = DirectX::XMMatrixInverse(NULL, View);
 
@@ -77,9 +78,9 @@ bool MousePicker::IntersectTriangle(const Vector3& origin, const Vector3& direct
 		return false;
 	}
 
-	float t = edge2.Dot(qvec);
+	*distance = edge2.Dot(qvec);
 	float invDet = 1.0f / det;
-	t *= invDet;
+	*distance *= invDet;
 	u *= invDet;
 	v *= invDet;
 

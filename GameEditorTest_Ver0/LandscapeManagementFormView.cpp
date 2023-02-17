@@ -34,7 +34,7 @@ void LandscapeManagementFormView::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, ID_EDIT_SCALE_Z, ScaleZ);*/
 	//DDX_Control(pDX, IDC_BUTTON1, SelectButton);
 	//DDX_Control(pDX, ID_STATICMESH_LIST_BOX, FbxFileListBox);
-	DDX_Control(pDX, ID_STATICMESH_LIST_BOX, *FbxFileListBox);
+	//DDX_Control(pDX, ID_STATICMESH_LIST_BOX, *FbxFileListBox);
 }
 
 BEGIN_MESSAGE_MAP(LandscapeManagementFormView, CFormView)
@@ -231,6 +231,10 @@ void LandscapeManagementFormView::OnBtnClickedFbxSelect()
 {
 	UpdateData(TRUE);
 	int idx = FbxFileListBox->GetCurSel();
+	if (idx < 0)
+	{
+		idx = 0;
+	}
 	CString filename;
 	FbxFileListBox->GetText(idx, filename);
 	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
@@ -275,7 +279,12 @@ void LandscapeManagementFormView::OnBtnClickedBuildLandscape()
 		sectionSize = 15;
 	}
 
-	
+	int width = _tstoi(strWidth);
+	int height = _tstoi(strHeight);
+	if (width > 0 && height > 0)
+	{
+		theApp.m_TestClass->CreateLandscape(width, height, 7);
+	}
 
 }
 

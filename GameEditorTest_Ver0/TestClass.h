@@ -6,7 +6,7 @@
 
 class TestClass : public GameCore
 {
-private:
+public:
 	ECS::World World;
 
 public:
@@ -24,4 +24,10 @@ public:
 	virtual bool Frame() override;
 	virtual bool Render() override;
 	virtual bool Release() override;
+
+public:
+	ID3D11Device* GetDevice();
+	ID3D11DeviceContext* GetContext();
+	DebugCamera* GetDebugCamera();
+	bool CreateLandscape(int width, int height, int sectionSize);
 };

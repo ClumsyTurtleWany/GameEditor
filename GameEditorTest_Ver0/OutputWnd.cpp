@@ -96,6 +96,11 @@ void COutputWnd::OnSize(UINT nType, int cx, int cy)
 	m_wndTabs.SetWindowPos (nullptr, -1, -1, cx, cy, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
 }
 
+//void COutputWnd::AddDebugString(std::wstring str)
+//{
+//	m_wndOutputDebug.AddString(str.c_str());
+//}
+
 void COutputWnd::AdjustHorzScroll(CListBox& wndListBox)
 {
 	CClientDC dc(this);

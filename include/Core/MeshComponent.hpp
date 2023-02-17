@@ -71,13 +71,21 @@ inline bool MeshComponent::Render()
 	UINT Strides = sizeof(Vertex); // 정점 1개의 바이트 용량
 	UINT Offsets = 0; // 정점 버퍼에서 출발 지점(바이트)
 	Context->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
-	Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	Context->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
-	Context->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
 
 	MaterialSlot->Apply();
 
-	Context->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
+	if (IndexBuffer == nullptr)
+	{
+		Context->Draw(static_cast<UINT>(Vertices.size()), 0);
+	}
+	else
+	{
+		Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		Context->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
+		Context->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
+	}
+	
 	//ID3D11ShaderResourceView* resourceView = NULL;
 	//CONTEXT->PSSetShaderResources(0, 1, &resourceView);
 

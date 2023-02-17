@@ -30,6 +30,9 @@ public:
 	CGameEditorTestVer0App() noexcept;
 	TestClass*	m_TestClass;
 
+public:
+	
+
 // 재정의입니다.
 public:
 	virtual BOOL InitInstance();
