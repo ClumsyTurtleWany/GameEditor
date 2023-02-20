@@ -8,6 +8,8 @@
 #include "DebugCameraSystem.h"
 #include "Landscape.h"
 #include "FBXLoader.hpp"
+#include "LightSystem.h"
+#include "DirectionalLight.h"
 
 TestClass::TestClass(HWND hWnd)
 {
@@ -26,6 +28,11 @@ bool TestClass::Initialize()
 	NewMesh.Vertices[1].Pos = { +1.0f, +1.0f, 0.0f }; // p2-RT
 	NewMesh.Vertices[2].Pos = { -1.0f, -1.0f, 0.0f }; // p3-LB
 	NewMesh.Vertices[3].Pos = { +1.0f, -1.0f, 0.0f }; // p4-LB
+
+	NewMesh.Vertices[0].Normal = { 0.0f, 0.0f, -1.0f };
+	NewMesh.Vertices[1].Normal = { 0.0f, 0.0f, -1.0f };
+	NewMesh.Vertices[2].Normal = { 0.0f, 0.0f, -1.0f };
+	NewMesh.Vertices[3].Normal = { 0.0f, 0.0f, -1.0f };
 
 	NewMesh.Vertices[0].Color = { 1.0f, 0.0f, 0.0f, 1.0f }; // p1-LT
 	NewMesh.Vertices[1].Color = { 0.0f, 1.0f, 0.0f, 1.0f }; // p2-RT
@@ -54,6 +61,11 @@ bool TestClass::Initialize()
 
 	World.AddSystem(new DebugCameraSystem);
 
+	LightSystem* lightSystem = new LightSystem;
+	lightSystem->SetContext(Device.m_pImmediateContext);
+	lightSystem->Initialize();
+	World.AddSystem(lightSystem);
+
 	RenderSystem* renderSystem = new RenderSystem;
 	renderSystem->SetContext(Device.m_pImmediateContext);
 	World.AddSystem(renderSystem);
@@ -73,6 +85,13 @@ bool TestClass::Initialize()
 
 	Picker.ClientWidth = Device.m_ViewPort.Width;
 	Picker.ClientHeight = Device.m_ViewPort.Height;
+
+	DirectionalLight* dirLight = new DirectionalLight;
+	auto lightComp = dirLight->GetComponent<DirectionalLightComponent>();
+	lightComp->Color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+	lightComp->Direction = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
+	World.AddEntity(dirLight);
+
 
 	return true;
 }

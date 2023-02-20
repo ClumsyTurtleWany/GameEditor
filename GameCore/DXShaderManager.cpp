@@ -624,6 +624,12 @@ bool DXShaderManager::Initialize()
 		return false;
 	}
 
+	if (!LoadPSCode(L"../include/Core/HLSL/PS_Light.hlsl"))
+	{
+		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
+		return false;
+	}
+
 	CreateVertexShader();
 	CreatePixelShader();
 	CreateInputLayout();

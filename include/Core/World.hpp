@@ -25,7 +25,7 @@ namespace ECS
 		//---------------------------------------------
 		// Common
 		//---------------------------------------------
-		void Tick(float time);
+		void			Tick(float time);
 		void			SetMainCamera(Camera* camera);
 		void			SetDebugCamera(DebugCamera* camera);
 

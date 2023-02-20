@@ -28,6 +28,7 @@
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DebugCameraSystem.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="DXDevice.hpp" />
     <ClInclude Include="DXRenderTarget.hpp" />
     <ClInclude Include="DXSamplerState.hpp" />
@@ -44,13 +45,18 @@
     <ClInclude Include="IWData.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="LandscapeComponent.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LightData.h" />
+    <ClInclude Include="LightSystem.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshComponent.hpp" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
+    <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SkeletalMeshComponent.h" />
+    <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="Timer.hpp" />
@@ -75,6 +81,7 @@
     <ClCompile Include="GameCore.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Landscape.cpp" />
+    <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WindowsClient.cpp" />
@@ -89,7 +96,11 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="PS_Light.hlsl" />
+    <FxCompile Include="PS_Light.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="VS_SkeletalMesh.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

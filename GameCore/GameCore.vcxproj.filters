@@ -192,6 +192,24 @@
     <ClInclude Include="BindPoseAnimationData.h">
       <Filter>DirectX\Data\ConstantData</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>ECS\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="LightSystem.h">
+      <Filter>ECS\System</Filter>
+    </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>ECS\Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsClient.cpp">
@@ -244,6 +262,9 @@
     </ClCompile>
     <ClCompile Include="Landscape.cpp">
       <Filter>ECS\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="LightSystem.cpp">
+      <Filter>ECS\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

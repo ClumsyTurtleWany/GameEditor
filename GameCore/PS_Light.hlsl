@@ -15,41 +15,71 @@ struct PixelShader_input
 
 cbuffer DirectionLightData : register(b0)
 {
-	float4 g_DirectionLightColor[255];
-	float3 g_DirectionLightDir[255];
+	float4 g_DirectionLightColor[100];
+	float3 g_DirectionLightDir[100];
 	int  g_DirectionLightCnt;
+	int g_DirectionalDummy1;
+	int g_DirectionalDummy2;
+	int g_DirectionalDummy3;
 }
 
-cbuffer SpotLightData : register(b1)
+cbuffer PointLightData : register(b1)
 {
-	float4 g_SpotLightColor[255];
-	float3 g_SpotLightPos[255];
-	float3 g_SpotLightDir[255];
-	float3 g_SpotLightPoint[255];
-	float3 g_SpotLightRadius[255];
-	int  g_SpotLightCnt;
-}
-
-cbuffer PointLightData : register(b2)
-{
-	float4 g_PointLightColor[255];
-	float3 g_PointLightPos[255];
-	float3 g_PointLightDir[255];
-	float3 g_PointLightPoint[255];
-	float  g_PointLightRadius[255];
+	float4 g_PointLightColor[100];
+	float3 g_PointLightPos[100];
+	float3 g_PointLightDir[100];
+	float  g_PointLightRadius[100];
 	int  g_PointLightCnt;
+	int g_PointDummy1;
+	int g_PointDummy2;
+	int g_PointDummy3;
+}
+
+cbuffer SpotLightData : register(b2)
+{
+	float4 g_SpotLightColor[100];
+	float3 g_SpotLightPos[100];
+	float3 g_SpotLightDir[100];
+	float g_SpotLightRadius[100];
+	int  g_SpotLightCnt;
+	int g_SpotDummy1;
+	int g_SpotDummy2;
+	int g_SpotDummy3;
 }
 
 cbuffer CameraData : register(b3)
 {
-	float3 g_EyePos;
-	float3 g_EyeDir;
+	float4 g_EyePos;
+	float4 g_EyeDir;
+}
+
+cbuffer MaterialData : register(b4)
+{
+	float4 g_DiffuseMaterial;
+	float4 g_AmbientMaterial;
+	float4 g_SpecularMaterial;
+	float4 g_EmissionMaterial;
 }
 
 Texture2D		g_DiffuseTexture	: register(t0); // register를 안 붙여주면 기본적으로 0번 레지스터에 들어감.
 SamplerState	g_SampleA		: register(s0); // 샘플링을 하려면 샘플러가 필요함
 
-float4 ComputePointDiffuseLight(float3 pos, float3 normal);
+float4 ComputeDirectionDiffuseLight(float3 normal)
+{
+	//float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+	float4 outputColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	for (int idx = 0; idx < 100; idx++)
+	{
+		float intensity = max(0, dot(normal, normalize(-g_DirectionLightDir[idx])));
+		outputColor += g_DirectionLightColor[idx] * intensity;
+		//outputColor += ambientColor;
+		//outputColor = float4(0.0f, 1.0f, 0.0f, 1.0f);
+	}
+	outputColor.w = 1.0f;
+	return outputColor;
+}
+
+float4 ComputePointDiffuseLight(float3 pos, float3 normal)
 {
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
@@ -57,9 +87,9 @@ float4 ComputePointDiffuseLight(float3 pos, float3 normal);
 	{
 		// Diffuse
 		float3 vLight = normalize(pos - g_PointLightPos[idx]);
-		float distance = distance(pos, g_PointLightPos[idx]);
+		float dist = distance(pos, g_PointLightPos[idx]);
 
-		float luminance = smoothstep(distance - 5.0f, distance, g_PointLightRadius[idx]);
+		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
 		float intensity = saturate(dot(normal, vLight));
 
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);
@@ -68,18 +98,18 @@ float4 ComputePointDiffuseLight(float3 pos, float3 normal);
 	return outputColor + ambientColor;
 }
 
-float4 ComputeSpotDiffuseLight(float3 pos, float3 normal);
+float4 ComputeSpotDiffuseLight(float3 pos, float3 normal)
 {
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
 	for (int idx = 0; idx < g_SpotLightCnt; idx++)
 	{
 		// Diffuse
-		float4 vLight = normalize(pos - g_SpotLightPos[idx]);
-		float distance = distance(pos, g_SpotLightPos[idx]);
+		float3 vLight = normalize(pos - g_SpotLightPos[idx]);
+		float dist = distance(pos, g_SpotLightPos[idx]);
 
 		float fDot = dot(g_SpotLightDir[idx].xyz, vLight);
-		float luminance = smoothstep(distance - 5.0f, distance, g_PointLightRadius[idx]);
+		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
 		float intensity = saturate(dot(normal, -vLight));
 
 		if (fDot >= g_PointLightRadius[idx])
@@ -101,7 +131,7 @@ float4 ComputeSpotDiffuseLight(float3 pos, float3 normal);
 	return outputColor + ambientColor;
 }
 
-float4 ComputePointSpecularLight(float3 pos, float3 normal);
+float4 ComputePointSpecularLight(float3 pos, float3 normal)
 {
 	// 빛이 반사되어 눈에 들어오는 것이 Specular, 조명의 결과가 시선 벡터에 따라 달라진다. 반사벡터와 시선벡터의 내적.
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
@@ -109,10 +139,10 @@ float4 ComputePointSpecularLight(float3 pos, float3 normal);
 	for (int idx = 0; idx < g_PointLightCnt; idx++)
 	{
 		// Diffuse
-		float3 vLight = reflect(g_PointLightDir[idx], normal);
-		float distance = distance(pos, g_PointLightPos[idx]);
+		float3 vLight = reflect(g_PointLightDir[idx].xyz, normal.xyz);
+		float dist = distance(pos, g_PointLightPos[idx]);
 
-		float luminance = smoothstep(distance - 5.0f, distance, g_PointLightRadius[idx]);
+		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
 		float intensity = saturate(dot(-g_EyeDir, vLight));
 
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);
@@ -121,18 +151,18 @@ float4 ComputePointSpecularLight(float3 pos, float3 normal);
 	return outputColor + ambientColor;
 }
 
-float4 ComputeSpotSpecularLight(float3 pos, float3 normal);
+float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 {
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
 	for (int idx = 0; idx < g_SpotLightCnt; idx++)
 	{
 		// Diffuse
-		float3 vLight = reflect(g_SpotLightDir[idx] - normal);
-		float distance = distance(pos, g_SpotLightPos[idx]);
+		float3 vLight = reflect(g_SpotLightDir[idx].xyz, normal.xyz);;
+		float dist = distance(pos, g_SpotLightPos[idx]);
 
 		float fDot = dot(g_SpotLightDir[idx], vLight);
-		float luminance = smoothstep(distance - 5.0f, distance, g_PointLightRadius[idx]);
+		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
 		float intensity = saturate(dot(g_EyeDir, vLight));
 
 		if (fDot >= g_PointLightRadius[idx])
@@ -158,10 +188,11 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal);
 float4 PS(PixelShader_input _input) : SV_Target
 {
 	float4 textureColor = g_DiffuseTexture.Sample(g_SampleA, _input.t);
-	float4 lightColor = ComputePointDiffuseLight(input.w, input.n, 1) +
-						ComputePointSpecularLight(input.w, input.n, 1) +
-						ComputeSpotDiffuseLight(input.w, input.n, 1) +
-						ComputeSpotSpecularLight(input.w, input.n, 1);
+	float4 lightColor = ComputeDirectionDiffuseLight(_input.n); //+
+						//ComputePointDiffuseLight(_input.vWorld, _input.n) +
+						//ComputePointSpecularLight(_input.vWorld, _input.n) +
+						//ComputeSpotDiffuseLight(_input.vWorld, _input.n) +
+						//ComputeSpotSpecularLight(_input.vWorld, _input.n);
 
 	float4 finalColor = textureColor * lightColor;
 	finalColor.a = 1.0f;

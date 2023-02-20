@@ -109,7 +109,7 @@ inline bool MeshComponent::Initialize()
 		DXTextureManager::getInstance()->Load(L"../resource/Default.bmp");
 		DXTexture* DefaultTexture = DXTextureManager::getInstance()->getTexture(L"../resource/Default.bmp");
 		MaterialSlot->AddTexture(DefaultTexture);
-		MaterialSlot->SetPixelShader(DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Default.hlsl"));
+		MaterialSlot->SetPixelShader(DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
 	}
 
 	isCreated = true;
