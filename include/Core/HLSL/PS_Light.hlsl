@@ -83,7 +83,7 @@ float4 ComputePointDiffuseLight(float3 pos, float3 normal)
 {
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
-	for (int idx = 0; idx < g_PointLightCnt; idx++)
+	for (int idx = 0; idx < 100; idx++)
 	{
 		// Diffuse
 		float3 vLight = normalize(pos - g_PointLightPos[idx]);
@@ -102,7 +102,7 @@ float4 ComputeSpotDiffuseLight(float3 pos, float3 normal)
 {
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
-	for (int idx = 0; idx < g_SpotLightCnt; idx++)
+	for (int idx = 0; idx < 100; idx++)
 	{
 		// Diffuse
 		float3 vLight = normalize(pos - g_SpotLightPos[idx]);
@@ -136,7 +136,7 @@ float4 ComputePointSpecularLight(float3 pos, float3 normal)
 	// 빛이 반사되어 눈에 들어오는 것이 Specular, 조명의 결과가 시선 벡터에 따라 달라진다. 반사벡터와 시선벡터의 내적.
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
-	for (int idx = 0; idx < g_PointLightCnt; idx++)
+	for (int idx = 0; idx < 100; idx++)
 	{
 		// Diffuse
 		float3 vLight = reflect(g_PointLightDir[idx].xyz, normal.xyz);
@@ -155,7 +155,7 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 {
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
-	for (int idx = 0; idx < g_SpotLightCnt; idx++)
+	for (int idx = 0; idx < 100; idx++)
 	{
 		// Diffuse
 		float3 vLight = reflect(g_SpotLightDir[idx].xyz, normal.xyz);;
@@ -188,11 +188,11 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 float4 PS(PixelShader_input _input) : SV_Target
 {
 	float4 textureColor = g_DiffuseTexture.Sample(g_SampleA, _input.t);
-	float4 lightColor = ComputeDirectionDiffuseLight(_input.n); //+
-						//ComputePointDiffuseLight(_input.vWorld, _input.n) +
-						//ComputePointSpecularLight(_input.vWorld, _input.n) +
-						//ComputeSpotDiffuseLight(_input.vWorld, _input.n) +
-						//ComputeSpotSpecularLight(_input.vWorld, _input.n);
+	float4 lightColor = ComputeDirectionDiffuseLight(_input.n) +
+						ComputePointDiffuseLight(_input.vWorld, _input.n) +
+						ComputePointSpecularLight(_input.vWorld, _input.n) +
+						ComputeSpotDiffuseLight(_input.vWorld, _input.n) +
+						ComputeSpotSpecularLight(_input.vWorld, _input.n);
 
 	float4 finalColor = textureColor * lightColor;
 	finalColor.a = 1.0f;
