@@ -256,5 +256,8 @@
     <FxCompile Include="PS_Default.hlsl">
       <Filter>DirectX\HLSL\PixelShader</Filter>
     </FxCompile>
+    <FxCompile Include="PS_Light.hlsl">
+      <Filter>DirectX\HLSL\PixelShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -93,21 +93,25 @@
 #define ID_EDIT_SCALE_Z                 409
 #define ID_STATICMESH_LIST_BOX          410
 #define IDB_FBX_SELECT                  411
-#define IDC_COMBO_SECTION				412
-#define ID_EDIT_COMP_WIDTH				413
-#define ID_EDIT_COMP_HEIGHT				414
-#define IDB_BTN_BUILD_LANDSCAPE			415
+#define IDC_COMBO_SECTION               412
+#define ID_EDIT_COMP_WIDTH              413
+#define ID_EDIT_COMP_HEIGHT             414
+#define IDB_BTN_BUILD_LANDSCAPE         415
 #define IDB_LandscapeSculpting          500
-
+#define ID_OutlinerDockPane             1000
+#define IDD_OutlinerParentDlg           1001
+#define IDC_TREE2                       1006
+#define IDC_OUTLINER_TREE               1006
+#define IDC_LIST4                       1007
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        314
+#define _APS_NEXT_RESOURCE_VALUE        315
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1002
-#define _APS_NEXT_SYMED_VALUE           315
+#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_SYMED_VALUE           317
 #endif
 #endif

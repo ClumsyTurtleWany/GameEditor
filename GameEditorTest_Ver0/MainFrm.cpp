@@ -95,6 +95,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndLandscapeDockPane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndLandscapeDockPane);
 
+	m_wndOutlinerDockPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndOutlinerDockPane);
+
 
 	// 모든 사용자 인터페이스 요소를 그리는 데 사용하는 비주얼 관리자를 설정합니다.
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2007));
@@ -159,12 +162,20 @@ BOOL CMainFrame::CreateDockingWindows()
 		return FALSE; // 만들지 못했습니다.
 	}
 
-	// Landscape.
+	// Landscape Management Dock Pane
 	if (!m_wndLandscapeDockPane.Create(L"Landscape", this, CRect(0, 0, 200, 200), TRUE, ID_LANDSCAPE_DOCKPANE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
-		TRACE0("속성 창을 만들지 못했습니다.\n");
+		TRACE0("Landscape Management 창을 만들지 못했습니다.\n");
 		return FALSE; // 만들지 못했습니다.
 	}
+
+	// Outliner Dock Pane
+	if (!m_wndOutlinerDockPane.Create(L"Outliner", this, CRect(0, 0, 200, 200), TRUE, ID_OutlinerDockPane, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Outliner 창을 만들지 못했습니다.\n");
+		return FALSE; // 만들지 못했습니다.
+	}
+	
 
 	SetDockingWindowIcons(theApp.m_bHiColorIcons);
 	return TRUE;
@@ -184,6 +195,23 @@ void CMainFrame::SetDockingWindowIcons(BOOL bHiColorIcons)
 	HICON hPropertiesBarIcon = (HICON) ::LoadImage(::AfxGetResourceHandle(), MAKEINTRESOURCE(bHiColorIcons ? IDI_PROPERTIES_WND_HC : IDI_PROPERTIES_WND), IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), 0);
 	m_wndProperties.SetIcon(hPropertiesBarIcon, FALSE);
 
+}
+
+bool CMainFrame::InitializeRibbonBar()
+{
+	m_wndRibbonBar.Create(this);
+
+	//m_RibbonBarImage.SetImageSize(CSize(16, 16));
+	/*m_RibbonBarImage.Load(IDB_RIBBON_MENU);
+
+	m_RibbonBar.AddToTabs(new CMFCRibbonButton())*/
+
+	CMFCRibbonCategory* pCategory = nullptr;
+	CMFCRibbonPanel* pPanel = nullptr;
+
+	pCategory = m_wndRibbonBar.AddCategory(L"Test Ribbon Menu", IDB_WRITESMALL, IDB_WRITELARGE);
+	pPanel = pCategory->AddPanel(L"Test");
+	return false;
 }
 
 // CMainFrame 진단

@@ -208,6 +208,8 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClInclude Include="LandscapeSculptingFormView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MousePicker.h" />
+    <ClInclude Include="OutlinerDockPane.h" />
+    <ClInclude Include="OutlinerParentDlg.h" />
     <ClInclude Include="OutputWnd.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PropertiesWnd.h" />
@@ -230,6 +232,8 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClCompile Include="LandscapeSculptingFormView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MousePicker.cpp" />
+    <ClCompile Include="OutlinerDockPane.cpp" />
+    <ClCompile Include="OutlinerParentDlg.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
