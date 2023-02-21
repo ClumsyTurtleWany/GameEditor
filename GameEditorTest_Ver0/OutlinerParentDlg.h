@@ -1,5 +1,5 @@
 ﻿#pragma once
-
+//#include "OutlinerTreeView.h"
 
 // OutlinerParentDlg 대화 상자
 
@@ -22,5 +22,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CTreeCtrl OutlinerTree;
+	//OutlinerTreeView m_TreeView;
 	virtual BOOL OnInitDialog();
 };

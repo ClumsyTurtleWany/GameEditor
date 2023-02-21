@@ -62,13 +62,61 @@ bool DXDevice::Create(HWND hWnd)
 	//////////////////////////////////////////////////////////////////////
 	// 5) 뷰 포트 설정
 	//////////////////////////////////////////////////////////////////////
-	CreateViewPort();
+	RECT rc;
+	GetClientRect(m_hWnd, &rc);
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	CreateViewPort(0, 0, width, height);
 
 	return true;
 }
 
-bool DXDevice::Resize()
+bool DXDevice::Resize(int x, int y, int width, int height)
 {
+	if (m_pd3dDevice == nullptr)
+	{
+		return false;
+	}
+
+	m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
+	m_pRTV->Release();
+	m_pRTV = nullptr;
+
+	// Release Depth Stencil View
+	m_pDepthStencilView->Release();
+	m_pDepthStencilView = nullptr;
+
+	m_pDSTexture->Release();
+	m_pDSTexture = nullptr;
+
+	// 변경된 윈도우의 크기를 얻고 백 버퍼의 크기를 재 조정.
+	DXGI_SWAP_CHAIN_DESC desc;
+	m_pSwapChain->GetDesc(&desc);
+	HRESULT rst = m_pSwapChain->ResizeBuffers(desc.BufferCount, width, height, desc.BufferDesc.Format, 0);
+	if (FAILED(rst))
+	{
+		return false;
+	}
+
+	// 변경된 백 버퍼의 크기를 얻고 렌더타켓 뷰를 다시 생성 및 적용.
+	rst = CreateRenderTargetView();
+	if (FAILED(rst))
+	{
+		return false;
+	}
+
+	// 소멸했던 깊이 스텐실 버퍼와 깊이 스텐실 뷰 다시 생성 및 적용
+	// 뷰포트 재 지정.
+	CreateViewPort(x, y, width, height);
+
+	rst = CreateDepthStencilView();
+	if (FAILED(rst))
+	{
+		return false;
+	}
+
+	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, m_pDepthStencilView);
+
 	return true;
 }
 
@@ -263,17 +311,15 @@ HRESULT DXDevice::CreateRenderTargetView()
 	return S_FALSE;
 }
 
-void DXDevice::CreateViewPort()
+void DXDevice::CreateViewPort(int x, int y, int width, int height)
 {
 	//////////////////////////////////////////////////////////////////////
 	// 5) 뷰 포트 설정
 	//////////////////////////////////////////////////////////////////////
-	RECT rc;
-	GetClientRect(m_hWnd, &rc);
-	m_ViewPort.Width = static_cast<float>(rc.right - rc.left);
-	m_ViewPort.Height = static_cast<float>(rc.bottom - rc.top);
-	m_ViewPort.TopLeftX = 0;
-	m_ViewPort.TopLeftY = 0;
+	m_ViewPort.Width = static_cast<float>(width);
+	m_ViewPort.Height = static_cast<float>(height);
+	m_ViewPort.TopLeftX = static_cast<float>(x);
+	m_ViewPort.TopLeftY = static_cast<float>(y);
 	m_ViewPort.MaxDepth = 1.0f;
 	m_ViewPort.MinDepth = 0.0f;
 

@@ -35,6 +35,7 @@ IMPLEMENT_DYNCREATE(CGameEditorTestVer0View, CView)
 BEGIN_MESSAGE_MAP(CGameEditorTestVer0View, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CGameEditorTestVer0View 생성/소멸
@@ -105,3 +106,22 @@ CGameEditorTestVer0Doc* CGameEditorTestVer0View::GetDocument() const // 디버�
 
 
 // CGameEditorTestVer0View 메시지 처리기
+
+
+void CGameEditorTestVer0View::OnSize(UINT nType, int cx, int cy)
+{
+	CView::OnSize(nType, cx, cy);
+	// 여기가 실질적인 뷰포트 사이즈
+	int x = cx;
+	int y = cy;
+
+	if (theApp.m_TestClass != nullptr)
+	{
+		if (cx > 0 && cy > 0)
+		{
+			theApp.m_TestClass->ResizeDevice(0, 0, cx, cy);
+		}
+	}
+	int a = 0;
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}

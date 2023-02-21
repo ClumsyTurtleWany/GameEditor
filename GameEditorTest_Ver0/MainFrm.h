@@ -76,6 +76,7 @@ protected:
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 
 	bool InitializeRibbonBar();
+public:
 };
 
 

@@ -35,7 +35,7 @@ private:
 
 public:
 	bool Create(HWND hWnd);
-	bool Resize();
+	bool Resize(int x, int y, int width, int height);
 	bool Release();
 	
 	ID3D11Device*			GetDevice();
@@ -52,7 +52,7 @@ protected:
 	// 4) ·£´õ Å¸°Ùºä »ý¼º
 	HRESULT CreateRenderTargetView();
 	// 5) ºä Æ÷Æ® ¼³Á¤
-	void CreateViewPort();
+	void CreateViewPort(int x, int y, int width, int height);
 
 	// Depth Stencil View
 	HRESULT CreateDepthStencilView();

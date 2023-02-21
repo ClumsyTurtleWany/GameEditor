@@ -81,9 +81,9 @@
 #define IDD_LandscapeManagementFormView 313
 #define IDD_LandscapeSculptingFormView  314
 #define ID_LANDSCAPE_DOCKPANE           315
-#define IDI_FILE_SAVE					316
-#define ID_COMBO_EDITOR_MODE			317
-#define IDB_FILE_SAVE					318
+#define IDI_FILE_SAVE                   316
+#define ID_COMBO_EDITOR_MODE            317
+#define IDB_FILE_SAVE                   318
 #define IDB_LandscapeManagement         400
 #define ID_EDIT_LOCATION_X              401
 #define ID_EDIT_LOCATION_Y              402
@@ -103,6 +103,7 @@
 #define IDB_LandscapeSculpting          500
 #define ID_OutlinerDockPane             1000
 #define IDD_OutlinerParentDlg           1001
+#define ID_OutlinerTreeView				1002
 #define IDC_TREE2                       1006
 #define IDC_OUTLINER_TREE               1006
 #define IDC_LIST4                       1007

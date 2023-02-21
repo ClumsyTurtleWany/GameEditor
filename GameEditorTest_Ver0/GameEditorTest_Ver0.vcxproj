@@ -273,6 +273,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <Image Include="res\properties_hc.bmp" />
     <Image Include="res\properties_wnd.ico" />
     <Image Include="res\properties_wnd_hc.ico" />
+    <Image Include="res\save.ico" />
     <Image Include="res\sort.bmp" />
     <Image Include="res\sort_hc.bmp" />
     <Image Include="res\Toolbar.bmp" />
@@ -281,6 +282,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <Image Include="res\writesmall.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="res\GameEditorTestVer0.rc2" />
     <None Include="res\ribbon.mfcribbon-ms" />
   </ItemGroup>

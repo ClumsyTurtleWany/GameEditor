@@ -32,6 +32,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 
 	ON_COMMAND(ID_COMBO_EDITOR_MODE, OnComboChangeEditorMode)
 	ON_UPDATE_COMMAND_UI(ID_COMBO_EDITOR_MODE, OnUpdateComboChangeEditorMode)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CMainFrame 생성/소멸
@@ -98,6 +99,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndLandscapeDockPane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndLandscapeDockPane);
+	m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
 
 	m_wndOutlinerDockPane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutlinerDockPane);
@@ -216,12 +218,12 @@ bool CMainFrame::InitializeRibbonBar()
 	pCategory = m_wndRibbonBar.AddCategory(L"Test Ribbon Menu", IDB_WRITESMALL, IDB_WRITELARGE);
 	pPanel = pCategory->AddPanel(L"Test");
 
-	pPanel->Add(new CMFCRibbonLabel(L" "));
 	pPanel->Add(new CMFCRibbonButton(IDB_FILE_SAVE, L"Save", theApp.LoadIconW(IDI_FILE_SAVE)));
 
-	m_pComboEditorMode = new CMFCRibbonComboBox(ID_COMBO_EDITOR_MODE, FALSE, -1, L"Combo", -1);
-	m_pComboEditorMode->AddItem(L"선택 모드");
-	m_pComboEditorMode->AddItem(L"랜드 스케이프");
+	pPanel->Add(new CMFCRibbonLabel(L" "));
+	m_pComboEditorMode = new CMFCRibbonComboBox(ID_COMBO_EDITOR_MODE, FALSE, -1, L"Mode", -1);
+	m_pComboEditorMode->AddItem(L"Select Mode");
+	m_pComboEditorMode->AddItem(L"Landscape");
 	m_pComboEditorMode->SelectItem(0);
 	pPanel->Add(m_pComboEditorMode);
 
@@ -257,7 +259,14 @@ void CMainFrame::OnComboChangeEditorMode()
 	if (m_pComboEditorMode)
 	{
 		int idx = m_pComboEditorMode->GetCurSel();
-		int a = 0;
+		if (idx == 0)
+		{
+			m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
+		}
+		else if (idx == 1)
+		{
+			m_wndLandscapeDockPane.ShowPane(TRUE, FALSE, TRUE);
+		}
 	}
 }
 

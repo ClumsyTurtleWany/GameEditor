@@ -89,8 +89,7 @@ float4 ComputePointDiffuseLight(float3 pos, float3 normal)
 		float3 vLight = normalize(pos - g_PointLightPos[idx]);
 		float dist = distance(pos, g_PointLightPos[idx]);
 
-		//float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
-		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightPos[idx]);
+		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
 		float intensity = saturate(dot(normal, -vLight));
 
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);

@@ -134,6 +134,17 @@ bool GameCore::PostRender()
 	return true;
 }
 
+bool GameCore::ResizeDevice(int x, int y, int width, int height)
+{
+	if (_hWnd == NULL)
+	{
+		return false;
+	}
+
+	Device.Resize(x, y, width, height);
+	return true;
+}
+
 bool GameCore::CoreRender()
 {
 	PreRender();

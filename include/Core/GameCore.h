@@ -36,6 +36,9 @@ public:
 	bool PostRender();
 
 public:
+	bool ResizeDevice(int x, int y, int width, int height);
+
+public:
 	bool Run();
 
 public:

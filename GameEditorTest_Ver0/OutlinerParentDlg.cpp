@@ -43,6 +43,7 @@ BOOL OutlinerParentDlg::OnInitDialog()
 
 	HTREEITEM root;
 	root = OutlinerTree.InsertItem(L"Root", NULL, NULL);
+	theApp.m_TestClass->World.GetAllEntities();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.

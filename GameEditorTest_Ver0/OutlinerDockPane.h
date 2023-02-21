@@ -9,6 +9,7 @@ class OutlinerDockPane : public CDockablePane
 
 public:
 	OutlinerParentDlg m_ParentDlg;
+	
 
 public:
 	OutlinerDockPane();
