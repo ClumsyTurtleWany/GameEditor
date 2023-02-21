@@ -81,7 +81,7 @@ float4 ComputeDirectionDiffuseLight(float3 normal)
 
 float4 ComputePointDiffuseLight(float3 pos, float3 normal)
 {
-	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+	//float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
 	for (int idx = 0; idx < 100; idx++)
 	{
@@ -90,17 +90,17 @@ float4 ComputePointDiffuseLight(float3 pos, float3 normal)
 		float dist = distance(pos, g_PointLightPos[idx]);
 
 		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
-		float intensity = saturate(dot(normal, vLight));
+		float intensity = saturate(dot(normal, -vLight));
 
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);
 	}
 
-	return outputColor + ambientColor;
+	return outputColor; // +ambientColor;
 }
 
 float4 ComputeSpotDiffuseLight(float3 pos, float3 normal)
 {
-	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+	//float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
 	for (int idx = 0; idx < 100; idx++)
 	{
@@ -109,32 +109,35 @@ float4 ComputeSpotDiffuseLight(float3 pos, float3 normal)
 		float dist = distance(pos, g_SpotLightPos[idx]);
 
 		float fDot = dot(g_SpotLightDir[idx].xyz, vLight);
-		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
+		float luminance = smoothstep(dist - 5.0f, dist, g_SpotLightRadius[idx]);
 		float intensity = saturate(dot(normal, -vLight));
 
-		if (fDot >= g_PointLightRadius[idx])
+		if (fDot >= 0.98)
 		{
 			intensity = saturate(dot(normal, -vLight));
 			outputColor += float4(g_SpotLightColor[idx].rgb * luminance * intensity, 1.0f);
 		}
 		else
 		{
-			float lerpRadius = g_PointLightRadius[idx] / 2.0f;
-			if (fDot >= lerpRadius)
+			//float lerpRadius = g_SpotLightRadius[idx] / 2.0f;
+			if (fDot >= 0.9)
 			{
-				float luminance2 = smoothstep(lerpRadius, g_PointLightRadius[idx], fDot);
+				float luminance2 = smoothstep(0.9, 0.98, fDot);
 				outputColor += float4(g_SpotLightColor[idx].rgb * min(min(luminance2, luminance), intensity), 1.0f);
 			}
 		}
 	}
 
-	return outputColor + ambientColor;
+	//outputColor.x = g_SpotLightRadius[0];
+	//outputColor.z = g_SpotLightRadius[0];
+
+	return outputColor; // +ambientColor;
 }
 
 float4 ComputePointSpecularLight(float3 pos, float3 normal)
 {
 	// 빛이 반사되어 눈에 들어오는 것이 Specular, 조명의 결과가 시선 벡터에 따라 달라진다. 반사벡터와 시선벡터의 내적.
-	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+	//float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
 	for (int idx = 0; idx < 100; idx++)
 	{
@@ -148,12 +151,12 @@ float4 ComputePointSpecularLight(float3 pos, float3 normal)
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);
 	}
 
-	return outputColor + ambientColor;
+	return outputColor;// +ambientColor;
 }
 
 float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 {
-	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+	//float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0, 0, 0, 1);
 	for (int idx = 0; idx < 100; idx++)
 	{
@@ -162,26 +165,26 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 		float dist = distance(pos, g_SpotLightPos[idx]);
 
 		float fDot = dot(g_SpotLightDir[idx], vLight);
-		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx]);
+		float luminance = smoothstep(dist - 5.0f, dist, g_SpotLightRadius[idx]);
 		float intensity = saturate(dot(g_EyeDir, vLight));
 
-		if (fDot >= g_PointLightRadius[idx])
+		if (fDot >= 0.98)
 		{
 			intensity = saturate(dot(normal, -vLight));
 			outputColor += float4(g_SpotLightColor[idx].rgb * luminance * intensity, 1.0f);
 		}
 		else
 		{
-			float lerpRadius = g_PointLightRadius[idx] / 2.0f;
-			if (fDot >= lerpRadius)
+			//float lerpRadius = g_PointLightRadius[idx] / 2.0f;
+			if (fDot >= 0.9)
 			{
-				float luminance2 = smoothstep(lerpRadius, g_PointLightRadius[idx], fDot);
+				float luminance2 = smoothstep(0.9, 0.98, fDot);
 				outputColor += float4(g_SpotLightColor[idx].rgb * min(min(luminance2, luminance), intensity), 1.0f);
 			}
 		}
 	}
 
-	return outputColor + ambientColor;
+	return outputColor;// +ambientColor;
 }
 
 // SV_Target: 출력 영역에 뿌릴 색상.
@@ -194,8 +197,9 @@ float4 PS(PixelShader_input _input) : SV_Target
 						ComputeSpotDiffuseLight(_input.vWorld, _input.n) +
 						ComputeSpotSpecularLight(_input.vWorld, _input.n);
 
-	float4 finalColor = textureColor * lightColor;
+	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+	float4 finalColor = textureColor * (lightColor + ambientColor);
 	finalColor.a = 1.0f;
-	
+
 	return finalColor;
 }

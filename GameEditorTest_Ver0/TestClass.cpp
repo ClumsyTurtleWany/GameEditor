@@ -10,6 +10,8 @@
 #include "FBXLoader.hpp"
 #include "LightSystem.h"
 #include "DirectionalLight.h"
+#include "SpotLight.h"
+#include "PointLight.h"
 
 TestClass::TestClass(HWND hWnd)
 {
@@ -86,12 +88,29 @@ bool TestClass::Initialize()
 	Picker.ClientWidth = Device.m_ViewPort.Width;
 	Picker.ClientHeight = Device.m_ViewPort.Height;
 
-	DirectionalLight* dirLight = new DirectionalLight;
+	/*DirectionalLight* dirLight = new DirectionalLight;
 	auto lightComp = dirLight->GetComponent<DirectionalLightComponent>();
 	lightComp->Color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-	lightComp->Direction = Vector4(0.0f, 0.0f, 1.0f, 1.0f);
-	World.AddEntity(dirLight);
+	lightComp->Direction = Vector4(0.0f, -1.0f, 1.0f, 1.0f);
+	World.AddEntity(dirLight);*/
 
+	/*SpotLight* spotLight = new SpotLight;
+	auto lightComp2 = spotLight->GetComponent<SpotLightComponent>();
+	lightComp2->Color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	lightComp2->Direction = Vector4(0.0f, -1.0f, 1.0f, 1.0f);
+	lightComp2->Radius = 55.0f;
+	auto transformComp = spotLight->GetComponent<TransformComponent>();
+	transformComp->Translation += Vector3(10.0f, 20.0f, 10.0f);*/
+
+	PointLight* spotLight = new PointLight;
+	auto lightComp2 = spotLight->GetComponent<PointLightComponent>();
+	lightComp2->Color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	lightComp2->Direction = Vector4(0.0f, 1.0f, 1.0f, 1.0f);
+	lightComp2->Radius = 25.0f;
+	auto transformComp = spotLight->GetComponent<TransformComponent>();
+	transformComp->Translation += Vector3(20.0f, 10.0f, 20.0f);
+
+	World.AddEntity(spotLight);
 
 	return true;
 }
@@ -104,12 +123,12 @@ bool TestClass::Frame()
 	
 	Picker.Update();
 
-	if (!SelectedFilename.empty())
+	
+	KeyState keyState_RButton = Input::getInstance()->getKey(VK_RBUTTON);
+	if (keyState_RButton == KeyState::Hold)
 	{
-		KeyState keyState_RButton = Input::getInstance()->getKey(VK_RBUTTON);
-		if (keyState_RButton == KeyState::Hold)
+		if (!SelectedFilename.empty())
 		{
-			
 			for (auto& it : World.GetEntities<Landscape>())
 			{
 				auto landscape = it->GetComponent<Landscape>();
@@ -171,6 +190,10 @@ bool TestClass::Frame()
 				}
 				
 			}
+		}
+		else
+		{
+
 		}
 	}
 

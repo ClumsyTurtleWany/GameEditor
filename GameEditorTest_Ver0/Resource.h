@@ -81,6 +81,9 @@
 #define IDD_LandscapeManagementFormView 313
 #define IDD_LandscapeSculptingFormView  314
 #define ID_LANDSCAPE_DOCKPANE           315
+#define IDI_FILE_SAVE					316
+#define ID_COMBO_EDITOR_MODE			317
+#define IDB_FILE_SAVE					318
 #define IDB_LandscapeManagement         400
 #define ID_EDIT_LOCATION_X              401
 #define ID_EDIT_LOCATION_Y              402

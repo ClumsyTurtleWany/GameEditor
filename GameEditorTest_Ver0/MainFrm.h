@@ -55,6 +55,10 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 
+private:
+	CMFCRibbonComboBox* m_pComboEditorMode;
+
+	
 	LandscapeDockPane	m_wndLandscapeDockPane;
 	OutlinerDockPane	m_wndOutlinerDockPane;
 
@@ -63,6 +67,9 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSettingChange(UINT uFlags, LPCTSTR lpszSection);
+
+	afx_msg void OnComboChangeEditorMode();
+	afx_msg void OnUpdateComboChangeEditorMode(CCmdUI* pcmdui);
 	DECLARE_MESSAGE_MAP()
 
 	BOOL CreateDockingWindows();

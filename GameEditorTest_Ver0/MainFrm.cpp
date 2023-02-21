@@ -29,6 +29,9 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWndEx)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_WM_SETTINGCHANGE()
+
+	ON_COMMAND(ID_COMBO_EDITOR_MODE, OnComboChangeEditorMode)
+	ON_UPDATE_COMMAND_UI(ID_COMBO_EDITOR_MODE, OnUpdateComboChangeEditorMode)
 END_MESSAGE_MAP()
 
 // CMainFrame 생성/소멸
@@ -49,8 +52,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	BOOL bNameValid;
 
-	m_wndRibbonBar.Create(this);
-	m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+	//m_wndRibbonBar.Create(this);
+	//m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+	InitializeRibbonBar();
 
 	if (!m_wndStatusBar.Create(this))
 	{
@@ -211,6 +215,16 @@ bool CMainFrame::InitializeRibbonBar()
 
 	pCategory = m_wndRibbonBar.AddCategory(L"Test Ribbon Menu", IDB_WRITESMALL, IDB_WRITELARGE);
 	pPanel = pCategory->AddPanel(L"Test");
+
+	pPanel->Add(new CMFCRibbonLabel(L" "));
+	pPanel->Add(new CMFCRibbonButton(IDB_FILE_SAVE, L"Save", theApp.LoadIconW(IDI_FILE_SAVE)));
+
+	m_pComboEditorMode = new CMFCRibbonComboBox(ID_COMBO_EDITOR_MODE, FALSE, -1, L"Combo", -1);
+	m_pComboEditorMode->AddItem(L"선택 모드");
+	m_pComboEditorMode->AddItem(L"랜드 스케이프");
+	m_pComboEditorMode->SelectItem(0);
+	pPanel->Add(m_pComboEditorMode);
+
 	return false;
 }
 
@@ -236,4 +250,18 @@ void CMainFrame::OnSettingChange(UINT uFlags, LPCTSTR lpszSection)
 {
 	CFrameWndEx::OnSettingChange(uFlags, lpszSection);
 	m_wndOutput.UpdateFonts();
+}
+
+void CMainFrame::OnComboChangeEditorMode()
+{
+	if (m_pComboEditorMode)
+	{
+		int idx = m_pComboEditorMode->GetCurSel();
+		int a = 0;
+	}
+}
+
+void CMainFrame::OnUpdateComboChangeEditorMode(CCmdUI* pcmdui)
+{
+	pcmdui->Enable(TRUE);
 }
