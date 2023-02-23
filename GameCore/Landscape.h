@@ -19,6 +19,8 @@ public:
 	ID3D11Buffer* TransformBuffer = nullptr;
 	TransformMatrix			TransformData;
 
+	ID3D11Buffer* StreamOutputBuffer = nullptr;
+
 public:
 	Camera* MainCamera;
 	

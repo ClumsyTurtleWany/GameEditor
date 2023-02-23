@@ -84,38 +84,33 @@
 #define IDI_FILE_SAVE                   316
 #define ID_COMBO_EDITOR_MODE            317
 #define IDB_FILE_SAVE                   318
-#define IDB_LandscapeManagement         400
-#define ID_EDIT_LOCATION_X              401
-#define ID_EDIT_LOCATION_Y              402
-#define ID_EDIT_LOCATION_Z              403
-#define ID_EDIT_ROTATION_X              404
-#define ID_EDIT_ROTATION_Y              405
-#define ID_EDIT_ROTATION_Z              406
-#define ID_EDIT_SCALE_X                 407
-#define ID_EDIT_SCALE_Y                 408
-#define ID_EDIT_SCALE_Z                 409
 #define ID_STATICMESH_LIST_BOX          410
 #define IDB_FBX_SELECT                  411
 #define IDC_COMBO_SECTION               412
 #define ID_EDIT_COMP_WIDTH              413
 #define ID_EDIT_COMP_HEIGHT             414
 #define IDB_BTN_BUILD_LANDSCAPE         415
-#define IDB_LandscapeSculpting          500
 #define ID_OutlinerDockPane             1000
 #define IDD_OutlinerParentDlg           1001
 #define ID_OutlinerTreeView             1002
 #define IDC_TREE2                       1006
 #define IDC_OUTLINER_TREE               1006
 #define IDC_LIST4                       1007
+#define IDC_BUTTON1                     1008
+#define IDC_LANDSCAPE_MANAGEMENT        1008
+#define IDC_LANDSCAPE_SCULPTING         1009
+#define IDC_LANDSCAPE_PAINTING          1010
+#define ID_DetailDockPane				1011
+#define IDC_DETAIL_TREE					1012
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        315
+#define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1013
 #define _APS_NEXT_SYMED_VALUE           317
 #endif
 #endif

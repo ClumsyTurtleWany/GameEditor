@@ -24,14 +24,20 @@ LandscapeParentDlg::~LandscapeParentDlg()
 void LandscapeParentDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LANDSCAPE_MANAGEMENT, BtnManagement);
+	DDX_Control(pDX, IDC_LANDSCAPE_SCULPTING, BtnSculpting);
+	DDX_Control(pDX, IDC_LANDSCAPE_PAINTING, BtnPaint);
 }
 
 
 BEGIN_MESSAGE_MAP(LandscapeParentDlg, CDialog)
 	ON_WM_CREATE()
-	ON_BN_CLICKED(IDB_LandscapeManagement, &OnBtnClickedManagement)
-	ON_BN_CLICKED(IDB_LandscapeSculpting, &OnBtnClickedSculpting)
+	//ON_BN_CLICKED(IDB_LandscapeManagement, &OnBtnClickedManagement)
+	//ON_BN_CLICKED(IDB_LandscapeSculpting, &OnBtnClickedSculpting)
 	ON_WM_SIZE()
+	ON_BN_CLICKED(IDC_LANDSCAPE_MANAGEMENT, &LandscapeParentDlg::OnBnClickedLandscapeManagement)
+	ON_BN_CLICKED(IDC_LANDSCAPE_SCULPTING, &LandscapeParentDlg::OnBnClickedLandscapeSculpting)
+	ON_BN_CLICKED(IDC_LANDSCAPE_PAINTING, &LandscapeParentDlg::OnBnClickedLandscapePainting)
 END_MESSAGE_MAP()
 
 
@@ -48,25 +54,14 @@ int LandscapeParentDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void LandscapeParentDlg::OnBtnClickedManagement()
-{
-	m_ManagementView->ShowWindow(SW_SHOW);
-}
-
-void LandscapeParentDlg::OnBtnClickedSculpting()
-{
-	m_SculptingView->ShowWindow(SW_SHOW);
-}
-
-
 BOOL LandscapeParentDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 	// 버튼 생성
-	m_btnManagement.Create(L"Management", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(10, 10, 110, 40), this, IDB_LandscapeManagement);
-	m_btnSculpting.Create(L"Sculpting", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(110, 10, 210, 40), this, IDB_LandscapeSculpting);
+	//m_btnManagement.Create(L"Management", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(10, 10, 110, 40), this, IDB_LandscapeManagement);
+	//m_btnSculpting.Create(L"Sculpting", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(110, 10, 210, 40), this, IDB_LandscapeSculpting);
 
 	// Management View 생성
 	CRect rc;
@@ -86,6 +81,12 @@ BOOL LandscapeParentDlg::OnInitDialog()
 	//pView->OnInitialUpdate();
 	//m_SculptingView = pView;
 
+	pView = (CView*)RUNTIME_CLASS(LandscapeSculptingFormView)->CreateObject();
+	::ZeroMemory(&cc, sizeof(cc));
+	pView->Create(NULL, NULL, WS_CHILD, rc, this, IDD_LandscapeSculptingFormView, &cc);
+	pView->OnInitialUpdate();
+	m_SculptingView = pView;
+
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
@@ -96,6 +97,50 @@ void LandscapeParentDlg::OnSize(UINT nType, int cx, int cy)
 {
 	CDialog::OnSize(nType, cx, cy);
 
-	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-	//m_ManagementView->MoveWindow(CRect(10, 50, cx, cy));
+	int x = 5;
+	int y = 5;
+	int width = (cx - 5) / 3.0f;
+	int height = 30;
+
+	if (BtnManagement.GetSafeHwnd() != NULL)
+	{
+		BtnManagement.MoveWindow(x, y, width, height);
+		x += width;
+	}
+
+	if (BtnSculpting.GetSafeHwnd() != NULL)
+	{
+		BtnSculpting.MoveWindow(x, y, width, height);
+		x += width;
+	}
+
+	if (BtnPaint.GetSafeHwnd() != NULL)
+	{
+		BtnPaint.MoveWindow(x, y, width, height);
+		x += width;
+	}
+}
+
+
+void LandscapeParentDlg::OnBnClickedLandscapeManagement()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_ManagementView->ShowWindow(SW_SHOW);
+	m_SculptingView->ShowWindow(SW_HIDE);
+}
+
+
+void LandscapeParentDlg::OnBnClickedLandscapeSculpting()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_SculptingView->ShowWindow(SW_SHOW);
+	m_ManagementView->ShowWindow(SW_HIDE);
+}
+
+
+void LandscapeParentDlg::OnBnClickedLandscapePainting()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_ManagementView->ShowWindow(SW_HIDE);
+	m_SculptingView->ShowWindow(SW_HIDE);
 }

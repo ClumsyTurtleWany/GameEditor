@@ -23,17 +23,20 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnBtnClickedManagement();
-	afx_msg void OnBtnClickedSculpting();
 
 public:
-	CButton m_btnManagement;
-	CView* m_ManagementView;
+	CButton BtnManagement;
+	CButton BtnSculpting;
+	CButton BtnPaint;
 
-	CButton m_btnSculpting;
+	CView* m_ManagementView;
 	CView* m_SculptingView;
 
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnBnClickedLandscapeManagement();
+	
+	afx_msg void OnBnClickedLandscapeSculpting();
+	afx_msg void OnBnClickedLandscapePainting();
 };

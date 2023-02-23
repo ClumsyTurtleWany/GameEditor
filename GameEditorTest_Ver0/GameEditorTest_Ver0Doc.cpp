@@ -146,3 +146,31 @@ void CGameEditorTestVer0Doc::Dump(CDumpContext& dc) const
 
 
 // CGameEditorTestVer0Doc 명령
+
+
+BOOL CGameEditorTestVer0Doc::OnSaveDocument(LPCTSTR lpszPathName)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+
+	return CDocument::OnSaveDocument(lpszPathName);
+}
+
+
+BOOL CGameEditorTestVer0Doc::OnOpenDocument(LPCTSTR lpszPathName)
+{
+	if (!CDocument::OnOpenDocument(lpszPathName))
+		return FALSE;
+
+	// TODO:  여기에 특수화된 작성 코드를 추가합니다.
+
+	return TRUE;
+}
+
+
+void CGameEditorTestVer0Doc::OnCloseDocument()
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	//OnSaveDocument(this.name);
+
+	CDocument::OnCloseDocument();
+}

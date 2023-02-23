@@ -10,7 +10,6 @@ class OutlinerDockPane : public CDockablePane
 public:
 	OutlinerParentDlg m_ParentDlg;
 	
-
 public:
 	OutlinerDockPane();
 	virtual ~OutlinerDockPane();
@@ -22,6 +21,9 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	afx_msg void OnPaint();
+
+public:
+
 };
 
 

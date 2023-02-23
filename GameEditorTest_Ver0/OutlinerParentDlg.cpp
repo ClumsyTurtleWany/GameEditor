@@ -5,6 +5,7 @@
 #include "GameEditorTest_Ver0.h"
 #include "OutlinerParentDlg.h"
 #include "afxdialogex.h"
+#include "Entity.hpp"
 
 
 // OutlinerParentDlg 대화 상자
@@ -30,6 +31,7 @@ void OutlinerParentDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(OutlinerParentDlg, CDialogEx)
 	ON_WM_SIZE()
+	ON_NOTIFY(TVN_SELCHANGED, IDC_OUTLINER_TREE, &OutlinerParentDlg::OnTvnSelchangedOutlinerTree)
 END_MESSAGE_MAP()
 
 
@@ -42,9 +44,7 @@ BOOL OutlinerParentDlg::OnInitDialog()
 
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 
-	HTREEITEM root;
-	root = OutlinerTree.InsertItem(L"Root", NULL, NULL);
-	theApp.m_TestClass->World.GetAllEntities();
+	Root = OutlinerTree.InsertItem(L"Root", NULL, NULL);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
@@ -62,4 +62,21 @@ void OutlinerParentDlg::OnSize(UINT nType, int cx, int cy)
 		OutlinerTree.MoveWindow(5, 5, cx - 10, cy - 10);
 	}
 
+}
+
+void OutlinerParentDlg::OnTvnSelchangedOutlinerTree(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	*pResult = 0;
+}
+
+void OutlinerParentDlg::Update()
+{
+	for (auto& it : theApp.m_TestClass->World.GetAllEntities())
+	{
+		ECS::Entity* entity = it.get();
+		entity.
+	}
 }

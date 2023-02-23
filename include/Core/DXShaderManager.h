@@ -45,6 +45,8 @@ public:
 
 	bool CreateVertexShader();
 	bool CreatePixelShader();
+	bool CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl);
+
 	bool CreateInputLayout();
 	bool CreateStaticMeshInputLayout();
 	bool CreateSkeletalMeshInputLayout();
@@ -55,6 +57,9 @@ public:
 
 	template <typename T>
 	ID3D11Buffer* CreateConstantBuffer(const T& constantData);
+
+	ID3D11Buffer* CreateStreamOutputBuffer(UINT size);
+	ID3D11Buffer* CreateMappedBuffer(UINT size);
 
 public:
 	void SetDevice(ID3D11Device* device, ID3D11DeviceContext* context);

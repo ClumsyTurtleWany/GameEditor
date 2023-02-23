@@ -195,6 +195,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="DetailDockPane.h" />
     <ClInclude Include="FBXLoader.hpp" />
     <ClInclude Include="FBXObject.hpp" />
     <ClInclude Include="FileView.h" />
@@ -220,6 +221,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="DetailDockPane.cpp" />
     <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="FBXObject.cpp" />
     <ClCompile Include="FileView.cpp" />

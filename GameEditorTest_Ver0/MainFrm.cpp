@@ -99,10 +99,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_wndLandscapeDockPane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndLandscapeDockPane);
-	m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
+	//m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
 
 	m_wndOutlinerDockPane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutlinerDockPane);
+
+	m_wndDetailDockPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndDetailDockPane);
 
 
 	// 모든 사용자 인터페이스 요소를 그리는 데 사용하는 비주얼 관리자를 설정합니다.
@@ -179,6 +182,13 @@ BOOL CMainFrame::CreateDockingWindows()
 	if (!m_wndOutlinerDockPane.Create(L"Outliner", this, CRect(0, 0, 200, 200), TRUE, ID_OutlinerDockPane, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
 		TRACE0("Outliner 창을 만들지 못했습니다.\n");
+		return FALSE; // 만들지 못했습니다.
+	}
+
+	// Detail Dock Pane
+	if (!m_wndDetailDockPane.Create(L"Detail", this, CRect(0, 0, 200, 200), TRUE, ID_DetailDockPane, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Detail 창을 만들지 못했습니다.\n");
 		return FALSE; // 만들지 못했습니다.
 	}
 	

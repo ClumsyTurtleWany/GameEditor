@@ -139,6 +139,10 @@ void Landscape::Render()
 	Context->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
 	Context->VSSetConstantBuffers(0, 1, &TransformBuffer);
 	Context->RSSetState(DXSamplerState::pDefaultRSSolid);
+	
+	//UINT offset[1] = {0};
+	//Context->SOSetTargets(1, &StreamOutputBuffer, offset);
+
 
 	int intersectCompCnt = 0;
 	int nonRenderCompCnt = 0;
@@ -190,6 +194,8 @@ bool Landscape::Initialize()
 	VertexLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
 	VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
 	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
+	//StreamOutputBuffer = DXShaderManager::getInstance()->CreateStreamOutputBuffer();
+
 
 	return true;
 }

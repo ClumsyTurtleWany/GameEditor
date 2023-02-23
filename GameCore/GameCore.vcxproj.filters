@@ -67,6 +67,9 @@
     <Filter Include="DirectX\Data\InputData">
       <UniqueIdentifier>{e2d39618-6559-41b8-81db-ebe80edaff3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectX\HLSL\GeometryShader">
+      <UniqueIdentifier>{5ec82df0-2f9f-4725-86c3-069a8dcfdf6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -279,6 +282,9 @@
     </FxCompile>
     <FxCompile Include="PS_Light.hlsl">
       <Filter>DirectX\HLSL\PixelShader</Filter>
+    </FxCompile>
+    <FxCompile Include="GS_Landscape.hlsl">
+      <Filter>DirectX\HLSL\GeometryShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

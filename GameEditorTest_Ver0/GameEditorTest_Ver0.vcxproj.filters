@@ -13,14 +13,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="NewFilter1">
-      <UniqueIdentifier>{92c5f636-e2f7-4689-87a9-db0ee148ba7d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Landscape">
       <UniqueIdentifier>{11c6da3a-0f54-416a-8c3b-fbd418e35737}</UniqueIdentifier>
     </Filter>
     <Filter Include="Outliner">
       <UniqueIdentifier>{26025d87-acaf-4cb0-9735-a5349acd9f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Detail">
+      <UniqueIdentifier>{0c31f3c5-714d-43f0-80e0-dfeb47408df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FBXLoader">
+      <UniqueIdentifier>{92c5f636-e2f7-4689-87a9-db0ee148ba7d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -67,13 +70,13 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MousePicker.h">
-      <Filter>NewFilter1</Filter>
+      <Filter>FBXLoader</Filter>
     </ClInclude>
     <ClInclude Include="FBXLoader.hpp">
-      <Filter>NewFilter1</Filter>
+      <Filter>FBXLoader</Filter>
     </ClInclude>
     <ClInclude Include="FBXObject.hpp">
-      <Filter>NewFilter1</Filter>
+      <Filter>FBXLoader</Filter>
     </ClInclude>
     <ClInclude Include="LandscapeDockPane.h">
       <Filter>Landscape</Filter>
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="OutlinerParentDlg.h">
       <Filter>Outliner</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailDockPane.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -129,13 +135,13 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MousePicker.cpp">
-      <Filter>NewFilter1</Filter>
+      <Filter>FBXLoader</Filter>
     </ClCompile>
     <ClCompile Include="FBXLoader.cpp">
-      <Filter>NewFilter1</Filter>
+      <Filter>FBXLoader</Filter>
     </ClCompile>
     <ClCompile Include="FBXObject.cpp">
-      <Filter>NewFilter1</Filter>
+      <Filter>FBXLoader</Filter>
     </ClCompile>
     <ClCompile Include="LandscapeDockPane.cpp">
       <Filter>Landscape</Filter>
@@ -154,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="OutlinerParentDlg.cpp">
       <Filter>Outliner</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailDockPane.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

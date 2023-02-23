@@ -22,7 +22,14 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CTreeCtrl OutlinerTree;
+	HTREEITEM Root;
+
+public:
 	//OutlinerTreeView m_TreeView;
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnTvnSelchangedOutlinerTree(NMHDR* pNMHDR, LRESULT* pResult);
+
+public:
+	void Update();
 };

@@ -23,30 +23,10 @@ LandscapeManagementFormView::~LandscapeManagementFormView()
 void LandscapeManagementFormView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
-	/*DDX_Text(pDX, ID_EDIT_LOCATION_X, LocationX);
-	DDX_Text(pDX, ID_EDIT_LOCATION_Y, LocationY);
-	DDX_Text(pDX, ID_EDIT_LOCATION_Z, LocationZ);
-	DDX_Text(pDX, ID_EDIT_ROTATION_X, RotationX);
-	DDX_Text(pDX, ID_EDIT_ROTATION_Y, RotationY);
-	DDX_Text(pDX, ID_EDIT_ROTATION_Z, RotationZ);
-	DDX_Text(pDX, ID_EDIT_SCALE_X, ScaleX);
-	DDX_Text(pDX, ID_EDIT_SCALE_Y, ScaleY);
-	DDX_Text(pDX, ID_EDIT_SCALE_Z, ScaleZ);*/
-	//DDX_Control(pDX, IDC_BUTTON1, SelectButton);
-	//DDX_Control(pDX, ID_STATICMESH_LIST_BOX, FbxFileListBox);
-	//DDX_Control(pDX, ID_STATICMESH_LIST_BOX, *FbxFileListBox);
 }
 
 BEGIN_MESSAGE_MAP(LandscapeManagementFormView, CFormView)
-	ON_EN_CHANGE(ID_EDIT_LOCATION_X, &OnEditChangeLocationX)
-	ON_EN_CHANGE(ID_EDIT_LOCATION_Y, &OnEditChangeLocationY)
-	ON_EN_CHANGE(ID_EDIT_LOCATION_Z, &OnEditChangeLocationZ)
-	ON_EN_CHANGE(ID_EDIT_ROTATION_X, &OnEditChangeRotationX)
-	ON_EN_CHANGE(ID_EDIT_ROTATION_Y, &OnEditChangeRotationY)
-	ON_EN_CHANGE(ID_EDIT_ROTATION_Z, &OnEditChangeRotationZ)
-	ON_EN_CHANGE(ID_EDIT_SCALE_X, &OnEditChangeScaleX)
-	ON_EN_CHANGE(ID_EDIT_SCALE_Y, &OnEditChangeScaleY)
-	ON_EN_CHANGE(ID_EDIT_SCALE_Z, &OnEditChangeScaleZ)
+
 
 	ON_EN_CHANGE(IDC_COMBO_SECTION, &OnComboChangedSection)
 	ON_EN_CHANGE(ID_EDIT_COMP_WIDTH, &OnEditChangedCompWidth)
@@ -179,53 +159,7 @@ void LandscapeManagementFormView::OnInitialUpdate()
 	BtnFbxSelect->ShowWindow(SW_SHOW);
 }
 
-void LandscapeManagementFormView::OnEditChangeLocationX()
-{
-	UpdateData(TRUE);
-	CString strData;
-	GetDlgItemText(ID_EDIT_LOCATION_X, strData);
-	float locationX = _tstof(strData);
-}
 
-void LandscapeManagementFormView::OnEditChangeLocationY()
-{
-
-}
-
-void LandscapeManagementFormView::OnEditChangeLocationZ()
-{
-
-}
-
-void LandscapeManagementFormView::OnEditChangeRotationX()
-{
-
-}
-
-void LandscapeManagementFormView::OnEditChangeRotationY()
-{
-
-}
-
-void LandscapeManagementFormView::OnEditChangeRotationZ()
-{
-
-}
-
-void LandscapeManagementFormView::OnEditChangeScaleX()
-{
-
-}
-
-void LandscapeManagementFormView::OnEditChangeScaleY()
-{
-
-}
-
-void LandscapeManagementFormView::OnEditChangeScaleZ()
-{
-
-}
 
 void LandscapeManagementFormView::OnBtnClickedFbxSelect()
 {
@@ -284,6 +218,7 @@ void LandscapeManagementFormView::OnBtnClickedBuildLandscape()
 	if (width > 0 && height > 0)
 	{
 		theApp.m_TestClass->CreateLandscape(width, height, 7);
+		
 	}
 
 }

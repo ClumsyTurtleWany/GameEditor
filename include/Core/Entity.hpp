@@ -11,6 +11,8 @@ namespace ECS
 
 	private:
 		std::unordered_map<ComponentID, std::shared_ptr<ECS::Component>> Components;
+		
+	public:
 		int ID;
 		std::wstring Name;
 

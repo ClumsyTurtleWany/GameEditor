@@ -1,5 +1,6 @@
 #include "DXShaderManager.h"
 
+
 void DXShaderManager::SetDevice(ID3D11Device* device, ID3D11DeviceContext* context)
 {
 	m_pd3dDevice = device;
@@ -284,6 +285,37 @@ bool DXShaderManager::CreatePixelShader()
 	return true;
 }
 
+bool DXShaderManager::CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl)
+{
+	for (auto it : GeometryShaderCodeMap)
+	{
+		ID3D11GeometryShader* pGeometryShader;
+		//HRESULT result = m_pd3dDevice->CreateGeometryShader(it.second->GetBufferPointer(), it.second->GetBufferSize(), NULL, &pGeometryShader);
+		
+		//D3D11_SO_DECLARATION_ENTRY pDecl[] =
+		//{
+		//	{0, "SV_POSITION", 0, 0, 4, 0},
+		//	{0, "POSITION", 0, 0, 3, 0},
+		//	{0, "NORMAL", 0, 0, 3, 0},
+		//	{0, "TEXCOORD", 0, 0, 3, 0},
+		//	{0, "TEXCOORD", 1, 0, 2, 0},
+		//};
+
+		UINT entrySize = sizeof(decl);
+		HRESULT result = m_pd3dDevice->CreateGeometryShaderWithStreamOutput(it.second->GetBufferPointer(), it.second->GetBufferSize(), decl, sizeof(decl), NULL, 0, D3D11_SO_NO_RASTERIZED_STREAM, NULL, &pGeometryShader);
+
+		if (FAILED(result))
+		{
+			OutputDebugStringA("WanyCore::DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.\n");
+			return false;
+		}
+		else
+		{
+			GeometryShaderMap.insert(std::make_pair(it.first, pGeometryShader));
+		}
+	}
+}
+
 bool DXShaderManager::CreateStaticMeshInputLayout()
 {
 	// Input Layout For Static Mesh
@@ -451,6 +483,43 @@ ID3D11Buffer* DXShaderManager::CreateIndexBuffer(const std::vector<DWORD>& indic
 		BufferList.push_back(pIndexBuffer);
 		return pIndexBuffer;
 	}
+}
+
+ID3D11Buffer* DXShaderManager::CreateStreamOutputBuffer(UINT size)
+{
+	D3D11_BUFFER_DESC desc;
+	desc.ByteWidth = size;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.BindFlags = D3D11_BIND_STREAM_OUTPUT;
+	ZeroMemory(&desc, sizeof(desc));
+
+	ID3D11Buffer* pStreamOutputBuffer;
+	HRESULT result = m_pd3dDevice->CreateBuffer(&desc, NULL, &pStreamOutputBuffer);
+	if (FAILED(result))
+	{
+		return nullptr;
+	}
+	else
+	{
+		BufferList.push_back(pStreamOutputBuffer);
+		return pStreamOutputBuffer;
+	}
+
+	return nullptr;
+}
+
+ID3D11Buffer* DXShaderManager::CreateMappedBuffer(UINT size)
+{
+	D3D11_BUFFER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	desc.ByteWidth = size;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.BindFlags = D3D11_BIND_STREAM_OUTPUT;
+	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+
+	
+	
+	return nullptr;
 }
 
 ID3D11InputLayout* DXShaderManager::GetInputLayout(InputLayoutType type)

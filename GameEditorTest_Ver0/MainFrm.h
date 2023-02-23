@@ -19,6 +19,7 @@
 #include "PropertiesWnd.h"
 #include "LandscapeDockPane.h"
 #include "OutlinerDockPane.h"
+#include "DetailDockPane.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -61,6 +62,7 @@ private:
 	
 	LandscapeDockPane	m_wndLandscapeDockPane;
 	OutlinerDockPane	m_wndOutlinerDockPane;
+	DetailDockPane		m_wndDetailDockPane;
 
 
 // 생성된 메시지 맵 함수
