@@ -1619,6 +1619,10 @@ bool FBXLoader::GenerateStaticMeshFromFileData(FBXFileData* _src, StaticMeshComp
 						_dst->Meshes[idx].MaterialSlot->AddTexture(pTexture);
 					}
 				}
+				else
+				{
+					_dst->Meshes[idx].MaterialSlot = nullptr;
+				}
 				
 			}
 			

@@ -125,78 +125,78 @@ bool TestClass::Frame()
 	
 	Picker.Update();
 	
-	KeyState keyState_RButton = Input::getInstance()->getKey(VK_RBUTTON);
-	if (keyState_RButton == KeyState::Hold)
-	{
-		if (!SelectedFilename.empty())
-		{
-			for (auto& it : World.GetEntities<Landscape>())
-			{
-				auto landscape = it->GetComponent<Landscape>();
-				for (auto& comp : landscape->Components)
-				{
-					for (auto& face : comp.Faces)
-					{
-						if (Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
-						{
-							auto mesh = StaticMeshMap.find(SelectedFilename);
-							if (mesh != StaticMeshMap.end())
-							{
-								StaticMeshComponent* meshComp = mesh->second.get();
-								Actor* NewActor = new Actor;
-								auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
-								staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
-								for (auto& it : staticMeshComp->Meshes)
-								{
-									it.SetContext(Device.m_pImmediateContext);
-								}
-								staticMeshComp->SetContext(Device.m_pImmediateContext);
+	//KeyState keyState_RButton = Input::getInstance()->getKey(VK_RBUTTON);
+	//if (keyState_RButton == KeyState::Hold)
+	//{
+	//	if (!SelectedFilename.empty())
+	//	{
+	//		for (auto& it : World.GetEntities<Landscape>())
+	//		{
+	//			auto landscape = it->GetComponent<Landscape>();
+	//			for (auto& comp : landscape->Components)
+	//			{
+	//				for (auto& face : comp.Faces)
+	//				{
+	//					if (Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
+	//					{
+	//						auto mesh = StaticMeshMap.find(SelectedFilename);
+	//						if (mesh != StaticMeshMap.end())
+	//						{
+	//							StaticMeshComponent* meshComp = mesh->second.get();
+	//							Actor* NewActor = new Actor;
+	//							auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+	//							staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+	//							for (auto& it : staticMeshComp->Meshes)
+	//							{
+	//								it.SetContext(Device.m_pImmediateContext);
+	//							}
+	//							staticMeshComp->SetContext(Device.m_pImmediateContext);
 
-								auto transform = NewActor->GetComponent<TransformComponent>();
-								transform->Translation = Picker.IntercetionPosition;
+	//							auto transform = NewActor->GetComponent<TransformComponent>();
+	//							transform->Translation = Picker.IntercetionPosition;
 
-								World.AddEntity(NewActor);
-							}
-							else
-							{
-								std::unique_ptr<StaticMeshComponent> staticMesh = std::make_unique<StaticMeshComponent>();
-								if (FBXLoader::getInstance()->Load(L"../resource/FBX/" + SelectedFilename, staticMesh.get()))
-								{
-									StaticMeshMap.insert(std::make_pair(SelectedFilename, std::move(staticMesh)));
-								}
+	//							World.AddEntity(NewActor);
+	//						}
+	//						else
+	//						{
+	//							std::unique_ptr<StaticMeshComponent> staticMesh = std::make_unique<StaticMeshComponent>();
+	//							if (FBXLoader::getInstance()->Load(L"../resource/FBX/" + SelectedFilename, staticMesh.get()))
+	//							{
+	//								StaticMeshMap.insert(std::make_pair(SelectedFilename, std::move(staticMesh)));
+	//							}
 
-								auto mesh = StaticMeshMap.find(SelectedFilename);
-								if (mesh != StaticMeshMap.end())
-								{
-									StaticMeshComponent* meshComp = mesh->second.get();
-									Actor* NewActor = new Actor;
-									auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
-									staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
-									//staticMeshComp = meshComp;
-									for (auto& it : staticMeshComp->Meshes)
-									{
-										it.SetContext(Device.m_pImmediateContext);
-									}
-									staticMeshComp->SetContext(Device.m_pImmediateContext);
+	//							auto mesh = StaticMeshMap.find(SelectedFilename);
+	//							if (mesh != StaticMeshMap.end())
+	//							{
+	//								StaticMeshComponent* meshComp = mesh->second.get();
+	//								Actor* NewActor = new Actor;
+	//								auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+	//								staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+	//								//staticMeshComp = meshComp;
+	//								for (auto& it : staticMeshComp->Meshes)
+	//								{
+	//									it.SetContext(Device.m_pImmediateContext);
+	//								}
+	//								staticMeshComp->SetContext(Device.m_pImmediateContext);
 
-									auto transform = NewActor->GetComponent<TransformComponent>();
-									transform->Translation = Picker.IntercetionPosition;
+	//								auto transform = NewActor->GetComponent<TransformComponent>();
+	//								transform->Translation = Picker.IntercetionPosition;
 
-									World.AddEntity(NewActor);
-								}
-							}
-						}
-					}
-					
-				}
-				
-			}
-		}
-		else
-		{
+	//								World.AddEntity(NewActor);
+	//							}
+	//						}
+	//					}
+	//				}
+	//				
+	//			}
+	//			
+	//		}
+	//	}
+	//	else
+	//	{
 
-		}
-	}
+	//	}
+	//}
 
 	return true;
 }
@@ -327,6 +327,32 @@ bool TestClass::AddSelectedEntity()
 			}
 
 		}
+	}
+
+	return false;
+}
+
+bool TestClass::Sculpting()
+{
+	for (auto& it : World.GetEntities<Landscape>())
+	{
+		auto landscape = it->GetComponent<Landscape>();
+		for (auto& comp : landscape->Components)
+		{
+			for (auto& face : comp.Faces)
+			{
+				if (Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
+				{
+					Vector3 range = Vector3(10.0f, 10.0f, 10.0f);
+					Vector3 max = Picker.IntercetionPosition + range;
+					Vector3 min = Picker.IntercetionPosition - range;
+
+					return true;
+				}
+			}
+
+		}
+
 	}
 
 	return false;

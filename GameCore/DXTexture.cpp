@@ -17,6 +17,10 @@ HRESULT DXTexture::Load(std::wstring _filename)
 
 	// WIC (Windows Image Component) : DX10 부터 .tga 파일은 지원하지 않음(표준화 되지 않아서). DirectXTex 에서는 지원함. 현재는 DirectXTK(Tool Kit) 사용 중.
 	// DDS (Direct Draw Surface)
+	if (_filename.empty())
+	{
+		return S_FALSE;
+	}
 
 	size_t idx = _filename.find_last_of(L".");
 	std::wstring extension(_filename.begin() + idx, _filename.end());

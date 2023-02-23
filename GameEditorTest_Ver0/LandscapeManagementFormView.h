@@ -77,11 +77,13 @@ public:
 
 	CButton* BtnBuildLandscape;
 
-	CListBox* FbxFileListBox;
+	//CListBox* FbxFileListBox;
 	CButton* BtnFbxSelect;
 	
 	virtual void OnDraw(CDC* pDC);
 	
+	CListBox FBXFileListBox;
+	afx_msg void OnLbnSelchangeFbxFileList();
 };
 
 

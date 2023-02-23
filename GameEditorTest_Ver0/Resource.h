@@ -93,15 +93,15 @@
 #define ID_OutlinerDockPane             1000
 #define IDD_OutlinerParentDlg           1001
 #define ID_OutlinerTreeView             1002
-#define IDC_TREE2                       1006
 #define IDC_OUTLINER_TREE               1006
-#define IDC_LIST4                       1007
+#define IDC_FBX_FILE_LIST               1007
 #define IDC_BUTTON1                     1008
 #define IDC_LANDSCAPE_MANAGEMENT        1008
 #define IDC_LANDSCAPE_SCULPTING         1009
 #define IDC_LANDSCAPE_PAINTING          1010
-#define ID_DetailDockPane				1011
-#define IDC_DETAIL_TREE					1012
+#define ID_DetailDockPane               1011
+#define IDC_DETAIL_TREE                 1012
+#define IDC_LIST1                       1013
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
@@ -110,7 +110,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        316
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1013
+#define _APS_NEXT_CONTROL_VALUE         1014
 #define _APS_NEXT_SYMED_VALUE           317
 #endif
 #endif

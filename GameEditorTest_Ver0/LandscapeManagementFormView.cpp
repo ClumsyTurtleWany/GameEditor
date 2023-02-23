@@ -23,6 +23,7 @@ LandscapeManagementFormView::~LandscapeManagementFormView()
 void LandscapeManagementFormView::DoDataExchange(CDataExchange* pDX)
 {
 	CFormView::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_FBX_FILE_LIST, FBXFileListBox);
 }
 
 BEGIN_MESSAGE_MAP(LandscapeManagementFormView, CFormView)
@@ -39,6 +40,7 @@ BEGIN_MESSAGE_MAP(LandscapeManagementFormView, CFormView)
 	ON_LBN_SELCHANGE(ID_STATICMESH_LIST_BOX, &OnSelChangeFbxFile)
 	//ON_BN_CLICKED(IDC_BUTTON1, &LandscapeManagementFormView::OnBnClickedButton1)
 	//ON_LBN_SELCHANGE(ID_STATICMESH_LIST_BOX, &LandscapeManagementFormView::OnLbnSelchangeList1)
+	ON_LBN_SELCHANGE(IDC_FBX_FILE_LIST, &LandscapeManagementFormView::OnLbnSelchangeFbxFileList)
 END_MESSAGE_MAP()
 
 
@@ -139,8 +141,9 @@ void LandscapeManagementFormView::OnInitialUpdate()
 	BtnBuildLandscape->ShowWindow(SW_SHOW);
 
 
-	FbxFileListBox = new CListBox();
-	FbxFileListBox->Create(WS_CHILD | WS_VISIBLE | LBS_STANDARD | WS_HSCROLL, CRect(10, 120, 260, 310), this, ID_STATICMESH_LIST_BOX);
+	//FbxFileListBox = new CListBox();
+	//FbxFileListBox->Create(WS_CHILD | WS_VISIBLE | LBS_STANDARD | WS_HSCROLL, CRect(10, 120, 260, 310), this, ID_STATICMESH_LIST_BOX);
+	FBXFileListBox.MoveWindow(10, 120, 250, 200);
 	std::vector<std::wstring> FBXList;
 	FBXLoader::getInstance()->GetFBXFileList(L"../resource/FBX/", FBXList);
 	/*for (size_t idx = 0; idx < FBXList.size(); idx++)
@@ -148,11 +151,17 @@ void LandscapeManagementFormView::OnInitialUpdate()
 		ListBox->InsertString(idx, FBXList[idx].c_str());
 	}*/
 
-	for (auto& it : FBXList)
+	/*for (auto& it : FBXList)
 	{
 		FbxFileListBox->AddString(it.c_str());
 	}
-	FbxFileListBox->SetCurSel(0);
+	FbxFileListBox->SetCurSel(0);*/
+
+	for (auto& it : FBXList)
+	{
+		FBXFileListBox.AddString(it.c_str());
+	}
+	FBXFileListBox.SetCurSel(0);
 
 	BtnFbxSelect = new CButton();
 	BtnFbxSelect->Create(L"FbxSelect", WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON, CRect(10, 330, 80, 360), this, IDB_FBX_SELECT);
@@ -163,7 +172,7 @@ void LandscapeManagementFormView::OnInitialUpdate()
 
 void LandscapeManagementFormView::OnBtnClickedFbxSelect()
 {
-	UpdateData(TRUE);
+	/*UpdateData(TRUE);
 	int idx = FbxFileListBox->GetCurSel();
 	if (idx < 0)
 	{
@@ -171,6 +180,16 @@ void LandscapeManagementFormView::OnBtnClickedFbxSelect()
 	}
 	CString filename;
 	FbxFileListBox->GetText(idx, filename);
+	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());*/
+
+	UpdateData(TRUE);
+	int idx = FBXFileListBox.GetCurSel();
+	if (idx < 0)
+	{
+		idx = 0;
+	}
+	CString filename;
+	FBXFileListBox.GetText(idx, filename);
 	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
 }
 
@@ -225,7 +244,7 @@ void LandscapeManagementFormView::OnBtnClickedBuildLandscape()
 
 void LandscapeManagementFormView::OnSelChangeFbxFile()
 {
-	int idx = FbxFileListBox->GetCurSel();
+	//int idx = FbxFileListBox->GetCurSel();
 }
 
 
@@ -233,4 +252,12 @@ void LandscapeManagementFormView::OnDraw(CDC* pDC)
 {
 	BtnFbxSelect->ShowWindow(SW_SHOW);
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+}
+
+
+void LandscapeManagementFormView::OnLbnSelchangeFbxFileList()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+
 }
