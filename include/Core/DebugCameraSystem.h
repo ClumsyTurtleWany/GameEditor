@@ -13,7 +13,7 @@ public:
 		DebugCamera* debugCamera = world->GetDebugCamera();
 		if (debugCamera != nullptr)
 		{
-			KeyState keyState_LButton = Input::getInstance()->getKey(VK_LBUTTON);
+			/*KeyState keyState_LButton = Input::getInstance()->getKey(VK_LBUTTON);
 			if (keyState_LButton == KeyState::Hold)
 			{
 				POINT ptOffset = Input::getInstance()->m_ptOffset;
@@ -65,7 +65,7 @@ public:
 			if (KeyState_E == KeyState::Hold)
 			{
 				debugCamera->Pos -= debugCamera->Up * debugCamera->Speed * time;
-			}
+			}*/
 
 			DirectX::XMFLOAT3 curPos;
 			curPos.x = debugCamera->Pos.x;

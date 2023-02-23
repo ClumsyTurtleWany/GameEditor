@@ -24,4 +24,5 @@ public:
 	CTreeCtrl OutlinerTree;
 	//OutlinerTreeView m_TreeView;
 	virtual BOOL OnInitDialog();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

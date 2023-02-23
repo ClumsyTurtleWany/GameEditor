@@ -22,6 +22,7 @@
 
 #include "GameEditorTest_Ver0Doc.h"
 #include "GameEditorTest_Ver0View.h"
+#include "DebugCamera.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -36,6 +37,12 @@ BEGIN_MESSAGE_MAP(CGameEditorTestVer0View, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 	ON_WM_SIZE()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_MOUSEMOVE()
+	ON_WM_MOUSEWHEEL()
+	ON_WM_LBUTTONUP()
+	ON_WM_KEYDOWN()
+	ON_WM_RBUTTONDOWN()
 END_MESSAGE_MAP()
 
 // CGameEditorTestVer0View 생성/소멸
@@ -70,11 +77,7 @@ void CGameEditorTestVer0View::OnDraw(CDC* /*pDC*/)
 	// TODO: 여기에 원시 데이터에 대한 그리기 코드를 추가합니다.
 }
 
-void CGameEditorTestVer0View::OnRButtonUp(UINT /* nFlags */, CPoint point)
-{
-	ClientToScreen(&point);
-	OnContextMenu(this, point);
-}
+
 
 void CGameEditorTestVer0View::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 {
@@ -124,4 +127,105 @@ void CGameEditorTestVer0View::OnSize(UINT nType, int cx, int cy)
 	}
 	int a = 0;
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+}
+
+void CGameEditorTestVer0View::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (RbtnDown || LbtnDown)
+	{
+		DebugCamera* camera = theApp.m_TestClass->GetDebugCamera();
+		float time = Timer::getInstance()->secondPerFrame;
+		CPoint offset = point - PrevMousePoint;
+		camera->Yaw += offset.x * time;
+		camera->Pitch += offset.y * time;
+
+		PrevMousePoint = point;
+	}
+
+	CView::OnMouseMove(nFlags, point);
+}
+
+BOOL CGameEditorTestVer0View::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+
+	DebugCamera* camera = theApp.m_TestClass->GetDebugCamera();
+	camera->Pos += camera->Look * zDelta * 0.01f;
+
+	return CView::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+void CGameEditorTestVer0View::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	RbtnDown = true;
+	PrevMousePoint = point;
+
+	CView::OnRButtonDown(nFlags, point);
+}
+
+void CGameEditorTestVer0View::OnRButtonUp(UINT /* nFlags */, CPoint point)
+{
+	RbtnDown = false;
+	//ClientToScreen(&point);
+	//OnContextMenu(this, point);
+}
+
+void CGameEditorTestVer0View::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	LbtnDown = true;
+	PrevMousePoint = point;
+
+	CView::OnLButtonDown(nFlags, point);
+}
+
+void CGameEditorTestVer0View::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	LbtnDown = false;
+
+	CView::OnLButtonUp(nFlags, point);
+}
+
+void CGameEditorTestVer0View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	if (RbtnDown || LbtnDown)
+	{
+		DebugCamera* camera = theApp.m_TestClass->GetDebugCamera();
+		camera->Speed = 1000.0f;
+		float time = Timer::getInstance()->secondPerFrame;
+		switch (nChar)
+		{
+		case 87: // W
+		{
+			camera->Pos += camera->Look * camera->Speed * time;
+		}
+		break;
+		case 119: // w
+		{
+			camera->Pos += camera->Look * camera->Speed * time;
+		}
+		break;
+		case 83: // S
+		{
+			camera->Pos -= camera->Look * camera->Speed * time;
+		}
+		break;
+		case 115: // s
+		{
+			camera->Pos -= camera->Look * camera->Speed * time;
+		}
+		break;
+
+		}
+	}
+	else
+	{
+		
+	}
+
+	CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }

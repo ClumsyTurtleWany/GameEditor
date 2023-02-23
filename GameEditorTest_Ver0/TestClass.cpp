@@ -122,7 +122,6 @@ bool TestClass::Frame()
 	Picker.Projection = camera->Projection;
 	
 	Picker.Update();
-
 	
 	KeyState keyState_RButton = Input::getInstance()->getKey(VK_RBUTTON);
 	if (keyState_RButton == KeyState::Hold)

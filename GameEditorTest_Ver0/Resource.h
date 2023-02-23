@@ -103,7 +103,7 @@
 #define IDB_LandscapeSculpting          500
 #define ID_OutlinerDockPane             1000
 #define IDD_OutlinerParentDlg           1001
-#define ID_OutlinerTreeView				1002
+#define ID_OutlinerTreeView             1002
 #define IDC_TREE2                       1006
 #define IDC_OUTLINER_TREE               1006
 #define IDC_LIST4                       1007

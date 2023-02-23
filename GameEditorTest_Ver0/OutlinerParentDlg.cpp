@@ -29,6 +29,7 @@ void OutlinerParentDlg::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(OutlinerParentDlg, CDialogEx)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -47,4 +48,18 @@ BOOL OutlinerParentDlg::OnInitDialog()
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+void OutlinerParentDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
+
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+
+	if (OutlinerTree.GetSafeHwnd() != NULL)
+	{
+		OutlinerTree.MoveWindow(5, 5, cx - 10, cy - 10);
+	}
+
 }

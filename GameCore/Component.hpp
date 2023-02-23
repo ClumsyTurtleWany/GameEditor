@@ -5,9 +5,16 @@ namespace ECS
 {
 	class Component
 	{
+	private:
+		int id;
+
 	public:
 		Component() {};
 		virtual ~Component() {};
+
+	public:
+		virtual bool Save() { return true; };
+		virtual bool Load() { return true; };
 	};
 
 	template<typename T>
