@@ -16,11 +16,12 @@ public:
 Actor::Actor()
 {
 	//this->AddComponent<MeshComponent>();
+	this->Name = L"Actor" + std::to_wstring(this->ID);
 	this->AddComponent<MovementComponent>();
 	this->AddComponent<TransformComponent>();
 }
 
 Actor::~Actor()
 {
-
+	
 }

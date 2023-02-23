@@ -3,8 +3,9 @@
 #include "LandscapeComponent.h"
 #include "TransformComponent.h"
 #include "DebugCamera.h"
+#include "Entity.hpp"
 
-class Landscape
+class Landscape //: public ECS::Entity
 {
 private:
 	ID3D11DeviceContext* Context;

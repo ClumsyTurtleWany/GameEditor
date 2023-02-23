@@ -56,7 +56,7 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	COutputWnd        m_wndOutput;
 	CPropertiesWnd    m_wndProperties;
 
-private:
+public:
 	CMFCRibbonComboBox* m_pComboEditorMode;
 
 	
@@ -78,7 +78,10 @@ protected:
 	void SetDockingWindowIcons(BOOL bHiColorIcons);
 
 	bool InitializeRibbonBar();
+
 public:
+	void UpdateOutliner();
+
 };
 
 

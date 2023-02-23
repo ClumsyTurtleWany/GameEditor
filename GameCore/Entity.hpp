@@ -2,6 +2,8 @@
 #include "ECSCommon.hpp"
 #include "Component.hpp"
 
+static int EntityID = 0;
+
 namespace ECS
 {
 	class Entity
@@ -9,13 +11,13 @@ namespace ECS
 	public:
 		friend class World;
 
-	private:
+	protected:
 		std::unordered_map<ComponentID, std::shared_ptr<ECS::Component>> Components;
 		int ID;
 		std::wstring Name;
 
 	public:
-		Entity() {};
+		Entity() { ID = EntityID++; };
 		virtual ~Entity() {};
 
 	public:
@@ -89,6 +91,16 @@ namespace ECS
 		bool has() const
 		{
 			return has<T>() && has<U, Types...>();
+		}
+
+		int GetID() const
+		{
+			return ID;
+		}
+
+		std::wstring GetName() const
+		{
+			return Name;
 		}
 
 	};

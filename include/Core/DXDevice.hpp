@@ -48,7 +48,7 @@ protected:
 	// 2) 팩토리 생성
 	HRESULT CreateFactory();
 	// 3) 스왑체인 생성
-	HRESULT CreateSwapChain();
+	HRESULT CreateSwapChain(int width, int height);
 	// 4) 랜더 타겟뷰 생성
 	HRESULT CreateRenderTargetView();
 	// 5) 뷰 포트 설정

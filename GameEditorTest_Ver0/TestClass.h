@@ -26,8 +26,10 @@ public:
 	virtual bool Release() override;
 
 public:
+	bool Resize(int x, int y, int width, int height);
 	ID3D11Device* GetDevice();
 	ID3D11DeviceContext* GetContext();
 	DebugCamera* GetDebugCamera();
 	bool CreateLandscape(int width, int height, int sectionSize);
+	bool AddSelectedEntity();
 };

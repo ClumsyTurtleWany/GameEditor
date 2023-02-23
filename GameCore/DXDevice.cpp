@@ -35,13 +35,15 @@ bool DXDevice::Create(HWND hWnd)
 	//////////////////////////////////////////////////////////////////////
 	// 3) 스왑체인 생성
 	//////////////////////////////////////////////////////////////////////
-
-	if (FAILED(CreateSwapChain()))
+	RECT rc;
+	GetClientRect(m_hWnd, &rc);
+	int width = rc.right - rc.left;
+	int height = rc.bottom - rc.top;
+	if (FAILED(CreateSwapChain(width, height)))
 	{
 		OutputDebugStringA("WanyCore::DXDevice::Failed Create Swap Chain.\n");
 		return false;
 	}
-
 
 	//////////////////////////////////////////////////////////////////////
 	// 4) 랜더 타겟뷰 생성
@@ -62,10 +64,6 @@ bool DXDevice::Create(HWND hWnd)
 	//////////////////////////////////////////////////////////////////////
 	// 5) 뷰 포트 설정
 	//////////////////////////////////////////////////////////////////////
-	RECT rc;
-	GetClientRect(m_hWnd, &rc);
-	int width = rc.right - rc.left;
-	int height = rc.bottom - rc.top;
 	CreateViewPort(0, 0, width, height);
 
 	return true;
@@ -89,14 +87,25 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 	m_pDSTexture->Release();
 	m_pDSTexture = nullptr;
 
+	//m_pSwapChain->Release();
+	//m_pSwapChain = nullptr;
+
 	// 변경된 윈도우의 크기를 얻고 백 버퍼의 크기를 재 조정.
 	DXGI_SWAP_CHAIN_DESC desc;
 	m_pSwapChain->GetDesc(&desc);
-	HRESULT rst = m_pSwapChain->ResizeBuffers(desc.BufferCount, width, height, desc.BufferDesc.Format, 0);
+	desc.BufferDesc.Width = width; // 클라이언트 Width // 클라이언트 크기보다 작게 만들면 안됨.
+	desc.BufferDesc.Height = height; // 클라이언트 Height
+	HRESULT rst = m_pSwapChain->ResizeBuffers(desc.BufferCount, desc.BufferDesc.Width, desc.BufferDesc.Height, desc.BufferDesc.Format, 0);
 	if (FAILED(rst))
 	{
 		return false;
 	}
+
+	/*HRESULT rst = CreateSwapChain(width, height);
+	if (FAILED(rst))
+	{
+		return false;
+	}*/
 
 	// 변경된 백 버퍼의 크기를 얻고 렌더타켓 뷰를 다시 생성 및 적용.
 	rst = CreateRenderTargetView();
@@ -106,16 +115,16 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 	}
 
 	// 소멸했던 깊이 스텐실 버퍼와 깊이 스텐실 뷰 다시 생성 및 적용
-	// 뷰포트 재 지정.
-	CreateViewPort(x, y, width, height);
 
 	rst = CreateDepthStencilView();
 	if (FAILED(rst))
 	{
 		return false;
 	}
-
 	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, m_pDepthStencilView);
+
+	// 뷰포트 재 지정.
+	CreateViewPort(x, y, width, height);
 
 	return true;
 }
@@ -203,7 +212,7 @@ HRESULT DXDevice::CreateDevice()
 
 	// 축약 버전
 	//HRESULT rst; // Dx의 모든 반환값은 HRESULT 사용
-	D3D_FEATURE_LEVEL* pFeatureLevel = nullptr;
+	D3D_FEATURE_LEVEL pFeatureLevel; // = nullptr;
 	D3D_FEATURE_LEVEL pFeatureLevels[] = { D3D_FEATURE_LEVEL_11_0 };
 	//ID3D11Device** ppDevice;
 	UINT createDeviceFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT; // 기본은 0인데, 이 플래그를 넣어야 랜더 타겟 생성이 지원이 된다.
@@ -212,7 +221,7 @@ HRESULT DXDevice::CreateDevice()
 #endif 
 	//rst = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, pFeatureLevels, 1, D3D11_SDK_VERSION, &m_pd3dDevice, pFeatureLevel, &m_pImmediateContext); // 디바이스 생성
 
-	return D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, pFeatureLevels, 1, D3D11_SDK_VERSION, &m_pd3dDevice, pFeatureLevel, &m_pImmediateContext);
+	return D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, pFeatureLevels, 1, D3D11_SDK_VERSION, &m_pd3dDevice, &pFeatureLevel, &m_pImmediateContext);
 }
 
 HRESULT DXDevice::CreateFactory()
@@ -228,7 +237,7 @@ HRESULT DXDevice::CreateFactory()
 	return CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&m_pGIFactory);
 }
 
-HRESULT DXDevice::CreateSwapChain()
+HRESULT DXDevice::CreateSwapChain(int width, int height)
 {
 	//////////////////////////////////////////////////////////////////////
 	// 3) 스왑체인 생성
@@ -249,16 +258,15 @@ HRESULT DXDevice::CreateSwapChain()
 	// DXGI_SWAP_EFFECT SwapEffect;
 	// UINT Flags;
 
-	ZeroMemory(&Desc, sizeof(DXGI_SWAP_CHAIN_DESC));
+	ZeroMemory(&Desc, sizeof(Desc));
 
 	// UINT BufferCount;
 	Desc.BufferCount = 1; // 백 버퍼 개수
 
 	// DXGI_MODE_DESC BufferDesc; // 가장 중요
-	RECT rc;
-	GetClientRect(m_hWnd, &rc);
-	Desc.BufferDesc.Width = rc.right - rc.left; // 클라이언트 Width // 클라이언트 크기보다 작게 만들면 안됨.
-	Desc.BufferDesc.Height = rc.bottom - rc.top; // 클라이언트 Height
+	
+	Desc.BufferDesc.Width = width; // 클라이언트 Width // 클라이언트 크기보다 작게 만들면 안됨.
+	Desc.BufferDesc.Height = height; // 클라이언트 Height
 	Desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 32비트 RGBA 사용
 	Desc.BufferDesc.RefreshRate.Numerator = 60; // 모니터 주사율
 	Desc.BufferDesc.RefreshRate.Denominator = 1; // 분모, Numerator / Denominator == 60 / 1 == 60 Hz

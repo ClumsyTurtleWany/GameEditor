@@ -245,3 +245,16 @@ BOOL CGameEditorTestVer0App::OnIdle(LONG lCount)
 	//return CWinAppEx::OnIdle(lCount);
 	return TRUE;
 }
+
+void CGameEditorTestVer0App::Update()
+{
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	pMainFrame->UpdateOutliner();
+}
+
+void CGameEditorTestVer0App::SelectEntity(ECS::Entity* entity)
+{
+	SelectedEntity = entity;
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	pMainFrame->m_wndDetailDockPane.UpdateDetail(SelectedEntity);
+}

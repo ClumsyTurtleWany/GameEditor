@@ -18,6 +18,7 @@ Light::Light()
 {
 	this->AddComponent<MovementComponent>();
 	this->AddComponent<TransformComponent>();
+	this->Name = L"Light" + std::to_wstring(this->ID);
 }
 
 Light::~Light()

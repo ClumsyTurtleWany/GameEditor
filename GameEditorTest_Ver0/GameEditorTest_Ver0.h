@@ -29,6 +29,7 @@ class CGameEditorTestVer0App : public CWinAppEx
 public:
 	CGameEditorTestVer0App() noexcept;
 	TestClass*	m_TestClass;
+	ECS::Entity* SelectedEntity = nullptr;
 
 public:
 	
@@ -48,6 +49,10 @@ public:
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
 	virtual BOOL OnIdle(LONG lCount);
+
+public:
+	void Update();
+	void SelectEntity(ECS::Entity* entity);
 };
 
 extern CGameEditorTestVer0App theApp;

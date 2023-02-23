@@ -1,73 +1,79 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Landscape">
-      <UniqueIdentifier>{11c6da3a-0f54-416a-8c3b-fbd418e35737}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Outliner">
-      <UniqueIdentifier>{26025d87-acaf-4cb0-9735-a5349acd9f15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Detail">
-      <UniqueIdentifier>{0c31f3c5-714d-43f0-80e0-dfeb47408df4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="FBXLoader">
       <UniqueIdentifier>{92c5f636-e2f7-4689-87a9-db0ee148ba7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC">
+      <UniqueIdentifier>{971ae425-88ef-46f6-8ecc-fcc83d5e46af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{fc3da118-8618-41c4-9f71-40d671c8d4fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="MFC\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="MFC\DockPane">
+      <UniqueIdentifier>{6f17e485-18ce-4c90-b421-9ed20f1e3c6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\DockPane\Outliner">
+      <UniqueIdentifier>{26025d87-acaf-4cb0-9735-a5349acd9f15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\DockPane\Landscape">
+      <UniqueIdentifier>{11c6da3a-0f54-416a-8c3b-fbd418e35737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\DockPane\Detail">
+      <UniqueIdentifier>{0c31f3c5-714d-43f0-80e0-dfeb47408df4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\DockPane\ClassView">
+      <UniqueIdentifier>{4d718f1d-3b52-44b3-b29a-f4f80b851294}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\DockPane\FileView">
+      <UniqueIdentifier>{c6a10436-b944-49a0-b2c6-054e7a8e6f2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\DockPane\Property">
+      <UniqueIdentifier>{2058aa07-9e8b-46dc-aa58-d74411866713}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\DockPane\Output">
+      <UniqueIdentifier>{88d3f46c-d82d-41d2-960b-1426d34ca066}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEditorTest_Ver0.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MainFrm.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameEditorTest_Ver0Doc.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameEditorTest_Ver0View.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="FileView.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ClassView.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ViewTree.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="OutputWnd.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="PropertiesWnd.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="TestClass.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="MousePicker.h">
       <Filter>FBXLoader</Filter>
@@ -79,60 +85,60 @@
       <Filter>FBXLoader</Filter>
     </ClInclude>
     <ClInclude Include="LandscapeDockPane.h">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClInclude>
     <ClInclude Include="LandscapeManagementFormView.h">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClInclude>
     <ClInclude Include="LandscapeParentDlg.h">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClInclude>
     <ClInclude Include="LandscapeSculptingFormView.h">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClInclude>
     <ClInclude Include="OutlinerDockPane.h">
-      <Filter>Outliner</Filter>
+      <Filter>MFC\DockPane\Outliner</Filter>
     </ClInclude>
     <ClInclude Include="OutlinerParentDlg.h">
-      <Filter>Outliner</Filter>
+      <Filter>MFC\DockPane\Outliner</Filter>
     </ClInclude>
     <ClInclude Include="DetailDockPane.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>MFC\DockPane\Detail</Filter>
+    </ClInclude>
+    <ClInclude Include="TestClass.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ClassView.h">
+      <Filter>MFC\DockPane\ClassView</Filter>
+    </ClInclude>
+    <ClInclude Include="FileView.h">
+      <Filter>MFC\DockPane\FileView</Filter>
+    </ClInclude>
+    <ClInclude Include="PropertiesWnd.h">
+      <Filter>MFC\DockPane\Property</Filter>
+    </ClInclude>
+    <ClInclude Include="OutputWnd.h">
+      <Filter>MFC\DockPane\Output</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEditorTest_Ver0.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MainFrm.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameEditorTest_Ver0Doc.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="GameEditorTest_Ver0View.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="FileView.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ClassView.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ViewTree.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="OutputWnd.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="PropertiesWnd.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="TestClass.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC\소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="MousePicker.cpp">
       <Filter>FBXLoader</Filter>
@@ -144,25 +150,40 @@
       <Filter>FBXLoader</Filter>
     </ClCompile>
     <ClCompile Include="LandscapeDockPane.cpp">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="LandscapeManagementFormView.cpp">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="LandscapeParentDlg.cpp">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="LandscapeSculptingFormView.cpp">
-      <Filter>Landscape</Filter>
+      <Filter>MFC\DockPane\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="OutlinerDockPane.cpp">
-      <Filter>Outliner</Filter>
+      <Filter>MFC\DockPane\Outliner</Filter>
     </ClCompile>
     <ClCompile Include="OutlinerParentDlg.cpp">
-      <Filter>Outliner</Filter>
+      <Filter>MFC\DockPane\Outliner</Filter>
     </ClCompile>
     <ClCompile Include="DetailDockPane.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>MFC\DockPane\Detail</Filter>
+    </ClCompile>
+    <ClCompile Include="TestClass.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassView.cpp">
+      <Filter>MFC\DockPane\ClassView</Filter>
+    </ClCompile>
+    <ClCompile Include="FileView.cpp">
+      <Filter>MFC\DockPane\FileView</Filter>
+    </ClCompile>
+    <ClCompile Include="PropertiesWnd.cpp">
+      <Filter>MFC\DockPane\Property</Filter>
+    </ClCompile>
+    <ClCompile Include="OutputWnd.cpp">
+      <Filter>MFC\DockPane\Output</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

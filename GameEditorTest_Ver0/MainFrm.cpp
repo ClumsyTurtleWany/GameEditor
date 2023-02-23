@@ -240,6 +240,11 @@ bool CMainFrame::InitializeRibbonBar()
 	return false;
 }
 
+void CMainFrame::UpdateOutliner()
+{
+	m_wndOutlinerDockPane.Update();
+}
+
 // CMainFrame 진단
 
 #ifdef _DEBUG

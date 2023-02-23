@@ -23,6 +23,9 @@
 #include "GameEditorTest_Ver0Doc.h"
 #include "GameEditorTest_Ver0View.h"
 #include "DebugCamera.h"
+//#include "Landscape.h"
+//#include "Actor.h"
+//#include "FBXLoader.hpp"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -118,11 +121,28 @@ void CGameEditorTestVer0View::OnSize(UINT nType, int cx, int cy)
 	int x = cx;
 	int y = cy;
 
+	HWND hWnd = GetSafeHwnd();
+
 	if (theApp.m_TestClass != nullptr)
 	{
 		if (cx > 0 && cy > 0)
 		{
-			theApp.m_TestClass->ResizeDevice(0, 0, cx, cy);
+			float aspectRatio = static_cast<float>(cx) / static_cast<float>(cy);
+			float targetRatio = 16.0f / 9.0f;
+			if (aspectRatio < targetRatio)
+			{
+				float width = static_cast<float>(cy) * targetRatio;
+				theApp.m_TestClass->Resize(0, 0, width, cy);
+			}
+			else if (aspectRatio > targetRatio)
+			{
+				float height = static_cast<float>(cx) / targetRatio;
+				theApp.m_TestClass->Resize(0, 0, cx, height);
+			}
+			else
+			{
+				theApp.m_TestClass->Resize(0, 0, cx, cy);
+			}
 		}
 	}
 	int a = 0;
@@ -168,6 +188,82 @@ void CGameEditorTestVer0View::OnRButtonDown(UINT nFlags, CPoint point)
 void CGameEditorTestVer0View::OnRButtonUp(UINT /* nFlags */, CPoint point)
 {
 	RbtnDown = false;
+	
+	//if (!theApp.m_TestClass->SelectedFilename.empty())
+	//{
+	//	for (auto& it : theApp.m_TestClass->World.GetEntities<Landscape>())
+	//	{
+	//		auto landscape = it->GetComponent<Landscape>();
+	//		for (auto& comp : landscape->Components)
+	//		{
+	//			for (auto& face : comp.Faces)
+	//			{
+	//				if (theApp.m_TestClass->Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
+	//				{
+	//					auto mesh = theApp.m_TestClass->StaticMeshMap.find(theApp.m_TestClass->SelectedFilename);
+	//					if (mesh != theApp.m_TestClass->StaticMeshMap.end())
+	//					{
+	//						StaticMeshComponent* meshComp = mesh->second.get();
+	//						Actor* NewActor = new Actor;
+	//						auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+	//						staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+	//						for (auto& it : staticMeshComp->Meshes)
+	//						{
+	//							it.SetContext(theApp.m_TestClass->GetContext());
+	//						}
+	//						staticMeshComp->SetContext(theApp.m_TestClass->GetContext());
+
+	//						auto transform = NewActor->GetComponent<TransformComponent>();
+	//						transform->Translation = theApp.m_TestClass->Picker.IntercetionPosition;
+
+	//						theApp.m_TestClass->World.AddEntity(NewActor);
+	//					}
+	//					else
+	//					{
+	//						std::unique_ptr<StaticMeshComponent> staticMesh = std::make_unique<StaticMeshComponent>();
+	//						if (FBXLoader::getInstance()->Load(L"../resource/FBX/" + theApp.m_TestClass->SelectedFilename, staticMesh.get()))
+	//						{
+	//							theApp.m_TestClass->StaticMeshMap.insert(std::make_pair(theApp.m_TestClass->SelectedFilename, std::move(staticMesh)));
+	//						}
+
+	//						auto mesh = theApp.m_TestClass->StaticMeshMap.find(theApp.m_TestClass->SelectedFilename);
+	//						if (mesh != theApp.m_TestClass->StaticMeshMap.end())
+	//						{
+	//							StaticMeshComponent* meshComp = mesh->second.get();
+	//							Actor* NewActor = new Actor;
+	//							auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+	//							staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+	//							//staticMeshComp = meshComp;
+	//							for (auto& it : staticMeshComp->Meshes)
+	//							{
+	//								it.SetContext(theApp.m_TestClass->GetContext());
+	//							}
+	//							staticMeshComp->SetContext(theApp.m_TestClass->GetContext());
+
+	//							auto transform = NewActor->GetComponent<TransformComponent>();
+	//							transform->Translation = theApp.m_TestClass->Picker.IntercetionPosition;
+
+	//							theApp.m_TestClass->World.AddEntity(NewActor);
+	//						}
+	//					}
+
+	//					theApp.Update();
+	//				}
+	//			}
+
+	//		}
+
+	//	}
+	//}
+
+	if (theApp.m_TestClass->AddSelectedEntity())
+	{
+		theApp.m_TestClass->SelectedFilename.clear();
+		theApp.Update();
+	}
+
+
+
 	//ClientToScreen(&point);
 	//OnContextMenu(this, point);
 }

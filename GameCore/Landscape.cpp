@@ -5,6 +5,8 @@
 Landscape::Landscape()
 {
 	Initialize();
+	//this->AddComponent<TransformComponent>();
+	//this->Name = L"Landscape" + std::to_wstring(this->ID);
 }
 
 Landscape::~Landscape()

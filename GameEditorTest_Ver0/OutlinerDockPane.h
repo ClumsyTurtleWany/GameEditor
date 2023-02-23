@@ -23,7 +23,7 @@ public:
 	afx_msg void OnPaint();
 
 public:
-
+	void Update();
 };
 
 

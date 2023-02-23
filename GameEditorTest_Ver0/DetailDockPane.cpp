@@ -128,32 +128,42 @@ void DetailDockPane::UpdateDetail(ECS::Entity* entity)
 	{
 		if (entity->has<TransformComponent>())
 		{
+			auto comp = entity->GetComponent<TransformComponent>();
 			CMFCPropertyGridProperty* transformProp = new CMFCPropertyGridProperty(_T("Transform"));
 			m_PropList.AddProperty(transformProp);
 
 			//transformProp->AddSubItem(new CMFCPropertyGridProperty)
 			CMFCPropertyGridProperty* translationProp = new CMFCPropertyGridProperty(_T("Translation"), 0, TRUE);
-			CMFCPropertyGridProperty* tx = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)0.0, _T("Translation X"));
-			CMFCPropertyGridProperty* ty = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)0.0, _T("Translation Y"));
-			CMFCPropertyGridProperty* tz = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)0.0, _T("Translation Z"));
+			CMFCPropertyGridProperty* tx = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)comp->Translation.x, _T("Translation X"));
+			CMFCPropertyGridProperty* ty = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)comp->Translation.y, _T("Translation Y"));
+			CMFCPropertyGridProperty* tz = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)comp->Translation.z, _T("Translation Z"));
+			tx->SetData(1);
+			ty->SetData(2);
+			tz->SetData(3);
 			translationProp->AddSubItem(tx);
 			translationProp->AddSubItem(ty);
 			translationProp->AddSubItem(tz);
 			m_PropList.AddProperty(translationProp);
 
 			CMFCPropertyGridProperty* rotationProp = new CMFCPropertyGridProperty(_T("Rotation"), 0, TRUE);
-			CMFCPropertyGridProperty* rx = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)0.0, _T("Rotation X"));
-			CMFCPropertyGridProperty* ry = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)0.0, _T("Rotation Y"));
-			CMFCPropertyGridProperty* rz = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)0.0, _T("Rotation Z"));
+			CMFCPropertyGridProperty* rx = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)comp->Rotation.x, _T("Rotation X"));
+			CMFCPropertyGridProperty* ry = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)comp->Rotation.y, _T("Rotation Y"));
+			CMFCPropertyGridProperty* rz = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)comp->Rotation.z, _T("Rotation Z"));
+			rx->SetData(4);
+			ry->SetData(5);
+			rz->SetData(6);
 			rotationProp->AddSubItem(rx);
 			rotationProp->AddSubItem(ry);
 			rotationProp->AddSubItem(rz);
 			m_PropList.AddProperty(rotationProp);
 
 			CMFCPropertyGridProperty* scaleProp = new CMFCPropertyGridProperty(_T("Scale"), 0, TRUE);
-			CMFCPropertyGridProperty* sx = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)0.0, _T("Scale X"));
-			CMFCPropertyGridProperty* sy = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)0.0, _T("Scale Y"));
-			CMFCPropertyGridProperty* sz = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)0.0, _T("Scale Z"));
+			CMFCPropertyGridProperty* sx = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)comp->Scale.x, _T("Scale X"));
+			CMFCPropertyGridProperty* sy = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)comp->Scale.y, _T("Scale Y"));
+			CMFCPropertyGridProperty* sz = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)comp->Scale.z, _T("Scale Z"));
+			sx->SetData(7);
+			sy->SetData(8);
+			sz->SetData(9);
 			scaleProp->AddSubItem(sx);
 			scaleProp->AddSubItem(sy);
 			scaleProp->AddSubItem(sz);
@@ -206,7 +216,58 @@ LRESULT DetailDockPane::OnPropertyChanged(WPARAM wp, LPARAM lp)
 		break;
 	}
 
-	AfxMessageBox(str);
+	//AfxMessageBox(str);
+	auto comp = TargetEntity->GetComponent<TransformComponent>();
+
+	switch (id)
+	{
+	case 1:
+	{
+		comp->Translation.x = var.fltVal;
+	}
+	break;
+	case 2:
+	{
+		comp->Translation.y = var.fltVal;
+	}
+	break;
+	case 3:
+	{
+		comp->Translation.z = var.fltVal;
+	}
+	break;
+	case 4:
+	{
+		comp->Rotation.x = var.fltVal;
+	}
+	break;
+	case 5:
+	{
+		comp->Rotation.y = var.fltVal;
+	}
+	break;
+	case 6:
+	{
+		comp->Rotation.z = var.fltVal;
+	}
+	break;
+	case 7:
+	{
+		comp->Scale.x = var.fltVal;
+	}
+	break;
+	case 8:
+	{
+		comp->Scale.y = var.fltVal;
+	}
+	break;
+	case 9:
+	{
+		comp->Scale.z = var.fltVal;
+	}
+	break;
+	}
+
 
 	return 0L;
 }

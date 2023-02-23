@@ -218,7 +218,7 @@ void LandscapeManagementFormView::OnBtnClickedBuildLandscape()
 	if (width > 0 && height > 0)
 	{
 		theApp.m_TestClass->CreateLandscape(width, height, 7);
-		
+		theApp.Update();
 	}
 
 }

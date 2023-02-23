@@ -47,12 +47,14 @@ void Camera::CreateProjectionMatrix(float nearDist, float farDist, float fov, fl
 	float w = h / AspectRatio;
 	float q = FarDistance / (FarDistance - NearDistance);
 
-	Projection._11 = w;
+	/*Projection._11 = w;
 	Projection._22 = h;
 	Projection._33 = q;
 	Projection._43 = -q * NearDistance;
 	Projection._34 = 1.0f;
-	Projection._44 = 0.0f;
+	Projection._44 = 0.0f;*/
+
+	Projection = DirectX::XMMatrixPerspectiveFovLH(fov, aspectRatio, NearDistance, FarDistance);
 
 	Frustum = DirectX::BoundingFrustum(Projection);
 }

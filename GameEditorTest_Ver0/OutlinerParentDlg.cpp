@@ -68,15 +68,41 @@ void OutlinerParentDlg::OnTvnSelchangedOutlinerTree(NMHDR* pNMHDR, LRESULT* pRes
 {
 	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString strName;
+	HTREEITEM selectedItem = OutlinerTree.GetSelectedItem();
+	strName = OutlinerTree.GetItemText(selectedItem);
+	//int id = _ttoi(strName);
+
+	if (theApp.m_TestClass != nullptr)
+	{
+		for (auto& it : theApp.m_TestClass->World.GetAllEntities())
+		{
+			ECS::Entity* entity = it.get();
+			CString entityName = CString::CStringT(entity->GetName().c_str());
+			if (strName == entityName)
+			{
+				theApp.SelectEntity(entity);
+				break;
+			}
+		}
+	}
+
 
 	*pResult = 0;
 }
 
 void OutlinerParentDlg::Update()
 {
+	OutlinerTree.DeleteAllItems();
+	Root = OutlinerTree.InsertItem(L"Root", NULL, NULL);
 	for (auto& it : theApp.m_TestClass->World.GetAllEntities())
 	{
 		ECS::Entity* entity = it.get();
-		entity.
+		//CString str;
+		//str.Format(_T("%d"), entity->GetID());
+		CString strName = CString::CStringT(entity->GetName().c_str());
+		OutlinerTree.InsertItem(strName, NULL, NULL, Root);
 	}
+
+	RedrawWindow();
 }
