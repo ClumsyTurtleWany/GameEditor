@@ -9,21 +9,10 @@
       <UniqueIdentifier>{92c5f636-e2f7-4689-87a9-db0ee148ba7d}</UniqueIdentifier>
     </Filter>
     <Filter Include="MFC">
-      <UniqueIdentifier>{971ae425-88ef-46f6-8ecc-fcc83d5e46af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Core">
-      <UniqueIdentifier>{fc3da118-8618-41c4-9f71-40d671c8d4fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MFC\소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="MFC\헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+      <UniqueIdentifier>{4eb92aa5-9931-4e2a-bf5c-18365d70adfb}</UniqueIdentifier>
     </Filter>
     <Filter Include="MFC\DockPane">
-      <UniqueIdentifier>{6f17e485-18ce-4c90-b421-9ed20f1e3c6f}</UniqueIdentifier>
+      <UniqueIdentifier>{e1c9f15c-2f30-4357-a930-536f69c30eac}</UniqueIdentifier>
     </Filter>
     <Filter Include="MFC\DockPane\Outliner">
       <UniqueIdentifier>{26025d87-acaf-4cb0-9735-a5349acd9f15}</UniqueIdentifier>
@@ -35,16 +24,27 @@
       <UniqueIdentifier>{0c31f3c5-714d-43f0-80e0-dfeb47408df4}</UniqueIdentifier>
     </Filter>
     <Filter Include="MFC\DockPane\ClassView">
-      <UniqueIdentifier>{4d718f1d-3b52-44b3-b29a-f4f80b851294}</UniqueIdentifier>
+      <UniqueIdentifier>{c989ce20-6c1e-49cb-81e2-aaedee167690}</UniqueIdentifier>
     </Filter>
     <Filter Include="MFC\DockPane\FileView">
-      <UniqueIdentifier>{c6a10436-b944-49a0-b2c6-054e7a8e6f2b}</UniqueIdentifier>
+      <UniqueIdentifier>{a2daa3eb-8055-492a-8378-79a14b023af7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MFC\DockPane\Property">
-      <UniqueIdentifier>{2058aa07-9e8b-46dc-aa58-d74411866713}</UniqueIdentifier>
+    <Filter Include="MFC\DockPane\PropertyView">
+      <UniqueIdentifier>{2d98b51b-5815-445e-97c9-21220d884ad3}</UniqueIdentifier>
     </Filter>
     <Filter Include="MFC\DockPane\Output">
-      <UniqueIdentifier>{88d3f46c-d82d-41d2-960b-1426d34ca066}</UniqueIdentifier>
+      <UniqueIdentifier>{cbb66abe-de02-427f-aed1-975e736204ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6cd6f8e9-0e16-4825-bb6d-d17504090883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MFC\소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="MFC\헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -105,20 +105,20 @@
     <ClInclude Include="DetailDockPane.h">
       <Filter>MFC\DockPane\Detail</Filter>
     </ClInclude>
-    <ClInclude Include="TestClass.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="PropertiesWnd.h">
+      <Filter>MFC\DockPane\PropertyView</Filter>
     </ClInclude>
-    <ClInclude Include="ClassView.h">
-      <Filter>MFC\DockPane\ClassView</Filter>
+    <ClInclude Include="OutputWnd.h">
+      <Filter>MFC\DockPane\Output</Filter>
     </ClInclude>
     <ClInclude Include="FileView.h">
       <Filter>MFC\DockPane\FileView</Filter>
     </ClInclude>
-    <ClInclude Include="PropertiesWnd.h">
-      <Filter>MFC\DockPane\Property</Filter>
+    <ClInclude Include="ClassView.h">
+      <Filter>MFC\DockPane\ClassView</Filter>
     </ClInclude>
-    <ClInclude Include="OutputWnd.h">
-      <Filter>MFC\DockPane\Output</Filter>
+    <ClInclude Include="TestClass.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -170,20 +170,20 @@
     <ClCompile Include="DetailDockPane.cpp">
       <Filter>MFC\DockPane\Detail</Filter>
     </ClCompile>
-    <ClCompile Include="TestClass.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="PropertiesWnd.cpp">
+      <Filter>MFC\DockPane\PropertyView</Filter>
     </ClCompile>
-    <ClCompile Include="ClassView.cpp">
-      <Filter>MFC\DockPane\ClassView</Filter>
+    <ClCompile Include="OutputWnd.cpp">
+      <Filter>MFC\DockPane\Output</Filter>
     </ClCompile>
     <ClCompile Include="FileView.cpp">
       <Filter>MFC\DockPane\FileView</Filter>
     </ClCompile>
-    <ClCompile Include="PropertiesWnd.cpp">
-      <Filter>MFC\DockPane\Property</Filter>
+    <ClCompile Include="ClassView.cpp">
+      <Filter>MFC\DockPane\ClassView</Filter>
     </ClCompile>
-    <ClCompile Include="OutputWnd.cpp">
-      <Filter>MFC\DockPane\Output</Filter>
+    <ClCompile Include="TestClass.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

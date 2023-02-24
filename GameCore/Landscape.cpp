@@ -187,7 +187,7 @@ void Landscape::SetCamera(Camera* camera)
 void Landscape::UpdateTransformMatrix(const TransformComponent& transform)
 {
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(transform.Rotation);
-	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, transform.Translation, q, transform.Translation);
+	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, Vector3(0.0f, 0.0f, 0.0f), q, transform.Translation);
 	TransformData.Mat = TransformData.Mat.Transpose();
 }
 

@@ -258,3 +258,18 @@ void CGameEditorTestVer0App::SelectEntity(ECS::Entity* entity)
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	pMainFrame->m_wndDetailDockPane.UpdateDetail(SelectedEntity);
 }
+
+bool CGameEditorTestVer0App::SaveProject()
+{
+	return false;
+}
+
+bool CGameEditorTestVer0App::SaveAsProject()
+{
+	return false;
+}
+
+bool CGameEditorTestVer0App::LoadProject()
+{
+	return false;
+}

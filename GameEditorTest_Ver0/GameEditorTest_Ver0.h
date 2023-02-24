@@ -53,6 +53,12 @@ public:
 public:
 	void Update();
 	void SelectEntity(ECS::Entity* entity);
+
+public:
+	bool SaveProject();
+	bool SaveAsProject();
+	bool LoadProject();
+
 };
 
 extern CGameEditorTestVer0App theApp;

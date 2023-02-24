@@ -116,6 +116,57 @@ DXTexture* DXTextureManager::getTexture(const char* _filename)
 	return nullptr;
 }
 
+ID3D11Texture2D* DXTextureManager::CreateAlphaTexture(int width, int height)
+{
+	D3D11_TEXTURE2D_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	desc.Width = width;
+	desc.Height = height;
+	desc.MipLevels = 1;
+	desc.ArraySize = 1;
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.Usage = D3D11_USAGE_DEFAULT;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	desc.CPUAccessFlags = 0;
+	desc.MiscFlags = 0;
+
+	float* alphaData = new float[width * height * 4];
+	for (size_t row = 0; row < height; row++)
+	{
+		for (size_t col = 0; col < width; col++)
+		{
+			float* pixel = &alphaData[width * row * 4 + col * 4];
+			pixel[0] = 0.0f;
+			pixel[1] = 0.0f;
+			pixel[2] = 0.0f;
+			pixel[3] = 0.0f;
+		}
+	}
+
+	ID3D11Texture2D* pTexture;
+	D3D11_SUBRESOURCE_DATA initData;
+	initData.pSysMem = alphaData;
+	initData.SysMemPitch = sizeof(float) * 4 * width;
+	initData.SysMemSlicePitch = 0;
+	HRESULT result = m_pd3dDevice->CreateTexture2D(&desc, &initData, &pTexture);
+	if (FAILED(result))
+	{
+		return nullptr;
+	}
+	else
+	{
+		
+		return pTexture;
+	}
+
+	ID3D11ShaderResourceView* pResourceView;
+	result = m_pd3dDevice->CreateShaderResourceView(pTexture, NULL, &pResourceView);
+	
+
+	return nullptr;
+}
+
 bool DXTextureManager::initialize()
 {
 	return true;

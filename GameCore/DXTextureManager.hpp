@@ -24,6 +24,8 @@ public:
 	DXTexture* getTexture(std::wstring _filename);
 	DXTexture* getTexture(std::string _filename);
 	DXTexture* getTexture(const char* _filename);
+
+	ID3D11Texture2D* CreateAlphaTexture(int width, int height);
 	
 public:
 	bool initialize();
