@@ -55,6 +55,7 @@
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SculptingData.h" />
     <ClInclude Include="SkeletalMeshComponent.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticMeshComponent.h" />

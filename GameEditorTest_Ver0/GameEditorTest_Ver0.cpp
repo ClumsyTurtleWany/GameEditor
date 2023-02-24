@@ -22,6 +22,8 @@
 #include "GameEditorTest_Ver0Doc.h"
 #include "GameEditorTest_Ver0View.h"
 
+#include "NewProjectDlg.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -70,6 +72,17 @@ CGameEditorTestVer0App theApp;
 
 BOOL CGameEditorTestVer0App::InitInstance()
 {
+	//NewProjectDlg dlg;
+	//if (dlg.DoModal() == IDCANCEL)
+	//{
+	//	return FALSE;
+	//}
+	//else
+	//{
+	//
+	//}
+
+
 	// 애플리케이션 매니페스트가 ComCtl32.dll 버전 6 이상을 사용하여 비주얼 스타일을
 	// 사용하도록 지정하는 경우, Windows XP 상에서 반드시 InitCommonControlsEx()가 필요합니다. 
 	// InitCommonControlsEx()를 사용하지 않으면 창을 만들 수 없습니다.
@@ -145,7 +158,11 @@ BOOL CGameEditorTestVer0App::InitInstance()
 	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
 	CGameEditorTestVer0View* pMainView = (CGameEditorTestVer0View*)pMainFrame->GetActiveView();
 	m_TestClass = new TestClass(pMainView->m_hWnd);
-	m_TestClass->CoreInitialize();
+	if (!m_TestClass->CoreInitialize())
+	{
+		TRACE0("Failed Core Initialize.\n");
+		return FALSE;
+	}
 
 	// 창 하나만 초기화되었으므로 이를 표시하고 업데이트합니다.
 	m_pMainWnd->ShowWindow(SW_SHOW);
@@ -259,8 +276,16 @@ void CGameEditorTestVer0App::SelectEntity(ECS::Entity* entity)
 	pMainFrame->m_wndDetailDockPane.UpdateDetail(SelectedEntity);
 }
 
+bool CGameEditorTestVer0App::NewProject()
+{
+	
+	
+	return false;
+}
+
 bool CGameEditorTestVer0App::SaveProject()
 {
+	
 	return false;
 }
 
@@ -270,6 +295,26 @@ bool CGameEditorTestVer0App::SaveAsProject()
 }
 
 bool CGameEditorTestVer0App::LoadProject()
+{
+	return false;
+}
+
+bool CGameEditorTestVer0App::NewLevel()
+{
+	return false;
+}
+
+bool CGameEditorTestVer0App::SaveLevel()
+{
+	return false;
+}
+
+bool CGameEditorTestVer0App::SaveAsLevel()
+{
+	return false;
+}
+
+bool CGameEditorTestVer0App::LoadLevel()
 {
 	return false;
 }

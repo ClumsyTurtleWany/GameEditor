@@ -8,9 +8,9 @@ struct PixelShader_input
 	float3 n : NORMAL;
 	float4 c : COLOR0; // COLOR0 과 COLOR1 밖에 없음.
 	float2 t : TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
-	float4 lightColor : TEXCOORD1;
-	float4 vWorld : TEXCOORD2;
-	float3 light : TEXCOORD3;
+	//float4 lightColor : TEXCOORD1;
+	float4 vWorld : TEXCOORD1;
+	//float3 light : TEXCOORD3;
 };
 
 Texture2D		g_txTextureA	: register(t0); // register를 안 붙여주면 기본적으로 0번 레지스터에 들어감.
@@ -21,6 +21,7 @@ float4 PS(PixelShader_input _input) : SV_Target
 {
 	float4 vColor = g_txTextureA.Sample(g_SampleA, _input.t);
 	_input.c.a = 1.0f;
-	float fDot = max(0.3f, dot(_input.n, -_input.light)); // max 값으로 해주는 이유는 엠비언트 조명 효과를 내기 위함.
+	float3 vLight = float3(0.0f, -1.0f, 0.0f);
+	float fDot = max(0.3f, dot(_input.n, -vLight)); // max 값으로 해주는 이유는 엠비언트 조명 효과를 내기 위함.
 	return vColor * _input.c; //* float4(fDot, fDot, fDot, 1.0f);
 }

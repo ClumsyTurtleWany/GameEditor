@@ -46,6 +46,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="MFC\DockPane\NewProject">
+      <UniqueIdentifier>{86611368-19bb-4b4b-a259-9460dc3ae31f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEditorTest_Ver0.h">
@@ -120,6 +123,9 @@
     <ClInclude Include="TestClass.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="NewProjectDlg.h">
+      <Filter>MFC\DockPane\NewProject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEditorTest_Ver0.cpp">
@@ -184,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="TestClass.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="NewProjectDlg.cpp">
+      <Filter>MFC\DockPane\NewProject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

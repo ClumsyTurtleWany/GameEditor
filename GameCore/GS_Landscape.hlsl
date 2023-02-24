@@ -1,13 +1,11 @@
 struct GSOutput
 {
-	float4 pos : SV_POSITION;
-	float3 p : POSITION;
+	float4 p : SV_POSITION;
+	//float3 p : POSITION;
 	float3 n : NORMAL;
 	float4 c : COLOR0; // COLOR0 과 COLOR1 밖에 없음.
 	float2 t : TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
-	float4 lightColor : TEXCOORD1;
-	float4 vWorld : TEXCOORD2;
-	float3 light : TEXCOORD3;
+	float4 vWorld : TEXCOORD1;
 };
 
 cbuffer SculptingData : register(b0)
@@ -16,7 +14,7 @@ cbuffer SculptingData : register(b0)
 	float g_BrushRadius;
 	float g_Attenuation;
 	float g_Strength;
-	float g_HeightDir;
+	float g_Weight;
 }
 
 [maxvertexcount(3)]
@@ -30,7 +28,7 @@ void GS(triangle GSOutput input[3] : SV_POSITION, inout TriangleStream< GSOutput
 	
 		if (result > 0)
 		{
-			float yVal = g_Strength * g_HeightDir * result;
+			float yVal = g_Strength * g_Weight * result;
 			element = input[i];
 			element.p.y += yVal;
 		}

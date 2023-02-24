@@ -213,6 +213,9 @@
     <ClInclude Include="LightComponent.h">
       <Filter>ECS\Component</Filter>
     </ClInclude>
+    <ClInclude Include="SculptingData.h">
+      <Filter>DirectX\Data\ConstantData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsClient.cpp">

@@ -191,13 +191,22 @@ void Landscape::UpdateTransformMatrix(const TransformComponent& transform)
 	TransformData.Mat = TransformData.Mat.Transpose();
 }
 
+void Landscape::SetSculptingData(Vector3 pos, float radius, float attenuation, float strength, float weight)
+{
+	SculptData.Position = Vector4(pos.x, pos.y, pos.z, 0.0f);
+	SculptData.Radius = radius;
+	SculptData.Attenuation = attenuation;
+	SculptData.Strength = strength;
+	SculptData.Weight = weight;
+}
+
 bool Landscape::Initialize()
 {
 	VertexLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
 	VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
 	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
 	//StreamOutputBuffer = DXShaderManager::getInstance()->CreateStreamOutputBuffer();
-
+	//SculptingBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<SculptingData>(SculptData);
 
 	return true;
 }

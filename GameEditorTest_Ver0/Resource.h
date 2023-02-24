@@ -84,6 +84,7 @@
 #define IDI_FILE_SAVE                   316
 #define ID_COMBO_EDITOR_MODE            317
 #define IDB_FILE_SAVE                   318
+#define IDD_NewProjectDlg               319
 #define ID_STATICMESH_LIST_BOX          410
 #define IDB_FBX_SELECT                  411
 #define IDC_COMBO_SECTION               412
@@ -102,15 +103,17 @@
 #define ID_DetailDockPane               1011
 #define IDC_DETAIL_TREE                 1012
 #define IDC_LIST1                       1013
+#define IDC_EDIT1                       1014
+#define IDC_EDIT2                       1015
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        316
+#define _APS_NEXT_RESOURCE_VALUE        317
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1014
-#define _APS_NEXT_SYMED_VALUE           317
+#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_SYMED_VALUE           320
 #endif
 #endif

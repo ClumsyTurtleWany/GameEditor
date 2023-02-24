@@ -45,7 +45,7 @@ public:
 
 	bool CreateVertexShader();
 	bool CreatePixelShader();
-	bool CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl);
+	bool CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl = nullptr);
 
 	bool CreateInputLayout();
 	bool CreateStaticMeshInputLayout();

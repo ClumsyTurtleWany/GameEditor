@@ -32,7 +32,8 @@ public:
 	ECS::Entity* SelectedEntity = nullptr;
 
 public:
-	
+	std::wstring ProjectName;
+	std::wstring ProjectPath;
 
 // 재정의입니다.
 public:
@@ -55,9 +56,21 @@ public:
 	void SelectEntity(ECS::Entity* entity);
 
 public:
+	//-------------------------------------
+	// Project
+	//-------------------------------------
+	bool NewProject();
 	bool SaveProject();
 	bool SaveAsProject();
 	bool LoadProject();
+
+	//-------------------------------------
+	// Level
+	//-------------------------------------
+	bool NewLevel();
+	bool SaveLevel();
+	bool SaveAsLevel();
+	bool LoadLevel();
 
 };
 

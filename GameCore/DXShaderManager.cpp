@@ -292,17 +292,18 @@ bool DXShaderManager::CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl)
 		ID3D11GeometryShader* pGeometryShader;
 		//HRESULT result = m_pd3dDevice->CreateGeometryShader(it.second->GetBufferPointer(), it.second->GetBufferSize(), NULL, &pGeometryShader);
 		
-		//D3D11_SO_DECLARATION_ENTRY pDecl[] =
-		//{
-		//	{0, "SV_POSITION", 0, 0, 4, 0},
-		//	{0, "POSITION", 0, 0, 3, 0},
-		//	{0, "NORMAL", 0, 0, 3, 0},
-		//	{0, "TEXCOORD", 0, 0, 3, 0},
-		//	{0, "TEXCOORD", 1, 0, 2, 0},
-		//};
+		D3D11_SO_DECLARATION_ENTRY pDecl[] =
+		{
+			{0, "SV_POSITION", 0, 0, 4, 0},
+			{0, "POSITION", 0, 0, 3, 0},
+			{0, "NORMAL", 0, 0, 3, 0},
+			{0, "COLOR", 0, 0, 4, 0},
+			{0, "TEXCOORD", 0, 0, 2, 0},
+			{0, "TEXCOORD", 1, 0, 4, 0},
+		};
 
 		UINT entrySize = sizeof(decl);
-		HRESULT result = m_pd3dDevice->CreateGeometryShaderWithStreamOutput(it.second->GetBufferPointer(), it.second->GetBufferSize(), decl, sizeof(decl), NULL, 0, D3D11_SO_NO_RASTERIZED_STREAM, NULL, &pGeometryShader);
+		HRESULT result = m_pd3dDevice->CreateGeometryShaderWithStreamOutput(it.second->GetBufferPointer(), it.second->GetBufferSize(), pDecl, sizeof(pDecl), NULL, 0, D3D11_SO_NO_RASTERIZED_STREAM, NULL, &pGeometryShader);
 
 		if (FAILED(result))
 		{
@@ -699,8 +700,15 @@ bool DXShaderManager::Initialize()
 		return false;
 	}
 
+	/*if (!LoadGSCode(L"../include/Core/HLSL/GS_Landscape.hlsl"))
+	{
+		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load GS Code(GS_Landscape.hlsl).\n");
+		return false;
+	}*/
+
 	CreateVertexShader();
 	CreatePixelShader();
+	//CreateGeometryShader();
 	CreateInputLayout();
 
 	//// Load Vertex Shader Code.
