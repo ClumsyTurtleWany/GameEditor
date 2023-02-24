@@ -277,9 +277,7 @@ void CGameEditorTestVer0App::SelectEntity(ECS::Entity* entity)
 }
 
 bool CGameEditorTestVer0App::NewProject()
-{
-	
-	
+{	
 	return false;
 }
 
