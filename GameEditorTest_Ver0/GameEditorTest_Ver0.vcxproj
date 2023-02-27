@@ -195,6 +195,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ClassView.h" />
+    <ClInclude Include="DaeFile.h" />
     <ClInclude Include="DetailDockPane.h" />
     <ClInclude Include="FBXLoader.hpp" />
     <ClInclude Include="FBXObject.hpp" />
@@ -209,7 +210,10 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClInclude Include="LandscapeSculptingFormView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MousePicker.h" />
+    <ClInclude Include="MtlFile.h" />
     <ClInclude Include="NewProjectDlg.h" />
+    <ClInclude Include="ObjFile.h" />
+    <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="OutlinerDockPane.h" />
     <ClInclude Include="OutlinerParentDlg.h" />
     <ClInclude Include="OutputWnd.h" />
@@ -218,10 +222,13 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestClass.h" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
     <ClInclude Include="ViewTree.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ClassView.cpp" />
+    <ClCompile Include="DaeFile.cpp" />
     <ClCompile Include="DetailDockPane.cpp" />
     <ClCompile Include="FBXLoader.cpp" />
     <ClCompile Include="FBXObject.cpp" />
@@ -235,7 +242,10 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClCompile Include="LandscapeSculptingFormView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MousePicker.cpp" />
+    <ClCompile Include="MtlFile.cpp" />
     <ClCompile Include="NewProjectDlg.cpp" />
+    <ClCompile Include="ObjFile.cpp" />
+    <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="OutlinerDockPane.cpp" />
     <ClCompile Include="OutlinerParentDlg.cpp" />
     <ClCompile Include="OutputWnd.cpp" />
@@ -247,6 +257,10 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     </ClCompile>
     <ClCompile Include="PropertiesWnd.cpp" />
     <ClCompile Include="TestClass.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
