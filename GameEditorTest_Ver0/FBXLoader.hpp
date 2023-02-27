@@ -53,6 +53,7 @@ private:
 	bool ReadTextureCoord(FbxLayerElementUV* _uv, int _vertexIdx, int _uvIdx, FbxVector2& _dst);
 	bool ReadColorCoord(FbxLayerElementVertexColor* _color, int _vertexIdx, int _colorIdx, FbxColor& _dst);
 	bool ReadNormal(FbxLayerElementNormal* _normal, int _vertexIdx, int _normalIdx, FbxVector4& _dst);
+	bool ReadTangent(FbxLayerElementTangent* _tangent, int _vertexIdx, int _tangentIdx, FbxVector4& _dst);
 
 	int getSubMaterialIndex(FbxLayerElementMaterial* _material, int _polyIdx);
 

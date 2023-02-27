@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ObjLoader.h"
 
 bool ObjLoader::LoadMtl(std::wstring filename)

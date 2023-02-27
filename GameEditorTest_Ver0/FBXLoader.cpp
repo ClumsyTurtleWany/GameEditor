@@ -525,10 +525,11 @@ bool FBXLoader::ParseMesh(FbxMesh* _mesh, FBXFileData* _dst, FBXNodeData* _dstDa
 	}
 
 	// Layer 개념 필요. 여러번에 걸쳐 동일한 곳에 랜더링 하는것 == 멀티 패스 랜더링. 텍스쳐로 치환하면 멀티 텍스처 랜더링.
-	std::vector<FbxLayerElementUV*> UVList;
-	std::vector<FbxLayerElementVertexColor*> ColorList;
-	std::vector<FbxLayerElementMaterial*> MaterialList;
-	std::vector<FbxLayerElementNormal*> NormalList;
+	std::vector<FbxLayerElementUV*> uvList;
+	std::vector<FbxLayerElementVertexColor*> colorList;
+	std::vector<FbxLayerElementMaterial*> materialList;
+	std::vector<FbxLayerElementNormal*> normalList;
+	std::vector<FbxLayerElementTangent*> tangentList;
 	
 	int layerCount = _mesh->GetLayerCount();
 	//meshData.LayerList.resize(layerCount);
@@ -538,25 +539,31 @@ bool FBXLoader::ParseMesh(FbxMesh* _mesh, FBXFileData* _dst, FBXNodeData* _dstDa
 		FbxLayerElementUV* pUV = pLayer->GetUVs();
 		if (pUV != nullptr)
 		{
-			UVList.push_back(pUV);
+			uvList.push_back(pUV);
 		}
 
 		FbxLayerElementVertexColor* pColor = pLayer->GetVertexColors();
 		if (pColor != nullptr)
 		{
-			ColorList.push_back(pColor);
+			colorList.push_back(pColor);
 		}
 
 		FbxLayerElementMaterial* pMaterial = pLayer->GetMaterials();
 		if (pMaterial != nullptr)
 		{
-			MaterialList.push_back(pMaterial);
+			materialList.push_back(pMaterial);
 		}
 
 		FbxLayerElementNormal* pNormal = pLayer->GetNormals();
 		if (pNormal != nullptr)
 		{
-			NormalList.push_back(pNormal);
+			normalList.push_back(pNormal);
+		}
+
+		FbxLayerElementTangent* pTangent = pLayer->GetTangents();
+		if (pTangent != nullptr)
+		{
+			tangentList.push_back(pTangent);
 		}
 
 		//meshData.LayerList[layerIdx].ElementUV = pUV;
@@ -615,9 +622,9 @@ bool FBXLoader::ParseMesh(FbxMesh* _mesh, FBXFileData* _dst, FBXNodeData* _dstDa
 	{
 		int polySize = _mesh->GetPolygonSize(polyIdx);
 		int faceCount = polySize - 2;
-		if (!MaterialList.empty())
+		if (!materialList.empty())
 		{
-			MaterialIdx = getSubMaterialIndex(MaterialList[LayerIdx], polyIdx);
+			MaterialIdx = getSubMaterialIndex(materialList[LayerIdx], polyIdx);
 		}
 
 		for (int faceIdx = 0; faceIdx < faceCount; faceIdx++)
@@ -663,22 +670,23 @@ bool FBXLoader::ParseMesh(FbxMesh* _mesh, FBXFileData* _dst, FBXNodeData* _dstDa
 				Vector3 normal;
 				Vector4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
 				Vector2 texture;
+				Vector3 tangent;
 				FbxVector2 tex; // = ;
 				int uvidx = UVidx[idx];
-				if (!UVList.empty())
+				if (!uvList.empty())
 				{
-					if (ReadTextureCoord(UVList[LayerIdx], vertexIdx, uvidx, tex))
+					if (ReadTextureCoord(uvList[LayerIdx], vertexIdx, uvidx, tex))
 					{
 						texture.x = tex.mData[0];
 						texture.y = 1.0f - tex.mData[1];
 					}
 				}
 
-				if (!ColorList.empty())
+				if (!colorList.empty())
 				{
 					int colorIdx = basePolyIdx + vertexColorIdx[idx];
 					FbxColor fbxColor;
-					if (ReadColorCoord(ColorList[LayerIdx], vertexIdx, colorIdx, fbxColor))
+					if (ReadColorCoord(colorList[LayerIdx], vertexIdx, colorIdx, fbxColor))
 					{
 						color.x = fbxColor.mRed;
 						color.y = fbxColor.mGreen;
@@ -688,11 +696,11 @@ bool FBXLoader::ParseMesh(FbxMesh* _mesh, FBXFileData* _dst, FBXNodeData* _dstDa
 					}
 				}
 
-				if (!NormalList.empty())
+				if (!normalList.empty())
 				{
 					int normalIdx = basePolyIdx + vertexColorIdx[idx];
 					FbxVector4 fbxNormal;
-					if (ReadNormal(NormalList[LayerIdx], vertexIdx, normalIdx, fbxNormal))
+					if (ReadNormal(normalList[LayerIdx], vertexIdx, normalIdx, fbxNormal))
 					{
 						fbxNormal = _dstData->LocalNormalMatrix.MultT(fbxNormal);
 						//fbxNormal = normalMatrix_World.MultT(fbxNormal); // 월드 변환. 나중에 뺄 것.
@@ -700,6 +708,18 @@ bool FBXLoader::ParseMesh(FbxMesh* _mesh, FBXFileData* _dst, FBXNodeData* _dstDa
 						normal.x = fbxNormal.mData[0];
 						normal.y = fbxNormal.mData[2];
 						normal.z = fbxNormal.mData[1];
+					}
+				}
+
+				if (!tangentList.empty())
+				{
+					int tangentIdx = basePolyIdx + vertexColorIdx[idx];
+					FbxVector4 fbxTangent;
+					if (ReadTangent(tangentList[LayerIdx], vertexIdx, tangentIdx, fbxTangent))
+					{
+						tangent.x = fbxTangent.mData[0];
+						tangent.y = fbxTangent.mData[2];
+						tangent.z = fbxTangent.mData[1];
 					}
 				}
 
@@ -1155,6 +1175,83 @@ bool FBXLoader::ReadNormal(FbxLayerElementNormal* _normal, int _vertexIdx, int _
 			//_dst = _color->GetDirectArray().GetAt(_colorIdx); // 다이렉트로 가져오면 됨.
 			int id = _normal->GetIndexArray().GetAt(_normalIdx);
 			_dst = _normal->GetDirectArray().GetAt(id);
+			break;
+		}
+		}
+		break;
+	}
+
+	}
+
+	return true;
+}
+
+bool FBXLoader::ReadTangent(FbxLayerElementTangent* _tangent, int _vertexIdx, int _tangentIdx, FbxVector4& _dst)
+{
+	if (_tangent == nullptr)
+	{
+		return false;
+	}
+
+	// 텍스처 맵핑 방식은 여러가지 있음.
+	// EMappingMode
+	// eNone: 맵핑이 결정되지 않았다.
+	// eByControlPoint: 제어점마다 1개의 맵핑이 되어 있다. (각 정점이 UV좌표를 들고 있음.)
+	// eByPolygonVertex: 각 정점이 속한 폴리곤에 맵핑에 좌표가 있다. (폴리곤에서 탐색 해야함)
+	// eByPolygon: 전체 폴리곤에 맵핑 좌표가 있다. 
+	// eByEdge: 엣지에 1개의 맵핑 좌표가 있다.
+	// eAllSame: 전체 폴리곤에 1개의 맵핑 좌표가 있다.
+	// 맵핑 방식 -> 저장 방식 확인 필요. == Reference Mode
+	// eDirect: 리스트에 저장되어 있음. N번째 맵핑 정보가 DirectArray의 N번째 위치에 있다.
+	// eIndex: FBX 5.0 이하 버전에서 사용되었음. 지금은 사용하지 않음. 그 이상의 버전에서는 eIndexToDirect로 대체됨.
+	// eIndexToDirect: 인덱스에 저장되어 있음. 
+	switch (_tangent->GetMappingMode())
+	{
+	case FbxLayerElementUV::eByControlPoint:
+	{
+		// 정점 마다 UV가 1개씩 있으니 해당 Vertex에서 정보를 가져옴.
+		switch (_tangent->GetReferenceMode())
+		{
+		case FbxLayerElementUV::eDirect:
+		{
+			_dst = _tangent->GetDirectArray().GetAt(_vertexIdx);
+			break;
+		}
+		case FbxLayerElementUV::eIndexToDirect:
+		{
+			int id = _tangent->GetIndexArray().GetAt(_vertexIdx);
+			_dst = _tangent->GetDirectArray().GetAt(id);
+			break;
+		}
+		}
+		break;
+	}
+	case FbxLayerElementUV::eByPolygonVertex:
+	{
+		// 폴리곤에 하나 있으니 다이렉트로 가져와도 된다.
+		switch (_tangent->GetReferenceMode())
+		{
+		case FbxLayerElementUV::eDirect:
+			//{
+			//	FbxVector2 fbxUv = _uv->GetDirectArray().GetAt(_uvIdx);
+			//	_dst.mData[0] = fbxUv.mData[0];
+			//	_dst.mData[1] = fbxUv.mData[1];
+			//	break;
+			//}
+		{
+			_dst = _tangent->GetDirectArray().GetAt(_tangentIdx); // 다이렉트로 가져오면 됨.
+			break;
+		}
+		case FbxLayerElementUV::eIndexToDirect:
+		{
+			//int id = _uv->GetIndexArray().GetAt(_uvIdx);
+			//FbxVector2 fbxUv = _uv->GetDirectArray().GetAt(id);
+			//_dst.mData[0] = fbxUv.mData[0];
+			//_dst.mData[1] = fbxUv.mData[1];
+
+			//_dst = _color->GetDirectArray().GetAt(_colorIdx); // 다이렉트로 가져오면 됨.
+			int id = _tangent->GetIndexArray().GetAt(_tangentIdx);
+			_dst = _tangent->GetDirectArray().GetAt(id);
 			break;
 		}
 		}

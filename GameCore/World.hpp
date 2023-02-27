@@ -2,7 +2,6 @@
 #include "ECSCommon.hpp"
 #include "System.hpp"
 #include "Entity.hpp"
-#include "DebugCamera.h"
 
 namespace ECS
 {
@@ -17,20 +16,11 @@ namespace ECS
 		std::vector<std::shared_ptr<ECS::System>> Systems;
 		std::vector<std::shared_ptr<ECS::System>> DisableSystems;
 
-	private:
-		std::shared_ptr<DebugCamera>	DebuggingCamera;
-		std::shared_ptr<Camera>			MainCamera;
-
 	public:
 		//---------------------------------------------
 		// Common
 		//---------------------------------------------
 		void			Tick(float time);
-		void			SetMainCamera(Camera* camera);
-		void			SetDebugCamera(DebugCamera* camera);
-
-		Camera*			GetMainCamera();
-		DebugCamera*	GetDebugCamera();
 
 		//---------------------------------------------
 		// Entity

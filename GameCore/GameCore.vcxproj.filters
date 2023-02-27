@@ -70,6 +70,39 @@
     <Filter Include="DirectX\HLSL\GeometryShader">
       <UniqueIdentifier>{5ec82df0-2f9f-4725-86c3-069a8dcfdf6d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\TinyXML">
+      <UniqueIdentifier>{aec06b93-039d-4f7b-b15f-788536e8a5a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Component\Mesh">
+      <UniqueIdentifier>{31575f86-37ec-4d94-8878-1e33afd5a87e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Component\Shape">
+      <UniqueIdentifier>{15a5efa3-b3f2-414c-8ccf-e28d5e4207dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Component\Camera">
+      <UniqueIdentifier>{a7a38c08-0dbd-4dea-af26-a3ec381cf23d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Entity\Actor">
+      <UniqueIdentifier>{6db30c49-69b0-4147-bdcb-8fbff24087aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Component\Base">
+      <UniqueIdentifier>{f7187a9c-6cf4-4a0b-a382-d0f362b2a0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Entity\Base">
+      <UniqueIdentifier>{ffc894ba-b50c-4e95-84a0-48b278db45d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Component\Light">
+      <UniqueIdentifier>{4c2d8933-bb7c-4d70-bafd-8a075344d687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\System\Base">
+      <UniqueIdentifier>{c986aa9c-35ef-4d23-8117-2d01a3d1b8bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Entity\Actor\NewFilter1">
+      <UniqueIdentifier>{07f73bc7-4bc5-4940-97f8-1d0f8cc283ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\World\Base">
+      <UniqueIdentifier>{0fc7ad3a-5eb8-464f-8c32-f888795455c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -84,25 +117,7 @@
     <ClInclude Include="Input.hpp">
       <Filter>WinAPI\헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Actor.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.hpp">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="System.hpp">
-      <Filter>ECS\System</Filter>
-    </ClInclude>
-    <ClInclude Include="World.hpp">
-      <Filter>ECS\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.hpp">
-      <Filter>ECS\Component</Filter>
-    </ClInclude>
     <ClInclude Include="LandscapeComponent.h">
-      <Filter>ECS\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshComponent.hpp">
       <Filter>ECS\Component</Filter>
     </ClInclude>
     <ClInclude Include="MovementComponent.h">
@@ -115,15 +130,6 @@
       <Filter>ECS\System</Filter>
     </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>ECS\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Landscape.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="StaticMeshComponent.h">
-      <Filter>ECS\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="SkeletalMeshComponent.h">
       <Filter>ECS\Component</Filter>
     </ClInclude>
     <ClInclude Include="DXDevice.hpp">
@@ -143,12 +149,6 @@
     </ClInclude>
     <ClInclude Include="DXShaderManager.h">
       <Filter>DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="DXShader.h">
-      <Filter>DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>ECS\Component</Filter>
     </ClInclude>
     <ClInclude Include="CameraSystem.h">
       <Filter>ECS\System</Filter>
@@ -186,35 +186,77 @@
     <ClInclude Include="DebugCameraSystem.h">
       <Filter>ECS\System</Filter>
     </ClInclude>
-    <ClInclude Include="DebugCamera.h">
-      <Filter>ECS\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>ECS\Component</Filter>
-    </ClInclude>
     <ClInclude Include="BindPoseAnimationData.h">
       <Filter>DirectX\Data\ConstantData</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectionalLight.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="PointLight.h">
-      <Filter>ECS\Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="SpotLight.h">
-      <Filter>ECS\Entity</Filter>
     </ClInclude>
     <ClInclude Include="LightSystem.h">
       <Filter>ECS\System</Filter>
     </ClInclude>
-    <ClInclude Include="LightComponent.h">
-      <Filter>ECS\Component</Filter>
-    </ClInclude>
     <ClInclude Include="SculptingData.h">
       <Filter>DirectX\Data\ConstantData</Filter>
+    </ClInclude>
+    <ClInclude Include="tinystr.h">
+      <Filter>Common\TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>Common\TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ECS\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCamera.h">
+      <Filter>ECS\Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CubeComponent.h">
+      <Filter>ECS\Component\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshComponent.hpp">
+      <Filter>ECS\Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalMeshComponent.h">
+      <Filter>ECS\Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMeshComponent.h">
+      <Filter>ECS\Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>ECS\Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.hpp">
+      <Filter>ECS\Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ECS\Component\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.hpp">
+      <Filter>ECS\Entity\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectionalLight.h">
+      <Filter>ECS\Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>ECS\Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>ECS\Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="SpotLight.h">
+      <Filter>ECS\Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="LightComponent.h">
+      <Filter>ECS\Component\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="System.hpp">
+      <Filter>ECS\System\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Landscape.h">
+      <Filter>ECS\Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="World.hpp">
+      <Filter>ECS\World\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWorld.hpp">
+      <Filter>ECS\World</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -242,15 +284,6 @@
     <ClCompile Include="DXShaderManager.cpp">
       <Filter>DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="DXShader.cpp">
-      <Filter>DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>ECS\World</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>ECS\Component</Filter>
-    </ClCompile>
     <ClCompile Include="DXRenderTarget.cpp">
       <Filter>DirectX</Filter>
     </ClCompile>
@@ -266,11 +299,41 @@
     <ClCompile Include="RenderSystem.cpp">
       <Filter>ECS\System</Filter>
     </ClCompile>
-    <ClCompile Include="Landscape.cpp">
-      <Filter>ECS\Entity</Filter>
-    </ClCompile>
     <ClCompile Include="LightSystem.cpp">
       <Filter>ECS\System</Filter>
+    </ClCompile>
+    <ClCompile Include="tinystr.cpp">
+      <Filter>Common\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>Common\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>Common\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlparser.cpp">
+      <Filter>Common\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ECS\Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMeshComponent.cpp">
+      <Filter>ECS\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>ECS\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalMeshComponent.cpp">
+      <Filter>ECS\Component\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Landscape.cpp">
+      <Filter>ECS\Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>ECS\World\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWorld.cpp">
+      <Filter>ECS\World</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

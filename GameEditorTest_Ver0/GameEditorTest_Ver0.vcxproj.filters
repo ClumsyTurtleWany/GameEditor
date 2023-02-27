@@ -49,9 +49,6 @@
     <Filter Include="MFC\DockPane\NewProject">
       <UniqueIdentifier>{86611368-19bb-4b4b-a259-9460dc3ae31f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TinyXML">
-      <UniqueIdentifier>{6d19d8a5-7e50-4c56-be2b-d96b4a21d624}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ObjLoader">
       <UniqueIdentifier>{001c0814-5887-4ac0-80f8-b1f32cf15ed4}</UniqueIdentifier>
     </Filter>
@@ -132,12 +129,6 @@
     <ClInclude Include="NewProjectDlg.h">
       <Filter>MFC\DockPane\NewProject</Filter>
     </ClInclude>
-    <ClInclude Include="tinystr.h">
-      <Filter>TinyXML</Filter>
-    </ClInclude>
-    <ClInclude Include="tinyxml.h">
-      <Filter>TinyXML</Filter>
-    </ClInclude>
     <ClInclude Include="DaeFile.h">
       <Filter>ObjLoader</Filter>
     </ClInclude>
@@ -217,18 +208,6 @@
     </ClCompile>
     <ClCompile Include="NewProjectDlg.cpp">
       <Filter>MFC\DockPane\NewProject</Filter>
-    </ClCompile>
-    <ClCompile Include="tinystr.cpp">
-      <Filter>TinyXML</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxml.cpp">
-      <Filter>TinyXML</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxmlerror.cpp">
-      <Filter>TinyXML</Filter>
-    </ClCompile>
-    <ClCompile Include="tinyxmlparser.cpp">
-      <Filter>TinyXML</Filter>
     </ClCompile>
     <ClCompile Include="DaeFile.cpp">
       <Filter>ObjLoader</Filter>

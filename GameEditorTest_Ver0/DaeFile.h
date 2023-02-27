@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "Define.hpp"
+#include "Define.h"
 #include "tinystr.h"
 #include "tinyxml.h"
 

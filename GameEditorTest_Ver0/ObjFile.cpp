@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ObjFile.h"
 
 bool ObjFile::Load(std::wstring filename)
@@ -50,7 +51,7 @@ bool ObjFile::Load(std::wstring filename)
 			}
 			else if (wordList[0] == "v")
 			{
-				Vector3f vec;
+				Vector3 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);
@@ -58,14 +59,14 @@ bool ObjFile::Load(std::wstring filename)
 			}
 			else if (wordList[0] == "vt")
 			{
-				Vector2f vec;
+				Vector2 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				_meshList[_meshCnt - 1].uvList.push_back(vec);
 			}
 			else if (wordList[0] == "vn")
 			{
-				Vector3f vec;
+				Vector3 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);

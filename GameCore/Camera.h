@@ -27,6 +27,11 @@ public:
 	float FovY;
 
 public:
+	float Yaw = 0.0f;
+	float Pitch = 0.0f;
+	float Roll = 0.0f;
+
+public:
 	CameraMatrix CameraMatrixData;
 	ID3D11Buffer* CameraMatrixBuffer = nullptr;
 

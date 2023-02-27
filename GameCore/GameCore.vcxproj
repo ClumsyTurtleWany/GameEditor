@@ -25,6 +25,7 @@
     <ClInclude Include="CameraMatrix.h" />
     <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="Component.hpp" />
+    <ClInclude Include="CubeComponent.h" />
     <ClInclude Include="DebugCamera.h" />
     <ClInclude Include="DebugCameraSystem.h" />
     <ClInclude Include="Define.h" />
@@ -32,7 +33,6 @@
     <ClInclude Include="DXDevice.hpp" />
     <ClInclude Include="DXRenderTarget.hpp" />
     <ClInclude Include="DXSamplerState.hpp" />
-    <ClInclude Include="DXShader.h" />
     <ClInclude Include="DXShaderManager.h" />
     <ClInclude Include="DXTexture.hpp" />
     <ClInclude Include="DXTextureManager.hpp" />
@@ -41,6 +41,7 @@
     <ClInclude Include="FMODSound.hpp" />
     <ClInclude Include="FMODSoundManager.hpp" />
     <ClInclude Include="GameCore.h" />
+    <ClInclude Include="GameWorld.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="IWData.h" />
     <ClInclude Include="Landscape.h" />
@@ -61,6 +62,8 @@
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="System.hpp" />
     <ClInclude Include="Timer.hpp" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformMatrix.h" />
     <ClInclude Include="TransformSystem.h" />
@@ -73,18 +76,25 @@
     <ClCompile Include="DXDevice.cpp" />
     <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="DXSamplerState.cpp" />
-    <ClCompile Include="DXShader.cpp" />
     <ClCompile Include="DXShaderManager.cpp" />
     <ClCompile Include="DXTexture.cpp" />
     <ClCompile Include="DXTextureManager.cpp" />
     <ClCompile Include="FMODSound.cpp" />
     <ClCompile Include="FMODSoundManager.cpp" />
     <ClCompile Include="GameCore.cpp" />
+    <ClCompile Include="GameWorld.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LightSystem.cpp" />
+    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="SkeletalMeshComponent.cpp" />
+    <ClCompile Include="StaticMeshComponent.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="WindowsClient.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>

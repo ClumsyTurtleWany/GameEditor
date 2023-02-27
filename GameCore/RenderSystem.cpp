@@ -15,12 +15,6 @@ void RenderSystem::Tick(ECS::World* world, float time)
 	Context->RSSetState(DXSamplerState::pDefaultRSSolid);
 	Context->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
 	Context->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
-	
-	/*DebugCamera* camera = world->GetDebugCamera();
-	if (camera != nullptr)
-	{
-		CONTEXT->UpdateSubresource(camera->CameraMatrixBuffer, 0, NULL, &camera->CameraMatrixData, 0, 0);
-	}*/
 
 	for (auto& entity : world->GetEntities<Landscape>())
 	{

@@ -1,6 +1,6 @@
 #pragma once
 #include "MtlFile.h"
-#include "Vertex.hpp"
+#include "Vertex.h"
 
 struct FACEINDEX
 {
@@ -46,9 +46,9 @@ struct MESH
 	std::string					group;
 	std::string					smoothingGroup;
 
-	std::vector<Vector3f>		positionList;
-	std::vector<Vector2f>		uvList;
-	std::vector<Vector3f>		normalList;
+	std::vector<Vector3>		positionList;
+	std::vector<Vector2>		uvList;
+	std::vector<Vector3>		normalList;
 	std::vector<std::string>	materialList;
 	std::vector<FACE>			faceList;
 };

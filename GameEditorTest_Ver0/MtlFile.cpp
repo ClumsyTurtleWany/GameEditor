@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "MtlFile.h"
 
 bool MtlFile::Load(std::wstring filename)
@@ -34,7 +35,7 @@ bool MtlFile::Load(std::wstring filename)
 			}
 			else if (wordList[0] == "Ka")
 			{
-				Vector3f vec;
+				Vector3 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);
@@ -42,7 +43,7 @@ bool MtlFile::Load(std::wstring filename)
 			}
 			else if (wordList[0] == "Kd")
 			{
-				Vector3f vec;
+				Vector3 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);
@@ -50,7 +51,7 @@ bool MtlFile::Load(std::wstring filename)
 			}
 			else if (wordList[0] == "Ks")
 			{
-				Vector3f vec;
+				Vector3 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);
@@ -58,7 +59,7 @@ bool MtlFile::Load(std::wstring filename)
 			}
 			else if (wordList[0] == "Ke")
 			{
-				Vector3f vec;
+				Vector3 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);
@@ -78,7 +79,7 @@ bool MtlFile::Load(std::wstring filename)
 			}
 			else if (wordList[0] == "Tf")
 			{
-				Vector3f vec;
+				Vector3 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);

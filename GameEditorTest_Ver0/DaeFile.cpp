@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DaeFile.h"
 
 bool DaeFile::Load(std::string filename)
@@ -214,7 +215,7 @@ bool DaeFile::ParseEffects(TiXmlElement* parent)
 			continue;
 		}
 
-		std::string id = attribute->Value();
+		std::string id2 = attribute->Value();
 
 		TiXmlElement* blinn = technique->FirstChildElement("blinn");
 		if (blinn == nullptr)
