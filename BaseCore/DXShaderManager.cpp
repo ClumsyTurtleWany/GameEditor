@@ -397,47 +397,47 @@ bool DXShaderManager::CreateInputLayout()
 	return true;	
 }
 
-ID3D11Buffer* DXShaderManager::CreateVertexBuffer(const std::vector<Vertex>& vertices)
-{
-	// CreateBuffer() Param
-	// D3D11_BUFFER_DESC* pDesc,
-	// D3D11_SUBRESOURCE_DATA* pInitialData,
-	// ID3D11Buffer** ppBuffer
-	D3D11_BUFFER_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	desc.ByteWidth = sizeof(Vertex) * static_cast<UINT>(vertices.size()); // 바이트 용량
-	desc.Usage = D3D11_USAGE_DEFAULT; // 버퍼의 할당 장소 내지는 버퍼 용도, D3D11_USAGE_DEFAULT == GPU 메모리에 할당.
-	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	// desc.CPUAccessFlags = 0; // CPU에서 접근 하게 할 것이냐, 0으로 하면 처음 할당 이외에는 CPU가 읽고 쓰기 불가.
-	// desc.MiscFlags = 0; //
-	// desc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA initialData;
-	ZeroMemory(&initialData, sizeof(initialData));
-	initialData.pSysMem = &vertices.at(0); // 배열이 아니면 시스템 메모리에 들어 갈 수 없음. 그래서 그냥 배열보다 편한 vector 사용.
-
-	//ID3D11Buffer* pVertexBuffer;
-	//HRESULT result = m_pd3dDevice->CreateBuffer(
-	//	&desc, // 버퍼 할당 
-	//	&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
-	//	&pVertexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
-
-	ID3D11Buffer* pVertexBuffer;
-	HRESULT result = m_pd3dDevice->CreateBuffer(
-		&desc, // 버퍼 할당 
-		&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
-		&pVertexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
-
-	if (FAILED(result))
-	{
-		return nullptr;
-	}
-	else
-	{
-		BufferList.push_back(pVertexBuffer);
-		return pVertexBuffer;
-	}
-}
+//ID3D11Buffer* DXShaderManager::CreateVertexBuffer(const std::vector<Vertex>& vertices)
+//{
+//	// CreateBuffer() Param
+//	// D3D11_BUFFER_DESC* pDesc,
+//	// D3D11_SUBRESOURCE_DATA* pInitialData,
+//	// ID3D11Buffer** ppBuffer
+//	D3D11_BUFFER_DESC desc;
+//	ZeroMemory(&desc, sizeof(desc));
+//	desc.ByteWidth = sizeof(Vertex) * static_cast<UINT>(vertices.size()); // 바이트 용량
+//	desc.Usage = D3D11_USAGE_DEFAULT; // 버퍼의 할당 장소 내지는 버퍼 용도, D3D11_USAGE_DEFAULT == GPU 메모리에 할당.
+//	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+//	// desc.CPUAccessFlags = 0; // CPU에서 접근 하게 할 것이냐, 0으로 하면 처음 할당 이외에는 CPU가 읽고 쓰기 불가.
+//	// desc.MiscFlags = 0; //
+//	// desc.StructureByteStride = 0;
+//
+//	D3D11_SUBRESOURCE_DATA initialData;
+//	ZeroMemory(&initialData, sizeof(initialData));
+//	initialData.pSysMem = &vertices.at(0); // 배열이 아니면 시스템 메모리에 들어 갈 수 없음. 그래서 그냥 배열보다 편한 vector 사용.
+//
+//	//ID3D11Buffer* pVertexBuffer;
+//	//HRESULT result = m_pd3dDevice->CreateBuffer(
+//	//	&desc, // 버퍼 할당 
+//	//	&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
+//	//	&pVertexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
+//
+//	ID3D11Buffer* pVertexBuffer;
+//	HRESULT result = m_pd3dDevice->CreateBuffer(
+//		&desc, // 버퍼 할당 
+//		&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
+//		&pVertexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
+//
+//	if (FAILED(result))
+//	{
+//		return nullptr;
+//	}
+//	else
+//	{
+//		BufferList.push_back(pVertexBuffer);
+//		return pVertexBuffer;
+//	}
+//}
 
 ID3D11Buffer* DXShaderManager::CreateIndexBuffer(const std::vector<DWORD>& indices)
 {
