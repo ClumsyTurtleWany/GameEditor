@@ -38,14 +38,6 @@ using namespace Microsoft::WRL;
 #include <memory>
 //#include <fstream>
 
-// Struct
-#include "Vertex.h"
-#include "IWData.h"
-#include "CameraMatrix.h"
-#include "TransformMatrix.h"
-#include "LightData.h"
-#include "BindPoseAnimationData.h"
-
 // Design Pattern
 template <class T>
 class Singleton

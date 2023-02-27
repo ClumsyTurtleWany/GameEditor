@@ -203,11 +203,9 @@ copy "*.hlsl" "..\\include\\$(TargetName)\\"</Command>
     <ClInclude Include="FMODSound.hpp" />
     <ClInclude Include="FMODSoundManager.hpp" />
     <ClInclude Include="Input.hpp" />
-    <ClInclude Include="IWData.h" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="tinystr.h" />
     <ClInclude Include="tinyxml.h" />
-    <ClInclude Include="Vertex.h" />
     <ClInclude Include="WindowsClient.h" />
   </ItemGroup>
   <ItemGroup>

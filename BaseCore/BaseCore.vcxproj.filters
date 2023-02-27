@@ -85,12 +85,6 @@
     <ClInclude Include="DXTextureManager.hpp">
       <Filter>DirectX\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="IWData.h">
-      <Filter>DirectX\InputLayout</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex.h">
-      <Filter>DirectX\InputLayout</Filter>
-    </ClInclude>
     <ClInclude Include="Define.h">
       <Filter>Common</Filter>
     </ClInclude>
