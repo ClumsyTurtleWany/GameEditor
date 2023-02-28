@@ -7,9 +7,9 @@ void DXShaderManager::SetDevice(ID3D11Device* device, ID3D11DeviceContext* conte
 	m_pImmediateContext = context;
 }
 
-bool DXShaderManager::LoadVSCode(std::wstring filename)
+bool DXShaderManager::LoadVSCode(std::wstring filename, std::wstring key)
 {
-	ID3DBlob* pVSCode = GetVSCode(filename);
+	ID3DBlob* pVSCode = GetVSCode(key);
 	if (pVSCode == nullptr)
 	{
 		// 정점 레이아웃은 정점 쉐이더와 밀접한 관련이 있다.
@@ -47,7 +47,7 @@ bool DXShaderManager::LoadVSCode(std::wstring filename)
 		}
 		else
 		{
-			VertexShaderCodeMap.insert(std::make_pair(filename, pVSCode));
+			VertexShaderCodeMap.insert(std::make_pair(key, pVSCode));
 			return true;
 		}
 	}
@@ -57,9 +57,9 @@ bool DXShaderManager::LoadVSCode(std::wstring filename)
 	}
 }
 
-bool DXShaderManager::LoadHSCode(std::wstring filename)
+bool DXShaderManager::LoadHSCode(std::wstring filename, std::wstring key)
 {
-	ID3DBlob* pHSCode = GetHSCode(filename);
+	ID3DBlob* pHSCode = GetHSCode(key);
 	if (pHSCode == nullptr)
 	{
 		// 정점 레이아웃은 정점 쉐이더와 밀접한 관련이 있다.
@@ -97,7 +97,7 @@ bool DXShaderManager::LoadHSCode(std::wstring filename)
 		}
 		else
 		{
-			HullShaderCodeMap.insert(std::make_pair(filename, pHSCode));
+			HullShaderCodeMap.insert(std::make_pair(key, pHSCode));
 			return true;
 		}
 	}
@@ -107,9 +107,9 @@ bool DXShaderManager::LoadHSCode(std::wstring filename)
 	}
 }
 
-bool DXShaderManager::LoadDSCode(std::wstring filename)
+bool DXShaderManager::LoadDSCode(std::wstring filename, std::wstring key)
 {
-	ID3DBlob* pDSCode = GetDSCode(filename);
+	ID3DBlob* pDSCode = GetDSCode(key);
 	if (pDSCode == nullptr)
 	{
 		// 정점 레이아웃은 정점 쉐이더와 밀접한 관련이 있다.
@@ -147,7 +147,7 @@ bool DXShaderManager::LoadDSCode(std::wstring filename)
 		}
 		else
 		{
-			DomainShaderCodeMap.insert(std::make_pair(filename, pDSCode));
+			DomainShaderCodeMap.insert(std::make_pair(key, pDSCode));
 			return true;
 		}
 	}
@@ -157,9 +157,9 @@ bool DXShaderManager::LoadDSCode(std::wstring filename)
 	}
 }
 
-bool DXShaderManager::LoadGSCode(std::wstring filename)
+bool DXShaderManager::LoadGSCode(std::wstring filename, std::wstring key)
 {
-	ID3DBlob* pGSCode = GetGSCode(filename);
+	ID3DBlob* pGSCode = GetGSCode(key);
 	if (pGSCode == nullptr)
 	{
 		// 정점 레이아웃은 정점 쉐이더와 밀접한 관련이 있다.
@@ -197,7 +197,7 @@ bool DXShaderManager::LoadGSCode(std::wstring filename)
 		}
 		else
 		{
-			DomainShaderCodeMap.insert(std::make_pair(filename, pGSCode));
+			DomainShaderCodeMap.insert(std::make_pair(key, pGSCode));
 			return true;
 		}
 	}
@@ -207,9 +207,9 @@ bool DXShaderManager::LoadGSCode(std::wstring filename)
 	}
 }
 
-bool DXShaderManager::LoadPSCode(std::wstring filename)
+bool DXShaderManager::LoadPSCode(std::wstring filename, std::wstring key)
 {
-	ID3DBlob* pPSCode = GetPSCode(filename);
+	ID3DBlob* pPSCode = GetPSCode(key);
 	if (pPSCode == nullptr)
 	{
 		// Pixel Shader Create
@@ -235,7 +235,7 @@ bool DXShaderManager::LoadPSCode(std::wstring filename)
 		}
 		else
 		{
-			PixelShaderCodeMap.insert(std::make_pair(filename, pPSCode));
+			PixelShaderCodeMap.insert(std::make_pair(key, pPSCode));
 			return true;
 		}
 	}
@@ -245,199 +245,128 @@ bool DXShaderManager::LoadPSCode(std::wstring filename)
 	}
 }
 
-bool DXShaderManager::CreateVertexShader()
+bool DXShaderManager::CreateVertexShader(ID3DBlob* vsCode, std::wstring key)
 {
-	for (auto it : VertexShaderCodeMap)
+	auto vs = GetVertexShader(key);
+	if (vs != nullptr)
 	{
-		ID3D11VertexShader* pVertexShader;
-		HRESULT result = m_pd3dDevice->CreateVertexShader(it.second->GetBufferPointer(), it.second->GetBufferSize(), NULL, &pVertexShader);
-
-		if (FAILED(result))
+		return true;
+	}
+	else
+	{
+		if (vsCode == nullptr)
 		{
-			OutputDebugStringA("WanyCore::DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.\n");
 			return false;
 		}
-		else
-		{
-			VertexShaderMap.insert(std::make_pair(it.first, pVertexShader));
-		}
-	}
-	return true;
-}
-
-bool DXShaderManager::CreatePixelShader()
-{
-	for (auto it : PixelShaderCodeMap)
-	{
-		ID3D11PixelShader* pPixelShader;
-		HRESULT result = m_pd3dDevice->CreatePixelShader(it.second->GetBufferPointer(), it.second->GetBufferSize(), NULL, &pPixelShader);
-
-		if (FAILED(result))
-		{
-			OutputDebugStringA("WanyCore::DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.\n");
-			return false;
-		}
-		else
-		{
-			PixelShaderMap.insert(std::make_pair(it.first, pPixelShader));
-		}
-	}
-	return true;
-}
-
-bool DXShaderManager::CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl)
-{
-	for (auto it : GeometryShaderCodeMap)
-	{
-		ID3D11GeometryShader* pGeometryShader;
-		//HRESULT result = m_pd3dDevice->CreateGeometryShader(it.second->GetBufferPointer(), it.second->GetBufferSize(), NULL, &pGeometryShader);
 		
-		D3D11_SO_DECLARATION_ENTRY pDecl[] =
-		{
-			{0, "SV_POSITION", 0, 0, 4, 0},
-			{0, "POSITION", 0, 0, 3, 0},
-			{0, "NORMAL", 0, 0, 3, 0},
-			{0, "COLOR", 0, 0, 4, 0},
-			{0, "TEXCOORD", 0, 0, 2, 0},
-			{0, "TEXCOORD", 1, 0, 4, 0},
-		};
-
-		UINT entrySize = sizeof(decl);
-		HRESULT result = m_pd3dDevice->CreateGeometryShaderWithStreamOutput(it.second->GetBufferPointer(), it.second->GetBufferSize(), pDecl, sizeof(pDecl), NULL, 0, D3D11_SO_NO_RASTERIZED_STREAM, NULL, &pGeometryShader);
-
+		ID3D11VertexShader* pVertexShader;
+		HRESULT result = m_pd3dDevice->CreateVertexShader(vsCode->GetBufferPointer(), vsCode->GetBufferSize(), NULL, &pVertexShader);
 		if (FAILED(result))
 		{
-			OutputDebugStringA("WanyCore::DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.\n");
+			OutputDebugStringA("DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.\n");
 			return false;
 		}
 		else
 		{
-			GeometryShaderMap.insert(std::make_pair(it.first, pGeometryShader));
+			VertexShaderMap.insert(std::make_pair(key, pVertexShader));
 		}
+		return true;
 	}
 }
 
-bool DXShaderManager::CreateStaticMeshInputLayout()
+bool DXShaderManager::CreatePixelShader(ID3DBlob* psCode, std::wstring key)
 {
-	// Input Layout For Static Mesh
-	ID3DBlob* pBlob = GetVSCode(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
-	if (pBlob == nullptr)
+	auto ps = GetPixelShader(key);
+	if (ps != nullptr)
 	{
-		return false;
+		return true;
 	}
-
-	//ComPtr<ID3D11InputLayout> StaticMeshLayout;
-	ID3D11InputLayout* StaticMeshLayout = nullptr;
-	D3D11_INPUT_ELEMENT_DESC InputElementDescs[] =
+	else
 	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
-		{"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0} // 28 == float * 28 // Vertex의 Texture 시작 바이트.
-	};
+		if (psCode == nullptr)
+		{
+			return false;
+		}
 
-	UINT NumElements = sizeof(InputElementDescs) / sizeof(InputElementDescs[0]);
-	HRESULT result = m_pd3dDevice->CreateInputLayout(InputElementDescs, NumElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &StaticMeshLayout);
-	if (FAILED(result))
-	{
-		return false;
+		ID3D11PixelShader* pPixelShader;
+		HRESULT result = m_pd3dDevice->CreatePixelShader(psCode->GetBufferPointer(), psCode->GetBufferSize(), NULL, &pPixelShader);
+
+		if (FAILED(result))
+		{
+			OutputDebugStringA("DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.\n");
+			return false;
+		}
+		else
+		{
+			PixelShaderMap.insert(std::make_pair(key, pPixelShader));
+		}
+		return true;		
 	}
+}
 
-	InputLayoutMap.insert(std::make_pair(InputLayoutType::StaticMesh, StaticMeshLayout));
-
+bool DXShaderManager::CreateHullShader(ID3DBlob* hsCode, std::wstring key)
+{
 	return true;
 }
 
-bool DXShaderManager::CreateSkeletalMeshInputLayout()
+bool DXShaderManager::CreateDomainShader(ID3DBlob* dsCode, std::wstring key)
 {
-	// Input Layout For Skeletal Mesh
-	ID3DBlob* pBlob = GetVSCode(L"../include/Core/HLSL/VS_SkeletalMesh.hlsl");
-	if (pBlob == nullptr)
-	{
-		return false;
-	}
-
-	ID3D11InputLayout* SkeletalMeshLayout;
-	D3D11_INPUT_ELEMENT_DESC InputElementDescs[] =
-	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
-		{"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 28 == float * 28 // Vertex의 Texture 시작 바이트.
-
-		{"INDEX", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	};
-
-	UINT NumElements = sizeof(InputElementDescs) / sizeof(InputElementDescs[0]);
-	HRESULT result = m_pd3dDevice->CreateInputLayout(InputElementDescs, NumElements, pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &SkeletalMeshLayout);
-
-	if (FAILED(result))
-	{
-		return result;
-	}
-
-	InputLayoutMap.insert(std::make_pair(InputLayoutType::SkeletalMesh, SkeletalMeshLayout));
-
 	return true;
 }
 
-bool DXShaderManager::CreateInputLayout()
+bool DXShaderManager::CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key)
 {
-	if (!CreateStaticMeshInputLayout())
+	auto gs = GetGeometryShader(key);
+	if (gs != nullptr)
 	{
-		return false;
+		return true;
 	}
-	
-	if (!CreateSkeletalMeshInputLayout())
+	else
 	{
-		return false;
+		if (gsCode == nullptr || decl == nullptr)
+		{
+			return false;
+		}
+
+		ID3D11GeometryShader* pGeometryShader;
+		UINT entrySize = sizeof(decl);
+		HRESULT result = m_pd3dDevice->CreateGeometryShaderWithStreamOutput(gsCode->GetBufferPointer(), gsCode->GetBufferSize(), decl, sizeof(decl), NULL, 0, D3D11_SO_NO_RASTERIZED_STREAM, NULL, &pGeometryShader);
+
+		if (FAILED(result))
+		{
+			OutputDebugStringA("DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.\n");
+			return false;
+		}
+		else
+		{
+			GeometryShaderMap.insert(std::make_pair(key, pGeometryShader));
+		}
+		return true;		
 	}
-	
-	return true;	
 }
 
-//ID3D11Buffer* DXShaderManager::CreateVertexBuffer(const std::vector<Vertex>& vertices)
-//{
-//	// CreateBuffer() Param
-//	// D3D11_BUFFER_DESC* pDesc,
-//	// D3D11_SUBRESOURCE_DATA* pInitialData,
-//	// ID3D11Buffer** ppBuffer
-//	D3D11_BUFFER_DESC desc;
-//	ZeroMemory(&desc, sizeof(desc));
-//	desc.ByteWidth = sizeof(Vertex) * static_cast<UINT>(vertices.size()); // 바이트 용량
-//	desc.Usage = D3D11_USAGE_DEFAULT; // 버퍼의 할당 장소 내지는 버퍼 용도, D3D11_USAGE_DEFAULT == GPU 메모리에 할당.
-//	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-//	// desc.CPUAccessFlags = 0; // CPU에서 접근 하게 할 것이냐, 0으로 하면 처음 할당 이외에는 CPU가 읽고 쓰기 불가.
-//	// desc.MiscFlags = 0; //
-//	// desc.StructureByteStride = 0;
-//
-//	D3D11_SUBRESOURCE_DATA initialData;
-//	ZeroMemory(&initialData, sizeof(initialData));
-//	initialData.pSysMem = &vertices.at(0); // 배열이 아니면 시스템 메모리에 들어 갈 수 없음. 그래서 그냥 배열보다 편한 vector 사용.
-//
-//	//ID3D11Buffer* pVertexBuffer;
-//	//HRESULT result = m_pd3dDevice->CreateBuffer(
-//	//	&desc, // 버퍼 할당 
-//	//	&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
-//	//	&pVertexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
-//
-//	ID3D11Buffer* pVertexBuffer;
-//	HRESULT result = m_pd3dDevice->CreateBuffer(
-//		&desc, // 버퍼 할당 
-//		&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
-//		&pVertexBuffer); // desc cpu flag를 0으로 해서 이 버퍼에 CPU는 접근 할 수 없음.
-//
-//	if (FAILED(result))
-//	{
-//		return nullptr;
-//	}
-//	else
-//	{
-//		BufferList.push_back(pVertexBuffer);
-//		return pVertexBuffer;
-//	}
-//}
+bool DXShaderManager::CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, std::wstring key)
+{
+	if (vsCode == nullptr || desc == nullptr)
+	{
+		return false;
+	}
+
+	ID3D11InputLayout* pInputLayout = nullptr;
+	UINT NumElements = sizeof(desc) / sizeof(desc[0]);
+	HRESULT result = m_pd3dDevice->CreateInputLayout(desc, NumElements, vsCode->GetBufferPointer(), vsCode->GetBufferSize(), &pInputLayout);
+	if (FAILED(result))
+	{
+		OutputDebugStringA("DXShaderManager::CreateInputLayout::Failed Create Input Layout.\n");
+		return false;
+	}
+	else
+	{
+		InputLayoutMap.insert(std::make_pair(key, pInputLayout));
+	}
+
+	return true;
+}
 
 ID3D11Buffer* DXShaderManager::CreateIndexBuffer(const std::vector<DWORD>& indices)
 {
@@ -523,9 +452,9 @@ ID3D11Buffer* DXShaderManager::CreateMappedBuffer(UINT size)
 	return nullptr;
 }
 
-ID3D11InputLayout* DXShaderManager::GetInputLayout(InputLayoutType type)
+ID3D11InputLayout* DXShaderManager::GetInputLayout(std::wstring key)
 {
-	auto it = InputLayoutMap.find(type);
+	auto it = InputLayoutMap.find(key);
 	if (it != InputLayoutMap.end())
 	{
 		return it->second;
@@ -543,7 +472,7 @@ ID3DBlob* DXShaderManager::GetVSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetVSCode::Failed Get Vertex Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetVSCode::Failed Get Vertex Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -557,7 +486,7 @@ ID3DBlob* DXShaderManager::GetHSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetHSCode::Failed Get Hull Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetHSCode::Failed Get Hull Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -571,7 +500,7 @@ ID3DBlob* DXShaderManager::GetDSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetDSCode::Failed Get Domain Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetDSCode::Failed Get Domain Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -585,7 +514,7 @@ ID3DBlob* DXShaderManager::GetGSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetGSCode::Failed Get Geometry Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetGSCode::Failed Get Geometry Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -599,7 +528,7 @@ ID3DBlob* DXShaderManager::GetPSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetPSCode::Failed Get Pixel Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetPSCode::Failed Get Pixel Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -613,7 +542,7 @@ ID3D11VertexShader* DXShaderManager::GetVertexShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetVertexShader::Failed Get Vertex Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetVertexShader::Failed Get Vertex Shader.\n");
 		return nullptr;
 	}
 }
@@ -627,7 +556,7 @@ ID3D11HullShader* DXShaderManager::GetHullShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetHullShader::Failed Get Hull Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetHullShader::Failed Get Hull Shader.\n");
 		return nullptr;
 	}
 }
@@ -641,7 +570,7 @@ ID3D11DomainShader* DXShaderManager::GetDomainShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetDomainShader::Failed Get Domain Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetDomainShader::Failed Get Domain Shader.\n");
 		return nullptr;
 	}
 }
@@ -655,7 +584,7 @@ ID3D11GeometryShader* DXShaderManager::GetGeometryShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetGeometryShader::Failed Get Geometry Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetGeometryShader::Failed Get Geometry Shader.\n");
 		return nullptr;
 	}
 }
@@ -669,48 +598,13 @@ ID3D11PixelShader* DXShaderManager::GetPixelShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::getPixelShader::Failed Get Pixel Shader.\n");
+		OutputDebugStringA("DXShaderManager::getPixelShader::Failed Get Pixel Shader.\n");
 		return nullptr;
 	}
 }
 
 bool DXShaderManager::Initialize()
 {
-	if (!LoadVSCode(L"../include/Core/HLSL/VS_StaticMesh.hlsl"))
-	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
-		return false;
-	}
-
-	if (!LoadVSCode(L"../include/Core/HLSL/VS_SkeletalMesh.hlsl"))
-	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
-		return false;
-	}
-
-	if (!LoadPSCode(L"../include/Core/HLSL/PS_Default.hlsl"))
-	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
-		return false;
-	}
-
-	if (!LoadPSCode(L"../include/Core/HLSL/PS_Light.hlsl"))
-	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
-		return false;
-	}
-
-	/*if (!LoadGSCode(L"../include/Core/HLSL/GS_Landscape.hlsl"))
-	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load GS Code(GS_Landscape.hlsl).\n");
-		return false;
-	}*/
-
-	CreateVertexShader();
-	CreatePixelShader();
-	//CreateGeometryShader();
-	CreateInputLayout();
-
 	return true;
 }
 

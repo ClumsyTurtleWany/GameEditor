@@ -150,8 +150,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"</Command>
     <PostBuildEvent>
       <Command>copy "*.h" "..\\include\\$(TargetName)\\"
 copy "*.hpp" "..\\include\\$(TargetName)\\"
-copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Debug\\"
-copy "*.hlsl" "..\\include\\$(TargetName)\\"</Command>
+copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Debug\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -195,7 +194,6 @@ copy "*.hlsl" "..\\include\\$(TargetName)\\"</Command>
     <ClInclude Include="BaseCore.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DXDevice.hpp" />
-    <ClInclude Include="DXRenderTarget.hpp" />
     <ClInclude Include="DXSamplerState.hpp" />
     <ClInclude Include="DXShaderManager.h" />
     <ClInclude Include="DXTexture.hpp" />
@@ -204,14 +202,11 @@ copy "*.hlsl" "..\\include\\$(TargetName)\\"</Command>
     <ClInclude Include="FMODSoundManager.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="Timer.hpp" />
-    <ClInclude Include="tinystr.h" />
-    <ClInclude Include="tinyxml.h" />
     <ClInclude Include="WindowsClient.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseCore.cpp" />
     <ClCompile Include="DXDevice.cpp" />
-    <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="DXSamplerState.cpp" />
     <ClCompile Include="DXShaderManager.cpp" />
     <ClCompile Include="DXTexture.cpp" />
@@ -220,53 +215,7 @@ copy "*.hlsl" "..\\include\\$(TargetName)\\"</Command>
     <ClCompile Include="FMODSoundManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="tinystr.cpp" />
-    <ClCompile Include="tinyxml.cpp" />
-    <ClCompile Include="tinyxmlerror.cpp" />
-    <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="WindowsClient.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="GS_Landscape.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">GS</EntryPointName>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="PS_Default.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="PS_Light.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="VS_SkeletalMesh.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="VS_StaticMesh.hlsl">
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS</EntryPointName>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

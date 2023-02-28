@@ -1,30 +1,60 @@
 ﻿#include "BaseCore.h"
 
+BaseCore::BaseCore()
+{
+
+}
+
+BaseCore::~BaseCore()
+{
+
+}
+
+bool BaseCore::Initialize()
+{
+	return true;
+}
+
+bool BaseCore::Frame()
+{
+	return true;
+}
+
+bool BaseCore::Render()
+{
+	return true;
+}
+
+bool BaseCore::Release()
+{
+	return true;
+}
+
 bool BaseCore::CoreInitialize()
 {
 	if (!Device.Create(_hWnd))
 	{
-		OutputDebugStringA("WanyCore::DXDevice::Failed Initialize.\n");
+		OutputDebugStringA("DXDevice::Failed Initialize.\n");
 		return false;
 	}
 
 	DXShaderManager::GetInstance()->SetDevice(Device.m_pd3dDevice, Device.m_pImmediateContext);
 	if (!DXShaderManager::GetInstance()->Initialize())
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::Failed Initialize.\n");
+		OutputDebugStringA("DXShaderManager::Failed Initialize.\n");
 		return false;
 	}
 
 	Input::GetInstance()->setWndHandle(_hWnd);
 	if (!Input::GetInstance()->initialize())
 	{
-		OutputDebugStringA("WanyCore::Input::Failed Initialize.\n");
+		OutputDebugStringA("Input::Failed Initialize.\n");
 		return false;
 	}
 
 	if (!Timer::GetInstance()->Initialize())
 	{
-		OutputDebugStringA("WanyCore::Timer::Failed Initialize.\n");
+		OutputDebugStringA("Timer::Failed Initialize.\n");
 		return false;
 	}
 
@@ -32,14 +62,14 @@ bool BaseCore::CoreInitialize()
 
 	if (!FMODSoundManager::GetInstance()->Initialize())
 	{
-		OutputDebugStringA("WanyCore::FMODSoundManager::Failed Initialize.\n");
+		OutputDebugStringA("FMODSoundManager::Failed Initialize.\n");
 		return false;
 	}
 
 	// Sampler State
 	if (!DXSamplerState::SetDevice(Device.m_pd3dDevice))
 	{
-		OutputDebugStringA("WanyCore::DXSamplerState::Failed Set State.\n");
+		OutputDebugStringA("DXSamplerState::Failed Set State.\n");
 		return false;
 	}
 
@@ -50,19 +80,19 @@ bool BaseCore::CoreFrame()
 {
 	if (!Input::GetInstance()->frame())
 	{
-		OutputDebugStringA("WanyCore::Input::Failed Frame.\n");
+		OutputDebugStringA("Input::Failed Frame.\n");
 		return false;
 	}
 
 	if (!Timer::GetInstance()->Frame())
 	{
-		OutputDebugStringA("WanyCore::Timer::Failed Frame.\n");
+		OutputDebugStringA("Timer::Failed Frame.\n");
 		return false;
 	}
 
 	if (!FMODSoundManager::GetInstance()->Frame())
 	{
-		OutputDebugStringA("WanyCore::FMODSoundManager::Failed frame.\n");
+		OutputDebugStringA("FMODSoundManager::Failed frame.\n");
 		return false;
 	}
 
@@ -143,7 +173,7 @@ bool BaseCore::CoreRender()
 
 	if (!Render())
 	{
-		OutputDebugStringA("WanyCore::GameCore::Failed Render.\n");
+		OutputDebugStringA("GameCore::Failed Render.\n");
 		return false;
 	}
 
@@ -153,13 +183,13 @@ bool BaseCore::CoreRender()
 #ifdef DEBUG_DISPLAY
 	if (!Input::GetInstance()->render())
 	{
-		OutputDebugStringA("WanyCore::Input::Failed Render.\n");
+		OutputDebugStringA("Input::Failed Render.\n");
 		return false;
 	}
 
 	if (!Timer::GetInstance()->render())
 	{
-		OutputDebugStringA("WanyCore::Timer::Failed Render.\n");
+		OutputDebugStringA("Timer::Failed Render.\n");
 		return false;
 	}
 
@@ -169,7 +199,7 @@ bool BaseCore::CoreRender()
 
 	if (!DXWriter::GetInstance()->render())
 	{
-		OutputDebugStringA("WanyCore::DXWriter::Failed Render.\n");
+		OutputDebugStringA("DXWriter::Failed Render.\n");
 		return false;
 	}
 #endif

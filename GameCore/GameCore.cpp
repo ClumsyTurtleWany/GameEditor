@@ -4,14 +4,14 @@ bool GameCore::CoreInitialize()
 {
 	if (!Device.Create(_hWnd))
 	{
-		OutputDebugStringA("WanyCore::DXDevice::Failed Initialize.\n");
+		OutputDebugStringA("DXDevice::Failed Initialize.\n");
 		return false;
 	}
 
 	DXShaderManager::getInstance()->SetDevice(Device.m_pd3dDevice, Device.m_pImmediateContext);
 	if (!DXShaderManager::getInstance()->Initialize())
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::Failed Initialize.\n");
+		OutputDebugStringA("DXShaderManager::Failed Initialize.\n");
 		return false;
 	}
 
@@ -22,20 +22,20 @@ bool GameCore::CoreInitialize()
 	RenderTarget.SetDevice(DEVICE->GetDevice(), DEVICE->GetContext());
 	if (!RenderTarget.Create(0, 0, width, height))
 	{
-		OutputDebugStringA("WanyCore::DXRenderTarget::Failed Create Render Target.\n");
+		OutputDebugStringA("DXRenderTarget::Failed Create Render Target.\n");
 		return false;
 	}*/
 
 	Input::getInstance()->setWndHandle(_hWnd);
 	if (!Input::getInstance()->initialize())
 	{
-		OutputDebugStringA("WanyCore::Input::Failed Initialize.\n");
+		OutputDebugStringA("Input::Failed Initialize.\n");
 		return false;
 	}
 
 	if (!Timer::getInstance()->initialize())
 	{
-		OutputDebugStringA("WanyCore::Timer::Failed Initialize.\n");
+		OutputDebugStringA("Timer::Failed Initialize.\n");
 		return false;
 	}
 
@@ -43,14 +43,14 @@ bool GameCore::CoreInitialize()
 
 	if (!FMODSoundManager::getInstance()->Initialize())
 	{
-		OutputDebugStringA("WanyCore::FMODSoundManager::Failed Initialize.\n");
+		OutputDebugStringA("FMODSoundManager::Failed Initialize.\n");
 		return false;
 	}
 
 	// Sampler State
 	if (!DXSamplerState::setState(Device.m_pd3dDevice))
 	{
-		OutputDebugStringA("WanyCore::DXSamplerState::Failed Set State.\n");
+		OutputDebugStringA("DXSamplerState::Failed Set State.\n");
 		return false;
 	}
 
@@ -61,19 +61,19 @@ bool GameCore::CoreFrame()
 {
 	if (!Input::getInstance()->frame())
 	{
-		OutputDebugStringA("WanyCore::Input::Failed Frame.\n");
+		OutputDebugStringA("Input::Failed Frame.\n");
 		return false;
 	}
 
 	if (!Timer::getInstance()->frame())
 	{
-		OutputDebugStringA("WanyCore::Timer::Failed Frame.\n");
+		OutputDebugStringA("Timer::Failed Frame.\n");
 		return false;
 	}
 
 	if (!FMODSoundManager::getInstance()->Frame())
 	{
-		OutputDebugStringA("WanyCore::FMODSoundManager::Failed frame.\n");
+		OutputDebugStringA("FMODSoundManager::Failed frame.\n");
 		return false;
 	}
 
@@ -154,7 +154,7 @@ bool GameCore::CoreRender()
 
 	if (!Render())
 	{
-		OutputDebugStringA("WanyCore::GameCore::Failed Render.\n");
+		OutputDebugStringA("GameCore::Failed Render.\n");
 		return false;
 	}
 
@@ -164,13 +164,13 @@ bool GameCore::CoreRender()
 #ifdef DEBUG_DISPLAY
 	if (!Input::getInstance()->render())
 	{
-		OutputDebugStringA("WanyCore::Input::Failed Render.\n");
+		OutputDebugStringA("Input::Failed Render.\n");
 		return false;
 	}
 
 	if (!Timer::getInstance()->render())
 	{
-		OutputDebugStringA("WanyCore::Timer::Failed Render.\n");
+		OutputDebugStringA("Timer::Failed Render.\n");
 		return false;
 	}
 
@@ -180,7 +180,7 @@ bool GameCore::CoreRender()
 
 	if (!DXWriter::getInstance()->render())
 	{
-		OutputDebugStringA("WanyCore::DXWriter::Failed Render.\n");
+		OutputDebugStringA("DXWriter::Failed Render.\n");
 		return false;
 	}
 #endif

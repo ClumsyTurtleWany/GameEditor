@@ -1,11 +1,11 @@
 #pragma once
-#include "BaseCore\BaseCore.h"
+#include "Define.h"
 
 class EditorCore : public BaseCore
 {
-public:
-	virtual bool Initialize();
-	virtual bool Frame();
-	virtual bool Render();
-	virtual bool Release();
+protected:
+	virtual bool Initialize() override;
+	virtual bool Frame() override;
+	virtual bool Render() override;
+	virtual bool Release() override;
 };

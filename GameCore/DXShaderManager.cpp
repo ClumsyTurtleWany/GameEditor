@@ -254,7 +254,7 @@ bool DXShaderManager::CreateVertexShader()
 
 		if (FAILED(result))
 		{
-			OutputDebugStringA("WanyCore::DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.\n");
+			OutputDebugStringA("DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.\n");
 			return false;
 		}
 		else
@@ -274,7 +274,7 @@ bool DXShaderManager::CreatePixelShader()
 
 		if (FAILED(result))
 		{
-			OutputDebugStringA("WanyCore::DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.\n");
+			OutputDebugStringA("DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.\n");
 			return false;
 		}
 		else
@@ -307,7 +307,7 @@ bool DXShaderManager::CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl)
 
 		if (FAILED(result))
 		{
-			OutputDebugStringA("WanyCore::DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.\n");
+			OutputDebugStringA("DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.\n");
 			return false;
 		}
 		else
@@ -543,7 +543,7 @@ ID3DBlob* DXShaderManager::GetVSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetVSCode::Failed Get Vertex Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetVSCode::Failed Get Vertex Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -557,7 +557,7 @@ ID3DBlob* DXShaderManager::GetHSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetHSCode::Failed Get Hull Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetHSCode::Failed Get Hull Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -571,7 +571,7 @@ ID3DBlob* DXShaderManager::GetDSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetDSCode::Failed Get Domain Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetDSCode::Failed Get Domain Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -585,7 +585,7 @@ ID3DBlob* DXShaderManager::GetGSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetGSCode::Failed Get Geometry Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetGSCode::Failed Get Geometry Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -599,7 +599,7 @@ ID3DBlob* DXShaderManager::GetPSCode(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetPSCode::Failed Get Pixel Shader Code.\n");
+		OutputDebugStringA("DXShaderManager::GetPSCode::Failed Get Pixel Shader Code.\n");
 		return nullptr;
 	}
 }
@@ -613,7 +613,7 @@ ID3D11VertexShader* DXShaderManager::GetVertexShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetVertexShader::Failed Get Vertex Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetVertexShader::Failed Get Vertex Shader.\n");
 		return nullptr;
 	}
 }
@@ -627,7 +627,7 @@ ID3D11HullShader* DXShaderManager::GetHullShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetHullShader::Failed Get Hull Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetHullShader::Failed Get Hull Shader.\n");
 		return nullptr;
 	}
 }
@@ -641,7 +641,7 @@ ID3D11DomainShader* DXShaderManager::GetDomainShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetDomainShader::Failed Get Domain Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetDomainShader::Failed Get Domain Shader.\n");
 		return nullptr;
 	}
 }
@@ -655,7 +655,7 @@ ID3D11GeometryShader* DXShaderManager::GetGeometryShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::GetGeometryShader::Failed Get Geometry Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetGeometryShader::Failed Get Geometry Shader.\n");
 		return nullptr;
 	}
 }
@@ -669,7 +669,7 @@ ID3D11PixelShader* DXShaderManager::GetPixelShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::getPixelShader::Failed Get Pixel Shader.\n");
+		OutputDebugStringA("DXShaderManager::getPixelShader::Failed Get Pixel Shader.\n");
 		return nullptr;
 	}
 }
@@ -678,31 +678,31 @@ bool DXShaderManager::Initialize()
 {
 	if (!LoadVSCode(L"../include/Core/HLSL/VS_StaticMesh.hlsl"))
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
 		return false;
 	}
 
 	if (!LoadVSCode(L"../include/Core/HLSL/VS_SkeletalMesh.hlsl"))
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load VS Code(VS_StaticMesh.hlsl).\n");
 		return false;
 	}
 
 	if (!LoadPSCode(L"../include/Core/HLSL/PS_Default.hlsl"))
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
 		return false;
 	}
 
 	if (!LoadPSCode(L"../include/Core/HLSL/PS_Light.hlsl"))
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
 		return false;
 	}
 
 	/*if (!LoadGSCode(L"../include/Core/HLSL/GS_Landscape.hlsl"))
 	{
-		OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load GS Code(GS_Landscape.hlsl).\n");
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load GS Code(GS_Landscape.hlsl).\n");
 		return false;
 	}*/
 
@@ -714,64 +714,64 @@ bool DXShaderManager::Initialize()
 	//// Load Vertex Shader Code.
 	//if (!LoadVSCode(VSCodeType::Texture, "../include/core/HLSL/VS_Texture.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Texture.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load VS Code(VS_Texture.hlsl).\n");
 	//	return false;
 	//}
 
 	//if (!LoadVSCode(VSCodeType::ConstantBuffer, "../include/core/HLSL/VS_ConstantBuffer.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_ConstantBuffer.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load VS Code(VS_ConstantBuffer.hlsl).\n");
 	//	return false;
 	//}
 
 	//if (!LoadVSCode(VSCodeType::Light, "../include/core/HLSL/VS_Light.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Light.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load VS Code(VS_Light.hlsl).\n");
 	//	return false;
 	//}
 
 	//if (!LoadVSCode(VSCodeType::Animation, "../include/core/HLSL/VS_Animation.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load VS Code(VS_Animation.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load VS Code(VS_Animation.hlsl).\n");
 	//	return false;
 	//}
 
 	//// Load Pixel Shader Code.
 	//if (!LoadPSCode(PSCodeType::Normal, "../include/core/HLSL/PS_Default.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
 	//	return false;
 	//}
 
 	//if (!LoadPSCode(PSCodeType::Texture, "../include/core/HLSL/PS_Texture.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Texture.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Texture.hlsl).\n");
 	//	return false;
 	//}
 
 	//if (!LoadPSCode(PSCodeType::Mask, "../include/core/HLSL/PS_Mask.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Mask.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Mask.hlsl).\n");
 	//	return false;
 	//}
 
 	//if (!LoadPSCode(PSCodeType::Light, "../include/core/HLSL/PS_Light.hlsl"))
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Load PS Code(PS_Light.hlsl).\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Light.hlsl).\n");
 	//	return false;
 	//}
 
 	//// Create Vertex Shader
 	//if (!CreateVertexShader())
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Create Vertex Shader.\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Create Vertex Shader.\n");
 	//	return false;
 	//}
 
 	//// Create Pixel Shader
 	//if (!CreatePixelShader())
 	//{
-	//	OutputDebugStringA("WanyCore::DXShaderManager::initialize::Failed Create Pixel Shader.\n");
+	//	OutputDebugStringA("DXShaderManager::initialize::Failed Create Pixel Shader.\n");
 	//	return false;
 	//}
 

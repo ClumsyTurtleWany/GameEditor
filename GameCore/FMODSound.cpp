@@ -5,14 +5,14 @@ bool FMODSound::Initialize()
 	//FMOD_RESULT rst = FMOD::System_Create(&m_pFmodSystem);
 	//if (rst != FMOD_OK)
 	//{
-	//	OutputDebugStringA("WanyCore::FMODSound::Initialize::Failed Create System.");
+	//	OutputDebugStringA("FMODSound::Initialize::Failed Create System.");
 	//	return false;
 	//}
 
 	//rst = m_pFmodSystem->init(32, FMOD_INIT_NORMAL, 0); // 32: 최대 32개 까지 동시 출력 할 수 있다. 더 많이 사용 할 수 있으나 현 수준에선 32개 이상 불필요.
 	//if (rst != FMOD_OK)
 	//{
-	//	OutputDebugStringA("WanyCore::FMODSound::Initialize::Failed Initialize System.");
+	//	OutputDebugStringA("FMODSound::Initialize::Failed Initialize System.");
 	//	return false;
 	//}
 
@@ -31,7 +31,7 @@ bool FMODSound::Load(std::string _filename)
 	FMOD_RESULT rst = m_pFmodSystem->createSound(_filename.c_str(), FMOD_DEFAULT, nullptr, &m_pSound);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::load::Failed Load FMODSound File.");
+		OutputDebugStringA("FMODSound::load::Failed Load FMODSound File.");
 		return false;
 	}
 
@@ -55,7 +55,7 @@ bool FMODSound::Play()
 		FMOD_RESULT rst = m_pFmodSystem->playSound(m_pSound, nullptr, false, &m_pChannel);
 		if (rst != FMOD_OK)
 		{
-			OutputDebugStringA("WanyCore::FMODSound::play::Failed Play FMODSound.");
+			OutputDebugStringA("FMODSound::play::Failed Play FMODSound.");
 			return false;
 		}
 
@@ -71,7 +71,7 @@ bool FMODSound::PlayEffect()
 	FMOD_RESULT rst = m_pFmodSystem->playSound(m_pSound, nullptr, false, &m_pChannel);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::play::Failed Play FMODSound.");
+		OutputDebugStringA("FMODSound::play::Failed Play FMODSound.");
 		return false;
 	}
 
@@ -89,14 +89,14 @@ bool FMODSound::Pause()
 	FMOD_RESULT rst = m_pChannel->getPaused(&paused);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::pause::Failed Get Paused Flag.");
+		OutputDebugStringA("FMODSound::pause::Failed Get Paused Flag.");
 		return false;
 	}
 
 	rst = m_pChannel->setPaused(!paused);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::pause::Failed Set Paused Flag.");
+		OutputDebugStringA("FMODSound::pause::Failed Set Paused Flag.");
 		return false;
 	}
 
@@ -108,7 +108,7 @@ bool FMODSound::Stop()
 	FMOD_RESULT rst = m_pChannel->stop();
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::stop::Failed Stop FMODSound.");
+		OutputDebugStringA("FMODSound::stop::Failed Stop FMODSound.");
 		return false;
 	}
 
@@ -121,7 +121,7 @@ bool FMODSound::SetVolume(float _volume)
 	FMOD_RESULT rst = m_pChannel->setVolume(_volume);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::setVolume::Failed Set Volume.");
+		OutputDebugStringA("FMODSound::setVolume::Failed Set Volume.");
 		return false;
 	}
 
@@ -135,7 +135,7 @@ bool FMODSound::VolumeUp(float _volume)
 	FMOD_RESULT rst = m_pChannel->getVolume(&val);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::volumeUp::Failed Get Volume.");
+		OutputDebugStringA("FMODSound::volumeUp::Failed Get Volume.");
 		return false;
 	}
 
@@ -146,7 +146,7 @@ bool FMODSound::VolumeUp(float _volume)
 	rst = m_pChannel->setVolume(val);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::volumeUp::Failed Set Volume.");
+		OutputDebugStringA("FMODSound::volumeUp::Failed Set Volume.");
 		return false;
 	}
 
@@ -159,7 +159,7 @@ bool FMODSound::VolumeDown(float _volume)
 	FMOD_RESULT rst = m_pChannel->getVolume(&val);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::volumeDown::Failed Get Volume.");
+		OutputDebugStringA("FMODSound::volumeDown::Failed Get Volume.");
 		return false;
 	}
 
@@ -170,7 +170,7 @@ bool FMODSound::VolumeDown(float _volume)
 	rst = m_pChannel->setVolume(val);
 	if (rst != FMOD_OK)
 	{
-		OutputDebugStringA("WanyCore::FMODSound::volumeDown::Failed Set Volume.");
+		OutputDebugStringA("FMODSound::volumeDown::Failed Set Volume.");
 		return false;
 	}
 	return false;
@@ -184,7 +184,7 @@ bool FMODSound::SetLoop(bool _loop)
 		rst = m_pSound->setMode(FMOD_LOOP_NORMAL); // 무한 재생
 		if (rst != FMOD_OK)
 		{
-			OutputDebugStringA("WanyCore::FMODSound::setLoop::Failed Set Mode.");
+			OutputDebugStringA("FMODSound::setLoop::Failed Set Mode.");
 			return false;
 		}
 	}
@@ -193,7 +193,7 @@ bool FMODSound::SetLoop(bool _loop)
 		rst = m_pSound->setMode(FMOD_LOOP_OFF); // 무한 재생 해제
 		if (rst != FMOD_OK)
 		{
-			OutputDebugStringA("WanyCore::FMODSound::setLoop::Failed Set Mode.");
+			OutputDebugStringA("FMODSound::setLoop::Failed Set Mode.");
 			return false;
 		}
 	}
@@ -213,7 +213,7 @@ bool FMODSound::Frame()
 		FMOD_RESULT rst = m_pChannel->getPosition(&ms, FMOD_TIMEUNIT_MS);
 		if (rst != FMOD_OK)
 		{
-			OutputDebugStringA("WanyCore::FMODSound::frame::Failed Get FMODSound Position.");
+			OutputDebugStringA("FMODSound::frame::Failed Get FMODSound Position.");
 			return false;
 		}
 

@@ -9,7 +9,7 @@ bool DXDevice::Create(HWND hWnd)
 	//////////////////////////////////////////////////////////////////////
 	//if (FAILED(createFactory()))
 	//{
-	//	OutputDebugStringA("WanyCore::DXDevice::Failed Create Factory.\n");
+	//	OutputDebugStringA("DXDevice::Failed Create Factory.\n");
 	//	return false;
 	//}
 
@@ -19,7 +19,7 @@ bool DXDevice::Create(HWND hWnd)
 
 	if (FAILED(CreateDevice())) // 0도 성공으로 들어가 있어서 SUCCEED or FAILED로만 사용할 것.
 	{
-		OutputDebugStringA("WanyCore::DXDevice::Failed Create Device.\n");
+		OutputDebugStringA("DXDevice::Failed Create Device.\n");
 		return false;
 	}
 
@@ -28,7 +28,7 @@ bool DXDevice::Create(HWND hWnd)
 	////////////////////////////////////////////////////////////////////////
 	if (FAILED(CreateFactory()))
 	{
-		OutputDebugStringA("WanyCore::DXDevice::Failed Create Factory.\n");
+		OutputDebugStringA("DXDevice::Failed Create Factory.\n");
 		return false;
 	}
 
@@ -41,7 +41,7 @@ bool DXDevice::Create(HWND hWnd)
 	int height = rc.bottom - rc.top;
 	if (FAILED(CreateSwapChain(width, height)))
 	{
-		OutputDebugStringA("WanyCore::DXDevice::Failed Create Swap Chain.\n");
+		OutputDebugStringA("DXDevice::Failed Create Swap Chain.\n");
 		return false;
 	}
 
@@ -51,13 +51,13 @@ bool DXDevice::Create(HWND hWnd)
 
 	if (FAILED(CreateRenderTargetView()))
 	{
-		OutputDebugStringA("WanyCore::DXDevice::Failed Create Render Target View.\n");
+		OutputDebugStringA("DXDevice::Failed Create Render Target View.\n");
 		return false;
 	}
 
 	if (FAILED(CreateDepthStencilView()))
 	{
-		OutputDebugStringA("WanyCore::DXDevice::Failed Create Depth Stencil View.\n");
+		OutputDebugStringA("DXDevice::Failed Create Depth Stencil View.\n");
 		return false;
 	}
 

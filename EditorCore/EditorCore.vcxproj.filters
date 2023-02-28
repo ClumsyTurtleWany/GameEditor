@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -27,6 +19,24 @@
     </Filter>
     <Filter Include="DirectX\InputLayout">
       <UniqueIdentifier>{43491af3-8dad-4fce-8b5b-34828be88b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\RenderTarget">
+      <UniqueIdentifier>{492a357b-e25b-4134-939c-12527b80bfeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\HLSL\Goemetry">
+      <UniqueIdentifier>{4b3d1940-8ba9-42ee-a3fa-203a6f8ffe0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\HLSL\Pixel">
+      <UniqueIdentifier>{d6d77e4f-08c5-4817-81de-e1601f17bcff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\HLSL\Vertex">
+      <UniqueIdentifier>{5f2f9acb-6e51-4ff4-986b-c06e74108283}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{d7836ca3-d38c-4e5b-b054-9825578b5673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UserInterface">
+      <UniqueIdentifier>{eb76f6da-f63a-46ac-a376-63599fa3709c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,27 +64,60 @@
     <ClInclude Include="TransformMatrix.h">
       <Filter>DirectX\ConstantData</Filter>
     </ClInclude>
+    <ClInclude Include="DXRenderTarget.hpp">
+      <Filter>DirectX\RenderTarget</Filter>
+    </ClInclude>
+    <ClInclude Include="Define.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DXButton.h">
+      <Filter>UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUserInterface.h">
+      <Filter>UserInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="DXUserInterfaceManager.h">
+      <Filter>UserInterface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditorCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="DXRenderTarget.cpp">
+      <Filter>DirectX\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="DXButton.cpp">
+      <Filter>UserInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="DXUserInterfaceManager.cpp">
+      <Filter>UserInterface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="GS_Landscape.hlsl">
-      <Filter>DirectX\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="PS_Default.hlsl">
-      <Filter>DirectX\HLSL</Filter>
-    </FxCompile>
-    <FxCompile Include="PS_Light.hlsl">
-      <Filter>DirectX\HLSL</Filter>
+      <Filter>DirectX\HLSL\Goemetry</Filter>
     </FxCompile>
     <FxCompile Include="VS_SkeletalMesh.hlsl">
-      <Filter>DirectX\HLSL</Filter>
+      <Filter>DirectX\HLSL\Vertex</Filter>
     </FxCompile>
     <FxCompile Include="VS_StaticMesh.hlsl">
-      <Filter>DirectX\HLSL</Filter>
+      <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Default.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Light.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_NonTexturedUI.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_TexturedUI.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="VS_UserInterface.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -1,12 +1,6 @@
 #pragma once
 #include "Define.h"
 
-enum class InputLayoutType
-{
-	StaticMesh,
-	SkeletalMesh
-};
-
 class DXShaderManager : public Singleton<DXShaderManager>
 {
 private:
@@ -16,7 +10,7 @@ private:
 	ID3D11Device*									m_pd3dDevice = nullptr;
 	ID3D11DeviceContext*							m_pImmediateContext = nullptr;
 
-	std::map<InputLayoutType, ID3D11InputLayout*>	InputLayoutMap;
+	std::map<std::wstring, ID3D11InputLayout*>		InputLayoutMap;
 
 	std::map<std::wstring, ID3DBlob*>				VertexShaderCodeMap;
 	std::map<std::wstring, ID3DBlob*>				HullShaderCodeMap;
@@ -37,15 +31,19 @@ private:
 	virtual ~DXShaderManager() { Release(); };
 
 public:
-	bool LoadVSCode(std::wstring filename);
-	bool LoadHSCode(std::wstring filename);
-	bool LoadDSCode(std::wstring filename);
-	bool LoadGSCode(std::wstring filename);
-	bool LoadPSCode(std::wstring filename);
+	bool LoadVSCode(std::wstring filename, std::wstring key);
+	bool LoadHSCode(std::wstring filename, std::wstring key);
+	bool LoadDSCode(std::wstring filename, std::wstring key);
+	bool LoadGSCode(std::wstring filename, std::wstring key);
+	bool LoadPSCode(std::wstring filename, std::wstring key);
 
-	bool CreateVertexShader();
-	bool CreatePixelShader();
-	bool CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl = nullptr);
+	bool CreateVertexShader(ID3DBlob* vsCode, std::wstring key);
+	bool CreatePixelShader(ID3DBlob* psCode, std::wstring key);
+	bool CreateHullShader(ID3DBlob* hsCode, std::wstring key);
+	bool CreateDomainShader(ID3DBlob* dsCode, std::wstring key);
+	bool CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key);
+
+	bool CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, std::wstring key);
 
 	bool CreateInputLayout();
 	bool CreateStaticMeshInputLayout();
@@ -67,7 +65,7 @@ public:
 	void SetDevice(ID3D11Device* device, ID3D11DeviceContext* context);
 
 public:
-	ID3D11InputLayout* GetInputLayout(InputLayoutType type);
+	ID3D11InputLayout* GetInputLayout(std::wstring key);
 
 	ID3DBlob* GetVSCode(std::wstring key);
 	ID3DBlob* GetHSCode(std::wstring key);

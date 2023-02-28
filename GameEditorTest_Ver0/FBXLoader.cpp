@@ -9,7 +9,7 @@ bool FBXLoader::initialize()
 		m_pImporter = FbxImporter::Create(m_pManager, ""); // 유니코드 사용 안함. static으로 리턴 됨.
 		if (m_pImporter == nullptr)
 		{
-			OutputDebugString(L"WanyCore::FBXLoader::initialize::Failed Create Fbx Importer.\n");
+			OutputDebugString(L"FBXLoader::initialize::Failed Create Fbx Importer.\n");
 			return false;
 		}
 
@@ -17,7 +17,7 @@ bool FBXLoader::initialize()
 	}
 	else
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::initialize::Failed Create Fbx Manager.\n");
+		OutputDebugString(L"FBXLoader::initialize::Failed Create Fbx Manager.\n");
 		return false;
 	}
 }
@@ -119,7 +119,7 @@ bool FBXLoader::Load(std::wstring _path, FBXObject* _dst)
 
 	if (!m_pImporter->Initialize(path))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Initialize Importer.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Initialize Importer.\n");
 		return false;
 	}
 
@@ -130,39 +130,39 @@ bool FBXLoader::Load(std::wstring _path, FBXObject* _dst)
 	FbxScene* pScene = FbxScene::Create(m_pManager, "");
 	if (pScene == nullptr)
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Create Scene.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Create Scene.\n");
 		return false;
 	}
 
 	if (!m_pImporter->Import(pScene))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Import Scene.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Import Scene.\n");
 		return false;
 	}
 
 	FBXFileData fbxFile;
 	if (!ParseScene(pScene, &fbxFile))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Parse Scene.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Parse Scene.\n");
 		return false;
 	}
 
 	FbxNode* pRoot = pScene->GetRootNode();
 	if (!ParseNode(pRoot, &fbxFile))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Parse Root Node.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Parse Root Node.\n");
 		return false;
 	}
 
 	if (!PreProcess(&fbxFile))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Pre Process.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Pre Process.\n");
 		return false;
 	}
 
 	if (!GenerateObjectFromFileData(&fbxFile, _dst))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Generate FBX Object.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Generate FBX Object.\n");
 		return false;
 	}
 
@@ -180,7 +180,7 @@ bool FBXLoader::Load(std::wstring _path, StaticMeshComponent* _dst)
 
 	if (!m_pImporter->Initialize(path))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Initialize Importer.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Initialize Importer.\n");
 		return false;
 	}
 
@@ -191,39 +191,39 @@ bool FBXLoader::Load(std::wstring _path, StaticMeshComponent* _dst)
 	FbxScene* pScene = FbxScene::Create(m_pManager, "");
 	if (pScene == nullptr)
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Create Scene.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Create Scene.\n");
 		return false;
 	}
 
 	if (!m_pImporter->Import(pScene))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Import Scene.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Import Scene.\n");
 		return false;
 	}
 
 	FBXFileData fbxFile;
 	if (!ParseScene(pScene, &fbxFile))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Parse Scene.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Parse Scene.\n");
 		return false;
 	}
 
 	FbxNode* pRoot = pScene->GetRootNode();
 	if (!ParseNode(pRoot, &fbxFile))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Parse Root Node.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Parse Root Node.\n");
 		return false;
 	}
 
 	if (!PreProcess(&fbxFile))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Pre Process.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Pre Process.\n");
 		return false;
 	}
 
 	if (!GenerateStaticMeshFromFileData(&fbxFile, _dst))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::Load::Failed Generate FBX Object.\n");
+		OutputDebugString(L"FBXLoader::Load::Failed Generate FBX Object.\n");
 		return false;
 	}
 
@@ -318,7 +318,7 @@ bool FBXLoader::ParseNode(FbxNode* _node, FBXFileData* _dst)
 {
 	if ((_node == nullptr) || (_dst == nullptr))
 	{
-		OutputDebugString(L"WanyCore::FBXLoader::ParseNode::Node or Dest is nullptr.\n");
+		OutputDebugString(L"FBXLoader::ParseNode::Node or Dest is nullptr.\n");
 		return false;
 	}
 

@@ -34,13 +34,13 @@ HRESULT DXTexture::Load(std::wstring _filename)
 	HRESULT rst = DirectX::CreateWICTextureFromFile(m_pd3dDevice, _filename.c_str(), (ID3D11Resource**)&m_pTextureResource, &m_pTextureResourceView);
 	if (FAILED(rst))
 	{
-		OutputDebugStringA("WanyCore::DXTexture::Failed Create WIC Texture From File.\n");
+		OutputDebugStringA("DXTexture::Failed Create WIC Texture From File.\n");
 		rst = DirectX::CreateDDSTextureFromFile(m_pd3dDevice, _filename.c_str(), (ID3D11Resource**)&m_pTextureResource, &m_pTextureResourceView);
 		if (FAILED(rst))
 		{
-			OutputDebugStringA("WanyCore::DXTexture::Failed Create DDS Texture From File.\n");
-			//OutputDebugStringA("WanyCore::DXTexture::Failed Load.\n");
-			/*std::wstring debugString = L"WanyCore::DXTexture::Failed Load(";
+			OutputDebugStringA("DXTexture::Failed Create DDS Texture From File.\n");
+			//OutputDebugStringA("DXTexture::Failed Load.\n");
+			/*std::wstring debugString = L"DXTexture::Failed Load(";
 			debugString += _filename;
 			debugString += L")\n";
 			OutputDebugStringA(debugString.c_str());*/
@@ -171,14 +171,14 @@ bool DXTexture::CreateRenderTarget(float _width, float _height)
 	HRESULT rst = m_pd3dDevice->CreateTexture2D(&m_Desc, NULL, &m_pTextureResource);
 	if (FAILED(rst))
 	{
-		OutputDebugStringA("WanyCore::DXTexture::CreateRenderTarget::Failed Create Render Target Texture.\n");
+		OutputDebugStringA("DXTexture::CreateRenderTarget::Failed Create Render Target Texture.\n");
 		return false;
 	}
 
 	rst = m_pd3dDevice->CreateShaderResourceView(m_pTextureResource, NULL, &m_pTextureResourceView);
 	if (FAILED(rst))
 	{
-		OutputDebugStringA("WanyCore::DXTexture::CreateRenderTarget::Failed Create Render Target Texture Resource View.\n");
+		OutputDebugStringA("DXTexture::CreateRenderTarget::Failed Create Render Target Texture Resource View.\n");
 		return false;
 	}
 

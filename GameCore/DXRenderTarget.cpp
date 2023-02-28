@@ -27,7 +27,7 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 		m_pTexture->setDevice(m_pd3dDevice, m_pImmediateContext);
 		if (!m_pTexture->CreateRenderTarget(width, height))
 		{
-			OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Render Target Texture.\n");
+			OutputDebugStringA("DXRenderTarget::create::Failed Create Render Target Texture.\n");
 			//delete m_pTexture;
 			//m_pTexture = nullptr;
 			return false;
@@ -37,7 +37,7 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 	HRESULT rst = m_pd3dDevice->CreateRenderTargetView(m_pTexture->getResource(), NULL, m_pRenderTargetView.GetAddressOf());
 	if (FAILED(rst))
 	{
-		OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Render Target View.\n");
+		OutputDebugStringA("DXRenderTarget::create::Failed Create Render Target View.\n");
 		return false;
 	}
 
@@ -58,7 +58,7 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 	rst = m_pd3dDevice->CreateTexture2D(&desc, NULL, m_pDSTexture.GetAddressOf());
 	if (FAILED(rst))
 	{
-		OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Depth Stencil Texture.\n");
+		OutputDebugStringA("DXRenderTarget::create::Failed Create Depth Stencil Texture.\n");
 		return false;
 	}
 
@@ -71,7 +71,7 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 	rst = m_pd3dDevice->CreateDepthStencilView(m_pDSTexture.Get(), &DSdesc, m_pDepthStencilView.GetAddressOf());
 	if (FAILED(rst))
 	{
-		OutputDebugStringA("WanyCore::DXRenderTarget::create::Failed Create Depth Stencil View.\n");
+		OutputDebugStringA("DXRenderTarget::create::Failed Create Depth Stencil View.\n");
 		return false;
 	}
 
