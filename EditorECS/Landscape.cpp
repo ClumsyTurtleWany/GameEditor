@@ -179,10 +179,10 @@ void Landscape::SetContext(ID3D11DeviceContext* context)
 	Context = context;
 }
 
-void Landscape::SetCamera(Camera* camera)
-{
-	MainCamera = camera;
-}
+//void Landscape::SetCamera(Camera* camera)
+//{
+//	MainCamera = camera;
+//}
 
 void Landscape::UpdateTransformMatrix(const TransformComponent& transform)
 {
@@ -202,11 +202,11 @@ void Landscape::SetSculptingData(Vector3 pos, float radius, float attenuation, f
 
 bool Landscape::Initialize()
 {
-	VertexLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
-	VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
-	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
-	//StreamOutputBuffer = DXShaderManager::getInstance()->CreateStreamOutputBuffer();
-	//SculptingBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<SculptingData>(SculptData);
+	VertexLayout = DXShaderManager::GetInstance()->GetInputLayout(L"StaticMesh");
+	VertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"StaticMesh");
+	TransformBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
+	//StreamOutputBuffer = DXShaderManager::GetInstance()->CreateStreamOutputBuffer();
+	//SculptingBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<SculptingData>(SculptData);
 
 	return true;
 }

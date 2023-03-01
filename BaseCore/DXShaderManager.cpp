@@ -610,7 +610,7 @@ bool DXShaderManager::Initialize()
 
 bool DXShaderManager::Release()
 {
-	for (auto it : VertexShaderCodeMap)
+	for (auto& it : VertexShaderCodeMap)
 	{
 		ID3DBlob* pVSCode = it.second;
 		pVSCode->Release();
@@ -618,7 +618,7 @@ bool DXShaderManager::Release()
 	}
 	VertexShaderCodeMap.clear();
 
-	for (auto it : PixelShaderCodeMap)
+	for (auto& it : PixelShaderCodeMap)
 	{
 		ID3DBlob* pPSCode = it.second;
 		pPSCode->Release();
@@ -626,7 +626,31 @@ bool DXShaderManager::Release()
 	}
 	PixelShaderCodeMap.clear();
 
-	for (auto it : VertexShaderMap)
+	for (auto& it : HullShaderCodeMap)
+	{
+		ID3DBlob* pHSCode = it.second;
+		pHSCode->Release();
+		pHSCode = nullptr;
+	}
+	HullShaderCodeMap.clear();
+
+	for (auto& it : DomainShaderCodeMap)
+	{
+		ID3DBlob* pDSCode = it.second;
+		pDSCode->Release();
+		pDSCode = nullptr;
+	}
+	DomainShaderCodeMap.clear();
+
+	for (auto& it : GeometryShaderCodeMap)
+	{
+		ID3DBlob* pGSCode = it.second;
+		pGSCode->Release();
+		pGSCode = nullptr;
+	}
+	GeometryShaderCodeMap.clear();
+
+	for (auto& it : VertexShaderMap)
 	{
 		ID3D11VertexShader* pVS = it.second;
 		pVS->Release();
@@ -634,7 +658,7 @@ bool DXShaderManager::Release()
 	}
 	VertexShaderMap.clear();
 
-	for (auto it : PixelShaderMap)
+	for (auto& it : PixelShaderMap)
 	{
 		ID3D11PixelShader* pPS = it.second;
 		pPS->Release();
@@ -642,7 +666,31 @@ bool DXShaderManager::Release()
 	}
 	PixelShaderMap.clear();
 
-	for (auto it : BufferList)
+	for (auto& it : HullShaderMap)
+	{
+		ID3D11HullShader* pHS = it.second;
+		pHS->Release();
+		pHS = nullptr;
+	}
+	HullShaderMap.clear();
+
+	for (auto& it : DomainShaderMap)
+	{
+		ID3D11DomainShader* pDS = it.second;
+		pDS->Release();
+		pDS = nullptr;
+	}
+	DomainShaderMap.clear();
+
+	for (auto& it : GeometryShaderMap)
+	{
+		ID3D11GeometryShader* pGS = it.second;
+		pGS->Release();
+		pGS = nullptr;
+	}
+	GeometryShaderMap.clear();
+
+	for (auto& it : BufferList)
 	{
 		it->Release();
 	}

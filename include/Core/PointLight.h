@@ -10,12 +10,12 @@ public:
 	virtual ~PointLight();
 };
 
-PointLight::PointLight()
+inline PointLight::PointLight()
 {
 	this->AddComponent<PointLightComponent>();
 }
 
-PointLight::~PointLight()
+inline PointLight::~PointLight()
 {
 
 }

@@ -1,8 +1,7 @@
 #pragma once
 #include "Define.h"
 #include "System.hpp"
-#include "GameWorld.hpp"
-#include "DebugCamera.h"
+#include "Camera.h"
 
 class CameraSystem : public ECS::System
 {

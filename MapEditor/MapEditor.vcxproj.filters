@@ -13,6 +13,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Outliner">
+      <UniqueIdentifier>{d695ec23-0643-42df-a25b-7f0f1f5b7b79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MousePicker">
+      <UniqueIdentifier>{6674b63e-02e4-47dd-8945-6d921952546a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Landscape">
+      <UniqueIdentifier>{63809aff-b3f5-44e0-8b02-65b3bd56b506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Detail">
+      <UniqueIdentifier>{52cb241a-7e0b-4f24-949a-790d65b189de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MapEditor.h">
@@ -42,6 +54,30 @@
     <ClInclude Include="MainCore.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="OutlinerDockPane.h">
+      <Filter>Outliner</Filter>
+    </ClInclude>
+    <ClInclude Include="OutlinerParentDlg.h">
+      <Filter>Outliner</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePicker.h">
+      <Filter>MousePicker</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeDockPane.h">
+      <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeManagementFormView.h">
+      <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeParentDlg.h">
+      <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeSculptingFormView.h">
+      <Filter>Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="DetailDockPane.h">
+      <Filter>Detail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MapEditor.cpp">
@@ -61,6 +97,30 @@
     </ClCompile>
     <ClCompile Include="MainCore.cpp">
       <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="OutlinerDockPane.cpp">
+      <Filter>Outliner</Filter>
+    </ClCompile>
+    <ClCompile Include="OutlinerParentDlg.cpp">
+      <Filter>Outliner</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePicker.cpp">
+      <Filter>MousePicker</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeDockPane.cpp">
+      <Filter>Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeManagementFormView.cpp">
+      <Filter>Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeParentDlg.cpp">
+      <Filter>Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeSculptingFormView.cpp">
+      <Filter>Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailDockPane.cpp">
+      <Filter>Detail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

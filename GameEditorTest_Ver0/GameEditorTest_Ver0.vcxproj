@@ -212,6 +212,8 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClInclude Include="MousePicker.h" />
     <ClInclude Include="MtlFile.h" />
     <ClInclude Include="NewProjectDlg.h" />
+    <ClInclude Include="ObjectSelectorDlg.h" />
+    <ClInclude Include="ObjectSelectorDockPane.h" />
     <ClInclude Include="ObjFile.h" />
     <ClInclude Include="ObjLoader.h" />
     <ClInclude Include="OutlinerDockPane.h" />
@@ -242,6 +244,8 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="MtlFile.cpp" />
     <ClCompile Include="NewProjectDlg.cpp" />
+    <ClCompile Include="ObjectSelectorDlg.cpp" />
+    <ClCompile Include="ObjectSelectorDockPane.cpp" />
     <ClCompile Include="ObjFile.cpp" />
     <ClCompile Include="ObjLoader.cpp" />
     <ClCompile Include="OutlinerDockPane.cpp" />

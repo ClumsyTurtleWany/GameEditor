@@ -13,6 +13,9 @@
 //
 
 #pragma once
+#include "LandscapeDockPane.h"
+#include "OutlinerDockPane.h"
+#include "DetailDockPane.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -45,11 +48,23 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 	CMFCToolBarImages m_PanelImages;
 	CMFCRibbonStatusBar  m_wndStatusBar;
 
+	CMFCRibbonComboBox* m_pComboEditorMode;
+	LandscapeDockPane	m_wndLandscapeDockPane;
+	OutlinerDockPane	m_wndOutlinerDockPane;
+	DetailDockPane		m_wndDetailDockPane;
+
+
 // 생성된 메시지 맵 함수
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+
+	afx_msg void OnComboChangeEditorMode();
+	afx_msg void OnUpdateComboChangeEditorMode(CCmdUI* pcmdui);
 	DECLARE_MESSAGE_MAP()
 
+	bool InitializeRibbonBar();
+	bool CreateDockingWindows();
+	void UpdateOutliner();
 };
 
 

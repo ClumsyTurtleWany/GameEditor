@@ -68,11 +68,11 @@ bool DXButton::Frame()
     }
     else
     {
-        CurrentState == ButtonState::Hover;
+        CurrentState = ButtonState::Hover;
         KeyState leftBtn = Input::GetInstance()->getKey(VK_LBUTTON);
         if (leftBtn == KeyState::Down || leftBtn == KeyState::Hold)
         {
-            CurrentState == ButtonState::Pressed;
+            CurrentState = ButtonState::Pressed;
         }
         else
         {

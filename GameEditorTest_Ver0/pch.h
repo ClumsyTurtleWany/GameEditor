@@ -10,4 +10,18 @@
 // 여기에 미리 컴파일하려는 헤더 추가
 #include "framework.h"
 
+//#include "RenderSystem.h"
+//#include "Timer.hpp"
+//#include "Actor.h"
+//#include "DebugCamera.h"
+//#include "DebugCameraSystem.h"
+//#include "Landscape.h"
+//#include "FBXLoader.hpp"
+//#include "LightSystem.h"
+//#include "DirectionalLight.h"
+//#include "SpotLight.h"
+//#include "PointLight.h"
+//#include "CameraSystem.h"
+
+
 #endif //PCH_H

@@ -6,7 +6,7 @@
 #include "DXSamplerState.hpp"
 #include "TransformComponent.h"
 #include "Landscape.h"
-#include "DebugCamera.h"
+//#include "DebugCamera.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {

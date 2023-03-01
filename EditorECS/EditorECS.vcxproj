@@ -23,8 +23,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="CubeComponent.h" />
-    <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="DebugCameraSystem.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Landscape.h" />
@@ -164,7 +162,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../include/;../include/EditorCore/;../include/ECS/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;../include/EditorCore/;../include/ECS/;../include/BaseCore/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

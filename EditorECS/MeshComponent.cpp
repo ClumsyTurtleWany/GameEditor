@@ -52,17 +52,17 @@ bool MeshComponent::Initialize()
 		return true;
 	}
 
-	VertexBuffer = DXShaderManager::getInstance()->CreateVertexBuffer(Vertices);
-	IndexBuffer = DXShaderManager::getInstance()->CreateIndexBuffer(Indices);
+	VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
+	IndexBuffer = DXShaderManager::GetInstance()->CreateIndexBuffer(Indices);
 
 	if (MaterialSlot == nullptr)
 	{
 		MaterialSlot = new Material;
 		MaterialSlot->SetContext(Context);
-		DXTextureManager::getInstance()->Load(L"../resource/Default.bmp");
-		DXTexture* DefaultTexture = DXTextureManager::getInstance()->getTexture(L"../resource/Default.bmp");
+		DXTextureManager::GetInstance()->Load(L"../resource/Default.bmp");
+		DXTexture* DefaultTexture = DXTextureManager::GetInstance()->getTexture(L"../resource/Default.bmp");
 		MaterialSlot->AddTexture(DefaultTexture);
-		MaterialSlot->SetPixelShader(DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
+		MaterialSlot->SetPixelShader(DXShaderManager::GetInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
 	}
 
 	isCreated = true;

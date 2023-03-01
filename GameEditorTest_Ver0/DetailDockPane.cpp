@@ -5,6 +5,7 @@
 #include "GameEditorTest_Ver0.h"
 #include "DetailDockPane.h"
 #include "TransformComponent.h"
+#include "LightComponent.h"
 
 
 // DetailDockPane
@@ -169,6 +170,120 @@ void DetailDockPane::UpdateDetail(ECS::Entity* entity)
 			scaleProp->AddSubItem(sz);
 			m_PropList.AddProperty(scaleProp);
 		}
+
+		if (entity->has<DirectionalLightComponent>())
+		{
+			auto comp = entity->GetComponent<DirectionalLightComponent>();
+			CMFCPropertyGridProperty* lightProp = new CMFCPropertyGridProperty(_T("Directional Light"));
+			m_PropList.AddProperty(lightProp);
+			
+			CMFCPropertyGridProperty* colorProp = new CMFCPropertyGridProperty(_T("Color"), 0, TRUE);
+			CMFCPropertyGridProperty* r = new CMFCPropertyGridProperty(_T("R"), (_variant_t)(float)comp->Color.x, _T("Color R"));
+			CMFCPropertyGridProperty* g = new CMFCPropertyGridProperty(_T("G"), (_variant_t)(float)comp->Color.y, _T("Color G"));
+			CMFCPropertyGridProperty* b = new CMFCPropertyGridProperty(_T("B"), (_variant_t)(float)comp->Color.z, _T("Color B"));
+			CMFCPropertyGridProperty* w = new CMFCPropertyGridProperty(_T("W"), (_variant_t)(float)comp->Color.w, _T("Alpha W"));
+			r->SetData(10);
+			g->SetData(11);
+			b->SetData(12);
+			w->SetData(13);
+			colorProp->AddSubItem(r);
+			colorProp->AddSubItem(g);
+			colorProp->AddSubItem(b);
+			colorProp->AddSubItem(w);
+			m_PropList.AddProperty(colorProp);
+
+			CMFCPropertyGridProperty* dirProp = new CMFCPropertyGridProperty(_T("Direction"), 0, TRUE);
+			CMFCPropertyGridProperty* x = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)comp->Direction.x, _T("Direction X"));
+			CMFCPropertyGridProperty* y = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)comp->Direction.y, _T("Direction Y"));
+			CMFCPropertyGridProperty* z = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)comp->Direction.z, _T("Direction Z"));
+			x->SetData(14);
+			y->SetData(15);
+			z->SetData(16);
+			dirProp->AddSubItem(x);
+			dirProp->AddSubItem(y);
+			dirProp->AddSubItem(z);
+			m_PropList.AddProperty(dirProp);
+		}
+
+		if (entity->has<PointLightComponent>())
+		{
+			auto comp = entity->GetComponent<PointLightComponent>();
+			CMFCPropertyGridProperty* lightProp = new CMFCPropertyGridProperty(_T("Point Light"));
+			m_PropList.AddProperty(lightProp);
+
+			CMFCPropertyGridProperty* colorProp = new CMFCPropertyGridProperty(_T("Color"), 0, TRUE);
+			CMFCPropertyGridProperty* r = new CMFCPropertyGridProperty(_T("R"), (_variant_t)(float)comp->Color.x, _T("Color R"));
+			CMFCPropertyGridProperty* g = new CMFCPropertyGridProperty(_T("G"), (_variant_t)(float)comp->Color.y, _T("Color G"));
+			CMFCPropertyGridProperty* b = new CMFCPropertyGridProperty(_T("B"), (_variant_t)(float)comp->Color.z, _T("Color B"));
+			CMFCPropertyGridProperty* w = new CMFCPropertyGridProperty(_T("W"), (_variant_t)(float)comp->Color.w, _T("Alpha W"));
+			r->SetData(20);
+			g->SetData(21);
+			b->SetData(22);
+			w->SetData(23);
+			colorProp->AddSubItem(r);
+			colorProp->AddSubItem(g);
+			colorProp->AddSubItem(b);
+			colorProp->AddSubItem(w);
+			m_PropList.AddProperty(colorProp);
+
+			CMFCPropertyGridProperty* dirProp = new CMFCPropertyGridProperty(_T("Direction"), 0, TRUE);
+			CMFCPropertyGridProperty* x = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)comp->Direction.x, _T("Direction X"));
+			CMFCPropertyGridProperty* y = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)comp->Direction.y, _T("Direction Y"));
+			CMFCPropertyGridProperty* z = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)comp->Direction.z, _T("Direction Z"));
+			x->SetData(24);
+			y->SetData(25);
+			z->SetData(26);
+			dirProp->AddSubItem(x);
+			dirProp->AddSubItem(y);
+			dirProp->AddSubItem(z);
+			m_PropList.AddProperty(dirProp);
+
+			CMFCPropertyGridProperty* radiusProp = new CMFCPropertyGridProperty(_T("Radius"), 0, TRUE);
+			CMFCPropertyGridProperty* radius = new CMFCPropertyGridProperty(_T("Radius"), (_variant_t)(float)comp->Radius, _T("Radius"));
+			radius->SetData(27);
+			radiusProp->AddSubItem(radius);
+			m_PropList.AddProperty(radiusProp);
+		}
+
+		if (entity->has<SpotLightComponent>())
+		{
+			auto comp = entity->GetComponent<SpotLightComponent>();
+			CMFCPropertyGridProperty* lightProp = new CMFCPropertyGridProperty(_T("Spot Light"));
+			m_PropList.AddProperty(lightProp);
+
+			CMFCPropertyGridProperty* colorProp = new CMFCPropertyGridProperty(_T("Color"), 0, TRUE);
+			CMFCPropertyGridProperty* r = new CMFCPropertyGridProperty(_T("R"), (_variant_t)(float)comp->Color.x, _T("Color R"));
+			CMFCPropertyGridProperty* g = new CMFCPropertyGridProperty(_T("G"), (_variant_t)(float)comp->Color.y, _T("Color G"));
+			CMFCPropertyGridProperty* b = new CMFCPropertyGridProperty(_T("B"), (_variant_t)(float)comp->Color.z, _T("Color B"));
+			CMFCPropertyGridProperty* w = new CMFCPropertyGridProperty(_T("W"), (_variant_t)(float)comp->Color.w, _T("Alpha W"));
+			r->SetData(30);
+			g->SetData(31);
+			b->SetData(32);
+			w->SetData(33);
+			colorProp->AddSubItem(r);
+			colorProp->AddSubItem(g);
+			colorProp->AddSubItem(b);
+			colorProp->AddSubItem(w);
+			m_PropList.AddProperty(colorProp);
+
+			CMFCPropertyGridProperty* dirProp = new CMFCPropertyGridProperty(_T("Direction"), 0, TRUE);
+			CMFCPropertyGridProperty* x = new CMFCPropertyGridProperty(_T("X"), (_variant_t)(float)comp->Direction.x, _T("Direction X"));
+			CMFCPropertyGridProperty* y = new CMFCPropertyGridProperty(_T("Y"), (_variant_t)(float)comp->Direction.y, _T("Direction Y"));
+			CMFCPropertyGridProperty* z = new CMFCPropertyGridProperty(_T("Z"), (_variant_t)(float)comp->Direction.z, _T("Direction Z"));
+			x->SetData(34);
+			y->SetData(35);
+			z->SetData(36);
+			dirProp->AddSubItem(x);
+			dirProp->AddSubItem(y);
+			dirProp->AddSubItem(z);
+			m_PropList.AddProperty(dirProp);
+
+			CMFCPropertyGridProperty* radiusProp = new CMFCPropertyGridProperty(_T("Radius"), 0, TRUE);
+			CMFCPropertyGridProperty* radius = new CMFCPropertyGridProperty(_T("Radius"), (_variant_t)(float)comp->Radius, _T("Radius"));
+			radius->SetData(37);
+			radiusProp->AddSubItem(radius);
+			m_PropList.AddProperty(radiusProp);
+		}
 	}
 
 	m_PropList.AdjustLayout();
@@ -217,55 +332,194 @@ LRESULT DetailDockPane::OnPropertyChanged(WPARAM wp, LPARAM lp)
 	}
 
 	//AfxMessageBox(str);
-	auto comp = TargetEntity->GetComponent<TransformComponent>();
+	if (id < 10)
+	{
+		auto comp = TargetEntity->GetComponent<TransformComponent>();
 
+		switch (id)
+		{
+		case 1:
+		{
+			comp->Translation.x = var.fltVal;
+		}
+		break;
+		case 2:
+		{
+			comp->Translation.y = var.fltVal;
+		}
+		break;
+		case 3:
+		{
+			comp->Translation.z = var.fltVal;
+		}
+		break;
+		case 4:
+		{
+			comp->Rotation.x = var.fltVal;
+		}
+		break;
+		case 5:
+		{
+			comp->Rotation.y = var.fltVal;
+		}
+		break;
+		case 6:
+		{
+			comp->Rotation.z = var.fltVal;
+		}
+		break;
+		case 7:
+		{
+			comp->Scale.x = var.fltVal;
+		}
+		break;
+		case 8:
+		{
+			comp->Scale.y = var.fltVal;
+		}
+		break;
+		case 9:
+		{
+			comp->Scale.z = var.fltVal;
+		}
+		break;
+		}
+	}
+	else if (id >= 10 && id < 20)
+	{
+		auto comp = TargetEntity->GetComponent<DirectionalLightComponent>();
+		switch (id)
+		{
+		case 10:
+		{
+			comp->Color.x = var.fltVal;
+		}
+		break;
+		case 11:
+		{
+			comp->Color.y = var.fltVal;
+		}
+		break;
+		case 12:
+		{
+			comp->Color.z = var.fltVal;
+		}
+		break;
+		case 13:
+		{
+			comp->Color.w = var.fltVal;
+		}
+		break;
+		case 14:
+		{
+			comp->Direction.x = var.fltVal;
+		}
+		break;
+		case 15:
+		{
+			comp->Direction.y = var.fltVal;
+		}
+		break;
+		case 16:
+		{
+			comp->Direction.z = var.fltVal;
+		}
+		break;
+		}
+	}
+	else if (id >= 20 && id < 30)
+	{
+		auto comp = TargetEntity->GetComponent<PointLightComponent>();
+		switch (id)
+		{
+		case 20:
+		{
+			comp->Color.x = var.fltVal;
+		}
+		break;
+		case 21:
+		{
+			comp->Color.y = var.fltVal;
+		}
+		break;
+		case 22:
+		{
+			comp->Color.z = var.fltVal;
+		}
+		break;
+		case 23:
+		{
+			comp->Color.w = var.fltVal;
+		}
+		break;
+		case 24:
+		{
+			comp->Direction.x = var.fltVal;
+		}
+		break;
+		case 25:
+		{
+			comp->Direction.y = var.fltVal;
+		}
+		break;
+		case 26:
+		{
+			comp->Direction.z = var.fltVal;
+		}
+		break;
+		case 27:
+		{
+			comp->Radius = var.fltVal;
+		}
+		break;
+		}
+	}
+	else if (id >= 30 && id < 40)
+	{
+	auto comp = TargetEntity->GetComponent<SpotLightComponent>();
 	switch (id)
 	{
-	case 1:
+	case 30:
 	{
-		comp->Translation.x = var.fltVal;
+		comp->Color.x = var.fltVal;
 	}
 	break;
-	case 2:
+	case 31:
 	{
-		comp->Translation.y = var.fltVal;
+		comp->Color.y = var.fltVal;
 	}
 	break;
-	case 3:
+	case 32:
 	{
-		comp->Translation.z = var.fltVal;
+		comp->Color.z = var.fltVal;
 	}
 	break;
-	case 4:
+	case 33:
 	{
-		comp->Rotation.x = var.fltVal;
+		comp->Color.w = var.fltVal;
 	}
 	break;
-	case 5:
+	case 34:
 	{
-		comp->Rotation.y = var.fltVal;
+		comp->Direction.x = var.fltVal;
 	}
 	break;
-	case 6:
+	case 35:
 	{
-		comp->Rotation.z = var.fltVal;
+		comp->Direction.y = var.fltVal;
 	}
 	break;
-	case 7:
+	case 36:
 	{
-		comp->Scale.x = var.fltVal;
+		comp->Direction.z = var.fltVal;
 	}
 	break;
-	case 8:
+	case 37:
 	{
-		comp->Scale.y = var.fltVal;
+		comp->Radius = var.fltVal;
 	}
 	break;
-	case 9:
-	{
-		comp->Scale.z = var.fltVal;
 	}
-	break;
 	}
 
 

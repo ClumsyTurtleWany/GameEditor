@@ -46,9 +46,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="DebugCamera.h">
-      <Filter>Component\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="LightComponent.h">
       <Filter>Component\Light</Filter>
     </ClInclude>
@@ -83,9 +80,6 @@
       <Filter>Entity\Actor</Filter>
     </ClInclude>
     <ClInclude Include="CameraSystem.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugCameraSystem.h">
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="LightSystem.h">

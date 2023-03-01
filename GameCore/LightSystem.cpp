@@ -3,6 +3,7 @@
 #include "LightComponent.h"
 #include "TransformComponent.h"
 #include "DXShaderManager.h"
+#include "Camera.h"
 
 void LightSystem::Tick(ECS::World* world, float time)
 {
@@ -55,19 +56,28 @@ void LightSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	Camera* camera = world->GetDebugCamera();
-	Eye.Position = Vector4(camera->Pos.x, camera->Pos.y, camera->Pos.z, 0.0f);
-	Eye.Direction = Vector4(camera->Look.x, camera->Look.y, camera->Look.z, 0.0f);
+	Camera* camera = nullptr;
+	for (auto& entity : world->GetEntities<Camera>())
+	{
+		camera = entity->GetComponent<Camera>();
+		break;
+	}
+	
+	if (camera != nullptr)
+	{
+		Eye.Position = Vector4(camera->Pos.x, camera->Pos.y, camera->Pos.z, 0.0f);
+		Eye.Direction = Vector4(camera->Look.x, camera->Look.y, camera->Look.z, 0.0f);
 
-	Context->UpdateSubresource(DirectionalLightBuffer, 0, NULL, &DirectionalLights, 0, 0);
-	Context->UpdateSubresource(PointLightBuffer, 0, NULL, &PointLights, 0, 0);
-	Context->UpdateSubresource(SpotLightBuffer, 0, NULL, &SpotLights, 0, 0);
-	Context->UpdateSubresource(EyeBuffer, 0, NULL, &Eye, 0, 0);
+		Context->UpdateSubresource(DirectionalLightBuffer, 0, NULL, &DirectionalLights, 0, 0);
+		Context->UpdateSubresource(PointLightBuffer, 0, NULL, &PointLights, 0, 0);
+		Context->UpdateSubresource(SpotLightBuffer, 0, NULL, &SpotLights, 0, 0);
+		Context->UpdateSubresource(EyeBuffer, 0, NULL, &Eye, 0, 0);
 
-	Context->PSSetConstantBuffers(0, 1, &DirectionalLightBuffer);
-	Context->PSSetConstantBuffers(1, 1, &PointLightBuffer);
-	Context->PSSetConstantBuffers(2, 1, &SpotLightBuffer);
-	Context->PSSetConstantBuffers(3, 1, &EyeBuffer);
+		Context->PSSetConstantBuffers(0, 1, &DirectionalLightBuffer);
+		Context->PSSetConstantBuffers(1, 1, &PointLightBuffer);
+		Context->PSSetConstantBuffers(2, 1, &SpotLightBuffer);
+		Context->PSSetConstantBuffers(3, 1, &EyeBuffer);
+	}
 }
 
 void LightSystem::SetContext(ID3D11DeviceContext* context)

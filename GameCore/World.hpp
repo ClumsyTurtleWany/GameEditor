@@ -46,6 +46,8 @@ namespace ECS
 		System* AddSystem(System* system);
 		void EnableSystem(System* system);
 		void DisableSystem(System* system);
+
+		void CleanUp();
 	};
 
 	template <typename T>

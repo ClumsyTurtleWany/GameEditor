@@ -91,9 +91,9 @@ void LightSystem::SetContext(ID3D11DeviceContext* context)
 
 void LightSystem::Initialize()
 {
-	DirectionalLightBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<DirectionalLightData>(DirectionalLights);
-	PointLightBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<PointLightData>(PointLights);
-	SpotLightBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<SpotLightData>(SpotLights);
-	EyeBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<EyeData>(Eye);
+	DirectionalLightBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<DirectionalLightData>(DirectionalLights);
+	PointLightBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<PointLightData>(PointLights);
+	SpotLightBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<SpotLightData>(SpotLights);
+	EyeBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<EyeData>(Eye);
 
 }

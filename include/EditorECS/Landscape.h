@@ -2,9 +2,9 @@
 #include "Define.h"
 #include "LandscapeComponent.h"
 #include "TransformComponent.h"
-#include "DebugCamera.h"
 #include "Entity.hpp"
 #include "SculptingData.h"
+#include "Camera.h"
 
 class Landscape //: public ECS::Entity
 {

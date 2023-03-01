@@ -2,7 +2,7 @@
 
 bool DXUserInterfaceManager::Initialize()
 {
-	DXShaderManager::GetInstance()->GetVertexShader(L"../include/HLSL/VS_UserInterface.hlsl");
+	//VertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"../include/HLSL/VS_UserInterface.hlsl");
 
 	return true;
 }

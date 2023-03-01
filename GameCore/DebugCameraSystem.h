@@ -10,7 +10,13 @@ class DebugCameraSystem : public ECS::System
 public:
 	virtual void Tick(ECS::World* world, float time) override
 	{
-		DebugCamera* debugCamera = world->GetDebugCamera();
+		DebugCamera* debugCamera = nullptr; //world->GetDebugCamera();
+		for (auto& entity : world->GetEntities<DebugCamera>())
+		{
+			debugCamera = entity->GetComponent<DebugCamera>();
+			break;
+		}
+
 		if (debugCamera != nullptr)
 		{
 			DirectX::XMFLOAT3 curPos;

@@ -85,6 +85,8 @@
 #define ID_COMBO_EDITOR_MODE            317
 #define IDB_FILE_SAVE                   318
 #define IDD_NewProjectDlg               319
+#define ID_OBJECT_SELECTOR_DOCKPANE		320
+#define IDD_ObjectSelectorDlg           321
 #define ID_STATICMESH_LIST_BOX          410
 #define IDB_FBX_SELECT                  411
 #define IDC_COMBO_SECTION               412
@@ -98,6 +100,7 @@
 #define IDC_FBX_FILE_LIST               1007
 #define IDC_BUTTON1                     1008
 #define IDC_LANDSCAPE_MANAGEMENT        1008
+#define IDC_BUTTON_DIRECTIONAL_LIGHT    1008
 #define IDC_LANDSCAPE_SCULPTING         1009
 #define IDC_LANDSCAPE_PAINTING          1010
 #define ID_DetailDockPane               1011
@@ -105,15 +108,18 @@
 #define IDC_LIST1                       1013
 #define IDC_EDIT1                       1014
 #define IDC_EDIT2                       1015
+#define IDC_BUTTON_SPOT_LIGHT           1016
+#define IDC_BUTTON3                     1017
+#define IDC_BUTTON_POINT_LIGHT          1017
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        317
+#define _APS_NEXT_RESOURCE_VALUE        318
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1016
-#define _APS_NEXT_SYMED_VALUE           320
+#define _APS_NEXT_CONTROL_VALUE         1018
+#define _APS_NEXT_SYMED_VALUE           321
 #endif
 #endif

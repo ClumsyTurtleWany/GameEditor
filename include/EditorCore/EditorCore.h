@@ -3,6 +3,10 @@
 
 class EditorCore : public BaseCore
 {
+public:
+	EditorCore();
+	virtual ~EditorCore();
+
 protected:
 	virtual bool Initialize() override;
 	virtual bool Frame() override;

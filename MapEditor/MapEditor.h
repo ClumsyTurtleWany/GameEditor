@@ -18,6 +18,7 @@
 #endif
 
 #include "resource.h"       // 주 기호입니다.
+#include "MainCore.h"
 
 // CMapEditorApp:
 // 이 클래스의 구현에 대해서는 MapEditor.cpp을(를) 참조하세요.
@@ -25,6 +26,9 @@
 
 class CMapEditorApp : public CWinAppEx
 {
+public:
+	MainCore* Core = nullptr;
+
 public:
 	CMapEditorApp() noexcept;
 
@@ -40,6 +44,11 @@ public:
 
 	afx_msg void OnAppAbout();
 	DECLARE_MESSAGE_MAP()
+	virtual BOOL OnIdle(LONG lCount);
+
+public:
+	void Update();
+	void SelectEntity(ECS::Entity* entity);
 };
 
 extern CMapEditorApp theApp;

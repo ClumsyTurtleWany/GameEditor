@@ -1,6 +1,14 @@
 #include "EditorCore.h"
 #include "DXUserInterfaceManager.h"
 
+EditorCore::EditorCore()
+{
+}
+
+EditorCore::~EditorCore()
+{
+}
+
 bool EditorCore::Initialize()
 {
     DXUserInterfaceManager::GetInstance()->SetContext(Device.m_pImmediateContext);

@@ -2,6 +2,7 @@
 
 void ECS::World::Tick(float time)
 {
+	CleanUp();
 	for (auto& system : Systems)
 	{
 		system.get()->Tick(this, time);
@@ -45,5 +46,21 @@ void ECS::World::DisableSystem(ECS::System* system)
 	{
 		Systems.erase(it);
 		DisableSystems.push_back(disableSystem);
+	}
+}
+
+void ECS::World::CleanUp()
+{
+	for (size_t idx = 0; idx < Entities.size(); )
+	{
+		auto entity = Entities[idx].get();
+		if (entity->IsDestroy)
+		{
+			Entities.erase(Entities.begin() + idx);
+		}
+		else
+		{
+			idx++;
+		}
 	}
 }

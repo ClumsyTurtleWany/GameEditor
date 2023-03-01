@@ -52,6 +52,9 @@
     <Filter Include="ObjLoader">
       <UniqueIdentifier>{001c0814-5887-4ac0-80f8-b1f32cf15ed4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="MFC\DockPane\ObjectSelector">
+      <UniqueIdentifier>{b803e72c-b4c9-4b89-832a-8a7b0bd6486e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEditorTest_Ver0.h">
@@ -141,6 +144,12 @@
     <ClInclude Include="ObjLoader.h">
       <Filter>ObjLoader</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectSelectorDockPane.h">
+      <Filter>MFC\DockPane\ObjectSelector</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSelectorDlg.h">
+      <Filter>MFC\DockPane\ObjectSelector</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEditorTest_Ver0.cpp">
@@ -220,6 +229,12 @@
     </ClCompile>
     <ClCompile Include="ObjLoader.cpp">
       <Filter>ObjLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectSelectorDockPane.cpp">
+      <Filter>MFC\DockPane\ObjectSelector</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectSelectorDlg.cpp">
+      <Filter>MFC\DockPane\ObjectSelector</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

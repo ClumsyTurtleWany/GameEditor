@@ -20,6 +20,7 @@
 #include "LandscapeDockPane.h"
 #include "OutlinerDockPane.h"
 #include "DetailDockPane.h"
+#include "ObjectSelectorDockPane.h"
 
 class CMainFrame : public CFrameWndEx
 {
@@ -59,7 +60,7 @@ protected:  // 컨트롤 모음이 포함된 멤버입니다.
 public:
 	CMFCRibbonComboBox* m_pComboEditorMode;
 
-	
+	ObjectSelectorDockPane m_wndObjectSelectorDockPane;
 	LandscapeDockPane	m_wndLandscapeDockPane;
 	OutlinerDockPane	m_wndOutlinerDockPane;
 	DetailDockPane		m_wndDetailDockPane;

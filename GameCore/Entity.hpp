@@ -17,6 +17,9 @@ namespace ECS
 		std::wstring Name;
 
 	public:
+		bool IsDestroy = false;
+
+	public:
 		Entity() { ID = EntityID++; };
 		virtual ~Entity() {};
 

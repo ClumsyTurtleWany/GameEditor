@@ -24,6 +24,11 @@
 #define IDS_EDIT_MENU				306
 #define IDR_RIBBON             			307
 
+#define ID_COMBO_EDITOR_MODE		401	
+#define ID_LANDSCAPE_DOCKPANE		402
+#define ID_OutlinerDockPane			403
+#define ID_DetailDockPane			404
+
 // 다음은 새 개체에 사용할 기본값입니다.
 //
 #ifdef APSTUDIO_INVOKED

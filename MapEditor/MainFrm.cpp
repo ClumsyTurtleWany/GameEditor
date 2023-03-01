@@ -28,6 +28,10 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWndEx)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
+
+	ON_COMMAND(ID_COMBO_EDITOR_MODE, OnComboChangeEditorMode)
+	ON_UPDATE_COMMAND_UI(ID_COMBO_EDITOR_MODE, OnUpdateComboChangeEditorMode)
+
 END_MESSAGE_MAP()
 
 // CMainFrame 생성/소멸
@@ -48,8 +52,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	BOOL bNameValid;
 
-	m_wndRibbonBar.Create(this);
-	m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+	//m_wndRibbonBar.Create(this);
+	//m_wndRibbonBar.LoadFromResource(IDR_RIBBON);
+	InitializeRibbonBar();
 
 	if (!m_wndStatusBar.Create(this))
 	{
@@ -70,6 +75,19 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	CDockingManager::SetDockingMode(DT_SMART);
 	// Visual Studio 2005 스타일 도킹 창 자동 숨김 동작을 활성화합니다.
 	EnableAutoHidePanes(CBRS_ALIGN_ANY);
+
+	CreateDockingWindows();
+
+	m_wndLandscapeDockPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndLandscapeDockPane);
+	m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
+
+	m_wndOutlinerDockPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndOutlinerDockPane);
+
+	m_wndDetailDockPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndDetailDockPane);
+
 
 	// 모든 사용자 인터페이스 요소를 그리는 데 사용하는 비주얼 관리자를 설정합니다.
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerOffice2007));
@@ -107,3 +125,78 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 // CMainFrame 메시지 처리기
 
+
+
+void CMainFrame::OnComboChangeEditorMode()
+{
+	if (m_pComboEditorMode)
+	{
+		int idx = m_pComboEditorMode->GetCurSel();
+		if (idx == 0)
+		{
+			m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
+		}
+		else if (idx == 1)
+		{
+			m_wndLandscapeDockPane.ShowPane(TRUE, FALSE, TRUE);
+		}
+	}
+}
+
+void CMainFrame::OnUpdateComboChangeEditorMode(CCmdUI* pcmdui)
+{
+	pcmdui->Enable(TRUE);
+}
+
+bool CMainFrame::InitializeRibbonBar()
+{
+	m_wndRibbonBar.Create(this);
+
+	CMFCRibbonCategory* pCategory = nullptr;
+	CMFCRibbonPanel* pPanel = nullptr;
+
+	pCategory = m_wndRibbonBar.AddCategory(L"Test Ribbon Menu", IDB_WRITESMALL, IDB_WRITELARGE);
+	pPanel = pCategory->AddPanel(L"Test");
+
+	//pPanel->Add(new CMFCRibbonButton(IDB_FILE_SAVE, L"Save", theApp.LoadIconW(IDI_FILE_SAVE)));
+
+	pPanel->Add(new CMFCRibbonLabel(L" "));
+	m_pComboEditorMode = new CMFCRibbonComboBox(ID_COMBO_EDITOR_MODE, FALSE, -1, L"Mode", -1);
+	m_pComboEditorMode->AddItem(L"Select Mode");
+	m_pComboEditorMode->AddItem(L"Landscape");
+	m_pComboEditorMode->SelectItem(0);
+	pPanel->Add(m_pComboEditorMode);
+
+	return false;
+}
+
+bool CMainFrame::CreateDockingWindows()
+{
+	// Landscape Management Dock Pane
+	if (!m_wndLandscapeDockPane.Create(L"Landscape", this, CRect(0, 0, 200, 200), TRUE, ID_LANDSCAPE_DOCKPANE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Landscape Management 창을 만들지 못했습니다.\n");
+		return false; // 만들지 못했습니다.
+	}
+
+	// Outliner Dock Pane
+	if (!m_wndOutlinerDockPane.Create(L"Outliner", this, CRect(0, 0, 200, 200), TRUE, ID_OutlinerDockPane, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Outliner 창을 만들지 못했습니다.\n");
+		return false; // 만들지 못했습니다.
+	}
+
+	// Detail Dock Pane
+	if (!m_wndDetailDockPane.Create(L"Detail", this, CRect(0, 0, 200, 200), TRUE, ID_DetailDockPane, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Detail 창을 만들지 못했습니다.\n");
+		return false; // 만들지 못했습니다.
+	}
+
+	return true;
+}
+
+void CMainFrame::UpdateOutliner()
+{
+	m_wndOutlinerDockPane.Update();
+}

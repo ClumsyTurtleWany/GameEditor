@@ -40,9 +40,9 @@ bool StaticMeshComponent::Initialize()
 		return true;
 	}
 
-	VertexLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
-	VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
-	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
+	VertexLayout = DXShaderManager::GetInstance()->GetInputLayout(L"StaticMesh");
+	VertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"StaticMesh");
+	TransformBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
 	isCreated = true;
 
 	return true;

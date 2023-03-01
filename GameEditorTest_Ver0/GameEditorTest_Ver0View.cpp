@@ -154,7 +154,7 @@ void CGameEditorTestVer0View::OnMouseMove(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	if (RbtnDown || LbtnDown)
 	{
-		DebugCamera* camera = theApp.m_TestClass->GetDebugCamera();
+		Camera* camera = theApp.m_TestClass->MainCamera;
 		float time = Timer::getInstance()->secondPerFrame;
 		CPoint offset = point - PrevMousePoint;
 		camera->Yaw += offset.x * time;
@@ -170,7 +170,7 @@ BOOL CGameEditorTestVer0View::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 
-	DebugCamera* camera = theApp.m_TestClass->GetDebugCamera();
+	Camera* camera = theApp.m_TestClass->MainCamera;
 	camera->Pos += camera->Look * zDelta * 0.01f;
 
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
@@ -292,7 +292,7 @@ void CGameEditorTestVer0View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 	case 36: // Home
 	{
-		DebugCamera* camera = theApp.m_TestClass->GetDebugCamera();
+		Camera* camera = theApp.m_TestClass->MainCamera;
 		camera->Pos = Vector3(0.0f, 0.0f, -10.0f);
 		camera->Yaw = 0.0f;
 		camera->Pitch = 0.0f;
@@ -303,29 +303,29 @@ void CGameEditorTestVer0View::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	if (RbtnDown || LbtnDown)
 	{
-		DebugCamera* camera = theApp.m_TestClass->GetDebugCamera();
-		camera->Speed = 1000.0f;
+		Camera* camera = theApp.m_TestClass->MainCamera;
+		float speed = 100.0f;
 		float time = Timer::getInstance()->secondPerFrame;
 		switch (nChar)
 		{
 		case 87: // W
 		{
-			camera->Pos += camera->Look * camera->Speed * time;
+			camera->Pos += camera->Look * speed * time;
 		}
 		break;
 		case 119: // w
 		{
-			camera->Pos += camera->Look * camera->Speed * time;
+			camera->Pos += camera->Look * speed * time;
 		}
 		break;
 		case 83: // S
 		{
-			camera->Pos -= camera->Look * camera->Speed * time;
+			camera->Pos -= camera->Look * speed * time;
 		}
 		break;
 		case 115: // s
 		{
-			camera->Pos -= camera->Look * camera->Speed * time;
+			camera->Pos -= camera->Look * speed * time;
 		}
 		break;
 

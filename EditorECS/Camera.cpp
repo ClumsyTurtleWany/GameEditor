@@ -4,7 +4,7 @@
 
 Camera::Camera()
 {
-	CameraMatrixBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<CameraMatrix>(CameraMatrixData);
+	CameraMatrixBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<CameraMatrix>(CameraMatrixData);
 }
 
 Camera::~Camera()

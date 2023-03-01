@@ -87,7 +87,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 
-	m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
+	/*m_wndFileView.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndClassView.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndFileView);
 	CDockablePane* pTabbedBar = nullptr;
@@ -95,11 +95,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndOutput.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutput);
 	m_wndProperties.EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(&m_wndProperties);
+	DockPane(&m_wndProperties);*/
 
 	m_wndLandscapeDockPane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndLandscapeDockPane);
-	//m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
+	m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
+
+	m_wndObjectSelectorDockPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_wndObjectSelectorDockPane);
+	m_wndObjectSelectorDockPane.ShowPane(TRUE, FALSE, TRUE);
 
 	m_wndOutlinerDockPane.EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndOutlinerDockPane);
@@ -129,47 +133,54 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 BOOL CMainFrame::CreateDockingWindows()
 {
-	BOOL bNameValid;
+	//BOOL bNameValid;
 
-	// 클래스 뷰를 만듭니다.
-	CString strClassView;
-	bNameValid = strClassView.LoadString(IDS_CLASS_VIEW);
-	ASSERT(bNameValid);
-	if (!m_wndClassView.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	//// 클래스 뷰를 만듭니다.
+	//CString strClassView;
+	//bNameValid = strClassView.LoadString(IDS_CLASS_VIEW);
+	//ASSERT(bNameValid);
+	//if (!m_wndClassView.Create(strClassView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_CLASSVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
+	//{
+	//	TRACE0("클래스 뷰 창을 만들지 못했습니다.\n");
+	//	return FALSE; // 만들지 못했습니다.
+	//}
+
+	//// 파일 뷰를 만듭니다.
+	//CString strFileView;
+	//bNameValid = strFileView.LoadString(IDS_FILE_VIEW);
+	//ASSERT(bNameValid);
+	//if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
+	//{
+	//	TRACE0("파일 뷰 창을 만들지 못했습니다.\n");
+	//	return FALSE; // 만들지 못했습니다.
+	//}
+
+	//// 출력 창을 만듭니다.
+	//CString strOutputWnd;
+	//bNameValid = strOutputWnd.LoadString(IDS_OUTPUT_WND);
+	//ASSERT(bNameValid);
+	//if (!m_wndOutput.Create(strOutputWnd, this, CRect(0, 0, 100, 100), TRUE, ID_VIEW_OUTPUTWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_BOTTOM | CBRS_FLOAT_MULTI))
+	//{
+	//	TRACE0("출력 창을 만들지 못했습니다.\n");
+	//	return FALSE; // 만들지 못했습니다.
+	//}
+
+	//// 속성 창을 만듭니다.
+	//CString strPropertiesWnd;
+	//bNameValid = strPropertiesWnd.LoadString(IDS_PROPERTIES_WND);
+	//ASSERT(bNameValid);
+	//if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
+	//{
+	//	TRACE0("속성 창을 만들지 못했습니다.\n");
+	//	return FALSE; // 만들지 못했습니다.
+	//}
+
+	if (!m_wndObjectSelectorDockPane.Create(L"Object Select", this, CRect(0, 0, 200, 200), TRUE, ID_OBJECT_SELECTOR_DOCKPANE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
 	{
-		TRACE0("클래스 뷰 창을 만들지 못했습니다.\n");
+		TRACE0("Object Selector 창을 만들지 못했습니다.\n");
 		return FALSE; // 만들지 못했습니다.
 	}
-
-	// 파일 뷰를 만듭니다.
-	CString strFileView;
-	bNameValid = strFileView.LoadString(IDS_FILE_VIEW);
-	ASSERT(bNameValid);
-	if (!m_wndFileView.Create(strFileView, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_FILEVIEW, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT| CBRS_FLOAT_MULTI))
-	{
-		TRACE0("파일 뷰 창을 만들지 못했습니다.\n");
-		return FALSE; // 만들지 못했습니다.
-	}
-
-	// 출력 창을 만듭니다.
-	CString strOutputWnd;
-	bNameValid = strOutputWnd.LoadString(IDS_OUTPUT_WND);
-	ASSERT(bNameValid);
-	if (!m_wndOutput.Create(strOutputWnd, this, CRect(0, 0, 100, 100), TRUE, ID_VIEW_OUTPUTWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_BOTTOM | CBRS_FLOAT_MULTI))
-	{
-		TRACE0("출력 창을 만들지 못했습니다.\n");
-		return FALSE; // 만들지 못했습니다.
-	}
-
-	// 속성 창을 만듭니다.
-	CString strPropertiesWnd;
-	bNameValid = strPropertiesWnd.LoadString(IDS_PROPERTIES_WND);
-	ASSERT(bNameValid);
-	if (!m_wndProperties.Create(strPropertiesWnd, this, CRect(0, 0, 200, 200), TRUE, ID_VIEW_PROPERTIESWND, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_RIGHT | CBRS_FLOAT_MULTI))
-	{
-		TRACE0("속성 창을 만들지 못했습니다.\n");
-		return FALSE; // 만들지 못했습니다.
-	}
+	
 
 	// Landscape Management Dock Pane
 	if (!m_wndLandscapeDockPane.Create(L"Landscape", this, CRect(0, 0, 200, 200), TRUE, ID_LANDSCAPE_DOCKPANE, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI))
@@ -193,7 +204,7 @@ BOOL CMainFrame::CreateDockingWindows()
 	}
 	
 
-	SetDockingWindowIcons(theApp.m_bHiColorIcons);
+	//SetDockingWindowIcons(theApp.m_bHiColorIcons);
 	return TRUE;
 }
 
@@ -277,10 +288,12 @@ void CMainFrame::OnComboChangeEditorMode()
 		if (idx == 0)
 		{
 			m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
+			m_wndObjectSelectorDockPane.ShowPane(TRUE, FALSE, TRUE);
 		}
 		else if (idx == 1)
 		{
 			m_wndLandscapeDockPane.ShowPane(TRUE, FALSE, TRUE);
+			m_wndObjectSelectorDockPane.ShowPane(FALSE, FALSE, FALSE);
 		}
 	}
 }

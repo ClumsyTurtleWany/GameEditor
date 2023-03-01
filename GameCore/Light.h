@@ -14,13 +14,13 @@ public:
 	virtual ~Light();
 };
 
-Light::Light()
+inline Light::Light()
 {
 	this->AddComponent<TransformComponent>();
 	this->Name = L"Light" + std::to_wstring(this->ID);
 }
 
-Light::~Light()
+inline Light::~Light()
 {
 
 }

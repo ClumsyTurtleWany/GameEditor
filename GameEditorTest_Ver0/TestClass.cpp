@@ -12,8 +12,9 @@
 #include "DirectionalLight.h"
 #include "SpotLight.h"
 #include "PointLight.h"
+#include "CameraSystem.h"
 
-#include "Landscape.h"
+//#include "Landscape.h"
 
 TestClass::TestClass(HWND hWnd)
 {
@@ -57,13 +58,22 @@ bool TestClass::Initialize()
 	NewMesh.Indices[5] = 3;
 
 	comp->Meshes.push_back(NewMesh);
-	DebugCamera* camera = new DebugCamera;
+	/*DebugCamera* camera = new DebugCamera;
 	camera->SetContext(Device.m_pImmediateContext);
 	camera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
 	camera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
-	World.SetDebugCamera(camera);
+	World.SetDebugCamera(camera);*/
 
-	World.AddSystem(new DebugCameraSystem);
+	//World.AddSystem(new DebugCameraSystem);
+
+	NewActor->AddComponent<Camera>();
+	MainCamera = NewActor->GetComponent<Camera>();
+	MainCamera->SetContext(Device.m_pImmediateContext);
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
+	
+	World.AddSystem(new CameraSystem);
+	
 
 	LightSystem* lightSystem = new LightSystem;
 	lightSystem->SetContext(Device.m_pImmediateContext);
@@ -119,9 +129,9 @@ bool TestClass::Initialize()
 
 bool TestClass::Frame()
 {
-	Camera* camera = World.GetDebugCamera();
-	Picker.View = camera->View;
-	Picker.Projection = camera->Projection;
+	//Camera* camera = World.GetDebugCamera();
+	Picker.View = MainCamera->View;
+	Picker.Projection = MainCamera->Projection;
 	
 	Picker.Update();
 	
@@ -197,6 +207,7 @@ bool TestClass::Frame()
 
 	//	}
 	//}
+	
 
 	return true;
 }
@@ -210,16 +221,18 @@ bool TestClass::Render()
 
 bool TestClass::Release()
 {
-	return false;
+	return true;
 }
 
 bool TestClass::Resize(int x, int y, int width, int height)
 {
 	GameCore::ResizeDevice(x, y, width, height);
-	DebugCamera* camera = GetDebugCamera();
-	camera->CreateProjectionMatrix(camera->NearDistance, camera->FarDistance, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
+	//DebugCamera* camera = GetDebugCamera();
+	//camera->CreateProjectionMatrix(camera->NearDistance, camera->FarDistance, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
 
-	return false;
+	MainCamera->CreateProjectionMatrix(MainCamera->NearDistance, MainCamera->FarDistance, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
+
+	return true;
 }
 
 ID3D11Device* TestClass::GetDevice()
@@ -232,10 +245,10 @@ ID3D11DeviceContext* TestClass::GetContext()
 	return Device.m_pImmediateContext;
 }
 
-DebugCamera* TestClass::GetDebugCamera()
-{
-	return World.GetDebugCamera();
-}
+//DebugCamera* TestClass::GetDebugCamera()
+//{
+//	return World.GetDebugCamera();
+//}
 
 bool TestClass::CreateLandscape(int width, int height, int sectionSize)
 {
@@ -248,7 +261,7 @@ bool TestClass::CreateLandscape(int width, int height, int sectionSize)
 	auto land = LandscapeActor->AddComponent<Landscape>();
 	land->SetContext(Device.m_pImmediateContext);
 	land->Build(width, height, sectionSize);
-	land->SetCamera(World.GetDebugCamera());
+	land->SetCamera(MainCamera);
 	World.AddEntity(LandscapeActor);
 
 	/*Landscape* LandscapeActor = new Landscape;
@@ -264,7 +277,7 @@ bool TestClass::AddSelectedEntity()
 {
 	if (!SelectedFilename.empty())
 	{
-		Camera* camera = GetDebugCamera();
+		Camera* camera = MainCamera;
 
 		for (auto& it : World.GetEntities<Landscape>())
 		{

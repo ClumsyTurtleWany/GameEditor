@@ -10,12 +10,12 @@ public:
 	virtual ~SpotLight();
 };
 
-SpotLight::SpotLight()
+inline SpotLight::SpotLight()
 {
 	this->AddComponent<SpotLightComponent>();
 }
 
-SpotLight::~SpotLight()
+inline SpotLight::~SpotLight()
 {
 
 }

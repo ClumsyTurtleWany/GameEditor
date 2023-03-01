@@ -140,6 +140,17 @@ BOOL CMapEditorApp::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 
+
+	CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+	CMapEditorView* pMainView = (CMapEditorView*)pMainFrame->GetActiveView();
+	Core = new MainCore;
+	Core->SetWindowHandle(pMainView->m_hWnd);
+	if (!Core->CoreInitialize())
+	{
+		TRACE0("Failed Core Initialize.\n");
+		return FALSE;
+	}
+
 	// 창 하나만 초기화되었으므로 이를 표시하고 업데이트합니다.
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
@@ -150,6 +161,8 @@ int CMapEditorApp::ExitInstance()
 {
 	//TODO: 추가한 추가 리소스를 처리합니다.
 	AfxOleTerm(FALSE);
+
+	Core->CoreRelease();
 
 	return CWinAppEx::ExitInstance();
 }
@@ -219,3 +232,12 @@ void CMapEditorApp::SaveCustomState()
 
 
 
+BOOL CMapEditorApp::OnIdle(LONG lCount)
+{
+	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
+	Core->CoreFrame();
+	Core->CoreRender();
+
+	//return CWinAppEx::OnIdle(lCount);
+	return TRUE;
+}

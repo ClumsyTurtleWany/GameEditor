@@ -32,6 +32,8 @@ void OutlinerParentDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(OutlinerParentDlg, CDialogEx)
 	ON_WM_SIZE()
 	ON_NOTIFY(TVN_SELCHANGED, IDC_OUTLINER_TREE, &OutlinerParentDlg::OnTvnSelchangedOutlinerTree)
+	ON_WM_KEYDOWN()
+	ON_NOTIFY(TVN_KEYDOWN, IDC_OUTLINER_TREE, &OutlinerParentDlg::OnTvnKeydownOutlinerTree)
 END_MESSAGE_MAP()
 
 
@@ -105,4 +107,54 @@ void OutlinerParentDlg::Update()
 	}
 
 	RedrawWindow();
+}
+
+
+void OutlinerParentDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	switch (nChar)
+	{
+	case VK_DELETE:
+	{
+		if (theApp.SelectedEntity != nullptr)
+		{
+			theApp.SelectedEntity->IsDestroy = true;
+		}
+	}
+	break;
+	}
+	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+void OutlinerParentDlg::OnTvnKeydownOutlinerTree(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMTVKEYDOWN pTVKeyDown = reinterpret_cast<LPNMTVKEYDOWN>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+	if (pTVKeyDown->wVKey == VK_DELETE)
+	{
+		CString strName;
+		HTREEITEM selectedItem = OutlinerTree.GetSelectedItem();
+		strName = OutlinerTree.GetItemText(selectedItem);
+		OutlinerTree.DeleteItem(selectedItem);
+	
+		if (theApp.m_TestClass != nullptr)
+		{
+			for (auto& it : theApp.m_TestClass->World.GetAllEntities())
+			{
+				ECS::Entity* entity = it.get();
+				CString entityName = CString::CStringT(entity->GetName().c_str());
+				if (strName == entityName)
+				{
+					entity->IsDestroy = true;
+					theApp.SelectEntity(nullptr);
+					break;
+				}
+			}
+		}
+		RedrawWindow();
+	}
+
+	*pResult = 0;
 }
