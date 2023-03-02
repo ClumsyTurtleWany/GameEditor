@@ -116,8 +116,9 @@ DXTexture* DXTextureManager::getTexture(const char* _filename)
 	return nullptr;
 }
 
-ID3D11Texture2D* DXTextureManager::CreateAlphaTexture(int width, int height)
+DXTexture* DXTextureManager::CreateAlphaTexture(int width, int height)
 {
+	DXTexture* pDXTexture = new DXTexture;
 	D3D11_TEXTURE2D_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
 	desc.Width = width;
@@ -127,7 +128,7 @@ ID3D11Texture2D* DXTextureManager::CreateAlphaTexture(int width, int height)
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	desc.SampleDesc.Count = 1;
 	desc.Usage = D3D11_USAGE_DEFAULT;
-	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
 
@@ -148,23 +149,77 @@ ID3D11Texture2D* DXTextureManager::CreateAlphaTexture(int width, int height)
 	D3D11_SUBRESOURCE_DATA initData;
 	initData.pSysMem = alphaData;
 	initData.SysMemPitch = sizeof(float) * 4 * width;
-	initData.SysMemSlicePitch = 0;
+	initData.SysMemSlicePitch = width * height * 4; //0;
 	HRESULT result = m_pd3dDevice->CreateTexture2D(&desc, &initData, &pTexture);
+	if (FAILED(result))
+	{
+		delete pDXTexture;
+		return nullptr;
+	}
+
+	ID3D11UnorderedAccessView* pUAV;
+	D3D11_UNORDERED_ACCESS_VIEW_DESC viewDescUAV;
+	ZeroMemory(&viewDescUAV, sizeof(viewDescUAV));
+	viewDescUAV.Format = desc.Format;
+	viewDescUAV.ViewDimension = D3D11_UAV_DIMENSION_TEXTURE2D;
+	viewDescUAV.Texture2D.MipSlice = 0;
+	result = m_pd3dDevice->CreateUnorderedAccessView(pTexture, &viewDescUAV, &pUAV);
 	if (FAILED(result))
 	{
 		return nullptr;
 	}
-	else
-	{
-		
-		return pTexture;
-	}
 
 	ID3D11ShaderResourceView* pResourceView;
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	ZeroMemory(&srvDesc, sizeof(srvDesc));
+	srvDesc.Format = desc.Format;
+	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
 	result = m_pd3dDevice->CreateShaderResourceView(pTexture, NULL, &pResourceView);
-	
+	if (FAILED(result))
+	{
+		return nullptr;
+	}
 
-	return nullptr;
+	pDXTexture->SetTexture2D(pTexture);
+	pDXTexture->SetSRV(pResourceView);
+	pDXTexture->SetUAV(pUAV);
+	m_AlphaTextureList.push_back(pDXTexture);
+
+	return pDXTexture;
+}
+
+DXTexture* DXTextureManager::CreateTexture(DXTexture* texture)
+{
+	if (texture == nullptr)
+	{
+		return nullptr;
+	}
+
+	D3D11_TEXTURE2D_DESC desc;
+	texture->GetTexture2D()->GetDesc(&desc);
+	
+	ID3D11Texture2D* pTexture;
+	HRESULT result = m_pd3dDevice->CreateTexture2D(&desc, NULL, &pTexture);
+	if (FAILED(result))
+	{
+		return nullptr;
+	}
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	texture->getResourceView()->GetDesc(&srvDesc);
+	ID3D11ShaderResourceView* pSRV;
+	result = m_pd3dDevice->CreateShaderResourceView(pTexture, &srvDesc, &pSRV);
+	if (FAILED(result))
+	{
+		return nullptr;
+	}
+
+	DXTexture* pDXTexture = new DXTexture;
+	pDXTexture->SetTexture2D(pTexture);
+	pDXTexture->SetSRV(pSRV);
+
+	return pDXTexture;
 }
 
 bool DXTextureManager::initialize()

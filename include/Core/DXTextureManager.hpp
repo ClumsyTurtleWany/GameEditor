@@ -10,6 +10,7 @@ private:
 	ID3D11DeviceContext* m_pImmediateContext = nullptr;
 
 	std::map<std::wstring, DXTexture*> m_TextureList;
+	std::vector<DXTexture*>				m_AlphaTextureList;
 
 private:
 	DXTextureManager() {};
@@ -24,8 +25,8 @@ public:
 	DXTexture* getTexture(std::wstring _filename);
 	DXTexture* getTexture(std::string _filename);
 	DXTexture* getTexture(const char* _filename);
-
-	ID3D11Texture2D* CreateAlphaTexture(int width, int height);
+	DXTexture* CreateAlphaTexture(int width, int height);
+	DXTexture* CreateTexture(DXTexture* texture);
 	
 public:
 	bool initialize();

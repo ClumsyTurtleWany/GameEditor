@@ -105,7 +105,8 @@ void Landscape::Build(int row, int column, int sectionSize)
 				}
 			}
 			component.SetContext(Context);
-
+			component.BaseTexture = BaseTexture;
+			component.Initialize();
 			Components.push_back(component);
 		}
 	}
@@ -135,6 +136,7 @@ void Landscape::Render()
 	Context->IASetInputLayout(VertexLayout);
 	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	Context->VSSetShader(VertexShader, NULL, 0);
+	Context->PSSetShader(PixelShader, NULL, 0);
 	Context->HSSetShader(HullShader, NULL, 0);
 	Context->DSSetShader(DomainShader, NULL, 0);
 	Context->GSSetShader(GeometryShader, NULL, 0);
@@ -142,9 +144,14 @@ void Landscape::Render()
 	Context->VSSetConstantBuffers(0, 1, &TransformBuffer);
 	Context->RSSetState(DXSamplerState::pDefaultRSSolid);
 	
-	//UINT offset[1] = {0};
-	//Context->SOSetTargets(1, &StreamOutputBuffer, offset);
-
+	ID3D11ShaderResourceView* pSRV = BaseTexture->getResourceView();
+	Context->PSSetShaderResources(0, 1, &pSRV);
+	int layerTextureSize = min(LayerTextureList.size(), 4);
+	for (int idx = 0; idx < layerTextureSize; idx++)
+	{
+		ID3D11ShaderResourceView* pLayerSRV = LayerTextureList[idx]->getResourceView();
+		Context->PSSetShaderResources(idx + 1, 1, &pLayerSRV);
+	}
 
 	int intersectCompCnt = 0;
 	int nonRenderCompCnt = 0;
@@ -184,6 +191,16 @@ void Landscape::SetCamera(Camera* camera)
 	MainCamera = camera;
 }
 
+void Landscape::SetBaseTexture(DXTexture* texture)
+{
+	BaseTexture = texture;
+}
+
+void Landscape::AddLayerTexture(DXTexture* texture)
+{
+	LayerTextureList.push_back(texture);
+}
+
 void Landscape::UpdateTransformMatrix(const TransformComponent& transform)
 {
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(transform.Rotation);
@@ -204,9 +221,34 @@ bool Landscape::Initialize()
 {
 	VertexLayout = DXShaderManager::getInstance()->GetInputLayout(InputLayoutType::StaticMesh);
 	VertexShader = DXShaderManager::getInstance()->GetVertexShader(L"../include/Core/HLSL/VS_StaticMesh.hlsl");
+	PixelShader = DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Landscape.hlsl");
 	TransformBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
-	//StreamOutputBuffer = DXShaderManager::getInstance()->CreateStreamOutputBuffer();
-	//SculptingBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<SculptingData>(SculptData);
+	if(DXTextureManager::getInstance()->Load(L"../resource/Default.bmp"))
+	{
+		BaseTexture = DXTextureManager::getInstance()->getTexture(L"../resource/Default.bmp");
+	}
+
+	if (DXTextureManager::getInstance()->Load(L"../resource/000.jpg"))
+	{
+		DXTexture* pTexture = DXTextureManager::getInstance()->getTexture(L"../resource/000.jpg");
+		LayerTextureList.push_back(pTexture);
+	}
+	if (DXTextureManager::getInstance()->Load(L"../resource/018.bmp"))
+	{
+		DXTexture* pTexture = DXTextureManager::getInstance()->getTexture(L"../resource/018.bmp");
+		LayerTextureList.push_back(pTexture);
+	}
+	if (DXTextureManager::getInstance()->Load(L"../resource/013.jpg"))
+	{
+		DXTexture* pTexture = DXTextureManager::getInstance()->getTexture(L"../resource/013.jpg");
+		LayerTextureList.push_back(pTexture);
+	}
+	if (DXTextureManager::getInstance()->Load(L"../resource/037.bmp"))
+	{
+		DXTexture* pTexture = DXTextureManager::getInstance()->getTexture(L"../resource/037.bmp");
+		LayerTextureList.push_back(pTexture);
+	}
+
 
 	return true;
 }

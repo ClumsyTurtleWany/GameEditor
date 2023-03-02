@@ -152,7 +152,7 @@ void CGameEditorTestVer0View::OnSize(UINT nType, int cx, int cy)
 void CGameEditorTestVer0View::OnMouseMove(UINT nFlags, CPoint point)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	if (RbtnDown || LbtnDown)
+	if (RbtnDown)
 	{
 		Camera* camera = theApp.m_TestClass->MainCamera;
 		float time = Timer::getInstance()->secondPerFrame;
@@ -256,11 +256,7 @@ void CGameEditorTestVer0View::OnRButtonUp(UINT /* nFlags */, CPoint point)
 	//	}
 	//}
 
-	if (theApp.m_TestClass->AddSelectedEntity())
-	{
-		theApp.m_TestClass->SelectedFilename.clear();
-		theApp.Update();
-	}
+	
 
 
 
@@ -273,6 +269,23 @@ void CGameEditorTestVer0View::OnLButtonDown(UINT nFlags, CPoint point)
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
 	LbtnDown = true;
 	PrevMousePoint = point;
+
+	if (theApp.CurrentEditorMode == EditorMode::Selector)
+	{
+		if (theApp.m_TestClass->AddSelectedEntity())
+		{
+			theApp.m_TestClass->SelectedFilename.clear();
+			theApp.Update();
+		}
+	}
+	else if (theApp.CurrentEditorMode == EditorMode::Sculpting)
+	{
+		theApp.m_TestClass->Sculpting();
+	}
+	else if (theApp.CurrentEditorMode == EditorMode::Splatting)
+	{
+		theApp.m_TestClass->Splatting();
+	}
 
 	CView::OnLButtonDown(nFlags, point);
 }

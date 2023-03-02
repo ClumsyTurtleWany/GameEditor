@@ -79,6 +79,9 @@
     <ClInclude Include="DXUserInterfaceManager.h">
       <Filter>UserInterface</Filter>
     </ClInclude>
+    <ClInclude Include="SplattingData.h">
+      <Filter>DirectX\ConstantData</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditorCore.cpp">

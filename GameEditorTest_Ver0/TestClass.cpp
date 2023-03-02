@@ -360,7 +360,50 @@ bool TestClass::AddSelectedEntity()
 		}
 	}
 
-	return false;
+	return true;
+}
+
+bool TestClass::Splatting()
+{
+	Camera* camera = MainCamera;
+
+	for (auto& it : World.GetEntities<Landscape>())
+	{
+		auto landscape = it->GetComponent<Landscape>();
+		Matrix matWorld = landscape->TransformData.Mat;
+		matWorld = matWorld.Transpose();
+		for (auto& comp : landscape->Components)
+		{
+			for (auto& face : comp.Faces)
+			{
+				//Matrix matComb = matWorld * camera->View * camera->Projection;
+				Vector4 v0 = Vector4(face.V0.Pos.x, face.V0.Pos.y, face.V0.Pos.z, 1.0f);
+				Vector4 v1 = Vector4(face.V1.Pos.x, face.V1.Pos.y, face.V1.Pos.z, 1.0f);
+				Vector4 v2 = Vector4(face.V2.Pos.x, face.V2.Pos.y, face.V2.Pos.z, 1.0f);
+
+				Vector4 mul0 = DirectX::XMVector4Transform(v0, matWorld);
+				Vector4 mul1 = DirectX::XMVector4Transform(v1, matWorld);
+				Vector4 mul2 = DirectX::XMVector4Transform(v2, matWorld);
+
+				Vector3 rv0 = Vector3(mul0.x, mul0.y, mul0.z);
+				Vector3 rv1 = Vector3(mul1.x, mul1.y, mul1.z);
+				Vector3 rv2 = Vector3(mul2.x, mul2.y, mul2.z);
+
+				//if (Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
+				if (Picker.CheckPick(rv0, rv1, rv2))
+				{
+					comp.Splatting(Picker.IntercetionPosition, 100.0f, 1);
+
+					return true;
+				}
+			}
+
+		}
+
+	}
+	
+
+	return true;
 }
 
 bool TestClass::Sculpting()

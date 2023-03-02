@@ -289,6 +289,7 @@ void CMainFrame::OnComboChangeEditorMode()
 		{
 			m_wndLandscapeDockPane.ShowPane(FALSE, FALSE, FALSE);
 			m_wndObjectSelectorDockPane.ShowPane(TRUE, FALSE, TRUE);
+			theApp.CurrentEditorMode = EditorMode::Selector;
 		}
 		else if (idx == 1)
 		{

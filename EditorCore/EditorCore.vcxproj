@@ -30,6 +30,7 @@
     <ClInclude Include="IWData.h" />
     <ClInclude Include="LightData.h" />
     <ClInclude Include="SculptingData.h" />
+    <ClInclude Include="SplattingData.h" />
     <ClInclude Include="TransformMatrix.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>

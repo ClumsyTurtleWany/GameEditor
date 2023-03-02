@@ -105,6 +105,11 @@ HRESULT DXTexture::LoadEX(std::wstring _filename)
 	return rst;
 }
 
+ID3D11Texture2D* DXTexture::GetTexture2D()
+{
+	return m_pTextureResource;
+}
+
 ID3D11Resource* DXTexture::getResource()
 {
 	return m_pTextureResource;
@@ -113,6 +118,11 @@ ID3D11Resource* DXTexture::getResource()
 ID3D11ShaderResourceView* DXTexture::getResourceView()
 {
 	return m_pTextureResourceView;
+}
+
+ID3D11UnorderedAccessView* DXTexture::GetUAV()
+{
+	return m_pTextureUAV;
 }
 
 float DXTexture::getWidth()
@@ -134,6 +144,22 @@ std::vector<UINT>& DXTexture::getMappedResource()
 {
 	return MappedResourceData;
 	// TODO: 여기에 return 문을 삽입합니다.
+}
+
+void DXTexture::SetTexture2D(ID3D11Texture2D* texture)
+{
+	m_pTextureResource = texture;
+	m_pTextureResource->GetDesc(&m_Desc);
+}
+
+void DXTexture::SetSRV(ID3D11ShaderResourceView* srv)
+{
+	m_pTextureResourceView = srv;
+}
+
+void DXTexture::SetUAV(ID3D11UnorderedAccessView* uav)
+{
+	m_pTextureUAV = uav;
 }
 
 bool DXTexture::Release()

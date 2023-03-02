@@ -245,6 +245,44 @@ bool DXShaderManager::LoadPSCode(std::wstring filename)
 	}
 }
 
+bool DXShaderManager::LoadCSCode(std::wstring filename)
+{
+	ID3DBlob* pCSCode = GetCSCode(filename);
+	if (pCSCode == nullptr)
+	{
+		// Pixel Shader Create
+		HRESULT result;
+		ID3DBlob* pErrorCode = nullptr; // 
+		result = D3DCompileFromFile(
+			filename.c_str(), //"../../resource/shader/ShapeShader.txt", //"PixelShader.txt",
+			NULL, NULL,
+			"CS",
+			"cs_5_0",
+			0, 0,
+			&pCSCode,
+			&pErrorCode);
+
+		if (FAILED(result))
+		{
+			if (pErrorCode != nullptr) // 쉐이더 파일에서는 디버깅이 불가능 해서 Error Code 받아와서 처리하는게 좋음.
+			{
+				OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
+				pErrorCode->Release();
+			}
+			return false;
+		}
+		else
+		{
+			ComputeShaderCodeMap.insert(std::make_pair(filename, pCSCode));
+			return true;
+		}
+	}
+	else
+	{
+		return true;
+	}
+}
+
 bool DXShaderManager::CreateVertexShader()
 {
 	for (auto it : VertexShaderCodeMap)
@@ -315,6 +353,26 @@ bool DXShaderManager::CreateGeometryShader(D3D11_SO_DECLARATION_ENTRY* decl)
 			GeometryShaderMap.insert(std::make_pair(it.first, pGeometryShader));
 		}
 	}
+}
+
+bool DXShaderManager::CreateComputeShader()
+{
+	for (auto it : ComputeShaderCodeMap)
+	{
+		ID3D11ComputeShader* pComputeShader;
+		HRESULT result = m_pd3dDevice->CreateComputeShader(it.second->GetBufferPointer(), it.second->GetBufferSize(), NULL, &pComputeShader);
+
+		if (FAILED(result))
+		{
+			OutputDebugStringA("DXShaderManager::CreateComputeShader::Failed Create Compute Shader.\n");
+			return false;
+		}
+		else
+		{
+			ComputeShaderMap.insert(std::make_pair(it.first, pComputeShader));
+		}
+	}
+	return true;
 }
 
 bool DXShaderManager::CreateStaticMeshInputLayout()
@@ -523,6 +581,49 @@ ID3D11Buffer* DXShaderManager::CreateMappedBuffer(UINT size)
 	return nullptr;
 }
 
+ID3D11ShaderResourceView* DXShaderManager::CreateShaderResourceViewBuffer(ID3D11Buffer* buffer)
+{
+	D3D11_BUFFER_DESC descBuf;
+	ZeroMemory(&descBuf, sizeof(descBuf));
+	buffer->GetDesc(&descBuf);
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	desc.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
+	desc.BufferEx.FirstElement = 0;
+
+	if (descBuf.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS)
+	{
+		// This is a Raw Buffer
+
+		desc.Format = DXGI_FORMAT_R32_TYPELESS;
+		desc.BufferEx.Flags = D3D11_BUFFEREX_SRV_FLAG_RAW;
+		desc.BufferEx.NumElements = descBuf.ByteWidth / 4;
+	}
+	else
+	{
+		if (descBuf.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_STRUCTURED)
+		{
+			// This is a Structured Buffer	
+
+			desc.Format = DXGI_FORMAT_UNKNOWN;
+			desc.BufferEx.NumElements = descBuf.ByteWidth / descBuf.StructureByteStride;
+		}
+	}
+
+	ID3D11ShaderResourceView* pSRV = nullptr;
+	HRESULT result = m_pd3dDevice->CreateShaderResourceView(buffer, &desc, &pSRV);
+	if (FAILED(result))
+	{
+		return nullptr;
+	}
+	else
+	{
+		SRVList.push_back(pSRV);
+		return pSRV;
+	}
+}
+
 ID3D11InputLayout* DXShaderManager::GetInputLayout(InputLayoutType type)
 {
 	auto it = InputLayoutMap.find(type);
@@ -604,6 +705,20 @@ ID3DBlob* DXShaderManager::GetPSCode(std::wstring key)
 	}
 }
 
+ID3DBlob* DXShaderManager::GetCSCode(std::wstring key)
+{
+	auto it = ComputeShaderCodeMap.find(key);
+	if (it != ComputeShaderCodeMap.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		OutputDebugStringA("DXShaderManager::GetCSCode::Failed Get Compute Shader Code.\n");
+		return nullptr;
+	}
+}
+
 ID3D11VertexShader* DXShaderManager::GetVertexShader(std::wstring key)
 {
 	auto it = VertexShaderMap.find(key);
@@ -674,6 +789,20 @@ ID3D11PixelShader* DXShaderManager::GetPixelShader(std::wstring key)
 	}
 }
 
+ID3D11ComputeShader* DXShaderManager::GetComputeShader(std::wstring key)
+{
+	auto it = ComputeShaderMap.find(key);
+	if (it != ComputeShaderMap.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		OutputDebugStringA("DXShaderManager::GetComputeShader::Failed Get Compute Shader.\n");
+		return nullptr;
+	}
+}
+
 bool DXShaderManager::Initialize()
 {
 	if (!LoadVSCode(L"../include/Core/HLSL/VS_StaticMesh.hlsl"))
@@ -696,7 +825,19 @@ bool DXShaderManager::Initialize()
 
 	if (!LoadPSCode(L"../include/Core/HLSL/PS_Light.hlsl"))
 	{
-		OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Default.hlsl).\n");
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Light.hlsl).\n");
+		return false;
+	}
+
+	if (!LoadPSCode(L"../include/Core/HLSL/PS_Landscape.hlsl"))
+	{
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load PS Code(PS_Landscape.hlsl).\n");
+		return false;
+	}
+
+	if (!LoadCSCode(L"../include/Core/HLSL/CS_LandscapeSplatting.hlsl"))
+	{
+		OutputDebugStringA("DXShaderManager::initialize::Failed Load CS Code(CS_LandscapeSplatting.hlsl).\n");
 		return false;
 	}
 
@@ -710,6 +851,7 @@ bool DXShaderManager::Initialize()
 	CreatePixelShader();
 	//CreateGeometryShader();
 	CreateInputLayout();
+	CreateComputeShader();
 
 	//// Load Vertex Shader Code.
 	//if (!LoadVSCode(VSCodeType::Texture, "../include/core/HLSL/VS_Texture.hlsl"))

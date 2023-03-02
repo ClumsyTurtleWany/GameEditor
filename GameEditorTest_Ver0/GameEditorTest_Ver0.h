@@ -23,6 +23,12 @@
 // CGameEditorTestVer0App:
 // 이 클래스의 구현에 대해서는 GameEditorTest_Ver0.cpp을(를) 참조하세요.
 //
+enum class EditorMode
+{
+	Selector,
+	Sculpting,
+	Splatting,
+};
 
 class CGameEditorTestVer0App : public CWinAppEx
 {
@@ -30,6 +36,7 @@ public:
 	CGameEditorTestVer0App() noexcept;
 	TestClass*	m_TestClass;
 	ECS::Entity* SelectedEntity = nullptr;
+	EditorMode  CurrentEditorMode = EditorMode::Selector;
 
 public:
 	std::wstring ProjectName;

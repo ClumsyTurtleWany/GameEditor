@@ -135,6 +135,7 @@ void LandscapeParentDlg::OnBnClickedLandscapeSculpting()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_SculptingView->ShowWindow(SW_SHOW);
 	m_ManagementView->ShowWindow(SW_HIDE);
+	theApp.CurrentEditorMode = EditorMode::Sculpting;
 }
 
 
@@ -143,4 +144,5 @@ void LandscapeParentDlg::OnBnClickedLandscapePainting()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_ManagementView->ShowWindow(SW_HIDE);
 	m_SculptingView->ShowWindow(SW_HIDE);
+	theApp.CurrentEditorMode = EditorMode::Splatting;
 }
