@@ -31,12 +31,12 @@ public:
 
 	CView* m_ManagementView;
 	CView* m_SculptingView;
+	CView* m_PaintView;
 
 public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnBnClickedLandscapeManagement();
-	
 	afx_msg void OnBnClickedLandscapeSculpting();
 	afx_msg void OnBnClickedLandscapePainting();
 };

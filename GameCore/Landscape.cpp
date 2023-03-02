@@ -50,6 +50,14 @@ void Landscape::Build(int row, int column, int sectionSize)
 					Vector2 texture = Vector2(u, v);
 					component.Vertices[idx] = Vertex(pos, normal, color, texture);
 					//component.Vertices.push_back(Vertex(pos, normal, color, texture));
+					if (sectRow == 0 && sectCol == 0)
+					{
+						component.MinVertex = pos;
+					}
+					else if (sectRow == sectionSize && sectCol == sectionSize)
+					{
+						component.MaxVertex = pos;
+					}
 				}
 			}
 

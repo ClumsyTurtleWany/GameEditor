@@ -13,6 +13,9 @@ public:
 	std::vector<Face>	Faces;
 	std::vector<DWORD>	Indices;
 
+	Vector3 MinVertex;
+	Vector3 MaxVertex;
+
 	int VertexCount = 0;
 	int FaceCount = 0;
 	int IndexCount = 0;
@@ -93,13 +96,19 @@ public:
 		Context = context; 
 	}
 
-	void Splatting(Vector3 pos, float radius, int idx)
+	void Splatting(Vector3 pos, float radius, int idx, float strength)
 	{
 		SplattingInfo.Position = pos;
 		SplattingInfo.Radius = radius;
 		SplattingInfo.Index = idx;
-		SplattingInfo.TextureWidth = 1024;
-		SplattingInfo.TextureHeight = 1024;
+		SplattingInfo.Strength = strength;
+		//SplattingInfo.TextureWidth = 32;
+		//SplattingInfo.TextureHeight = 32;
+		SplattingInfo.DispatchX = 32;
+		SplattingInfo.DispatchY = 32;
+		SplattingInfo.MinVertex = MinVertex;
+		SplattingInfo.MaxVertex = MaxVertex;
+
 		Context->UpdateSubresource(StructuredBuffer, 0, NULL, &SplattingInfo, 0, 0);
 
 		Context->CSSetShader(ComputeShader, NULL, 0);
@@ -112,7 +121,19 @@ public:
 		ID3D11UnorderedAccessView* pUAV = AlphaTexture->GetUAV();
 		Context->CSSetUnorderedAccessViews(0, 1, &pUAV, NULL);
 
-		Context->Dispatch(1024 / 32, 1024 / 32, 1);
+		// Dispatch(x, y, z)
+		// x: column
+		// y: row
+		// z: depth
+		// example) Dispatch(5, 3, 1) == SV_GroupID[1][3][5]
+		// SV_GroupID는 10 * 8 * 3 = 240개의 쓰레드(SV_GroupThreadID)를 가짐.
+		// 예시
+		// SV_GroupThreadID = (7, 5, 0)
+		// SV_GroupID = (2, 1, 0) 일 때,
+		// SV_DispatchThreadID = (2, 1, 0) * (10, 8, 3) + (7, 5, 0) = (27, 13, 0)
+		// SV_GroupIndex = 0 * 10 * 8 + 5 * 10 + 7 = 57
+		// x * y * z는 최대 1024를 넘으면 안됨. 보통 2차원 배열 기준 32 * 32 * 1 사용
+		Context->Dispatch(SplattingInfo.DispatchX, SplattingInfo.DispatchY, 1);
 
 		// clear
 		Context->CSSetShader(nullptr, nullptr, 0);
@@ -121,9 +142,7 @@ public:
 		ID3D11ShaderResourceView* pNullSRV[2] = { nullptr, nullptr };
 		Context->CSSetShaderResources(0, 2, pNullSRV);
 
-		ID3D11Texture2D* pCopyTexture = CopyTexture->GetTexture2D();
-		ID3D11Texture2D* pAlphaTexture = AlphaTexture->GetTexture2D();
-		Context->CopyResource(pCopyTexture, pAlphaTexture);
+		Context->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
 	}
 
 };

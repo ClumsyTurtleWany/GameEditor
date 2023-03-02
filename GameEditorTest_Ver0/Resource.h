@@ -85,7 +85,7 @@
 #define ID_COMBO_EDITOR_MODE            317
 #define IDB_FILE_SAVE                   318
 #define IDD_NewProjectDlg               319
-#define ID_OBJECT_SELECTOR_DOCKPANE		320
+#define ID_OBJECT_SELECTOR_DOCKPANE     320
 #define IDD_ObjectSelectorDlg           321
 #define ID_STATICMESH_LIST_BOX          410
 #define IDB_FBX_SELECT                  411
@@ -117,9 +117,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        318
+#define _APS_NEXT_RESOURCE_VALUE        319
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1018
-#define _APS_NEXT_SYMED_VALUE           321
+#define _APS_NEXT_SYMED_VALUE           323
 #endif
 #endif

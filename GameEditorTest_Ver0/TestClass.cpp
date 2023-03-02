@@ -392,7 +392,7 @@ bool TestClass::Splatting()
 				//if (Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
 				if (Picker.CheckPick(rv0, rv1, rv2))
 				{
-					comp.Splatting(Picker.IntercetionPosition, 100.0f, 1);
+					comp.Splatting(Picker.IntercetionPosition, 2.0f, 1, 0.5);
 
 					return true;
 				}
