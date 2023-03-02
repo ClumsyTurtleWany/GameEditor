@@ -6,6 +6,7 @@
 #include "DetailDockPane.h"
 #include "TransformComponent.h"
 #include "LightComponent.h"
+#include "Landscape.h"
 
 
 // DetailDockPane
@@ -283,6 +284,15 @@ void DetailDockPane::UpdateDetail(ECS::Entity* entity)
 			radius->SetData(37);
 			radiusProp->AddSubItem(radius);
 			m_PropList.AddProperty(radiusProp);
+		}
+
+		if (entity->has<Landscape>())
+		{
+			auto comp = entity->GetComponent<SpotLightComponent>();
+			CMFCPropertyGridProperty* textureProp = new CMFCPropertyGridProperty(_T("Texture"));
+			textureProp->AddSubItem(new CMFCPropertyGridProperty(_T("Layer Enable"), (_variant_t)false, _T("Layer Enable Flag.")));
+			m_PropList.AddProperty(textureProp);
+
 		}
 	}
 
