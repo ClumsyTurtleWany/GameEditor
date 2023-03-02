@@ -48,4 +48,6 @@ void CS(uint3 GroupID : SV_GroupID, uint3 DispatchThreadID : SV_DispatchThreadID
 		}
 		OutputMap[texturelocation.xy] = fAlpha;
 	}
+
+	OutputMap[DispatchThreadID] = float4(1.0f, 0.0f, 0.0f, 1.0f);
 }
