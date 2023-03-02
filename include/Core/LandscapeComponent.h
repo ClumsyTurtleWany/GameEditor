@@ -121,7 +121,9 @@ public:
 		ID3D11ShaderResourceView* pNullSRV[2] = { nullptr, nullptr };
 		Context->CSSetShaderResources(0, 2, pNullSRV);
 
-		Context->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
+		ID3D11Texture2D* pCopyTexture = CopyTexture->GetTexture2D();
+		ID3D11Texture2D* pAlphaTexture = AlphaTexture->GetTexture2D();
+		Context->CopyResource(pCopyTexture, pAlphaTexture);
 	}
 
 };

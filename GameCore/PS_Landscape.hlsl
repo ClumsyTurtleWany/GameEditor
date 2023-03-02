@@ -200,10 +200,10 @@ float4 PS(PixelShader_input _input) : SV_Target
 	float4 layerColor3 = g_DiffuseTextureL3.Sample(g_SampleA, _input.t);
 	float4 layerColor4 = g_DiffuseTextureL4.Sample(g_SampleA, _input.t);
 	float4 alpha = g_LayerAlpha.Sample(g_SampleA, _input.t);
-	float4 textureColor = lerp(baseColor, layerColor1, 1.0f /*alpha.r*/);
-	textureColor = lerp(textureColor, layerColor2, 0.5f); //alpha.g);
-	textureColor = lerp(textureColor, layerColor3, 0.5f);//alpha.b);
-	textureColor = lerp(textureColor, layerColor4, 0.5f);//alpha.a);
+	float4 textureColor = lerp(baseColor, layerColor1, alpha.r);
+	textureColor = lerp(textureColor, layerColor2, alpha.g);
+	textureColor = lerp(textureColor, layerColor3, alpha.b);
+	textureColor = lerp(textureColor, layerColor4, alpha.a);
 	
 	float4 lightColor = ComputeDirectionDiffuseLight(_input.n) +
 						ComputePointDiffuseLight(_input.vWorld, _input.n) +
