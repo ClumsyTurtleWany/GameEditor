@@ -45,10 +45,10 @@ void LightSystem::Tick(ECS::World* world, float time)
 		auto lightComp = entity->GetComponent<SpotLightComponent>();
 		auto transformComp = entity->GetComponent<TransformComponent>();
 
-		SpotLights.Color[PointLights.Cnt] = lightComp->Color;
-		SpotLights.Direction[PointLights.Cnt] = lightComp->Direction;
-		SpotLights.Position[PointLights.Cnt] = Vector4(transformComp->Translation.x, transformComp->Translation.y, transformComp->Translation.z, 0.0f);
-		SpotLights.Radius[PointLights.Cnt].x = lightComp->Radius;
+		SpotLights.Color[SpotLights.Cnt] = lightComp->Color;
+		SpotLights.Direction[SpotLights.Cnt] = lightComp->Direction;
+		SpotLights.Position[SpotLights.Cnt] = Vector4(transformComp->Translation.x, transformComp->Translation.y, transformComp->Translation.z, 0.0f);
+		SpotLights.Radius[SpotLights.Cnt].x = lightComp->Radius;
 		SpotLights.Cnt++;
 		if (SpotLights.Cnt >= MAX_LIGHT_CNT)
 		{
@@ -106,4 +106,26 @@ void LightSystem::Initialize()
 	SpotLightBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<SpotLightData>(SpotLights);
 	EyeBuffer = DXShaderManager::getInstance()->CreateConstantBuffer<EyeData>(Eye);
 
+}
+
+void LightSystem::CleanUp()
+{
+	for (int idx = 0; idx < MAX_LIGHT_CNT; idx++)
+	{
+		DirectionalLights.Color[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		DirectionalLights.Direction[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		SpotLights.Color[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		SpotLights.Position[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		SpotLights.Direction[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		SpotLights.Radius[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		PointLights.Color[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		PointLights.Position[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		PointLights.Direction[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+		PointLights.Radius[idx] = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	DirectionalLights.Cnt = 0;
+	SpotLights.Cnt = 0;
+	PointLights.Cnt = 0;
+	Eye.Position = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+	Eye.Direction = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 }

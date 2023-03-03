@@ -22,4 +22,5 @@ public:
 
 	void SetContext(ID3D11DeviceContext* context);
 	void Initialize();
+	void CleanUp();
 };
