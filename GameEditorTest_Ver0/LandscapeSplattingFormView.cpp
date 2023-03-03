@@ -234,7 +234,7 @@ void LandscapeSplattingFormView::GetTextureList(std::wstring _path)
 	}
 }
 
-void LandscapeSplattingFormView::Initiailze()
+void LandscapeSplattingFormView::Initialize()
 {
 	if (!isInitialize)
 	{

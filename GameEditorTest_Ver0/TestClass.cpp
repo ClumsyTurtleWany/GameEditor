@@ -24,40 +24,40 @@ TestClass::TestClass(HWND hWnd)
 bool TestClass::Initialize()
 {
 	Actor* NewActor = new Actor;
-	auto comp = NewActor->AddComponent<StaticMeshComponent>();
-	comp->SetContext(Device.m_pImmediateContext);
-	MeshComponent NewMesh;
-	NewMesh.SetContext(Device.m_pImmediateContext);
-	NewMesh.Vertices.assign(4, Vertex());
-	NewMesh.Vertices[0].Pos = { -1.0f, +1.0f, 0.0f }; // p1-LT
-	NewMesh.Vertices[1].Pos = { +1.0f, +1.0f, 0.0f }; // p2-RT
-	NewMesh.Vertices[2].Pos = { -1.0f, -1.0f, 0.0f }; // p3-LB
-	NewMesh.Vertices[3].Pos = { +1.0f, -1.0f, 0.0f }; // p4-LB
+	//auto comp = NewActor->AddComponent<StaticMeshComponent>();
+	//comp->SetContext(Device.m_pImmediateContext);
+	//MeshComponent NewMesh;
+	//NewMesh.SetContext(Device.m_pImmediateContext);
+	//NewMesh.Vertices.assign(4, Vertex());
+	//NewMesh.Vertices[0].Pos = { -1.0f, +1.0f, 0.0f }; // p1-LT
+	//NewMesh.Vertices[1].Pos = { +1.0f, +1.0f, 0.0f }; // p2-RT
+	//NewMesh.Vertices[2].Pos = { -1.0f, -1.0f, 0.0f }; // p3-LB
+	//NewMesh.Vertices[3].Pos = { +1.0f, -1.0f, 0.0f }; // p4-LB
 
-	NewMesh.Vertices[0].Normal = { 0.0f, 0.0f, -1.0f };
-	NewMesh.Vertices[1].Normal = { 0.0f, 0.0f, -1.0f };
-	NewMesh.Vertices[2].Normal = { 0.0f, 0.0f, -1.0f };
-	NewMesh.Vertices[3].Normal = { 0.0f, 0.0f, -1.0f };
+	//NewMesh.Vertices[0].Normal = { 0.0f, 0.0f, -1.0f };
+	//NewMesh.Vertices[1].Normal = { 0.0f, 0.0f, -1.0f };
+	//NewMesh.Vertices[2].Normal = { 0.0f, 0.0f, -1.0f };
+	//NewMesh.Vertices[3].Normal = { 0.0f, 0.0f, -1.0f };
 
-	NewMesh.Vertices[0].Color = { 1.0f, 0.0f, 0.0f, 1.0f }; // p1-LT
-	NewMesh.Vertices[1].Color = { 0.0f, 1.0f, 0.0f, 1.0f }; // p2-RT
-	NewMesh.Vertices[2].Color = { 0.0f, 0.0f, 1.0f, 1.0f }; // p3-LB
-	NewMesh.Vertices[3].Color = { 1.0f, 1.0f, 1.0f, 1.0f }; // p4-LB
+	//NewMesh.Vertices[0].Color = { 1.0f, 0.0f, 0.0f, 1.0f }; // p1-LT
+	//NewMesh.Vertices[1].Color = { 0.0f, 1.0f, 0.0f, 1.0f }; // p2-RT
+	//NewMesh.Vertices[2].Color = { 0.0f, 0.0f, 1.0f, 1.0f }; // p3-LB
+	//NewMesh.Vertices[3].Color = { 1.0f, 1.0f, 1.0f, 1.0f }; // p4-LB
 
-	NewMesh.Vertices[0].Texture = { 0.0f, 0.0f }; // p1-LT
-	NewMesh.Vertices[1].Texture = { 1.0f, 0.0f }; // p2-RT
-	NewMesh.Vertices[2].Texture = { 0.0f, 1.0f }; // p3-LB
-	NewMesh.Vertices[3].Texture = { 1.0f, 1.0f }; // p4-LB
+	//NewMesh.Vertices[0].Texture = { 0.0f, 0.0f }; // p1-LT
+	//NewMesh.Vertices[1].Texture = { 1.0f, 0.0f }; // p2-RT
+	//NewMesh.Vertices[2].Texture = { 0.0f, 1.0f }; // p3-LB
+	//NewMesh.Vertices[3].Texture = { 1.0f, 1.0f }; // p4-LB
 
-	NewMesh.Indices.assign(6, 0);
-	NewMesh.Indices[0] = 0;
-	NewMesh.Indices[1] = 1;
-	NewMesh.Indices[2] = 2;
-	NewMesh.Indices[3] = 2;
-	NewMesh.Indices[4] = 1;
-	NewMesh.Indices[5] = 3;
+	//NewMesh.Indices.assign(6, 0);
+	//NewMesh.Indices[0] = 0;
+	//NewMesh.Indices[1] = 1;
+	//NewMesh.Indices[2] = 2;
+	//NewMesh.Indices[3] = 2;
+	//NewMesh.Indices[4] = 1;
+	//NewMesh.Indices[5] = 3;
 
-	comp->Meshes.push_back(NewMesh);
+	//comp->Meshes.push_back(NewMesh);
 	/*DebugCamera* camera = new DebugCamera;
 	camera->SetContext(Device.m_pImmediateContext);
 	camera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
@@ -69,7 +69,7 @@ bool TestClass::Initialize()
 	NewActor->AddComponent<Camera>();
 	MainCamera = NewActor->GetComponent<Camera>();
 	MainCamera->SetContext(Device.m_pImmediateContext);
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 0.0f, -10.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 10.0f, -25.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
 	
 	World.AddSystem(new CameraSystem);
@@ -114,7 +114,7 @@ bool TestClass::Initialize()
 	auto transformComp = spotLight->GetComponent<TransformComponent>();
 	transformComp->Translation += Vector3(10.0f, 20.0f, 10.0f);*/
 
-	PointLight* spotLight = new PointLight;
+	/*PointLight* spotLight = new PointLight;
 	auto lightComp2 = spotLight->GetComponent<PointLightComponent>();
 	lightComp2->Color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
 	lightComp2->Direction = Vector4(0.0f, 1.0f, 1.0f, 1.0f);
@@ -122,7 +122,7 @@ bool TestClass::Initialize()
 	auto transformComp = spotLight->GetComponent<TransformComponent>();
 	transformComp->Translation += Vector3(20.0f, 10.0f, 20.0f);
 
-	World.AddEntity(spotLight);
+	World.AddEntity(spotLight);*/
 
 	return true;
 }

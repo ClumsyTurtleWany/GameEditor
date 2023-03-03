@@ -32,47 +32,25 @@ public:
 	virtual void OnInitialUpdate();
 
 public:
-	afx_msg void OnBtnClickedFbxSelect();
-	afx_msg void OnComboChangedSection();
-	afx_msg void OnEditChangedCompWidth();
-	afx_msg void OnEditChangedCompHeight();
-	afx_msg void OnBtnClickedBuildLandscape();
-	afx_msg void OnSelChangeFbxFile();
+	int SectionSizeMode = 0;
+	int ComponentHeight = 8;
+	int ComponentWidth = 8;
+
+	CEdit EditComponentWidth;
+	CEdit EditComponentHeight;
+	CButton BtnCreateLandscape;
+	CComboBox SectionSizeComboBox;
 
 public:
-	CStatic* StaticLocation;
-	CStatic* StaticRotation;
-	CStatic* StaticScale;
-
-	CEdit* EditLocationX;
-	CEdit* EditLocationY;
-	CEdit* EditLocationZ;
-
-	CEdit* EditRotationX;
-	CEdit* EditRotationY;
-	CEdit* EditRotationZ;
-
-	CEdit* EditScaleX;
-	CEdit* EditScaleY;
-	CEdit* EditScaleZ;
-
-
-	CStatic* StaticSection;
-	CComboBox* ComboSection;
-
-	CStatic* StaticComponent;
-	CEdit* EditCompWidth;
-	CEdit* EditCompHeight;
-
-	CButton* BtnBuildLandscape;
-
-	//CListBox* FbxFileListBox;
-	CButton* BtnFbxSelect;
-	
 	virtual void OnDraw(CDC* pDC);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 	
-	CListBox FBXFileListBox;
-	afx_msg void OnLbnSelchangeFbxFileList();
+	afx_msg void OnEnChangeLandscapeComponentWidth();
+	afx_msg void OnEnChangeLandscapeComponentHeight();
+	afx_msg void OnBnClickedBtnCreateLandscape();
+
+	void Initialize();
+	afx_msg void OnCbnSelchangeComboLandscapeSectionSize();
 };
 
 

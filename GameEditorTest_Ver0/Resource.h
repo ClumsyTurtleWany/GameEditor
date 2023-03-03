@@ -102,6 +102,7 @@
 #define IDC_BUTTON1                     1008
 #define IDC_LANDSCAPE_MANAGEMENT        1008
 #define IDC_BUTTON_DIRECTIONAL_LIGHT    1008
+#define IDC_BTN_CREATE_LANDSCAPE        1008
 #define IDC_LANDSCAPE_SCULPTING         1009
 #define IDC_LANDSCAPE_PAINTING          1010
 #define ID_DetailDockPane               1011
@@ -120,8 +121,11 @@
 #define IDC_LandscapeLayer4             1022
 #define IDC_LayerSelectCombo            1024
 #define IDC_BUTTON_SELECT_OBJECT        1025
-#define IDC_BUTTON4                     1026
 #define IDC_BUTTON_ADD_OBJECT           1026
+#define IDC_LANDSCAPE_COMPONENT_WIDTH   1028
+#define IDC_LANDSCAPE_COMPONENT_HEIGHT  1029
+#define IDC_COMBO1                      1030
+#define IDC_COMBO_LANDSCAPE_SECTION_SIZE 1030
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
@@ -130,7 +134,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        321
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1027
+#define _APS_NEXT_CONTROL_VALUE         1031
 #define _APS_NEXT_SYMED_VALUE           324
 #endif
 #endif

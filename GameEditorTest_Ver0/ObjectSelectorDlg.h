@@ -36,10 +36,14 @@ public:
 	CButton BtnSelectObject;
 	CButton BtnAddObject;
 
+	bool isInitialize = false;
+
 	afx_msg void OnBnClickedButtonDirectionalLight();
 	afx_msg void OnBnClickedButtonSpotLight();
 	afx_msg void OnBnClickedButtonPointLight();
 	afx_msg void OnBnClickedButtonSelectObject();
 	afx_msg void OnBnClickedButtonAddObject();
 	afx_msg void OnLbnSelchangeListObjectSelector();
+
+	void Initialize();
 };

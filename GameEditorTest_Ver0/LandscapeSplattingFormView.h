@@ -50,7 +50,7 @@ public:
 	virtual void OnInitialUpdate();
 
 	void GetTextureList(std::wstring _path);
-	void Initiailze();
+	void Initialize();
 };
 
 

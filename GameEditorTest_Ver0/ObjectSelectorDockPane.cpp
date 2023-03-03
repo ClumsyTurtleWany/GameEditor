@@ -42,6 +42,7 @@ int ObjectSelectorDockPane::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	// TODO:  여기에 특수화된 작성 코드를 추가합니다.
 	m_ParentDlg.Create(IDD_ObjectSelectorDlg, this);
+	m_ParentDlg.Initialize();
 	m_ParentDlg.ShowWindow(SW_SHOW);
 
 	return 0;

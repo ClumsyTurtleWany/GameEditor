@@ -47,7 +47,7 @@ public:
 	virtual ~Landscape();
 
 public:
-	void Build(int row, int column, int sectionSize);
+	void Build(int column, int row, int sectionSize);
 	void PreRender();
 	void Render();
 	void SetContext(ID3D11DeviceContext* context);

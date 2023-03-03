@@ -6,6 +6,7 @@
 #include "LandscapeParentDlg.h"
 #include "afxdialogex.h"
 #include "LandscapeSplattingFormView.h"
+#include "LandscapeManagementFormView.h"
 
 // LandscapeParentDlg 대화 상자
 
@@ -135,6 +136,8 @@ void LandscapeParentDlg::OnBnClickedLandscapeManagement()
 	m_ManagementView->ShowWindow(SW_SHOW);
 	m_SculptingView->ShowWindow(SW_HIDE);
 	m_PaintView->ShowWindow(SW_HIDE);
+	LandscapeManagementFormView* pView = (LandscapeManagementFormView*)m_ManagementView;
+	pView->Initialize();
 }
 
 
@@ -147,7 +150,6 @@ void LandscapeParentDlg::OnBnClickedLandscapeSculpting()
 	theApp.CurrentEditorMode = EditorMode::Sculpting;
 }
 
-
 void LandscapeParentDlg::OnBnClickedLandscapePainting()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -155,6 +157,6 @@ void LandscapeParentDlg::OnBnClickedLandscapePainting()
 	m_SculptingView->ShowWindow(SW_HIDE);
 	m_PaintView->ShowWindow(SW_SHOW);
 	LandscapeSplattingFormView* pView = (LandscapeSplattingFormView*)m_PaintView;
-	pView->Initiailze();
+	pView->Initialize();
 	theApp.CurrentEditorMode = EditorMode::Splatting;
 }

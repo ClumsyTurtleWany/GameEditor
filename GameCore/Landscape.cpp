@@ -14,7 +14,7 @@ Landscape::~Landscape()
 
 }
 
-void Landscape::Build(int row, int column, int sectionSize)
+void Landscape::Build(int column, int row, int sectionSize)
 {
 	Components.clear();
 	for (int compRow = 0; compRow < row; compRow++)

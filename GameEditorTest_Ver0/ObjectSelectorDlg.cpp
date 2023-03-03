@@ -8,6 +8,7 @@
 #include "DirectionalLight.h"
 #include "SpotLight.h"
 #include "PointLight.h"
+#include "FBXLoader.hpp"
 
 // ObjectSelectorDlg 대화 상자
 
@@ -87,6 +88,22 @@ void ObjectSelectorDlg::OnSize(UINT nType, int cx, int cy)
 		y += height + 5;
 	}
 
+	if (ObjectListBox.GetSafeHwnd() != NULL)
+	{
+		ObjectListBox.MoveWindow(x, y, width, 300);
+		y += 300 + 5;
+	}
+
+	if (BtnSelectObject.GetSafeHwnd() != NULL)
+	{
+		BtnSelectObject.MoveWindow(x, y, width / 2 - 5, height);
+	}
+	
+	if (BtnAddObject.GetSafeHwnd() != NULL)
+	{
+		BtnAddObject.MoveWindow(x + width / 2 + 5, y, width / 2 - 5, height);
+	}
+
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 }
 
@@ -136,33 +153,49 @@ void ObjectSelectorDlg::OnBnClickedButtonSelectObject()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	int idx = ObjectListBox.GetCurSel();
-	if (idx < 0)
+	if (idx >= 0)
 	{
-		idx = 0;
+		CString filename;
+		ObjectListBox.GetText(idx, filename);
+		theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
 	}
-	CString filename;
-	ObjectListBox.GetText(idx, filename);
-	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
 }
 
 
 void ObjectSelectorDlg::OnBnClickedButtonAddObject()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	int idx = ObjectListBox.GetCurSel();d
-	if (idx < 0)
+	int idx = ObjectListBox.GetCurSel();
+	if (idx >= 0)
 	{
-		idx = 0;
-	}
-	CString filename;
-	ObjectListBox.GetText(idx, filename);
+		CString filename;
+		ObjectListBox.GetText(idx, filename);
 	
-	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
-	theApp.m_TestClass->AddSelectedEntityToOrigin();
+		theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
+		theApp.m_TestClass->AddSelectedEntityToOrigin();
+		theApp.Update();
+	}
 }
 
 
 void ObjectSelectorDlg::OnLbnSelchangeListObjectSelector()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+void ObjectSelectorDlg::Initialize()
+{
+	if (!isInitialize)
+	{
+		std::vector<std::wstring> FBXList;
+		FBXLoader::getInstance()->GetFBXFileList(L"../resource/FBX/", FBXList);
+
+		for (auto& it : FBXList)
+		{
+			ObjectListBox.AddString(it.c_str());
+		}
+		ObjectListBox.SetCurSel(0);
+
+		isInitialize = true;
+	}
 }
