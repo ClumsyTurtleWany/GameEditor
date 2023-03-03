@@ -231,6 +231,8 @@ bool TestClass::Resize(int x, int y, int width, int height)
 	//camera->CreateProjectionMatrix(camera->NearDistance, camera->FarDistance, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
 
 	MainCamera->CreateProjectionMatrix(MainCamera->NearDistance, MainCamera->FarDistance, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
+	Picker.ClientWidth = Device.m_ViewPort.Width;
+	Picker.ClientHeight = Device.m_ViewPort.Height;
 
 	return true;
 }
@@ -392,7 +394,7 @@ bool TestClass::Splatting()
 				//if (Picker.CheckPick(face.V0.Pos, face.V1.Pos, face.V2.Pos))
 				if (Picker.CheckPick(rv0, rv1, rv2))
 				{
-					comp.Splatting(Picker.IntercetionPosition, 2.0f, 1, 0.5);
+					comp.Splatting(Picker.IntercetionPosition, 2.0f, SelectedSplattingLayer, 0.5);
 
 					return true;
 				}

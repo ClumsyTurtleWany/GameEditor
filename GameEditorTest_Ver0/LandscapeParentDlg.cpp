@@ -5,7 +5,7 @@
 #include "GameEditorTest_Ver0.h"
 #include "LandscapeParentDlg.h"
 #include "afxdialogex.h"
-
+#include "LandscapeSplattingFormView.h"
 
 // LandscapeParentDlg 대화 상자
 
@@ -87,6 +87,13 @@ BOOL LandscapeParentDlg::OnInitDialog()
 	pView->OnInitialUpdate();
 	m_SculptingView = pView;
 
+	pView = (CView*)RUNTIME_CLASS(LandscapeSplattingFormView)->CreateObject();
+	::ZeroMemory(&cc, sizeof(cc));
+	pView->Create(NULL, NULL, WS_CHILD, rc, this, IDD_LandscapeSculptingFormView, &cc);
+	pView->OnInitialUpdate();
+	m_PaintView = pView;
+	
+
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
@@ -127,6 +134,7 @@ void LandscapeParentDlg::OnBnClickedLandscapeManagement()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_ManagementView->ShowWindow(SW_SHOW);
 	m_SculptingView->ShowWindow(SW_HIDE);
+	m_PaintView->ShowWindow(SW_HIDE);
 }
 
 
@@ -135,6 +143,7 @@ void LandscapeParentDlg::OnBnClickedLandscapeSculpting()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_SculptingView->ShowWindow(SW_SHOW);
 	m_ManagementView->ShowWindow(SW_HIDE);
+	m_PaintView->ShowWindow(SW_HIDE);
 	theApp.CurrentEditorMode = EditorMode::Sculpting;
 }
 
@@ -144,5 +153,8 @@ void LandscapeParentDlg::OnBnClickedLandscapePainting()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_ManagementView->ShowWindow(SW_HIDE);
 	m_SculptingView->ShowWindow(SW_HIDE);
+	m_PaintView->ShowWindow(SW_SHOW);
+	LandscapeSplattingFormView* pView = (LandscapeSplattingFormView*)m_PaintView;
+	pView->Initiailze();
 	theApp.CurrentEditorMode = EditorMode::Splatting;
 }

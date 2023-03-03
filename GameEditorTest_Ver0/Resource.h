@@ -87,6 +87,7 @@
 #define IDD_NewProjectDlg               319
 #define ID_OBJECT_SELECTOR_DOCKPANE     320
 #define IDD_ObjectSelectorDlg           321
+#define IDD_LandscapeSplattingFormView  323
 #define ID_STATICMESH_LIST_BOX          410
 #define IDB_FBX_SELECT                  411
 #define IDC_COMBO_SECTION               412
@@ -111,15 +112,21 @@
 #define IDC_BUTTON_SPOT_LIGHT           1016
 #define IDC_BUTTON3                     1017
 #define IDC_BUTTON_POINT_LIGHT          1017
+#define IDC_LandscapeBaseTexture        1018
+#define IDC_LandscapeLayer1             1019
+#define IDC_LandscapeLayer2             1020
+#define IDC_LandscapeLayer3             1021
+#define IDC_LandscapeLayer4             1022
+#define IDC_LayerSelectCombo            1024
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        319
+#define _APS_NEXT_RESOURCE_VALUE        321
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1018
-#define _APS_NEXT_SYMED_VALUE           323
+#define _APS_NEXT_CONTROL_VALUE         1025
+#define _APS_NEXT_SYMED_VALUE           324
 #endif
 #endif

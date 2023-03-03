@@ -102,6 +102,9 @@
     <ClInclude Include="LandscapeParentDlg.h">
       <Filter>MFC\DockPane\Landscape</Filter>
     </ClInclude>
+    <ClInclude Include="LandscapeSculptingFormView.h">
+      <Filter>MFC\DockPane\Landscape</Filter>
+    </ClInclude>
     <ClInclude Include="OutlinerDockPane.h">
       <Filter>MFC\DockPane\Outliner</Filter>
     </ClInclude>
@@ -147,7 +150,7 @@
     <ClInclude Include="ObjectSelectorDlg.h">
       <Filter>MFC\DockPane\ObjectSelector</Filter>
     </ClInclude>
-    <ClInclude Include="LandscapeSculptingFormView.h">
+    <ClInclude Include="LandscapeSplattingFormView.h">
       <Filter>MFC\DockPane\Landscape</Filter>
     </ClInclude>
   </ItemGroup>
@@ -186,6 +189,9 @@
       <Filter>MFC\DockPane\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="LandscapeParentDlg.cpp">
+      <Filter>MFC\DockPane\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeSculptingFormView.cpp">
       <Filter>MFC\DockPane\Landscape</Filter>
     </ClCompile>
     <ClCompile Include="OutlinerDockPane.cpp">
@@ -233,7 +239,7 @@
     <ClCompile Include="ObjectSelectorDlg.cpp">
       <Filter>MFC\DockPane\ObjectSelector</Filter>
     </ClCompile>
-    <ClCompile Include="LandscapeSculptingFormView.cpp">
+    <ClCompile Include="LandscapeSplattingFormView.cpp">
       <Filter>MFC\DockPane\Landscape</Filter>
     </ClCompile>
   </ItemGroup>

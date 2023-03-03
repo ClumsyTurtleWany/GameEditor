@@ -208,6 +208,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClInclude Include="LandscapeManagementFormView.h" />
     <ClInclude Include="LandscapeParentDlg.h" />
     <ClInclude Include="LandscapeSculptingFormView.h" />
+    <ClInclude Include="LandscapeSplattingFormView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MousePicker.h" />
     <ClInclude Include="MtlFile.h" />
@@ -240,6 +241,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"
     <ClCompile Include="LandscapeManagementFormView.cpp" />
     <ClCompile Include="LandscapeParentDlg.cpp" />
     <ClCompile Include="LandscapeSculptingFormView.cpp" />
+    <ClCompile Include="LandscapeSplattingFormView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="MtlFile.cpp" />

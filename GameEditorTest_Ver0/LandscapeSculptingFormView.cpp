@@ -13,7 +13,7 @@ IMPLEMENT_DYNCREATE(LandscapeSculptingFormView, CFormView)
 LandscapeSculptingFormView::LandscapeSculptingFormView()
 	: CFormView(IDD_LandscapeSculptingFormView)
 {
-
+	
 }
 
 LandscapeSculptingFormView::~LandscapeSculptingFormView()
