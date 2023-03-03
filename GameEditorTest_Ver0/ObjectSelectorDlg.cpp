@@ -113,7 +113,7 @@ void ObjectSelectorDlg::OnBnClickedButtonDirectionalLight()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	DirectionalLight* dirLight = new DirectionalLight;
 	auto lightComp = dirLight->GetComponent<DirectionalLightComponent>();
-	lightComp->Color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+	lightComp->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	lightComp->Direction = Vector4(0.0f, -1.0f, 1.0f, 1.0f);
 	theApp.m_TestClass->World.AddEntity(dirLight);
 	theApp.Update();
