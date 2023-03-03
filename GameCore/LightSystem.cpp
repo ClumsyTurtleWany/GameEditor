@@ -7,6 +7,8 @@
 
 void LightSystem::Tick(ECS::World* world, float time)
 {
+	CleanUp();
+
 	DirectionalLights.Cnt = 0;
 	for (auto& entity : world->GetEntities<DirectionalLightComponent>())
 	{
