@@ -32,7 +32,14 @@ public:
 	CButton BtnSpotLight;
 	CButton BtnPointLight;
 
+	CListBox ObjectListBox;
+	CButton BtnSelectObject;
+	CButton BtnAddObject;
+
 	afx_msg void OnBnClickedButtonDirectionalLight();
 	afx_msg void OnBnClickedButtonSpotLight();
 	afx_msg void OnBnClickedButtonPointLight();
+	afx_msg void OnBnClickedButtonSelectObject();
+	afx_msg void OnBnClickedButtonAddObject();
+	afx_msg void OnLbnSelchangeListObjectSelector();
 };

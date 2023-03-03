@@ -29,6 +29,9 @@ void ObjectSelectorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_BUTTON_DIRECTIONAL_LIGHT, BtnDirectionalLight);
 	DDX_Control(pDX, IDC_BUTTON_SPOT_LIGHT, BtnSpotLight);
 	DDX_Control(pDX, IDC_BUTTON_POINT_LIGHT, BtnPointLight);
+	DDX_Control(pDX, IDC_LIST_OBJECT_SELECTOR, ObjectListBox);
+	DDX_Control(pDX, IDC_BUTTON_SELECT_OBJECT, BtnSelectObject);
+	DDX_Control(pDX, IDC_BUTTON_ADD_OBJECT, BtnAddObject);
 }
 
 
@@ -37,6 +40,9 @@ BEGIN_MESSAGE_MAP(ObjectSelectorDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_DIRECTIONAL_LIGHT, &ObjectSelectorDlg::OnBnClickedButtonDirectionalLight)
 	ON_BN_CLICKED(IDC_BUTTON_SPOT_LIGHT, &ObjectSelectorDlg::OnBnClickedButtonSpotLight)
 	ON_BN_CLICKED(IDC_BUTTON_POINT_LIGHT, &ObjectSelectorDlg::OnBnClickedButtonPointLight)
+	ON_BN_CLICKED(IDC_BUTTON_SELECT_OBJECT, &ObjectSelectorDlg::OnBnClickedButtonSelectObject)
+	ON_BN_CLICKED(IDC_BUTTON_ADD_OBJECT, &ObjectSelectorDlg::OnBnClickedButtonAddObject)
+	ON_LBN_SELCHANGE(IDC_LIST_OBJECT_SELECTOR, &ObjectSelectorDlg::OnLbnSelchangeListObjectSelector)
 END_MESSAGE_MAP()
 
 
@@ -123,4 +129,40 @@ void ObjectSelectorDlg::OnBnClickedButtonPointLight()
 	transformComp->Translation += Vector3(20.0f, 10.0f, 20.0f);
 	theApp.m_TestClass->World.AddEntity(spotLight);
 	theApp.Update();
+}
+
+
+void ObjectSelectorDlg::OnBnClickedButtonSelectObject()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int idx = ObjectListBox.GetCurSel();
+	if (idx < 0)
+	{
+		idx = 0;
+	}
+	CString filename;
+	ObjectListBox.GetText(idx, filename);
+	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
+}
+
+
+void ObjectSelectorDlg::OnBnClickedButtonAddObject()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int idx = ObjectListBox.GetCurSel();d
+	if (idx < 0)
+	{
+		idx = 0;
+	}
+	CString filename;
+	ObjectListBox.GetText(idx, filename);
+	
+	theApp.m_TestClass->SelectedFilename.assign(filename.GetString());
+	theApp.m_TestClass->AddSelectedEntityToOrigin();
+}
+
+
+void ObjectSelectorDlg::OnLbnSelchangeListObjectSelector()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

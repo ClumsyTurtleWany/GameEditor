@@ -40,17 +40,6 @@ public:
 	afx_msg void OnSelChangeFbxFile();
 
 public:
-	float LocationX;
-	float LocationY;
-	float LocationZ;
-	float RotationX;
-	float RotationY;
-	float RotationZ;
-	float ScaleX;
-	float ScaleY;
-	float ScaleZ;
-
-public:
 	CStatic* StaticLocation;
 	CStatic* StaticRotation;
 	CStatic* StaticScale;

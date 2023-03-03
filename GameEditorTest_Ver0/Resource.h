@@ -107,6 +107,7 @@
 #define ID_DetailDockPane               1011
 #define IDC_DETAIL_TREE                 1012
 #define IDC_LIST1                       1013
+#define IDC_LIST_OBJECT_SELECTOR        1013
 #define IDC_EDIT1                       1014
 #define IDC_EDIT2                       1015
 #define IDC_BUTTON_SPOT_LIGHT           1016
@@ -118,6 +119,9 @@
 #define IDC_LandscapeLayer3             1021
 #define IDC_LandscapeLayer4             1022
 #define IDC_LayerSelectCombo            1024
+#define IDC_BUTTON_SELECT_OBJECT        1025
+#define IDC_BUTTON4                     1026
+#define IDC_BUTTON_ADD_OBJECT           1026
 #define ID_WRITE_PASTEASHYPERLINK       32770
 
 // Next default values for new objects
@@ -126,7 +130,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        321
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1025
+#define _APS_NEXT_CONTROL_VALUE         1027
 #define _APS_NEXT_SYMED_VALUE           324
 #endif
 #endif

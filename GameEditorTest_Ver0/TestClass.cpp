@@ -365,6 +365,64 @@ bool TestClass::AddSelectedEntity()
 	return true;
 }
 
+bool TestClass::AddSelectedEntityToOrigin()
+{
+	if (!SelectedFilename.empty())
+	{
+		auto mesh = StaticMeshMap.find(SelectedFilename);
+		if (mesh != StaticMeshMap.end())
+		{
+			StaticMeshComponent* meshComp = mesh->second.get();
+			Actor* NewActor = new Actor;
+			auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+			staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+			for (auto& it : staticMeshComp->Meshes)
+			{
+				it.SetContext(Device.m_pImmediateContext);
+			}
+			staticMeshComp->SetContext(Device.m_pImmediateContext);
+
+			auto transform = NewActor->GetComponent<TransformComponent>();
+			transform->Translation = Vector3(0.0f, 0.0f, 0.0f);
+
+			World.AddEntity(NewActor);
+		}
+		else
+		{
+			std::unique_ptr<StaticMeshComponent> staticMesh = std::make_unique<StaticMeshComponent>();
+			if (FBXLoader::getInstance()->Load(L"../resource/FBX/" + SelectedFilename, staticMesh.get()))
+			{
+				StaticMeshMap.insert(std::make_pair(SelectedFilename, std::move(staticMesh)));
+			}
+
+			auto mesh = StaticMeshMap.find(SelectedFilename);
+			if (mesh != StaticMeshMap.end())
+			{
+				StaticMeshComponent* meshComp = mesh->second.get();
+				Actor* NewActor = new Actor;
+				auto staticMeshComp = NewActor->AddComponent<StaticMeshComponent>();
+				staticMeshComp->Meshes.assign(meshComp->Meshes.begin(), meshComp->Meshes.end());
+				//staticMeshComp = meshComp;
+				for (auto& it : staticMeshComp->Meshes)
+				{
+					it.SetContext(Device.m_pImmediateContext);
+				}
+				staticMeshComp->SetContext(Device.m_pImmediateContext);
+
+				auto transform = NewActor->GetComponent<TransformComponent>();
+				transform->Translation = Vector3(0.0f, 0.0f, 0.0f);;
+
+				World.AddEntity(NewActor);
+			}
+		}
+
+		return true;
+		
+	}
+
+	return true;
+}
+
 bool TestClass::Splatting()
 {
 	Camera* camera = MainCamera;

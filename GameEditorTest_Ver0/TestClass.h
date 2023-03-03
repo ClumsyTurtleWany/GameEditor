@@ -37,6 +37,7 @@ public:
 	//DebugCamera* GetDebugCamera();
 	bool CreateLandscape(int width, int height, int sectionSize);
 	bool AddSelectedEntity();
+	bool AddSelectedEntityToOrigin();
 	bool Splatting();
 	bool Sculpting();
 };
