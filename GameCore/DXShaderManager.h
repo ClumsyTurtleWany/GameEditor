@@ -94,6 +94,9 @@ public:
 public:
 	bool Initialize();
 	bool Release();
+
+public:
+	ID3D11DeviceContext* GetContext();
 };
 
 template<typename T>

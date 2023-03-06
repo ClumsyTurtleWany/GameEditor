@@ -975,3 +975,8 @@ bool DXShaderManager::Release()
 
 	return true;
 }
+
+ID3D11DeviceContext* DXShaderManager::GetContext()
+{
+	return m_pImmediateContext;
+}

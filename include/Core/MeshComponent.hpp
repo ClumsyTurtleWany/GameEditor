@@ -53,4 +53,5 @@ public:
 
 public:
 	void SetContext(ID3D11DeviceContext* context) { Context = context; };
+	void SetMaterial(Material* material);
 };

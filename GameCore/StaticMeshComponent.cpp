@@ -2,6 +2,7 @@
 
 StaticMeshComponent::StaticMeshComponent()
 {
+	Context = DXShaderManager::getInstance()->GetContext();
 	Initialize();
 }
 StaticMeshComponent::~StaticMeshComponent()

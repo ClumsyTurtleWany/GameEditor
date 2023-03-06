@@ -8,6 +8,15 @@
 #include "Landscape.h"
 #include "DebugCamera.h"
 
+RenderSystem::RenderSystem()
+{
+	Context = DXShaderManager::getInstance()->GetContext();
+}
+
+RenderSystem::~RenderSystem()
+{
+}
+
 void RenderSystem::Tick(ECS::World* world, float time)
 {
 	ID3D11RasterizerState* pOldRSState;

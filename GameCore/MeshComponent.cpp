@@ -2,7 +2,7 @@
 
 MeshComponent::MeshComponent()
 {
-
+	Context = DXShaderManager::getInstance()->GetContext();
 }
 
 MeshComponent::~MeshComponent()
@@ -61,11 +61,16 @@ bool MeshComponent::Initialize()
 		MaterialSlot->SetContext(Context);
 		DXTextureManager::getInstance()->Load(L"../resource/Default.bmp");
 		DXTexture* DefaultTexture = DXTextureManager::getInstance()->getTexture(L"../resource/Default.bmp");
-		MaterialSlot->AddTexture(DefaultTexture);
-		MaterialSlot->SetPixelShader(DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
+		MaterialSlot->SetDiffuseTexture(DefaultTexture);
 	}
+	MaterialSlot->SetPixelShader(DXShaderManager::getInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
 
 	isCreated = true;
 
 	return true;
+}
+
+void MeshComponent::SetMaterial(Material* material)
+{
+	MaterialSlot = material;
 }

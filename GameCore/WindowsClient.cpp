@@ -94,7 +94,7 @@ ATOM WindowsClient::MyRegisterClass()
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	//wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_WINDOWSTUDY0);
-	wcex.lpszClassName = L"WindowUI"; // 없으면 생성 실패... hWnd = CreateWindow 할 때의 이름과 같아야 함.
+	wcex.lpszClassName = L"Windows"; // 없으면 생성 실패... hWnd = CreateWindow 할 때의 이름과 같아야 함.
 	//wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
 	return RegisterClassExW(&wcex);
