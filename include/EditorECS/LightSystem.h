@@ -20,4 +20,5 @@ public:
 	virtual void Tick(ECS::World* world, float time) override;
 
 	void Initialize();
+	void CleanUp();
 };

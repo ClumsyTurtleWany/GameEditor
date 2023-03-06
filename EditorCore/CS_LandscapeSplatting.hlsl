@@ -42,45 +42,6 @@ RWTexture2D<float4>	OutputMap : register(u0);
 // SV_GroupID[32][32] 로 보면 됨.
 // SV_GroupIndex: 0 ~ ((size_x * size_y * 1) - 1)
 
-//[numthreads(size_x, size_y, 1)]
-//void CS(uint3 GroupID : SV_GroupID, uint3 DispatchThreadID : SV_DispatchThreadID, uint3 GroupThreadID : SV_GroupThreadID, uint GroupIndex : SV_GroupIndex)
-//{
-//	int3 texturelocation = int3(0, 0, 0);
-//
-//	// 0 ~ 1023, Dispatch(32, 32, 1)에 numthreads(32, 32, 1) 이므로
-//	// 텍스처를 x: 1024개, y: 1024개 로 쪼갬.
-//	texturelocation.x = GroupID.x * size_x + GroupThreadID.x; // u
-//	texturelocation.y = GroupID.y * size_y + GroupThreadID.y; // v
-//
-//	float4 Color = InputMap.Load(texturelocation);
-//	float textureWidth = size_x * SplattingInfo[0].TextureWidth;
-//	float textureHeight = size_y * SplattingInfo[0].TextureHeight;
-//	// 0 ~1 
-//	float2 uv = float2(texturelocation.x / textureWidth, texturelocation.y / textureHeight);
-//	// vRect[0]   ~   vRect[1]  
-//	float1 width = SplattingInfo[0].TextureWidth / 2.0f; // 256 / 2 = 128
-//	// vRect[3]   ~   vRect[2]  
-//	float1 height = SplattingInfo[0].TextureHeight / 2.0f; // 256 / 2 = 128
-//	float3 vPos = float3((uv.x * 2.0f - 1.0f) * width, -(uv.y * 2.0f - 1.0f) * height, 0.0f);
-//
-//	float fRadius = distance(vPos.xy, SplattingInfo[0].PickPosition.xy);
-//	float4 fAlpha = CopyMap.Load(texturelocation);
-//	if (fRadius < SplattingInfo[0].Radius)
-//	{
-//		float fDot = (1.0f - (fRadius / SplattingInfo[0].Radius)) * SplattingInfo[0].Strength;
-//		switch (SplattingInfo[0].Index)
-//		{
-//		case 0: fAlpha.x = max(fAlpha.x, fDot); break;
-//		case 1: fAlpha.y = max(fAlpha.y, fDot); break;
-//		case 2: fAlpha.z = max(fAlpha.z, fDot); break;
-//		case 3: fAlpha.w = max(fAlpha.w, fDot); break;
-//		}
-//		OutputMap[texturelocation.xy] = fAlpha;
-//	}
-//
-//	OutputMap[DispatchThreadID.xy / 2] = float4(1.0f, 0.0f, 0.0f, 0.0f);
-//}
-
 [numthreads(size_x, size_y, 1)]
 void CS(uint3 GroupID : SV_GroupID, uint3 DispatchThreadID : SV_DispatchThreadID, uint3 GroupThreadID : SV_GroupThreadID, uint GroupIndex : SV_GroupIndex)
 {
