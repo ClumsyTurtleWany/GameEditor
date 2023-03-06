@@ -54,6 +54,7 @@
     <ClInclude Include="MeshComponent.hpp" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
+    <ClInclude Include="PlaneComponent.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SculptingData.h" />

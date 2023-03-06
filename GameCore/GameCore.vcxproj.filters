@@ -264,6 +264,9 @@
     <ClInclude Include="SplattingData.h">
       <Filter>DirectX\Data\ConstantData</Filter>
     </ClInclude>
+    <ClInclude Include="PlaneComponent.h">
+      <Filter>ECS\Component\Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WindowsClient.cpp">
