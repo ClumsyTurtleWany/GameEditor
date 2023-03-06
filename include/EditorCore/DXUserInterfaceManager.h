@@ -23,9 +23,5 @@ public:
 	bool Release();
 
 public:
-	void SetContext(ID3D11DeviceContext* context);
-	ID3D11DeviceContext* GetContext();
-
-public:
 	void AddUserInterface(DXUserInterface* ui);
 };

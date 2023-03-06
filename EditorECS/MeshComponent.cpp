@@ -23,20 +23,20 @@ bool MeshComponent::Render()
 
 	UINT Strides = sizeof(Vertex); // 정점 1개의 바이트 용량
 	UINT Offsets = 0; // 정점 버퍼에서 출발 지점(바이트)
-	Context->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
-	Context->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
+	DXDevice::m_pImmediateContext->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
+	DXDevice::m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
 
 	MaterialSlot->Apply();
 
 	if (IndexBuffer == nullptr)
 	{
-		Context->Draw(static_cast<UINT>(Vertices.size()), 0);
+		DXDevice::m_pImmediateContext->Draw(static_cast<UINT>(Vertices.size()), 0);
 	}
 	else
 	{
-		Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		Context->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
-		Context->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
+		DXDevice::m_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		DXDevice::m_pImmediateContext->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
+		DXDevice::m_pImmediateContext->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
 	}
 
 	//ID3D11ShaderResourceView* resourceView = NULL;
@@ -58,12 +58,11 @@ bool MeshComponent::Initialize()
 	if (MaterialSlot == nullptr)
 	{
 		MaterialSlot = new Material;
-		MaterialSlot->SetContext(Context);
 		DXTextureManager::GetInstance()->Load(L"../resource/Default.bmp");
-		DXTexture* DefaultTexture = DXTextureManager::GetInstance()->getTexture(L"../resource/Default.bmp");
-		MaterialSlot->AddTexture(DefaultTexture);
-		MaterialSlot->SetPixelShader(DXShaderManager::GetInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
+		DXTexture* DefaultTexture = DXTextureManager::GetInstance()->GetTexture(L"../resource/Default.bmp");
+		MaterialSlot->SetDiffuseTexture(DefaultTexture);
 	}
+	MaterialSlot->SetPixelShader(DXShaderManager::GetInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
 
 	isCreated = true;
 

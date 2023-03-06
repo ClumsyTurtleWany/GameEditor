@@ -41,7 +41,6 @@ bool DXButton::Initialize()
     TexturedPS = DXShaderManager::GetInstance()->GetPixelShader(L"../include/HLSL/PS_TexturedUI.hlsl");
     NonTexturedPS = DXShaderManager::GetInstance()->GetPixelShader(L"../include/HLSL/PS_NonTexturedUI.hlsl");
 
-    this->Context = DXUserInterfaceManager::GetInstance()->GetContext();
     DXUserInterfaceManager::GetInstance()->AddUserInterface(this);
 
     return true;
@@ -95,11 +94,11 @@ bool DXButton::Frame()
 
 bool DXButton::Render()
 {
-    Context->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
+    DXDevice::m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
     
     UINT strides = sizeof(Vertex);
     UINT offsets = 0;
-    Context->IAGetVertexBuffers(0, 1, &VertexBuffer, &strides, &offsets);
+    DXDevice::m_pImmediateContext->IAGetVertexBuffers(0, 1, &VertexBuffer, &strides, &offsets);
 
     if (CurrentState == ButtonState::Normal)
     {
@@ -128,18 +127,18 @@ bool DXButton::Render()
 
     if (RenderImage != nullptr)
     {
-        ID3D11ShaderResourceView* resourceView = RenderImage->getResourceView();
-        Context->PSSetShaderResources(0, 1, &resourceView);
+        ID3D11ShaderResourceView* resourceView = RenderImage->GetResourceView();
+        DXDevice::m_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
 
-        Context->PSSetShader(TexturedPS, NULL, 0);
+        DXDevice::m_pImmediateContext->PSSetShader(TexturedPS, NULL, 0);
     }
     else
     {
-        Context->PSSetShader(NonTexturedPS, NULL, 0);
+        DXDevice::m_pImmediateContext->PSSetShader(NonTexturedPS, NULL, 0);
     }
 
-    Context->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    Context->DrawIndexed(static_cast<UINT>(Indecies.size()), 0, 0);
+    DXDevice::m_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    DXDevice::m_pImmediateContext->DrawIndexed(static_cast<UINT>(Indecies.size()), 0, 0);
 
     return true;
 }

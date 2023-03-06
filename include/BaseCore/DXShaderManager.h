@@ -17,12 +17,14 @@ private:
 	std::map<std::wstring, ID3DBlob*>				DomainShaderCodeMap;
 	std::map<std::wstring, ID3DBlob*>				GeometryShaderCodeMap;
 	std::map<std::wstring, ID3DBlob*>				PixelShaderCodeMap;
+	std::map<std::wstring, ID3DBlob*>				ComputeShaderCodeMap;
 
 	std::map<std::wstring, ID3D11VertexShader*>		VertexShaderMap;
 	std::map<std::wstring, ID3D11HullShader*>		HullShaderMap;
 	std::map<std::wstring, ID3D11DomainShader*>		DomainShaderMap;
 	std::map<std::wstring, ID3D11GeometryShader*>	GeometryShaderMap;
 	std::map<std::wstring, ID3D11PixelShader*>		PixelShaderMap;
+	std::map<std::wstring, ID3D11ComputeShader*>	ComputeShaderMap;
 
 	std::vector<ID3D11Buffer*>						BufferList;
 
@@ -36,27 +38,34 @@ public:
 	bool LoadDSCode(std::wstring filename, std::wstring key);
 	bool LoadGSCode(std::wstring filename, std::wstring key);
 	bool LoadPSCode(std::wstring filename, std::wstring key);
+	bool LoadCSCode(std::wstring filename, std::wstring key);
 
 	bool CreateVertexShader(ID3DBlob* vsCode, std::wstring key);
 	bool CreatePixelShader(ID3DBlob* psCode, std::wstring key);
 	bool CreateHullShader(ID3DBlob* hsCode, std::wstring key);
 	bool CreateDomainShader(ID3DBlob* dsCode, std::wstring key);
 	bool CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key);
+	bool CreateComputeShader(ID3DBlob* csCode, std::wstring key);
+
+	bool CreateVertexShader(std::wstring filename, std::wstring key);
+	bool CreatePixelShader(std::wstring filename, std::wstring key);
+	bool CreateHullShader(std::wstring filename, std::wstring key);
+	bool CreateDomainShader(std::wstring filename, std::wstring key);
+	bool CreateGeometryShader(std::wstring filename, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key);
+	bool CreateComputeShader(std::wstring filename, std::wstring key);
 
 	bool CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, std::wstring key);
-
-	bool CreateInputLayout();
-	bool CreateStaticMeshInputLayout();
-	bool CreateSkeletalMeshInputLayout();
 
 public:
 	template <typename T>
 	ID3D11Buffer* CreateVertexBuffer(const std::vector<T>& vertices);
-
 	ID3D11Buffer* CreateIndexBuffer(const std::vector<DWORD>& indices);
 
 	template <typename T>
 	ID3D11Buffer* CreateConstantBuffer(const T& constantData);
+
+	template <typename T>
+	ID3D11Buffer* CreateStructuredBuffer(const T& structData);
 
 	ID3D11Buffer* CreateStreamOutputBuffer(UINT size);
 	ID3D11Buffer* CreateMappedBuffer(UINT size);
@@ -72,12 +81,14 @@ public:
 	ID3DBlob* GetDSCode(std::wstring key);
 	ID3DBlob* GetGSCode(std::wstring key);
 	ID3DBlob* GetPSCode(std::wstring key);
+	ID3DBlob* GetCSCode(std::wstring key);
 
 	ID3D11VertexShader*		GetVertexShader(std::wstring key);
 	ID3D11HullShader*		GetHullShader(std::wstring key);
 	ID3D11DomainShader*		GetDomainShader(std::wstring key);
 	ID3D11GeometryShader*	GetGeometryShader(std::wstring key);
 	ID3D11PixelShader*		GetPixelShader(std::wstring key);
+	ID3D11ComputeShader*	GetComputeShader(std::wstring key);
 	
 public:
 	bool Initialize();
@@ -162,5 +173,36 @@ inline ID3D11Buffer* DXShaderManager::CreateConstantBuffer(const T& constantData
 	{
 		BufferList.push_back(pConstantBuffer);
 		return pConstantBuffer;
+	}
+}
+
+template<typename T>
+inline ID3D11Buffer* DXShaderManager::CreateStructuredBuffer(const T& structData)
+{
+	D3D11_BUFFER_DESC desc;
+	ZeroMemory(&desc, sizeof(desc));
+	desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+	desc.ByteWidth = sizeof(T) * 1;
+	desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	desc.StructureByteStride = sizeof(T);
+
+	D3D11_SUBRESOURCE_DATA initialData;
+	ZeroMemory(&initialData, sizeof(initialData));
+	initialData.pSysMem = &structData;
+
+	ID3D11Buffer* pStructuredBuffer;
+	HRESULT result = m_pd3dDevice->CreateBuffer(
+		&desc, // 버퍼 할당 
+		&initialData, // 초기 할당된 버퍼를 체우는 CPU 메모리, NULL로 넣으면 생성만 해 놓는 것.
+		&pStructuredBuffer);
+
+	if (FAILED(result))
+	{
+		return nullptr;
+	}
+	else
+	{
+		BufferList.push_back(pStructuredBuffer);
+		return pStructuredBuffer;
 	}
 }

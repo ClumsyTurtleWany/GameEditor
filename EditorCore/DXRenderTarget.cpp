@@ -24,7 +24,7 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 	if (m_pTexture == nullptr)
 	{
 		m_pTexture = new DXTexture;
-		m_pTexture->setDevice(m_pd3dDevice, m_pImmediateContext);
+		m_pTexture->SetDevice(m_pd3dDevice, m_pImmediateContext);
 		if (!m_pTexture->CreateRenderTarget(width, height))
 		{
 			OutputDebugStringA("DXRenderTarget::create::Failed Create Render Target Texture.\n");
@@ -34,7 +34,7 @@ bool DXRenderTarget::Create(float x, float y, float width, float height)
 		}
 	}
 
-	HRESULT rst = m_pd3dDevice->CreateRenderTargetView(m_pTexture->getResource(), NULL, m_pRenderTargetView.GetAddressOf());
+	HRESULT rst = m_pd3dDevice->CreateRenderTargetView(m_pTexture->GetResource(), NULL, m_pRenderTargetView.GetAddressOf());
 	if (FAILED(rst))
 	{
 		OutputDebugStringA("DXRenderTarget::create::Failed Create Render Target View.\n");
@@ -205,7 +205,7 @@ bool DXRenderTarget::Render()
 
 	m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &VertexList.at(0), 0, 0);
 
-	ID3D11ShaderResourceView* resourceView = m_pTexture->getResourceView();
+	ID3D11ShaderResourceView* resourceView = m_pTexture->GetResourceView();
 	m_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
 
 	m_pImmediateContext->RSSetState(RSState);

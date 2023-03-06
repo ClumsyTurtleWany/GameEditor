@@ -32,13 +32,13 @@ bool BaseCore::Release()
 
 bool BaseCore::CoreInitialize()
 {
-	if (!Device.Create(_hWnd))
+	if (!DXDevice::Create(_hWnd))
 	{
 		OutputDebugStringA("DXDevice::Failed Initialize.\n");
 		return false;
 	}
 
-	DXShaderManager::GetInstance()->SetDevice(Device.m_pd3dDevice, Device.m_pImmediateContext);
+	DXShaderManager::GetInstance()->SetDevice(DXDevice::m_pd3dDevice, DXDevice::m_pImmediateContext);
 	if (!DXShaderManager::GetInstance()->Initialize())
 	{
 		OutputDebugStringA("DXShaderManager::Failed Initialize.\n");
@@ -58,7 +58,7 @@ bool BaseCore::CoreInitialize()
 		return false;
 	}
 
-	DXTextureManager::GetInstance()->setDevice(Device.m_pd3dDevice, Device.m_pImmediateContext);
+	DXTextureManager::GetInstance()->SetDevice(DXDevice::m_pd3dDevice, DXDevice::m_pImmediateContext);
 
 	if (!FMODSoundManager::GetInstance()->Initialize())
 	{
@@ -67,7 +67,7 @@ bool BaseCore::CoreInitialize()
 	}
 
 	// Sampler State
-	if (!DXSamplerState::SetDevice(Device.m_pd3dDevice))
+	if (!DXSamplerState::SetDevice(DXDevice::m_pd3dDevice))
 	{
 		OutputDebugStringA("DXSamplerState::Failed Set State.\n");
 		return false;
@@ -105,11 +105,11 @@ bool BaseCore::CoreFrame()
 bool BaseCore::PreRender()
 {
 	//m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, NULL); // m_pRTV 에 뿌린다.
-	Device.m_pImmediateContext->OMSetRenderTargets(1, &Device.m_pRTV, Device.m_pDepthStencilView); // Depth Stencil View 추가.
+	DXDevice::m_pImmediateContext->OMSetRenderTargets(1, &DXDevice::m_pRTV, DXDevice::m_pDepthStencilView); // Depth Stencil View 추가.
 	//float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
 	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f }; // R, G, B, A 순 0 ~ 1.0사이 값 1.0 == 255
-	Device.m_pImmediateContext->ClearRenderTargetView(Device.m_pRTV, color);
-	Device.m_pImmediateContext->ClearDepthStencilView(Device.m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0); // Depth는 1.0f, Stencil은 0으로 클리어.
+	DXDevice::m_pImmediateContext->ClearRenderTargetView(DXDevice::m_pRTV, color);
+	DXDevice::m_pImmediateContext->ClearDepthStencilView(DXDevice::m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0); // Depth는 1.0f, Stencil은 0으로 클리어.
 	//m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
@@ -129,17 +129,17 @@ bool BaseCore::PreRender()
 
 	// Sampler State 적용.
 	//m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
-	Device.m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultMirrorSamplerState);
+	DXDevice::m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultMirrorSamplerState);
 
 	// Rasterizer State 적용.
 	//m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSWireFrame);
-	Device.m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
+	DXDevice::m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
 
 	// Blend State 적용.
-	Device.m_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
+	DXDevice::m_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
 
 	// Depth Stencil State 적용.
-	Device.m_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
+	DXDevice::m_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
 	//m_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pGreaterDepthStencil, 0xff); // Depth 큰것 출력하고 싶을 때.
 
 	return true;
@@ -149,7 +149,7 @@ bool BaseCore::PostRender()
 {
 	//RenderTarget.End();
 	//RenderTarget.Render();
-	Device.m_pSwapChain->Present(0, 0); // 0번 버퍼를 뿌린다.
+	DXDevice::m_pSwapChain->Present(0, 0); // 0번 버퍼를 뿌린다.
 	return true;
 }
 
@@ -160,7 +160,7 @@ bool BaseCore::ResizeDevice(int x, int y, int width, int height)
 		return false;
 	}
 
-	Device.Resize(x, y, width, height);
+	DXDevice::Resize(x, y, width, height);
 	return true;
 }
 
@@ -213,12 +213,12 @@ bool BaseCore::CoreRelease()
 	Release();
 	// initialize 역순으로 release 할 것!
 	FMODSoundManager::GetInstance()->Release();
-	DXTextureManager::GetInstance()->release();
+	DXTextureManager::GetInstance()->Release();
 	DXShaderManager::GetInstance()->Release();
 	DXSamplerState::Release();
 	Input::GetInstance()->release();
 	Timer::GetInstance()->Release();
-	Device.Release();
+	DXDevice::Release();
 
 	return true;
 }

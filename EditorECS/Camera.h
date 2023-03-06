@@ -3,9 +3,6 @@
 
 class Camera
 {
-protected:
-	ID3D11DeviceContext* Context;
-
 public:
 	DirectX::BoundingFrustum Frustum;
 
@@ -43,7 +40,4 @@ public:
 	void CreateViewMatrix(const Vector3& eye, const Vector3& target, const Vector3& up);
 	void CreateProjectionMatrix(float nearDist, float farDist, float fov, float aspectRatio);
 	void Update();
-
-public:
-	void SetContext(ID3D11DeviceContext* context);
 };

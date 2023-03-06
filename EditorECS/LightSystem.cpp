@@ -73,20 +73,15 @@ void LightSystem::Tick(ECS::World* world, float time)
 		Eye.Direction = Vector4(0.0f, 0.0f, 1.0f, 0.0f);
 	}
 
-	Context->UpdateSubresource(DirectionalLightBuffer, 0, NULL, &DirectionalLights, 0, 0);
-	Context->UpdateSubresource(PointLightBuffer, 0, NULL, &PointLights, 0, 0);
-	Context->UpdateSubresource(SpotLightBuffer, 0, NULL, &SpotLights, 0, 0);
-	Context->UpdateSubresource(EyeBuffer, 0, NULL, &Eye, 0, 0);
+	DXDevice::m_pImmediateContext->UpdateSubresource(DirectionalLightBuffer, 0, NULL, &DirectionalLights, 0, 0);
+	DXDevice::m_pImmediateContext->UpdateSubresource(PointLightBuffer, 0, NULL, &PointLights, 0, 0);
+	DXDevice::m_pImmediateContext->UpdateSubresource(SpotLightBuffer, 0, NULL, &SpotLights, 0, 0);
+	DXDevice::m_pImmediateContext->UpdateSubresource(EyeBuffer, 0, NULL, &Eye, 0, 0);
 
-	Context->PSSetConstantBuffers(0, 1, &DirectionalLightBuffer);
-	Context->PSSetConstantBuffers(1, 1, &PointLightBuffer);
-	Context->PSSetConstantBuffers(2, 1, &SpotLightBuffer);
-	Context->PSSetConstantBuffers(3, 1, &EyeBuffer);
-}
-
-void LightSystem::SetContext(ID3D11DeviceContext* context)
-{
-	Context = context;
+	DXDevice::m_pImmediateContext->PSSetConstantBuffers(0, 1, &DirectionalLightBuffer);
+	DXDevice::m_pImmediateContext->PSSetConstantBuffers(1, 1, &PointLightBuffer);
+	DXDevice::m_pImmediateContext->PSSetConstantBuffers(2, 1, &SpotLightBuffer);
+	DXDevice::m_pImmediateContext->PSSetConstantBuffers(3, 1, &EyeBuffer);
 }
 
 void LightSystem::Initialize()
@@ -95,5 +90,4 @@ void LightSystem::Initialize()
 	PointLightBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<PointLightData>(PointLights);
 	SpotLightBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<SpotLightData>(SpotLights);
 	EyeBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<EyeData>(Eye);
-
 }

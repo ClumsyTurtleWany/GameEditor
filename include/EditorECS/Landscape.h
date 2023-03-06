@@ -8,9 +8,6 @@
 
 class Landscape //: public ECS::Entity
 {
-private:
-	ID3D11DeviceContext* Context;
-
 public:
 	std::vector<LandscapeComponent> Components;
 	ID3D11InputLayout* VertexLayout = nullptr;
@@ -38,7 +35,6 @@ public:
 	void Build(int row, int column, int sectionSize);
 	void PreRender();
 	void Render();
-	void SetContext(ID3D11DeviceContext* context);
 	void SetCamera(Camera* camera);
 	void UpdateTransformMatrix(const TransformComponent& transform);
 	void SetSculptingData(Vector3 pos, float radius, float attenuation, float strength, float weight);

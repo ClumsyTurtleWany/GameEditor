@@ -104,8 +104,6 @@ void Landscape::Build(int row, int column, int sectionSize)
 					idx += 6;
 				}
 			}
-			component.SetContext(Context);
-
 			Components.push_back(component);
 		}
 	}
@@ -114,15 +112,15 @@ void Landscape::Build(int row, int column, int sectionSize)
 
 void Landscape::PreRender()
 {
-	Context->IASetInputLayout(VertexLayout);
-	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	Context->VSSetShader(VertexShader, NULL, 0);
-	Context->HSSetShader(HullShader, NULL, 0);
-	Context->DSSetShader(DomainShader, NULL, 0);
-	Context->GSSetShader(GeometryShader, NULL, 0);
-	Context->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
-	Context->VSSetConstantBuffers(0, 1, &TransformBuffer);
-	Context->RSSetState(DXSamplerState::pDefaultRSWireFrame);
+	DXDevice::m_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::m_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::m_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::m_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::m_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	DXDevice::m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::m_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSWireFrame);
 
 	for (auto& it : Components)
 	{
@@ -132,15 +130,15 @@ void Landscape::PreRender()
 
 void Landscape::Render()
 {
-	Context->IASetInputLayout(VertexLayout);
-	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	Context->VSSetShader(VertexShader, NULL, 0);
-	Context->HSSetShader(HullShader, NULL, 0);
-	Context->DSSetShader(DomainShader, NULL, 0);
-	Context->GSSetShader(GeometryShader, NULL, 0);
-	Context->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
-	Context->VSSetConstantBuffers(0, 1, &TransformBuffer);
-	Context->RSSetState(DXSamplerState::pDefaultRSSolid);
+	DXDevice::m_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::m_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::m_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::m_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::m_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	DXDevice::m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::m_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
 	
 	//UINT offset[1] = {0};
 	//Context->SOSetTargets(1, &StreamOutputBuffer, offset);
@@ -172,11 +170,6 @@ void Landscape::Render()
 
 	std::string debugStr = "Render Comp: " + std::to_string(intersectCompCnt) + ", Non Render Comp: " + std::to_string(nonRenderCompCnt) + "\n";
 	OutputDebugStringA(debugStr.c_str());
-}
-
-void Landscape::SetContext(ID3D11DeviceContext* context)
-{
-	Context = context;
 }
 
 //void Landscape::SetCamera(Camera* camera)

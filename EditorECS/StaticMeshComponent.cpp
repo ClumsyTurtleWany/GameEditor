@@ -16,14 +16,14 @@ bool StaticMeshComponent::Render()
 		Initialize();
 	}*/
 
-	Context->IASetInputLayout(VertexLayout);
-	Context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	Context->VSSetShader(VertexShader, NULL, 0);
-	Context->HSSetShader(HullShader, NULL, 0);
-	Context->DSSetShader(DomainShader, NULL, 0);
-	Context->GSSetShader(GeometryShader, NULL, 0);
-	Context->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
-	Context->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::m_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::m_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::m_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::m_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::m_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	DXDevice::m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::m_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
 
 	for (auto& it : Meshes)
 	{
@@ -53,9 +53,4 @@ void StaticMeshComponent::UpdateTransformMatrix(const TransformComponent& transf
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(transform.Rotation);
 	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, transform.Translation, q, transform.Translation);
 	TransformData.Mat = TransformData.Mat.Transpose();
-}
-
-void StaticMeshComponent::SetContext(ID3D11DeviceContext* context)
-{
-	Context = context;
 }

@@ -59,11 +59,6 @@ void Camera::CreateProjectionMatrix(float nearDist, float farDist, float fov, fl
 	Frustum = DirectX::BoundingFrustum(Projection);
 }
 
-void Camera::SetContext(ID3D11DeviceContext* context)
-{
-	Context = context;
-}
-
 void Camera::Update()
 {
 	Right.x = View._11;
@@ -85,6 +80,6 @@ void Camera::Update()
 	CameraMatrixData.View = View.Transpose();
 	CameraMatrixData.Projection = Projection.Transpose();
 
-	Context->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
-	Context->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
+	DXDevice::m_pImmediateContext->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
+	DXDevice::m_pImmediateContext->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
 }

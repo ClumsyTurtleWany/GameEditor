@@ -38,6 +38,9 @@
     <Filter Include="UserInterface">
       <UniqueIdentifier>{eb76f6da-f63a-46ac-a376-63599fa3709c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectX\HLSL\Compute">
+      <UniqueIdentifier>{ebdd17ff-6417-4df9-ac1a-79bc6f003f92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorCore.h">
@@ -121,6 +124,12 @@
     </FxCompile>
     <FxCompile Include="VS_UserInterface.hlsl">
       <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="CS_LandscapeSplatting.hlsl">
+      <Filter>DirectX\HLSL\Compute</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_Landscape.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

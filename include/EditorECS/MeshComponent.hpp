@@ -27,7 +27,6 @@ struct Face
 class MeshComponent
 {
 public:
-	ID3D11DeviceContext* Context;
 	std::vector<Vertex> Vertices;
 	std::vector<Face>	Faces;
 	std::vector<DWORD>	Indices;
@@ -45,12 +44,8 @@ public:
 public:
 	MeshComponent();
 	~MeshComponent();
-	
 
 public:
 	bool Render();
 	bool Initialize();
-
-public:
-	void SetContext(ID3D11DeviceContext* context) { Context = context; };
 };

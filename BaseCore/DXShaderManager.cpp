@@ -245,6 +245,43 @@ bool DXShaderManager::LoadPSCode(std::wstring filename, std::wstring key)
 	}
 }
 
+bool DXShaderManager::LoadCSCode(std::wstring filename, std::wstring key)
+{
+	ID3DBlob* pCSCode = GetPSCode(key);
+	if (pCSCode == nullptr)
+	{
+		HRESULT result;
+		ID3DBlob* pErrorCode = nullptr; // 
+		result = D3DCompileFromFile(
+			filename.c_str(), //"../../resource/shader/ShapeShader.txt", //"PixelShader.txt",
+			NULL, NULL,
+			"CS",
+			"cs_5_0",
+			0, 0,
+			&pCSCode,
+			&pErrorCode);
+
+		if (FAILED(result))
+		{
+			if (pErrorCode != nullptr) // 쉐이더 파일에서는 디버깅이 불가능 해서 Error Code 받아와서 처리하는게 좋음.
+			{
+				OutputDebugStringA((char*)pErrorCode->GetBufferPointer());
+				pErrorCode->Release();
+			}
+			return false;
+		}
+		else
+		{
+			ComputeShaderCodeMap.insert(std::make_pair(key, pCSCode));
+			return true;
+		}
+	}
+	else
+	{
+		return true;
+	}
+}
+
 bool DXShaderManager::CreateVertexShader(ID3DBlob* vsCode, std::wstring key)
 {
 	auto vs = GetVertexShader(key);
@@ -343,6 +380,162 @@ bool DXShaderManager::CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATIO
 		}
 		return true;		
 	}
+}
+
+bool DXShaderManager::CreateComputeShader(ID3DBlob* csCode, std::wstring key)
+{
+	auto cs = GetComputeShader(key);
+	if (cs != nullptr)
+	{
+		return true;
+	}
+	else
+	{
+		if (csCode == nullptr)
+		{
+			return false;
+		}
+
+		ID3D11ComputeShader* pComputeShader;
+		HRESULT result = m_pd3dDevice->CreateComputeShader(csCode->GetBufferPointer(), csCode->GetBufferSize(), NULL, &pComputeShader);
+
+		if (FAILED(result))
+		{
+			OutputDebugStringA("DXShaderManager::CreateComputeShader::Failed Create Compute Shader.\n");
+			return false;
+		}
+		else
+		{
+			ComputeShaderMap.insert(std::make_pair(key, pComputeShader));
+		}
+		return true;
+	}
+}
+
+bool DXShaderManager::CreateVertexShader(std::wstring filename, std::wstring key)
+{
+	auto vsCode = VertexShaderCodeMap.find(key);
+	if (vsCode != VertexShaderCodeMap.end())
+	{
+		auto vs = VertexShaderMap.find(key);
+		if (vs != VertexShaderMap.end())
+		{
+			return true;
+		}
+		else
+		{
+			if (!CreateVertexShader(vsCode->second, key))
+			{
+				OutputDebugStringA("DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.");
+				return false;
+			}
+		}
+	}
+	else
+	{
+		if (!LoadVSCode(filename, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreateVertexShader::Failed Load Vertex Shader Code.");
+			return false;
+		}
+
+		ID3DBlob* blob = GetVSCode(key);
+		if (!CreateVertexShader(blob, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreateVertexShader::Failed Create Vertex Shader.");
+			return false;
+		}
+	}
+	return true;
+}
+
+bool DXShaderManager::CreatePixelShader(std::wstring filename, std::wstring key)
+{
+	auto psCode = PixelShaderCodeMap.find(key);
+	if (psCode != PixelShaderCodeMap.end())
+	{
+		auto ps = PixelShaderMap.find(key);
+		if (ps != PixelShaderMap.end())
+		{
+			return true;
+		}
+		else
+		{
+			if (!CreatePixelShader(psCode->second, key))
+			{
+				OutputDebugStringA("DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.");
+				return false;
+			}
+		}
+	}
+	else
+	{
+		if (!LoadPSCode(filename, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreatePixelShader::Failed Load Pixel Shader Code.");
+			return false;
+		}
+
+		ID3DBlob* blob = GetPSCode(key);
+		if (!CreatePixelShader(blob, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreatePixelShader::Failed Create Pixel Shader.");
+			return false;
+		}
+	}
+	return true;
+}
+
+bool DXShaderManager::CreateHullShader(std::wstring filename, std::wstring key)
+{
+	return false;
+}
+
+bool DXShaderManager::CreateDomainShader(std::wstring filename, std::wstring key)
+{
+	return false;
+}
+
+bool DXShaderManager::CreateGeometryShader(std::wstring filename, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key)
+{
+	return false;
+}
+
+bool DXShaderManager::CreateComputeShader(std::wstring filename, std::wstring key)
+{
+	auto csCode = ComputeShaderCodeMap.find(key);
+	if (csCode != ComputeShaderCodeMap.end())
+	{
+		auto cs = ComputeShaderMap.find(key);
+		if (cs != ComputeShaderMap.end())
+		{
+			return true;
+		}
+		else
+		{
+			if (!CreateComputeShader(csCode->second, key))
+			{
+				OutputDebugStringA("DXShaderManager::CreateComputeShader::Failed Create Compute Shader.");
+				return false;
+			}
+		}
+	}
+	else
+	{
+		if (!LoadCSCode(filename, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreateComputeShader::Failed Load Compute Shader Code.");
+			return false;
+		}
+
+		ID3DBlob* blob = GetCSCode(key);
+		if (!CreateComputeShader(blob, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreateComputeShader::Failed Create Compute Shader.");
+			return false;
+		}
+	}
+	return true;
 }
 
 bool DXShaderManager::CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, std::wstring key)
@@ -533,6 +726,20 @@ ID3DBlob* DXShaderManager::GetPSCode(std::wstring key)
 	}
 }
 
+ID3DBlob* DXShaderManager::GetCSCode(std::wstring key)
+{
+	auto it = ComputeShaderCodeMap.find(key);
+	if (it != ComputeShaderCodeMap.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		OutputDebugStringA("DXShaderManager::GetCSCode::Failed Get Compute Shader Code.\n");
+		return nullptr;
+	}
+}
+
 ID3D11VertexShader* DXShaderManager::GetVertexShader(std::wstring key)
 {
 	auto it = VertexShaderMap.find(key);
@@ -598,7 +805,22 @@ ID3D11PixelShader* DXShaderManager::GetPixelShader(std::wstring key)
 	}
 	else
 	{
-		OutputDebugStringA("DXShaderManager::getPixelShader::Failed Get Pixel Shader.\n");
+		OutputDebugStringA("DXShaderManager::GetPixelShader::Failed Get Pixel Shader.\n");
+		return nullptr;
+	}
+}
+
+
+ID3D11ComputeShader* DXShaderManager::GetComputeShader(std::wstring key)
+{
+	auto it = ComputeShaderMap.find(key);
+	if (it != ComputeShaderMap.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		OutputDebugStringA("DXShaderManager::GetComputeShader::Failed Get Compute Shader.\n");
 		return nullptr;
 	}
 }

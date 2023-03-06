@@ -8,9 +8,6 @@
 
 class StaticMeshComponent
 {
-private:
-	ID3D11DeviceContext* Context;
-
 public:
 	std::vector<MeshComponent> Meshes;
 	ID3D11InputLayout*		VertexLayout = nullptr;
@@ -33,6 +30,5 @@ public:
 
 public:
 	void UpdateTransformMatrix(const TransformComponent& transform);
-	void SetContext(ID3D11DeviceContext* context);
 };
 

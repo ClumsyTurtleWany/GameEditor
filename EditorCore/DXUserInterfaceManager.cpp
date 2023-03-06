@@ -19,11 +19,11 @@ bool DXUserInterfaceManager::Frame()
 
 bool DXUserInterfaceManager::Render()
 {
-	Context->IASetInputLayout(InputLayout);
-	Context->VSSetShader(VertexShader, NULL, 0);
-	Context->HSSetShader(NULL, NULL, 0);
-	Context->DSSetShader(NULL, NULL, 0);
-	Context->GSSetShader(NULL, NULL, 0);
+	DXDevice::m_pImmediateContext->IASetInputLayout(InputLayout);
+	DXDevice::m_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::m_pImmediateContext->HSSetShader(NULL, NULL, 0);
+	DXDevice::m_pImmediateContext->DSSetShader(NULL, NULL, 0);
+	DXDevice::m_pImmediateContext->GSSetShader(NULL, NULL, 0);
 
 	for (auto& UI : UIList)
 	{
@@ -41,16 +41,6 @@ bool DXUserInterfaceManager::Release()
 	}
 
 	return true;
-}
-
-void DXUserInterfaceManager::SetContext(ID3D11DeviceContext* context)
-{
-	Context = context;
-}
-
-ID3D11DeviceContext* DXUserInterfaceManager::GetContext()
-{
-	return Context;
 }
 
 void DXUserInterfaceManager::AddUserInterface(DXUserInterface* ui)

@@ -1,7 +1,7 @@
 #include "DXTexture.hpp"
 
 
-void DXTexture::setDevice(ID3D11Device* _device, ID3D11DeviceContext* _context)
+void DXTexture::SetDevice(ID3D11Device* _device, ID3D11DeviceContext* _context)
 {
 	m_pd3dDevice = _device;
 	m_pImmediateContext = _context;
@@ -105,35 +105,61 @@ HRESULT DXTexture::LoadEX(std::wstring _filename)
 	return rst;
 }
 
-ID3D11Resource* DXTexture::getResource()
+ID3D11Texture2D* DXTexture::GetTexture2D()
 {
 	return m_pTextureResource;
 }
 
-ID3D11ShaderResourceView* DXTexture::getResourceView()
+ID3D11Resource* DXTexture::GetResource()
+{
+	return m_pTextureResource;
+}
+
+ID3D11ShaderResourceView* DXTexture::GetResourceView()
 {
 	return m_pTextureResourceView;
 }
 
-float DXTexture::getWidth()
+ID3D11UnorderedAccessView* DXTexture::GetUAV()
+{
+	return m_pTextureUAV;
+}
+
+float DXTexture::GetWidth()
 {
 	return static_cast<float>(m_Desc.Width);
 }
 
-float DXTexture::getHeight()
+float DXTexture::GetHeight()
 {
 	return static_cast<float>(m_Desc.Height);
 }
 
-std::wstring DXTexture::getFileName()
+std::wstring DXTexture::GetFileName()
 {
 	return m_wstrFileName;
 }
 
-std::vector<UINT>& DXTexture::getMappedResource()
+std::vector<UINT>& DXTexture::GetMappedResource()
 {
 	return MappedResourceData;
 	// TODO: 여기에 return 문을 삽입합니다.
+}
+
+void DXTexture::SetTexture2D(ID3D11Texture2D* texture)
+{
+	m_pTextureResource = texture;
+	m_pTextureResource->GetDesc(&m_Desc);
+}
+
+void DXTexture::SetSRV(ID3D11ShaderResourceView* srv)
+{
+	m_pTextureResourceView = srv;
+}
+
+void DXTexture::SetUAV(ID3D11UnorderedAccessView* uav)
+{
+	m_pTextureUAV = uav;
 }
 
 bool DXTexture::Release()

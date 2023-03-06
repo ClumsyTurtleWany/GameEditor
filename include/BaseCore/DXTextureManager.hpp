@@ -10,26 +10,31 @@ private:
 	ID3D11DeviceContext* m_pImmediateContext = nullptr;
 
 	std::map<std::wstring, DXTexture*> m_TextureList;
+	std::vector<DXTexture*>				m_AlphaTextureList;
+	std::vector<ID3D11ShaderResourceView*>			SRVList;
 
 private:
 	DXTextureManager() {};
-	~DXTextureManager() { release(); };
+	~DXTextureManager() { Release(); };
 
 public:
-	void setDevice(ID3D11Device* _device, ID3D11DeviceContext* _context);
+	void SetDevice(ID3D11Device* _device, ID3D11DeviceContext* _context);
 	bool Load(std::wstring _filename);
 	bool Load(std::string _filename);
 	bool Load(const char* _filename);
 
-	DXTexture* getTexture(std::wstring _filename);
-	DXTexture* getTexture(std::string _filename);
-	DXTexture* getTexture(const char* _filename);
+	DXTexture* GetTexture(std::wstring _filename);
+	DXTexture* GetTexture(std::string _filename);
+	DXTexture* GetTexture(const char* _filename);
 
-	ID3D11Texture2D* CreateAlphaTexture(int width, int height);
+	DXTexture* CreateAlphaTexture(int width, int height);
+	DXTexture* CreateTexture(DXTexture* texture);
+
+	ID3D11ShaderResourceView* CreateShaderResourceViewBuffer(ID3D11Buffer* buffer);
 	
 public:
-	bool initialize();
-	bool frame();
-	bool render();
-	bool release();
+	bool Initialize();
+	bool Frame();
+	bool Render();
+	bool Release();
 };

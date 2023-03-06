@@ -11,7 +11,6 @@ class BaseCore
 {
 protected:
 	HWND _hWnd;
-	DXDevice Device;
 
 public:
 	BaseCore();

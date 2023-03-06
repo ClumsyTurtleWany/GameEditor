@@ -6,7 +6,6 @@
 class LightSystem : public ECS::System
 {
 private:
-	ID3D11DeviceContext* Context;
 	DirectionalLightData DirectionalLights;
 	SpotLightData		SpotLights;
 	PointLightData		PointLights;
@@ -20,6 +19,5 @@ private:
 public:
 	virtual void Tick(ECS::World* world, float time) override;
 
-	void SetContext(ID3D11DeviceContext* context);
 	void Initialize();
 };

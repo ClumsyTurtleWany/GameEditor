@@ -4,6 +4,13 @@
 struct SplattingData
 {
 	Vector3 Position;
-	float Radius;
 	int Index;
+	int DispatchX;
+	int DispatchY;
+	float Radius;
+	float Strength;
+	Vector3 MinVertex;
+	Vector3 MaxVertex;
+	//float TextureWidth;
+	//float TextureHeight;
 };

@@ -1,5 +1,16 @@
 #include "DXDevice.hpp"
 
+
+ID3D11Device*			DXDevice::m_pd3dDevice = nullptr;
+ID3D11DeviceContext*	DXDevice::m_pImmediateContext = nullptr;
+IDXGIFactory*			DXDevice::m_pGIFactory = nullptr;
+IDXGISwapChain*			DXDevice::m_pSwapChain = nullptr;
+ID3D11RenderTargetView* DXDevice::m_pRTV = nullptr;
+ID3D11Texture2D*		DXDevice::m_pDSTexture = nullptr;
+ID3D11DepthStencilView* DXDevice::m_pDepthStencilView = nullptr;
+D3D11_VIEWPORT			DXDevice::m_ViewPort;
+HWND					DXDevice::m_hWnd = NULL;
+
 bool DXDevice::Create(HWND hWnd)
 {
 	m_hWnd = hWnd;
@@ -175,21 +186,6 @@ bool DXDevice::Release()
 	}
 
 	return true;
-}
-
-ID3D11Device* DXDevice::GetDevice()
-{
-	return m_pd3dDevice;
-}
-
-ID3D11DeviceContext* DXDevice::GetContext()
-{
-	return m_pImmediateContext;
-}
-
-IDXGISwapChain* DXDevice::GetSwapChain()
-{
-	return m_pSwapChain;
 }
 
 HRESULT DXDevice::CreateDevice()
