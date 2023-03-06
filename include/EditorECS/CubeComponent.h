@@ -8,3 +8,13 @@ public:
 	~CubeComponent();
 
 };
+
+inline CubeComponent::CubeComponent()
+{
+
+}
+
+inline CubeComponent::~CubeComponent()
+{
+
+}

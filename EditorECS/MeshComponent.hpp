@@ -48,4 +48,7 @@ public:
 public:
 	bool Render();
 	bool Initialize();
+
+public:
+	void SetMaterial(Material* material);
 };

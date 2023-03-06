@@ -546,7 +546,7 @@ bool DXShaderManager::CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DE
 	}
 
 	ID3D11InputLayout* pInputLayout = nullptr;
-	UINT NumElements = sizeof(desc) / sizeof(desc[0]);
+	UINT NumElements = sizeof(*desc) / sizeof(desc[0]);
 	HRESULT result = m_pd3dDevice->CreateInputLayout(desc, NumElements, vsCode->GetBufferPointer(), vsCode->GetBufferSize(), &pInputLayout);
 	if (FAILED(result))
 	{

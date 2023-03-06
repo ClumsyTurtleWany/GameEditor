@@ -62,9 +62,14 @@ bool MeshComponent::Initialize()
 		DXTexture* DefaultTexture = DXTextureManager::GetInstance()->GetTexture(L"../resource/Default.bmp");
 		MaterialSlot->SetDiffuseTexture(DefaultTexture);
 	}
-	MaterialSlot->SetPixelShader(DXShaderManager::GetInstance()->GetPixelShader(L"../include/Core/HLSL/PS_Light.hlsl"));
+	MaterialSlot->SetPixelShader(DXShaderManager::GetInstance()->GetPixelShader(L"Light"));
 
 	isCreated = true;
 
 	return true;
+}
+
+void MeshComponent::SetMaterial(Material* material)
+{
+	MaterialSlot = material;
 }
