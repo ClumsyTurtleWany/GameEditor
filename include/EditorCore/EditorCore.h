@@ -17,4 +17,6 @@ protected:
 	bool CreateInputLayout();
 	bool CreateVertexShader();
 	bool CreatePixelShader();
+	bool CreateComputeShader();
+	bool CreateGeometryShader();
 };

@@ -351,7 +351,7 @@ bool DXShaderManager::CreateDomainShader(ID3DBlob* dsCode, std::wstring key)
 	return true;
 }
 
-bool DXShaderManager::CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key)
+bool DXShaderManager::CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, UINT elementsNum, std::wstring key)
 {
 	auto gs = GetGeometryShader(key);
 	if (gs != nullptr)
@@ -367,7 +367,7 @@ bool DXShaderManager::CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATIO
 
 		ID3D11GeometryShader* pGeometryShader;
 		UINT entrySize = sizeof(decl);
-		HRESULT result = m_pd3dDevice->CreateGeometryShaderWithStreamOutput(gsCode->GetBufferPointer(), gsCode->GetBufferSize(), decl, sizeof(decl), NULL, 0, D3D11_SO_NO_RASTERIZED_STREAM, NULL, &pGeometryShader);
+		HRESULT result = m_pd3dDevice->CreateGeometryShaderWithStreamOutput(gsCode->GetBufferPointer(), gsCode->GetBufferSize(), decl, elementsNum, NULL, 0, D3D11_SO_NO_RASTERIZED_STREAM, NULL, &pGeometryShader);
 
 		if (FAILED(result))
 		{
@@ -488,17 +488,17 @@ bool DXShaderManager::CreatePixelShader(std::wstring filename, std::wstring key)
 
 bool DXShaderManager::CreateHullShader(std::wstring filename, std::wstring key)
 {
-	return false;
+	return true;
 }
 
 bool DXShaderManager::CreateDomainShader(std::wstring filename, std::wstring key)
 {
-	return false;
+	return true;
 }
 
-bool DXShaderManager::CreateGeometryShader(std::wstring filename, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key)
+bool DXShaderManager::CreateGeometryShader(std::wstring filename, D3D11_SO_DECLARATION_ENTRY* decl, UINT elementsNum, std::wstring key)
 {
-	return false;
+	return true;
 }
 
 bool DXShaderManager::CreateComputeShader(std::wstring filename, std::wstring key)
@@ -538,7 +538,7 @@ bool DXShaderManager::CreateComputeShader(std::wstring filename, std::wstring ke
 	return true;
 }
 
-bool DXShaderManager::CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, std::wstring key)
+bool DXShaderManager::CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, UINT elementsNum, std::wstring key)
 {
 	if (vsCode == nullptr || desc == nullptr)
 	{
@@ -546,8 +546,8 @@ bool DXShaderManager::CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DE
 	}
 
 	ID3D11InputLayout* pInputLayout = nullptr;
-	UINT NumElements = sizeof(*desc) / sizeof(desc[0]);
-	HRESULT result = m_pd3dDevice->CreateInputLayout(desc, NumElements, vsCode->GetBufferPointer(), vsCode->GetBufferSize(), &pInputLayout);
+	UINT NumElements = sizeof(desc) / sizeof(desc[0]);
+	HRESULT result = m_pd3dDevice->CreateInputLayout(desc, elementsNum, vsCode->GetBufferPointer(), vsCode->GetBufferSize(), &pInputLayout);
 	if (FAILED(result))
 	{
 		OutputDebugStringA("DXShaderManager::CreateInputLayout::Failed Create Input Layout.\n");

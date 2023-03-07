@@ -44,17 +44,17 @@ public:
 	bool CreatePixelShader(ID3DBlob* psCode, std::wstring key);
 	bool CreateHullShader(ID3DBlob* hsCode, std::wstring key);
 	bool CreateDomainShader(ID3DBlob* dsCode, std::wstring key);
-	bool CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key);
+	bool CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, UINT elementsNum, std::wstring key);
 	bool CreateComputeShader(ID3DBlob* csCode, std::wstring key);
 
 	bool CreateVertexShader(std::wstring filename, std::wstring key);
 	bool CreatePixelShader(std::wstring filename, std::wstring key);
 	bool CreateHullShader(std::wstring filename, std::wstring key);
 	bool CreateDomainShader(std::wstring filename, std::wstring key);
-	bool CreateGeometryShader(std::wstring filename, D3D11_SO_DECLARATION_ENTRY* decl, std::wstring key);
+	bool CreateGeometryShader(std::wstring filename, D3D11_SO_DECLARATION_ENTRY* decl, UINT elementsNum, std::wstring key);
 	bool CreateComputeShader(std::wstring filename, std::wstring key);
 
-	bool CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, std::wstring key);
+	bool CreateInputLayout(ID3DBlob* vsCode, D3D11_INPUT_ELEMENT_DESC* desc, UINT elementsNum, std::wstring key);
 
 public:
 	template <typename T>

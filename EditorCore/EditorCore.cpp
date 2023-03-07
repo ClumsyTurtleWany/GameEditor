@@ -19,15 +19,23 @@ bool EditorCore::Initialize()
 
     if (!CreateVertexShader())
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader Failed Create Vertex Shader.");
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.");
+        return false;
+    }
+
+    if (!CreatePixelShader())
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.");
         return false;
     }
 
     if (!CreateInputLayout())
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateInputLayout Failed Create Input Layout.");
+        OutputDebugString(L"EditorCore::Initialize::CreateInputLayout::Failed Create Input Layout.");
         return false;
     }
+
+
 
     return true;
 }
@@ -63,7 +71,8 @@ bool EditorCore::CreateInputLayout()
         {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
         {"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0} // 28 == float * 28 // Vertex의 Texture 시작 바이트.
     };
-    DXShaderManager::GetInstance()->CreateInputLayout(staticMeshVSCode, staticMeshInputDescs, L"StaticMesh");
+    UINT staticMeshInputElementNum = sizeof(staticMeshInputDescs) / sizeof(staticMeshInputDescs[0]);
+    DXShaderManager::GetInstance()->CreateInputLayout(staticMeshVSCode, staticMeshInputDescs, staticMeshInputElementNum, L"StaticMesh");
    
     ID3DBlob* skeletalMeshVSCode = DXShaderManager::GetInstance()->GetVSCode(L"SkeletalMesh");
     D3D11_INPUT_ELEMENT_DESC skeletalMeshInputDescs[] =
@@ -76,7 +85,8 @@ bool EditorCore::CreateInputLayout()
         {"INDEX", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_VERTEX_DATA, 0},
     };
-    DXShaderManager::GetInstance()->CreateInputLayout(skeletalMeshVSCode, skeletalMeshInputDescs, L"SkeletalMesh");
+    UINT skeletalMeshInputElementNum = sizeof(skeletalMeshInputDescs) / sizeof(skeletalMeshInputDescs[0]);
+    DXShaderManager::GetInstance()->CreateInputLayout(skeletalMeshVSCode, skeletalMeshInputDescs, skeletalMeshInputElementNum, L"SkeletalMesh");
     
 
     return true;
@@ -109,5 +119,19 @@ bool EditorCore::CreatePixelShader()
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Landscape.hlsl)");
     }
 
+    return true;
+}
+
+bool EditorCore::CreateComputeShader()
+{
+    if (!DXShaderManager::GetInstance()->CreateComputeShader(L"../include/EditorCore/CS_LandscapeSplatting.hlsl", L"Splatting"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateComputeShader::Failed Create Compute Shader.(../include/EditorCore/CS_LandscapeSplatting.hlsl).");
+    }
+    return true;
+}
+
+bool EditorCore::CreateGeometryShader()
+{
     return true;
 }

@@ -7,9 +7,6 @@ private:
 	friend class DXUserInterfaceManager;
 
 protected:
-	ID3D11DeviceContext* Context = nullptr;
-
-protected:
 	virtual bool Initialize() = 0;
 	virtual bool Frame() = 0;
 	virtual bool Render() = 0;
