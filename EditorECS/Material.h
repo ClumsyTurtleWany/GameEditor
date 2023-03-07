@@ -42,12 +42,12 @@ inline Material::~Material()
 
 inline bool Material::Apply()
 {
-	DXDevice::m_pImmediateContext->PSSetShader(PixelShader, NULL, 0);
+	DXDevice::g_pImmediateContext->PSSetShader(PixelShader, NULL, 0);
 
 	if (DiffuseTexture != nullptr)
 	{
 		ID3D11ShaderResourceView* resourceView = DiffuseTexture->GetResourceView();
-		DXDevice::m_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
+		DXDevice::g_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
 	}
 
 	return true;

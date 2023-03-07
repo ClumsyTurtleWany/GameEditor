@@ -19,11 +19,11 @@ bool DXUserInterfaceManager::Frame()
 
 bool DXUserInterfaceManager::Render()
 {
-	DXDevice::m_pImmediateContext->IASetInputLayout(InputLayout);
-	DXDevice::m_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
-	DXDevice::m_pImmediateContext->HSSetShader(NULL, NULL, 0);
-	DXDevice::m_pImmediateContext->DSSetShader(NULL, NULL, 0);
-	DXDevice::m_pImmediateContext->GSSetShader(NULL, NULL, 0);
+	DXDevice::g_pImmediateContext->IASetInputLayout(InputLayout);
+	DXDevice::g_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::g_pImmediateContext->HSSetShader(NULL, NULL, 0);
+	DXDevice::g_pImmediateContext->DSSetShader(NULL, NULL, 0);
+	DXDevice::g_pImmediateContext->GSSetShader(NULL, NULL, 0);
 
 	for (auto& UI : UIList)
 	{

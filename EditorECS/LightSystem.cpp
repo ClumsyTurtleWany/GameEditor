@@ -72,26 +72,26 @@ void LightSystem::Tick(ECS::World* world, float time)
 
 		if (DirectionalLightBuffer != nullptr)
 		{
-			DXDevice::m_pImmediateContext->UpdateSubresource(DirectionalLightBuffer, 0, NULL, &DirectionalLights, 0, 0);
-			DXDevice::m_pImmediateContext->PSSetConstantBuffers(0, 1, &DirectionalLightBuffer);
+			DXDevice::g_pImmediateContext->UpdateSubresource(DirectionalLightBuffer, 0, NULL, &DirectionalLights, 0, 0);
+			DXDevice::g_pImmediateContext->PSSetConstantBuffers(0, 1, &DirectionalLightBuffer);
 		}
 
 		if (PointLightBuffer != nullptr)
 		{
-			DXDevice::m_pImmediateContext->UpdateSubresource(PointLightBuffer, 0, NULL, &PointLights, 0, 0);
-			DXDevice::m_pImmediateContext->PSSetConstantBuffers(1, 1, &PointLightBuffer);
+			DXDevice::g_pImmediateContext->UpdateSubresource(PointLightBuffer, 0, NULL, &PointLights, 0, 0);
+			DXDevice::g_pImmediateContext->PSSetConstantBuffers(1, 1, &PointLightBuffer);
 		}
 
 		if (SpotLightBuffer != nullptr)
 		{
-			DXDevice::m_pImmediateContext->UpdateSubresource(SpotLightBuffer, 0, NULL, &SpotLights, 0, 0);
-			DXDevice::m_pImmediateContext->PSSetConstantBuffers(2, 1, &SpotLightBuffer);
+			DXDevice::g_pImmediateContext->UpdateSubresource(SpotLightBuffer, 0, NULL, &SpotLights, 0, 0);
+			DXDevice::g_pImmediateContext->PSSetConstantBuffers(2, 1, &SpotLightBuffer);
 		}
 
 		if (EyeBuffer != nullptr)
 		{
-			DXDevice::m_pImmediateContext->UpdateSubresource(EyeBuffer, 0, NULL, &Eye, 0, 0);
-			DXDevice::m_pImmediateContext->PSSetConstantBuffers(3, 1, &EyeBuffer);
+			DXDevice::g_pImmediateContext->UpdateSubresource(EyeBuffer, 0, NULL, &Eye, 0, 0);
+			DXDevice::g_pImmediateContext->PSSetConstantBuffers(3, 1, &EyeBuffer);
 		}
 	}
 }

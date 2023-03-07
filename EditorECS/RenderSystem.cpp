@@ -11,10 +11,10 @@
 void RenderSystem::Tick(ECS::World* world, float time)
 {
 	ID3D11RasterizerState* pOldRSState;
-	DXDevice::m_pImmediateContext->RSGetState(&pOldRSState);
-	DXDevice::m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
-	DXDevice::m_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
-	DXDevice::m_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
+	DXDevice::g_pImmediateContext->RSGetState(&pOldRSState);
+	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
+	DXDevice::g_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
+	DXDevice::g_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
 
 	for (auto& entity : world->GetEntities<Landscape>())
 	{
@@ -45,7 +45,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	DXDevice::m_pImmediateContext->RSSetState(pOldRSState);
+	DXDevice::g_pImmediateContext->RSSetState(pOldRSState);
 	if (pOldRSState != nullptr)
 	{
 		pOldRSState->Release();

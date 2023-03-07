@@ -1,19 +1,19 @@
 #include "DXDevice.hpp"
 
 
-ID3D11Device*			DXDevice::m_pd3dDevice = nullptr;
-ID3D11DeviceContext*	DXDevice::m_pImmediateContext = nullptr;
-IDXGIFactory*			DXDevice::m_pGIFactory = nullptr;
-IDXGISwapChain*			DXDevice::m_pSwapChain = nullptr;
-ID3D11RenderTargetView* DXDevice::m_pRTV = nullptr;
-ID3D11Texture2D*		DXDevice::m_pDSTexture = nullptr;
-ID3D11DepthStencilView* DXDevice::m_pDepthStencilView = nullptr;
-D3D11_VIEWPORT			DXDevice::m_ViewPort;
-HWND					DXDevice::m_hWnd = NULL;
+ID3D11Device*			DXDevice::g_pd3dDevice = nullptr;
+ID3D11DeviceContext*	DXDevice::g_pImmediateContext = nullptr;
+IDXGIFactory*			DXDevice::g_pGIFactory = nullptr;
+IDXGISwapChain*			DXDevice::g_pSwapChain = nullptr;
+ID3D11RenderTargetView* DXDevice::g_pRTV = nullptr;
+ID3D11Texture2D*		DXDevice::g_pDSTexture = nullptr;
+ID3D11DepthStencilView* DXDevice::g_pDepthStencilView = nullptr;
+D3D11_VIEWPORT			DXDevice::g_ViewPort;
+HWND					DXDevice::g_hWnd = NULL;
 
 bool DXDevice::Create(HWND hWnd)
 {
-	m_hWnd = hWnd;
+	g_hWnd = hWnd;
 
 	//////////////////////////////////////////////////////////////////////
 	// 0) 팩토리 생성, 원래는 2번에서 생성 했으나 먼저 생성해도 무관하고, Full Screen 막기 위한 Adapter 생성에 먼저 필요.
@@ -47,7 +47,7 @@ bool DXDevice::Create(HWND hWnd)
 	// 3) 스왑체인 생성
 	//////////////////////////////////////////////////////////////////////
 	RECT rc;
-	GetClientRect(m_hWnd, &rc);
+	GetClientRect(g_hWnd, &rc);
 	int width = rc.right - rc.left;
 	int height = rc.bottom - rc.top;
 	if (FAILED(CreateSwapChain(width, height)))
@@ -82,31 +82,31 @@ bool DXDevice::Create(HWND hWnd)
 
 bool DXDevice::Resize(int x, int y, int width, int height)
 {
-	if (m_pd3dDevice == nullptr)
+	if (g_pd3dDevice == nullptr)
 	{
 		return false;
 	}
 
-	m_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
-	m_pRTV->Release();
-	m_pRTV = nullptr;
+	g_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
+	g_pRTV->Release();
+	g_pRTV = nullptr;
 
 	// Release Depth Stencil View
-	m_pDepthStencilView->Release();
-	m_pDepthStencilView = nullptr;
+	g_pDepthStencilView->Release();
+	g_pDepthStencilView = nullptr;
 
-	m_pDSTexture->Release();
-	m_pDSTexture = nullptr;
+	g_pDSTexture->Release();
+	g_pDSTexture = nullptr;
 
 	//m_pSwapChain->Release();
 	//m_pSwapChain = nullptr;
 
 	// 변경된 윈도우의 크기를 얻고 백 버퍼의 크기를 재 조정.
 	DXGI_SWAP_CHAIN_DESC desc;
-	m_pSwapChain->GetDesc(&desc);
+	g_pSwapChain->GetDesc(&desc);
 	desc.BufferDesc.Width = width; // 클라이언트 Width // 클라이언트 크기보다 작게 만들면 안됨.
 	desc.BufferDesc.Height = height; // 클라이언트 Height
-	HRESULT rst = m_pSwapChain->ResizeBuffers(desc.BufferCount, desc.BufferDesc.Width, desc.BufferDesc.Height, desc.BufferDesc.Format, 0);
+	HRESULT rst = g_pSwapChain->ResizeBuffers(desc.BufferCount, desc.BufferDesc.Width, desc.BufferDesc.Height, desc.BufferDesc.Format, 0);
 	if (FAILED(rst))
 	{
 		return false;
@@ -132,7 +132,7 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 	{
 		return false;
 	}
-	m_pImmediateContext->OMSetRenderTargets(1, &m_pRTV, m_pDepthStencilView);
+	g_pImmediateContext->OMSetRenderTargets(1, &g_pRTV, g_pDepthStencilView);
 
 	// 뷰포트 재 지정.
 	CreateViewPort(x, y, width, height);
@@ -142,47 +142,47 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 
 bool DXDevice::Release()
 {
-	if (m_pDepthStencilView != nullptr)
+	if (g_pDepthStencilView != nullptr)
 	{
-		m_pDepthStencilView->Release();
-		m_pDepthStencilView = nullptr;
+		g_pDepthStencilView->Release();
+		g_pDepthStencilView = nullptr;
 	}
 
-	if (m_pDSTexture != nullptr)
+	if (g_pDSTexture != nullptr)
 	{
-		m_pDSTexture->Release();
-		m_pDSTexture = nullptr;
+		g_pDSTexture->Release();
+		g_pDSTexture = nullptr;
 	}
 
-	if (m_pRTV != nullptr)
+	if (g_pRTV != nullptr)
 	{
-		m_pRTV->Release();
-		m_pRTV = nullptr;
+		g_pRTV->Release();
+		g_pRTV = nullptr;
 	}
 
-	if (m_pSwapChain != nullptr)
+	if (g_pSwapChain != nullptr)
 	{
-		m_pSwapChain->Release();
-		m_pSwapChain = nullptr;
+		g_pSwapChain->Release();
+		g_pSwapChain = nullptr;
 	}
 
-	if (m_pGIFactory != nullptr)
+	if (g_pGIFactory != nullptr)
 	{
-		m_pGIFactory->Release();
-		m_pGIFactory = nullptr;
+		g_pGIFactory->Release();
+		g_pGIFactory = nullptr;
 	}
 
-	if (m_pImmediateContext != nullptr)
+	if (g_pImmediateContext != nullptr)
 	{
-		m_pImmediateContext->ClearState();
-		m_pImmediateContext->Release();
-		m_pImmediateContext = nullptr;
+		g_pImmediateContext->ClearState();
+		g_pImmediateContext->Release();
+		g_pImmediateContext = nullptr;
 	}
 
-	if (m_pd3dDevice != nullptr)
+	if (g_pd3dDevice != nullptr)
 	{
-		m_pd3dDevice->Release();
-		m_pd3dDevice = nullptr;
+		g_pd3dDevice->Release();
+		g_pd3dDevice = nullptr;
 	}
 
 	return true;
@@ -217,7 +217,7 @@ HRESULT DXDevice::CreateDevice()
 #endif 
 	//rst = D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, 0, pFeatureLevels, 1, D3D11_SDK_VERSION, &m_pd3dDevice, pFeatureLevel, &m_pImmediateContext); // 디바이스 생성
 
-	return D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, pFeatureLevels, 1, D3D11_SDK_VERSION, &m_pd3dDevice, &pFeatureLevel, &m_pImmediateContext);
+	return D3D11CreateDevice(nullptr, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, pFeatureLevels, 1, D3D11_SDK_VERSION, &g_pd3dDevice, &pFeatureLevel, &g_pImmediateContext);
 }
 
 HRESULT DXDevice::CreateFactory()
@@ -230,7 +230,7 @@ HRESULT DXDevice::CreateFactory()
 	// 일반적인 놈이라면 CreateDXGIFactory(IDXGIFactory, (void**)&m_pGIFactory) 로 생성 했겠지만 (new IDXGIFactory 하는 것 처럼)
 	// COM(Component Object Model) 에서는 CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&m_pGIFactory) 처럼 사용 해야됨.
 
-	return CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&m_pGIFactory);
+	return CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&g_pGIFactory);
 }
 
 HRESULT DXDevice::CreateSwapChain(int width, int height)
@@ -273,7 +273,7 @@ HRESULT DXDevice::CreateSwapChain(int width, int height)
 	Desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
 	// HWND OutputWindow;
-	Desc.OutputWindow = m_hWnd; // 해당 윈도우에 출력
+	Desc.OutputWindow = g_hWnd; // 해당 윈도우에 출력
 
 	// DXGI_SAMPLE_DESC SampleDesc;
 	// 샘플링할 수(신호 및 시스템, 연속적인 시간그래프를 시분할 하여 잘게 쪼게는 것, 1로 나누면 아무 것도 안한 것과 같다.)
@@ -293,7 +293,7 @@ HRESULT DXDevice::CreateSwapChain(int width, int height)
 	// DXGI_SWAP_EFFECT_SEQUENTIAL = 1 : Present 호출 시 백 버퍼 내용 보존
 	// 플래그는 멀티 샘플링과 함께 사용 불가!
 
-	return m_pGIFactory->CreateSwapChain(m_pd3dDevice, &Desc, &m_pSwapChain);
+	return g_pGIFactory->CreateSwapChain(g_pd3dDevice, &Desc, &g_pSwapChain);
 }
 
 HRESULT DXDevice::CreateRenderTargetView()
@@ -304,10 +304,10 @@ HRESULT DXDevice::CreateRenderTargetView()
 	HRESULT rst;
 
 	ID3D11Texture2D* pBackBuffer = nullptr;
-	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer); // 위에서 만든 0번 버퍼를 가져옴. 복사본이 오는 것임.
+	g_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBackBuffer); // 위에서 만든 0번 버퍼를 가져옴. 복사본이 오는 것임.
 	if (pBackBuffer != nullptr)
 	{
-		rst = m_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pRTV);
+		rst = g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_pRTV);
 		pBackBuffer->Release(); // 복사본 릴리즈
 		return rst;
 	}
@@ -320,14 +320,14 @@ void DXDevice::CreateViewPort(int x, int y, int width, int height)
 	//////////////////////////////////////////////////////////////////////
 	// 5) 뷰 포트 설정
 	//////////////////////////////////////////////////////////////////////
-	m_ViewPort.Width = static_cast<float>(width);
-	m_ViewPort.Height = static_cast<float>(height);
-	m_ViewPort.TopLeftX = static_cast<float>(x);
-	m_ViewPort.TopLeftY = static_cast<float>(y);
-	m_ViewPort.MaxDepth = 1.0f;
-	m_ViewPort.MinDepth = 0.0f;
+	g_ViewPort.Width = static_cast<float>(width);
+	g_ViewPort.Height = static_cast<float>(height);
+	g_ViewPort.TopLeftX = static_cast<float>(x);
+	g_ViewPort.TopLeftY = static_cast<float>(y);
+	g_ViewPort.MaxDepth = 1.0f;
+	g_ViewPort.MinDepth = 0.0f;
 
-	m_pImmediateContext->RSSetViewports(1, &m_ViewPort);
+	g_pImmediateContext->RSSetViewports(1, &g_ViewPort);
 }
 
 HRESULT DXDevice::CreateDepthStencilView()
@@ -343,7 +343,7 @@ HRESULT DXDevice::CreateDepthStencilView()
 	ZeroMemory(&desc, sizeof(desc));
 
 	DXGI_SWAP_CHAIN_DESC refDesc;
-	m_pSwapChain->GetDesc(&refDesc);
+	g_pSwapChain->GetDesc(&refDesc);
 
 	desc.Width = refDesc.BufferDesc.Width;
 	desc.Height = refDesc.BufferDesc.Height;
@@ -356,7 +356,7 @@ HRESULT DXDevice::CreateDepthStencilView()
 	desc.BindFlags = D3D11_BIND_DEPTH_STENCIL; // 중요! 어디에 적용 할 것인지 정하는 것.
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
-	HRESULT rst = m_pd3dDevice->CreateTexture2D(&desc, NULL, &m_pDSTexture);
+	HRESULT rst = g_pd3dDevice->CreateTexture2D(&desc, NULL, &g_pDSTexture);
 	if (FAILED(rst))
 	{
 		return rst;
@@ -369,7 +369,7 @@ HRESULT DXDevice::CreateDepthStencilView()
 	DSdesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	DSdesc.Flags = 0;
 
-	rst = m_pd3dDevice->CreateDepthStencilView(m_pDSTexture, &DSdesc, &m_pDepthStencilView);
+	rst = g_pd3dDevice->CreateDepthStencilView(g_pDSTexture, &DSdesc, &g_pDepthStencilView);
 	if (FAILED(rst))
 	{
 		return rst;

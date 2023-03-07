@@ -80,6 +80,6 @@ void Camera::Update()
 	CameraMatrixData.View = View.Transpose();
 	CameraMatrixData.Projection = Projection.Transpose();
 
-	DXDevice::m_pImmediateContext->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
-	DXDevice::m_pImmediateContext->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
+	DXDevice::g_pImmediateContext->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
 }

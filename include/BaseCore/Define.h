@@ -71,5 +71,3 @@ template <class T>
 T* Singleton<T>::instance = nullptr;
 
 static const double PI = 3.141592;
-
-extern ID3D11DeviceContext* g_Context;

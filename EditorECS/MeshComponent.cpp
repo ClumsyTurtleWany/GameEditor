@@ -23,20 +23,20 @@ bool MeshComponent::Render()
 
 	UINT Strides = sizeof(Vertex); // 정점 1개의 바이트 용량
 	UINT Offsets = 0; // 정점 버퍼에서 출발 지점(바이트)
-	DXDevice::m_pImmediateContext->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
-	DXDevice::m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
+	DXDevice::g_pImmediateContext->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
+	DXDevice::g_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
 
 	MaterialSlot->Apply();
 
 	if (IndexBuffer == nullptr)
 	{
-		DXDevice::m_pImmediateContext->Draw(static_cast<UINT>(Vertices.size()), 0);
+		DXDevice::g_pImmediateContext->Draw(static_cast<UINT>(Vertices.size()), 0);
 	}
 	else
 	{
-		DXDevice::m_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-		DXDevice::m_pImmediateContext->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
-		DXDevice::m_pImmediateContext->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
+		DXDevice::g_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+		DXDevice::g_pImmediateContext->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
+		DXDevice::g_pImmediateContext->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
 	}
 
 	//ID3D11ShaderResourceView* resourceView = NULL;

@@ -80,7 +80,7 @@ bool SampleCore::Initialize()
 	// 8. 액터에 카메라 추가.
 	DebugCamera = actor->AddComponent<Camera>();
 	DebugCamera->CreateViewMatrix(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	DebugCamera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (DXDevice::m_ViewPort.Width) / (DXDevice::m_ViewPort.Height));
+	DebugCamera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 	// 9. 메인 월드에 액터 추가.
 	MainWorld.AddEntity(actor);

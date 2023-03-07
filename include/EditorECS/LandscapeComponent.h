@@ -47,21 +47,21 @@ public:
 
 		UINT Strides = sizeof(Vertex); // 정점 1개의 바이트 용량
 		UINT Offsets = 0; // 정점 버퍼에서 출발 지점(바이트)
-		DXDevice::m_pImmediateContext->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
-		DXDevice::m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
+		DXDevice::g_pImmediateContext->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
+		DXDevice::g_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
 
 		ID3D11ShaderResourceView* pSRV = CopyTexture->GetResourceView();
-		DXDevice::m_pImmediateContext->PSSetShaderResources(5, 1, &pSRV);
+		DXDevice::g_pImmediateContext->PSSetShaderResources(5, 1, &pSRV);
 
 		if (IndexBuffer == nullptr)
 		{
-			DXDevice::m_pImmediateContext->Draw(static_cast<UINT>(Vertices.size()), 0);
+			DXDevice::g_pImmediateContext->Draw(static_cast<UINT>(Vertices.size()), 0);
 		}
 		else
 		{
-			DXDevice::m_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-			DXDevice::m_pImmediateContext->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
-			DXDevice::m_pImmediateContext->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
+			DXDevice::g_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+			DXDevice::g_pImmediateContext->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
+			DXDevice::g_pImmediateContext->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
 		}
 
 		return true;
@@ -82,7 +82,7 @@ public:
 		AlphaTexture = DXTextureManager::GetInstance()->CreateAlphaTexture(1024, 1024);
 		CopyTexture = DXTextureManager::GetInstance()->CreateTexture(AlphaTexture);
 
-		DXDevice::m_pImmediateContext->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
+		DXDevice::g_pImmediateContext->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
 
 		isCreated = true;
 
@@ -91,7 +91,7 @@ public:
 
 	void SetContext(ID3D11DeviceContext* context)
 	{
-		DXDevice::m_pImmediateContext = context;
+		DXDevice::g_pImmediateContext = context;
 	}
 
 	void Splatting(Vector3 pos, float radius, int idx, float strength)
@@ -107,17 +107,17 @@ public:
 		SplattingInfo.MinVertex = MinVertex;
 		SplattingInfo.MaxVertex = MaxVertex;
 
-		DXDevice::m_pImmediateContext->UpdateSubresource(StructuredBuffer, 0, NULL, &SplattingInfo, 0, 0);
+		DXDevice::g_pImmediateContext->UpdateSubresource(StructuredBuffer, 0, NULL, &SplattingInfo, 0, 0);
 
-		DXDevice::m_pImmediateContext->CSSetShader(ComputeShader, NULL, 0);
+		DXDevice::g_pImmediateContext->CSSetShader(ComputeShader, NULL, 0);
 		ID3D11ShaderResourceView* pTextureSRV = BaseTexture->GetResourceView();
-		DXDevice::m_pImmediateContext->CSSetShaderResources(0, 1, &pTextureSRV);
+		DXDevice::g_pImmediateContext->CSSetShaderResources(0, 1, &pTextureSRV);
 		ID3D11ShaderResourceView* pCopySRV = CopyTexture->GetResourceView();
-		DXDevice::m_pImmediateContext->CSSetShaderResources(1, 1, &pCopySRV);
-		DXDevice::m_pImmediateContext->CSSetShaderResources(2, 1, &StructuredBufferSRV);
+		DXDevice::g_pImmediateContext->CSSetShaderResources(1, 1, &pCopySRV);
+		DXDevice::g_pImmediateContext->CSSetShaderResources(2, 1, &StructuredBufferSRV);
 
 		ID3D11UnorderedAccessView* pUAV = AlphaTexture->GetUAV();
-		DXDevice::m_pImmediateContext->CSSetUnorderedAccessViews(0, 1, &pUAV, NULL);
+		DXDevice::g_pImmediateContext->CSSetUnorderedAccessViews(0, 1, &pUAV, NULL);
 
 		// Dispatch(x, y, z)
 		// x: column
@@ -131,16 +131,16 @@ public:
 		// SV_DispatchThreadID = (2, 1, 0) * (10, 8, 3) + (7, 5, 0) = (27, 13, 0)
 		// SV_GroupIndex = 0 * 10 * 8 + 5 * 10 + 7 = 57
 		// x * y * z는 최대 1024를 넘으면 안됨. 보통 2차원 배열 기준 32 * 32 * 1 사용
-		DXDevice::m_pImmediateContext->Dispatch(SplattingInfo.DispatchX, SplattingInfo.DispatchY, 1);
+		DXDevice::g_pImmediateContext->Dispatch(SplattingInfo.DispatchX, SplattingInfo.DispatchY, 1);
 
 		// clear
-		DXDevice::m_pImmediateContext->CSSetShader(nullptr, nullptr, 0);
+		DXDevice::g_pImmediateContext->CSSetShader(nullptr, nullptr, 0);
 		ID3D11UnorderedAccessView* pNullUAV = nullptr;
-		DXDevice::m_pImmediateContext->CSSetUnorderedAccessViews(0, 1, &pNullUAV, NULL);
+		DXDevice::g_pImmediateContext->CSSetUnorderedAccessViews(0, 1, &pNullUAV, NULL);
 		ID3D11ShaderResourceView* pNullSRV[2] = { nullptr, nullptr };
-		DXDevice::m_pImmediateContext->CSSetShaderResources(0, 2, pNullSRV);
+		DXDevice::g_pImmediateContext->CSSetShaderResources(0, 2, pNullSRV);
 
-		DXDevice::m_pImmediateContext->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
+		DXDevice::g_pImmediateContext->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
 	}
 
 };

@@ -94,11 +94,11 @@ bool DXButton::Frame()
 
 bool DXButton::Render()
 {
-    DXDevice::m_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
+    DXDevice::g_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
     
     UINT strides = sizeof(Vertex);
     UINT offsets = 0;
-    DXDevice::m_pImmediateContext->IAGetVertexBuffers(0, 1, &VertexBuffer, &strides, &offsets);
+    DXDevice::g_pImmediateContext->IAGetVertexBuffers(0, 1, &VertexBuffer, &strides, &offsets);
 
     if (CurrentState == ButtonState::Normal)
     {
@@ -128,17 +128,17 @@ bool DXButton::Render()
     if (RenderImage != nullptr)
     {
         ID3D11ShaderResourceView* resourceView = RenderImage->GetResourceView();
-        DXDevice::m_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
+        DXDevice::g_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
 
-        DXDevice::m_pImmediateContext->PSSetShader(TexturedPS, NULL, 0);
+        DXDevice::g_pImmediateContext->PSSetShader(TexturedPS, NULL, 0);
     }
     else
     {
-        DXDevice::m_pImmediateContext->PSSetShader(NonTexturedPS, NULL, 0);
+        DXDevice::g_pImmediateContext->PSSetShader(NonTexturedPS, NULL, 0);
     }
 
-    DXDevice::m_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
-    DXDevice::m_pImmediateContext->DrawIndexed(static_cast<UINT>(Indecies.size()), 0, 0);
+    DXDevice::g_pImmediateContext->IASetIndexBuffer(IndexBuffer, DXGI_FORMAT_R32_UINT, 0);
+    DXDevice::g_pImmediateContext->DrawIndexed(static_cast<UINT>(Indecies.size()), 0, 0);
 
     return true;
 }

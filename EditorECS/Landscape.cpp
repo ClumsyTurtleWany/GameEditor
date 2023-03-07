@@ -112,15 +112,15 @@ void Landscape::Build(int row, int column, int sectionSize)
 
 void Landscape::PreRender()
 {
-	DXDevice::m_pImmediateContext->IASetInputLayout(VertexLayout);
-	DXDevice::m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	DXDevice::m_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
-	DXDevice::m_pImmediateContext->HSSetShader(HullShader, NULL, 0);
-	DXDevice::m_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
-	DXDevice::m_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
-	DXDevice::m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
-	DXDevice::m_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
-	DXDevice::m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSWireFrame);
+	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::g_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::g_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::g_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSWireFrame);
 
 	for (auto& it : Components)
 	{
@@ -130,15 +130,15 @@ void Landscape::PreRender()
 
 void Landscape::Render()
 {
-	DXDevice::m_pImmediateContext->IASetInputLayout(VertexLayout);
-	DXDevice::m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	DXDevice::m_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
-	DXDevice::m_pImmediateContext->HSSetShader(HullShader, NULL, 0);
-	DXDevice::m_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
-	DXDevice::m_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
-	DXDevice::m_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
-	DXDevice::m_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
-	DXDevice::m_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
+	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::g_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::g_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::g_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
 	
 	//UINT offset[1] = {0};
 	//Context->SOSetTargets(1, &StreamOutputBuffer, offset);
