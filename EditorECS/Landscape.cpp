@@ -207,6 +207,7 @@ void Landscape::UpdateTransformMatrix(const TransformComponent& transform)
 {
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(transform.Rotation);
 	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, Vector3(0.0f, 0.0f, 0.0f), q, transform.Translation);
+	TransformData.InversedMat = DirectX::XMMatrixInverse(0, TransformData.Mat);
 	TransformData.Mat = TransformData.Mat.Transpose();
 }
 

@@ -25,6 +25,8 @@ bool StaticMeshComponent::Render()
 	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
 
+	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
+
 	for (auto& it : Meshes)
 	{
 		it.Render();
@@ -52,5 +54,6 @@ void StaticMeshComponent::UpdateTransformMatrix(const TransformComponent& transf
 {
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(transform.Rotation);
 	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, transform.Translation, q, transform.Translation);
+	TransformData.InversedMat = DirectX::XMMatrixInverse(0, TransformData.Mat);
 	TransformData.Mat = TransformData.Mat.Transpose();
 }

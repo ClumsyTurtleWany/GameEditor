@@ -73,6 +73,9 @@
     <ClInclude Include="SplattingData.h">
       <Filter>DirectX\ConstantData</Filter>
     </ClInclude>
+    <ClInclude Include="PNCTT.h">
+      <Filter>DirectX\InputLayout</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditorCore.cpp">
@@ -115,6 +118,9 @@
     </FxCompile>
     <FxCompile Include="VS_NormalMapStaticMesh.hlsl">
       <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_NormalMap.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

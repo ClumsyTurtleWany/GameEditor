@@ -4,6 +4,8 @@
 #include "PlaneComponent.h"
 #include "CameraSystem.h"
 #include "RenderSystem.h"
+#include "LightSystem.h"
+#include "DirectionalLight.h"
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -64,9 +66,22 @@ bool SampleCore::Initialize()
 		material->SetDiffuseTexture(texture);
 	}
 
+	DXTexture* normalMaptexture = nullptr;
+	if (DXTextureManager::GetInstance()->Load(L"../resource/NormalMap/normal1.bmp"))
+	{
+		normalMaptexture = DXTextureManager::GetInstance()->GetTexture(L"../resource/NormalMap/normal1.bmp");
+	}
+	if (normalMaptexture != nullptr)
+	{
+		material->SetNormalTexture(normalMaptexture);
+	}
+
+
+
 	// 5. 평면 메쉬 생성 후 머테리얼 세팅. 
 	PlaneComponent* plane = new PlaneComponent;
 	plane->SetMaterial(material);
+	plane->CalcTangent();
 
 	// 6. 스태틱 메쉬에 평면 메쉬 추가.
 	comp->Meshes.push_back(*plane);
@@ -85,7 +100,16 @@ bool SampleCore::Initialize()
 	// 9. 메인 월드에 액터 추가.
 	MainWorld.AddEntity(actor);
 
+	DirectionalLight* light = new DirectionalLight;
+	auto lightComp = light->GetComponent<DirectionalLightComponent>();
+	lightComp->Color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+	lightComp->Direction = Vector4(0.0f, -1.0f, 1.0f, 1.0f);
+	MainWorld.AddEntity(light);
+
 	// 10. 카메라 시스템 및 랜더링 시스템 추가.
+	LightSystem* lightSystem = new LightSystem;
+	lightSystem->Initialize();
+	MainWorld.AddSystem(lightSystem);
 	MainWorld.AddSystem(new CameraSystem);
 	MainWorld.AddSystem(new RenderSystem);
 

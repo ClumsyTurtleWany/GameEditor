@@ -4,4 +4,5 @@
 struct TransformMatrix
 {
 	Matrix Mat;
+	Matrix InversedMat;
 };

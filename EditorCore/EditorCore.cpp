@@ -55,17 +55,24 @@ bool EditorCore::Release()
 
 bool EditorCore::CreateInputLayout()
 {
+    //------------------------------------------------------------------------------------
+    // Static Mesh Input Layout
+    //------------------------------------------------------------------------------------
     ID3DBlob* staticMeshVSCode = DXShaderManager::GetInstance()->GetVSCode(L"StaticMesh");
     D3D11_INPUT_ELEMENT_DESC staticMeshInputDescs[] =
     {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
-        {"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0} // 28 == float * 28 // Vertex의 Texture 시작 바이트.
+        {"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 28 == float * 28 // Vertex의 Texture 시작 바이트.
+        {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
     UINT staticMeshInputElementNum = sizeof(staticMeshInputDescs) / sizeof(staticMeshInputDescs[0]);
     DXShaderManager::GetInstance()->CreateInputLayout(staticMeshVSCode, staticMeshInputDescs, staticMeshInputElementNum, L"StaticMesh");
    
+    //------------------------------------------------------------------------------------
+    // Skeletal Mesh Input Layout
+    //------------------------------------------------------------------------------------
     ID3DBlob* skeletalMeshVSCode = DXShaderManager::GetInstance()->GetVSCode(L"SkeletalMesh");
     D3D11_INPUT_ELEMENT_DESC skeletalMeshInputDescs[] =
     {
@@ -80,12 +87,27 @@ bool EditorCore::CreateInputLayout()
     UINT skeletalMeshInputElementNum = sizeof(skeletalMeshInputDescs) / sizeof(skeletalMeshInputDescs[0]);
     DXShaderManager::GetInstance()->CreateInputLayout(skeletalMeshVSCode, skeletalMeshInputDescs, skeletalMeshInputElementNum, L"SkeletalMesh");
     
+    ////------------------------------------------------------------------------------------
+    //// Normal Map Static Mesh Input Layout
+    ////------------------------------------------------------------------------------------
+    //ID3DBlob* normalMapStaticMeshVSCode = DXShaderManager::GetInstance()->GetVSCode(L"NormalMapStaticMesh");
+    //D3D11_INPUT_ELEMENT_DESC normalMapStaticMeshInputDescs[] =
+    //{
+    //    {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+    //    {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+    //    {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
+    //    {"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 28 == float * 28 // Vertex의 Texture 시작 바이트.
+    //    {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0}
+    //};
+    //UINT normalMapStaticMeshInputElementNum = sizeof(normalMapStaticMeshInputDescs) / sizeof(normalMapStaticMeshInputDescs[0]);
+    //DXShaderManager::GetInstance()->CreateInputLayout(normalMapStaticMeshVSCode, normalMapStaticMeshInputDescs, normalMapStaticMeshInputElementNum, L"NormalMapStaticMesh");
+
     return true;
 }
 
 bool EditorCore::CreateVertexShader()
 {
-    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_StaticMesh.hlsl", L"StaticMesh"))
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_NormalMapStaticMesh.hlsl", L"StaticMesh"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_StaticMesh.hlsl).");
     }
@@ -100,12 +122,17 @@ bool EditorCore::CreateVertexShader()
         OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_UserInterface.hlsl)");
     }
 
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_NormalMapStaticMesh.hlsl", L"NormalMapStaticMesh"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_NormalMapStaticMesh.hlsl)");
+    }
+
     return true;
 }
 
 bool EditorCore::CreatePixelShader()
 {
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Light.hlsl", L"Light"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_NormalMap.hlsl", L"Light"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Light.hlsl)");
     }

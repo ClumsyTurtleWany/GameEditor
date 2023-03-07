@@ -7,6 +7,7 @@ struct VertexShader_input
 	float3 n : NORMAL;
 	float4 c : COLOR;
 	float2 t : TEXTURE;
+	float3 tangent : TANGENT;
 };
 
 //----------------------------------------------
@@ -18,20 +19,10 @@ struct VertexShader_output
 	float3 n	: NORMAL;
 	float4 c	: COLOR0; // COLOR0 과 COLOR1 밖에 없음.
 	float2 t	: TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
-	float3 Tan	: TANGENT;
-	float4 vWorld : TEXCOORD1;
+	float3 tangent : TEXCOORD1;
+	float4 vWorld : TEXCOORD2;
+	matrix inversedWorld : TEXCOORD3;
 };
-
-//struct VertexShader_output
-//{
-//	float4 p : SV_POSITION;
-//	float3 n : NORMAL;
-//	float4 c : COLOR0; // COLOR0 과 COLOR1 밖에 없음.
-//	float2 t : TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
-//	float4x4 world : TEXCOORD1;
-//	float4x4 view : TEXCOORD5;
-//	float4x4 proj : TEXCOORD9;
-//};
 
 //----------------------------------------------
 // Constant Buffer
@@ -42,7 +33,8 @@ struct VertexShader_output
 // packoffset 을 해주지 않아도 기본적으로 c0부터 시작하나 붙여주는게 좋음
 cbuffer TransformData : register(b0)
 {
-	matrix g_WorldTransform : packoffset(c0); 
+	matrix g_WorldTransform : packoffset(c0);
+	matrix g_InversedWorldTransform : packoffset(c4);
 }
 
 cbuffer CameraMatrixData : register(b1)
@@ -50,12 +42,6 @@ cbuffer CameraMatrixData : register(b1)
 	matrix g_View : packoffset(c0);
 	matrix g_Projection : packoffset(c4);
 }
-
-//cbuffer LightData : register(b2)
-//{
-//	float4 g_LightDirection : packoffset(c12);
-//	float4 g_LightColor : packoffset(c13);
-//}
 
 VertexShader_output VS(VertexShader_input input)
 {
@@ -71,17 +57,9 @@ VertexShader_output VS(VertexShader_input input)
 	output.n = input.n;
 	output.c = input.c;
 	output.t = input.t;
-
+	output.tangent = input.tangent;
 	output.vWorld = vWorld;
-	
-	//float3 vLight = float3(1.0f, 1.0f, 1.0f);//g_LightColor.xyz; // 이런식으로 사용 가능
-	//float fdot = max(0.3f, dot(output.n, -vLight));// 내적값이 0이면 좋지 않음. 최소한의 값을 사용하여 윤곽이 살짝 보이게 하는것을 엠비언트 조명이라 함.
-	//output.lightColor = float4(fdot, fdot, fdot, 1.0f);
-	//output.light = vLight;
-
-	//output.world = g_WorldTransform;
-	//output.view = g_View;
-	//output.proj = g_Projection;
+	output.inversedWorld = g_InversedWorldTransform;
 
 	return output;
 }

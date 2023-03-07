@@ -50,6 +50,12 @@ inline bool Material::Apply()
 		DXDevice::g_pImmediateContext->PSSetShaderResources(0, 1, &resourceView);
 	}
 
+	if (NormalTexture != nullptr)
+	{
+		ID3D11ShaderResourceView* resourceView = NormalTexture->GetResourceView();
+		DXDevice::g_pImmediateContext->PSSetShaderResources(1, 1, &resourceView);
+	}
+
 	return true;
 }
 
