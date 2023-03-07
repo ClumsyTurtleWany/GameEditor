@@ -113,5 +113,8 @@
     <FxCompile Include="PS_Landscape.hlsl">
       <Filter>DirectX\HLSL\Pixel</Filter>
     </FxCompile>
+    <FxCompile Include="VS_NormalMapStaticMesh.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

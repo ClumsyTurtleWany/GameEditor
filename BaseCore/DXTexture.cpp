@@ -176,6 +176,12 @@ bool DXTexture::Release()
 		m_pTextureResource = nullptr;
 	}
 
+	if (m_pTextureUAV != nullptr)
+	{
+		m_pTextureUAV->Release();
+		m_pTextureUAV = nullptr;
+	}
+
 	return true;
 }
 

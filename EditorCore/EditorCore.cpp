@@ -22,12 +22,17 @@ bool EditorCore::Initialize()
         return false;
     }
 
+    if (!CreateComputeShader())
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateComputeShader::Failed Create Compute Shader.");
+        return false;
+    }
+
     if (!CreateInputLayout())
     {
         OutputDebugString(L"EditorCore::Initialize::CreateInputLayout::Failed Create Input Layout.");
         return false;
     }
-
 
 
     return true;

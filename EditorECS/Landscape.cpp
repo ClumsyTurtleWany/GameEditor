@@ -14,7 +14,7 @@ Landscape::~Landscape()
 
 }
 
-void Landscape::Build(int row, int column, int sectionSize)
+void Landscape::Build(int column, int row, int sectionSize)
 {
 	Components.clear();
 	for (int compRow = 0; compRow < row; compRow++)
@@ -50,6 +50,14 @@ void Landscape::Build(int row, int column, int sectionSize)
 					Vector2 texture = Vector2(u, v);
 					component.Vertices[idx] = Vertex(pos, normal, color, texture);
 					//component.Vertices.push_back(Vertex(pos, normal, color, texture));
+					if (sectRow == 0 && sectCol == 0)
+					{
+						component.MinVertex = pos;
+					}
+					else if (sectRow == sectionSize && sectCol == sectionSize)
+					{
+						component.MaxVertex = pos;
+					}
 				}
 			}
 
@@ -104,6 +112,8 @@ void Landscape::Build(int row, int column, int sectionSize)
 					idx += 6;
 				}
 			}
+			component.BaseTexture = BaseTexture;
+			component.Initialize();
 			Components.push_back(component);
 		}
 	}
@@ -133,16 +143,22 @@ void Landscape::Render()
 	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
 	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	DXDevice::g_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::g_pImmediateContext->PSSetShader(PixelShader, NULL, 0);
 	DXDevice::g_pImmediateContext->HSSetShader(HullShader, NULL, 0);
 	DXDevice::g_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
 	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
 	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
 	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
-	
-	//UINT offset[1] = {0};
-	//Context->SOSetTargets(1, &StreamOutputBuffer, offset);
 
+	ID3D11ShaderResourceView* pSRV = BaseTexture->GetResourceView();
+	DXDevice::g_pImmediateContext->PSSetShaderResources(0, 1, &pSRV);
+	int layerTextureSize = min(LayerTextureList.size(), 4);
+	for (int idx = 0; idx < layerTextureSize; idx++)
+	{
+		ID3D11ShaderResourceView* pLayerSRV = LayerTextureList[idx]->GetResourceView();
+		DXDevice::g_pImmediateContext->PSSetShaderResources(idx + 1, 1, &pLayerSRV);
+	}
 
 	int intersectCompCnt = 0;
 	int nonRenderCompCnt = 0;
@@ -172,10 +188,20 @@ void Landscape::Render()
 	OutputDebugStringA(debugStr.c_str());
 }
 
-//void Landscape::SetCamera(Camera* camera)
-//{
-//	MainCamera = camera;
-//}
+void Landscape::SetCamera(Camera* camera)
+{
+	MainCamera = camera;
+}
+
+void Landscape::SetBaseTexture(DXTexture* texture)
+{
+	BaseTexture = texture;
+}
+
+void Landscape::AddLayerTexture(DXTexture* texture)
+{
+	LayerTextureList.push_back(texture);
+}
 
 void Landscape::UpdateTransformMatrix(const TransformComponent& transform)
 {
@@ -197,9 +223,18 @@ bool Landscape::Initialize()
 {
 	VertexLayout = DXShaderManager::GetInstance()->GetInputLayout(L"StaticMesh");
 	VertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"StaticMesh");
+	PixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"Light");
 	TransformBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
-	//StreamOutputBuffer = DXShaderManager::GetInstance()->CreateStreamOutputBuffer();
-	//SculptingBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<SculptingData>(SculptData);
+	if (DXTextureManager::GetInstance()->Load(L"../resource/Default.bmp"))
+	{
+		BaseTexture = DXTextureManager::GetInstance()->GetTexture(L"../resource/Default.bmp");
+	}
+
+	LayerTextureList.resize(4);
+	LayerTextureList[0] = BaseTexture;
+	LayerTextureList[1] = BaseTexture;
+	LayerTextureList[2] = BaseTexture;
+	LayerTextureList[3] = BaseTexture;
 
 	return true;
 }

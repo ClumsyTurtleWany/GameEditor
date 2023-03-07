@@ -1,4 +1,5 @@
 #include "WindowsClient.h"
+#include "DXDevice.hpp"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -33,7 +34,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;*/
 	case WM_SIZE:
 	{
-		
+		if (DXDevice::g_hWnd != NULL)
+		{
+			RECT rc;
+			GetClientRect(hWnd, &rc);
+			DXDevice::Resize(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+		}
 	}
 	break;
 	case WM_DESTROY:

@@ -84,8 +84,11 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 {
 	if (g_pd3dDevice == nullptr)
 	{
+		OutputDebugString(L"DXDevice::Resize::Device is NULL.");
 		return false;
 	}
+
+	g_pImmediateContext->ClearState();
 
 	g_pImmediateContext->OMSetRenderTargets(0, nullptr, NULL);
 	g_pRTV->Release();
@@ -104,13 +107,17 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 	// 변경된 윈도우의 크기를 얻고 백 버퍼의 크기를 재 조정.
 	DXGI_SWAP_CHAIN_DESC desc;
 	g_pSwapChain->GetDesc(&desc);
-	desc.BufferDesc.Width = width; // 클라이언트 Width // 클라이언트 크기보다 작게 만들면 안됨.
-	desc.BufferDesc.Height = height; // 클라이언트 Height
-	HRESULT rst = g_pSwapChain->ResizeBuffers(desc.BufferCount, desc.BufferDesc.Width, desc.BufferDesc.Height, desc.BufferDesc.Format, 0);
+	//desc.BufferDesc.Width = width; // 클라이언트 Width // 클라이언트 크기보다 작게 만들면 안됨.
+	//desc.BufferDesc.Height = height; // 클라이언트 Height
+	HRESULT rst = g_pSwapChain->ResizeBuffers(desc.BufferCount, width, height, desc.BufferDesc.Format, 0);
 	if (FAILED(rst))
 	{
+		OutputDebugString(L"DXDevice::Resize::Failed Resize Buffer.");
 		return false;
 	}
+
+	DXGI_SWAP_CHAIN_DESC desc2;
+	g_pSwapChain->GetDesc(&desc2);
 
 	/*HRESULT rst = CreateSwapChain(width, height);
 	if (FAILED(rst))
@@ -122,6 +129,7 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 	rst = CreateRenderTargetView();
 	if (FAILED(rst))
 	{
+		OutputDebugString(L"DXDevice::Resize::Failed Create Render Target View.");
 		return false;
 	}
 
@@ -130,6 +138,7 @@ bool DXDevice::Resize(int x, int y, int width, int height)
 	rst = CreateDepthStencilView();
 	if (FAILED(rst))
 	{
+		OutputDebugString(L"DXDevice::Resize::Failed Create Depth Stencil View.");
 		return false;
 	}
 	g_pImmediateContext->OMSetRenderTargets(1, &g_pRTV, g_pDepthStencilView);

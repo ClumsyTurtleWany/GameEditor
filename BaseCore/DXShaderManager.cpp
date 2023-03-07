@@ -872,6 +872,14 @@ bool DXShaderManager::Release()
 	}
 	GeometryShaderCodeMap.clear();
 
+	for (auto& it : ComputeShaderCodeMap)
+	{
+		ID3DBlob* pCSCode = it.second;
+		pCSCode->Release();
+		pCSCode = nullptr;
+	}
+	ComputeShaderCodeMap.clear();
+
 	for (auto& it : VertexShaderMap)
 	{
 		ID3D11VertexShader* pVS = it.second;
@@ -912,12 +920,19 @@ bool DXShaderManager::Release()
 	}
 	GeometryShaderMap.clear();
 
+	for (auto& it : ComputeShaderMap)
+	{
+		ID3D11ComputeShader* pCS = it.second;
+		pCS->Release();
+		pCS = nullptr;
+	}
+	ComputeShaderMap.clear();
+
 	for (auto& it : BufferList)
 	{
 		it->Release();
 	}
 	BufferList.clear();
-
 
 	for (auto& it : InputLayoutMap)
 	{

@@ -299,8 +299,24 @@ bool DXTextureManager::Release()
 
 	for (auto& it : m_AlphaTextureList)
 	{
-		delete it;
+		DXTexture* pTexture = it;
+		if (pTexture != nullptr)
+		{
+			pTexture->Release();
+			delete pTexture;
+		}
 	}
+	m_AlphaTextureList.clear();
+
+	for (auto& it : SRVList)
+	{
+		ID3D11ShaderResourceView* pSRV = it;
+		if (pSRV != nullptr)
+		{
+			pSRV->Release();
+		}
+	}
+	SRVList.clear();
 
 	return true;
 }

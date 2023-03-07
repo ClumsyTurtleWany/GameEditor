@@ -74,7 +74,7 @@ public:
 			return true;
 		}
 
-		ComputeShader = DXShaderManager::GetInstance()->GetComputeShader(L"../include/Core/HLSL/CS_LandscapeSplatting.hlsl");
+		ComputeShader = DXShaderManager::GetInstance()->GetComputeShader(L"Splatting");
 		VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
 		IndexBuffer = DXShaderManager::GetInstance()->CreateIndexBuffer(Indices);
 		StructuredBuffer = DXShaderManager::GetInstance()->CreateStructuredBuffer<SplattingData>(SplattingInfo);
