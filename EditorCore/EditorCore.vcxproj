@@ -22,10 +22,7 @@
     <ClInclude Include="BindPoseAnimationData.h" />
     <ClInclude Include="CameraMatrix.h" />
     <ClInclude Include="Define.h" />
-    <ClInclude Include="DXButton.h" />
     <ClInclude Include="DXRenderTarget.hpp" />
-    <ClInclude Include="DXUserInterface.h" />
-    <ClInclude Include="DXUserInterfaceManager.h" />
     <ClInclude Include="EditorCore.h" />
     <ClInclude Include="IWData.h" />
     <ClInclude Include="LightData.h" />
@@ -35,9 +32,7 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DXButton.cpp" />
     <ClCompile Include="DXRenderTarget.cpp" />
-    <ClCompile Include="DXUserInterfaceManager.cpp" />
     <ClCompile Include="EditorCore.cpp" />
   </ItemGroup>
   <ItemGroup>

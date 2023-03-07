@@ -35,9 +35,6 @@
     <Filter Include="Common">
       <UniqueIdentifier>{d7836ca3-d38c-4e5b-b054-9825578b5673}</UniqueIdentifier>
     </Filter>
-    <Filter Include="UserInterface">
-      <UniqueIdentifier>{eb76f6da-f63a-46ac-a376-63599fa3709c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DirectX\HLSL\Compute">
       <UniqueIdentifier>{ebdd17ff-6417-4df9-ac1a-79bc6f003f92}</UniqueIdentifier>
     </Filter>
@@ -73,15 +70,6 @@
     <ClInclude Include="Define.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="DXButton.h">
-      <Filter>UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="DXUserInterface.h">
-      <Filter>UserInterface</Filter>
-    </ClInclude>
-    <ClInclude Include="DXUserInterfaceManager.h">
-      <Filter>UserInterface</Filter>
-    </ClInclude>
     <ClInclude Include="SplattingData.h">
       <Filter>DirectX\ConstantData</Filter>
     </ClInclude>
@@ -92,12 +80,6 @@
     </ClCompile>
     <ClCompile Include="DXRenderTarget.cpp">
       <Filter>DirectX\RenderTarget</Filter>
-    </ClCompile>
-    <ClCompile Include="DXButton.cpp">
-      <Filter>UserInterface</Filter>
-    </ClCompile>
-    <ClCompile Include="DXUserInterfaceManager.cpp">
-      <Filter>UserInterface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

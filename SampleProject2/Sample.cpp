@@ -94,12 +94,15 @@ bool SampleCore::Initialize()
 
 bool SampleCore::Frame()
 {
+	EditorCore::Frame();
 
 	return true;
 }
 
 bool SampleCore::Render()
 {
+	EditorCore::Render();
+
 	float dt = Timer::GetInstance()->SecondPerFrame;
 	MainWorld.Tick(dt);
 	return true;
@@ -107,5 +110,5 @@ bool SampleCore::Render()
 
 bool SampleCore::Release()
 {
-	return true;
+	return EditorCore::Release();
 }

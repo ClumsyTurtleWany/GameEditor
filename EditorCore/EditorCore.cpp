@@ -1,5 +1,4 @@
 #include "EditorCore.h"
-#include "DXUserInterfaceManager.h"
 
 EditorCore::EditorCore()
 {
@@ -11,12 +10,6 @@ EditorCore::~EditorCore()
 
 bool EditorCore::Initialize()
 {
-    if (!DXUserInterfaceManager::GetInstance()->Initialize())
-    {
-        OutputDebugString(L"EditorCore::Initialize::DXUserInterfaceManager Failed Initialize.");
-        return false;
-    }
-
     if (!CreateVertexShader())
     {
         OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.");
@@ -42,22 +35,16 @@ bool EditorCore::Initialize()
 
 bool EditorCore::Frame()
 {
-    DXUserInterfaceManager::GetInstance()->Frame();
-
     return true;
 }
 
 bool EditorCore::Render()
 {
-    DXUserInterfaceManager::GetInstance()->Render();
-
     return true;
 }
 
 bool EditorCore::Release()
 {
-    DXUserInterfaceManager::GetInstance()->Release();
-
     return true;
 }
 
@@ -88,7 +75,6 @@ bool EditorCore::CreateInputLayout()
     UINT skeletalMeshInputElementNum = sizeof(skeletalMeshInputDescs) / sizeof(skeletalMeshInputDescs[0]);
     DXShaderManager::GetInstance()->CreateInputLayout(skeletalMeshVSCode, skeletalMeshInputDescs, skeletalMeshInputElementNum, L"SkeletalMesh");
     
-
     return true;
 }
 
@@ -104,6 +90,11 @@ bool EditorCore::CreateVertexShader()
         OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_SkeletalMesh.hlsl)");
     }
 
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_UserInterface.hlsl", L"UI"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_UserInterface.hlsl)");
+    }
+
     return true;
 }
 
@@ -117,6 +108,16 @@ bool EditorCore::CreatePixelShader()
     if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Landscape.hlsl", L"Landscape"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Landscape.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_TexturedUI.hlsl", L"T_UI"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_TexturedUI.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_NonTexturedUI.hlsl", L"NT_UI"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_NonTexturedUI.hlsl)");
     }
 
     return true;
