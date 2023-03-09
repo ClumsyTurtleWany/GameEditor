@@ -122,5 +122,8 @@
     <FxCompile Include="PS_NormalMap.hlsl">
       <Filter>DirectX\HLSL\Pixel</Filter>
     </FxCompile>
+    <FxCompile Include="VS_Sky.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

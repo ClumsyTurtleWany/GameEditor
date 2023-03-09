@@ -7,6 +7,7 @@
 #include "TransformComponent.h"
 #include "Landscape.h"
 //#include "DebugCamera.h"
+#include "SkyBoxComponent.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {
@@ -15,8 +16,9 @@ void RenderSystem::Tick(ECS::World* world, float time)
 	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
 	DXDevice::g_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
 	DXDevice::g_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
+	DXDevice::g_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
 
-	for (auto& entity : world->GetEntities<Landscape>())
+	for (auto& entity : world->GetEntities<Landscape, TransformComponent>())
 	{
 		auto landscape = entity->GetComponent<Landscape>();
 		auto transform = entity->GetComponent<TransformComponent>();
@@ -33,7 +35,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 	}
 
-	for (auto& entity : world->GetEntities<StaticMeshComponent>())
+	for (auto& entity : world->GetEntities<StaticMeshComponent, TransformComponent>())
 	{
 		auto staticMesh = entity->GetComponent<StaticMeshComponent>();
 		auto transform = entity->GetComponent<TransformComponent>();
@@ -42,6 +44,37 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		{
 			staticMesh->UpdateTransformMatrix(*transform);
 			staticMesh->Render();
+		}
+	}
+
+	Camera* mainCamera = nullptr;
+	for (auto& ent : world->GetEntities<Camera>())
+	{
+		mainCamera = ent->GetComponent<Camera>();
+	}
+
+	//DXDevice::g_pImmediateContext->OMSetDepthStencilState(nullptr, 0xff);
+	for (auto& entity : world->GetEntities<SkyBoxComponent>())
+	{
+		/*auto skyBox = entity->GetComponent<SkyBoxComponent>();
+		auto transform = entity->GetComponent<TransformComponent>();
+
+		if ((skyBox != nullptr) && (transform != nullptr))
+		{
+			skyBox->UpdateTransformMatrix(*transform);
+			skyBox->Render();
+		}*/
+
+		auto skyBox = entity->GetComponent<SkyBoxComponent>();
+		auto transform = entity->GetComponent<TransformComponent>();
+		if (mainCamera != nullptr)
+		{
+			skyBox->UpdateCamera(mainCamera, *transform);
+		}
+
+		if ((skyBox != nullptr))
+		{
+			skyBox->Render();
 		}
 	}
 

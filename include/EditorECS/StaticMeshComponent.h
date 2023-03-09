@@ -22,13 +22,13 @@ public:
 
 public:
 	StaticMeshComponent();
-	~StaticMeshComponent();
+	virtual ~StaticMeshComponent();
 
 public:
-	bool Render();
-	bool Initialize();
+	virtual bool Render();
+	virtual bool Initialize();
 
 public:
-	void UpdateTransformMatrix(const TransformComponent& transform);
+	virtual void UpdateTransformMatrix(const TransformComponent& transform);
 };
 

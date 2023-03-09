@@ -127,6 +127,11 @@ bool EditorCore::CreateVertexShader()
         OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_NormalMapStaticMesh.hlsl)");
     }
 
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_Sky.hlsl", L"Sky"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_Sky.hlsl)");
+    }
+
     return true;
 }
 
@@ -150,6 +155,11 @@ bool EditorCore::CreatePixelShader()
     if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_NonTexturedUI.hlsl", L"NT_UI"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_NonTexturedUI.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Default.hlsl", L"Default"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Default.hlsl)");
     }
 
     return true;

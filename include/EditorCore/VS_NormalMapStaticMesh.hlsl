@@ -21,7 +21,6 @@ struct VertexShader_output
 	float2 t	: TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
 	float3 tangent : TEXCOORD1;
 	float4 vWorld : TEXCOORD2;
-	matrix inversedWorld : TEXCOORD3;
 };
 
 //----------------------------------------------
@@ -59,7 +58,6 @@ VertexShader_output VS(VertexShader_input input)
 	output.t = input.t;
 	output.tangent = input.tangent;
 	output.vWorld = vWorld;
-	output.inversedWorld = g_InversedWorldTransform;
 
 	return output;
 }

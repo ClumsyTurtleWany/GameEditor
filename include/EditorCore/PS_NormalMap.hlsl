@@ -10,7 +10,6 @@ struct PixelShader_input
 	float2 t : TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
 	float3 tangent : TEXCOORD1;
 	float4 vWorld : TEXCOORD2;
-	matrix inversedWorld : TEXCOORD3;
 };
 
 cbuffer DirectionLightData : register(b0)

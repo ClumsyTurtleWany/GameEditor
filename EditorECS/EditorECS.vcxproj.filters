@@ -101,6 +101,9 @@
     <ClInclude Include="PlaneComponent.h">
       <Filter>Component\Shape</Filter>
     </ClInclude>
+    <ClInclude Include="SkyBoxComponent.h">
+      <Filter>Component\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MeshComponent.cpp">
@@ -123,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="RenderSystem.cpp">
       <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBoxComponent.cpp">
+      <Filter>Component\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
