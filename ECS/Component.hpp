@@ -11,6 +11,10 @@ namespace ECS
 	public:
 		Component() {};
 		virtual ~Component() {};
+
+	public:
+		virtual bool Save() { return true; };
+		virtual bool Load() { return true; };
 	};
 
 	template<typename T>

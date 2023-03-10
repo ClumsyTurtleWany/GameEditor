@@ -8,6 +8,75 @@
 #include "DirectionalLight.h"
 #include "SkyBoxComponent.h"
 
+struct SomeEvent
+{
+	int num;
+};
+
+struct TickEvent
+{
+	float fCurTime;
+};
+
+ECS_DEFINE_TYPE(SomeEvent);
+namespace ECS
+{
+	class TestSystem : public System,
+		public EventSubscriber<CommonEvents::OnEntityCreated>,
+		public EventSubscriber<CommonEvents::OnEntityDestroyed>,
+		public EventSubscriber<CommonEvents::OnComponentAdded<TransformComponent>>,
+		public EventSubscriber<SomeEvent>,
+		public EventSubscriber<TickEvent>
+	{
+	public:
+		virtual ~TestSystem() {}
+
+		void init(World* world) override
+		{
+			world->subscribe<CommonEvents::OnEntityCreated>(this);
+			world->subscribe<CommonEvents::OnEntityDestroyed>(this);
+			world->subscribe<CommonEvents::OnComponentAdded<TransformComponent>>(this);
+			world->subscribe<SomeEvent>(this);
+			world->subscribe<TickEvent>(this);
+		};
+
+		void release(World* world) override
+		{
+			world->unsubscribeAll(this);
+		}
+
+		virtual void Tick(World* world, float deltaTime) override
+		{
+			world->emit<TickEvent>({ Singleton<Timer>::GetInstance()->GetPlayTime() });
+		}
+
+		virtual void receive(class World* world, const CommonEvents::OnEntityCreated& event) override
+		{
+			OutputDebugString(L"An entity was created! \n");
+		}
+
+		virtual void receive(class World* world, const CommonEvents::OnEntityDestroyed& event) override
+		{
+			OutputDebugString(L"An entity was destroyed! \n");
+		}
+
+		virtual void receive(class World* world, const CommonEvents::OnComponentAdded<TransformComponent>& event) override
+		{
+			OutputDebugString(L"A Transform component was removed!");
+		}
+
+		virtual void receive(class World* world, const SomeEvent& event) override
+		{
+			OutputDebugString(L"I received SomeEvent with value!");
+		}
+
+		virtual void receive(class World* world, const TickEvent& event) override
+		{
+			OutputDebugString((std::to_wstring(event.fCurTime) + L"TIME").c_str());
+		}
+	};
+}
+
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	WindowsClient sampleWindow;
@@ -47,6 +116,12 @@ bool SampleCore::Initialize()
 {
 	EditorCore::Initialize();
 
+	//테스트 시스템 추가
+	ECS::TestSystem* test = new ECS::TestSystem;
+	MainWorld.AddSystem(test);
+
+	MainWorld.RemoveSystem(test);
+
 	// 1. Actor 생성
 	Actor* actor = new Actor;
 
@@ -76,8 +151,6 @@ bool SampleCore::Initialize()
 	{
 		material->SetNormalTexture(normalMaptexture);
 	}
-
-
 
 	// 5. 평면 메쉬 생성 후 머테리얼 세팅. 
 	PlaneComponent* plane = new PlaneComponent;

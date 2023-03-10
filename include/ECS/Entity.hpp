@@ -1,8 +1,11 @@
 #pragma once
 #include "ECSCommon.hpp"
 #include "Component.hpp"
+#include "EventSubscriber.hpp"
 
 static int EntityID = 0;
+
+class ECS::World;
 
 namespace ECS
 {
@@ -16,12 +19,20 @@ namespace ECS
 		int ID;
 		std::wstring Name;
 
+		World* pWorld;
+
 	public:
-		Entity() { ID = EntityID++; };
+		bool IsDestroy = false;
+
+	public:
+		Entity() 
+		{ 
+			ID = EntityID++; 
+			pWorld = nullptr;
+		};
 		virtual ~Entity() {};
 
 	public:
-
 		template<typename ComponentType, typename... ComponentArgs>
 		ComponentType* AddComponent(ComponentArgs&&... args)
 		{
@@ -31,6 +42,9 @@ namespace ECS
 			{
 				ComponentContainer<ComponentType>* container = reinterpret_cast<ComponentContainer<ComponentType>*>(it->second.get());
 				container->Data = ComponentType(args...);
+
+				//auto temp = { this, &(container->Data) };
+				//pWorld->emit<ECS::CommonEvents::OnComponentAdded>(temp);
 				
 				return &container->Data;
 			}
@@ -67,6 +81,9 @@ namespace ECS
 			auto it = Components.find(id);
 			if (it != Components.end())
 			{
+				//auto temp = { this, &it.second };
+				//pWorld->emit<ECS::CommonEvents::OnComponentRemoved>(temp);
+
 				Components.erase(it);
 				return true;
 			}
@@ -102,7 +119,6 @@ namespace ECS
 		{
 			return Name;
 		}
-
 	};
 
 }
