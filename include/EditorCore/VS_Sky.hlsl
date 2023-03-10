@@ -78,7 +78,7 @@ VertexShader_output VS(VertexShader_input input)
 	output.t = input.t;
 
 	output.vWorld = vWorld;
-	
+
 	//float3 vLight = float3(1.0f, 1.0f, 1.0f);//g_LightColor.xyz; // 이런식으로 사용 가능
 	//float fdot = max(0.3f, dot(output.n, -vLight));// 내적값이 0이면 좋지 않음. 최소한의 값을 사용하여 윤곽이 살짝 보이게 하는것을 엠비언트 조명이라 함.
 	//output.lightColor = float4(fdot, fdot, fdot, 1.0f);

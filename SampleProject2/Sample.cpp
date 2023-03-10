@@ -7,6 +7,7 @@
 #include "LightSystem.h"
 #include "DirectionalLight.h"
 #include "SkyBoxComponent.h"
+#include "FBXLoader.hpp"
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -46,6 +47,8 @@ SampleCore::~SampleCore()
 bool SampleCore::Initialize()
 {
 	EditorCore::Initialize();
+	FBXLoader::GetInstance()->Initialize();
+
 
 	// 1. Actor 생성
 	Actor* actor = new Actor;
@@ -132,12 +135,20 @@ bool SampleCore::Initialize()
 	{
 		skyBox->SetLowerTexture(DXTextureManager::GetInstance()->GetTexture(L"../resource/Sky/dn.bmp"));
 	}
-	float scale = 1000.0f;
+	float scale = 500.0f;
 	auto skyTransformComp = skyActor->AddComponent<TransformComponent>();
 	skyTransformComp->Translation = Vector3(0.0f, 0.0, 0.0f);
 	skyTransformComp->Rotation = Vector3(0.0f, 0.0f, 0.0f);
 	skyTransformComp->Scale = Vector3(scale, scale, scale);
 	
+
+
+	// Fbx Loader Test
+	Actor* fbxActor = new Actor;
+	auto fbxMeshComp = fbxActor->AddComponent<StaticMeshComponent>();
+	FBXLoader::GetInstance()->Load(L"../resource/FBX/charMob.FBX", fbxMeshComp);
+	MainWorld.AddEntity(fbxActor);
+
 
 	// 9. 메인 월드에 액터 추가.
 	MainWorld.AddEntity(actor);
@@ -214,5 +225,6 @@ bool SampleCore::Render()
 
 bool SampleCore::Release()
 {
+	FBXLoader::GetInstance()->Release();
 	return EditorCore::Release();
 }

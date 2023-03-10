@@ -4,41 +4,77 @@
 SkyBoxComponent::SkyBoxComponent()
 {
 	Vertices.resize(24);
+	//// Front
+	//Vertices[0] = Vertex(Vector3(-1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	//Vertices[1] = Vertex(Vector3(+1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	//Vertices[2] = Vertex(Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	//Vertices[3] = Vertex(Vector3(+1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+
+	//// Left
+	//Vertices[4] = Vertex(Vector3(-1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	//Vertices[5] = Vertex(Vector3(-1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	//Vertices[6] = Vertex(Vector3(-1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	//Vertices[7] = Vertex(Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+
+	//// Right
+	//Vertices[8] = Vertex(Vector3(+1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	//Vertices[9] = Vertex(Vector3(+1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	//Vertices[10] = Vertex(Vector3(+1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	//Vertices[11] = Vertex(Vector3(+1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+
+	//// Back
+	//Vertices[12] = Vertex(Vector3(+1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	//Vertices[13] = Vertex(Vector3(-1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	//Vertices[14] = Vertex(Vector3(+1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	//Vertices[15] = Vertex(Vector3(-1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+
+	//// Upper
+	//Vertices[16] = Vertex(Vector3(-1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	//Vertices[17] = Vertex(Vector3(+1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	//Vertices[18] = Vertex(Vector3(-1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	//Vertices[19] = Vertex(Vector3(+1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+
+	//// Lower
+	//Vertices[20] = Vertex(Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	//Vertices[21] = Vertex(Vector3(+1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	//Vertices[22] = Vertex(Vector3(-1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	//Vertices[23] = Vertex(Vector3(+1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+
 	// Front
-	Vertices[0] = Vertex(Vector3(-1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
-	Vertices[1] = Vertex(Vector3(+1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
-	Vertices[2] = Vertex(Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
-	Vertices[3] = Vertex(Vector3(+1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+	Vertices[0] = Vertex(Vector3(-0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[1] = Vertex(Vector3(+0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[2] = Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[3] = Vertex(Vector3(+0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
 	// Left
-	Vertices[4] = Vertex(Vector3(-1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
-	Vertices[5] = Vertex(Vector3(-1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
-	Vertices[6] = Vertex(Vector3(-1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
-	Vertices[7] = Vertex(Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+	Vertices[4] = Vertex(Vector3(-0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[5] = Vertex(Vector3(-0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[6] = Vertex(Vector3(-0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[7] = Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
 	// Right
-	Vertices[8] = Vertex(Vector3(+1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
-	Vertices[9] = Vertex(Vector3(+1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
-	Vertices[10] = Vertex(Vector3(+1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
-	Vertices[11] = Vertex(Vector3(+1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+	Vertices[8] = Vertex(Vector3(+0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[9] = Vertex(Vector3(+0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[10] = Vertex(Vector3(+0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[11] = Vertex(Vector3(+0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
 	// Back
-	Vertices[12] = Vertex(Vector3(+1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
-	Vertices[13] = Vertex(Vector3(-1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
-	Vertices[14] = Vertex(Vector3(+1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
-	Vertices[15] = Vertex(Vector3(-1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+	Vertices[12] = Vertex(Vector3(+0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[13] = Vertex(Vector3(-0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[14] = Vertex(Vector3(+0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[15] = Vertex(Vector3(-0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
 	// Upper
-	Vertices[16] = Vertex(Vector3(-1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
-	Vertices[17] = Vertex(Vector3(+1.0f, +1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
-	Vertices[18] = Vertex(Vector3(-1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
-	Vertices[19] = Vertex(Vector3(+1.0f, +1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+	Vertices[16] = Vertex(Vector3(-0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[17] = Vertex(Vector3(+0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[18] = Vertex(Vector3(-0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[19] = Vertex(Vector3(+0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
 	// Lower
-	Vertices[20] = Vertex(Vector3(-1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
-	Vertices[21] = Vertex(Vector3(+1.0f, -1.0f, -1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
-	Vertices[22] = Vertex(Vector3(-1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
-	Vertices[23] = Vertex(Vector3(+1.0f, -1.0f, +1.0f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
+	Vertices[20] = Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[21] = Vertex(Vector3(+0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[22] = Vertex(Vector3(-0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[23] = Vertex(Vector3(+0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
 
 	Indices.resize(36);
@@ -226,26 +262,20 @@ void SkyBoxComponent::UpdateCamera(Camera* camera, const TransformComponent& tra
 	}
 
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(Vector3(0.0f, 0.0f, 0.0f));
-	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, camera->Pos, q, camera->Pos);
-	//TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, Vector3(0.0f, 0.0f, 0.0f), q, Vector3(0.0f, 0.0f, 0.0f));
-	//TransformData.Mat._41 = 0.0f;
-	//TransformData.Mat._42 = 0.0f;
-	//TransformData.Mat._43 = 0.0f;
+	TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, Vector3(0.0f, 0.0f, 0.0f), q, Vector3(0.0f, 0.0f, 0.0f));
+	//TransformData.Mat = DirectX::XMMatrixAffineTransformation(transform.Scale, camera->Pos, q, camera->Pos);
 	TransformData.InversedMat = DirectX::XMMatrixInverse(0, TransformData.Mat);
 	TransformData.Mat = TransformData.Mat.Transpose();
 
-	DirectX::XMVECTOR determinant;
-	DirectX::XMMATRIX view = DirectX::XMMatrixInverse(&determinant, TransformData.Mat);
 
 	CameraMatrixData.View = camera->View;
-	//CameraMatrixData.View._41 = 0.0f; //transform.Scale.x * camera->Pos.x;
-	//CameraMatrixData.View._42 = 0.0f; //transform.Scale.y * camera->Pos.y;
-	//CameraMatrixData.View._43 = 0.0f; //transform.Scale.z * camera->Pos.z;
+	CameraMatrixData.View._41 = 0.0f;
+	CameraMatrixData.View._42 = 0.0f;
+	CameraMatrixData.View._43 = 0.0f;
 	CameraMatrixData.View = CameraMatrixData.View.Transpose();
-	//CameraMatrixData.View._41 = 0.0f; //transform.Scale.x * camera->Pos.x;
-	//CameraMatrixData.View._42 = 0.0f; //transform.Scale.y * camera->Pos.y;
-	//CameraMatrixData.View._43 = 0.0f; //transform.Scale.z * camera->Pos.z;
 
+
+	//CameraMatrixData.Projection = DirectX::XMMatrixPerspectiveFovLH(PI * 0.25, 1.0f, 1.0f, 10000.0f);
 	CameraMatrixData.Projection = camera->Projection;
 	CameraMatrixData.Projection = CameraMatrixData.Projection.Transpose();
 

@@ -13,7 +13,14 @@ private:
 	DXTexture* AmbientTexture = nullptr;
 	DXTexture* NormalTexture = nullptr;
 	DXTexture* SpecularTexture = nullptr;
-	DXTexture* TangentTexture = nullptr;
+	DXTexture* EmissiveTexture = nullptr;
+
+public:
+	std::wstring DiffuseTextureName;
+	std::wstring AmbientTextureName;
+	std::wstring NormalTextureName;
+	std::wstring SpecularTextureName;
+	std::wstring EmissiveTextureName;
 
 public:
 	Material();
@@ -29,7 +36,7 @@ public:
 	void SetAmbientTexture(DXTexture* texture);
 	void SetNormalTexture(DXTexture* texture);
 	void SetSpecularTexture(DXTexture* texture);
-	void SetTangentTexture(DXTexture* texture);
+	void SetEmissiveTexture(DXTexture* texture);
 };
 
 inline Material::Material()
@@ -85,7 +92,7 @@ inline void Material::SetSpecularTexture(DXTexture* texture)
 	SpecularTexture = texture;
 }
 
-inline void Material::SetTangentTexture(DXTexture* texture)
+inline void Material::SetEmissiveTexture(DXTexture* texture)
 {
-	TangentTexture = texture;
+	EmissiveTexture = texture;
 }

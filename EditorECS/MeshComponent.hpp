@@ -30,6 +30,7 @@ public:
 	std::vector<Vertex> Vertices;
 	std::vector<Face>	Faces;
 	std::vector<DWORD>	Indices;
+	std::vector<IWData> IWList;
 
 	int VertexCount = 0;
 	int FaceCount = 0;
@@ -37,6 +38,7 @@ public:
 
 	ID3D11Buffer*	VertexBuffer = nullptr;
 	ID3D11Buffer*	IndexBuffer = nullptr;
+	ID3D11Buffer*	IWBuffer = nullptr;
 	Material*		MaterialSlot = nullptr;
 
 	bool isCreated = false;

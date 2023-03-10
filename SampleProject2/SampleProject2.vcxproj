@@ -119,13 +119,13 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../include/;../include/BaseCore/;../include/ECS/;../include/EditorECS/;../include/EditorCore/;../include/FMOD/;../include/FBX/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;../include/BaseCore/;../include/ECS/;../include/EditorECS/;../include/EditorCore/;../include/FMOD/;../include/FBX/;../include/EditorFileLoader/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../lib/;../lib/BaseCore/Debug/;../lib/EditorCore/Debug/;../lib/ECS/Debug/;../lib/EditorECS/Debug/;../lib/FMOD/;../lib/FBX/debug/;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BaseCore.lib;ECS.lib;EditorCore.lib;EditorECS.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../lib/;../lib/BaseCore/Debug/;../lib/EditorCore/Debug/;../lib/ECS/Debug/;../lib/EditorECS/Debug/;../lib/FMOD/;../lib/FBX/debug/;../lib/EditorFileLoader/Debug/;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaseCore.lib;ECS.lib;EditorCore.lib;EditorECS.lib;EditorFileLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\output\\Debug\\$(TargetName)\\"</Command>

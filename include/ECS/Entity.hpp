@@ -15,6 +15,7 @@ namespace ECS
 		std::unordered_map<ComponentID, std::shared_ptr<ECS::Component>> Components;
 		int ID;
 		std::wstring Name;
+		ECS::World* MainWorld;
 
 	public:
 		Entity() { ID = EntityID++; };
@@ -102,6 +103,9 @@ namespace ECS
 		{
 			return Name;
 		}
+
+		void TestFunc();
+		
 
 	};
 
