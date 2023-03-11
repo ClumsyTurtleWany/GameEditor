@@ -1,9 +1,11 @@
 #pragma once
 #include "ECSCommon.hpp"
 #include "Component.hpp"
-//#include "EventSubscriber.hpp"
+#include "EventSubscriber.hpp"
 
 static int EntityID = 0;
+
+class ECS::World;
 
 namespace ECS
 {

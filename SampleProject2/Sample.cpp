@@ -8,9 +8,10 @@
 #include "DirectionalLight.h"
 #include "SkyBoxComponent.h"
 
-struct SomeEvent
+struct CustomEvent
 {
-	int num;
+	int SomeNumber;
+	bool SomeBoolean;
 };
 
 struct TickEvent
@@ -24,8 +25,8 @@ namespace ECS
 	class TestSystem : public System,
 		public EventSubscriber<CommonEvents::OnEntityCreated>,
 		public EventSubscriber<CommonEvents::OnEntityDestroyed>,
-		public EventSubscriber<CommonEvents::OnComponentAdded<TransformComponent>>,
-		public EventSubscriber<SomeEvent>,
+		//public EventSubscriber<CommonEvents::OnComponentAdded<TransformComponent>>,
+		public EventSubscriber<CustomEvent>,
 		public EventSubscriber<TickEvent>
 	{
 	public:
@@ -35,14 +36,18 @@ namespace ECS
 		{
 			world->subscribe<CommonEvents::OnEntityCreated>(this);
 			world->subscribe<CommonEvents::OnEntityDestroyed>(this);
-			world->subscribe<CommonEvents::OnComponentAdded<TransformComponent>>(this);
-			world->subscribe<SomeEvent>(this);
+			//world->subscribe<CommonEvents::OnComponentAdded<TransformComponent>>(this);
+			world->subscribe<CustomEvent>(this);
 			world->subscribe<TickEvent>(this);
 		};
 
 		void release(World* world) override
 		{
-			world->unsubscribeAll(this);
+			world->unsubscribe<CommonEvents::OnEntityCreated>(this);
+			world->unsubscribe<CommonEvents::OnEntityDestroyed>(this);
+			//world->subscribe<CommonEvents::OnComponentAdded<TransformComponent>>(this);
+			world->unsubscribe<CustomEvent>(this);
+			world->unsubscribe<TickEvent>(this);
 		}
 
 		virtual void Tick(World* world, float deltaTime) override
@@ -52,27 +57,32 @@ namespace ECS
 
 		virtual void receive(class World* world, const CommonEvents::OnEntityCreated& event) override
 		{
-			OutputDebugString(L"An entity was created! \n");
+			OutputDebugString(L"Entity 생성 \n");
 		}
 
 		virtual void receive(class World* world, const CommonEvents::OnEntityDestroyed& event) override
 		{
-			OutputDebugString(L"An entity was destroyed! \n");
+			OutputDebugString(L"Entity 파괴 \n");
 		}
 
-		virtual void receive(class World* world, const CommonEvents::OnComponentAdded<TransformComponent>& event) override
+		/*virtual void receive(class World* world, const CommonEvents::OnComponentAdded<TransformComponent>& event) override
 		{
 			OutputDebugString(L"A Transform component was removed!");
-		}
+		}*/
 
-		virtual void receive(class World* world, const SomeEvent& event) override
+		virtual void receive(class World* world, const CustomEvent& event) override
 		{
-			OutputDebugString(L"I received SomeEvent with value!");
+			OutputDebugString(L"Custom Event Value : ");
+			OutputDebugString(L"\n");
+			OutputDebugString((L"Int Param : " + std::to_wstring(event.SomeNumber)).c_str());
+			OutputDebugString(L"\n");
+			OutputDebugString((L"Boolean Param : " + std::to_wstring(event.SomeBoolean)).c_str());
+			OutputDebugString(L"\n");
 		}
 
 		virtual void receive(class World* world, const TickEvent& event) override
 		{
-			OutputDebugString((std::to_wstring(event.fCurTime) + L"TIME").c_str());
+			OutputDebugString((std::to_wstring(event.fCurTime) + L" : DEBUG_TICK_EVENT\n").c_str());
 		}
 	};
 }
@@ -120,7 +130,7 @@ bool SampleCore::Initialize()
 	ECS::TestSystem* test = new ECS::TestSystem;
 	MainWorld.AddSystem(test);
 
-	MainWorld.RemoveSystem(test);
+	//MainWorld.RemoveSystem(test);
 
 	// 1. Actor 생성
 	Actor* actor = new Actor;
@@ -166,6 +176,14 @@ bool SampleCore::Initialize()
 	//transformComp->Rotation = Vector3(0.0f, 3.14f / 4.0f, 0.0f);
 	transformComp->Rotation = Vector3(0.0f, 0.0f, 0.0f);
 	transformComp->Scale = Vector3(20.0f, 20.0f, 1.0f);
+
+	//<커스텀 이벤트 테스트>
+	//---------------------------------------------
+
+	MainWorld.emit<CustomEvent>({856, FALSE});
+
+	//---------------------------------------------
+
 
 	// 8. 액터에 카메라 추가.
 	Actor* cameraActor = new Actor;
