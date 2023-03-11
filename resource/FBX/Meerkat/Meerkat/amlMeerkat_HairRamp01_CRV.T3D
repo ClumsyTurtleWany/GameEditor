@@ -1,0 +1,11 @@
+Begin Object Class=/Script/Engine.CurveLinearColor Name="amlMeerkat_HairRamp01_CRV"
+   Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+   End Object
+   Begin Object Name="AssetImportData"
+   End Object
+   FloatCurves(0)=(Keys=((Time=0.001174,Value=1.000000),(Time=0.147694,Value=1.000000,ArriveTangent=0.182542),(Time=0.176800,Value=0.916667),(Time=0.296541,Value=0.437500,ArriveTangent=-0.975838,LeaveTangent=-0.975838),(Time=0.720513,Value=0.026042),(Time=0.788448,Value=0.588542,ArriveTangent=0.614920,LeaveTangent=0.614920),(Time=0.807151,Value=1.000000,ArriveTangent=0.212780,LeaveTangent=0.212780),(Time=0.998423,Value=1.000000)))
+   FloatCurves(1)=(Keys=((Time=0.001174,Value=1.000000),(Time=0.147694,Value=1.000000,ArriveTangent=-0.166720),(Time=0.176800,Value=0.469024),(Time=0.296541,Value=0.149212,ArriveTangent=-0.554077,LeaveTangent=-0.554077),(Time=0.720513,Value=0.008503),(Time=0.788448,Value=0.317301,ArriveTangent=0.336811,LeaveTangent=0.336811),(Time=0.807151,Value=1.000000,ArriveTangent=0.191220,LeaveTangent=0.191220),(Time=0.998423,Value=1.000000)))
+   FloatCurves(2)=(Keys=((Time=0.001174,Value=1.000000),(Time=0.147694,Value=1.000000,ArriveTangent=-0.056807),(Time=0.176800),(Time=0.296541,Value=0.025323,ArriveTangent=-0.199270,LeaveTangent=-0.199270),(Time=0.720513,Value=0.001670),(Time=0.788448,Value=0.021830,ArriveTangent=0.134590,LeaveTangent=0.134590),(Time=0.807151,Value=1.000000,ArriveTangent=0.109935,LeaveTangent=0.109935),(Time=0.998423,Value=1.000000)))
+   FloatCurves(3)=(Keys=)
+   AssetImportData=/Script/Engine.AssetImportData'"AssetImportData"'
+End Object
