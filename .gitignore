@@ -362,3 +362,10 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /bfg-1.14.0.jar
+
+# Library
+ECS/ECS.lib
+EditorCore/EditorCore.lib
+EditorECS/EditorECS.lib
+include/
+lib/
