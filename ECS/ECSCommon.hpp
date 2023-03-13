@@ -15,7 +15,10 @@ namespace ECS
 	class Component;
 	class System;
 
+	class BaseEventSubscriber;
+
 	using ComponentID = std::type_index;
+	using EventID = std::type_index;
 
 	template <typename T>
 	ComponentID GetComponentID()
@@ -23,4 +26,9 @@ namespace ECS
 		return ComponentID(typeid(T));
 	}
 
+	template <typename T>
+	EventID GetEventID()
+	{
+		return EventID(typeid(T));
+	}
 }

@@ -38,6 +38,7 @@
     <ClInclude Include="DXTextureManager.hpp" />
     <ClInclude Include="ECSCommon.hpp" />
     <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="EventSubscriber.hpp" />
     <ClInclude Include="FMODSound.hpp" />
     <ClInclude Include="FMODSoundManager.hpp" />
     <ClInclude Include="GameCore.h" />

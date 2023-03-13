@@ -12,6 +12,7 @@
     <ClInclude Include="ECSCommon.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="System.hpp" />
+    <ClInclude Include="EventSubscriber.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="World.cpp" />

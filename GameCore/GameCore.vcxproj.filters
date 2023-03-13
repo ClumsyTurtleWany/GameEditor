@@ -106,6 +106,12 @@
     <Filter Include="DirectX\HLSL\ComputeShader">
       <UniqueIdentifier>{f09f9d70-060a-4261-959e-260c944d6c72}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ECS\Event">
+      <UniqueIdentifier>{6e8fecef-e1d7-46fe-9294-ed8a31d15230}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ECS\Event\Base">
+      <UniqueIdentifier>{5913622c-92e0-4bb7-b25e-7c911d962776}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Define.h">
@@ -266,6 +272,9 @@
     </ClInclude>
     <ClInclude Include="PlaneComponent.h">
       <Filter>ECS\Component\Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="EventSubscriber.hpp">
+      <Filter>ECS\Event\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

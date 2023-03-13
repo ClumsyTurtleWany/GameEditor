@@ -3,6 +3,8 @@
 #include "World.hpp"
 #include "Camera.h"
 
+ECS_DEFINE_TYPE(SomeComponent);
+
 class SampleCore : public EditorCore
 {
 public:
