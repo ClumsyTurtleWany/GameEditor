@@ -30,8 +30,6 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LightSystem.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="MeshComponent.hpp" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="PlaneComponent.h" />
@@ -48,7 +46,6 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LightSystem.cpp" />
-    <ClCompile Include="MeshComponent.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />

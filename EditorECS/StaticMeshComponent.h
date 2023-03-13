@@ -1,15 +1,14 @@
 #pragma once
 #include "Define.h"
-#include "DXTexture.hpp"
-#include "Material.h"
-#include "MeshComponent.hpp"
-#include "DXShaderManager.h"
+#include "StaticMesh.h"
 #include "TransformComponent.h"
 
 class StaticMeshComponent
 {
 public:
-	std::vector<MeshComponent> Meshes;
+	std::wstring Name;
+
+	std::vector<StaticMesh> Meshes;
 	ID3D11InputLayout*		VertexLayout = nullptr;
 	ID3D11VertexShader*		VertexShader = nullptr;
 	ID3D11HullShader*		HullShader = nullptr;

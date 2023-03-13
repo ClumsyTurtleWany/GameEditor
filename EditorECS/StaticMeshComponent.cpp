@@ -7,15 +7,9 @@ StaticMeshComponent::StaticMeshComponent()
 StaticMeshComponent::~StaticMeshComponent()
 {
 }
-;
 
 bool StaticMeshComponent::Render()
 {
-	/*if (!isCreated)
-	{
-		Initialize();
-	}*/
-
 	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
 	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	DXDevice::g_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
@@ -43,8 +37,26 @@ bool StaticMeshComponent::Initialize()
 	}
 
 	VertexLayout = DXShaderManager::GetInstance()->GetInputLayout(L"StaticMesh");
+	if (VertexLayout == nullptr)
+	{
+		OutputDebugString(L"EditorECS::StaticMeshComponent::Initialize::Failed Get Input Layout.");
+		return false;
+	}
+
 	VertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"StaticMesh");
+	if (VertexShader == nullptr)
+	{
+		OutputDebugString(L"EditorECS::StaticMeshComponent::Initialize::Failed Get Vertex Shader.");
+		return false;
+	}
+
 	TransformBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
+	if (TransformBuffer == nullptr)
+	{
+		OutputDebugString(L"EditorECS::StaticMeshComponent::Initialize::Failed Create Transform Buffer.");
+		return false;
+	}
+
 	isCreated = true;
 
 	return true;

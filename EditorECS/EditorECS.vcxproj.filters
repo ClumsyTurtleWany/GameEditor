@@ -34,9 +34,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MeshComponent.hpp">
-      <Filter>Component\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="SkeletalMeshComponent.h">
       <Filter>Component\Mesh</Filter>
     </ClInclude>
@@ -95,9 +92,6 @@
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Define.h" />
-    <ClInclude Include="Material.h">
-      <Filter>Component\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="PlaneComponent.h">
       <Filter>Component\Shape</Filter>
     </ClInclude>
@@ -106,9 +100,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MeshComponent.cpp">
-      <Filter>Component\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="SkeletalMeshComponent.cpp">
       <Filter>Component\Mesh</Filter>
     </ClCompile>

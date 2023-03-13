@@ -1,6 +1,6 @@
 #pragma once
 #include "Define.h"
-#include "MeshComponent.hpp"
+#include "Face.h"
 #include "SplattingData.h"
 
 

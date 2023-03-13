@@ -165,6 +165,8 @@ bool SampleCore::Initialize()
 		material->SetNormalTexture(normalMaptexture);
 	}
 
+	material->SetPixelShader(DXShaderManager::GetInstance()->GetPixelShader(L"NormalMap"));
+
 	// 5. 평면 메쉬 생성 후 머테리얼 세팅. 
 	PlaneComponent* plane = new PlaneComponent;
 	plane->SetMaterial(material);
@@ -237,7 +239,10 @@ bool SampleCore::Initialize()
 	// Fbx Loader Test
 	Actor* fbxActor = new Actor;
 	auto fbxMeshComp = fbxActor->AddComponent<StaticMeshComponent>();
-	FBXLoader::GetInstance()->Load(L"../resource/FBX/charMob.FBX", fbxMeshComp);
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/charMob.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
+	}
 	MainWorld.AddEntity(fbxActor);
 
 
@@ -249,7 +254,7 @@ bool SampleCore::Initialize()
 	DirectionalLight* light = new DirectionalLight;
 	auto lightComp = light->GetComponent<DirectionalLightComponent>();
 	lightComp->Color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-	lightComp->Direction = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	lightComp->Direction = Vector4(1.0f, -1.0f, 1.0f, 1.0f);
 	MainWorld.AddEntity(light);
 
 	// 10. 카메라 시스템 및 랜더링 시스템 추가.

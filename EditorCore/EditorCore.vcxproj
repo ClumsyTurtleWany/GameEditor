@@ -24,17 +24,27 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="DXRenderTarget.hpp" />
     <ClInclude Include="EditorCore.h" />
+    <ClInclude Include="Face.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialManager.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="SkeletalMesh.h" />
     <ClInclude Include="IWData.h" />
     <ClInclude Include="LightData.h" />
-    <ClInclude Include="PNCTT.h" />
     <ClInclude Include="SculptingData.h" />
     <ClInclude Include="SplattingData.h" />
+    <ClInclude Include="StaticMesh.h" />
     <ClInclude Include="TransformMatrix.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXRenderTarget.cpp" />
     <ClCompile Include="EditorCore.cpp" />
+    <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialManager.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="SkeletalMesh.cpp" />
+    <ClCompile Include="StaticMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="CS_LandscapeSplatting.hlsl">

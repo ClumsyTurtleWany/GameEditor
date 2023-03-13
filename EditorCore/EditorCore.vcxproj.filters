@@ -38,6 +38,12 @@
     <Filter Include="DirectX\HLSL\Compute">
       <UniqueIdentifier>{ebdd17ff-6417-4df9-ac1a-79bc6f003f92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectX\Material">
+      <UniqueIdentifier>{7822ce22-d582-4bc9-ba6f-33c4896b565e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DirectX\Mesh">
+      <UniqueIdentifier>{0989f90a-3713-4cf7-a6ec-f8ed415e34a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorCore.h">
@@ -73,8 +79,23 @@
     <ClInclude Include="SplattingData.h">
       <Filter>DirectX\ConstantData</Filter>
     </ClInclude>
-    <ClInclude Include="PNCTT.h">
-      <Filter>DirectX\InputLayout</Filter>
+    <ClInclude Include="Mesh.h">
+      <Filter>DirectX\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SkeletalMesh.h">
+      <Filter>DirectX\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="StaticMesh.h">
+      <Filter>DirectX\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>DirectX\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialManager.h">
+      <Filter>DirectX\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Face.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +104,21 @@
     </ClCompile>
     <ClCompile Include="DXRenderTarget.cpp">
       <Filter>DirectX\RenderTarget</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>DirectX\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SkeletalMesh.cpp">
+      <Filter>DirectX\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="StaticMesh.cpp">
+      <Filter>DirectX\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>DirectX\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialManager.cpp">
+      <Filter>DirectX\Material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

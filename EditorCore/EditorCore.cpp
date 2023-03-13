@@ -1,4 +1,5 @@
 #include "EditorCore.h"
+#include "MaterialManager.h"
 
 EditorCore::EditorCore()
 {
@@ -34,6 +35,11 @@ bool EditorCore::Initialize()
         return false;
     }
 
+    if (!MaterialManager::GetInstance()->Initialize())
+    {
+        OutputDebugString(L"EditorCore::Initialize::MaterialManager::Failed Initialize Material Manager.");
+        return false;
+    }
 
     return true;
 }
@@ -50,6 +56,7 @@ bool EditorCore::Render()
 
 bool EditorCore::Release()
 {
+    MaterialManager::GetInstance()->Release();
     return true;
 }
 
@@ -160,6 +167,11 @@ bool EditorCore::CreatePixelShader()
     if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Default.hlsl", L"Default"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Default.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_NormalMap.hlsl", L"NormalMap"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_NormalMap.hlsl)");
     }
 
     return true;

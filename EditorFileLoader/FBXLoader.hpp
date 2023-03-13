@@ -27,9 +27,7 @@ private:
 	
 	std::wstring	ResourceDirection = L"";
 
-	//std::map<std::wstring, std::unique_ptr<FBXObject>> m_ObjectMap;
-	std::map<std::wstring, std::unique_ptr<StaticMeshComponent>> m_StaticMeshMap;
-	std::vector<std::wstring> KeyStringList;
+	std::map<std::wstring, FBXFileData*> FbxFileList;
 
 public:
 	virtual bool Initialize();
@@ -39,12 +37,11 @@ private:
 	// Parser
 	bool ParseScene(FbxScene* scene, FBXFileData* dst);
 	bool ParseNode(FbxNode* node, FBXFileData* dst);
-	bool PreProcess(FBXFileData* dst);
 	bool ParseMesh(FbxMesh* mesh, FBXFileData* dst, FBXNodeData* dstData);
-	//bool ParseMeshLayer(FbxMesh* mesh, MeshData* dstData);
 	bool ParseMeshSkinning(FbxMesh* mesh, FBXFileData* dst, FBXNodeData* dstData);
 	bool ParseDummy(FbxNull* dummy, FBXFileData* dst);
 	bool ParseSkeleton(FbxSkeleton* skeleton, FBXFileData* dst);
+	bool PreProcess(FBXFileData* dst);
 	
 	// Read Data
 	bool ReadTextureCoord(FbxLayerElementUV* uv, int vertexIdx, int uvIdx, FbxVector2& dst);
@@ -65,7 +62,7 @@ private:
 public:
 	bool LoadDir(std::wstring path);
 	//bool Load(std::wstring _path, FBXObject* _dst);
-	bool Load(std::wstring path, StaticMeshComponent* dst);
+	bool Load(std::wstring filename);
 	bool GetFBXFileList(std::wstring path, std::vector<std::wstring>& dst);
 
 public:
@@ -128,6 +125,6 @@ public:
 
 public:
 	bool GenerateAnimationTrack(FBXFileData* data, float sampling);
-	//bool GenerateObjectFromFileData(FBXFileData* _src, FBXObject* _dst);
-	bool GenerateStaticMeshFromFileData(FBXFileData* src, StaticMeshComponent* dst);
+	bool GenerateStaticMeshFromFileData(std::wstring filename, StaticMeshComponent* dst);
+	bool GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst);
 };

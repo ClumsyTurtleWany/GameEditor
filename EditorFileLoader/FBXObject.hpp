@@ -71,77 +71,6 @@ struct SkinningData
 	}
 };
 
-//struct FbxMaterial
-//{
-//	//DXShader* Shader = nullptr;
-//	FbxSurfaceMaterial* Surface;
-//
-//	std::vector<Vertex> VertexList;
-//	std::vector<DWORD> IndexList;
-//	std::vector<IWData> IWList;
-//	
-//	std::wstring DiffuseTexture;
-//
-//	bool isValid()
-//	{
-//		if (VertexList.empty())
-//		{
-//			return false;
-//		}
-//		else
-//		{
-//			return true;
-//		}
-//	}
-//
-//	void push_back(const Vertex& _vertex, const IWData& _IW = IWData())
-//	{
-//		VertexList.push_back(_vertex);
-//		IWList.push_back(_IW);
-//	}
-//};
-
-//struct Layer
-//{
-//	FbxLayerElementUV*			ElementUV = nullptr;
-//	FbxLayerElementVertexColor* ElementColor = nullptr;
-//	FbxLayerElementMaterial*	ElementMaterialList = nullptr;
-//	FbxLayerElementNormal*		ElementNormalList = nullptr;
-//
-//	std::vector<FbxMaterial> MaterialList;
-//	
-//};
-
-//struct MeshData
-//{
-//	std::vector<Layer> LayerList;
-//	std::vector<SkinningData> SkinningList;
-//
-//	int MaterialNum = 0;
-//	std::vector<std::wstring> MaterialNameList; // Texture File Name
-//
-//	/*void render()
-//	{
-//		for (size_t idx = 0; idx < LayerList.size(); idx++)
-//		{
-//			LayerList[idx].render();
-//		}
-//	}*/
-//};
-//
-//struct FBXVertex
-//{
-//	FbxVector4 Position;
-//	FbxVector2 TexUV;
-//	FbxVector4 Normal;
-//	FbxVector4 Color;
-//
-//	Vertex vertex;
-//	DWORD index;
-//	IWData IWData;
-//	SkinningData skinningData;
-//};
-
 using FBXAnimationTrackList = std::vector<FBXAnimationTrack>;
 
 struct FBXNodeData
@@ -153,7 +82,7 @@ struct FBXNodeData
 	std::string				Name;
 
 	FbxNode*				Node = nullptr;
-	FbxMesh*				Mesh = nullptr;
+	FbxMesh*				FMesh = nullptr;
 	FbxNull*				Dummy = nullptr;
 	FbxSkeleton*			Skeleton = nullptr;
 
@@ -177,7 +106,7 @@ struct FBXNodeData
 
 	std::vector<SkinningData> SkinningList;
 
-	std::vector<MeshComponent> MeshList;
+	std::vector<SkeletalMesh> MeshList;
 	std::vector<Material*> MaterialList;
 };
 
@@ -200,49 +129,4 @@ public:
 	std::vector<FbxSkeleton*>						SkeletonList;
 
 	std::vector<FBXNodeData>						NodeDataList;
-	//std::vector<MeshData>							MeshDataList;
-
-	bool hasSkeletal = false;
 };
-
-
-//class FBXObject
-//{
-//public:
-//	FBXFileData*				FileData = nullptr;
-//
-//	float						testTime = 0.0f;
-//	float						yaw = 0.0f;
-//	float						pitch = 0.0f;
-//	float						roll = 0.0f;
-//	Vector3						curPos;
-//
-//	
-//	std::string					m_strNodeName;
-//	
-//
-//	FBXObject*					parent = nullptr;
-//	std::vector<FBXObject*>		child;
-//	std::vector<FbxMaterial>	Materials;
-//
-//	FBXAnimationSceneInfo		m_animationSceneInfo;
-//	
-//	std::map<std::string, std::vector<Matrix>>	InterpolationFrameMatrixList;
-//
-//	float						m_currentAnimationFrame = 0.0f;
-//	float						m_AnimationInverse = 1.0f;
-//
-//	BindPoseAnimationData		BPAnimData;
-//	
-//	std::map<std::string, Matrix> BindPoseMap;
-//	std::map<std::string, unsigned int>	BindPoseKeyToIndexMap;
-//
-//public:
-//	virtual bool				frame(float _dt);
-//	//virtual bool				setMatrix(Matrix4x4* _world, Matrix4x4* _view, Matrix4x4* _proj) override;
-//
-//public:
-//	//virtual bool				rotationYawPitchRoll(float _yaw, float _pitch, float _roll);
-//	virtual Matrix			interpolation(float _frame);
-//
-//};

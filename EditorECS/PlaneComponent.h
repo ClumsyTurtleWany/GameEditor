@@ -1,7 +1,7 @@
 #pragma once
-#include "MeshComponent.hpp"
+#include "StaticMesh.h"
 
-class PlaneComponent : public MeshComponent
+class PlaneComponent : public StaticMesh
 {
 public:
 	PlaneComponent();

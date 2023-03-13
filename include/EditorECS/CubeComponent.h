@@ -1,7 +1,7 @@
 #pragma once
-#include "MeshComponent.hpp"
+#include "Mesh.h"
 
-class CubeComponent : public MeshComponent
+class CubeComponent : public StaticMesh
 {
 public:
 	CubeComponent();
@@ -11,46 +11,42 @@ public:
 
 inline CubeComponent::CubeComponent()
 {
-	Vertices.resize(8);
-	Vertices[0].Pos = Vector3(-0.5f, +0.5f, -0.5f);
-	Vertices[1].Pos = Vector3(+0.5f, +0.5f, -0.5f);
-	Vertices[2].Pos = Vector3(-0.5f, -0.5f, -0.5f);
-	Vertices[3].Pos = Vector3(+0.5f, -0.5f, -0.5f);
+	// Front
+	Vertices[0] = Vertex(Vector3(-0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[1] = Vertex(Vector3(+0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[2] = Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[3] = Vertex(Vector3(+0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
-	Vertices[4].Pos = Vector3(+0.5f, +0.5f, +0.5f);
-	Vertices[5].Pos = Vector3(-0.5f, +0.5f, +0.5f);
-	Vertices[6].Pos = Vector3(+0.5f, -0.5f, +0.5f);
-	Vertices[7].Pos = Vector3(-0.5f, -0.5f, +0.5f);
+	// Left
+	Vertices[4] = Vertex(Vector3(-0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[5] = Vertex(Vector3(-0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[6] = Vertex(Vector3(-0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[7] = Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
-	Vertices[0].Texture = Vector2(0.0f, 0.0f);
-	Vertices[1].Texture = Vector2(1.0f, 0.0f);
-	Vertices[2].Texture = Vector2(0.0f, 1.0f);
-	Vertices[3].Texture = Vector2(1.0f, 1.0f);
+	// Right
+	Vertices[8] = Vertex(Vector3(+0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[9] = Vertex(Vector3(+0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[10] = Vertex(Vector3(+0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[11] = Vertex(Vector3(+0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
-	Vertices[4].Texture = Vector2(0.0f, 0.0f);
-	Vertices[5].Texture = Vector2(1.0f, 0.0f);
-	Vertices[6].Texture = Vector2(0.0f, 1.0f);
-	Vertices[7].Texture = Vector2(1.0f, 1.0f);
+	// Back
+	Vertices[12] = Vertex(Vector3(+0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[13] = Vertex(Vector3(-0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[14] = Vertex(Vector3(+0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[15] = Vertex(Vector3(-0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
-	Vertices[0].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vertices[1].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vertices[2].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vertices[3].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	// Upper
+	Vertices[16] = Vertex(Vector3(-0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[17] = Vertex(Vector3(+0.5f, +0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[18] = Vertex(Vector3(-0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[19] = Vertex(Vector3(+0.5f, +0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
-	Vertices[4].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vertices[5].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vertices[6].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	Vertices[7].Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	// Lower
+	Vertices[20] = Vertex(Vector3(-0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 0.0f));
+	Vertices[21] = Vertex(Vector3(+0.5f, -0.5f, -0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 0.0f));
+	Vertices[22] = Vertex(Vector3(-0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(0.0f, 1.0f));
+	Vertices[23] = Vertex(Vector3(+0.5f, -0.5f, +0.5f), Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector2(1.0f, 1.0f));
 
-	Vertices[0].Normal = Vector3(-1.0f, +1.0f, -1.0f); Vertices[0].Normal.Normalize();
-	Vertices[1].Normal = Vector3(+1.0f, +1.0f, -1.0f); Vertices[1].Normal.Normalize();
-	Vertices[2].Normal = Vector3(-1.0f, -1.0f, -1.0f); Vertices[2].Normal.Normalize();
-	Vertices[3].Normal = Vector3(+1.0f, -1.0f, -1.0f); Vertices[3].Normal.Normalize();
-
-	Vertices[4].Normal = Vector3(+1.0f, +1.0f, +1.0f); Vertices[4].Normal.Normalize();
-	Vertices[5].Normal = Vector3(-1.0f, +1.0f, +1.0f); Vertices[5].Normal.Normalize();
-	Vertices[6].Normal = Vector3(+1.0f, -1.0f, +1.0f); Vertices[6].Normal.Normalize();
-	Vertices[7].Normal = Vector3(-1.0f, -1.0f, +1.0f); Vertices[7].Normal.Normalize();
 
 	Indices.resize(36);
 	// Front
@@ -61,7 +57,7 @@ inline CubeComponent::CubeComponent()
 	Indices[4] = 1;
 	Indices[5] = 3;
 
-	// Back
+	// Left
 	Indices[6] = 4;
 	Indices[7] = 5;
 	Indices[8] = 6;
@@ -69,38 +65,37 @@ inline CubeComponent::CubeComponent()
 	Indices[10] = 5;
 	Indices[11] = 7;
 
-	// Left
-	Indices[12] = 5;
-	Indices[13] = 0;
-	Indices[14] = 7;
-	Indices[15] = 7;
-	Indices[16] = 0;
-	Indices[17] = 2;
-
 	// Right
-	Indices[18] = 1;
-	Indices[19] = 4;
-	Indices[20] = 3;
-	Indices[21] = 3;
-	Indices[22] = 4;
-	Indices[23] = 6;
+	Indices[12] = 8;
+	Indices[13] = 9;
+	Indices[14] = 10;
+	Indices[15] = 10;
+	Indices[16] = 9;
+	Indices[17] = 11;
+
+	// Back
+	Indices[18] = 12;
+	Indices[19] = 13;
+	Indices[20] = 14;
+	Indices[21] = 14;
+	Indices[22] = 13;
+	Indices[23] = 15;
 
 	// Upper
-	Indices[24] = 5;
-	Indices[25] = 4;
-	Indices[26] = 0;
-	Indices[27] = 0;
-	Indices[28] = 4;
-	Indices[29] = 1;
+	Indices[24] = 16;
+	Indices[25] = 17;
+	Indices[26] = 18;
+	Indices[27] = 18;
+	Indices[28] = 17;
+	Indices[29] = 19;
 
 	// Lower
-	Indices[30] = 2;
-	Indices[31] = 3;
-	Indices[32] = 7;
-	Indices[33] = 7;
-	Indices[34] = 3;
-	Indices[35] = 6;
-
+	Indices[30] = 20;
+	Indices[31] = 21;
+	Indices[32] = 22;
+	Indices[33] = 22;
+	Indices[34] = 21;
+	Indices[35] = 23;
 }
 
 inline CubeComponent::~CubeComponent()
