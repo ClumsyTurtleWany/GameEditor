@@ -25,6 +25,9 @@
     <ClInclude Include="CubeComponent.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DirectionalLight.h" />
+    <ClInclude Include="DXStatePreset.h" />
+    <ClInclude Include="EffectDefine.h" />
+    <ClInclude Include="FileIOManager.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="LandscapeComponent.h" />
     <ClInclude Include="Light.h" />
@@ -36,22 +39,32 @@
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="PlaneComponent.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="PointParticleEffect.h" />
+    <ClInclude Include="PointParticleEmitter.h" />
+    <ClInclude Include="PointParticleSystemComponent.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="RNGenerator.h" />
     <ClInclude Include="SkeletalMeshComponent.h" />
     <ClInclude Include="SkyBoxComponent.h" />
     <ClInclude Include="SpotLight.h" />
+    <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DXStatePreset.cpp" />
+    <ClCompile Include="FileIOManager.cpp" />
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="MeshComponent.cpp" />
+    <ClCompile Include="PointParticleEmitter.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="RNGenerator.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />
+    <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

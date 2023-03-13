@@ -3,7 +3,6 @@
 #include "MeshComponent.hpp"
 #include "SplattingData.h"
 
-
 struct LandscapeComponent //: public MeshComponent
 {
 public:

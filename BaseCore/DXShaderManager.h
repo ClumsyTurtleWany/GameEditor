@@ -44,6 +44,7 @@ public:
 	bool CreatePixelShader(ID3DBlob* psCode, std::wstring key);
 	bool CreateHullShader(ID3DBlob* hsCode, std::wstring key);
 	bool CreateDomainShader(ID3DBlob* dsCode, std::wstring key);
+	bool CreateGeometryShader(ID3DBlob* gsCode, std::wstring key);
 	bool CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, UINT elementsNum, std::wstring key);
 	bool CreateComputeShader(ID3DBlob* csCode, std::wstring key);
 
@@ -51,6 +52,7 @@ public:
 	bool CreatePixelShader(std::wstring filename, std::wstring key);
 	bool CreateHullShader(std::wstring filename, std::wstring key);
 	bool CreateDomainShader(std::wstring filename, std::wstring key);
+	bool CreateGeometryShader(std::wstring filename, std::wstring key);
 	bool CreateGeometryShader(std::wstring filename, D3D11_SO_DECLARATION_ENTRY* decl, UINT elementsNum, std::wstring key);
 	bool CreateComputeShader(std::wstring filename, std::wstring key);
 

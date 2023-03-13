@@ -351,6 +351,36 @@ bool DXShaderManager::CreateDomainShader(ID3DBlob* dsCode, std::wstring key)
 	return true;
 }
 
+bool DXShaderManager::CreateGeometryShader(ID3DBlob* gsCode, std::wstring key)
+{
+	auto gs = GetGeometryShader(key);
+	if (gs != nullptr)
+	{
+		return true;
+	}
+	else
+	{
+		if (gsCode == nullptr)
+		{
+			return false;
+		}
+
+		ID3D11GeometryShader* pGeometryShader;
+		HRESULT result = m_pd3dDevice->CreateGeometryShader(gsCode->GetBufferPointer(), gsCode->GetBufferSize(), NULL, &pGeometryShader);
+
+		if (FAILED(result))
+		{
+			OutputDebugStringA("DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.\n");
+			return false;
+		}
+		else
+		{
+			GeometryShaderMap.insert(std::make_pair(key, pGeometryShader));
+		}
+		return true;
+	}
+}
+
 bool DXShaderManager::CreateGeometryShader(ID3DBlob* gsCode, D3D11_SO_DECLARATION_ENTRY* decl, UINT elementsNum, std::wstring key)
 {
 	auto gs = GetGeometryShader(key);
@@ -493,6 +523,43 @@ bool DXShaderManager::CreateHullShader(std::wstring filename, std::wstring key)
 
 bool DXShaderManager::CreateDomainShader(std::wstring filename, std::wstring key)
 {
+	return true;
+}
+
+bool DXShaderManager::CreateGeometryShader(std::wstring filename, std::wstring key)
+{
+	auto gsCode = GeometryShaderCodeMap.find(key);
+	if (gsCode != GeometryShaderCodeMap.end())
+	{
+		auto gs = GeometryShaderMap.find(key);
+		if (gs != GeometryShaderMap.end())
+		{
+			return true;
+		}
+		else
+		{
+			if (!CreateGeometryShader(gsCode->second, key))
+			{
+				OutputDebugStringA("DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.");
+				return false;
+			}
+		}
+	}
+	else
+	{
+		if (!LoadGSCode(filename, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreateGeometryShader::Failed Load Geometry Shader Code.");
+			return false;
+		}
+
+		ID3DBlob* blob = GetGSCode(key);
+		if (!CreateGeometryShader(blob, key))
+		{
+			OutputDebugStringA("DXShaderManager::CreateGeometryShader::Failed Create Geometry Shader.");
+			return false;
+		}
+	}
 	return true;
 }
 
