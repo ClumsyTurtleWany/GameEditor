@@ -10,13 +10,10 @@ Material::~Material()
 
 bool Material::Initialize()
 {
-	if (PixelShaderCodeName.empty())
+	PixelShader = DXShaderManager::GetInstance()->GetPixelShader(PixelShaderCodeName);
+	if (PixelShader == nullptr)
 	{
 		PixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"Light");
-	}
-	else
-	{
-		PixelShader = DXShaderManager::GetInstance()->GetPixelShader(PixelShaderCodeName);
 	}
 
 	if (DXTextureManager::GetInstance()->Load(DiffuseTextureName))

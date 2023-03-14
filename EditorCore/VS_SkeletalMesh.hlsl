@@ -17,6 +17,7 @@ struct VertexShader_input
 	float3 n : NORMAL;
 	float4 c : COLOR;
 	float2 t : TEXTURE;
+	float3 tangent : TANGENT;
 	float4 index : INDEX;
 	float4 weight : WEIGHT;
 };
@@ -27,82 +28,55 @@ struct VertexShader_output
 	float3 n : NORMAL;
 	float4 c : COLOR0; // COLOR0 과 COLOR1 밖에 없음.
 	float2 t : TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
-	float4 lightColor : TEXCOORD1;
+	float3 tangent : TEXCOORD1;
 	float4 vWorld : TEXCOORD2;
-	float3 light : TEXCOORD3;
-	float4 vAnimation : TEXCOORD4;
-	matrix bind : TEXCOORD5;
-	matrix anim : TEXCOORD9;
 };
 
-// 상수 버퍼는 레지스터 단위로만 저장됨.
-// 레지스터 단위 : float4(x, y, z, w)
-// 상수 버퍼로 넘어온 애들은 전역 변수취급 됨.
-cbuffer ConstantData : register(b0)
+cbuffer TransformData : register(b0)
 {
-	matrix g_matWorld : packoffset(c0); // packoffset 을 해주지 않아도 기본적으로 c0부터 시작하나 붙여주는게 좋음
-	matrix g_matView : packoffset(c4);
-	matrix g_matProj : packoffset(c8);
-	float4 g_light : packoffset(c12);
-	//float g_nx : packoffset(c12.x);
-	//float g_ny : packoffset(c12.y);
-	//float g_nz : packoffset(c12.z);
-	//float g_nw : packoffset(c12.w);
-	//float  fTimer : packoffset(c12.z); // 이런식으로 레지스터에서 일정한 값만 등록 할 수도 있음.
+	matrix g_WorldTransform : packoffset(c0);
+	matrix g_InversedWorldTransform : packoffset(c4);
 }
 
-cbuffer ConstantData_Bone : register(b1)
+cbuffer CameraMatrixData : register(b1)
+{
+	matrix g_View : packoffset(c0);
+	matrix g_Projection : packoffset(c4);
+}
+
+cbuffer ConstantData_Bone : register(b2)
 {
 	matrix g_matBone[255];
-	matrix g_matBind[255];
-	matrix g_matAnim[255];
 }
 
-VertexShader_output VS(VertexShader_input _input)
+VertexShader_output VS(VertexShader_input input)
 {
-	//VertexShader_output output;
 	VertexShader_output output = (VertexShader_output)0;
 
-	float4 vLocal = float4(_input.p, 1.0f);
-
-	// 주의! mul 함수는 내적(dot)으로 처리됨.
-	// vWorld.x = vLocal dot c0; // 행과 행이 곱해짐.
-	// vWorld.y = vLocal dot c1;
-	// vWorld.z = vLocal dot c2;
-	// vWorld.w = vLocal dot c3;
-	// 따라서 응용프로그램 단에서 전치행렬로 만들어 보내거나, 아래와 같이 쉐이더에서 매번 전치행렬 변환작업 필요.
-	// matrix matTranspose = transpose(g_matWorld); // 매번 전치행렬 변환작업하는건 비효율적이므로 가급적 응용프로그램에서 전치해서 보내줄 것.
+	float4 vLocal = float4(input.p, 1.0f);
 
 	float4 vAnimation = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	float4 vAnimationNormal = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 vAnimationTangent = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	for (int iBone = 0; iBone < 4; iBone++)
 	{
-		uint iBoneIndex = _input.index[iBone];
-		float fWeight = _input.weight[iBone];
+		uint iBoneIndex = input.index[iBone];
+		float fWeight = input.weight[iBone];
 		vAnimation += mul(vLocal, g_matBone[iBoneIndex]) * fWeight;
-		vAnimationNormal += mul(_input.n, g_matBone[iBoneIndex]) * fWeight;
+		vAnimationNormal += mul(input.n, g_matBone[iBoneIndex]) * fWeight;
+		vAnimationTangent += mul(input.tangent, g_matBone[iBoneIndex]) * fWeight;
 	}
 
-	float4 vWorld = mul(vAnimation, g_matWorld);
-	float4 vView = mul(vWorld, g_matView);
-	float4 vProj = mul(vView, g_matProj);
+	float4 vWorld = mul(vAnimation, g_WorldTransform);
+	float4 vView = mul(vWorld, g_View);
+	float4 vProj = mul(vView, g_Projection);
 
 	output.p = vProj;
-	//output.n = _input.n;
 	output.n = vAnimationNormal;
-	output.c = _input.c;
-	output.t = _input.t;
-
+	output.c = input.c;
+	output.t = input.t;
+	output.tangent = vAnimationTangent;
 	output.vWorld = vWorld;
-
-	float3 vLight = g_light.xyz; // 이런식으로 사용 가능
-	float fdot = max(0.3f, dot(output.n, -vLight));// 내적값이 0이면 좋지 않음. 최소한의 값을 사용하여 윤곽이 살짝 보이게 하는것을 엠비언트 조명이라 함.
-	output.lightColor = float4(fdot, fdot, fdot, 1.0f);
-	output.light = vLight;
-
-	output.vAnimation = vAnimation;
-	output.bind = g_matBind[_input.index[0]];
-	output.anim = g_matAnim[_input.index[0]];
 
 	return output;
 }

@@ -48,7 +48,7 @@ bool MaterialManager::AddMaterial(std::wstring name, Material* material)
 	{
 		return true;
 	}
-	
+	material->Initialize();
 	MaterialList.insert(std::make_pair(name, material));
 
 	return true;

@@ -115,7 +115,7 @@ void Landscape::Build(int column, int row, int sectionSize)
 			Vector3 center = (component.MinVertex + component.MaxVertex) / 2.0f;
 			Vector3 extend = (component.MaxVertex - component.MinVertex) / 2.0f;
 			extend.y += 0.01f;
-			Vector4 orient = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+			Vector4 orient = Vector4(0.0f, 0.0f, 0.0f, 1.0f);
 			component.Box = DirectX::BoundingOrientedBox(center, extend, orient);
 			component.BaseTexture = BaseTexture;
 			component.Initialize();
@@ -229,7 +229,7 @@ bool Landscape::Initialize()
 {
 	VertexLayout = DXShaderManager::GetInstance()->GetInputLayout(L"StaticMesh");
 	VertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"StaticMesh");
-	PixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"Light");
+	PixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"Landscape");
 	TransformBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
 	if (DXTextureManager::GetInstance()->Load(L"../resource/Default.bmp"))
 	{

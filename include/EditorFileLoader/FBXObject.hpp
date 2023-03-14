@@ -113,6 +113,7 @@ struct FBXNodeData
 class FBXFileData
 {
 public:
+	std::wstring									FilePath;
 	FBXAnimationSceneInfo							AnimationSceneInfo;
 	std::map<std::string, FBXAnimationTrackList>	AnimationTrackMap;
 

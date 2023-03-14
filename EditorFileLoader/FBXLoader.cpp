@@ -41,6 +41,12 @@ bool FBXLoader::Release()
 
 bool FBXLoader::Load(std::wstring filename)
 {
+	auto it = FbxFileList.find(filename);
+	if (it != FbxFileList.end())
+	{
+		return true;
+	}
+
 	std::string strPath;
 	strPath.assign(filename.begin(), filename.end());
 	const char* path = strPath.c_str();
@@ -69,6 +75,9 @@ bool FBXLoader::Load(std::wstring filename)
 	}
 
 	FBXFileData* fbxFile = new FBXFileData;
+	std::filesystem::path filepath(filename);
+	fbxFile->FilePath = filepath.parent_path();
+	fbxFile->FilePath += L"/";
 	if (!ParseScene(pScene, fbxFile))
 	{
 		OutputDebugString(L"FBXLoader::Load::Failed Parse Scene.\n");
@@ -271,12 +280,38 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 		{
 			FbxSurfaceMaterial* surface = node->GetMaterial(idx);
 			Material* material = new Material;
+			bool isValid = false;
+
 			material->DiffuseTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sDiffuse);
 			material->NormalTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sNormalMap);
 			material->AmbientTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sAmbient);
 			material->SpecularTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sSpecular);
 			material->EmissiveTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sEmissive);
-			
+			if (!material->DiffuseTextureName.empty())
+			{
+				material->DiffuseTextureName = dst->FilePath + material->DiffuseTextureName;
+			}
+
+			if (!material->NormalTextureName.empty())
+			{
+				material->NormalTextureName = dst->FilePath + material->NormalTextureName;
+			}
+
+			if (!material->AmbientTextureName.empty())
+			{
+				material->AmbientTextureName = dst->FilePath + material->AmbientTextureName;
+			}
+
+			if (!material->SpecularTextureName.empty())
+			{
+				material->SpecularTextureName = dst->FilePath + material->SpecularTextureName;
+			}
+
+			if (!material->EmissiveTextureName.empty())
+			{
+				material->EmissiveTextureName = dst->FilePath + material->EmissiveTextureName;
+			}
+
 			std::wstring materialName;
 			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
 			MaterialManager::GetInstance()->AddMaterial(materialName, material);
@@ -1417,7 +1452,7 @@ bool FBXLoader::GenerateStaticMeshFromFileData(std::wstring filename, StaticMesh
 				else
 				{
 					std::wstring materialName;
-					materialName.assign(pData->NodeNameList[idx].begin(), pData->NodeNameList[idx].end());
+					materialName.assign(node.Name.begin(), node.Name.end());
 					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
 				}
 				
@@ -1434,6 +1469,7 @@ bool FBXLoader::GenerateStaticMeshFromFileData(std::wstring filename, StaticMesh
 
 	return true;
 }
+
 bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst)
 {
 	auto it = FbxFileList.find(filename);
@@ -1466,7 +1502,7 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 				else
 				{
 					std::wstring materialName;
-					materialName.assign(pData->NodeNameList[idx].begin(), pData->NodeNameList[idx].end());
+					materialName.assign(node.Name.begin(), node.Name.end());
 					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
 				}
 

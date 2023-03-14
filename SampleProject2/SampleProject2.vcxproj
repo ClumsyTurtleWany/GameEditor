@@ -149,10 +149,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Sample.h" />
-    <ClInclude Include="TestHeader.h" />
+    <ClInclude Include="SkyDomeComponent.h" />
+    <ClInclude Include="SkyRenderSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="SkyDomeComponent.cpp" />
+    <ClCompile Include="SkyRenderSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -11,8 +11,8 @@ SkeletalMesh::~SkeletalMesh()
 
 bool SkeletalMesh::Render()
 {
-	DXDevice::g_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
-	DXDevice::g_pImmediateContext->UpdateSubresource(SkinningBuffer, 0, NULL, &SkinningIWList.at(0), 0, 0);
+	//DXDevice::g_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
+	//DXDevice::g_pImmediateContext->UpdateSubresource(SkinningBuffer, 0, NULL, &SkinningIWList.at(0), 0, 0);
 	ID3D11Buffer* pBufferStream[2] = { VertexBuffer, SkinningBuffer }; // 멀티 스트림
 	UINT Strides[2] = { sizeof(Vertex), sizeof(IWData) }; // 각 버퍼 데이터의 바이트 용량
 	UINT Offsets[2] = { 0, 0 }; // 정점 버퍼에서 출발 지점(바이트)
@@ -47,19 +47,33 @@ bool SkeletalMesh::Initialize()
 		OutputDebugString(L"EditorCore::SkeletalMesh::Initialize::Failed Create Vertex Buffer.");
 		return false;
 	}
-
-	IndexBuffer = DXShaderManager::GetInstance()->CreateIndexBuffer(Indices);
-	if (IndexBuffer == nullptr)
+	else
 	{
-		OutputDebugString(L"EditorCore::SkeletalMesh::Initialize::Failed Create Index Buffer.");
-		return false;
+		DXDevice::g_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
 	}
 
-	SkinningBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer<IWData>(SkinningIWList);
-	if (SkinningBuffer == nullptr)
+	if (!Indices.empty())
 	{
-		OutputDebugString(L"EditorCore::SkeletalMesh::Initialize::Failed Create Skinning Buffer.");
-		return false;
+		IndexBuffer = DXShaderManager::GetInstance()->CreateIndexBuffer(Indices);
+		if (IndexBuffer == nullptr)
+		{
+			OutputDebugString(L"EditorCore::SkeletalMesh::Initialize::Failed Create Index Buffer.");
+			return false;
+		}
+	}
+
+	if (!SkinningIWList.empty())
+	{
+		SkinningBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer<IWData>(SkinningIWList);
+		if (SkinningBuffer == nullptr)
+		{
+			OutputDebugString(L"EditorCore::SkeletalMesh::Initialize::Failed Create Skinning Buffer.");
+			return false;
+		}
+		else
+		{
+			DXDevice::g_pImmediateContext->UpdateSubresource(SkinningBuffer, 0, NULL, &SkinningIWList.at(0), 0, 0);
+		}
 	}
 
 	if (MaterialSlot == nullptr)

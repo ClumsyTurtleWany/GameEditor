@@ -8,7 +8,8 @@ struct PixelShader_input
 	float3 n : NORMAL;
 	float4 c : COLOR0; // COLOR0 과 COLOR1 밖에 없음.
 	float2 t : TEXCOORD0; // TEXCOORD0 ~ TEXCOORD7 (15) 까지 있음.
-	float4 vWorld : TEXCOORD1;
+	float3 tangent : TEXCOORD1;
+	float4 vWorld : TEXCOORD2;
 };
 
 cbuffer DirectionLightData : register(b0)

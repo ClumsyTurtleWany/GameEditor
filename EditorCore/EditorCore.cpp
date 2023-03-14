@@ -87,6 +87,7 @@ bool EditorCore::CreateInputLayout()
         {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
         {"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 28 == float * 28 // Vertex의 Texture 시작 바이트.
+        {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0},
 
         {"INDEX", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"WEIGHT", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 1, 16, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -144,7 +145,7 @@ bool EditorCore::CreateVertexShader()
 
 bool EditorCore::CreatePixelShader()
 {
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_NormalMap.hlsl", L"Light"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Light.hlsl", L"Light"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Light.hlsl)");
     }

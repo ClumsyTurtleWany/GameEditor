@@ -8,6 +8,11 @@
 #include "DirectionalLight.h"
 #include "SkyBoxComponent.h"
 #include "FBXLoader.hpp"
+#include "Landscape.h"
+#include "SkeletalMeshComponent.h"
+#include "MaterialManager.h"
+#include "SkyRenderSystem.h"
+#include "SkyDomeComponent.h"
 
 struct CustomEvent
 {
@@ -135,6 +140,8 @@ bool SampleCore::Initialize()
 
 	//MainWorld.RemoveSystem(test);
 
+
+
 	// 1. Actor 생성
 	Actor* actor = new Actor;
 
@@ -193,7 +200,7 @@ bool SampleCore::Initialize()
 	// 8. 액터에 카메라 추가.
 	Actor* cameraActor = new Actor;
 	DebugCamera = cameraActor->AddComponent<Camera>();
-	DebugCamera->CreateViewMatrix(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	DebugCamera->CreateViewMatrix(Vector3(0.0f, 5.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
 	DebugCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 	// Sky Box
@@ -238,24 +245,71 @@ bool SampleCore::Initialize()
 
 	// Fbx Loader Test
 	Actor* fbxActor = new Actor;
-	auto fbxMeshComp = fbxActor->AddComponent<StaticMeshComponent>();
+	auto fbxMeshComp = fbxActor->AddComponent<SkeletalMeshComponent>();
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/charMob.FBX"))
 	{
-		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
+		//FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
 	}
 	MainWorld.AddEntity(fbxActor);
+
+	Actor* landscapeActor = new Actor;
+	auto landscape = landscapeActor->AddComponent<Landscape>();
+	landscape->Build(8, 8, 7);
+	landscape->SetCamera(DebugCamera);
+	MainWorld.AddEntity(landscapeActor);
+
+	/*Actor* skySphereActor = new Actor;
+	auto skySphereComp = skySphereActor->AddComponent<StaticMeshComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/SkySphere.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/SkySphere.fbx", skySphereComp);
+	}
+	MainWorld.AddEntity(skySphereActor);
+	auto skySphereTransform = skySphereActor->GetComponent<TransformComponent>();
+	skySphereTransform->Scale = Vector3(20.0f, 20.0f, 20.0f);*/
+
+
+	/*Actor* skyDomeActor = new Actor;
+	auto skyDomeComp = skyDomeActor->AddComponent<StaticMeshComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/CloudDome.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/CloudDome.fbx", skyDomeComp);
+	}
+	Material* skyDomeMaterial = new Material;
+	skyDomeMaterial->PixelShaderCodeName = L"T_UI";
+	skyDomeMaterial->DiffuseTextureName = L"../resource/FBX/CloudSky2.png";
+	MaterialManager::GetInstance()->AddMaterial(L"SkyDome", skyDomeMaterial);
+	for (auto& mesh : skyDomeComp->Meshes)
+	{
+		mesh.MaterialSlot = skyDomeMaterial;
+	}
+	MainWorld.AddEntity(skyDomeActor);
+	auto skyDomeTransform = skyDomeActor->GetComponent<TransformComponent>();
+	skyDomeTransform->Scale = Vector3(10.0f, 10.0f, 10.0f);*/
+
+	Actor* skyDomeActor = new Actor;
+	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
+	MainWorld.AddEntity(skyDomeActor);
+	MainWorld.AddSystem(new SkyRenderSystem);
 
 
 	// 9. 메인 월드에 액터 추가.
 	MainWorld.AddEntity(actor);
 	MainWorld.AddEntity(cameraActor);
-	MainWorld.AddEntity(skyActor);
+	//MainWorld.AddEntity(skyActor);
 
 	DirectionalLight* light = new DirectionalLight;
 	auto lightComp = light->GetComponent<DirectionalLightComponent>();
 	lightComp->Color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
 	lightComp->Direction = Vector4(1.0f, -1.0f, 1.0f, 1.0f);
 	MainWorld.AddEntity(light);
+
+	DirectionalLight* light2 = new DirectionalLight;
+	auto lightComp2 = light2->GetComponent<DirectionalLightComponent>();
+	lightComp2->Color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
+	lightComp2->Direction = Vector4(0.0f, -1.0f, 1.0f, 1.0f);
+	MainWorld.AddEntity(light2);
 
 	// 10. 카메라 시스템 및 랜더링 시스템 추가.
 	LightSystem* lightSystem = new LightSystem;

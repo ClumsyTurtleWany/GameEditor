@@ -32,6 +32,12 @@
     <Filter Include="Entity\Actor">
       <UniqueIdentifier>{4f9b693e-4329-4a61-b15b-2b350ab17239}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Landscape">
+      <UniqueIdentifier>{6bb7702c-17e3-428d-ac1c-a0568f06ad13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\Animation">
+      <UniqueIdentifier>{f630de5f-b87f-4ee1-9021-fb81d7b412f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -48,9 +54,6 @@
     </ClInclude>
     <ClInclude Include="CubeComponent.h">
       <Filter>Component\Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="LandscapeComponent.h">
-      <Filter>Component</Filter>
     </ClInclude>
     <ClInclude Include="MovementComponent.h">
       <Filter>Component</Filter>
@@ -97,6 +100,12 @@
     </ClInclude>
     <ClInclude Include="SkyBoxComponent.h">
       <Filter>Component\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeComponent.h">
+      <Filter>Component\Landscape</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationComponent.h">
+      <Filter>Component\Animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
