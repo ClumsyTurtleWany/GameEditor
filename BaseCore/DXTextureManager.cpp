@@ -189,7 +189,7 @@ DXTexture* DXTextureManager::CreateAlphaTexture(int width, int height)
 	return pDXTexture;
 }
 
-DXTexture* DXTextureManager::CreateTexture(DXTexture* texture)
+DXTexture* DXTextureManager::CreateCopyTexture(DXTexture* texture)
 {
 	if (texture == nullptr)
 	{
@@ -218,6 +218,7 @@ DXTexture* DXTextureManager::CreateTexture(DXTexture* texture)
 	DXTexture* pDXTexture = new DXTexture;
 	pDXTexture->SetTexture2D(pTexture);
 	pDXTexture->SetSRV(pSRV);
+	CopyTextureList.push_back(pDXTexture);
 
 	return pDXTexture;
 }
@@ -317,6 +318,17 @@ bool DXTextureManager::Release()
 		}
 	}
 	SRVList.clear();
+
+	for (auto& it : CopyTextureList)
+	{
+		DXTexture* pTexture = it;
+		if (pTexture != nullptr)
+		{
+			pTexture->Release();
+			delete pTexture;
+		}
+	}
+	CopyTextureList.clear();
 
 	return true;
 }

@@ -251,6 +251,14 @@ bool SampleCore::Initialize()
 		//FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
 	}
+
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/hero_hulk01.FBX"))
+	//{
+	//	//FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
+	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/hero_hulk01.FBX", fbxMeshComp);
+	//}
+	//auto fbxActorTransform = fbxActor->GetComponent<TransformComponent>();
+	//fbxActorTransform->Scale = Vector3(0.01f, 0.01f, 0.01f);
 	MainWorld.AddEntity(fbxActor);
 
 	Actor* landscapeActor = new Actor;
@@ -289,7 +297,8 @@ bool SampleCore::Initialize()
 	skyDomeTransform->Scale = Vector3(10.0f, 10.0f, 10.0f);*/
 
 	Actor* skyDomeActor = new Actor;
-	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
+	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>(); 
+	skyDomeComp->Scale = Vector3(500.0f, 500.0f, 500.0f);
 	MainWorld.AddEntity(skyDomeActor);
 	MainWorld.AddSystem(new SkyRenderSystem);
 
@@ -301,14 +310,14 @@ bool SampleCore::Initialize()
 
 	DirectionalLight* light = new DirectionalLight;
 	auto lightComp = light->GetComponent<DirectionalLightComponent>();
-	lightComp->Color = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
+	lightComp->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	lightComp->Direction = Vector4(1.0f, -1.0f, 1.0f, 1.0f);
 	MainWorld.AddEntity(light);
 
 	DirectionalLight* light2 = new DirectionalLight;
 	auto lightComp2 = light2->GetComponent<DirectionalLightComponent>();
-	lightComp2->Color = Vector4(1.0f, 0.0f, 0.0f, 1.0f);
-	lightComp2->Direction = Vector4(0.0f, -1.0f, 1.0f, 1.0f);
+	lightComp2->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	lightComp2->Direction = Vector4(-1.0f, 1.0f, 1.0f, 1.0f);
 	MainWorld.AddEntity(light2);
 
 	// 10. 카메라 시스템 및 랜더링 시스템 추가.

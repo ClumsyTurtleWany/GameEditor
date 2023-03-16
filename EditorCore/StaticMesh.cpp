@@ -11,6 +11,45 @@ StaticMesh::~StaticMesh()
 
 }
 
+bool StaticMesh::Initialize()
+{
+	if (isCreated)
+	{
+		return true;
+	}
+
+	VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
+	if (VertexBuffer == nullptr)
+	{
+		OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Create Vertex Buffer.");
+		return false;
+	}
+
+	if (!Indices.empty())
+	{
+		IndexBuffer = DXShaderManager::GetInstance()->CreateIndexBuffer(Indices);
+		if (IndexBuffer == nullptr)
+		{
+			OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Create Index Buffer.");
+			return false;
+		}
+	}
+
+	if (MaterialSlot == nullptr)
+	{
+		MaterialSlot = MaterialManager::GetInstance()->GetMaterial(L"Default");
+		if (MaterialSlot == nullptr)
+		{
+			OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Get Default Material.");
+			return false;
+		}
+	}
+
+	isCreated = true;
+
+	return true;
+}
+
 bool StaticMesh::Render()
 {
 	if (!isCreated)
@@ -45,42 +84,6 @@ bool StaticMesh::Render()
 		DXDevice::g_pImmediateContext->UpdateSubresource(IndexBuffer, 0, NULL, &Indices.at(0), 0, 0);
 		DXDevice::g_pImmediateContext->DrawIndexed(static_cast<UINT>(Indices.size()), 0, 0);
 	}
-
-	return true;
-}
-
-bool StaticMesh::Initialize()
-{
-	if (isCreated)
-	{
-		return true;
-	}
-
-	VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
-	if (VertexBuffer == nullptr)
-	{
-		OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Create Vertex Buffer.");
-		return false;
-	}
-
-	IndexBuffer = DXShaderManager::GetInstance()->CreateIndexBuffer(Indices);
-	/*if (IndexBuffer == nullptr)
-	{
-		OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Create Index Buffer.");
-		return false;
-	}*/
-
-	if (MaterialSlot == nullptr)
-	{
-		MaterialSlot = MaterialManager::GetInstance()->GetMaterial(L"Default");
-		if (MaterialSlot == nullptr)
-		{
-			OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Get Default Material.");
-			return false;
-		}
-	}
-
-	isCreated = true;
 
 	return true;
 }

@@ -80,7 +80,7 @@ public:
 		StructuredBuffer = DXShaderManager::GetInstance()->CreateStructuredBuffer<SplattingData>(SplattingInfo);
 		StructuredBufferSRV = DXTextureManager::GetInstance()->CreateShaderResourceViewBuffer(StructuredBuffer);
 		AlphaTexture = DXTextureManager::GetInstance()->CreateAlphaTexture(1024, 1024);
-		CopyTexture = DXTextureManager::GetInstance()->CreateTexture(AlphaTexture);
+		CopyTexture = DXTextureManager::GetInstance()->CreateCopyTexture(AlphaTexture);
 
 		DXDevice::g_pImmediateContext->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
 

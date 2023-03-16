@@ -50,7 +50,7 @@ void SkyDomeComponent::UpdateCamera(Camera* camera)
 
 	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(Vector3(0.0f, 0.0f, 0.0f));
 	MeshComp.TransformData.Mat = DirectX::XMMatrixAffineTransformation(Scale, Vector3(0.0f, 0.0f, 0.0f), q, Vector3(0.0f, 0.0f, 0.0f));
-	MeshComp.TransformData.Mat = DirectX::XMMatrixAffineTransformation(Scale, camera->Pos, q, camera->Pos);
+	//MeshComp.TransformData.Mat = DirectX::XMMatrixAffineTransformation(Scale, camera->Pos, q, camera->Pos);
 	MeshComp.TransformData.InversedMat = DirectX::XMMatrixInverse(0, MeshComp.TransformData.Mat);
 	MeshComp.TransformData.Mat = MeshComp.TransformData.Mat.Transpose();
 

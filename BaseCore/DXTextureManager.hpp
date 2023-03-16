@@ -12,6 +12,7 @@ private:
 	std::map<std::wstring, DXTexture*> m_TextureList;
 	std::vector<DXTexture*>				m_AlphaTextureList;
 	std::vector<ID3D11ShaderResourceView*>			SRVList;
+	std::vector<DXTexture*>				CopyTextureList;
 
 private:
 	DXTextureManager() {};
@@ -28,7 +29,7 @@ public:
 	DXTexture* GetTexture(const char* _filename);
 
 	DXTexture* CreateAlphaTexture(int width, int height);
-	DXTexture* CreateTexture(DXTexture* texture);
+	DXTexture* CreateCopyTexture(DXTexture* texture);
 
 	ID3D11ShaderResourceView* CreateShaderResourceViewBuffer(ID3D11Buffer* buffer);
 	

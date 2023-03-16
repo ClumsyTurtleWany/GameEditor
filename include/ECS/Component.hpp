@@ -13,8 +13,8 @@ namespace ECS
 		virtual ~Component() {};
 
 	public:
-		virtual bool Save() { return true; };
-		virtual bool Load() { return true; };
+		virtual bool Save(std::wstring filename) { return true; };
+		virtual bool Load(std::wstring filename) { return true; };
 	};
 
 	template<typename T>
