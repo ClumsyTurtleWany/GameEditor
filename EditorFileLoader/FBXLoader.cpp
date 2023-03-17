@@ -279,7 +279,10 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 		for (int idx = 0; idx < NodeData.MaterialNum; idx++)
 		{
 			FbxSurfaceMaterial* surface = node->GetMaterial(idx);
-			Material* material = new Material;
+
+			std::wstring materialName;
+			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
+			Material* material = MaterialManager::GetInstance()->CreateMaterial(materialName);
 			bool isValid = false;
 
 			material->DiffuseTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sDiffuse);
@@ -311,11 +314,7 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 			{
 				material->EmissiveTextureName = dst->FilePath + material->EmissiveTextureName;
 			}
-
-			std::wstring materialName;
-			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
-			MaterialManager::GetInstance()->AddMaterial(materialName, material);
-
+			material->Initialize();
 			NodeData.MaterialList.push_back(material);
 		}
 
@@ -1479,6 +1478,10 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 	}
 
 	FBXFileData* pData = it->second;
+	// Root Node Name 할당(?)
+	dst->Name = pData->NodeNameList.front();
+
+	////////
 	for (auto& node : pData->NodeDataList)
 	{
 		if (node.AttributeType != FbxNodeAttribute::EType::eMesh)
@@ -1493,6 +1496,11 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 			}
 
 			size_t meshCnt = node.MeshList.size();
+			// 싱글메시라고 가정하고/////////
+			dst->BindPoseMap = node.BindPoseMap;
+			dst->BindPoseKeyToIndexMap = node.BindPoseKeyToIndexMap;
+
+			///////////////
 			for (size_t idx = 0; idx < meshCnt; idx++)
 			{
 				if (node.MaterialList.empty())
@@ -1519,6 +1527,27 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 
 	return true;
 }
+
+bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst)
+{
+	auto it = FbxFileList.find(filename);
+	if (it == FbxFileList.end())
+	{
+		return false;
+	}
+
+	FBXFileData* pData = it->second;
+	dst->FileName = filename;
+	dst->StartFrame = pData->AnimationSceneInfo.StartFrame;
+	dst->EndFrame = pData->AnimationSceneInfo.EndFrame;
+	dst->TickPerFrame = pData->AnimationSceneInfo.TickPerFrame;
+	dst->FrameSpeed = pData->AnimationSceneInfo.FrameSpeed;
+	dst->LerpFrameMatrixList = pData->InterpolationFrameMatrixList;
+
+	return true;
+}
+
+
 //
 //bool FBXLoader::GenerateStaticMeshFromFileData(FBXFileData* _src, StaticMeshComponent* _dst)
 //{

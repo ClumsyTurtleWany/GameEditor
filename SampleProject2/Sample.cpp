@@ -13,6 +13,9 @@
 #include "MaterialManager.h"
 #include "SkyRenderSystem.h"
 #include "SkyDomeComponent.h"
+//추가
+#include "AnimationComponent.h"
+#include "UpdateAnimSystem.h"
 
 struct CustomEvent
 {
@@ -246,11 +249,18 @@ bool SampleCore::Initialize()
 	// Fbx Loader Test
 	Actor* fbxActor = new Actor;
 	auto fbxMeshComp = fbxActor->AddComponent<SkeletalMeshComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/charMob.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/hulk_removeTwist.FBX"))
 	{
 		//FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
-		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/hulk_removeTwist.FBX", fbxMeshComp);
 	}
+	auto fbxAnimComp = fbxActor->AddComponent<AnimationComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Mutant_Punch_Retargeted.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Mutant_Punch_Retargeted.FBX", fbxAnimComp);
+	}
+	auto fbxTransformComp = fbxActor->GetComponent<TransformComponent>();
+	fbxTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
 
 	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/hero_hulk01.FBX"))
 	//{
@@ -326,6 +336,9 @@ bool SampleCore::Initialize()
 	MainWorld.AddSystem(lightSystem);
 	MainWorld.AddSystem(new CameraSystem);
 	MainWorld.AddSystem(new RenderSystem);
+
+	// 추가
+	MainWorld.AddSystem(new UpdateAnimSystem);
 
 	return true;
 }

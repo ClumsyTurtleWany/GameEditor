@@ -32,5 +32,6 @@ public:
 
 public:
 	virtual void UpdateTransformMatrix(const TransformComponent& transform);
+	bool SplitString(std::string line, char delimiter, std::vector<std::string>& dst);
 };
 

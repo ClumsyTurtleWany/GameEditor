@@ -2,8 +2,9 @@
 #include "Define.h"
 #include "StaticMesh.h"
 #include "TransformComponent.h"
+#include "Component.hpp"
 
-class StaticMeshComponent
+class StaticMeshComponent : public ECS::Component
 {
 public:
 	std::wstring Name;
@@ -24,10 +25,13 @@ public:
 	virtual ~StaticMeshComponent();
 
 public:
-	virtual bool Render();
 	virtual bool Initialize();
+	virtual bool Render();
+	virtual bool Save(std::wstring filename) override;
+	virtual bool Load(std::wstring filename) override;
 
 public:
 	virtual void UpdateTransformMatrix(const TransformComponent& transform);
+	bool SplitString(std::string line, char delimiter, std::vector<std::string>& dst);
 };
 

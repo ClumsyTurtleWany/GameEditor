@@ -42,8 +42,10 @@
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
+    <ClInclude Include="UpdateAnimSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LightSystem.cpp" />
@@ -51,6 +53,7 @@
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
+    <ClCompile Include="UpdateAnimSystem.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

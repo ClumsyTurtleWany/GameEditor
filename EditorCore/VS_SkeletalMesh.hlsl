@@ -71,8 +71,12 @@ VertexShader_output VS(VertexShader_input input)
 	float4 vView = mul(vWorld, g_View);
 	float4 vProj = mul(vView, g_Projection);
 
+	float4 vWorldNormal = mul(vAnimationNormal, g_WorldTransform);
+	float4 vViewNormal = mul(vWorldNormal, g_View);
+	float4 vProjNormal = mul(vViewNormal, g_Projection);
+
 	output.p = vProj;
-	output.n = vAnimationNormal;
+	output.n = vProjNormal;
 	output.c = input.c;
 	output.t = input.t;
 	output.tangent = vAnimationTangent;

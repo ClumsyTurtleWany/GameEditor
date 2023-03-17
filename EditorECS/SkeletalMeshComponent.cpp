@@ -19,6 +19,7 @@ bool SkeletalMeshComponent::Render()
 	DXDevice::g_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
 	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
 	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(BPABuffer, 0, NULL, &BPAData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(2, 1, &BPABuffer);
 

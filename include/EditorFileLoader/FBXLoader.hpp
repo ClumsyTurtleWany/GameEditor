@@ -15,6 +15,8 @@
 #include "DXTextureManager.hpp"
 #include "StaticMeshComponent.h"
 #include "SkeletalMeshComponent.h"
+// 추가
+#include "AnimationComponent.h"
 
 
 class FBXLoader : public Singleton<FBXLoader>
@@ -127,4 +129,6 @@ public:
 	bool GenerateAnimationTrack(FBXFileData* data, float sampling);
 	bool GenerateStaticMeshFromFileData(std::wstring filename, StaticMeshComponent* dst);
 	bool GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst);
+	// 추가
+	bool GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst);
 };

@@ -56,9 +56,9 @@ struct MESH
 class ObjFile
 {
 public:
-	std::vector<MESH>	_meshList;
-	MtlFile				_mtl;
-	int					_meshCnt;
+	std::vector<MESH>	MeshList;
+	MtlFile				Mtl;
+	int					MeshCnt;
 
 public:
 	bool Load(std::wstring filename);

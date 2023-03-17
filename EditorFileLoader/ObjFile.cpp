@@ -21,7 +21,7 @@ bool ObjFile::Load(std::wstring filename)
 	}
 	else
 	{
-		_meshCnt = 0;
+		MeshCnt = 0;
 		while (!file.eof())
 		{
 			std::string lineData;
@@ -39,14 +39,14 @@ bool ObjFile::Load(std::wstring filename)
 				std::wstring mtlFileName;
 				mtlFileName.assign(wordList[1].begin(), wordList[1].end());
 				mtlFilePath += mtlFileName;
-				_mtl.Load(mtlFilePath);
+				Mtl.Load(mtlFilePath);
 			}
 			else if (wordList[0] == "o")
 			{
 				MESH mesh;
 				mesh.name = wordList[1];
-				_meshList.push_back(mesh);
-				_meshCnt++;
+				MeshList.push_back(mesh);
+				MeshCnt++;
 			}
 			else if (wordList[0] == "v")
 			{
@@ -54,14 +54,14 @@ bool ObjFile::Load(std::wstring filename)
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);
-				_meshList[_meshCnt - 1].positionList.push_back(vec);
+				MeshList[MeshCnt - 1].positionList.push_back(vec);
 			}
 			else if (wordList[0] == "vt")
 			{
 				Vector2 vec;
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
-				_meshList[_meshCnt - 1].uvList.push_back(vec);
+				MeshList[MeshCnt - 1].uvList.push_back(vec);
 			}
 			else if (wordList[0] == "vn")
 			{
@@ -69,18 +69,18 @@ bool ObjFile::Load(std::wstring filename)
 				vec.x = std::stof(wordList[1]);
 				vec.y = std::stof(wordList[2]);
 				vec.z = std::stof(wordList[3]);
-				_meshList[_meshCnt - 1].normalList.push_back(vec);
+				MeshList[MeshCnt - 1].normalList.push_back(vec);
 			}
 			else if (wordList[0] == "usemtl")
 			{
 				for (int listIdx = 1; listIdx < wordList.size(); listIdx++)
 				{
-					_meshList[_meshCnt - 1].materialList.push_back(wordList[listIdx]);
+					MeshList[MeshCnt - 1].materialList.push_back(wordList[listIdx]);
 				}
 			}
 			else if (wordList[0] == "s")
 			{
-				_meshList[_meshCnt - 1].smoothingGroup = wordList[1];
+				MeshList[MeshCnt - 1].smoothingGroup = wordList[1];
 			}
 			else if (wordList[0] == "f")
 			{
@@ -98,11 +98,11 @@ bool ObjFile::Load(std::wstring filename)
 					face.v[listIdx - 1].normal = std::stoi(wordSplitList[2]);
 				}
 
-				_meshList[_meshCnt - 1].faceList.push_back(face);
+				MeshList[MeshCnt - 1].faceList.push_back(face);
 			}
 			else if (wordList[0] == "g")
 			{
-				_meshList[_meshCnt - 1].group = wordList[1];
+				MeshList[MeshCnt - 1].group = wordList[1];
 			}
 			else
 			{

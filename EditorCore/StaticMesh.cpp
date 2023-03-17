@@ -18,11 +18,14 @@ bool StaticMesh::Initialize()
 		return true;
 	}
 
-	VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
-	if (VertexBuffer == nullptr)
+	if (!Vertices.empty())
 	{
-		OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Create Vertex Buffer.");
-		return false;
+		VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
+		if (VertexBuffer == nullptr)
+		{
+			OutputDebugString(L"EditorCore::StaticMesh::Initialize::Failed Create Vertex Buffer.");
+			return false;
+		}
 	}
 
 	if (!Indices.empty())
