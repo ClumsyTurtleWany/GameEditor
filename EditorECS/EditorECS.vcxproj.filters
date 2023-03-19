@@ -155,6 +155,9 @@
     <ClInclude Include="..\include\EffectInclude\ParticleEmitter.h">
       <Filter>Entity\EffectEntity</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Entity\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -197,6 +200,18 @@
     </ClCompile>
     <ClCompile Include="..\include\EffectInclude\ParticleEmitter.cpp">
       <Filter>Entity\EffectEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementSystem.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Entity\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

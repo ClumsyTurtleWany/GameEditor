@@ -16,6 +16,8 @@
 //추가
 #include "AnimationComponent.h"
 #include "UpdateAnimSystem.h"
+#include "MovementSystem.h"
+#include "Character.h"
 
 //Effect Include
 #include "EffectInclude\ParticleEffect.h"
@@ -255,7 +257,7 @@ bool SampleCore::Initialize()
 
 
 	// Fbx Loader Test
-	Actor* fbxActor = new Actor;
+	Character* fbxActor = new Character;
 	auto fbxMeshComp = fbxActor->AddComponent<SkeletalMeshComponent>();
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/hulk_removeTwist.FBX"))
 	{
@@ -269,14 +271,12 @@ bool SampleCore::Initialize()
 	}
 	auto fbxTransformComp = fbxActor->GetComponent<TransformComponent>();
 	fbxTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
+	fbxTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	fbxTransformComp->Translation = Vector3(0.0f, 0.0f, 100.0f);
 
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/hero_hulk01.FBX"))
-	//{
-	//	//FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/charMob.FBX", fbxMeshComp);
-	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/hero_hulk01.FBX", fbxMeshComp);
-	//}
-	//auto fbxActorTransform = fbxActor->GetComponent<TransformComponent>();
-	//fbxActorTransform->Scale = Vector3(0.01f, 0.01f, 0.01f);
+	auto fbxMovementComp = fbxActor->GetComponent<MovementComponent>();
+	fbxMovementComp->Speed = 10.0f;
+	fbxMovementComp->Destination = Vector3(0.0f, 0.0f, -100.0f);
 	MainWorld.AddEntity(fbxActor);
 
 	Actor* landscapeActor = new Actor;
@@ -344,6 +344,7 @@ bool SampleCore::Initialize()
 	MainWorld.AddSystem(lightSystem);
 	MainWorld.AddSystem(new CameraSystem);
 	MainWorld.AddSystem(new RenderSystem);
+	MainWorld.AddSystem(new MovementSystem);
 
 	// 추가
 	MainWorld.AddSystem(new UpdateAnimSystem);

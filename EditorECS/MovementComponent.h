@@ -1,12 +1,16 @@
 #pragma once
 #include "Define.h"
 
-struct MovementComponent
+class MovementComponent
 {
+public:
 	Vector3 Location;
 	Vector3 Forword;
+	Vector3 Destination;
 	float	Speed;
 
-	MovementComponent() : Location(Vector3(0.0f, 0.0f, 0.0f)), Forword(Vector3(0.0f, 0.0f, 0.0f)), Speed(0.0f) {};
-	MovementComponent(Vector3 location, Vector3 forword, float speed) : Location(location), Forword(forword), Speed(speed) {};
+public:
+	MovementComponent(); 
+	MovementComponent(Vector3 location, Vector3 forword, Vector3 destination, float speed);
+	virtual ~MovementComponent();
 };

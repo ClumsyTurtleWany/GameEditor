@@ -32,6 +32,7 @@
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraSystem.h" />
+    <ClInclude Include="Character.h" />
     <ClInclude Include="CubeComponent.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DirectionalLight.h" />
@@ -60,10 +61,14 @@
     <ClCompile Include="..\include\EffectInclude\ParticleEmitter.cpp" />
     <ClCompile Include="..\include\EffectInclude\RNGenerator.cpp" />
     <ClCompile Include="..\include\EffectInclude\SpriteManager.cpp" />
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LightSystem.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />
