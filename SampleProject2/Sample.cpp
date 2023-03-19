@@ -17,6 +17,9 @@
 #include "AnimationComponent.h"
 #include "UpdateAnimSystem.h"
 
+//Effect Include
+#include "EffectInclude\ParticleEffect.h"
+
 struct CustomEvent
 {
 	int SomeNumber;
@@ -136,6 +139,11 @@ bool SampleCore::Initialize()
 	EditorCore::Initialize();
 	FBXLoader::GetInstance()->Initialize();
 
+	//EFFECTUTIL Initialization
+	EFFECTUTIL::DXSTATE_MGR.init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
+	EFFECTUTIL::FILEIO_MGR.init();
+	EFFECTUTIL::SPRITE_MGR.init();
+	EFFECTUTIL::EFFECT_MGR.init();
 
 	//테스트 시스템 추가
 	ECS::TestSystem* test = new ECS::TestSystem;
@@ -340,6 +348,12 @@ bool SampleCore::Initialize()
 	// 추가
 	MainWorld.AddSystem(new UpdateAnimSystem);
 
+	//Effect Test
+	ParticleEffect* testEffect = new ParticleEffect(L"Fire");
+	//auto testEffectTransform = testEffect->GetComponent<TransformComponent>();
+	//testEffectTransform->Scale = { 10.0f, 10.0f, 10.0f };
+	MainWorld.AddEntity(testEffect);
+
 	return true;
 }
 
@@ -397,6 +411,12 @@ bool SampleCore::Render()
 
 bool SampleCore::Release()
 {
+	//EFFECTUTIL CleanUp
+	EFFECTUTIL::EFFECT_MGR.release();
+	EFFECTUTIL::SPRITE_MGR.release();
+	EFFECTUTIL::FILEIO_MGR.release();
+	EFFECTUTIL::DXSTATE_MGR.release();
+
 	FBXLoader::GetInstance()->Release();
 	return EditorCore::Release();
 }

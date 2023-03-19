@@ -38,6 +38,26 @@
     <Filter Include="Component\Animation">
       <UniqueIdentifier>{f630de5f-b87f-4ee1-9021-fb81d7b412f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EffectUtility">
+      <UniqueIdentifier>{1e0ee898-c78d-47c1-ac4d-cc1a71ec0f2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffectUtility\소스 파일">
+      <UniqueIdentifier>{3269e1c7-340e-4ac1-802f-f4776fe9b934}</UniqueIdentifier>
+      <Extensions>cpp;</Extensions>
+    </Filter>
+    <Filter Include="EffectUtility\헤더 파일">
+      <UniqueIdentifier>{4387cc65-3039-4e8a-863c-2109177e730b}</UniqueIdentifier>
+      <Extensions>h;</Extensions>
+    </Filter>
+    <Filter Include="Entity\EffectEntity">
+      <UniqueIdentifier>{37f2f5d4-e615-486c-86f5-18ec159289ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Component\EffectComponent">
+      <UniqueIdentifier>{63171ef3-255c-45bd-a572-dcbc7e158a7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EffectUtility\HLSL">
+      <UniqueIdentifier>{e4337ed9-4aaa-4120-9a6f-ec890950a825}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -107,6 +127,34 @@
     <ClInclude Include="AnimationComponent.h">
       <Filter>Component\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="UpdateAnimSystem.h" />
+    <ClInclude Include="..\include\EffectInclude\DXStatePreset.h">
+      <Filter>EffectUtility\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\EffectDefine.h">
+      <Filter>EffectUtility\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\EffectManager.h">
+      <Filter>EffectUtility\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\FileIOManager.h">
+      <Filter>EffectUtility\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\RNGenerator.h">
+      <Filter>EffectUtility\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\SpriteManager.h">
+      <Filter>EffectUtility\헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\ParticleEffectComponent.h">
+      <Filter>Component\EffectComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\ParticleEffect.h">
+      <Filter>Entity\EffectEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\ParticleEmitter.h">
+      <Filter>Entity\EffectEntity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -130,5 +178,42 @@
     <ClCompile Include="SkyBoxComponent.cpp">
       <Filter>Component\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp" />
+    <ClCompile Include="UpdateAnimSystem.cpp" />
+    <ClCompile Include="..\include\EffectInclude\SpriteManager.cpp">
+      <Filter>EffectUtility\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\EffectInclude\DXStatePreset.cpp">
+      <Filter>EffectUtility\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\EffectInclude\EffectManager.cpp">
+      <Filter>EffectUtility\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\EffectInclude\FileIOManager.cpp">
+      <Filter>EffectUtility\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\EffectInclude\RNGenerator.cpp">
+      <Filter>EffectUtility\소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="..\include\EffectInclude\ParticleEmitter.cpp">
+      <Filter>Entity\EffectEntity</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">
+      <Filter>EffectUtility\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_PointParticle_Alphablend.hlsl">
+      <Filter>EffectUtility\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_PointParticle_Alphatest.hlsl">
+      <Filter>EffectUtility\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_PointParticle_Dualsource.hlsl">
+      <Filter>EffectUtility\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\VS_PointParticle.hlsl">
+      <Filter>EffectUtility\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

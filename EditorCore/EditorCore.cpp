@@ -17,6 +17,12 @@ bool EditorCore::Initialize()
         return false;
     }
 
+    if (!CreateGeometryShader())
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateGeometryShader::Failed Create Geometry Shader.");
+        return false;
+    }
+
     if (!CreatePixelShader())
     {
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.");
@@ -110,6 +116,23 @@ bool EditorCore::CreateInputLayout()
     //UINT normalMapStaticMeshInputElementNum = sizeof(normalMapStaticMeshInputDescs) / sizeof(normalMapStaticMeshInputDescs[0]);
     //DXShaderManager::GetInstance()->CreateInputLayout(normalMapStaticMeshVSCode, normalMapStaticMeshInputDescs, normalMapStaticMeshInputElementNum, L"NormalMapStaticMesh");
 
+    //------------------------------------------------------------------------------------
+    // ParticleEffect Input Layout
+    //------------------------------------------------------------------------------------
+    ID3DBlob* particleEffectVSCode = DXShaderManager::GetInstance()->GetVSCode(L"VS_PointParticle");
+    D3D11_INPUT_ELEMENT_DESC particleEffectInputDescs[] =
+    {
+        { "POSITION",   0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 0,   D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "NORMAL",     0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 12,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "COLOR",      0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 24,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "TEXCOORD",   0, DXGI_FORMAT_R32G32_FLOAT,        0, 40,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "SPRITERT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 48,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "ROTATION",   0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 64,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "SCALE",      0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 76,  D3D11_INPUT_PER_VERTEX_DATA, NULL}
+    };
+    UINT particleEffectInputElementNum = sizeof(particleEffectInputDescs) / sizeof(particleEffectInputDescs[0]);
+    DXShaderManager::GetInstance()->CreateInputLayout(particleEffectVSCode, particleEffectInputDescs, particleEffectInputElementNum, L"VL_PointParticle");
+
     return true;
 }
 
@@ -138,6 +161,14 @@ bool EditorCore::CreateVertexShader()
     if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_Sky.hlsl", L"Sky"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_Sky.hlsl)");
+    }
+
+    //------------------------------------------------------------------------------------
+    // Effect Vertex Shader
+    //------------------------------------------------------------------------------------
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/EffectPart/shader/VS_PointParticle.hlsl", L"VS_PointParticle"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/EffectPart/shader/VS_PointParticle.hlsl)");
     }
 
     return true;
@@ -175,6 +206,24 @@ bool EditorCore::CreatePixelShader()
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_NormalMap.hlsl)");
     }
 
+    //------------------------------------------------------------------------------------
+    // Effect Pixel Shader
+    //------------------------------------------------------------------------------------
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/EffectPart/shader/PS_PointParticle_Alphablend.hlsl", L"PS_PointParticle_Alphablend"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/EffectPart/shader/PS_PointParticle_Alphablend.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/EffectPart/shader/PS_PointParticle_Alphatest.hlsl", L"PS_PointParticle_Alphatest"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/EffectPart/shader/PS_PointParticle_Alphatest.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/EffectPart/shader/PS_PointParticle_Dualsource.hlsl", L"PS_PointParticle_Dualsource"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/EffectPart/shader/PS_PointParticle_Dualsource.hlsl)");
+    }
+
     return true;
 }
 
@@ -189,5 +238,13 @@ bool EditorCore::CreateComputeShader()
 
 bool EditorCore::CreateGeometryShader()
 {
+    //------------------------------------------------------------------------------------
+    // Effect Geometry Shader
+    //------------------------------------------------------------------------------------
+    if (!DXShaderManager::GetInstance()->CreateGeometryShader(L"../resource/EffectPart/shader/GS_PointParticle.hlsl", L"GS_PointParticle"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateGeometryShader::Failed Create Geometry Shader.(../resource/EffectPart/shader/GS_PointParticle.hlsl)");
+    }
+
     return true;
 }

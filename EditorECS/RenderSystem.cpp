@@ -8,6 +8,7 @@
 #include "Landscape.h"
 //#include "DebugCamera.h"
 #include "SkyBoxComponent.h"
+#include "EffectInclude\ParticleEffectComponent.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {
@@ -72,6 +73,25 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		if ((skyBox != nullptr))
 		{
 			skyBox->Render();
+		}
+	}
+
+	for (auto& entity : world->GetEntities<ParticleEffectComponent>())
+	{
+		auto pPSystem = entity->GetComponent<ParticleEffectComponent>()->pPPsystem;
+		auto transform = entity->GetComponent<TransformComponent>();
+
+		Matrix retMat = Matrix::CreateScale(transform->Scale);
+		retMat *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
+		retMat *= Matrix::CreateTranslation(transform->Translation);
+
+		if (mainCamera != nullptr && pPSystem != nullptr)
+		{
+			pPSystem->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
+			pPSystem->update();
+			pPSystem->preRender(&retMat,
+				&mainCamera->View, &mainCamera->Projection);
+			pPSystem->render();
 		}
 	}
 
