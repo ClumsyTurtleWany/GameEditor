@@ -127,7 +127,6 @@
     <ClInclude Include="AnimationComponent.h">
       <Filter>Component\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateAnimSystem.h" />
     <ClInclude Include="..\include\EffectInclude\DXStatePreset.h">
       <Filter>EffectUtility\헤더 파일</Filter>
     </ClInclude>
@@ -155,6 +154,12 @@
     <ClInclude Include="..\include\EffectInclude\ParticleEmitter.h">
       <Filter>Entity\EffectEntity</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Entity\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateAnimSystem.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -178,8 +183,6 @@
     <ClCompile Include="SkyBoxComponent.cpp">
       <Filter>Component\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationComponent.cpp" />
-    <ClCompile Include="UpdateAnimSystem.cpp" />
     <ClCompile Include="..\include\EffectInclude\SpriteManager.cpp">
       <Filter>EffectUtility\소스 파일</Filter>
     </ClCompile>
@@ -197,6 +200,24 @@
     </ClCompile>
     <ClCompile Include="..\include\EffectInclude\ParticleEmitter.cpp">
       <Filter>Entity\EffectEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementSystem.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationComponent.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdateAnimSystem.cpp">
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
