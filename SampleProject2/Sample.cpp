@@ -22,7 +22,7 @@
 ///////////////////
 //Effect Include
 ///////////////////
-#include "EffectInclude\ParticleEffect.h"
+#include "EffectInclude\EffectSystem.h"
 
 struct CustomEvent
 {
@@ -143,13 +143,9 @@ bool SampleCore::Initialize()
 	EditorCore::Initialize();
 	FBXLoader::GetInstance()->Initialize();
 
-	///////////////////////////////////////
-	//EFFECTUTIL Initialization
-	///////////////////////////////////////
-	EFFECTUTIL::DXSTATE_MGR.init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
-	EFFECTUTIL::FILEIO_MGR.init();
-	EFFECTUTIL::SPRITE_MGR.init();
-	EFFECTUTIL::EFFECT_MGR.init();
+	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
+	ESystem->init(&MainWorld);
+	MainWorld.AddSystem(ESystem);
 
 	//테스트 시스템 추가
 	//ECS::TestSystem* test = new ECS::TestSystem;
@@ -350,10 +346,14 @@ bool SampleCore::Initialize()
 	// 추가
 	MainWorld.AddSystem(new UpdateAnimSystem);
 
+	///////////////
 	//Effect Test
-	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire");
-	ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke");
-	ParticleEffect* testEffect3 = new ParticleEffect(L"Spark");
+	// Prop : bLoop, fDuration, fDelay, fPlayspeed
+	///////////////
+
+	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", EFFECTUTIL::ParticlesystemProperty(true, 100.0f, 0.0f, 2.0f));
+	ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke", {false, 2.0f, 5.0f, 1.0f});
+	ParticleEffect* testEffect3 = new ParticleEffect(L"Spark", {true, 5.0f, 10.0f, 0.1f});
 	auto testEffectTransform1 = testEffect1->GetComponent<TransformComponent>();
 	auto testEffectTransform2 = testEffect2->GetComponent<TransformComponent>();
 	auto testEffectTransform3 = testEffect3->GetComponent<TransformComponent>();
@@ -370,6 +370,7 @@ bool SampleCore::Initialize()
 bool SampleCore::Frame()
 {
 	EditorCore::Frame();
+	MainWorld.CleanUp();
 
 	KeyState btnA = Input::GetInstance()->getKey('A');
 	if (btnA == KeyState::Hold || btnA == KeyState::Down)

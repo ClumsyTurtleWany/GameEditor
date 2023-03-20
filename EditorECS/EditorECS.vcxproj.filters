@@ -58,6 +58,9 @@
     <Filter Include="EffectUtility\HLSL">
       <UniqueIdentifier>{e4337ed9-4aaa-4120-9a6f-ec890950a825}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\EffectSystem">
+      <UniqueIdentifier>{d287b66e-7b6b-47fd-8996-38e79763caba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -159,6 +162,9 @@
     </ClInclude>
     <ClInclude Include="UpdateAnimSystem.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\EffectInclude\EffectSystem.h">
+      <Filter>System\EffectSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

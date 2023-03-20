@@ -2,6 +2,7 @@
 #include <atlconv.h>
 #include <set>
 #include <fstream>
+#include <unordered_set>
 
 #include "Define.h"
 #include "RNGenerator.h"

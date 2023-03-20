@@ -25,14 +25,41 @@ namespace EFFECTUTIL
 		POINTPARTICLEEMITTER_FILE emitters[64];
 	};
 
+	struct ParticlesystemProperty
+	{
+		bool bLoop;
+
+		float fDuration;
+		float fStDelay;
+		float fPlaySpeed;
+
+		ParticlesystemProperty() 
+		{
+			bLoop = false;
+			fDuration = 1.0f;
+			fPlaySpeed = 1.0f;
+			fStDelay = 0.0f;
+		}
+		ParticlesystemProperty(bool bLoop, float fDuration, float fStDelay, float fPlaySpeed)
+		{
+			this->bLoop = bLoop;
+			this->fDuration = fDuration;
+			this->fStDelay = fStDelay;
+			this->fPlaySpeed = fPlaySpeed;
+		}
+	};
+
 	class ParticleSystem
 	{
-		friend class EffectManager;
-	private:
+	public:
 		std::string											m_szName;
 		std::wstring										m_wszName;
 
-		std::vector<EFFECTUTIL::ParticleEmitter*>		m_pEmitterList;
+		ParticlesystemProperty								m_PSProp;
+		float												m_fCurTime;
+		bool												m_bPendingDelete;
+
+		std::vector<EFFECTUTIL::ParticleEmitter*>			m_pEmitterList;
 
 	public:
 		ParticleSystem();
@@ -45,12 +72,15 @@ namespace EFFECTUTIL
 		bool preRender(Matrix* pWorld, Matrix* pView, Matrix* pProj);
 		bool render();
 		bool release();
+
+		void setProp(ParticlesystemProperty PSProp);
 	};
 
 	class EffectManager
 	{
 	private:
-		std::map<std::wstring, ParticleSystem*>	m_PPSMap;
+		std::map<std::wstring, PARTICLESYSTEM_FILE>		m_PSFileMap;
+		std::unordered_set<ParticleSystem*>				m_pPSSet;
 		std::wstring									m_wszDefaultPointParticleFilePath;
 
 		EffectManager();
@@ -67,6 +97,8 @@ namespace EFFECTUTIL
 		bool loadDefaultEffectDir();
 		bool loadPointParticleEffect(std::wstring wszEffectFilePath, std::wstring key);
 		ParticleSystem* getPointParticleEffect(std::wstring key);
+
+		bool erase(ParticleSystem* pTarget);
 
 		static EffectManager& getInstance()
 		{
