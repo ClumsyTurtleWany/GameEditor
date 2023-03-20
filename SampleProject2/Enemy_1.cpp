@@ -3,6 +3,8 @@
 bool Enemy_1::Init()
 {
     hp = 50;
+    maxHp = 50;
+    armor = 0;
     return true;
 }
 
@@ -13,20 +15,21 @@ void Enemy_1::patern(Player* player, int turn)
 
     case 0: 
     {
-        player->hp -= 5;
+        attack(player, 5);
     }break;
 
     case 1:
     {
-        player->hp -= 10;
+        attack(player, 10);
     }break;
 
     case 2:
     {
-        player->hp -= 20;
+        attack(player, 20);
     }break;
 
     }
 
     if (player->hp < 0) player->hp = 0;
+    // 플레이어 사망 이벤트?
 }

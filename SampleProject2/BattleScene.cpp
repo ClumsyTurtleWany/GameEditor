@@ -51,6 +51,43 @@ bool BattleScene::Init()
 bool BattleScene::Frame()
 {
 	BaseScene::Frame();
+
+	KeyState btnA = Input::GetInstance()->getKey('A');
+	if (btnA == KeyState::Hold || btnA == KeyState::Down)
+	{
+		MainCamera->Yaw -= 0.001f;
+	}
+
+	KeyState btnD = Input::GetInstance()->getKey('D');
+	if (btnD == KeyState::Hold || btnD == KeyState::Down)
+	{
+		MainCamera->Yaw += 0.001f;
+	}
+
+	KeyState btnW = Input::GetInstance()->getKey('W');
+	if (btnW == KeyState::Hold || btnW == KeyState::Down)
+	{
+		MainCamera->Pitch -= 0.001f;
+	}
+
+	KeyState btnS = Input::GetInstance()->getKey('S');
+	if (btnS == KeyState::Hold || btnS == KeyState::Down)
+	{
+		MainCamera->Pitch += 0.001f;
+	}
+
+	KeyState btnQ = Input::GetInstance()->getKey('Q');
+	if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
+	{
+		MainCamera->Pos.z += 0.01f;
+	}
+
+	KeyState btnE = Input::GetInstance()->getKey('E');
+	if (btnE == KeyState::Hold || btnE == KeyState::Down)
+	{
+		MainCamera->Pos.z -= 0.01f;
+	}
+
 	return true;
 }
 
@@ -96,17 +133,22 @@ void BattleScene::Init_UI()
 	CardList[2] = bc->FindObj(L"Card3");
 	CardList[2]->m_bDraggable = true;
 
-	// 플레이어 거시기 HP표시용 
+	// 플레이어 거시기 표시용 
 	PlayerCurrenHP1 = bc->FindObj(L"PlayerCurrentHP_1");
 	PlayerCurrenHP2 = bc->FindObj(L"PlayerCurrentHP_2");
 	PlayerMaxHP1 = bc->FindObj(L"PlayerMaxHP_1");
 	PlayerMaxHP2 = bc->FindObj(L"PlayerMaxHP_2");
+	PlayerArmorIcon = bc->FindObj(L"PlayerArmor_Icon");
+	PlayerArmor1 = bc->FindObj(L"PlayerArmor_1");
+	PlayerArmor2 = bc->FindObj(L"PlayerArmor_2");
+	UpdatePlayerState();
 
-	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList[player->hp / 10];
-	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList[player->hp % 10];
-	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList[player->maxHp / 10];
-	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList[player->maxHp % 10];
-
+	// 적 상태
+	EnemyCurrentHP1 = bc->FindObj(L"EnemyCurrentHp_1");
+	EnemyCurrentHP2 = bc->FindObj(L"EnemyCurrentHp_2");
+	EnemyMaxHP1 = bc->FindObj(L"EnemyMaxHp_1");
+	EnemyMaxHP2 = bc->FindObj(L"EnemyMaxHp_2");
+	UpdateEnemyState();
 
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
@@ -203,9 +245,9 @@ void BattleScene::TurnStartProcess()
 {
 	TurnNum++;
 	player->armor = 0;
+	UpdatePlayerState();
 
 	int drawNum = 3;
-
 	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
 
 	Dick->Draw(drawNum);
@@ -226,9 +268,8 @@ void BattleScene::TurnEndProcess()
 void BattleScene::EnemyTurnProcess()
 {
 	enemy->patern(player, TurnNum);
-
-	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList[player->hp / 10];
-	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList[player->hp % 10];
+	UpdatePlayerState();
+	UpdateEnemyState();
 
 	TurnStart = true;
 }
@@ -287,6 +328,8 @@ void BattleScene::CardCheck()
 
 			Dick->Use(cardNum);
 			UpdateHand(Dick->HandList.size());
+			UpdatePlayerState();
+			UpdateEnemyState();
 		}
 	}
 }
@@ -306,4 +349,77 @@ void BattleScene::UpdateHand(int handSize)
 	{
 		CardList[card]->m_bIsDead = true;
 	}
+}
+
+void BattleScene::UpdatePlayerState()
+{
+	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->hp / 10];
+	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->hp % 10];
+	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->maxHp / 10];
+	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->maxHp % 10];
+
+	if (player->armor <= 0) 
+	{
+		PlayerArmorIcon->m_bIsDead = true;
+		PlayerArmor1->m_bIsDead = true;
+		PlayerArmor2->m_bIsDead = true;
+	}
+	else 
+	{
+		PlayerArmorIcon->m_bIsDead = false;
+		PlayerArmor2->m_bIsDead = false;
+		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor % 10];
+		if ((player->armor/10) >= 1) 
+		{
+			PlayerArmor1->m_OriginPos = { -0.714, -0.693 };
+			PlayerArmor2->m_OriginPos = { -0.693, -0.693 };
+
+			PlayerArmor1->m_bIsDead = false;
+			PlayerArmor1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor / 10];
+		}
+		else
+		{
+			PlayerArmor2->m_OriginPos = { -0.703, -0.693 };
+		}
+	}
+}
+
+void BattleScene::UpdateEnemyState()
+{
+	if (enemy->hp <= 0) 
+	{
+		// 적 격파 이벤트 발생
+		enemy->hp = 0;
+	}
+
+	EnemyCurrentHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->hp / 10];
+	EnemyCurrentHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->hp % 10];
+	EnemyMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->maxHp / 10];
+	EnemyMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->maxHp % 10];
+
+	// 방어도 부분, 좀 나중에..
+	/*if (player->armor <= 0)
+	{
+		PlayerArmorIcon->m_bIsDead = true;
+		PlayerArmor1->m_bIsDead = true;
+		PlayerArmor2->m_bIsDead = true;
+	}
+	else
+	{
+		PlayerArmorIcon->m_bIsDead = false;
+		PlayerArmor2->m_bIsDead = false;
+		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor % 10];
+		if ((player->armor / 10) >= 1)
+		{
+			PlayerArmor1->m_OriginPos = { -0.714, -0.693 };
+			PlayerArmor2->m_OriginPos = { -0.693, -0.693 };
+
+			PlayerArmor1->m_bIsDead = false;
+			PlayerArmor1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor / 10];
+		}
+		else
+		{
+			PlayerArmor2->m_OriginPos = { -0.703, -0.693 };
+		}
+	}*/
 }

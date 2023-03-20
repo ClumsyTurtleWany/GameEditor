@@ -207,7 +207,7 @@ CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingY
 =
 Type	0
 ID	22
-Name	PlayerArmor_Icon
+Name	armor
 OrginPos	-0.702501 -0.688889
 Depth	0.000000
 Alpha	1.000000
@@ -216,17 +216,8 @@ CutInfo	0 | 64.000000 64.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingY
 =
 Type	0
 ID	23
-Name	PlayerArmor_1
-OrginPos	-0.713750 -0.693000
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Number\black\0.png | ../../data/shader/DefaultObject_Orgin.txt
-=
-Type	0
-ID	24
-Name	PlayerArmor_2
-OrginPos	-0.692501 -0.693000
+Name	Armor_1
+OrginPos	-0.702500 -0.695556
 Depth	0.000000
 Alpha	1.000000
 CutNum	1

@@ -1,4 +1,8 @@
 #include "Sample.h"
+#include "FBXLoader.hpp"
+#include "EffectInclude\ParticleEffect.h"
+
+// ¹Ø¿¡ ³ðµéÀº BaseScene ¾Æ´Ï¸é BattleScene ¹ØÀ¸·Î °¬À¾´Ï´Ù 
 //#include "WindowsClient.h"
 //#include "Actor.h"
 //#include "PlaneComponent.h"
@@ -7,7 +11,6 @@
 //#include "LightSystem.h"
 //#include "DirectionalLight.h"
 //#include "SkyBoxComponent.h"
-#include "FBXLoader.hpp"
 //#include "Landscape.h"
 //#include "SkeletalMeshComponent.h"
 //#include "MaterialManager.h"
@@ -22,7 +25,7 @@
 ///////////////////
 //Effect Include
 ///////////////////
-#include "EffectInclude\ParticleEffect.h"
+//#include "EffectInclude\ParticleEffect.h"
 
 struct CustomEvent
 {
@@ -159,7 +162,8 @@ bool SampleCore::Initialize()
 	Battle = new BattleScene;
 	Battle->Dick = Dick;
 	Battle->CardTextureList = CardTextureList;
-	Battle->NumberTextureList = NumberTextureList_Red;
+	Battle->NumberTextureList_Red = NumberTextureList_Red;
+	Battle->NumberTextureList_Black = NumberTextureList_Black;
 	Battle->Init();
 	CardView = new CardViewScene;
 	CardView->Dick = Dick;
@@ -399,42 +403,6 @@ bool SampleCore::Frame()
 	SceneChange();
 	CurrentScene->Frame();
 
-	KeyState btnA = Input::GetInstance()->getKey('A');
-	if (btnA == KeyState::Hold || btnA == KeyState::Down)
-	{
-		DebugCamera->Yaw -= 0.001f;
-	}
-
-	KeyState btnD = Input::GetInstance()->getKey('D');
-	if (btnD == KeyState::Hold || btnD == KeyState::Down)
-	{
-		DebugCamera->Yaw += 0.001f;
-	}
-
-	KeyState btnW = Input::GetInstance()->getKey('W');
-	if (btnW == KeyState::Hold || btnW == KeyState::Down)
-	{
-		DebugCamera->Pitch -= 0.001f;
-	}
-
-	KeyState btnS = Input::GetInstance()->getKey('S');
-	if (btnS == KeyState::Hold || btnS == KeyState::Down)
-	{
-		DebugCamera->Pitch += 0.001f;
-	}
-
-	KeyState btnQ = Input::GetInstance()->getKey('Q');
-	if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
-	{
-		DebugCamera->Pos.z += 0.01f;
-	}
-
-	KeyState btnE = Input::GetInstance()->getKey('E');
-	if (btnE == KeyState::Hold || btnE == KeyState::Down)
-	{
-		DebugCamera->Pos.z -= 0.01f;
-	}
-
 	return true;
 }
 
@@ -505,17 +473,17 @@ void SampleCore::TextureLoad()
 
 
 	// ¼ýÀÚ ÅØ½ºÃ³ ·Îµå, ÀÏ´Ü »¡°»ÀÌ
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/0.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/0.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/0.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/1.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/1.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/1.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/2.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/2.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/2.png");
 		NumberTextureList_Red.push_back(tc);
@@ -525,35 +493,87 @@ void SampleCore::TextureLoad()
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/3.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/4.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/4.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/4.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/5.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/5.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/5.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/6.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/6.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/6.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/7.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/7.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/7.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/8.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/8.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/8.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/9.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/9.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/9.png");
 		NumberTextureList_Red.push_back(tc);
+	}
+
+	// ¼ýÀÚ ÅØ½ºÃ³ ·Îµå, ±î¸ÁÀÌ
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/0.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/0.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/1.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/1.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/2.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/2.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/3.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/3.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/4.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/4.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/5.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/5.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/6.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/6.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/7.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/7.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/8.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/8.png");
+		NumberTextureList_Black.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/black/9.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/9.png");
+		NumberTextureList_Black.push_back(tc);
 	}
 }
 
