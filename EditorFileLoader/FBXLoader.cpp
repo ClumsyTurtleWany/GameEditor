@@ -1537,16 +1537,27 @@ bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationCo
 	}
 
 	FBXFileData* pData = it->second;
-	dst->FileName = filename;
-	dst->StartFrame = pData->AnimationSceneInfo.StartFrame;
-	dst->EndFrame = pData->AnimationSceneInfo.EndFrame;
-	dst->TickPerFrame = pData->AnimationSceneInfo.TickPerFrame;
-	dst->FrameSpeed = pData->AnimationSceneInfo.FrameSpeed;
-	dst->LerpFrameMatrixList = pData->InterpolationFrameMatrixList;
+
+	std::filesystem::path path = filename;
+	std::wstring name = path.filename();
+
+	auto pos = name.rfind('.'); // 확장자명의 시작 위치 검색
+	if (pos != std::wstring::npos) { // 확장자명이 있을 경우
+		name = name.substr(0, pos); // 확장자명 제외한 파일명 추출
+	}
+
+	AnimationClip* clip = new AnimationClip;
+	clip->FileName = name;
+	clip->StartFrame = pData->AnimationSceneInfo.StartFrame;
+	clip->EndFrame = pData->AnimationSceneInfo.EndFrame;
+	clip->TickPerFrame = pData->AnimationSceneInfo.TickPerFrame;
+	clip->FrameSpeed = pData->AnimationSceneInfo.FrameSpeed;
+	clip->LerpFrameMatrixList = pData->InterpolationFrameMatrixList;
+
+	dst->AddClip(name, clip);
 
 	return true;
 }
-
 
 //
 //bool FBXLoader::GenerateStaticMeshFromFileData(FBXFileData* _src, StaticMeshComponent* _dst)
