@@ -17,7 +17,7 @@
 ///////////////////
 //Effect Include
 ///////////////////
-#include "EffectInclude\ParticleEffect.h"
+#include "EffectInclude/EffectSystem.h"
 
 bool BattleScene::Init()
 {
@@ -249,6 +249,10 @@ void BattleScene::Init_Effect()
 	TheWorld.AddEntity(testEffect1);
 	TheWorld.AddEntity(testEffect2);
 	TheWorld.AddEntity(testEffect3);
+
+	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
+	ESystem->init(&TheWorld);
+	TheWorld.AddSystem(ESystem);
 }
 
 void BattleScene::BattleProcess()
