@@ -19,7 +19,9 @@
 #include "MovementSystem.h"
 #include "Character.h"
 
+///////////////////
 //Effect Include
+///////////////////
 #include "EffectInclude\ParticleEffect.h"
 
 struct CustomEvent
@@ -141,19 +143,18 @@ bool SampleCore::Initialize()
 	EditorCore::Initialize();
 	FBXLoader::GetInstance()->Initialize();
 
+	///////////////////////////////////////
 	//EFFECTUTIL Initialization
+	///////////////////////////////////////
 	EFFECTUTIL::DXSTATE_MGR.init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
 	EFFECTUTIL::FILEIO_MGR.init();
 	EFFECTUTIL::SPRITE_MGR.init();
 	EFFECTUTIL::EFFECT_MGR.init();
 
 	//테스트 시스템 추가
-	ECS::TestSystem* test = new ECS::TestSystem;
-	MainWorld.AddSystem(test);
-
+	//ECS::TestSystem* test = new ECS::TestSystem;
+	//MainWorld.AddSystem(test);
 	//MainWorld.RemoveSystem(test);
-
-
 
 	// 1. Actor 생성
 	Actor* actor = new Actor;
@@ -420,7 +421,9 @@ bool SampleCore::Render()
 
 bool SampleCore::Release()
 {
+	///////////////////////
 	//EFFECTUTIL CleanUp
+	///////////////////////
 	EFFECTUTIL::EFFECT_MGR.release();
 	EFFECTUTIL::SPRITE_MGR.release();
 	EFFECTUTIL::FILEIO_MGR.release();
