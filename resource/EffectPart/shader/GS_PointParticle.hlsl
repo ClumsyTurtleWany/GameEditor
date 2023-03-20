@@ -96,9 +96,9 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 		for (int i = 0; i < MAX_GS_VERTEXCOUNT; i++)
 		{
 			newV.pos = float4(newP[i].xyz, 1.0);
-			newV.pos = mul(newV.pos, matWorld);
 			newV.pos = mul(newV.pos, scale);
 			newV.pos = mul(newV.pos, rot);
+			newV.pos = mul(newV.pos, matWorld);
 			newV.pos.xyz += gIn[0].pos.xyz;
 
 			newV.normal = gIn[0].normal;

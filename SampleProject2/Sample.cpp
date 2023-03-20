@@ -350,10 +350,18 @@ bool SampleCore::Initialize()
 	MainWorld.AddSystem(new UpdateAnimSystem);
 
 	//Effect Test
-	ParticleEffect* testEffect = new ParticleEffect(L"Fire");
-	//auto testEffectTransform = testEffect->GetComponent<TransformComponent>();
-	//testEffectTransform->Scale = { 10.0f, 10.0f, 10.0f };
-	MainWorld.AddEntity(testEffect);
+	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire");
+	ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke");
+	ParticleEffect* testEffect3 = new ParticleEffect(L"Spark");
+	auto testEffectTransform1 = testEffect1->GetComponent<TransformComponent>();
+	auto testEffectTransform2 = testEffect2->GetComponent<TransformComponent>();
+	auto testEffectTransform3 = testEffect3->GetComponent<TransformComponent>();
+	testEffectTransform1->Translation = { 10.0f, 0.0f, 0.0f };
+	testEffectTransform2->Translation = { 20.0f, 0.0f, 0.0f };
+	testEffectTransform3->Translation = { 30.0f, 0.0f, 0.0f };
+	MainWorld.AddEntity(testEffect1);
+	MainWorld.AddEntity(testEffect2);
+	MainWorld.AddEntity(testEffect3);
 
 	return true;
 }
