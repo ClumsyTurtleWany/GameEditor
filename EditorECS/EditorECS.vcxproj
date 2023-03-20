@@ -22,6 +22,7 @@
     <ClInclude Include="..\include\EffectInclude\DXStatePreset.h" />
     <ClInclude Include="..\include\EffectInclude\EffectDefine.h" />
     <ClInclude Include="..\include\EffectInclude\EffectManager.h" />
+    <ClInclude Include="..\include\EffectInclude\EffectSystem.h" />
     <ClInclude Include="..\include\EffectInclude\FileIOManager.h" />
     <ClInclude Include="..\include\EffectInclude\ParticleEffect.h" />
     <ClInclude Include="..\include\EffectInclude\ParticleEmitter.h" />
