@@ -1,0 +1,141 @@
+Type	0
+ID	1
+Name	BG
+OrginPos	-0.083750 -0.046667
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 2016.000000 1000.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\CardViewBG.jpg | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	12
+Name	Back
+OrginPos	0.862500 0.857778
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\BackButtonWhite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\BackButtonWhite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\BackButtonWhite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\BackButtonWhite.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	2
+Name	Card1
+OrginPos	-0.670000 0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	3
+Name	Card10
+OrginPos	0.660000 -0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	4
+Name	Card2
+OrginPos	-0.340000 0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	5
+Name	Card3
+OrginPos	0.000000 0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	6
+Name	Card4
+OrginPos	0.330000 0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	7
+Name	Card5
+OrginPos	0.660000 0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	8
+Name	Card6
+OrginPos	-0.670000 -0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	9
+Name	Card7
+OrginPos	-0.340000 -0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	10
+Name	Card8
+OrginPos	0.000000 -0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	11
+Name	Card9
+OrginPos	0.330000 -0.400000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 270.000000 340.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=

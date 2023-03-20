@@ -50,7 +50,7 @@ inline PlaneComponent::~PlaneComponent()
 
 }
 
-bool PlaneComponent::CreateTangentSpaceVectors(Vertex v0, Vertex v1, Vertex v2, Vector3& tangent)
+inline bool PlaneComponent::CreateTangentSpaceVectors(Vertex v0, Vertex v1, Vertex v2, Vector3& tangent)
 {
 	Vector3 edge1 = v1.Pos - v0.Pos;
 	Vector3 edge2 = v2.Pos - v0.Pos;
@@ -108,7 +108,7 @@ bool PlaneComponent::CreateTangentSpaceVectors(Vertex v0, Vertex v1, Vertex v2, 
 	return true;
 }
 
-bool PlaneComponent::CalcTangent()
+inline bool PlaneComponent::CalcTangent()
 {
 	int index = 0;
 	int i0, i1, i2, i3, i4, i5;

@@ -3,6 +3,12 @@
 #include "World.hpp"
 #include "Camera.h"
 
+#include "LoadingScene.h"
+#include "TitleScene.h"
+#include "MapScene.h"
+#include "BattleScene.h"
+#include "CardViewScene.h"
+
 ECS_DEFINE_TYPE(SomeComponent);
 
 class SampleCore : public EditorCore
@@ -20,4 +26,23 @@ public:
 	virtual bool Frame() override;
 	virtual bool Render() override;
 	virtual bool Release() override;
+
+public:
+	void TextureLoad();
+	void SceneChange();
+
+public:
+	BaseScene* CurrentScene;
+
+	LoadingScene* Loading;
+	TitleScene* Title;
+	MapScene* Map;
+	BattleScene* Battle;
+	CardViewScene* CardView;
+
+public:
+	Deck* Dick;
+	std::vector<DXTexture*> CardTextureList;
+	std::vector<DXTexture*> NumberTextureList_Red;
+	std::vector<DXTexture*> NumberTextureList_Black;
 };

@@ -148,14 +148,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BaseEnemy.h" />
+    <ClInclude Include="BaseScene.h" />
+    <ClInclude Include="BattleScene.h" />
+    <ClInclude Include="CardViewScene.h" />
+    <ClInclude Include="Deck.h" />
+    <ClInclude Include="Enemy_1.h" />
+    <ClInclude Include="LoadingScene.h" />
+    <ClInclude Include="MapScene.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="SkyDomeComponent.h" />
     <ClInclude Include="SkyRenderSystem.h" />
+    <ClInclude Include="TitleScene.h" />
+    <ClInclude Include="UI_Loader.h" />
+    <ClInclude Include="WidgetComponent.h" />
+    <ClInclude Include="WidgetObject.h" />
+    <ClInclude Include="WidgetRenderSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEnemy.cpp" />
+    <ClCompile Include="BaseScene.cpp" />
+    <ClCompile Include="BattleScene.cpp" />
+    <ClCompile Include="CardViewScene.cpp" />
+    <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="Enemy_1.cpp" />
+    <ClCompile Include="LoadingScene.cpp" />
+    <ClCompile Include="MapScene.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="SkyDomeComponent.cpp" />
     <ClCompile Include="SkyRenderSystem.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
+    <ClCompile Include="UI_Loader.cpp" />
+    <ClCompile Include="WidgetComponent.cpp" />
+    <ClCompile Include="WidgetObject.cpp" />
+    <ClCompile Include="WidgetRenderSystem.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

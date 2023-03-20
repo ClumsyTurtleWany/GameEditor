@@ -1,0 +1,9 @@
+Type	0
+ID	1
+Name	Bg
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 1600.000000 900.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\Loading.png | ../../data/shader/DefaultObject_Orgin.txt
+=
