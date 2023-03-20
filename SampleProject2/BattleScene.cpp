@@ -13,6 +13,7 @@
 #include "UpdateAnimSystem.h"
 #include "MovementSystem.h"
 #include "Character.h"
+#include "SelectAnimSystem.h"
 
 ///////////////////
 //Effect Include
@@ -41,6 +42,9 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(new WidgetRenderSystem);
 	TheWorld.AddSystem(new MovementSystem);
 	TheWorld.AddSystem(new UpdateAnimSystem);
+	// SelectAnimSystem 추가
+	TheWorld.AddSystem(new SelectAnimSystem);
+
 	LightSystem* lightSystem = new LightSystem;
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
@@ -188,7 +192,9 @@ void BattleScene::Init_Chara()
 
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 10.0f;
-	playerCharMovementComp->Destination = Vector3(0.0f, 0.0f, -100.0f);
+	// 플레이어 액터 MoveTo(목적지) 설정하면 이동(이동모션 있는줄 알았는데 없었던 거임;; 받아서 추가하겠음)
+	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
+	//playerCharMovementComp->Destination = Vector3(-10.0f, 0.0f, 0.0f);
 	TheWorld.AddEntity(PlayerCharacter);
 }
 

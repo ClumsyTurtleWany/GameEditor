@@ -61,6 +61,9 @@
     <Filter Include="System\EffectSystem">
       <UniqueIdentifier>{d287b66e-7b6b-47fd-8996-38e79763caba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\AnimSystem">
+      <UniqueIdentifier>{3c4d5874-a24c-482c-a0a7-ec0543c79c9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -160,11 +163,14 @@
     <ClInclude Include="Character.h">
       <Filter>Entity\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateAnimSystem.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\EffectInclude\EffectSystem.h">
       <Filter>System\EffectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateAnimSystem.h">
+      <Filter>System\AnimSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectAnimSystem.h">
+      <Filter>System\AnimSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -223,7 +229,10 @@
       <Filter>Component\Animation</Filter>
     </ClCompile>
     <ClCompile Include="UpdateAnimSystem.cpp">
-      <Filter>System</Filter>
+      <Filter>System\AnimSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectAnimSystem.cpp">
+      <Filter>System\AnimSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,8 +28,9 @@ struct AnimationClip
 class AnimationComponent
 {
 public:
+	
 	std::wstring							CurrentClipName = L"";						///< 현재 애니메이션 클립의 이름
-	AnimationClip* CurrentClip = nullptr;						///< 현재 애니메이션 클립의 포인터
+	AnimationClip*							CurrentClip = nullptr;						///< 현재 애니메이션 클립의 포인터
 	std::map<std::wstring, AnimationClip*>	ClipList;									///< 애니메이션 클립 컨테이너
 	float									m_currentAnimationFrame = 0.f;				///< 틱마다 업데이트되는 현재 프레임
 	float									m_AnimationInverse = 1.f;					///< 프레임 연산시 역재생되도록 해주는 변수

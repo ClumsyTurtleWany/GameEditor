@@ -8,6 +8,8 @@ public:
 	Vector3 Forword;
 	Vector3 Destination;
 	float	Speed;
+	// ADD
+	bool	IsMoving = false;
 
 public:
 	MovementComponent(); 

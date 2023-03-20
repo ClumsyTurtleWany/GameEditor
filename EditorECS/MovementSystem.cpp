@@ -11,6 +11,15 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		
 		movement->Location = transform->Translation;
 		Vector3 forword = movement->Destination - movement->Location;
+		// ADD -> 목적지에 도달했다면 IsMoving = false
+		if (forword.Distance(movement->Destination, movement->Location) <= 0.01f)
+		{
+			movement->IsMoving = false;
+			continue;
+		}			
+		else 
+			movement->IsMoving = true;
+
 		movement->Forword = forword;
 		movement->Forword.Normalize();
 
