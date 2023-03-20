@@ -399,7 +399,7 @@ bool SampleCore::Frame()
 	SceneChange();
 	CurrentScene->Frame();
 
-	KeyState btnA = Input::GetInstance()->getKey('A');
+	/*KeyState btnA = Input::GetInstance()->getKey('A');
 	if (btnA == KeyState::Hold || btnA == KeyState::Down)
 	{
 		DebugCamera->Yaw -= 0.001f;
@@ -433,7 +433,7 @@ bool SampleCore::Frame()
 	if (btnE == KeyState::Hold || btnE == KeyState::Down)
 	{
 		DebugCamera->Pos.z -= 0.01f;
-	}
+	}*/
 
 	return true;
 }

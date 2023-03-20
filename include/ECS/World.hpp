@@ -41,6 +41,9 @@ namespace ECS
 		std::vector<ECS::Entity*> GetEntities();
 
 		template <typename T>
+		std::vector<ECS::Entity*> FindEntities();
+
+		template <typename T>
 		const int GetCount();
 
 		template <typename T, typename U, typename... Types>
@@ -95,6 +98,23 @@ namespace ECS
 		for (auto& ent : Entities)
 		{
 			if (ent.get()->has<T, U, Types...>())
+			{
+				entities.push_back(ent.get());
+			}
+		}
+
+		return entities;
+	}
+
+	template<typename T>
+	inline std::vector<ECS::Entity*> World::FindEntities()
+	{
+		std::vector<ECS::Entity*> entities;
+		for (auto& ent : Entities)
+		{
+			std::type_index targetID = typeid(T);
+			std::type_index entID = typeid(ent.get());
+			if (targetID == entID)
 			{
 				entities.push_back(ent.get());
 			}
