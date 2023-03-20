@@ -13,8 +13,6 @@ namespace ECS
 		public EventSubscriber<EFFECTEVENT_TIMEOUT>
 		//public EventSubscriber<CommonEvents::OnEntityDestroyed>,
 		//public EventSubscriber<CommonEvents::OnComponentAdded<TransformComponent>>,
-		//public EventSubscriber<CustomEvent>,
-		//public EventSubscriber<TickEvent>
 	{
 	public:
 		virtual void init(ECS::World* world) override

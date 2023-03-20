@@ -52,6 +52,7 @@ bool EditorCore::Initialize()
 
 bool EditorCore::Frame()
 {
+    MAIN_PICKER.Update();
     return true;
 }
 
