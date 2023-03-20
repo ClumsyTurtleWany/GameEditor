@@ -172,6 +172,9 @@
     <ClInclude Include="SelectAnimSystem.h">
       <Filter>System\AnimSystem</Filter>
     </ClInclude>
+    <ClInclude Include="LandscapeComponents.h">
+      <Filter>Component\Landscape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -233,6 +236,15 @@
     </ClCompile>
     <ClCompile Include="SelectAnimSystem.cpp">
       <Filter>System\AnimSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeComponent.cpp">
+      <Filter>Component\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeComponents.cpp">
+      <Filter>Component\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSystem.cpp">
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

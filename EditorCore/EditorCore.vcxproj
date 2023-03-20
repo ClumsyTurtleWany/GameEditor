@@ -28,6 +28,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MousePicker.h" />
     <ClInclude Include="SkeletalMesh.h" />
     <ClInclude Include="IWData.h" />
     <ClInclude Include="LightData.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="MousePicker.cpp" />
     <ClCompile Include="SkeletalMesh.cpp" />
     <ClCompile Include="StaticMesh.cpp" />
   </ItemGroup>

@@ -39,6 +39,7 @@
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="LandscapeComponent.h" />
+    <ClInclude Include="LandscapeComponents.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LightSystem.h" />
@@ -66,8 +67,11 @@
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraSystem.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Landscape.cpp" />
+    <ClCompile Include="LandscapeComponent.cpp" />
+    <ClCompile Include="LandscapeComponents.cpp" />
     <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
