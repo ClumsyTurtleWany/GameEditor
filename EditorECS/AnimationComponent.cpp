@@ -1,28 +1,29 @@
 #include "AnimationComponent.h"
 
-/**
-	 * @brief 기존 FbxObj의 Frame() 함수를 기반으로 구성
-	 * @param[in] mesh SkeletalMeshComponent 포인터
-	 * @param[in] tick 틱
-	*/
+
 bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 {
-	m_currentAnimationFrame += (tick * FrameSpeed * m_AnimationInverse);
-	if ((m_currentAnimationFrame > EndFrame ) ||
-		(m_currentAnimationFrame < StartFrame))
+	if (CurrentClip == nullptr)
 	{
-		m_currentAnimationFrame = min(m_currentAnimationFrame, EndFrame);
-		m_currentAnimationFrame = max(m_currentAnimationFrame, StartFrame);
+		SetClipByName(L"Idle");
+		return false;
+	}
+	m_currentAnimationFrame += (tick * CurrentClip->FrameSpeed * m_AnimationInverse);
+	if ((m_currentAnimationFrame > CurrentClip->EndFrame) ||
+		(m_currentAnimationFrame < CurrentClip->StartFrame))
+	{
+		m_currentAnimationFrame = min(m_currentAnimationFrame, CurrentClip->EndFrame);
+		m_currentAnimationFrame = max(m_currentAnimationFrame, CurrentClip->StartFrame);
 		m_AnimationInverse *= -1.0f;
 	}
 
 	UINT InterpolationIdx = m_currentAnimationFrame * 100; // InterpolationSampling 일단 100 고정
-	
-	
+
+
 	if (mesh->BindPoseMap.empty())
 	{
-		auto it = LerpFrameMatrixList.find(mesh->Name);
-		if (it != LerpFrameMatrixList.end())
+		auto it = CurrentClip->LerpFrameMatrixList.find(mesh->Name);
+		if (it != CurrentClip->LerpFrameMatrixList.end())
 		{
 			Matrix matTranspose = it->second[InterpolationIdx].Transpose();
 			//ConstantBufferData_Bone CBData_Bone;
@@ -32,10 +33,10 @@ bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 	else
 	{
 		size_t BoneIdx = 0;
-		for (auto &it : mesh->BindPoseMap)
+		for (auto& it : mesh->BindPoseMap)
 		{
-			auto AnimationTrack = LerpFrameMatrixList.find(it.first);
-			if (AnimationTrack == LerpFrameMatrixList.end())
+			auto AnimationTrack = CurrentClip->LerpFrameMatrixList.find(it.first);
+			if (AnimationTrack == CurrentClip->LerpFrameMatrixList.end())
 			{
 				mesh->BPAData.Bone[BoneIdx++] = it.second;
 			}
@@ -45,8 +46,43 @@ bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 				mesh->BPAData.Bone[BoneIdx++] = MergedMatrix.Transpose();
 			}
 		}
-		
+
 	}
 
 	return true;
+}
+
+bool AnimationComponent::AddClip(std::wstring name, AnimationClip* clip)
+{
+
+	auto ret = ClipList.insert(std::make_pair(name, clip));
+
+	return ret.second;
+}
+
+bool AnimationComponent::SetClipByName(std::wstring name)
+{
+	auto ret = ClipList.find(name);
+	if (ret != ClipList.end())
+	{
+		CurrentClip = ret->second;
+		CurrentClipName = name;
+		m_currentAnimationFrame = 0.f;
+	}
+	else
+	{
+		return false;
+	}
+
+
+	return true;
+}
+
+AnimationComponent::~AnimationComponent()
+{
+	for (auto it = ClipList.begin(); it != ClipList.end(); ++it) {
+		delete it->second;
+	}
+
+	ClipList.clear();
 }
