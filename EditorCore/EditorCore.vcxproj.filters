@@ -44,6 +44,9 @@
     <Filter Include="DirectX\Mesh">
       <UniqueIdentifier>{0989f90a-3713-4cf7-a6ec-f8ed415e34a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Picker">
+      <UniqueIdentifier>{24fab745-3730-4c5e-bbc5-efa6b038ff55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorCore.h">
@@ -97,6 +100,9 @@
     <ClInclude Include="Face.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="MousePicker.h">
+      <Filter>Picker</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditorCore.cpp">
@@ -119,6 +125,9 @@
     </ClCompile>
     <ClCompile Include="MaterialManager.cpp">
       <Filter>DirectX\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePicker.cpp">
+      <Filter>Picker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

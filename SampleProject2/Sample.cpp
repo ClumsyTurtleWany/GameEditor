@@ -1,6 +1,6 @@
 #include "Sample.h"
 #include "FBXLoader.hpp"
-#include "EffectInclude\ParticleEffect.h"
+#include "EffectInclude/EffectSystem.h"
 
 // ¹Ø¿¡ ³ðµéÀº BaseScene ¾Æ´Ï¸é BattleScene ¹ØÀ¸·Î °¬À¾´Ï´Ù 
 //#include "WindowsClient.h"
@@ -408,8 +408,8 @@ bool SampleCore::Render()
 	EditorCore::Render();
 	CurrentScene->Render();
 
-	//float dt = Timer::GetInstance()->SecondPerFrame;
-	//MainWorld.Tick(dt);
+	float dt = Timer::GetInstance()->SecondPerFrame;
+	MainWorld.Tick(dt);
 
 	return true;
 }
@@ -485,7 +485,7 @@ void SampleCore::TextureLoad()
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/2.png");
 		NumberTextureList_Red.push_back(tc);
 	}
-	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/3.png"));
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/red/3.png"))
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/red/3.png");
 		NumberTextureList_Red.push_back(tc);
