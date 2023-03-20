@@ -2,6 +2,7 @@
 #include "BaseScene.h"
 #include "Player.h"
 #include "Enemy_1.h"
+#include "Character.h"
 
 class BattleScene : public BaseScene
 {
@@ -28,6 +29,8 @@ public:
 public:
 	Player* player;
 	Enemy_1* enemy;
+
+	Character* PlayerCharacter = nullptr;
 
 public:
 	Camera* MoveCamera;
