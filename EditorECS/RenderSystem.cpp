@@ -8,7 +8,7 @@
 #include "Landscape.h"
 //#include "DebugCamera.h"
 #include "SkyBoxComponent.h"
-#include "EffectInclude\ParticleEffectComponent.h"
+#include "EffectInclude/EffectSystem.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {
@@ -19,7 +19,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 	DXDevice::g_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
 	DXDevice::g_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
 
-	for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
+	for (auto& entity : world->GetEntities<Landscape, TransformComponent>())
 	{
 		auto landscape = entity->GetComponent<LandscapeComponents>();
 		auto transform = entity->GetComponent<TransformComponent>();
@@ -78,7 +78,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 	for (auto& entity : world->GetEntities<ParticleEffectComponent>())
 	{
-		auto pPSystem = entity->GetComponent<ParticleEffectComponent>()->pPPsystem;
+		auto pPSystem = entity->GetComponent<ParticleEffectComponent>()->m_pPPsystem;
 		auto transform = entity->GetComponent<TransformComponent>();
 
 		Matrix retMat = Matrix::CreateScale(transform->Scale);
@@ -87,11 +87,18 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 		if (mainCamera != nullptr && pPSystem != nullptr)
 		{
-			pPSystem->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
-			pPSystem->update();
-			pPSystem->preRender(&retMat,
-				&mainCamera->View, &mainCamera->Projection);
-			pPSystem->render();
+			if (pPSystem->m_bPendingDelete)
+			{
+				world->emit<ECS::EFFECTEVENT_TIMEOUT>({ entity });
+			}
+			else
+			{
+				pPSystem->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
+				pPSystem->update();
+				pPSystem->preRender(&retMat,
+					&mainCamera->View, &mainCamera->Projection);
+				pPSystem->render();
+			}
 		}
 	}
 

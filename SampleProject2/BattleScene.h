@@ -25,6 +25,8 @@ public:
 	void EnemyTurnProcess();
 	void CardCheck();
 	void UpdateHand(int handSize);
+	void UpdatePlayerState();
+	void UpdateEnemyState();
 
 public:
 	Player* player;
@@ -54,12 +56,25 @@ public:
 	WidgetObject* PlayerCurrenHP2;
 	WidgetObject* PlayerMaxHP1;
 	WidgetObject* PlayerMaxHP2;
+	WidgetObject* PlayerArmorIcon;
+	WidgetObject* PlayerArmor1;
+	WidgetObject* PlayerArmor2;
+
+	WidgetObject* EnemyCurrentHP1;
+	WidgetObject* EnemyCurrentHP2;
+	WidgetObject* EnemyMaxHP1;
+	WidgetObject* EnemyMaxHP2;
+	// 적 방어도도 해야하는데.. 귀찮으니까 좀 나중에
+	//WidgetObject* EnemyArmorIcon;
+	//WidgetObject* EnemyArmor1;
+	//WidgetObject* EnemyArmor2;
 
 public:
 	Deck* Dick;
 	std::vector<DXTexture*> CardTextureList;
 	WidgetObject* CardList[3] = { 0, };
-	std::vector<DXTexture*> NumberTextureList;
+	std::vector<DXTexture*> NumberTextureList_Red;
+	std::vector<DXTexture*> NumberTextureList_Black;
 
 public:
 	bool TurnState = true; // true면 내턴, false면 적턴

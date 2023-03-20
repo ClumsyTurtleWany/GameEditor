@@ -23,6 +23,8 @@ namespace EFFECTUTIL
 		m_bEnableDepthWrite = false;
 
 		m_UVRect = { {0.0f, 0.0f}, {1.0f, 1.0f} };
+
+		m_playSpeed = 1.0f;
 	}
 
 	ParticleEmitter::~ParticleEmitter()
@@ -36,7 +38,7 @@ namespace EFFECTUTIL
 
 	bool ParticleEmitter::update()
 	{
-		float dt = Timer::GetInstance()->GetDeltaTime();
+		float dt = Timer::GetInstance()->GetDeltaTime() * m_playSpeed;
 
 		m_fTimer += dt;
 

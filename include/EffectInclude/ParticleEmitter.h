@@ -109,6 +109,9 @@ namespace EFFECTUTIL
 		//정점 레이아웃 정보
 		ID3D11InputLayout*								m_pVLayout;
 
+		//시스템에서 넘겨받는 재생속도
+		float											m_playSpeed;
+
 		//렌더 옵션 프리셋 사용여부
 		int												m_iBlendStateOption;
 		bool											m_bEnableDepth;
