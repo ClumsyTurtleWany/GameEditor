@@ -1,0 +1,216 @@
+Type	0
+ID	1
+Name	BG
+OrginPos	-0.118750 -0.780000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 2048.000000 2048.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\background.jpg | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	2
+Name	Card1
+OrginPos	-0.450000 -0.600000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 260.000000 330.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 260.000000 330.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\0_Strike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	3
+Name	Card2
+OrginPos	-0.035000 -0.600000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\1_Defend.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 260.000000 330.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\1_Defend.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 260.000000 330.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\1_Defend.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\1_Defend.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	4
+Name	Card3
+OrginPos	0.385000 -0.600000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\2_PommelStrike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 260.000000 330.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\2_PommelStrike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 260.000000 330.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\2_PommelStrike.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\2_PommelStrike.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	5
+Name	Discard
+OrginPos	0.903751 0.813000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Discard.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Discard.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Discard.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Discard.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	6
+Name	Enemy
+OrginPos	0.710003 -0.146667
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 221.000000 292.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\GremlinLeader.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	7
+Name	Player
+OrginPos	-0.651254 -0.144444
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 300.000000 325.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\Player_Shield.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	8
+Name	Remain
+OrginPos	-0.882502 0.813334
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Remain.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Remain.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Remain.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Remain.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	9
+Name	TurnEnd
+OrginPos	0.813749 -0.824445
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 256.000000 256.000000 | 0.000000 0.000000 1.000000 1.000000 | ../../data//img//button//Button_N.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 270.000000 | 0.000000 0.000000 1.000000 1.000000 | ../../data//img//button//Button_H.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 250.000000 250.000000 | 0.000000 0.000000 1.000000 1.000000 | ../../data//img//button//Button_C.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 256.000000 256.000000 | 0.000000 0.000000 1.000000 1.000000 | ../../data//img//button//Button_D.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	10
+Name	PlayerInfoBG
+OrginPos	-0.798750 -0.724444
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 260.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\Apopup_normal.bmp | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	11
+Name	HpBar
+OrginPos	-0.802501 -0.800000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 200.000000 50.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\PngItem_1494912.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	12
+Name	PlayerCurrentHP_1
+OrginPos	-0.850000 -0.700000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	13
+Name	PlayerCurrentHP_2
+OrginPos	-0.825000 -0.700000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	14
+Name	PlayerMaxHP_1
+OrginPos	-0.770000 -0.700000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	15
+Name	PlayerMaxHP_2
+OrginPos	-0.745000 -0.700000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	16
+Name	Slash
+OrginPos	-0.800000 -0.700000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	17
+Name	EnemyInfoBG
+OrginPos	0.705000 0.351111
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 196.000000 124.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\Apopup_normal.bmp | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	22
+Name	EnemyCurrentHp_1
+OrginPos	0.648750 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	23
+Name	EnemyCurrentHp_2
+OrginPos	0.678751 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	24
+Name	EnemyMaxHp_1
+OrginPos	0.735001 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	25
+Name	EnemyMaxHp_2
+OrginPos	0.763750 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	26
+Name	Slash2
+OrginPos	0.705000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
+=

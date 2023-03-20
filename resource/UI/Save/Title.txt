@@ -1,0 +1,42 @@
+Type	0
+ID	1
+Name	BG
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 1600.000000 900.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Image\map.jpg | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	2
+Name	Button_Setting
+OrginPos	0.950000 0.920000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 64.000000 64.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\settings_N.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 64.000000 64.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\settings_H.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 64.000000 64.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\settings_C.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 64.000000 64.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\settings_D.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	3
+Name	Button_Start
+OrginPos	0.000000 -0.500000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 256.000000 256.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\Button_N.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 270.000000 270.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\Button_H.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 256.000000 256.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\Button_C.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 256.000000 256.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Button\Button_D.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	4
+Name	Title
+OrginPos	0.000000 0.500000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 816.000000 141.000000 | 0.000000 0.000000 1.000000 1.000000 | ../resource\UI\Image\DQ.png | ../../data/shader/DefaultObject_Orgin.txt
+=

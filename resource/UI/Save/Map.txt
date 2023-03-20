@@ -1,0 +1,69 @@
+Type	0
+ID	1
+Name	BG
+OrginPos	0.052500 -0.168889
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 1920.000000 1080.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\mapTop(3).jpg | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	2
+Name	Mon1
+OrginPos	-0.390000 -0.871112
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	7
+Name	Elite1
+OrginPos	-0.211250 0.340000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	8
+Name	Elite2
+OrginPos	0.260000 0.153333
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\elite.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	4
+Name	Mon2
+OrginPos	-0.013750 -0.648888
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	5
+Name	Mon3
+OrginPos	0.542500 -0.884444
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | A:\KGCA_2--\data\img\map\monster.png | ../../data/shader/DefaultObject_Orgin.txt
+=

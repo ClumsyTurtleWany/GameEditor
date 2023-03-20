@@ -1,39 +1,129 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="리소스 파일">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="NewComponent">
+      <UniqueIdentifier>{17158cf2-ce1f-468a-aac2-1b17adf7917e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewSystem">
+      <UniqueIdentifier>{ff08488c-0eb5-413b-8ba1-9284207a6fcb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Battle">
+      <UniqueIdentifier>{84587646-4042-48bc-be41-8e02a4935149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Battle\Enemy">
+      <UniqueIdentifier>{25924e81-c5b5-4338-8227-5a9b9fce4039}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{874cac90-fff7-4989-b4ba-51647aed75a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Loader">
+      <UniqueIdentifier>{0323f9b6-430a-4ef9-93d0-df4c7c375c9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Sample.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="SkyDomeComponent.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>NewComponent</Filter>
     </ClInclude>
     <ClInclude Include="SkyRenderSystem.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>NewSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Sample.h" />
+    <ClInclude Include="BaseScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BattleScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="CardViewScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadingScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MapScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemy.h">
+      <Filter>Battle\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_1.h">
+      <Filter>Battle\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="Deck.h">
+      <Filter>Battle</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Loader.h">
+      <Filter>Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetComponent.h">
+      <Filter>NewComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetRenderSystem.h">
+      <Filter>NewSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WidgetObject.h">
+      <Filter>NewComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Sample.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="SkyDomeComponent.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>NewComponent</Filter>
     </ClCompile>
     <ClCompile Include="SkyRenderSystem.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>NewSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="BaseScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="BattleScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CardViewScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="MapScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemy.cpp">
+      <Filter>Battle\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_1.cpp">
+      <Filter>Battle\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="Deck.cpp">
+      <Filter>Battle</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Loader.cpp">
+      <Filter>Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetComponent.cpp">
+      <Filter>NewComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetRenderSystem.cpp">
+      <Filter>NewSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="WidgetObject.cpp">
+      <Filter>NewComponent</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
