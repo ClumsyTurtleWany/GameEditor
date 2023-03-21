@@ -249,6 +249,55 @@ void BattleScene::Init_Chara()
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	
 	TheWorld.AddEntity(PlayerCharacter);
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////적 테스트 ///////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	Character* EnemyCharacter = new Character;
+
+	auto enemyCharMeshComp = EnemyCharacter->AddComponent<SkeletalMeshComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx")) 
+	{
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx", enemyCharMeshComp);
+	}
+
+	auto enemyCharAnimComp = EnemyCharacter->AddComponent<AnimationComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx", enemyCharAnimComp);
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.fbx", enemyCharAnimComp);
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp);
+	}
+
+	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
+	// 얘는 더 작아서 30배 scale 햇음
+	enemyCharTransformComp->Scale = Vector3(30.f, 30.f, 30.f);
+	enemyCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
+	enemyCharTransformComp->Translation = Vector3(50.0f, 0.0f, 200.0f);
+
+	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
+	enemyCharMovementComp->Speed = 10.0f;
+
+
+	EnemyCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
+
+
+	MainCamera = EnemyCharacter->AddComponent<Camera>();
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	TheWorld.AddEntity(EnemyCharacter);
+
+
+
+
 }
 
 void BattleScene::Init_Effect()
