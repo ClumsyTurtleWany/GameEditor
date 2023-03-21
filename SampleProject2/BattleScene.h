@@ -24,6 +24,7 @@ public:
 	void TurnEndProcess();
 	void EnemyTurnProcess();
 	void CardCheck();
+	bool ManaCheck(int cost);
 	void UpdateHand(int handSize);
 	void UpdatePlayerState();
 	void UpdateEnemyState();
@@ -59,6 +60,9 @@ public:
 	WidgetObject* PlayerArmorIcon;
 	WidgetObject* PlayerArmor1;
 	WidgetObject* PlayerArmor2;
+	WidgetObject* ManaIcon;
+	WidgetObject* CurrentMana;
+	WidgetObject* MaxMana;
 
 	WidgetObject* EnemyCurrentHP1;
 	WidgetObject* EnemyCurrentHP2;

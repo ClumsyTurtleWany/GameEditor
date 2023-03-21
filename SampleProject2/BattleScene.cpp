@@ -26,6 +26,7 @@ bool BattleScene::Init()
 
 	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
 	player = new Player;
+	player->cost = player->maxCost;
 	player->maxHp = 50;
 	player->hp = 50; 
 	enemy = new Enemy_1;
@@ -145,6 +146,8 @@ void BattleScene::Init_UI()
 	PlayerArmorIcon = bc->FindObj(L"PlayerArmor_Icon");
 	PlayerArmor1 = bc->FindObj(L"PlayerArmor_1");
 	PlayerArmor2 = bc->FindObj(L"PlayerArmor_2");
+	CurrentMana = bc->FindObj(L"Mana_current");
+	MaxMana = bc->FindObj(L"Mana_max");
 	UpdatePlayerState();
 
 	// 적 상태
@@ -278,6 +281,7 @@ void BattleScene::TurnStartProcess()
 {
 	TurnNum++;
 	player->armor = 0;
+	player->cost = player->maxCost;
 	UpdatePlayerState();
 
 	int drawNum = 3;
@@ -316,29 +320,47 @@ void BattleScene::CardCheck()
 			CardList[cardNum]->m_bClicked = false;
 			CardList[cardNum]->m_OriginPos = CardList[cardNum]->m_OriginalOriginPos;
 
+			bool CanUse = false;
+
 			switch (Dick->HandList[cardNum])
 			{
 
 			case Strike:
 			{
-				enemy->hp -= 6;
+				if (ManaCheck(1))
+				{
+					enemy->hp -= 6;
+					CanUse = true;
+				}
 			}break;
 
 			case Defend:
 			{
-				player->armor += 5;
+				if (ManaCheck(1)) 
+				{
+					player->armor += 5;
+					CanUse = true;
+				}
 			}break;
 
 			case PommelStrike:
 			{
-				enemy->hp -= 9;
-				Dick->Draw(1);
+				if (ManaCheck(1)) 
+				{
+					enemy->hp -= 9;
+					Dick->Draw(1);
+					CanUse = true;
+				}
 			}break;
 
 			case ShrugItOff:
 			{
-				player->armor += 8;
-				Dick->Draw(1);
+				if (ManaCheck(1)) 
+				{
+					player->armor += 8;
+					Dick->Draw(1);
+					CanUse = true;
+				}
 			}break;
 
 			case Hemokinesis:
@@ -353,18 +375,32 @@ void BattleScene::CardCheck()
 
 			case IronWave:
 			{
-				enemy->hp -= 5;
-				player->armor += 5;
+				if (ManaCheck(1)) 
+				{
+					enemy->hp -= 5;
+					player->armor += 5;
+					CanUse = true;
+				}
 			}break;
 
 			}
 
-			Dick->Use(cardNum);
-			UpdateHand(Dick->HandList.size());
-			UpdatePlayerState();
-			UpdateEnemyState();
+			if (CanUse) 
+			{
+				Dick->Use(cardNum);
+				UpdateHand(Dick->HandList.size());
+				UpdatePlayerState();
+				UpdateEnemyState();
+			}
+
 		}
 	}
+}
+
+bool BattleScene::ManaCheck(int cost)
+{
+	if (player->cost - cost < 0) return false;
+	else { player->cost -= cost; return true; }
 }
 
 void BattleScene::UpdateHand(int handSize)
@@ -386,10 +422,13 @@ void BattleScene::UpdateHand(int handSize)
 
 void BattleScene::UpdatePlayerState()
 {
-	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->hp / 10];
-	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->hp % 10];
-	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->maxHp / 10];
-	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->maxHp % 10];
+	CurrentMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->cost];
+	MaxMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxCost];
+
+	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp / 10];
+	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp % 10];
+	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp / 10];
+	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp % 10];
 
 	if (player->armor <= 0) 
 	{
@@ -404,15 +443,15 @@ void BattleScene::UpdatePlayerState()
 		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor % 10];
 		if ((player->armor/10) >= 1) 
 		{
-			PlayerArmor1->m_OriginPos = { -0.714, -0.693 };
-			PlayerArmor2->m_OriginPos = { -0.693, -0.693 };
+			PlayerArmor1->m_OriginPos = { -0.692, -0.795 };
+			PlayerArmor2->m_OriginPos = { -0.667, -0.795 };
 
 			PlayerArmor1->m_bIsDead = false;
 			PlayerArmor1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor / 10];
 		}
 		else
 		{
-			PlayerArmor2->m_OriginPos = { -0.703, -0.693 };
+			PlayerArmor2->m_OriginPos = { -0.680, -0.795 };
 		}
 	}
 }

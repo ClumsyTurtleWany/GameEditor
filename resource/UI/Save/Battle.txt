@@ -1,7 +1,7 @@
 Type	1
 ID	1
 Name	Card1
-OrginPos	-0.450000 -0.600000
+OrginPos	-0.360000 -0.615555
 Depth	0.000000
 Alpha	1.000000
 CutNum	4
@@ -13,7 +13,7 @@ CutInfo	3 | 250.000000 318.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\Kin
 Type	1
 ID	2
 Name	Card2
-OrginPos	-0.035000 -0.600000
+OrginPos	0.012500 -0.602000
 Depth	0.000000
 Alpha	1.000000
 CutNum	4
@@ -58,7 +58,7 @@ CutInfo	0 | 221.000000 292.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\Kin
 Type	0
 ID	6
 Name	Player
-OrginPos	-0.651254 -0.144444
+OrginPos	-0.652504 -0.144444
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
@@ -91,34 +91,34 @@ CutInfo	3 | 256.000000 256.000000 | 0.000000 0.000000 1.000000 1.000000 | ../../
 Type	0
 ID	9
 Name	PlayerInfoBG
-OrginPos	-0.798750 -0.724444
+OrginPos	-0.790000 -0.725000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 260.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\Apopup_normal.bmp | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 270.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\しし\DX评橇\府家胶\gdm-futuristic-game-ui\BLUE.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	10
-Name	HpBar
-OrginPos	-0.802501 -0.800000
+Name	PlayerHpBar_Empty
+OrginPos	-0.800000 -0.800000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 200.000000 50.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\PngItem_1494912.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 200.000000 35.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\しし\DX评橇\府家胶\gdm-sci-fi-gui-megapack\SCIFI_GUI_MegaPack\2-Health_Energy\Option2_HardEdge\Hurt2_Medium.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	11
-Name	PlayerCurrentHP_1
-OrginPos	-0.850000 -0.700000
+Name	PlayerHpBar_Full
+OrginPos	-0.800000 -0.800000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 200.000000 35.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\しし\DX评橇\府家胶\gdm-sci-fi-gui-megapack\SCIFI_GUI_MegaPack\2-Health_Energy\Option2_HardEdge\Hurt4_Medium.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	12
-Name	PlayerCurrentHP_2
-OrginPos	-0.825000 -0.700000
+Name	PlayerCurrentHP_1
+OrginPos	-0.850000 -0.800000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
@@ -126,8 +126,8 @@ CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingY
 =
 Type	0
 ID	13
-Name	PlayerMaxHP_1
-OrginPos	-0.770000 -0.700000
+Name	PlayerCurrentHP_2
+OrginPos	-0.825000 -0.800000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
@@ -135,100 +135,145 @@ CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingY
 =
 Type	0
 ID	14
-Name	PlayerMaxHP_2
-OrginPos	-0.745000 -0.700000
+Name	Slash
+OrginPos	-0.800000 -0.800000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 16.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	15
-Name	Slash
-OrginPos	-0.800000 -0.700000
+Name	PlayerMaxHP_1
+OrginPos	-0.775000 -0.800000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	16
-Name	EnemyInfoBG
-OrginPos	0.705000 0.351111
+Name	PlayerMaxHP_2
+OrginPos	-0.750000 -0.800000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 196.000000 124.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\Apopup_normal.bmp | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	17
-Name	EnemyCurrentHp_1
-OrginPos	0.648750 0.300000
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
-=
-Type	0
-ID	18
-Name	EnemyCurrentHp_2
-OrginPos	0.678751 0.300000
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
-=
-Type	0
-ID	19
-Name	EnemyMaxHp_1
-OrginPos	0.735001 0.300000
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
-=
-Type	0
-ID	20
-Name	EnemyMaxHp_2
-OrginPos	0.763750 0.300000
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
-=
-Type	0
-ID	21
-Name	Slash2
-OrginPos	0.705000 0.300000
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
-=
-Type	0
-ID	22
 Name	PlayerArmor_Icon
-OrginPos	-0.702501 -0.688889
+OrginPos	-0.680000 -0.790000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
 CutInfo	0 | 64.000000 64.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\armor.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	23
+ID	18
 Name	PlayerArmor_1
-OrginPos	-0.713750 -0.693000
+OrginPos	-0.692000 -0.795000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
 CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Number\black\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	24
+ID	19
 Name	PlayerArmor_2
-OrginPos	-0.692501 -0.693000
+OrginPos	-0.667000 -0.795000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
 CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Number\black\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	20
+Name	EnemyInfoBG
+OrginPos	0.705000 0.351111
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 196.000000 124.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\しし\DX评橇\府家胶\gdm-futuristic-game-ui\PURPLE.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	21
+Name	EnemyCurrentHp_1
+OrginPos	0.650000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	22
+Name	EnemyCurrentHp_2
+OrginPos	0.675000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	23
+Name	Slash2
+OrginPos	0.700000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	24
+Name	EnemyMaxHp_1
+OrginPos	0.725000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	25
+Name	EnemyMaxHp_2
+OrginPos	0.750000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	26
+Name	Mana_Image
+OrginPos	-0.851250 -0.686667
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 48.000000 48.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\mana.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	27
+Name	Mana_current
+OrginPos	-0.800001 -0.690000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	28
+Name	Slash3
+OrginPos	-0.775000 -0.690000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	29
+Name	Mana_max
+OrginPos	-0.750000 -0.690000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
