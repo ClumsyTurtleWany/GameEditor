@@ -92,6 +92,8 @@ bool BattleScene::Frame()
 		MainCamera->Pos.z -= 0.01f;
 	}
 
+	PlayerCharacter->MoveTo(MAIN_PICKER.Intersection);
+
 	return true;
 }
 

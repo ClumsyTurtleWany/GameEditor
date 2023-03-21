@@ -107,14 +107,14 @@ void LandscapeComponents::Build(int column, int row, int sectionSize, int cellDi
 					component.Indices[idx + 5] = (sectRow + 1) * (sectionSize + 1) + sectCol + 1;
 
 					component.Faces.push_back(
-						FacePointer(&component.Vertices[component.Indices[idx + 0]],
-							&component.Vertices[component.Indices[idx + 1]],
-							&component.Vertices[component.Indices[idx + 2]]));
+						Face(component.Vertices[component.Indices[idx + 0]],
+							component.Vertices[component.Indices[idx + 1]],
+							component.Vertices[component.Indices[idx + 2]]));
 
 					component.Faces.push_back(
-						FacePointer(&component.Vertices[component.Indices[idx + 3]],
-							&component.Vertices[component.Indices[idx + 4]],
-							&component.Vertices[component.Indices[idx + 5]]));
+						Face(component.Vertices[component.Indices[idx + 3]],
+							component.Vertices[component.Indices[idx + 4]],
+							component.Vertices[component.Indices[idx + 5]]));
 
 					idx += 6;
 				}

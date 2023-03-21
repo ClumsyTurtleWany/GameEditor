@@ -2,6 +2,7 @@
 #include "TransformComponent.h"
 #include "BoundingBoxComponent.h"
 #include "BoundingSphereComponent.h"
+#include "LandscapeComponents.h"
 
 void ColliderSystem::Tick(ECS::World* world, float time)
 {
@@ -27,7 +28,7 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 				((transform->Scale.x + transform->Scale.y + transform->Scale.z) / 3.0f);
 		}
 
-		if (MAIN_PICKER.RayToOBB(OBB->OBB))
+		/*if (MAIN_PICKER.RayToOBB(OBB->OBB))
 		{
 			std::wstring Coord = L"OBB X : ";
 			Coord += std::to_wstring(MAIN_PICKER.Intersection.x);
@@ -50,7 +51,46 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 			Coord += std::to_wstring(MAIN_PICKER.Intersection.z);
 			Coord += L" \n";
 
-			OutputDebugString(Coord.c_str());
+			OutputDebugString(Coord.c_str());*/
+		//}
+	}
+
+	for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
+	{
+		auto landscape = entity->GetComponent<LandscapeComponents>();
+		auto transform = entity->GetComponent<TransformComponent>();
+
+		if (landscape != nullptr)
+		{
+			for (auto it : landscape->Components)
+			{
+				DirectX::BoundingBox temp = it.Box;
+				temp.Center = temp.Center + transform->Translation;
+
+				if (MAIN_PICKER.RayToAABB(temp))
+				{
+					for (auto& face : it.Faces)
+					{
+						Vector3 v0 = face.V0.Pos + transform->Translation;
+						Vector3 v1 = face.V1.Pos + transform->Translation;
+						Vector3 v2 = face.V2.Pos + transform->Translation;
+
+						if (MAIN_PICKER.CheckPick(v0, v1, v2))
+						{
+							std::wstring Coord = L"MapPoint X : ";
+							Coord += std::to_wstring(MAIN_PICKER.Intersection.x);
+							Coord += L" Y : ";
+							Coord += std::to_wstring(MAIN_PICKER.Intersection.y);
+							Coord += L" Z : ";
+							Coord += std::to_wstring(MAIN_PICKER.Intersection.z);
+							Coord += L" \n";
+
+							OutputDebugString(Coord.c_str());
+							return;
+						}
+					}
+				}
+			}
 		}
 	}
 }

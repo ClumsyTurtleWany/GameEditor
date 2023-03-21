@@ -133,6 +133,21 @@ bool MousePicker::RayToOBB(const DirectX::BoundingOrientedBox& OBB)
 	return true;
 }
 
+bool MousePicker::RayToAABB(const DirectX::BoundingBox& AABB)
+{
+	//교차지점 구하는 부분
+	float dist = 0.0f;
+
+	if (AABB.Intersects(PickingRay.position, PickingRay.direction, dist))
+	{
+		Intersection = PickingRay.position + (dist * PickingRay.direction);
+		isPickBVolume = true;
+		return true;
+	}
+
+	return false;
+}
+
 bool MousePicker::RayToSphere(const DirectX::BoundingSphere& sphere)
 {
 	float rayDistLimit = 10000.0f;

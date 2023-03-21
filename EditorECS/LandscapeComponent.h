@@ -19,8 +19,8 @@ struct LandscapeComponent //: public MeshComponent
 {
 public:
 	std::vector<Vertex>		Vertices;
-	std::vector<FacePointer>	Faces;
-	std::vector<DWORD>			Indices;
+	std::vector<Face>		Faces;
+	std::vector<DWORD>		Indices;
 
 	Vector3 MinVertex;
 	Vector3 MaxVertex;

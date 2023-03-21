@@ -34,6 +34,7 @@ public:
 
 	//충돌 여부와 충돌 지점 둘 다 계산
 	bool RayToOBB(const DirectX::BoundingOrientedBox& OBB);
+	bool RayToAABB(const DirectX::BoundingBox& AABB);
 	bool RayToSphere(const DirectX::BoundingSphere& sphere);
 
 	bool CheckPick(const Vector3& v0, const Vector3& v1, const Vector3& v2);

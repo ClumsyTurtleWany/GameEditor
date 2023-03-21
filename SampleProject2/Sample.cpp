@@ -188,6 +188,7 @@ bool SampleCore::Initialize()
 
 	Actor* temp = new Character;
 	auto transform = temp->AddComponent<TransformComponent>();
+	transform->Translation = { 100.0f, 0.0f, 0.0f };
 	auto playerCharMeshComp = temp->AddComponent<SkeletalMeshComponent>();
 	auto boundBox = temp->AddComponent<BoundingBoxComponent>(Vector3(5.0f, 5.0f, 5.0f));
 	auto boundSphere = temp->AddComponent<BoundingSphereComponent>(7.0f);
