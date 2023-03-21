@@ -223,8 +223,8 @@ bool SampleCore::Render()
 	EditorCore::Render();
 	CurrentScene->Render();
 
-	float dt = Timer::GetInstance()->SecondPerFrame;
-	MainWorld.Tick(dt);
+	//float dt = Timer::GetInstance()->SecondPerFrame;
+	//MainWorld.Tick(dt);
 
 	return true;
 }

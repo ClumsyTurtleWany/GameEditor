@@ -1,0 +1,12 @@
+
+Name Default
+Type 0
+Reflection 1.000000
+ReFraction 1.000000
+DiffuseColor 1.000000 1.000000 1.000000
+AmbientColor 1.000000 1.000000 1.000000
+SpecularColor 1.000000 1.000000 1.000000
+EmissiveColor1.000000 1.000000 1.000000
+ColorFilter1.000000 1.000000 1.000000
+Alpha 1.000000
+DiffuseTextureName ../resource/Texture/Default.bmp

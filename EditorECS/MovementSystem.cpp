@@ -23,10 +23,16 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		movement->Forword = forword;
 		movement->Forword.Normalize();
 
-		// (0.0f, 0.0f, -1.0f) : roll = 0.0f, pitch = 0.0f, yaw = 0.0f
-		// (-1.0f, 0.0f, 0.0f) : roll = 0.0f, pitch = 90.0f, yaw = 0.0f
-		// (0.0f, 0.0f, 1.0f) : roll = 0.0f, pitch = 180.0f, yaw = 0.0f
-		// (1.0f, 0.0f, 0.0f) : roll = 0.0f, pitch = 270.0f or -90.0f, yaw = 0.0f
+		Vector3 basisAxis = Vector3(0.0f, 0.0f, -1.0f);
+		float pitch = acos(basisAxis.Dot(movement->Forword) / (basisAxis.LengthSquared() * movement->Forword.LengthSquared())) / PI * 180.0f;
+		if (movement->Forword.x < 0.0f)
+		{			
+			transform->Rotation.y = pitch;
+		}
+		else
+		{
+			transform->Rotation.y = -pitch;
+		}
 
 		movement->Location += movement->Forword * movement->Speed * time;
 		transform->Translation = movement->Location;
