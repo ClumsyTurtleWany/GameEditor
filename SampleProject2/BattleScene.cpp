@@ -26,6 +26,7 @@ bool BattleScene::Init()
 
 	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
 	player = new Player;
+	player->cost = player->maxCost;
 	player->maxHp = 50;
 	player->hp = 50; 
 	enemy = new Enemy_1;
@@ -147,6 +148,8 @@ void BattleScene::Init_UI()
 	PlayerArmorIcon = bc->FindObj(L"PlayerArmor_Icon");
 	PlayerArmor1 = bc->FindObj(L"PlayerArmor_1");
 	PlayerArmor2 = bc->FindObj(L"PlayerArmor_2");
+	CurrentMana = bc->FindObj(L"Mana_current");
+	MaxMana = bc->FindObj(L"Mana_max");
 	UpdatePlayerState();
 
 	// 적 상태
@@ -211,9 +214,9 @@ void BattleScene::Init_Chara()
 	// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
 	// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
 	auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Jump_Attack.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Jump_Attack.FBX", playerCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
 	{
@@ -224,7 +227,7 @@ void BattleScene::Init_Chara()
 		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);
 	}
 	// 이런식으로 직접 바꿀 수 있음 (인게임에서 바꾸는 건 작업 더 해야함)
-	playerCharAnimComp->SetClipByName(L"Punch");
+	//playerCharAnimComp->SetClipByName(L"Punch");
 	
 
 
@@ -237,9 +240,9 @@ void BattleScene::Init_Chara()
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 10.0f;
 
-	// 플레이어 액터 MoveTo(목적지) 설정하면 이동(이동모션 있는줄 알았는데 없었던 거임;; 받아서 추가하겠음)
+	
 	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
-	//playerCharMovementComp->Destination = Vector3(-10.0f, 0.0f, 0.0f);
+	
 	 
 	MainCamera = PlayerCharacter->AddComponent<Camera>();
 	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
@@ -280,6 +283,7 @@ void BattleScene::TurnStartProcess()
 {
 	TurnNum++;
 	player->armor = 0;
+	player->cost = player->maxCost;
 	UpdatePlayerState();
 
 	int drawNum = 3;
@@ -318,29 +322,47 @@ void BattleScene::CardCheck()
 			CardList[cardNum]->m_bClicked = false;
 			CardList[cardNum]->m_OriginPos = CardList[cardNum]->m_OriginalOriginPos;
 
+			bool CanUse = false;
+
 			switch (Dick->HandList[cardNum])
 			{
 
 			case Strike:
 			{
-				enemy->hp -= 6;
+				if (ManaCheck(1))
+				{
+					enemy->hp -= 6;
+					CanUse = true;
+				}
 			}break;
 
 			case Defend:
 			{
-				player->armor += 5;
+				if (ManaCheck(1)) 
+				{
+					player->armor += 5;
+					CanUse = true;
+				}
 			}break;
 
 			case PommelStrike:
 			{
-				enemy->hp -= 9;
-				Dick->Draw(1);
+				if (ManaCheck(1)) 
+				{
+					enemy->hp -= 9;
+					Dick->Draw(1);
+					CanUse = true;
+				}
 			}break;
 
 			case ShrugItOff:
 			{
-				player->armor += 8;
-				Dick->Draw(1);
+				if (ManaCheck(1)) 
+				{
+					player->armor += 8;
+					Dick->Draw(1);
+					CanUse = true;
+				}
 			}break;
 
 			case Hemokinesis:
@@ -355,18 +377,32 @@ void BattleScene::CardCheck()
 
 			case IronWave:
 			{
-				enemy->hp -= 5;
-				player->armor += 5;
+				if (ManaCheck(1)) 
+				{
+					enemy->hp -= 5;
+					player->armor += 5;
+					CanUse = true;
+				}
 			}break;
 
 			}
 
-			Dick->Use(cardNum);
-			UpdateHand(Dick->HandList.size());
-			UpdatePlayerState();
-			UpdateEnemyState();
+			if (CanUse) 
+			{
+				Dick->Use(cardNum);
+				UpdateHand(Dick->HandList.size());
+				UpdatePlayerState();
+				UpdateEnemyState();
+			}
+
 		}
 	}
+}
+
+bool BattleScene::ManaCheck(int cost)
+{
+	if (player->cost - cost < 0) return false;
+	else { player->cost -= cost; return true; }
 }
 
 void BattleScene::UpdateHand(int handSize)
@@ -388,10 +424,13 @@ void BattleScene::UpdateHand(int handSize)
 
 void BattleScene::UpdatePlayerState()
 {
-	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->hp / 10];
-	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->hp % 10];
-	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->maxHp / 10];
-	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[player->maxHp % 10];
+	CurrentMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->cost];
+	MaxMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxCost];
+
+	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp / 10];
+	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp % 10];
+	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp / 10];
+	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp % 10];
 
 	if (player->armor <= 0) 
 	{
@@ -406,15 +445,15 @@ void BattleScene::UpdatePlayerState()
 		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor % 10];
 		if ((player->armor/10) >= 1) 
 		{
-			PlayerArmor1->m_OriginPos = { -0.714, -0.693 };
-			PlayerArmor2->m_OriginPos = { -0.693, -0.693 };
+			PlayerArmor1->m_OriginPos = { -0.692, -0.795 };
+			PlayerArmor2->m_OriginPos = { -0.667, -0.795 };
 
 			PlayerArmor1->m_bIsDead = false;
 			PlayerArmor1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor / 10];
 		}
 		else
 		{
-			PlayerArmor2->m_OriginPos = { -0.703, -0.693 };
+			PlayerArmor2->m_OriginPos = { -0.680, -0.795 };
 		}
 	}
 }

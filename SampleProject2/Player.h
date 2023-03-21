@@ -10,7 +10,7 @@ public:
 	int armor;
 	std::map<std::wstring, int> stateMap;
 
-	int maxCost;
+	int maxCost = 3;
 	int cost;
 	// Charactor* chara;
 };
