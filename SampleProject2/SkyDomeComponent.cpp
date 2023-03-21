@@ -18,11 +18,27 @@ bool SkyDomeComponent::Initialize()
 		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/CloudDome.fbx", &MeshComp);
 	}
 
-	MaterialSlot = new Material;
-	MaterialSlot->PixelShaderCodeName = L"Default";
-	MaterialSlot->DiffuseTextureName = L"../resource/FBX/CloudSky2.jpg";
-	MaterialSlot->Initialize();
-	//MaterialManager::GetInstance()->AddMaterial(L"SkyDome", MaterialSlot);
+	if (!MaterialManager::GetInstance()->Load(L"../resource/Material/DefaultSkyDome.material", L"DefaultSkyDome"))
+	{
+		MaterialSlot = MaterialManager::GetInstance()->CreateMaterial(L"DefaultSkyDome");
+		MaterialSlot->Name = L"DefaultSkyDome";
+		MaterialSlot->Type = MaterialType::Default;
+		MaterialSlot->DiffuseTextureName = L"../resource/Texture/CloudSky2.jpg";
+		if (MaterialSlot->Create())
+		{
+			MaterialSlot->Save(L"../resource/Material/DefaultSkyDome.material");
+		}
+		else
+		{
+			delete MaterialSlot;
+			OutputDebugString(L"SkyDomeComponent::Failed Initailize Material.");
+			return false;
+		}
+	}
+	else
+	{
+		MaterialSlot = MaterialManager::GetInstance()->GetMaterial(L"DefaultSkyDome");
+	}
 
 	for (auto& mesh : MeshComp.Meshes)
 	{

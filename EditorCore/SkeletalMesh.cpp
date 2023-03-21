@@ -41,6 +41,11 @@ bool SkeletalMesh::Initialize()
 		return true;
 	}
 
+	if (Vertices.empty())
+	{
+		return false;
+	}
+
 	VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
 	if (VertexBuffer == nullptr)
 	{

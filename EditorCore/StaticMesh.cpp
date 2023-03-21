@@ -64,6 +64,12 @@ bool StaticMesh::Render()
 		}
 	}
 
+	if (Vertices.empty())
+	{
+		OutputDebugString(L"EditorCore::StaticMesh::Render::Vertex is NULL.");
+		return false;
+	}
+
 	UINT Strides = sizeof(Vertex); // 정점 1개의 바이트 용량
 	UINT Offsets = 0; // 정점 버퍼에서 출발 지점(바이트)
 	DXDevice::g_pImmediateContext->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);

@@ -279,12 +279,11 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 		for (int idx = 0; idx < NodeData.MaterialNum; idx++)
 		{
 			FbxSurfaceMaterial* surface = node->GetMaterial(idx);
-
 			std::wstring materialName;
 			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
 			Material* material = MaterialManager::GetInstance()->CreateMaterial(materialName);
 			bool isValid = false;
-
+			material->Type = MaterialType::Light;
 			material->DiffuseTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sDiffuse);
 			material->NormalTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sNormalMap);
 			material->AmbientTextureName = GetTextureFileName(surface, FbxSurfaceMaterial::sAmbient);
@@ -314,7 +313,11 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 			{
 				material->EmissiveTextureName = dst->FilePath + material->EmissiveTextureName;
 			}
-			material->Initialize();
+
+			if (!material->Create())
+			{
+				material = MaterialManager::GetInstance()->GetMaterial(L"Default");
+			}
 			NodeData.MaterialList.push_back(material);
 		}
 

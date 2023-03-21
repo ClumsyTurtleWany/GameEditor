@@ -5,9 +5,27 @@
 bool MaterialManager::Initialize()
 {
 	Material* defaultMaterial = new Material;
-	defaultMaterial->DiffuseTextureName = L"../resource/Default.bmp";
-	defaultMaterial->Initialize();
-	MaterialMap.insert(std::make_pair(L"Default", defaultMaterial));
+	if (defaultMaterial->Load(L"../resource/Material/Default.material"))
+	{
+		MaterialMap.insert(std::make_pair(L"Default", defaultMaterial));
+	}
+	else
+	{
+		defaultMaterial->Name = L"Default";
+		defaultMaterial->Type = MaterialType::Default;
+		defaultMaterial->DiffuseTextureName = L"../resource/Texture/Default.bmp";
+		if (defaultMaterial->Create())
+		{
+			defaultMaterial->Save(L"../resource/Material/Default.material");
+			MaterialMap.insert(std::make_pair(L"Default", defaultMaterial));
+		}
+		else
+		{
+			delete defaultMaterial;
+			OutputDebugString(L"EditorCore::MaterialManager::Initialize::Failed Create Default Material.");
+		}
+	}
+	
 	return true;
 }
 
@@ -209,6 +227,7 @@ Material* MaterialManager::GetMaterial(std::wstring name)
 Material* MaterialManager::CreateMaterial(std::wstring name)
 {
 	Material* material = new Material;
+	material->Name = name;
 	MaterialMap.insert(std::make_pair(name, material));
 	return material;
 }
