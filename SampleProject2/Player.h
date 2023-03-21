@@ -9,6 +9,9 @@ public:
 	int hp;
 	int armor;
 	std::map<std::wstring, int> stateMap;
+
+	int maxCost;
+	int cost;
 	// Charactor* chara;
 };
 

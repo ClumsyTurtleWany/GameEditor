@@ -160,11 +160,11 @@ void BattleScene::Init_UI()
 
 void BattleScene::Init_Map()
 {	
-	//// 카메라 액터 추가.
-	//Actor* cameraActor = new Actor;
-	//MainCamera = cameraActor->AddComponent<Camera>();
-	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+	// 카메라 액터 추가.
+	Actor* cameraActor = new Actor;
+	MainCamera = cameraActor->AddComponent<Camera>();
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 	// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
@@ -192,7 +192,7 @@ void BattleScene::Init_Map()
 	TheWorld.AddEntity(light2);
 
 	// 9. 메인 월드에 액터 추가.
-	//TheWorld.AddEntity(cameraActor);
+	TheWorld.AddEntity(cameraActor);
 	TheWorld.AddEntity(landscape);
 	TheWorld.AddEntity(skyDomeActor);
 }
@@ -239,9 +239,9 @@ void BattleScene::Init_Chara()
 	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
 	//playerCharMovementComp->Destination = Vector3(-10.0f, 0.0f, 0.0f);
 	 
-	// 카메라 컴포넌트 추가.
-	auto cameraComp = PlayerCharacter->AddComponent<Camera>();
-	cameraComp->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera = PlayerCharacter->AddComponent<Camera>();
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	
 	TheWorld.AddEntity(PlayerCharacter);
 }
