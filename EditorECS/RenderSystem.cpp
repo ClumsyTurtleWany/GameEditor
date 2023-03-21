@@ -19,8 +19,6 @@ void RenderSystem::Tick(ECS::World* world, float time)
 	DXDevice::g_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
 	DXDevice::g_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
 
-	//
-
 	for (auto& entity : world->GetEntities<Landscape, TransformComponent>())
 	{
 		auto landscape = entity->GetComponent<Landscape>();

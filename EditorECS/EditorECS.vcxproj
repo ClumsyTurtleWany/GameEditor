@@ -31,9 +31,12 @@
     <ClInclude Include="..\include\EffectInclude\SpriteManager.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="BoundingBoxComponent.h" />
+    <ClInclude Include="BoundingSphereComponent.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="CubeComponent.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DirectionalLight.h" />
@@ -66,6 +69,7 @@
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="MovementComponent.cpp" />

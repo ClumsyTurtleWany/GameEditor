@@ -2,6 +2,10 @@
 #include "FBXLoader.hpp"
 #include "EffectInclude/EffectSystem.h"
 
+#include "ColliderSystem.h"
+#include "BoundingBoxComponent.h"
+#include "BoundingSphereComponent.h"
+
 // ¹Ø¿¡ ³ðµéÀº BaseScene ¾Æ´Ï¸é BattleScene ¹ØÀ¸·Î °¬À¾´Ï´Ù 
 //#include "WindowsClient.h"
 //#include "Actor.h"
@@ -140,7 +144,7 @@ bool SampleCore::Initialize()
 {
 	EditorCore::Initialize();
 	FBXLoader::GetInstance()->Initialize();
-
+	
 	Dick = new Deck;
 	TextureLoad();
 
@@ -178,12 +182,32 @@ bool SampleCore::Initialize()
 	//MainWorld.emit<CustomEvent>({856, FALSE});
 	////---------------------------------------------
 
+	//Collider System Å×½ºÆ®
+	ColliderSystem* cs = new ColliderSystem;
+	Battle->TheWorld.AddSystem(cs);
+
+	Actor* temp = new Character;
+	auto transform = temp->AddComponent<TransformComponent>();
+	auto playerCharMeshComp = temp->AddComponent<SkeletalMeshComponent>();
+	auto boundBox = temp->AddComponent<BoundingBoxComponent>(Vector3(5.0f, 5.0f, 5.0f));
+	auto boundSphere = temp->AddComponent<BoundingSphereComponent>(7.0f);
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
+	{
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
+	}
+
+	Battle->TheWorld.AddEntity(temp);
 
 	return true;
 }
 
 bool SampleCore::Frame()
 {
+	if (CurrentScene->MainCamera)
+	{
+		MAIN_PICKER.setMatrix(nullptr, &(CurrentScene->MainCamera->View), &(CurrentScene->MainCamera->Projection));
+	}
+
 	EditorCore::Frame();
 	MainWorld.CleanUp();
 
