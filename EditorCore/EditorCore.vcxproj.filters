@@ -47,6 +47,9 @@
     <Filter Include="Picker">
       <UniqueIdentifier>{24fab745-3730-4c5e-bbc5-efa6b038ff55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HLSL">
+      <UniqueIdentifier>{afa8c5b0-81c8-48bd-b5f2-93ffb4a9df6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorCore.h">
@@ -169,6 +172,12 @@
     </FxCompile>
     <FxCompile Include="VS_Sky.hlsl">
       <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="VS_LineObject.hlsl">
+      <Filter>HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="PS_LineObject.hlsl">
+      <Filter>HLSL</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

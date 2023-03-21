@@ -3,6 +3,16 @@
 #include "BaseCore/Input.hpp"
 #include "ECS/World.hpp"
 
+//피킹 모드
+enum PICKING_MODE
+{
+	PMOD_DEFAULT,
+	PMOD_MOVE,
+	PMOD_SELECTTARGET,
+	PMOD_ATTACKTARGET,
+	NUMBER_OF_PICKING_MODE
+};
+
 class MousePicker
 {
 public:
@@ -18,8 +28,8 @@ public:
 
 	ECS::Entity* pTarget;
 
-	bool isPickBVolume;
-	bool isPickUI;
+	//피킹 모드 변수
+	PICKING_MODE optPickingMode;
 
 public:
 	MousePicker();
@@ -27,7 +37,6 @@ public:
 
 public:
 	void Update();
-	void clearState();
 
 public:
 	void setMatrix(Matrix* pWorld, Matrix* pView, Matrix* pProj);

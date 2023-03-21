@@ -189,6 +189,9 @@
     <ClInclude Include="LandscapeComponents.h">
       <Filter>Component\Landscape</Filter>
     </ClInclude>
+    <ClInclude Include="BVRender.h">
+      <Filter>Component\Collider</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">

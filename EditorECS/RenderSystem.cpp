@@ -8,6 +8,8 @@
 #include "Landscape.h"
 //#include "DebugCamera.h"
 #include "SkyBoxComponent.h"
+#include "BoundingBoxComponent.h"
+#include "BoundingSphereComponent.h"
 #include "EffectInclude/EffectSystem.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
@@ -75,6 +77,41 @@ void RenderSystem::Tick(ECS::World* world, float time)
 			skyBox->Render();
 		}
 	}
+
+
+//#ifdef _DEBUG
+//	for (auto& entity : world->GetEntities<BoundingBoxComponent>())
+//	{
+//		auto BVolume = entity->GetComponent<BoundingBoxComponent>();
+//		auto transform = entity->GetComponent<TransformComponent>();
+//
+//		if (BVolume != nullptr && mainCamera != nullptr)
+//		{
+//			Matrix world = Matrix::CreateScale(transform->Scale);
+//			world *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
+//			world *= Matrix::CreateTranslation(transform->Translation);
+//
+//			BVolume->DebugObj.update(&world, &mainCamera->View, &mainCamera->Projection);
+//			BVolume->DebugObj.render();
+//		}
+//	}
+//
+//	for (auto& entity : world->GetEntities<BoundingSphereComponent>())
+//	{
+//		auto BVolume = entity->GetComponent<BoundingSphereComponent>();
+//		auto transform = entity->GetComponent<TransformComponent>();
+//
+//		if (BVolume != nullptr && mainCamera != nullptr)
+//		{
+//			Matrix world = Matrix::CreateScale(transform->Scale);
+//			world *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
+//			world *= Matrix::CreateTranslation(transform->Translation);
+//
+//			BVolume->DebugObj.update(&world, &mainCamera->View, &mainCamera->Projection);
+//			BVolume->DebugObj.render();
+//		}
+//	}
+//#endif //_DEBUG
 
 	for (auto& entity : world->GetEntities<ParticleEffectComponent>())
 	{

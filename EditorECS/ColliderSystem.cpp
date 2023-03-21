@@ -11,6 +11,7 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		auto OBB = entity->GetComponent<BoundingBoxComponent>();
 		auto Sphere = entity->GetComponent<BoundingSphereComponent>();
 		auto transform = entity->GetComponent<TransformComponent>();
+
 		if ((OBB != nullptr) && (transform != nullptr))
 		{
 			OBB->OBB.Center = OBB->InitOBB.Center + transform->Translation;
@@ -28,6 +29,7 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 				((transform->Scale.x + transform->Scale.y + transform->Scale.z) / 3.0f);
 		}
 
+		//바운딩 볼륨 충돌 테스트용 코드
 		/*if (MAIN_PICKER.RayToOBB(OBB->OBB))
 		{
 			std::wstring Coord = L"OBB X : ";

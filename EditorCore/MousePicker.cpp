@@ -2,8 +2,7 @@
 
 MousePicker::MousePicker()
 {
-	isPickBVolume = false;
-	isPickUI = false;
+	optPickingMode = PMOD_DEFAULT;
 	pTarget = nullptr;
 }
 
@@ -13,8 +12,6 @@ MousePicker::~MousePicker()
 
 void MousePicker::Update()
 {
-	clearState();
-
 	ptCursor = Input::GetInstance()->m_ptPos;
 	ClientWidth = DXDevice::g_ViewPort.Width;
 	ClientHeight = DXDevice::g_ViewPort.Height;
@@ -31,14 +28,6 @@ void MousePicker::Update()
 	PickingRay.position = DirectX::XMVector3TransformCoord(PickingRay.position, inversedView);
 	PickingRay.direction = DirectX::XMVector3TransformNormal(PickingRay.direction, inversedView);
 	PickingRay.direction.Normalize();
-}
-
-void MousePicker::clearState()
-{
-	isPickBVolume = false;
-	isPickUI = false;
-
-	pTarget = nullptr;
 }
 
 void MousePicker::setMatrix(Matrix* pWorld, Matrix* pView, Matrix* pProj)
@@ -128,7 +117,6 @@ bool MousePicker::RayToOBB(const DirectX::BoundingOrientedBox& OBB)
 	OBB.Intersects(PickingRay.position, PickingRay.direction, dist);
 
 	Intersection = PickingRay.position + (dist * PickingRay.direction);
-	isPickBVolume = true;
 
 	return true;
 }
@@ -141,7 +129,6 @@ bool MousePicker::RayToAABB(const DirectX::BoundingBox& AABB)
 	if (AABB.Intersects(PickingRay.position, PickingRay.direction, dist))
 	{
 		Intersection = PickingRay.position + (dist * PickingRay.direction);
-		isPickBVolume = true;
 		return true;
 	}
 
@@ -187,13 +174,11 @@ bool MousePicker::RayToSphere(const DirectX::BoundingSphere& sphere)
 	if (t0 >= 0.0f)
 	{
 		Intersection = PickingRay.position + PickingRay.direction * t0;
-		isPickBVolume = true;
 		return true;
 	}
 	if (t1 >= 0.0f)
 	{
 		Intersection = PickingRay.position + PickingRay.direction * t1;
-		isPickBVolume = true;
 		return true;
 	}
 
@@ -206,7 +191,6 @@ bool MousePicker::CheckPick(const Vector3& v0, const Vector3& v1, const Vector3&
 	if (IntersectTriangle(PickingRay.position, PickingRay.direction, v0, v1, v2, &distance))
 	{
 		Intersection = PickingRay.position + PickingRay.direction * distance;
-		isPickBVolume = true;
 		return true;
 	}
 

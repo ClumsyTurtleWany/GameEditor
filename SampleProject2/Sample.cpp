@@ -183,9 +183,6 @@ bool SampleCore::Initialize()
 	////---------------------------------------------
 
 	//Collider System Å×½ºÆ®
-	ColliderSystem* cs = new ColliderSystem;
-	Battle->TheWorld.AddSystem(cs);
-
 	Actor* temp = new Character;
 	auto transform = temp->AddComponent<TransformComponent>();
 	transform->Translation = { 100.0f, 0.0f, 0.0f };

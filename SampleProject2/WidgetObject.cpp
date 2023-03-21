@@ -57,7 +57,11 @@ bool WidgetObject::PostRender()
 {
 	// 일단 컴포넌트 렌더만 돌려본 거라 임시로 추가, 나중에 시스템에 붙이고 나면 빼도 될지도 -> 아니네!
 	CameraMatrix CameraMatrixData;
-	ID3D11Buffer* CameraMatrixBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<CameraMatrix>(CameraMatrixData);
+	static ID3D11Buffer* CameraMatrixBuffer;
+	if (!CameraMatrixBuffer)
+	{
+		CameraMatrixBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<CameraMatrix>(CameraMatrixData);
+	}
 	DXDevice::g_pImmediateContext->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
 

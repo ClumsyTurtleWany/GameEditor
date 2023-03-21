@@ -134,6 +134,18 @@ bool EditorCore::CreateInputLayout()
     UINT particleEffectInputElementNum = sizeof(particleEffectInputDescs) / sizeof(particleEffectInputDescs[0]);
     DXShaderManager::GetInstance()->CreateInputLayout(particleEffectVSCode, particleEffectInputDescs, particleEffectInputElementNum, L"VL_PointParticle");
 
+    //------------------------------------------------------------------------------------
+    // Line Object Input Layout
+    //------------------------------------------------------------------------------------
+    ID3DBlob* lineObjVSCode = DXShaderManager::GetInstance()->GetVSCode(L"VS_LineObject");
+    D3D11_INPUT_ELEMENT_DESC lineObjInputDescs[] =
+    {
+        { "POSITION",   0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 0,   D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "COLOR",      0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 12,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+    };
+    UINT lineObjInputElementNum = sizeof(lineObjInputDescs) / sizeof(lineObjInputDescs[0]);
+    DXShaderManager::GetInstance()->CreateInputLayout(lineObjVSCode, lineObjInputDescs, lineObjInputElementNum, L"VS_LineObject");
+
     return true;
 }
 
@@ -170,6 +182,14 @@ bool EditorCore::CreateVertexShader()
     if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/EffectPart/shader/VS_PointParticle.hlsl", L"VS_PointParticle"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/EffectPart/shader/VS_PointParticle.hlsl)");
+    }
+
+    //------------------------------------------------------------------------------------
+    // Line Object Shader
+    //------------------------------------------------------------------------------------
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_LineObject.hlsl", L"VS_LineObject"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_LineObject.hlsl)");
     }
 
     return true;
@@ -223,6 +243,14 @@ bool EditorCore::CreatePixelShader()
     if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/EffectPart/shader/PS_PointParticle_Dualsource.hlsl", L"PS_PointParticle_Dualsource"))
     {
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/EffectPart/shader/PS_PointParticle_Dualsource.hlsl)");
+    }
+
+    //------------------------------------------------------------------------------------
+    // Line Object Shader
+    //------------------------------------------------------------------------------------
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_LineObject.hlsl", L"PS_LineObject"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_LineObject.hlsl)");
     }
 
     return true;

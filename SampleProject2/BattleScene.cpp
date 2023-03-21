@@ -15,6 +15,9 @@
 #include "Character.h"
 #include "SelectAnimSystem.h"
 
+//추가
+#include "ColliderSystem.h"
+
 ///////////////////
 //Effect Include
 ///////////////////
@@ -39,6 +42,7 @@ bool BattleScene::Init()
 
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	TheWorld.AddSystem(new CameraSystem);
+	TheWorld.AddSystem(new ColliderSystem);
 	TheWorld.AddSystem(new RenderSystem);
 	TheWorld.AddSystem(new WidgetRenderSystem);
 	TheWorld.AddSystem(new MovementSystem);
@@ -94,7 +98,6 @@ bool BattleScene::Frame()
 	}
 
 	PlayerCharacter->MoveTo(MAIN_PICKER.Intersection);
-
 	return true;
 }
 

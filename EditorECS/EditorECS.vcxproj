@@ -33,6 +33,7 @@
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="BoundingBoxComponent.h" />
     <ClInclude Include="BoundingSphereComponent.h" />
+    <ClInclude Include="BVRender.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraSystem.h" />
     <ClInclude Include="Character.h" />
