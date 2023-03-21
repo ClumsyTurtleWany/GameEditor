@@ -14,7 +14,11 @@ bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 	{
 		m_currentAnimationFrame = min(m_currentAnimationFrame, CurrentClip->EndFrame);
 		m_currentAnimationFrame = max(m_currentAnimationFrame, CurrentClip->StartFrame);
-		m_AnimationInverse *= -1.0f;
+		//m_AnimationInverse *= -1.0f;
+		if (CurrentClip->LoopState)
+		{
+			m_currentAnimationFrame = 0.f;
+		}
 	}
 
 	UINT InterpolationIdx = m_currentAnimationFrame * 100; // InterpolationSampling 일단 100 고정

@@ -209,9 +209,9 @@ void BattleScene::Init_Chara()
 	// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
 	// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
 	auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Jump_Attack.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Jump_Attack.FBX", playerCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
 	{
@@ -222,7 +222,7 @@ void BattleScene::Init_Chara()
 		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);
 	}
 	// 이런식으로 직접 바꿀 수 있음 (인게임에서 바꾸는 건 작업 더 해야함)
-	playerCharAnimComp->SetClipByName(L"Punch");
+	//playerCharAnimComp->SetClipByName(L"Punch");
 	
 
 
@@ -235,9 +235,9 @@ void BattleScene::Init_Chara()
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 10.0f;
 
-	// 플레이어 액터 MoveTo(목적지) 설정하면 이동(이동모션 있는줄 알았는데 없었던 거임;; 받아서 추가하겠음)
+	
 	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
-	//playerCharMovementComp->Destination = Vector3(-10.0f, 0.0f, 0.0f);
+	
 	 
 	MainCamera = PlayerCharacter->AddComponent<Camera>();
 	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
