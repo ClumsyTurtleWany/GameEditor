@@ -46,24 +46,6 @@ CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\Kin
 CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Discard.png | ../../data/shader/DefaultObject_Orgin.txt
 CutInfo	3 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Button\Discard.png | ../../data/shader/DefaultObject_Orgin.txt
 =
-Type	0
-ID	5
-Name	Enemy
-OrginPos	0.710003 -0.146667
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 221.000000 292.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\GremlinLeader.png | ../../data/shader/DefaultObject_Orgin.txt
-=
-Type	0
-ID	6
-Name	Player
-OrginPos	-0.652504 -0.144444
-Depth	0.000000
-Alpha	1.000000
-CutNum	1
-CutInfo	0 | 300.000000 325.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\Player_Shield.png | ../../data/shader/DefaultObject_Orgin.txt
-=
 Type	1
 ID	7
 Name	Remain

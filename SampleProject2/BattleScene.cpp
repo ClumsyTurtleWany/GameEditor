@@ -394,6 +394,7 @@ void BattleScene::CardCheck()
 				UpdatePlayerState();
 				UpdateEnemyState();
 			}
+			else {} // 여기서 경고문구 출력
 
 		}
 	}
