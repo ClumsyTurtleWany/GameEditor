@@ -66,6 +66,9 @@
     <Filter Include="Component\Collider">
       <UniqueIdentifier>{a5a33b31-49b3-4e23-afa0-aff585122ebb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="System\AnimSystem">
+      <UniqueIdentifier>{3c4d5874-a24c-482c-a0a7-ec0543c79c9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -165,9 +168,6 @@
     <ClInclude Include="Character.h">
       <Filter>Entity\Actor</Filter>
     </ClInclude>
-    <ClInclude Include="UpdateAnimSystem.h">
-      <Filter>System</Filter>
-    </ClInclude>
     <ClInclude Include="..\include\EffectInclude\EffectSystem.h">
       <Filter>System\EffectSystem</Filter>
     </ClInclude>
@@ -179,6 +179,15 @@
     </ClInclude>
     <ClInclude Include="ColliderSystem.h">
       <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="UpdateAnimSystem.h">
+      <Filter>System\AnimSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectAnimSystem.h">
+      <Filter>System\AnimSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="LandscapeComponents.h">
+      <Filter>Component\Landscape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +246,18 @@
       <Filter>Component\Animation</Filter>
     </ClCompile>
     <ClCompile Include="UpdateAnimSystem.cpp">
+      <Filter>System\AnimSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectAnimSystem.cpp">
+      <Filter>System\AnimSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeComponent.cpp">
+      <Filter>Component\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="LandscapeComponents.cpp">
+      <Filter>Component\Landscape</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraSystem.cpp">
       <Filter>System</Filter>
     </ClCompile>
     <ClCompile Include="ColliderSystem.cpp">

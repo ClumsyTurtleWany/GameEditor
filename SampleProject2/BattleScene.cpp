@@ -13,6 +13,7 @@
 #include "UpdateAnimSystem.h"
 #include "MovementSystem.h"
 #include "Character.h"
+#include "SelectAnimSystem.h"
 
 ///////////////////
 //Effect Include
@@ -41,6 +42,9 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(new WidgetRenderSystem);
 	TheWorld.AddSystem(new MovementSystem);
 	TheWorld.AddSystem(new UpdateAnimSystem);
+	// SelectAnimSystem 추가
+	TheWorld.AddSystem(new SelectAnimSystem);
+
 	LightSystem* lightSystem = new LightSystem;
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
@@ -159,15 +163,15 @@ void BattleScene::Init_Map()
 	// 카메라 액터 추가.
 	Actor* cameraActor = new Actor;
 	MainCamera = cameraActor->AddComponent<Camera>();
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 5.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 	// 지형 액터 추가.
-	Actor* landscapeActor = new Actor;
-	auto landscape = landscapeActor->AddComponent<Landscape>();
-	landscape->Build(8, 8, 7);
-	landscape->SetCamera(MainCamera);
-	auto landTransform = landscapeActor->GetComponent<TransformComponent>();
+	Landscape* landscape = new Landscape;
+	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
+	landscapeComponents->Build(8, 8, 7);
+	landscapeComponents->SetCamera(MainCamera);
+	//auto landTransform = landscapeActor->GetComponent<TransformComponent>();
 
 	// Sky Dome 추가.
 	Actor* skyDomeActor = new Actor;
@@ -189,7 +193,7 @@ void BattleScene::Init_Map()
 
 	// 9. 메인 월드에 액터 추가.
 	TheWorld.AddEntity(cameraActor);
-	TheWorld.AddEntity(landscapeActor);
+	TheWorld.AddEntity(landscape);
 	TheWorld.AddEntity(skyDomeActor);
 }
 
@@ -230,7 +234,15 @@ void BattleScene::Init_Chara()
 
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 10.0f;
-	playerCharMovementComp->Destination = Vector3(0.0f, 0.0f, -100.0f);
+
+	// 플레이어 액터 MoveTo(목적지) 설정하면 이동(이동모션 있는줄 알았는데 없었던 거임;; 받아서 추가하겠음)
+	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
+	//playerCharMovementComp->Destination = Vector3(-10.0f, 0.0f, 0.0f);
+	 
+	MainCamera = PlayerCharacter->AddComponent<Camera>();
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+	
 	TheWorld.AddEntity(PlayerCharacter);
 }
 

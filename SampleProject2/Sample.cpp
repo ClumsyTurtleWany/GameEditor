@@ -149,15 +149,15 @@ bool SampleCore::Initialize()
 	TextureLoad();
 
 	// 초기 로딩중에 로딩화면 바로 띄우기.. 인데 뭔가 원하는 그림이 안나오네..
-	Loading = new LoadingScene;
-	Loading->Init();
-	Loading->Frame();
-	Loading->Render();
+	//Loading = new LoadingScene;
+	//Loading->Init();
+	//Loading->Frame();
+	//Loading->Render();
 
-	Title = new TitleScene;
-	Title->Init();
-	Map = new MapScene;
-	Map->Init();
+	//Title = new TitleScene;
+	//Title->Init();
+	//Map = new MapScene;
+	//Map->Init();
 	Battle = new BattleScene;
 	Battle->Dick = Dick;
 	Battle->CardTextureList = CardTextureList;
@@ -169,8 +169,8 @@ bool SampleCore::Initialize()
 	CardView->CardTextureList = CardTextureList;
 	CardView->Init();
 
-	CurrentScene = Title;
-	//CurrentScene = Battle;
+	//CurrentScene = Title;
+	CurrentScene = Battle;
 
 	////테스트 시스템 추가
 	////ECS::TestSystem* test = new ECS::TestSystem;
