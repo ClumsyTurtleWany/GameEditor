@@ -8,6 +8,13 @@ WidgetObject::WidgetObject()
 
 WidgetObject::~WidgetObject()
 {
+	VertexLayout->Release();
+	VertexShader->Release();
+	VertexBuffer->Release();
+	IndexBuffer->Release();
+	PixelShader->Release();
+	TransformBuffer->Release();
+	CameraMatrixBuffer->Release();
 }
 
 bool WidgetObject::Initialize()
@@ -50,6 +57,11 @@ bool WidgetObject::Initialize()
 	PixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"T_UI");
 	TransformBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
 
+	CameraMatrix CameraMatrixData;
+	CameraMatrixBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<CameraMatrix>(CameraMatrixData);
+	
+
+
 	return true;
 }
 
@@ -57,11 +69,6 @@ bool WidgetObject::PostRender()
 {
 	// 일단 컴포넌트 렌더만 돌려본 거라 임시로 추가, 나중에 시스템에 붙이고 나면 빼도 될지도 -> 아니네!
 	CameraMatrix CameraMatrixData;
-	static ID3D11Buffer* CameraMatrixBuffer;
-	if (!CameraMatrixBuffer)
-	{
-		CameraMatrixBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<CameraMatrix>(CameraMatrixData);
-	}
 	DXDevice::g_pImmediateContext->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
 

@@ -69,6 +69,8 @@ public:
 	ID3D11PixelShader* PixelShader = nullptr;
 	ID3D11Buffer* TransformBuffer = nullptr;
 	TransformMatrix	TransformData;
+	ID3D11Buffer* CameraMatrixBuffer;
+
 
 // 여서부터는 영민이 커스텀
 public:
