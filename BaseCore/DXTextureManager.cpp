@@ -286,7 +286,7 @@ bool DXTextureManager::Release()
 {
 	if (!m_TextureList.empty())
 	{
-		for (auto it : m_TextureList)
+		for (auto& it : m_TextureList)
 		{
 			DXTexture* pTexture = it.second;
 			if (pTexture != nullptr)

@@ -228,6 +228,12 @@ Material* MaterialManager::CreateMaterial(std::wstring name)
 {
 	Material* material = new Material;
 	material->Name = name;
+	auto it = MaterialMap.find(name);
+	if (it != MaterialMap.end())
+	{
+		delete it->second;
+		MaterialMap.erase(name);
+	}
 	MaterialMap.insert(std::make_pair(name, material));
 	return material;
 }

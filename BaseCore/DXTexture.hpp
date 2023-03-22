@@ -19,11 +19,11 @@ private:
 	
 private:
 	// Texture
-	ID3D11ShaderResourceView*	m_pTextureResourceView;
+	ID3D11ShaderResourceView*	m_pTextureResourceView = nullptr;
 	//ID3D11Resource*			m_pTextureResource;
-	ID3D11Texture2D*			m_pTextureResource;
+	ID3D11Texture2D*			m_pTextureResource = nullptr;
 	D3D11_TEXTURE2D_DESC		m_Desc;
-	ID3D11UnorderedAccessView*	m_pTextureUAV;
+	ID3D11UnorderedAccessView*	m_pTextureUAV = nullptr;
 
 private:
 	std::wstring				m_wstrFileName;

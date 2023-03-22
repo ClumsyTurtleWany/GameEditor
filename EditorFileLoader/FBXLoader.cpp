@@ -36,6 +36,14 @@ bool FBXLoader::Release()
 		m_pManager = nullptr;
 	}
 
+	for (auto& it : FbxFileList)
+	{
+		FBXFileData* data = it.second;
+		delete data;
+		it.second = nullptr;
+	}
+	FbxFileList.clear();
+
 	return true;
 }
 
