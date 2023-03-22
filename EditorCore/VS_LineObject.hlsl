@@ -25,7 +25,7 @@ struct VS_OUTPUT
 	float4 color	: COLOR0;
 };
 
-float4 VS(VS_INPUT vIn)
+VS_OUTPUT VS(VS_INPUT vIn)
 {
 	VS_OUTPUT vOut = (VS_OUTPUT)0;
 

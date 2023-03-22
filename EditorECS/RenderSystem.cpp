@@ -78,40 +78,30 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
+//바운딩 볼륨 렌더 테스트용 코드
+#ifdef _DEBUG
+	for (auto& entity : world->GetEntities<BoundingBoxComponent>())
+	{
+		auto BVolume = entity->GetComponent<BoundingBoxComponent>();
 
-//#ifdef _DEBUG
-//	for (auto& entity : world->GetEntities<BoundingBoxComponent>())
-//	{
-//		auto BVolume = entity->GetComponent<BoundingBoxComponent>();
-//		auto transform = entity->GetComponent<TransformComponent>();
-//
-//		if (BVolume != nullptr && mainCamera != nullptr)
-//		{
-//			Matrix world = Matrix::CreateScale(transform->Scale);
-//			world *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
-//			world *= Matrix::CreateTranslation(transform->Translation);
-//
-//			BVolume->DebugObj.update(&world, &mainCamera->View, &mainCamera->Projection);
-//			BVolume->DebugObj.render();
-//		}
-//	}
-//
-//	for (auto& entity : world->GetEntities<BoundingSphereComponent>())
-//	{
-//		auto BVolume = entity->GetComponent<BoundingSphereComponent>();
-//		auto transform = entity->GetComponent<TransformComponent>();
-//
-//		if (BVolume != nullptr && mainCamera != nullptr)
-//		{
-//			Matrix world = Matrix::CreateScale(transform->Scale);
-//			world *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
-//			world *= Matrix::CreateTranslation(transform->Translation);
-//
-//			BVolume->DebugObj.update(&world, &mainCamera->View, &mainCamera->Projection);
-//			BVolume->DebugObj.render();
-//		}
-//	}
-//#endif //_DEBUG
+		if (BVolume != nullptr && mainCamera != nullptr)
+		{
+			BVolume->DebugObj.update(nullptr, &mainCamera->View, &mainCamera->Projection);
+			BVolume->DebugObj.render();
+		}
+	}
+
+	for (auto& entity : world->GetEntities<BoundingSphereComponent>())
+	{
+		auto BVolume = entity->GetComponent<BoundingSphereComponent>();
+
+		if (BVolume != nullptr && mainCamera != nullptr)
+		{
+			BVolume->DebugObj.update(nullptr, &mainCamera->View, &mainCamera->Projection);
+			BVolume->DebugObj.render();
+		}
+	}
+#endif //_DEBUG
 
 	for (auto& entity : world->GetEntities<ParticleEffectComponent>())
 	{
