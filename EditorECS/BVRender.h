@@ -2,6 +2,8 @@
 #include "Define.h"
 #include "EffectInclude/EffectDefine.h"
 
+#define MAX_NUMBER_OF_CIRCLE_VERTEX 60
+
 struct LineVertex
 {
 	Vector3 p;
@@ -25,6 +27,9 @@ struct ShaderGroup
 		pGS = nullptr;
 		pPS = nullptr;
 		pCS = nullptr;
+
+		//µ¿ÀÏ ±¸¹®
+		//ZeroMemory(this, sizeof(ShaderGroup));
 	}
 
 	void bindToPipeline(ID3D11DeviceContext* pDContext)
@@ -81,12 +86,6 @@ public:
 
 	void setVertices(DirectX::BoundingOrientedBox& OBB)
 	{
-		//0 LBB -> 1 LBF -> 2 RBF -> 3 RBB // ¾Æ·§¸é
-		//0 LBB -> 4 LTB -> 5 LTF -> 1 LBF // ¿ÞÂÊ¸é
-		//1 LBF -> 5 LTF -> 6 RTF -> 2 RBF // ¾ÕÂÊ¸é 
-		//2 RBF -> 6 RTF -> 7 RTB -> 3 RBB // ¿À¸¥ÂÊ¸é
-		//3 RBB -> 7 RTB -> 4 LTB			//À­ÂÊ¸é
-
 		Vector3 Axis[3] =
 		{
 			{1.0f, 0.0f, 0.0f},
@@ -102,31 +101,31 @@ public:
 
 		Color vColor = { 1.0f, 0.0f, 0.0f, 1.0f };
 
-		LineVertex vertices[19] =
+		LineVertex vertices[] =
 		{
-			{{ OBB.Center + Axis[0] * (-OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (-OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (OBB.Extents.z) }, vColor },
+			//0 LBB -> 1 LBF -> 2 RBF -> 3 RBB // ¾Æ·§¸é
+			{{ OBB.Center - Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },	vColor },	//LBB
+			{{ OBB.Center - Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//LBF
+			{{ OBB.Center + Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//RBF
+			{{ OBB.Center + Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },  vColor },	//RBB
 
-			{{ OBB.Center + Axis[0] * (-OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (OBB.Extents.z) }, vColor },
-			{{ OBB.Center + Axis[0] * (-OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) }, vColor },
+			//0 LBB -> 4 LTB -> 7 RTB -> 3 RBB // µÞ¸é
+			{{ OBB.Center - Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },	vColor },	//LBB
+			{{ OBB.Center - Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },	vColor },	//LTB
+			{{ OBB.Center + Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },	vColor },	//RTB
+			{{ OBB.Center + Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },  vColor },	//RBB
 
-			{{ OBB.Center + Axis[0] * (-OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) }, vColor },
-			{{ OBB.Center + Axis[0] * (-OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) }, vColor },
+			//7 RTB -> 6 RTF -> 5 LTF -> 4 LTB // À­¸é 
+			{{ OBB.Center + Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },	vColor },	//RTB
+			{{ OBB.Center + Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//RTF
+			{{ OBB.Center - Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//LTF
+			{{ OBB.Center - Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y + Axis[2] * OBB.Extents.z },  vColor },	//LTB
 
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) }, vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (-OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (OBB.Extents.z) }, vColor },
-
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (-OBB.Extents.y) + Axis[2] * (OBB.Extents.z) }, vColor },
-			{{ OBB.Center + Axis[0] * (OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (OBB.Extents.z) },	vColor },
-			{{ OBB.Center + Axis[0] * (-OBB.Extents.x) + Axis[1] * (OBB.Extents.y) + Axis[2] * (OBB.Extents.z) },	vColor }
+			//5 LTF -> 1 LBF -> 2 RBF -> 6 RTF // ¾Õ¸é
+			{{ OBB.Center - Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//LTF	
+			{{ OBB.Center - Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//LBF
+			{{ OBB.Center + Axis[0] * OBB.Extents.x - Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//RBF
+			{{ OBB.Center + Axis[0] * OBB.Extents.x + Axis[1] * OBB.Extents.y - Axis[2] * OBB.Extents.z },	vColor },	//RTF
 		};
 
 		for (auto& it : vertices)
@@ -139,38 +138,35 @@ public:
 
 	void setVertices(DirectX::BoundingSphere& Sphere)
 	{
-		//0 LBB -> 1 LBF -> 2 RBF -> 3 RBB
-		//4 LTB -> 5 LTF -> 6 RTF -> 7 RTB
 		Color vColor = { 1.0f, 0.0f, 0.0f, 1.0f };
 
 		Vector3 unit = { 1.0f * Sphere.Radius, 0.0f, 0.0f };
 
-		LineVertex verticesX[60];
-		LineVertex verticesY[60];
-		LineVertex verticesZ[60];
+		LineVertex verticesX[MAX_NUMBER_OF_CIRCLE_VERTEX];
+		LineVertex verticesZ[MAX_NUMBER_OF_CIRCLE_VERTEX];
 
-		Matrix rotX = Matrix::CreateFromYawPitchRoll(TAU / 36.0f, 0.0f, 0.0f);
-		Matrix rotY = Matrix::CreateFromYawPitchRoll(0.0f, TAU / 36.0f, 0.0f);
-		Matrix rotZ = Matrix::CreateFromYawPitchRoll(0.0f, 0.0f, TAU / 36.0f);
+		float rotAngle = TAU / (float)MAX_NUMBER_OF_CIRCLE_VERTEX;
+
+		Matrix rotX = Matrix::CreateFromYawPitchRoll(rotAngle, 0.0f, 0.0f);
+		Matrix rotZ = Matrix::CreateFromYawPitchRoll(0.0f, 0.0f, rotAngle);
 
 		verticesX[0] = { { unit.x, unit.y, unit.z }, vColor };
-		verticesY[0] = { { unit.x, unit.y, unit.z }, vColor };
-		verticesZ[0] = { { unit.y, unit.x, unit.z }, vColor };
+		verticesZ[0] = { { unit.x, unit.y, unit.z }, vColor };
 
-		for (int i = 1; i < 60; i++)
+		for (int i = 1; i < MAX_NUMBER_OF_CIRCLE_VERTEX; i++)
 		{
-			Vector3 P0 = Vector3::Transform(verticesX[i-1].p, rotX);
-			Vector3 P1 = Vector3::Transform(verticesY[i-1].p, rotY);
-			Vector3 P2 = Vector3::Transform(verticesZ[i-1].p, rotZ);
+			Vector3 P0 = Vector3::Transform(verticesX[i - 1].p, rotX);
+			Vector3 P2 = Vector3::Transform(verticesZ[i - 1].p, rotZ);
 
 			verticesX[i] = { { P0.x, P0.y, P0.z }, vColor };
-			verticesY[i] = { { P1.x, P1.y, P1.z }, vColor };
 			verticesZ[i] = { { P2.x, P2.y, P2.z }, vColor };
 		}
 
 		for (auto& it : verticesX) { m_vertices.push_back(it); }
-		for (auto& it : verticesY) { m_vertices.push_back(it); }
+		m_vertices.push_back(verticesX[0]);
 		for (auto& it : verticesZ) { m_vertices.push_back(it); }
+		m_vertices.push_back(verticesX[0]);
+
 
 		m_renderType = 1;
 	}
