@@ -11,9 +11,9 @@ void CameraSystem::Tick(ECS::World* world, float time)
 		auto transform = entity->GetComponent<TransformComponent>();
 		if (camera != nullptr)
 		{
-			camera->Pos.x = transform->Translation.x;
+			//camera->Pos.x = transform->Translation.x;
 			//camera->Pos.y = transform->Translation.y;
-			camera->Pos.z = transform->Translation.z - 100.0f;
+			//camera->Pos.z = transform->Translation.z - 100.0f;
 
 			//////////////////////////// DebugCamera ////////////////////////////
 

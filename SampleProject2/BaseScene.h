@@ -33,9 +33,6 @@ public:
 	virtual bool Release();
 
 public:
-	void CardTextureLoad();
-
-public:
 	ECS::World TheWorld;
 	Camera* MainCamera;
 	//Camera* 
