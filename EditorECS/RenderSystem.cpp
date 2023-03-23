@@ -83,7 +83,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		{
 			if (BVolume->pDebugObj)
 			{
-				BVolume->pDebugObj->update(nullptr, &mainCamera->View, &mainCamera->Projection);
+				BVolume->pDebugObj->update(nullptr, &MainCamera->View, &MainCamera->Projection);
 				BVolume->pDebugObj->render();
 			}
 		}
@@ -97,7 +97,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		{
 			if (BVolume->pDebugObj)
 			{
-				BVolume->pDebugObj->update(nullptr, &mainCamera->View, &mainCamera->Projection);
+				BVolume->pDebugObj->update(nullptr, &MainCamera->View, &MainCamera->Projection);
 				BVolume->pDebugObj->render();
 			}
 		}
