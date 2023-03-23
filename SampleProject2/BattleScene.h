@@ -43,6 +43,10 @@ public:
 	Camera* CurrentCamera;
 	Camera* MoveCamera;
 	Camera* CloseupCamera;
+	
+	CameraSystem* MainCameraSystem = nullptr;
+	RenderSystem* MainRenderSystem = nullptr;
+	Actor* MainCameraActor = nullptr;
 
 public:
 	FMODSound* bgm;

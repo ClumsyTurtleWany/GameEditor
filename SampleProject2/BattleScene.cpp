@@ -36,21 +36,28 @@ bool BattleScene::Init()
 	player->hp = 50; 
 	enemy = new Enemy_1;
 	enemy->Init();
-	enemy->NumberTextureList_Red = NumberTextureList_Red;
+
+	MainCameraSystem = new CameraSystem;
+	MainCameraActor = new Actor;
+	MainCamera = MainCameraActor->AddComponent<Camera>();
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+	MainCamera->Pitch += 0.05f;
+	MainCameraSystem->MainCamera = MainCamera;
+	TheWorld.AddEntity(MainCameraActor);
 
 	Init_UI();
 	Init_Map();
 	Init_Chara();
 	Init_Effect();
 
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
-	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	MainCamera->Pitch += 0.05f;
-
 	// 카메라 시스템 및 랜더링 시스템 추가.
-	TheWorld.AddSystem(new CameraSystem);
+	TheWorld.AddSystem(MainCameraSystem);
 	TheWorld.AddSystem(new ColliderSystem);
-	TheWorld.AddSystem(new RenderSystem);
+	MainRenderSystem = new RenderSystem;
+	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	TheWorld.AddSystem(MainRenderSystem);
+
 	TheWorld.AddSystem(new WidgetRenderSystem);
 	TheWorld.AddSystem(new MovementSystem);
 	TheWorld.AddSystem(new UpdateAnimSystem);
@@ -58,6 +65,7 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(new SelectAnimSystem);
 
 	LightSystem* lightSystem = new LightSystem;
+	lightSystem->MainCamera = MainCameraSystem->MainCamera;
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
 
@@ -80,38 +88,60 @@ bool BattleScene::Frame()
 	KeyState btnA = Input::GetInstance()->getKey('A');
 	if (btnA == KeyState::Hold || btnA == KeyState::Down)
 	{
-		MainCamera->Yaw -= 0.001f;
+		MainCamera->Yaw -= 0.1f;
 	}
 
 	KeyState btnD = Input::GetInstance()->getKey('D');
 	if (btnD == KeyState::Hold || btnD == KeyState::Down)
 	{
-		MainCamera->Yaw += 0.001f;
+		MainCamera->Yaw += 0.1f;
 	}
 
 	KeyState btnW = Input::GetInstance()->getKey('W');
 	if (btnW == KeyState::Hold || btnW == KeyState::Down)
 	{
-		MainCamera->Pitch -= 0.001f;
+		MainCamera->Pitch -= 0.1f;
 	}
 
 	KeyState btnS = Input::GetInstance()->getKey('S');
 	if (btnS == KeyState::Hold || btnS == KeyState::Down)
 	{
-		MainCamera->Pitch += 0.001f;
+		MainCamera->Pitch += 0.1f;
 	}
 
 	KeyState btnQ = Input::GetInstance()->getKey('Q');
 	if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
 	{
-		MainCamera->Pos.z += 0.01f;
+		MainCamera->Pos.z += 0.1f;
 	}
 
 	KeyState btnE = Input::GetInstance()->getKey('E');
 	if (btnE == KeyState::Hold || btnE == KeyState::Down)
 	{
-		MainCamera->Pos.z -= 0.01f;
+		MainCamera->Pos.z -= 0.1f;
 	}
+
+	// 카메라 전환 예시용. 필요에 따라 수정 바람.
+	KeyState btnZ = Input::GetInstance()->getKey('Z');
+	if (btnZ == KeyState::Hold || btnZ == KeyState::Down)
+	{
+		MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+	}
+
+	KeyState btnX = Input::GetInstance()->getKey('X');
+	if (btnX == KeyState::Hold || btnX == KeyState::Down)
+	{
+		MainCameraSystem->MainCamera = EnemyCharacter->GetComponent<Camera>();
+	}
+
+	KeyState btnC = Input::GetInstance()->getKey('C');
+	if (btnC == KeyState::Hold || btnC == KeyState::Down)
+	{
+		MainCameraSystem->MainCamera = MainCamera;
+	}
+
+	// 얘는 일단 주기적으로 업데이트 해줘야함.
+	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 
 	//PlayerCharacter->MoveTo(MAIN_PICKER.Intersection);
 	return true;
@@ -197,7 +227,7 @@ void BattleScene::Init_Map()
 	Landscape* landscape = new Landscape;
 	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
 	landscapeComponents->Build(16, 16, 7, 10);
-	landscapeComponents->SetCamera(MainCamera);
+	landscapeComponents->SetCamera(MainCameraSystem->MainCamera);
 	TheWorld.AddEntity(landscape);
 	
 	// Sky Dome 추가.
@@ -205,7 +235,9 @@ void BattleScene::Init_Map()
 	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
 	skyDomeComp->Scale = Vector3(5000.0f, 5000.0f, 5000.0f);
 	TheWorld.AddEntity(skyDomeActor);
-	TheWorld.AddSystem(new SkyRenderSystem);
+	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
+	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	TheWorld.AddSystem(skyRenderSystem);
 
 	DirectionalLight* light = new DirectionalLight;
 	auto lightComp = light->GetComponent<DirectionalLightComponent>();
@@ -267,34 +299,20 @@ void BattleScene::Init_Map()
 		TheWorld.AddEntity(container);
 	}
 
-	/*for (int cnt = 0; cnt < 8; cnt++)
-	{
-		Actor* container = new Actor;
-		auto staticMesh = container->AddComponent<StaticMeshComponent>();
-		auto boundBox = container->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
-		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_C.FBX"))
-		{
-			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_C.FBX", staticMesh);
-		}
-		auto transform = container->GetComponent<TransformComponent>();
-		transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
-		transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-		transform->Translation = Vector3(510.0f, 40.0f, -500.0f + static_cast<float>(cnt) * 125);
-		TheWorld.AddEntity(container);
-	}*/
+	//Actor* containerShip = new Actor;
+	//auto staticMesh = containerShip->AddComponent<StaticMeshComponent>();
+	//auto boundBox = containerShip->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/CargoShip/CargoshipBLEND.fbx"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/CargoShip/CargoshipBLEND.fbx", staticMesh);
+	//}
+	//auto transform = containerShip->GetComponent<TransformComponent>();
+	//transform->Scale = Vector3(10.0f, 10.2f, 10.2f);
+	////transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+	////transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
+	//TheWorld.AddEntity(containerShip);
 
-	/*Actor* cargoShip = new Actor;
-	auto staticMesh = cargoShip->AddComponent<StaticMeshComponent>();
-	auto boundBox = cargoShip->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/CargoshipBlend.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/CargoshipBlend.fbx", staticMesh);
-	}
-	auto transform = cargoShip->GetComponent<TransformComponent>();
-	transform->Scale = Vector3(1.0f, 1.0f, 1.0f);
-	transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-	transform->Translation = Vector3(0.0f, 0.0f, -0.0f);
-	TheWorld.AddEntity(cargoShip);*/	
+	
 }
 
 void BattleScene::Init_Chara()
@@ -348,9 +366,21 @@ void BattleScene::Init_Chara()
 
 	////////////// Bounding Box Add /////////////////
 	auto playerOBBComp = PlayerCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.75f, 1.1f, 0.75f), Vector3(0.0f, 1.1f, 0.0f));
+
+	// 플레이어용 카메라 및 카메라 암 설정.
+	auto playerCamera = PlayerCharacter->AddComponent<Camera>();
+	auto playerCameraArm = PlayerCharacter->AddComponent<CameraArmComponent>();
+	playerCameraArm->Distance = 100.0f;
+	playerCameraArm->Roll = 45.0f;
+	playerCameraArm->Pitch = 180.0f;
+	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	
+	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
 	
 	 
-	MainCamera = PlayerCharacter->AddComponent<Camera>();
+	//MainCamera = PlayerCharacter->AddComponent<Camera>();
 	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
 	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	
@@ -466,6 +496,21 @@ void BattleScene::Init_Chara()
 
 	/////////////// Bounding Box Add ////////////
 	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.2f, 0.45f, 0.2f), Vector3(0.0f, 0.45f, 0.0f));
+
+	// 적 캐릭터 용 카메라 및 카메라 암
+	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
+	auto enemyCameraArm = EnemyCharacter->AddComponent<CameraArmComponent>();
+	enemyCameraArm->Distance = 100.0f;
+	enemyCameraArm->Roll = 45.0f;
+	enemyCameraArm->Pitch = 180.0f;
+	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+
+
+	EnemyCharacter->MoveTo(Vector3(10.0f, 0.0f, 0.0f));
+
+
 
 	TheWorld.AddEntity(EnemyCharacter);
 

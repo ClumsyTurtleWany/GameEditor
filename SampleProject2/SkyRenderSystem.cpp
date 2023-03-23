@@ -5,18 +5,12 @@
 
 void SkyRenderSystem::Tick(ECS::World* world, float time)
 {
-	Camera* mainCamera = nullptr;
-	for (auto& ent : world->GetEntities<Camera>())
-	{
-		mainCamera = ent->GetComponent<Camera>();
-	}
-
 	for (auto& entity : world->GetEntities<SkyDomeComponent>())
 	{
 		auto skyDome = entity->GetComponent<SkyDomeComponent>();
-		if (mainCamera != nullptr)
+		if (MainCamera != nullptr)
 		{
-			skyDome->UpdateCamera(mainCamera);
+			skyDome->UpdateCamera(MainCamera);
 		}
 
 		if ((skyDome != nullptr))
