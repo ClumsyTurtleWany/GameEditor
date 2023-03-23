@@ -8,7 +8,7 @@ bool TitleScene::Init()
 	Actor* TitleUI = new Actor;
 	//TitleUI->Name = L"Title";
 	auto tc = TitleUI->AddComponent<WidgetComponent>();
-	Loader.FileLoad(tc, L"../resource/UI/Save/Title.txt");
+	Loader.FileLoad(tc, L"../resource/UI/Save/Title_1.txt");
 	StartButton = tc->FindObj(L"Button_Start");
 
 

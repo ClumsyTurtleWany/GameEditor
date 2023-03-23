@@ -35,6 +35,7 @@ bool BattleScene::Init()
 	player->hp = 50; 
 	enemy = new Enemy_1;
 	enemy->Init();
+	enemy->NumberTextureList_Red = NumberTextureList_Red;
 
 	Init_UI();
 	Init_Map();
@@ -58,6 +59,15 @@ bool BattleScene::Init()
 	LightSystem* lightSystem = new LightSystem;
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
+
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru.mp3", SoundType::BGM))
+	{
+		bgm = FMODSoundManager::GetInstance()->GetSound(L"Aru.mp3");
+		bgm->Play();
+		bgm->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm->Pause();
+	}
 
 	return true;
 }
@@ -165,7 +175,16 @@ void BattleScene::Init_UI()
 	EnemyCurrentHP2 = bc->FindObj(L"EnemyCurrentHp_2");
 	EnemyMaxHP1 = bc->FindObj(L"EnemyMaxHp_1");
 	EnemyMaxHP2 = bc->FindObj(L"EnemyMaxHp_2");
+	EnemyIntentIcon = bc->FindObj(L"EnemyIntent");
+	EnemyIntent1 = bc->FindObj(L"EnemyIntent_1");
+	EnemyIntent2 = bc->FindObj(L"EnemyIntent_2");
 	UpdateEnemyState();
+
+	// 데미지, 일단 공용인 두자리만..
+	Damage1 = bc->FindObj(L"Damage_1");
+	Damage1->m_bIsDead = true;
+	Damage2 = bc->FindObj(L"Damage_2");
+	Damage2->m_bIsDead = true;
 
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
@@ -322,14 +341,12 @@ void BattleScene::Init_Chara()
 	playerCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
 	playerCharTransformComp->Translation = Vector3(0.0f, 0.0f, 0.0f);
 
-	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
-	playerCharMovementComp->Speed = 25.0f;
+	//auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
+	//playerCharMovementComp->Speed = 25.0f;
+	//PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
 
 	////////////// Bounding Box Add /////////////////
 	auto playerOBBComp = PlayerCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.75f, 1.1f, 0.75f), Vector3(0.0f, 1.1f, 0.0f));
-
-	
-	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
 	
 	 
 	MainCamera = PlayerCharacter->AddComponent<Camera>();
@@ -390,7 +407,7 @@ void BattleScene::Init_Chara()
 	PlayerCharacter_B->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
 
 
-	TheWorld.AddEntity(PlayerCharacter_B);
+	//TheWorld.AddEntity(PlayerCharacter_B);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////// 적 테스트 //////////////////////////////////////////////////////
@@ -442,16 +459,12 @@ void BattleScene::Init_Chara()
 	enemyCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
 	enemyCharTransformComp->Translation = Vector3(50.0f, 0.0f, 200.0f);
 
-	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
-	enemyCharMovementComp->Speed = 10.0f;
+	//auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
+	//enemyCharMovementComp->Speed = 10.0f;
+	//EnemyCharacter->MoveTo(Vector3(10.0f, 0.0f, 0.0f));
 
 	/////////////// Bounding Box Add ////////////
 	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.2f, 0.45f, 0.2f), Vector3(0.0f, 0.45f, 0.0f));
-
-
-	EnemyCharacter->MoveTo(Vector3(10.0f, 0.0f, 0.0f));
-
-
 
 	TheWorld.AddEntity(EnemyCharacter);
 
@@ -460,7 +473,7 @@ void BattleScene::Init_Chara()
 void BattleScene::Init_Effect()
 {	
 	//Effect Test
-	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire");
+	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { false, 0.5f, 0.0f, 1.0f });
 	ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke");
 	ParticleEffect* testEffect3 = new ParticleEffect(L"Spark");
 	auto testEffectTransform1 = testEffect1->GetComponent<TransformComponent>();
@@ -495,6 +508,8 @@ void BattleScene::TurnStartProcess()
 	player->armor = 0;
 	player->cost = player->maxCost;
 	UpdatePlayerState();
+
+	enemy->SetIntentObj(TurnNum, EnemyIntentIcon, EnemyIntent1, EnemyIntent2);
 
 	int drawNum = 3;
 	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
@@ -544,6 +559,9 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1))
 				{
+					// 데미지 이펙트 초안.. 막 움직이기도 하고 나타나면서 커졌다가 작아졌다가도 해야하는데 아 몰랑 나중에 함수로? 하지 뭐
+					//Damage2->m_bIsDead = false;
+					//Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
 					enemy->hp -= 6;
 					CanUse = true;
 
@@ -689,10 +707,10 @@ void BattleScene::UpdateEnemyState()
 		enemy->hp = 0;
 	}
 
-	EnemyCurrentHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->hp / 10];
-	EnemyCurrentHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->hp % 10];
-	EnemyMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->maxHp / 10];
-	EnemyMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Red[enemy->maxHp % 10];
+	EnemyCurrentHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->hp / 10];
+	EnemyCurrentHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->hp % 10];
+	EnemyMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->maxHp / 10];
+	EnemyMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->maxHp % 10];
 
 	// 방어도 부분, 좀 나중에..
 	/*if (player->armor <= 0)

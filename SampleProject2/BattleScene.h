@@ -44,6 +44,8 @@ public:
 	Camera* MoveCamera;
 	Camera* CloseupCamera;
 
+public:
+	FMODSound* bgm;
 
 public:
 	WidgetObject* TurnEndButton;
@@ -69,6 +71,12 @@ public:
 	//WidgetObject* EnemyArmorIcon;
 	//WidgetObject* EnemyArmor1;
 	//WidgetObject* EnemyArmor2;
+	WidgetObject* EnemyIntentIcon;
+	WidgetObject* EnemyIntent1;
+	WidgetObject* EnemyIntent2;
+
+	WidgetObject* Damage1;
+	WidgetObject* Damage2;
 
 public:
 	Deck* Dick;
