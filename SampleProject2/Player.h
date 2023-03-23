@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
+#include "Character.h"
 
 class Player
 {
@@ -12,6 +13,6 @@ public:
 
 	int maxCost = 3;
 	int cost;
-	// Charactor* chara;
+	Character* chara;
 };
 
