@@ -145,6 +145,13 @@ bool BattleScene::Frame()
 	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 
 	//PlayerCharacter->MoveTo(MAIN_PICKER.Intersection);
+
+	//Effect test
+	if (Input::GetInstance()->getKey('U') == KeyState::Up)
+	{
+		PlayEffect(&TheWorld, L"Hit5", { 20.0f, 20.0f, 0.0f }, { false, 2.0f, 0.0f, 1.0f });
+	}
+
 	return true;
 }
 
@@ -542,14 +549,14 @@ void BattleScene::Init_Effect()
 	//auto testEffectTransform7 = testEffect7->GetComponent<TransformComponent>();
 	//auto testEffectTransform8 = testEffect8->GetComponent<TransformComponent>();
 
-	//testEffectTransform1->Translation = { 10.0f, 10.0f, 0.0f };
-	//testEffectTransform2->Translation = { 20.0f, 10.0f, 0.0f };
-	//testEffectTransform3->Translation = { 30.0f, 10.0f, 0.0f };
-	//testEffectTransform4->Translation = { 40.0f, 10.0f, 0.0f };
-	//testEffectTransform5->Translation = { 50.0f, 10.0f, 0.0f };
-	//testEffectTransform6->Translation = { 60.0f, 10.0f, 0.0f };
-	//testEffectTransform7->Translation = { 70.0f, 10.0f, 0.0f };
-	//testEffectTransform8->Translation = { 80.0f, 10.0f, 0.0f };
+	//testEffectTransform1->Translation = { 10.0f, 50.0f, 0.0f };
+	//testEffectTransform2->Translation = { 20.0f, 50.0f, 0.0f };
+	//testEffectTransform3->Translation = { 30.0f, 50.0f, 0.0f };
+	//testEffectTransform4->Translation = { 40.0f, 50.0f, 0.0f };
+	//testEffectTransform5->Translation = { 50.0f, 50.0f, 0.0f };
+	//testEffectTransform6->Translation = { 60.0f, 50.0f, 0.0f };
+	//testEffectTransform7->Translation = { 70.0f, 50.0f, 0.0f };
+	//testEffectTransform8->Translation = { 80.0f, 50.0f, 0.0f };
 
 	//TheWorld.AddEntity(testEffect1);
 	//TheWorld.AddEntity(testEffect2);
@@ -559,8 +566,6 @@ void BattleScene::Init_Effect()
 	//TheWorld.AddEntity(testEffect6);
 	//TheWorld.AddEntity(testEffect7);
 	//TheWorld.AddEntity(testEffect8);
-
-	PlayEffect(&TheWorld, L"Hit5", { 10.0f, 5.0f, 0.0f });
 }
 
 void BattleScene::CameraMove(Vector3& eye, Vector3& target)

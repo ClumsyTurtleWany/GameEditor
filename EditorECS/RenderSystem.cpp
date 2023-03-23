@@ -103,7 +103,6 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 #endif //_DEBUG
-
 	for (auto& entity : world->GetEntities<ParticleEffectComponent>())
 	{
 		auto pPSystem = entity->GetComponent<ParticleEffectComponent>()->m_pPPsystem;
