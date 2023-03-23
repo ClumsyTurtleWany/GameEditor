@@ -61,10 +61,17 @@ public:
 	bool		 SetClipByName(std::wstring name);
 
 	/**
+	 * @brief 캐릭터의 애니메이션이 재생중인지 확인(Idle 제외)
+	 * @return 애니메이션 재생중이면 true 리턴
+	*/
+	bool		 IsInAction();
+
+	/**
 	 * @brief 기존 FbxObj의 Frame() 함수를 기반으로 구성
 	 * @detail 틱마다 m_currentAnimationFrame을 업데이트하고 SkeletalMeshComponent의 BPAData를 업데이트 해준다.
 	 * @param[in] mesh SkeletalMeshComponent 포인터
 	 * @param[in] tick 틱
 	*/
 	virtual bool UpdateAnim(SkeletalMeshComponent* mesh, float tick);
+
 };

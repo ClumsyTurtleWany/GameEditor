@@ -551,6 +551,7 @@ void BattleScene::CardCheck()
 					PAnime->SetClipByName(L"Punch");
 					//EAnime->SetClipByName(L"Hit"); // 적 피격 모션
 					EAnime->SetClipByName(L"Dying"); // 적 피격 모션
+					
 				}
 			}break;
 

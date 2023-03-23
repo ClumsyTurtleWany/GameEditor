@@ -97,6 +97,16 @@ bool AnimationComponent::SetClipByName(std::wstring name)
 	return true;
 }
 
+
+bool AnimationComponent::IsInAction()
+{
+	if ((CurrentClip->FileName == L"Idle") ||  (CurrentClip == nullptr) || IsDead)
+	{
+		return false;
+	}
+	return true;
+}
+
 AnimationComponent::~AnimationComponent()
 {
 	for (auto it = ClipList.begin(); it != ClipList.end(); ++it) {
