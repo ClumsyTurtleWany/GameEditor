@@ -3,6 +3,10 @@
 
 bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 {
+	if (IsDead)
+	{
+		return true;
+	}
 	if (CurrentClip == nullptr)
 	{
 		SetClipByName(L"Idle");
@@ -12,12 +16,23 @@ bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 	if ((m_currentAnimationFrame > CurrentClip->EndFrame) ||
 		(m_currentAnimationFrame < CurrentClip->StartFrame))
 	{
+		if (CurrentClipName == L"Dying")
+		{
+			IsDead = true;
+			return true;
+		}
 		m_currentAnimationFrame = min(m_currentAnimationFrame, CurrentClip->EndFrame);
 		m_currentAnimationFrame = max(m_currentAnimationFrame, CurrentClip->StartFrame);
 		//m_AnimationInverse *= -1.0f;
 		if (CurrentClip->LoopState)
 		{
 			m_currentAnimationFrame = 0.f;
+		}
+		else
+		{
+			CurrentClip = nullptr;
+			m_currentAnimationFrame = 0.f;
+			return true;
 		}
 	}
 
@@ -79,6 +94,16 @@ bool AnimationComponent::SetClipByName(std::wstring name)
 	}
 
 
+	return true;
+}
+
+
+bool AnimationComponent::IsInAction()
+{
+	if ((CurrentClip->FileName == L"Idle") ||  (CurrentClip == nullptr) || IsDead)
+	{
+		return false;
+	}
 	return true;
 }
 

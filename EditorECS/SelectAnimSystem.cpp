@@ -17,7 +17,7 @@ void SelectAnimSystem::Tick(ECS::World* world, float time)
 			{
 				animation->SetClipByName(L"Run");
 			}
-			else if (movement->IsMoving == false&& (animation->CurrentClipName != L"Idle"))
+			else if (movement->IsMoving == false&& (animation->CurrentClipName == L"Run"))
 			{
 				animation->SetClipByName(L"Idle");
 			}

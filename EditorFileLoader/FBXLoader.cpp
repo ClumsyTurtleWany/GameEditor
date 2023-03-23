@@ -1539,7 +1539,7 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 	return true;
 }
 
-bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst)
+bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst, bool Loop)
 {
 	auto it = FbxFileList.find(filename);
 	if (it == FbxFileList.end())
@@ -1564,6 +1564,7 @@ bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationCo
 	clip->TickPerFrame = pData->AnimationSceneInfo.TickPerFrame;
 	clip->FrameSpeed = pData->AnimationSceneInfo.FrameSpeed;
 	clip->LerpFrameMatrixList = pData->InterpolationFrameMatrixList;
+	clip->LoopState = Loop;	// Default = true
 
 	dst->AddClip(name, clip);
 

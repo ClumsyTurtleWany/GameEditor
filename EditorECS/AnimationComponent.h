@@ -29,12 +29,13 @@ struct AnimationClip
 class AnimationComponent
 {
 public:
-	
+	bool									IsDead = false;								///< 사망상태인지 확인
 	std::wstring							CurrentClipName = L"";						///< 현재 애니메이션 클립의 이름
 	AnimationClip*							CurrentClip = nullptr;						///< 현재 애니메이션 클립의 포인터
 	std::map<std::wstring, AnimationClip*>	ClipList;									///< 애니메이션 클립 컨테이너
 	float									m_currentAnimationFrame = 0.f;				///< 틱마다 업데이트되는 현재 프레임
 	float									m_AnimationInverse = 1.f;					///< 프레임 연산시 역재생되도록 해주는 변수
+	
 
 public:
 	AnimationComponent() {};
@@ -60,10 +61,17 @@ public:
 	bool		 SetClipByName(std::wstring name);
 
 	/**
+	 * @brief 캐릭터의 애니메이션이 재생중인지 확인(Idle 제외)
+	 * @return 애니메이션 재생중이면 true 리턴
+	*/
+	bool		 IsInAction();
+
+	/**
 	 * @brief 기존 FbxObj의 Frame() 함수를 기반으로 구성
 	 * @detail 틱마다 m_currentAnimationFrame을 업데이트하고 SkeletalMeshComponent의 BPAData를 업데이트 해준다.
 	 * @param[in] mesh SkeletalMeshComponent 포인터
 	 * @param[in] tick 틱
 	*/
 	virtual bool UpdateAnim(SkeletalMeshComponent* mesh, float tick);
+
 };

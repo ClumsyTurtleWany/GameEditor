@@ -19,15 +19,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\EffectInclude\DXStatePreset.h" />
+    <ClInclude Include="..\include\EffectInclude\EffectDefine.h" />
+    <ClInclude Include="..\include\EffectInclude\EffectManager.h" />
+    <ClInclude Include="..\include\EffectInclude\EffectSystem.h" />
+    <ClInclude Include="..\include\EffectInclude\FileIOManager.h" />
+    <ClInclude Include="..\include\EffectInclude\ParticleEffect.h" />
+    <ClInclude Include="..\include\EffectInclude\ParticleEmitter.h" />
+    <ClInclude Include="..\include\EffectInclude\ParticleEffectComponent.h" />
+    <ClInclude Include="..\include\EffectInclude\RNGenerator.h" />
+    <ClInclude Include="..\include\EffectInclude\SpriteManager.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="BoundingBoxComponent.h" />
+    <ClInclude Include="BoundingSphereComponent.h" />
+    <ClInclude Include="BVRender.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraSystem.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="ColliderSystem.h" />
     <ClInclude Include="CubeComponent.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="DirectionalLight.h" />
     <ClInclude Include="Landscape.h" />
     <ClInclude Include="LandscapeComponent.h" />
+    <ClInclude Include="LandscapeComponents.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LightSystem.h" />
@@ -36,21 +52,62 @@
     <ClInclude Include="PlaneComponent.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SelectAnimSystem.h" />
     <ClInclude Include="SkeletalMeshComponent.h" />
     <ClInclude Include="SkyBoxComponent.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
+    <ClInclude Include="UpdateAnimSystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\include\EffectInclude\DXStatePreset.cpp" />
+    <ClCompile Include="..\include\EffectInclude\EffectManager.cpp" />
+    <ClCompile Include="..\include\EffectInclude\FileIOManager.cpp" />
+    <ClCompile Include="..\include\EffectInclude\ParticleEmitter.cpp" />
+    <ClCompile Include="..\include\EffectInclude\RNGenerator.cpp" />
+    <ClCompile Include="..\include\EffectInclude\SpriteManager.cpp" />
+    <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraSystem.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="ColliderSystem.cpp" />
     <ClCompile Include="Landscape.cpp" />
+    <ClCompile Include="LandscapeComponent.cpp" />
+    <ClCompile Include="LandscapeComponents.cpp" />
     <ClCompile Include="LightSystem.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
+    <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="SelectAnimSystem.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
+    <ClCompile Include="UpdateAnimSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_PointParticle_Alphablend.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_PointParticle_Alphatest.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_PointParticle_Dualsource.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\VS_PointParticle.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

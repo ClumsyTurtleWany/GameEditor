@@ -15,6 +15,7 @@
 #include "Character.h"
 #include "SelectAnimSystem.h"
 #include "BoundingBoxComponent.h"
+#include "CameraArmComponent.h"
 
 //추가
 #include "ColliderSystem.h"
@@ -218,69 +219,69 @@ void BattleScene::Init_Map()
 	lightComp2->Direction = Vector4(-1.0f, 1.0f, 1.0f, 1.0f);
 	TheWorld.AddEntity(light2);
 
-	//for (int cnt = 0; cnt < 4; cnt++)
-	//{
-	//	Actor* backgroundBuliding = new Actor;
-	//	auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
-	//	auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
-	//	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
-	//	{
-	//		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
-	//	}
-	//	auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
-	//	backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
-	//	backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-	//	backgroundBulidingTransform->Translation = Vector3(-500.0f + static_cast<float>(cnt) * 250, 40.0f, 300.0f);
-	//	TheWorld.AddEntity(backgroundBuliding);
-	//}
+	for (int cnt = 0; cnt < 4; cnt++)
+	{
+		Actor* backgroundBuliding = new Actor;
+		auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
+		auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
+		}
+		auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
+		backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
+		backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		backgroundBulidingTransform->Translation = Vector3(-500.0f + static_cast<float>(cnt) * 250, 40.0f, 300.0f);
+		TheWorld.AddEntity(backgroundBuliding);
+	}
 
-	//for (int cnt = 0; cnt < 4; cnt++)
-	//{
-	//	Actor* backgroundBuliding = new Actor;
-	//	auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
-	//	auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
-	//	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
-	//	{
-	//		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
-	//	}
-	//	auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
-	//	backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
-	//	backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-	//	backgroundBulidingTransform->Translation = Vector3(-500.0f + static_cast<float>(cnt) * 250, 40.0f, -300.0f);
-	//	TheWorld.AddEntity(backgroundBuliding);
-	//}
+	for (int cnt = 0; cnt < 4; cnt++)
+	{
+		Actor* backgroundBuliding = new Actor;
+		auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
+		auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
+		}
+		auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
+		backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
+		backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		backgroundBulidingTransform->Translation = Vector3(-500.0f + static_cast<float>(cnt) * 250, 40.0f, -300.0f);
+		TheWorld.AddEntity(backgroundBuliding);
+	}
 
-	//for (int cnt = 0; cnt < 8; cnt++)
-	//{
-	//	Actor* container = new Actor;
-	//	auto staticMesh = container->AddComponent<StaticMeshComponent>();
-	//	auto boundBox = container->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
-	//	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX"))
-	//	{
-	//		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX", staticMesh);
-	//	}
-	//	auto transform = container->GetComponent<TransformComponent>();
-	//	transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
-	//	transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-	//	transform->Translation = Vector3(500.0f , 0.0f, -500.0f + static_cast<float>(cnt) * 125);
-	//	TheWorld.AddEntity(container);
-	//}
+	for (int cnt = 0; cnt < 8; cnt++)
+	{
+		Actor* container = new Actor;
+		auto staticMesh = container->AddComponent<StaticMeshComponent>();
+		auto boundBox = container->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX", staticMesh);
+		}
+		auto transform = container->GetComponent<TransformComponent>();
+		transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
+		transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		transform->Translation = Vector3(500.0f , 0.0f, -500.0f + static_cast<float>(cnt) * 125);
+		TheWorld.AddEntity(container);
+	}
 
-	//for (int cnt = 0; cnt < 8; cnt++)
-	//{
-	//	Actor* container = new Actor;
-	//	auto staticMesh = container->AddComponent<StaticMeshComponent>();
-	//	auto boundBox = container->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
-	//	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX"))
-	//	{
-	//		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX", staticMesh);
-	//	}
-	//	auto transform = container->GetComponent<TransformComponent>();
-	//	transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
-	//	transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-	//	transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
-	//	TheWorld.AddEntity(container);
-	//}
+	/*for (int cnt = 0; cnt < 8; cnt++)
+	{
+		Actor* container = new Actor;
+		auto staticMesh = container->AddComponent<StaticMeshComponent>();
+		auto boundBox = container->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_C.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_C.FBX", staticMesh);
+		}
+		auto transform = container->GetComponent<TransformComponent>();
+		transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
+		transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		transform->Translation = Vector3(510.0f, 40.0f, -500.0f + static_cast<float>(cnt) * 125);
+		TheWorld.AddEntity(container);
+	}*/
 
 	/*Actor* cargoShip = new Actor;
 	auto staticMesh = cargoShip->AddComponent<StaticMeshComponent>();
@@ -432,24 +433,24 @@ void BattleScene::Init_Chara()
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp);			// 공격
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp,false);			// 공격
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp);			// 피격
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp,false);			// 피격
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Death.fbx"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Death.fbx", enemyCharAnimComp);			// 사망
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.fbx", enemyCharAnimComp);			// 사망
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx"))
 	{
 		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp);
 	}
-	enemyCharAnimComp->SetClipByName(L"Kick");
-	enemyCharAnimComp->CurrentClip->LoopState = false;
-	enemyCharAnimComp->SetClipByName(L"Hit");
-	enemyCharAnimComp->CurrentClip->LoopState = false;
+	//enemyCharAnimComp->SetClipByName(L"Kick");
+	//enemyCharAnimComp->CurrentClip->LoopState = false;
+	//enemyCharAnimComp->SetClipByName(L"Hit");
+	//enemyCharAnimComp->CurrentClip->LoopState = false;
 	enemyCharAnimComp->SetClipByName(L"Idle");
 
 
@@ -566,7 +567,9 @@ void BattleScene::CardCheck()
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Punch");
-					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
+					//EAnime->SetClipByName(L"Hit"); // 적 피격 모션
+					EAnime->SetClipByName(L"Dying"); // 적 피격 모션
+					
 				}
 			}break;
 
