@@ -499,7 +499,14 @@ void BattleScene::CameraMove(Vector3& eye, Vector3& target)
 void BattleScene::BattleProcess()
 {
 	if (TurnStart) { TurnStartProcess(); }
-	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
+	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }	
+	auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
+	if (!EAnime->IsInAction() && !TurnState) 
+	{ 
+		TurnStart = true; 
+		TurnState = true;
+	}
+
 	CardCheck();
 }
 
@@ -532,11 +539,11 @@ void BattleScene::TurnEndProcess()
 
 void BattleScene::EnemyTurnProcess()
 {
-	enemy->patern(player, TurnNum);
+	TurnState = false;
+
+	enemy->patern(player, TurnNum);	
 	UpdatePlayerState();
 	UpdateEnemyState();
-
-	TurnStart = true;
 }
 
 void BattleScene::CardCheck()
@@ -567,8 +574,8 @@ void BattleScene::CardCheck()
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Punch");
-					//EAnime->SetClipByName(L"Hit"); // 적 피격 모션
-					EAnime->SetClipByName(L"Dying"); // 적 피격 모션
+					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
+					//EAnime->SetClipByName(L"Dying"); // 적 피격 모션
 					
 				}
 			}break;
@@ -697,6 +704,7 @@ void BattleScene::UpdatePlayerState()
 		}
 		else
 		{
+			PlayerArmor1->m_bIsDead = true;
 			PlayerArmor2->m_OriginPos = { -0.680, -0.795 };
 		}
 	}

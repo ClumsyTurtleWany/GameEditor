@@ -100,7 +100,11 @@ bool AnimationComponent::SetClipByName(std::wstring name)
 
 bool AnimationComponent::IsInAction()
 {
-	if ((CurrentClip->FileName == L"Idle") ||  (CurrentClip == nullptr) || IsDead)
+	if ((CurrentClip == nullptr) || IsDead)
+	{
+		return false;
+	}
+	else if (CurrentClip->FileName == L"Idle") 
 	{
 		return false;
 	}
