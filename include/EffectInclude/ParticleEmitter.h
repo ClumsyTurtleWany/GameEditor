@@ -147,5 +147,57 @@ namespace EFFECTUTIL
 
 		virtual HRESULT updateBuffer(ID3D11Resource* pBuf, void* pResource, UINT iBufSize);
 	};
+
+	struct ParticlesystemProperty
+	{
+		bool bLoop;
+
+		float fDuration;
+		float fStDelay;
+		float fPlaySpeed;
+
+		ParticlesystemProperty()
+		{
+			bLoop = false;
+			fDuration = 1.0f;
+			fPlaySpeed = 1.0f;
+			fStDelay = 0.0f;
+		}
+
+		ParticlesystemProperty(bool bLoop, float fDuration, float fStDelay, float fPlaySpeed)
+		{
+			this->bLoop = bLoop;
+			this->fDuration = fDuration;
+			this->fStDelay = fStDelay;
+			this->fPlaySpeed = fPlaySpeed;
+		}
+	};
+
+	class ParticleSystem
+	{
+	public:
+		std::string											m_szName;
+		std::wstring										m_wszName;
+
+		ParticlesystemProperty								m_PSProp;
+		float												m_fCurTime;
+		bool												m_bPendingDelete;
+
+		std::vector<EFFECTUTIL::ParticleEmitter*>			m_pEmitterList;
+
+	public:
+		ParticleSystem();
+		~ParticleSystem();
+
+		void setDevice(ID3D11Device* pDevice, ID3D11DeviceContext* pDContext);
+
+		bool init();
+		bool update();
+		bool preRender(Matrix* pWorld, Matrix* pView, Matrix* pProj);
+		bool render();
+		bool release();
+
+		void setProp(ParticlesystemProperty PSProp);
+	};
 }
 

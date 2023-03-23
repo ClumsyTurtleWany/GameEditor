@@ -8,13 +8,6 @@
 
 #define MAX_GS_VERTEXCOUNT 4
 
-cbuffer CBUF_COORDCONV_MATSET : register(b0)
-{
-	matrix matWorld		: register(c0);
-	matrix matView		: register(c4);
-	matrix matProj		: register(c8);
-};
-
 struct VS_INPUT
 {
 	float3 pos			: POSITION0;
@@ -42,13 +35,13 @@ VS_OUTPUT VS(VS_INPUT vIn)
 {
 	VS_OUTPUT output = (VS_OUTPUT)0;
 
-	output.pos = float4(vIn.pos, 1.0f);
-	output.normal = vIn.normal;
-	output.color = vIn.color;
-	output.uvCoord = vIn.uvCoord;
-	output.spriteRT = vIn.spriteRT;
-	output.rot = vIn.rot;
-	output.scale = vIn.scale;
+	output.pos =		float4(vIn.pos, 1.0f);
+	output.normal =		vIn.normal;
+	output.color =		vIn.color;
+	output.uvCoord =	vIn.uvCoord;
+	output.spriteRT =	vIn.spriteRT;
+	output.rot =		vIn.rot;
+	output.scale =		vIn.scale;
 
 	return output;
 }

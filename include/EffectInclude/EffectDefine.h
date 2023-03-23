@@ -239,4 +239,26 @@ namespace EFFECTUTIL
 			fLifeSpan = RNG.getF(eProp.fLifespanRange.x, eProp.fLifespanRange.y);
 		}
 	};
+
+	struct POINTPARTICLEEMITTER_FILE
+	{
+		WCHAR							wszEmitterName[256];
+		Vector3							vEmitterPos;
+		PointParticleEmitterProperty	eProp;
+		WCHAR							wszSpriteName[256];
+		WCHAR							wszSpritePath[256];
+		UINT							iSpriteType;
+		UINT							spriteRC[2];
+		WCHAR							wszTextureName[256];
+		WCHAR							wszTexturePath[256];
+		int								iBlendStateOption;
+		bool							bEnableDepth;
+		bool							bEnableDepthWrite;
+	};
+
+	struct PARTICLESYSTEM_FILE
+	{
+		WCHAR wszPSystemName[256];
+		POINTPARTICLEEMITTER_FILE emitters[64];
+	};
 }

@@ -5,6 +5,7 @@
 #include "StaticMeshComponent.h"
 #include "CameraSystem.h"
 #include "PlaneComponent.h"
+#include "EffectInclude/EffectSystem.h"
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
@@ -88,6 +89,35 @@ bool SampleCore::Initialize()
 	// 10. 카메라 시스템 및 랜더링 시스템 추가.
 	MainWorld.AddSystem(new CameraSystem);
 	MainWorld.AddSystem(new RenderSystem);
+
+	//Effect Test
+	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
+	ESystem->init(&MainWorld);
+	MainWorld.AddSystem(ESystem);
+
+	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
+	/*ParticleEffect* testEffect2 = new ParticleEffect(L"Hit2", { true, 0.5, 0.0, 1.0 });
+	ParticleEffect* testEffect3 = new ParticleEffect(L"Hit3", { true, 0.5, 0.0, 1.0 });
+	ParticleEffect* testEffect4 = new ParticleEffect(L"Hit4", { true, 0.5, 0.0, 1.0 });
+	ParticleEffect* testEffect5 = new ParticleEffect(L"Hit5", { true, 0.5, 0.0, 1.0 });*/
+
+	auto testEffectTransform1 = testEffect1->GetComponent<TransformComponent>();
+	/*auto testEffectTransform2 = testEffect2->GetComponent<TransformComponent>();
+	auto testEffectTransform3 = testEffect3->GetComponent<TransformComponent>();
+	auto testEffectTransform4 = testEffect1->GetComponent<TransformComponent>();
+	auto testEffectTransform5 = testEffect2->GetComponent<TransformComponent>();*/
+
+	testEffectTransform1->Translation = { 10.0f, 0.0f, 0.0f };
+	/*testEffectTransform2->Translation = { 20.0f, 0.0f, 0.0f };
+	testEffectTransform3->Translation = { 30.0f, 0.0f, 0.0f };
+	testEffectTransform4->Translation = { 40.0f, 0.0f, 0.0f };
+	testEffectTransform5->Translation = { 50.0f, 0.0f, 0.0f };*/
+
+	MainWorld.AddEntity(testEffect1);
+	/*TheWorld.AddEntity(testEffect2);
+	TheWorld.AddEntity(testEffect3);
+	TheWorld.AddEntity(testEffect4);
+	TheWorld.AddEntity(testEffect5);*/
 
 	return true;
 }

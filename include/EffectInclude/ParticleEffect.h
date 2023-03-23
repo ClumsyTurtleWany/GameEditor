@@ -53,3 +53,29 @@ inline ParticleEffect::ParticleEffect(std::wstring wszEffectName, TransformCompo
 inline ParticleEffect::~ParticleEffect()
 {
 }
+
+inline void PlayEffect(ECS::World* pWorld, 
+	std::wstring key,
+	Vector3 pos, 
+	EFFECTUTIL::ParticlesystemProperty PSProp = { false, 1.0f, 0.0f, 1.0f })
+{
+	if (pWorld)
+	{
+		ParticleEffect* newE = new ParticleEffect(key, TransformComponent(pos, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f }), PSProp);
+
+		pWorld->AddEntity(newE);
+	}
+}
+
+inline void PlayEffect(ECS::World* pWorld,
+	std::wstring key,
+	TransformComponent tc,
+	EFFECTUTIL::ParticlesystemProperty PSProp = { false, 1.0f, 0.0f, 1.0f })
+{
+	if (pWorld)
+	{
+		ParticleEffect* newE = new ParticleEffect(key, tc, PSProp);
+
+		pWorld->AddEntity(newE);
+	}
+}

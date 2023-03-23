@@ -17,8 +17,8 @@ cbuffer CBUF_COORDCONV_MATSET : register(b0)
 
 cbuffer CBUF_BILLBOARD_MAT : register(b1)
 {
-	matrix matBill : register(c0);
-}
+	matrix matBillboard		: register(c0);
+};
 
 struct GS_INPUT
 {
@@ -98,7 +98,8 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 			newV.pos = float4(newP[i].xyz, 1.0);
 			newV.pos = mul(newV.pos, scale);
 			newV.pos = mul(newV.pos, rot);
-			newV.pos = mul(newV.pos, matWorld);
+			newV.pos.xyz = newV.pos.xyz * matWorld._11;
+			newV.pos = mul(newV.pos, matBillboard);
 			newV.pos.xyz += gIn[0].pos.xyz;
 
 			newV.normal = gIn[0].normal;
@@ -106,7 +107,6 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 			newV.uvCoord = gIn[0].uvCoord;
 			newV.spriteUvCoord = newT[i];
 
-			newV.pos = mul(newV.pos, matBill);
 			newV.pos = mul(newV.pos, matView);
 			newV.pos = mul(newV.pos, matProj);
 
