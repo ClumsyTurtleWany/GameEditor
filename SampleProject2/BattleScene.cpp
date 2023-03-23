@@ -524,7 +524,7 @@ void BattleScene::Init_Effect()
 	ESystem->init(&TheWorld);
 	TheWorld.AddSystem(ESystem);
 	
-	/*ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
+	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
 	ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke", { true, 0.5, 0.0, 1.0 });
 	ParticleEffect* testEffect3 = new ParticleEffect(L"Spark", { true, 0.5, 0.0, 1.0 });
 	ParticleEffect* testEffect4 = new ParticleEffect(L"Hit1", { true, 0.5, 0.0, 1.0 });
@@ -558,7 +558,7 @@ void BattleScene::Init_Effect()
 	TheWorld.AddEntity(testEffect5);
 	TheWorld.AddEntity(testEffect6);
 	TheWorld.AddEntity(testEffect7);
-	TheWorld.AddEntity(testEffect8);*/
+	TheWorld.AddEntity(testEffect8);
 
 	PlayEffect(&TheWorld, L"Hit5", { 10.0f, 5.0f, 0.0f });
 }
