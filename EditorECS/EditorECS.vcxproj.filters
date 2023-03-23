@@ -192,6 +192,9 @@
     <ClInclude Include="BVRender.h">
       <Filter>Component\Collider</Filter>
     </ClInclude>
+    <ClInclude Include="CameraArmComponent.h">
+      <Filter>Component\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="ColliderSystem.cpp">
       <Filter>System</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraArmComponent.cpp">
+      <Filter>Component\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
