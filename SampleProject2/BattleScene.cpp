@@ -36,6 +36,7 @@ bool BattleScene::Init()
 	player->hp = 50; 
 	enemy = new Enemy_1;
 	enemy->Init();
+	enemy->NumberTextureList_Red = NumberTextureList_Red;
 
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
