@@ -58,17 +58,10 @@ void LightSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	Camera* camera = nullptr;
-	for (auto& entity : world->GetEntities<Camera>())
+	if (MainCamera != nullptr)
 	{
-		camera = entity->GetComponent<Camera>();
-		break;
-	}
-
-	if (camera != nullptr)
-	{
-		Eye.Position = Vector4(camera->Pos.x, camera->Pos.y, camera->Pos.z, 0.0f);
-		Eye.Direction = Vector4(camera->Look.x, camera->Look.y, camera->Look.z, 0.0f);
+		Eye.Position = Vector4(MainCamera->Pos.x, MainCamera->Pos.y, MainCamera->Pos.z, 0.0f);
+		Eye.Direction = Vector4(MainCamera->Look.x, MainCamera->Look.y, MainCamera->Look.z, 0.0f);
 
 		if (DirectionalLightBuffer != nullptr)
 		{

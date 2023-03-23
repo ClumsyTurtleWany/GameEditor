@@ -1,0 +1,30 @@
+Type	0
+ID	1
+Name	BG
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 1600.000000 900.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\Title.jfif | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	2
+Name	Title
+OrginPos	0.548751 0.742223
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 637.000000 186.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\PH.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	3
+Name	Button_Start
+OrginPos	0.798751 -0.446666
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 358.000000 104.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\GameStart.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 370.000000 110.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\GameStart_H.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 350.000000 100.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\GameStart_H.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 256.000000 256.000000 | 0.000000 0.000000 1.000000 1.000000 | ../../data//img//button//Button_D.png | ../../data/shader/DefaultObject_Orgin.txt
+=

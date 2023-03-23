@@ -43,7 +43,13 @@ public:
 	Camera* CurrentCamera;
 	Camera* MoveCamera;
 	Camera* CloseupCamera;
+	
+	CameraSystem* MainCameraSystem = nullptr;
+	RenderSystem* MainRenderSystem = nullptr;
+	Actor* MainCameraActor = nullptr;
 
+public:
+	FMODSound* bgm;
 
 public:
 	WidgetObject* TurnEndButton;
@@ -69,6 +75,12 @@ public:
 	//WidgetObject* EnemyArmorIcon;
 	//WidgetObject* EnemyArmor1;
 	//WidgetObject* EnemyArmor2;
+	WidgetObject* EnemyIntentIcon;
+	WidgetObject* EnemyIntent1;
+	WidgetObject* EnemyIntent2;
+
+	WidgetObject* Damage1;
+	WidgetObject* Damage2;
 
 public:
 	Deck* Dick;

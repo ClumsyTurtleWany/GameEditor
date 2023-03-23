@@ -2,6 +2,7 @@
 #include "Define.h"
 #include "System.hpp"
 #include "LightData.h"
+#include "Camera.h"
 
 class LightSystem : public ECS::System
 {
@@ -15,6 +16,9 @@ private:
 	ID3D11Buffer* PointLightBuffer;
 	ID3D11Buffer* SpotLightBuffer;
 	ID3D11Buffer* EyeBuffer;
+
+public:
+	Camera* MainCamera = nullptr;
 
 public:
 	virtual void Tick(ECS::World* world, float time) override;

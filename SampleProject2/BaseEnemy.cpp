@@ -20,3 +20,7 @@ void BaseEnemy::attack(Player* player, int damage)
 	}
 }
 
+void BaseEnemy::SetIntentObj(int turn, WidgetObject* image, WidgetObject* intent1, WidgetObject* intent2)
+{
+}
+

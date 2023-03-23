@@ -10,17 +10,19 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		auto movement = entity->GetComponent<MovementComponent>();
 		
 		movement->Location = transform->Translation;
-		Vector3 forword = movement->Destination - movement->Location;
+		Vector3 diff = movement->Destination - movement->Location;
 		// ADD -> 목적지에 도달했다면 IsMoving = false
-		if (forword.Distance(movement->Destination, movement->Location) <= 0.01f)
+		if (diff.Distance(movement->Destination, movement->Location) <= 0.5f)
 		{
+			movement->Location = movement->Destination;
+			transform->Translation = movement->Location;
 			movement->IsMoving = false;
 			continue;
 		}			
 		else 
 			movement->IsMoving = true;
 
-		movement->Forword = forword;
+		movement->Forword = diff;
 		movement->Forword.Normalize();
 
 		Vector3 basisAxis = Vector3(0.0f, 0.0f, -1.0f);

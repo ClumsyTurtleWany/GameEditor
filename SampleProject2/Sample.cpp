@@ -154,10 +154,10 @@ bool SampleCore::Initialize()
 	//Loading->Frame();
 	//Loading->Render();
 
-	//Title = new TitleScene;
-	//Title->Init();
-	//Map = new MapScene;
-	//Map->Init();
+	Title = new TitleScene;
+	Title->Init();
+	Map = new MapScene;
+	Map->Init();
 	Battle = new BattleScene;
 	Battle->Dick = Dick;
 	Battle->CardTextureList = CardTextureList;
@@ -169,8 +169,8 @@ bool SampleCore::Initialize()
 	CardView->CardTextureList = CardTextureList;
 	CardView->Init();
 
-	//CurrentScene = Title;
-	CurrentScene = Battle;
+	CurrentScene = Title;
+	//CurrentScene = Battle;
 
 	////테스트 시스템 추가
 	////ECS::TestSystem* test = new ECS::TestSystem;
