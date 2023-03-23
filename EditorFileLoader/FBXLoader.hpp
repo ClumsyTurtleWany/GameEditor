@@ -130,5 +130,5 @@ public:
 	bool GenerateStaticMeshFromFileData(std::wstring filename, StaticMeshComponent* dst);
 	bool GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst);
 	// Ãß°¡
-	bool GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst);
+	bool GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst,bool Loop = true);
 };

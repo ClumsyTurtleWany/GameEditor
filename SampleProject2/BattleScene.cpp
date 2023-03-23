@@ -415,24 +415,24 @@ void BattleScene::Init_Chara()
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp);			// 공격
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp,false);			// 공격
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp);			// 피격
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp,false);			// 피격
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Death.fbx"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Death.fbx", enemyCharAnimComp);			// 사망
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.fbx", enemyCharAnimComp);			// 사망
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx"))
 	{
 		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp);
 	}
-	enemyCharAnimComp->SetClipByName(L"Kick");
-	enemyCharAnimComp->CurrentClip->LoopState = false;
-	enemyCharAnimComp->SetClipByName(L"Hit");
-	enemyCharAnimComp->CurrentClip->LoopState = false;
+	//enemyCharAnimComp->SetClipByName(L"Kick");
+	//enemyCharAnimComp->CurrentClip->LoopState = false;
+	//enemyCharAnimComp->SetClipByName(L"Hit");
+	//enemyCharAnimComp->CurrentClip->LoopState = false;
 	enemyCharAnimComp->SetClipByName(L"Idle");
 
 
@@ -548,7 +548,8 @@ void BattleScene::CardCheck()
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Punch");
-					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
+					//EAnime->SetClipByName(L"Hit"); // 적 피격 모션
+					EAnime->SetClipByName(L"Dying"); // 적 피격 모션
 				}
 			}break;
 
