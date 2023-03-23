@@ -86,8 +86,11 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 		if (BVolume != nullptr && mainCamera != nullptr)
 		{
-			BVolume->DebugObj.update(nullptr, &mainCamera->View, &mainCamera->Projection);
-			BVolume->DebugObj.render();
+			if (BVolume->pDebugObj)
+			{
+				BVolume->pDebugObj->update(nullptr, &mainCamera->View, &mainCamera->Projection);
+				BVolume->pDebugObj->render();
+			}
 		}
 	}
 
@@ -97,8 +100,11 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 		if (BVolume != nullptr && mainCamera != nullptr)
 		{
-			BVolume->DebugObj.update(nullptr, &mainCamera->View, &mainCamera->Projection);
-			BVolume->DebugObj.render();
+			if (BVolume->pDebugObj)
+			{
+				BVolume->pDebugObj->update(nullptr, &mainCamera->View, &mainCamera->Projection);
+				BVolume->pDebugObj->render();
+			}
 		}
 	}
 #endif //_DEBUG

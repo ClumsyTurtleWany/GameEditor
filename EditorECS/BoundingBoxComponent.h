@@ -9,11 +9,14 @@ public:
 	DirectX::BoundingOrientedBox OBB;
 
 #ifdef _DEBUG
-	BVRenderObject DebugObj;
+	BVRenderObject* pDebugObj;
 #endif //_DEBUG
 
 public:
-	BoundingBoxComponent() {}
+	BoundingBoxComponent() 
+	{
+		pDebugObj = nullptr;
+	}
 
 	BoundingBoxComponent(Vector3 exts, Vector3 center = {0.0f, 0.0f, 0.0f})
 	{
@@ -22,7 +25,9 @@ public:
 		InitOBB.Orientation = Quaternion(Vector3(0.0f, 0.0f, 0.0f), 1.0f);
 
 #ifdef _DEBUG
-		DebugObj.init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitOBB);
+		pDebugObj = new BVRenderObject;
+		BV_MGR.add(pDebugObj);
+		pDebugObj->init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitOBB);
 #endif //_DEBUG
 	}
 
@@ -33,9 +38,13 @@ public:
 		InitOBB.Orientation = rotation;
 
 #ifdef _DEBUG
-		DebugObj.init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitOBB);
+		pDebugObj = new BVRenderObject;
+		BV_MGR.add(pDebugObj);
+		pDebugObj->init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitOBB);
 #endif //_DEBUG
 	}
 
-	~BoundingBoxComponent() {}
+	~BoundingBoxComponent() 
+	{
+	}
 };
