@@ -287,29 +287,40 @@ void BattleScene::Init_Chara()
 	auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);				// 달리기
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);				// 아이들
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Punch.FBX"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);				// 공격
 	}
-	// 이런식으로 직접 바꿀 수 있음 (인게임에서 바꾸는 건 작업 더 해야함)
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX", playerCharAnimComp);		// 피격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Dying.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Dying.FBX", playerCharAnimComp);				// 사망
+	}
+	
 	//playerCharAnimComp->SetClipByName(L"Punch");
 	
 
 
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
-	playerCharTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
+	playerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);
 	playerCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
 	playerCharTransformComp->Translation = Vector3(0.0f, 0.0f, 0.0f);
 
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 25.0f;
+
+	////////////// Bounding Box Add /////////////////
+	auto playerOBBComp = PlayerCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.75f, 1.1f, 0.75f), Vector3(0.0f, 1.1f, 0.0f));
 
 	
 	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
@@ -320,7 +331,60 @@ void BattleScene::Init_Chara()
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	
 	TheWorld.AddEntity(PlayerCharacter);
+	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////캐릭터 추가//////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	Character* PlayerCharacter_B = new Character;
+	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX", player_BCharMeshComp);
+	}
+
+	auto player_BCharAnimComp = PlayerCharacter_B->AddComponent<AnimationComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Run.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Run.FBX", player_BCharAnimComp);					// 달리기
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Idle.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Idle.FBX", player_BCharAnimComp);				// 아이들
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Attack.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Attack.FBX", player_BCharAnimComp);				// 공격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Getting_Hit.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Getting_Hit.FBX", player_BCharAnimComp);			// 피격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Dying.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Dying.FBX", player_BCharAnimComp);				// 사망
+	}
+
+	
+
+
+
+	auto player_BCharTransformComp = PlayerCharacter_B->GetComponent<TransformComponent>();
+	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
+	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
+
+	auto player_BCharMovementComp = PlayerCharacter_B->GetComponent<MovementComponent>();
+	player_BCharMovementComp->Speed = 25.0f;
+
+	/////////////// Bounding Box Add ////////////
+	auto player_BOBBComp = PlayerCharacter_B->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
+
+
+	PlayerCharacter_B->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
+
+
+	TheWorld.AddEntity(PlayerCharacter_B);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////////////////적 테스트 ///////////////////////////////////////////////////////
@@ -334,18 +398,27 @@ void BattleScene::Init_Chara()
 	}
 
 	auto enemyCharAnimComp = EnemyCharacter->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx"))						
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx", enemyCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx", enemyCharAnimComp);			// 달리기
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.fbx", enemyCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.fbx", enemyCharAnimComp);			// 아이들
 	}
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp);
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp);			// 공격
 	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp);			// 피격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Death.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Death.fbx", enemyCharAnimComp);			// 사망
+	}
+
 
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
 	// 얘는 더 작아서 30배 scale 햇음
@@ -356,13 +429,13 @@ void BattleScene::Init_Chara()
 	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
 	enemyCharMovementComp->Speed = 10.0f;
 
+	/////////////// Bounding Box Add ////////////
+	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.2f, 0.45f, 0.2f), Vector3(0.0f, 0.45f, 0.0f));
 
-	EnemyCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
+
+	EnemyCharacter->MoveTo(Vector3(10.0f, 0.0f, 0.0f));
 
 
-	//MainCamera = EnemyCharacter->AddComponent<Camera>();
-	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 	TheWorld.AddEntity(EnemyCharacter);
 
