@@ -1,6 +1,6 @@
 #pragma once
 #include "Player.h"
-
+#include "Character.h"
 class BaseEnemy
 {	
 public:
@@ -12,6 +12,6 @@ public:
 	int hp;
 	int maxHp;
 	int armor;
-	// Character* chara;
+	Character* chara;
 };
 

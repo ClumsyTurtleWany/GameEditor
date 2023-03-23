@@ -19,6 +19,9 @@ public:
 	void Init_Effect();
 
 public:
+	void CameraMove(Vector3& eye, Vector3& target);
+
+public:
 	void BattleProcess();
 	void TurnStartProcess();
 	void TurnEndProcess();
@@ -34,19 +37,13 @@ public:
 	Enemy_1* enemy;
 
 	Character* PlayerCharacter = nullptr;
+	Character* EnemyCharacter = nullptr;
 
 public:
+	Camera* CurrentCamera;
 	Camera* MoveCamera;
 	Camera* CloseupCamera;
 
-//public:
-//	MapComponent* Map;
-//	
-//public:
-//	CharacterComponent* Chara_1P;
-//	CharacterComponent* Chara_2P;
-//	CharacterComponent* Enemy1;
-//	CharacterComponent* Enemy2;
 
 public:
 	WidgetObject* TurnEndButton;
