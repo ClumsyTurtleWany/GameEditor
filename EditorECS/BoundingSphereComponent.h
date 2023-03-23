@@ -8,7 +8,7 @@ public:
 	DirectX::BoundingSphere Sphere;
 
 #ifdef _DEBUG
-	BVRenderObject DebugObj;
+	BVRenderObject* pDebugObj;
 #endif //_DEBUG
 
 public:
@@ -20,7 +20,9 @@ public:
 		InitSphere.Radius = radius;
 
 #ifdef _DEBUG
-		DebugObj.init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitSphere);
+		pDebugObj = new BVRenderObject;
+		BV_MGR.add(pDebugObj);
+		pDebugObj->init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitSphere);
 #endif //_DEBUG
 	}
 
@@ -29,10 +31,14 @@ public:
 		DirectX::BoundingSphere::CreateFromBoundingBox(InitSphere, OBB);
 
 #ifdef _DEBUG
-		DebugObj.init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitSphere);
+		pDebugObj = new BVRenderObject;
+		BV_MGR.add(pDebugObj);
+		pDebugObj->init(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext, InitSphere);
 #endif //_DEBUG
 	}
 
-	~BoundingSphereComponent() {}
+	~BoundingSphereComponent() 
+	{
+	}
 };
 

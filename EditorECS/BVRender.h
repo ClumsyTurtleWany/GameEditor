@@ -280,3 +280,38 @@ public:
 
 	}
 };
+
+class BVManager
+{
+private:
+	std::vector<BVRenderObject*>				m_pBVList;
+
+	BVManager() {};
+	~BVManager() {};
+public:
+	BVManager(const BVManager& other) = delete;
+	BVManager& operator=(const BVManager& other) = delete;
+
+public:
+
+	void add(BVRenderObject* pObj)
+	{
+		m_pBVList.push_back(pObj);
+	}
+
+	void release()
+	{
+		for (auto it : m_pBVList)
+		{
+			delete it;
+		}
+	}
+
+	static BVManager& getInstance()
+	{
+		static BVManager singleInst;
+		return singleInst;
+	}
+};
+
+#define BV_MGR BVManager::getInstance()

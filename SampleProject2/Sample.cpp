@@ -182,19 +182,19 @@ bool SampleCore::Initialize()
 	//MainWorld.emit<CustomEvent>({856, FALSE});
 	////---------------------------------------------
 
-	//Collider System 테스트
-	Actor* temp = new Character;
-	auto transform = temp->AddComponent<TransformComponent>();
-	transform->Translation = { 100.0f, 5.0f, 0.0f };
-	auto playerCharMeshComp = temp->AddComponent<SkeletalMeshComponent>();
-	auto boundBox = temp->AddComponent<BoundingBoxComponent>(Vector3(5.0f, 5.0f, 5.0f));
-	auto boundSphere = temp->AddComponent<BoundingSphereComponent>(7.0f);
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
-	{
-		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
-	}
+	////Collider System 테스트
+	//Actor* temp = new Character;
+	//auto transform = temp->AddComponent<TransformComponent>();
+	//transform->Translation = { 100.0f, 5.0f, 0.0f };
+	//auto playerCharMeshComp = temp->AddComponent<SkeletalMeshComponent>();
+	//auto boundBox = temp->AddComponent<BoundingBoxComponent>(Vector3(5.0f, 5.0f, 5.0f));
+	//auto boundSphere = temp->AddComponent<BoundingSphereComponent>(7.0f);
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
+	//{
+	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
+	//}
 
-	Battle->TheWorld.AddEntity(temp);
+	//Battle->TheWorld.AddEntity(temp);
 
 	return true;
 }
@@ -235,6 +235,8 @@ bool SampleCore::Release()
 	EFFECTUTIL::SPRITE_MGR.release();
 	EFFECTUTIL::FILEIO_MGR.release();
 	EFFECTUTIL::DXSTATE_MGR.release();
+
+	BV_MGR.release();
 
 	FBXLoader::GetInstance()->Release();
 	return EditorCore::Release();

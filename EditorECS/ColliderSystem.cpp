@@ -14,28 +14,34 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 
 		if ((OBB != nullptr) && (transform != nullptr))
 		{
-			Matrix world = Matrix::CreateScale(transform->Scale);
-			world *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
-			world *= Matrix::CreateTranslation(transform->Translation);
+			Matrix matWorld = Matrix::CreateScale(transform->Scale);
+			matWorld *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
+			matWorld *= Matrix::CreateTranslation(transform->Translation);
 
 			//In -> Out
-			OBB->InitOBB.Transform(OBB->OBB, world);
+			OBB->InitOBB.Transform(OBB->OBB, matWorld);
 
 #ifdef _DEBUG
-			OBB->DebugObj.update(&world, nullptr, nullptr);
+			if (OBB->pDebugObj)
+			{
+				OBB->pDebugObj->update(&matWorld, nullptr, nullptr);
+			}
 #endif // _DEBUG
 		}
 
 		if ((Sphere != nullptr) && (transform != nullptr))
 		{
-			Matrix world = Matrix::CreateScale(transform->Scale);
-			world *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
-			world *= Matrix::CreateTranslation(transform->Translation);
+			Matrix matWorld = Matrix::CreateScale(transform->Scale);
+			matWorld *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
+			matWorld *= Matrix::CreateTranslation(transform->Translation);
 
-			Sphere->InitSphere.Transform(Sphere->Sphere, world);
+			Sphere->InitSphere.Transform(Sphere->Sphere, matWorld);
 
 #ifdef _DEBUG
-			Sphere->DebugObj.update(&world, nullptr, nullptr);
+			if (Sphere->pDebugObj)
+			{
+				Sphere->pDebugObj->update(&matWorld, nullptr, nullptr);
+			}
 #endif // _DEBUG
 		}
 	}

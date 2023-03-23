@@ -124,7 +124,6 @@ namespace EFFECTUTIL
 			updateBuffer(m_pVBuf.Get(), &m_vertices.at(0), m_vertices.size() * sizeof(PointParticleVertex));
 		}
 
-		updateBuffer(m_pCBuf.Get(), &m_wvpMat, sizeof(CBUF_COORDCONV_MATSET));
 		return true;
 	}
 
@@ -226,6 +225,7 @@ namespace EFFECTUTIL
 		m_matBillboard.BiilTMat._42 = m_matWorld._42;
 		m_matBillboard.BiilTMat._43 = m_matWorld._43;
 		m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
+
 		updateBuffer(m_pCBufBillboard.Get(), &m_matBillboard, sizeof(CBUF_BILLBOARDMAT));
 
 		//객체가 카메라의 정보를 들고있는 경우 다음의 함수를 대신 사용할 수 있다.

@@ -175,6 +175,7 @@ namespace EFFECTUTIL
 
                 return bRet;
             }
+            else { return false; }
         }
         else { return true; }
 	}

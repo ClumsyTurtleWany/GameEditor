@@ -27,6 +27,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		auto transform = entity->GetComponent<TransformComponent>();
 		if ((landscape != nullptr) && (transform != nullptr))
 		{
+			landscape->SetCamera(MainCamera);
 			landscape->UpdateTransformMatrix(*transform);
 			landscape->Render();
 		}
@@ -57,19 +58,13 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	Camera* mainCamera = nullptr;
-	for (auto& ent : world->GetEntities<Camera>())
-	{
-		mainCamera = ent->GetComponent<Camera>();
-	}
-
 	for (auto& entity : world->GetEntities<SkyBoxComponent>())
 	{
 		auto skyBox = entity->GetComponent<SkyBoxComponent>();
 		auto transform = entity->GetComponent<TransformComponent>();
-		if (mainCamera != nullptr)
+		if (MainCamera != nullptr)
 		{
-			skyBox->UpdateCamera(mainCamera, *transform);
+			skyBox->UpdateCamera(MainCamera, *transform);
 		}
 
 		if ((skyBox != nullptr))
@@ -84,10 +79,13 @@ void RenderSystem::Tick(ECS::World* world, float time)
 	{
 		auto BVolume = entity->GetComponent<BoundingBoxComponent>();
 
-		if (BVolume != nullptr && mainCamera != nullptr)
+		if (BVolume != nullptr && MainCamera != nullptr)
 		{
-			BVolume->DebugObj.update(nullptr, &mainCamera->View, &mainCamera->Projection);
-			BVolume->DebugObj.render();
+			if (BVolume->pDebugObj)
+			{
+				BVolume->pDebugObj->update(nullptr, &MainCamera->View, &MainCamera->Projection);
+				BVolume->pDebugObj->render();
+			}
 		}
 	}
 
@@ -95,10 +93,13 @@ void RenderSystem::Tick(ECS::World* world, float time)
 	{
 		auto BVolume = entity->GetComponent<BoundingSphereComponent>();
 
-		if (BVolume != nullptr && mainCamera != nullptr)
+		if (BVolume != nullptr && MainCamera != nullptr)
 		{
-			BVolume->DebugObj.update(nullptr, &mainCamera->View, &mainCamera->Projection);
-			BVolume->DebugObj.render();
+			if (BVolume->pDebugObj)
+			{
+				BVolume->pDebugObj->update(nullptr, &MainCamera->View, &MainCamera->Projection);
+				BVolume->pDebugObj->render();
+			}
 		}
 	}
 #endif //_DEBUG
@@ -112,7 +113,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		retMat *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
 		retMat *= Matrix::CreateTranslation(transform->Translation);
 
-		if (mainCamera != nullptr && pPSystem != nullptr)
+		if (MainCamera != nullptr && pPSystem != nullptr)
 		{
 			if (pPSystem->m_bPendingDelete)
 			{
@@ -123,11 +124,13 @@ void RenderSystem::Tick(ECS::World* world, float time)
 				pPSystem->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
 				pPSystem->update();
 				pPSystem->preRender(&retMat,
-					&mainCamera->View, &mainCamera->Projection);
+					&MainCamera->View, &MainCamera->Projection);
 				pPSystem->render();
 			}
 		}
 	}
+
+	DXDevice::g_pImmediateContext->GSSetShader(NULL, NULL, 0);
 
 	DXDevice::g_pImmediateContext->RSSetState(pOldRSState);
 	if (pOldRSState != nullptr)

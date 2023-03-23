@@ -49,4 +49,8 @@ void CameraSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
+	if (MainCamera != nullptr)
+	{
+		MainCamera->Apply();
+	}
 }
