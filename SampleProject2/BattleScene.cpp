@@ -151,7 +151,7 @@ bool BattleScene::Frame()
 	//Effect test
 	if (Input::GetInstance()->getKey('U') == KeyState::Up)
 	{
-		PlayEffect(&TheWorld, L"Hit5", { 20.0f, 20.0f, 0.0f }, { false, 2.0f, 0.0f, 1.0f });
+		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
 	return true;
@@ -555,7 +555,8 @@ void BattleScene::Init_Effect()
 	//TheWorld.AddEntity(testEffect6);
 	//TheWorld.AddEntity(testEffect7);
 	//TheWorld.AddEntity(testEffect8);
-	//PlayEffect(&TheWorld, L"Hit5", { 10.0f, 5.0f, 0.0f });
+
+	//PlayEffect(&TheWorld, L"Hit5", { Vector3(), Vector3(), Vector3(100.0f, 100.0f, 100.0f) });
 }
 
 void BattleScene::CameraMove(Vector3& eye, Vector3& target)
