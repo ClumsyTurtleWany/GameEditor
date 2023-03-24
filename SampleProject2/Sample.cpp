@@ -176,6 +176,52 @@ bool SampleCore::Initialize()
 	CurrentScene = Title;
 	//CurrentScene = Battle;
 
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru_Piano.mp3", SoundType::BGM))
+	{
+		bgm_Title = FMODSoundManager::GetInstance()->GetSound(L"Aru_Piano.mp3");
+		bgm_Title->Play();
+		bgm_Title->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_Title->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Title->Pause();
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Map.ogg", SoundType::BGM))
+	{
+		bgm_Map = FMODSoundManager::GetInstance()->GetSound(L"Map.ogg");
+		bgm_Map->Play();
+		bgm_Map->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_Map->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Map->Pause();
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Battle1.mp3", SoundType::BGM))
+	{
+		bgm_Battle = FMODSoundManager::GetInstance()->GetSound(L"Battle1.mp3");
+		bgm_Battle->Play();
+		bgm_Battle->SetVolume(0.2); // 볼륨 0 ~ 1 사이 값.
+		bgm_Battle->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Battle->Pause();
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru.mp3", SoundType::BGM))
+	{
+		bgm_Clear = FMODSoundManager::GetInstance()->GetSound(L"Aru.mp3");
+		bgm_Clear->Play();
+		bgm_Clear->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_Clear->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Clear->Pause();
+	}	
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/GameOver.mp3", SoundType::BGM))
+	{
+		bgm_GameOver = FMODSoundManager::GetInstance()->GetSound(L"GameOver.mp3");
+		bgm_GameOver->Play();
+		bgm_GameOver->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_GameOver->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_GameOver->Pause();
+	}
+	
+	bgm_Current = bgm_Title;
+	bgm_Current->Play();
+	bgm_Current->SetVolume(0.3);
+	bgm_Current->SetLoop(true);
+
 	////테스트 시스템 추가
 	////ECS::TestSystem* test = new ECS::TestSystem;
 	////MainWorld.AddSystem(test);
@@ -423,18 +469,30 @@ void SampleCore::SceneChange()
 		{
 			CurrentScene->SS = maintain;
 			CurrentScene = Title;
+
+			bgm_Current->Stop();
+			bgm_Current = bgm_Title;
+			bgm_Current->Play();
 		}break;
 
 		case map:
 		{
 			CurrentScene->SS = maintain;
 			CurrentScene = Map;
+
+			bgm_Current->Stop();
+			bgm_Current = bgm_Map;
+			bgm_Current->Play();
 		}break;
 
 		case battle:
 		{
 			CurrentScene->SS = maintain;
 			CurrentScene = Battle;
+
+			bgm_Current->Stop();
+			bgm_Current = bgm_Battle;
+			bgm_Current->Play();
 		}break;
 
 		case deckView:
@@ -465,6 +523,10 @@ void SampleCore::SceneChange()
 		{			
 			CurrentScene->SS = maintain;
 			CurrentScene = Clear;
+
+			bgm_Current->Stop();
+			bgm_Current = bgm_Clear;
+			bgm_Current->Play();
 		}break;
 
 
@@ -472,6 +534,10 @@ void SampleCore::SceneChange()
 		{			
 			CurrentScene->SS = maintain;
 			CurrentScene = GameOver;
+
+			bgm_Current->Stop();
+			bgm_Current = bgm_GameOver;
+			bgm_Current->Play();
 		}break;
 
 		}

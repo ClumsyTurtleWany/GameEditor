@@ -72,15 +72,6 @@ bool BattleScene::Init()
 
 	MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 
-	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru.mp3", SoundType::BGM))
-	{
-		bgm = FMODSoundManager::GetInstance()->GetSound(L"Aru.mp3");
-		bgm->Play();
-		bgm->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
-		bgm->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm->Pause();
-	}
-
 	return true;
 }
 
@@ -494,7 +485,7 @@ void BattleScene::Init_Chara()
 	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
 
 	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
-	enemyCharMovementComp->Speed = 20.0f;
+	enemyCharMovementComp->Speed = 25.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
 	/////////////// Bounding Box Add ////////////
@@ -648,7 +639,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
-					PlayEffect(&TheWorld, L"Hit5", { 0.0f, 10.0f, 0.0f }, { false, 3.0f, 0.0f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 1.0f, 1.0f });
 				}
 			}break;
 
@@ -671,7 +662,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
-					PlayEffect(&TheWorld, L"Hit5", { 0.0f, 10.0f, 0.0f }, { false, 3.0f, 0.0f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 1.0f, 1.0f });
 				}
 			}break;
 
@@ -705,7 +696,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
-					PlayEffect(&TheWorld, L"Hit5", { 0.0f, 10.0f, 0.0f }, { false, 3.0f, 0.0f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 1.0f, 1.0f });
 				}
 			}break;
 

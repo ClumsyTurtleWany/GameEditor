@@ -45,6 +45,14 @@ public:
 	GameOverScene* GameOver;
 
 public:
+	FMODSound* bgm_Current;
+	FMODSound* bgm_Title;
+	FMODSound* bgm_Map;
+	FMODSound* bgm_Battle;
+	FMODSound* bgm_Clear;
+	FMODSound* bgm_GameOver;
+
+public:
 	Deck* Dick;
 	std::vector<DXTexture*> CardTextureList;
 	std::vector<DXTexture*> NumberTextureList_Red;
