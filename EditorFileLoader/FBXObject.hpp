@@ -3,10 +3,12 @@
 
 //#include "fbxsdk.h" // 헤더 안에 하위 헤더들을 불러오지 못함.
 #include <fbxsdk.h>
+
 //#pragma comment(lib, "libfbxsdk.lib")
 #pragma comment(lib, "libfbxsdk-md.lib") // 다중 스레드 디버그 dll (md), 다중 스레드 (mt)
 #pragma comment(lib, "libxml2-md.lib") // libfbxsdk-md 에 필요한 lib
 #pragma comment(lib, "zlib-md.lib") // libfbxsdk-md 에 필요한 lib
+
 
 #pragma warning(disable : 26451)
 #pragma warning(disable : 26495)

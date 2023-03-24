@@ -51,6 +51,7 @@ bool BattleScene::Init()
 	Init_Map();
 	Init_Chara();
 	Init_Effect();
+	Init_Sound();
 
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	TheWorld.AddSystem(MainCameraSystem);
@@ -200,7 +201,7 @@ void BattleScene::Init_UI()
 	PlayerArmor2 = bc->FindObj(L"PlayerArmor_2");
 	CurrentMana = bc->FindObj(L"Mana_current");
 	MaxMana = bc->FindObj(L"Mana_max");
-	UpdatePlayerState();
+	//UpdatePlayerState();
 
 	// 적 상태
 	EnemyCurrentHP1 = bc->FindObj(L"EnemyCurrentHp_1");
@@ -550,6 +551,28 @@ void BattleScene::Init_Effect()
 	//PlayEffect(&TheWorld, L"Hit5", { Vector3(), Vector3(), Vector3(100.0f, 100.0f, 100.0f) });
 }
 
+void BattleScene::Init_Sound()
+{
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Attack_Bludgeon.ogg", SoundType::BGM))
+	{
+		FMODSound* Hit1 = FMODSoundManager::GetInstance()->GetSound(L"Attack_Bludgeon.ogg");
+		Hit1->Play();
+		Hit1->SetVolume(0.5); // 볼륨 0 ~ 1 사이 값.
+		Hit1->SetLoop(false); // Effect여도 Loop true 가능.
+		Hit1->Stop();
+		SoundMap.insert(std::make_pair(L"Hit1", Hit1));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Attack_Strike.ogg", SoundType::BGM))
+	{
+		FMODSound* Hit2 = FMODSoundManager::GetInstance()->GetSound(L"Attack_Strike.ogg");
+		Hit2->Play();
+		Hit2->SetVolume(0.5); // 볼륨 0 ~ 1 사이 값.
+		Hit2->SetLoop(false); // Effect여도 Loop true 가능.
+		Hit2->Stop();
+		SoundMap.insert(std::make_pair(L"Hit2", Hit2));
+	}
+}
+
 void BattleScene::CameraMove(Vector3& eye, Vector3& target)
 {
 }
@@ -603,9 +626,12 @@ void BattleScene::EnemyTurnProcess()
 	TurnState = false;
 
 	enemy->patern(player, TurnNum);
-	PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 	UpdatePlayerState();
 	UpdateEnemyState();
+
+	// 일단 야매로..
+	PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+	SoundMap.find(L"Hit2")->second->Play();
 }
 
 void BattleScene::CardCheck()
@@ -642,6 +668,7 @@ void BattleScene::CardCheck()
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					SoundMap.find(L"Hit1")->second->Play();
 				}
 			}break;
 
@@ -665,6 +692,7 @@ void BattleScene::CardCheck()
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					SoundMap.find(L"Hit1")->second->Play();
 				}
 			}break;
 
@@ -699,6 +727,7 @@ void BattleScene::CardCheck()
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					SoundMap.find(L"Hit1")->second->Play();
 				}
 			}break;
 
@@ -752,10 +781,10 @@ void BattleScene::UpdatePlayerState()
 	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp / 10];
 	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp % 10];
 
-	if (player->hp <= 0) 
+	if (player->hp <= 0)
 	{
 		auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
-		PAnime->SetClipByName(L"Dying");
+		if (PAnime->CurrentClipName != L"Dying") { PAnime->SetClipByName(L"Dying"); }  // 쓰러지는 애니메이션 두 번 재생하지 않도록
 	}
 
 

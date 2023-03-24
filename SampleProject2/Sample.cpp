@@ -196,7 +196,7 @@ bool SampleCore::Initialize()
 	{
 		bgm_Battle = FMODSoundManager::GetInstance()->GetSound(L"Battle1.mp3");
 		bgm_Battle->Play();
-		bgm_Battle->SetVolume(0.2); // 볼륨 0 ~ 1 사이 값.
+		bgm_Battle->SetVolume(0.1); // 볼륨 0 ~ 1 사이 값.
 		bgm_Battle->SetLoop(true); // Effect여도 Loop true 가능.
 		bgm_Battle->Stop();
 	}
@@ -219,8 +219,6 @@ bool SampleCore::Initialize()
 	
 	bgm_Current = bgm_Title;
 	bgm_Current->Play();
-	//bgm_Current->SetVolume(0.3);
-	//bgm_Current->SetLoop(true);
 
 	////테스트 시스템 추가
 	////ECS::TestSystem* test = new ECS::TestSystem;
@@ -493,6 +491,7 @@ void SampleCore::SceneChange()
 			bgm_Current->Stop();
 			bgm_Current = bgm_Battle;
 			bgm_Current->Play();
+			bgm_Current->SetVolume(0.3);
 		}break;
 
 		case deckView:

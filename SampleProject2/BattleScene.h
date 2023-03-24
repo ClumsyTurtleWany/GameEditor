@@ -17,6 +17,7 @@ public:
 	void Init_Map();
 	void Init_Chara();
 	void Init_Effect();
+	void Init_Sound();
 
 public:
 	void CameraMove(Vector3& eye, Vector3& target);
@@ -50,7 +51,7 @@ public:
 	Actor* MainCameraActor = nullptr;
 
 public:
-	FMODSound* bgm;
+	std::map<std::wstring, FMODSound*> SoundMap;
 
 public:
 	WidgetObject* TurnEndButton;
