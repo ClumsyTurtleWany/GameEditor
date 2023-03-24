@@ -38,7 +38,7 @@ namespace EFFECTUTIL
 
 	bool ParticleEmitter::update()
 	{
-		float dt = Timer::GetInstance()->GetDeltaTime() * m_playSpeed;
+		float dt = Timer::GetInstance()->SecondPerFrame * m_playSpeed;
 
 		m_fTimer += dt;
 
@@ -120,21 +120,18 @@ namespace EFFECTUTIL
 				m_vertices[i].rot = { cosf(DEG2RAD(m_particles[i].fRoll)), sinf(DEG2RAD(m_particles[i].fRoll)), 1.0f };
 				m_vertices[i].scale = { m_particles[i].vScale.x, m_particles[i].vScale.y, 0.0f };
 			}
-
-			updateBuffer(m_pVBuf.Get(), &m_vertices.at(0), m_vertices.size() * sizeof(PointParticleVertex));
 		}
+
+		updateBuffer(m_pVBuf.Get(), &m_vertices.at(0), m_vertices.size() * sizeof(PointParticleVertex));
 
 		return true;
 	}
 
 	bool ParticleEmitter::render()
 	{
-		if (m_eProp.bShow)
-		{
-			bindToPipeline();
+		bindToPipeline();
 
-			m_pDContext->Draw(m_iVertexCount, 0);
-		}
+		m_pDContext->Draw(m_iVertexCount, 0);
 
 		return true;
 	}
@@ -285,7 +282,7 @@ namespace EFFECTUTIL
 
 		m_matWorld = Matrix::CreateTranslation(m_eProp.vInitPos);
 		m_fSpawnTime = 1.0f / m_eProp.fSpawnRate;
-		m_fTimer = 0.0f;
+		m_fTimer = m_fSpawnTime;
 
 		std::wstring wszTexName;
 		getSplitName(wszTexPathName, wszTexName);
@@ -338,7 +335,7 @@ namespace EFFECTUTIL
 
 		m_matWorld = Matrix::CreateTranslation(m_eProp.vInitPos);
 		m_fSpawnTime = 1.0f / m_eProp.fSpawnRate;
-		m_fTimer = 0.0f;
+		m_fTimer = m_fSpawnTime;
 
 		m_pSprite = SPRITE_MGR.getUVPtr(wszSpriteName);
 
@@ -377,7 +374,7 @@ namespace EFFECTUTIL
 
 		m_matWorld = Matrix::CreateTranslation(m_eProp.vInitPos);
 		m_fSpawnTime = 1.0f / m_eProp.fSpawnRate;
-		m_fTimer = 0.0f;
+		m_fTimer = m_fSpawnTime;
 
 		m_pSprite = SPRITE_MGR.getMTPtr(wszSpriteName);
 

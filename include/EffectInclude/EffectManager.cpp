@@ -33,30 +33,24 @@ namespace EFFECTUTIL
 
 	bool ParticleSystem::update()
 	{
-        if (!m_bPendingDelete)
-        {
-            m_fCurTime += Timer::GetInstance()->GetDeltaTime();
+        m_fCurTime += Timer::GetInstance()->SecondPerFrame;
 
+        if (m_fCurTime < m_PSProp.fDuration + m_PSProp.fStDelay)
+        {
+            for (auto it : m_pEmitterList)
+            {
+                it->update();
+            }
+        }
+        else
+        {
             if (m_PSProp.bLoop)
             {
-                for (auto it : m_pEmitterList)
-                {
-                    it->update();
-                }
+                m_fCurTime = 0.0f;
             }
             else
             {
-                if (m_fCurTime >= m_PSProp.fDuration + m_PSProp.fStDelay)
-                {
-                    m_bPendingDelete = true;
-                }
-                else if (m_fCurTime < m_PSProp.fDuration + m_PSProp.fStDelay)
-                {
-                    for (auto it : m_pEmitterList)
-                    {
-                        it->update();
-                    }
-                }
+                m_bPendingDelete = true;
             }
         }
 
