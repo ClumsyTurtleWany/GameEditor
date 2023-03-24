@@ -260,6 +260,9 @@ bool SampleCore::Frame()
 	SceneChange();
 	CurrentScene->Frame();
 
+	OutputDebugString((std::to_wstring(Input::GetInstance()->m_bMinimized) + L"\n").c_str());
+	OutputDebugString((std::to_wstring(Input::GetInstance()->m_wheelState.iWheelDt) + L"\n").c_str());
+
 	return true;
 }
 
@@ -270,6 +273,8 @@ bool SampleCore::Render()
 
 	//float dt = Timer::GetInstance()->SecondPerFrame;
 	//MainWorld.Tick(dt);
+
+	Input::GetInstance()->cleanUpWheelState();
 
 	return true;
 }

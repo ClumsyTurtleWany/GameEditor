@@ -4,6 +4,11 @@ Fog.dds
 ../resource/EffectPart/texture/particle/UVSprite\Fog.dds
 8
 8
+UVS_Shield1.png
+Shield1.png
+../resource/EffectPart/texture/particle/UVSprite\Shield1.png
+4
+4
 UVS_T_Explosion_SubUV.dds
 T_Explosion_SubUV.dds
 ../resource/EffectPart/texture/particle/UVSprite\T_Explosion_SubUV.dds

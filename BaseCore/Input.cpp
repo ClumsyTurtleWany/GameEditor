@@ -84,3 +84,8 @@ bool Input::release()
 
 	return true;
 }
+
+void Input::cleanUpWheelState()
+{
+	ZeroMemory(&m_wheelState, sizeof(MOUSE_WHEEL_STATE));
+}

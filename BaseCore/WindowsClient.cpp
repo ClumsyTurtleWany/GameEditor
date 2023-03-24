@@ -1,5 +1,6 @@
 #include "WindowsClient.h"
 #include "DXDevice.hpp"
+#include "Input.hpp"
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -32,13 +33,48 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			EndPaint(hWnd, &ps);
 		}
 		break;*/
+
+	case WM_MOUSEWHEEL:
+	{
+		//wParam 상위 Word : 휠이 회전되는 거리가 WHEEL_DELTA배수로 표현된다. 양수는 앞, 음수는 뒤로 회전
+		//	GET_WHEEL_DELTA_WPARAM으로 추출한다.
+		//wParam 하위 Word : 마우스 휠 입력과 같이 발생한 키입력. MK_매크로로 전달된다.
+		//	GET_KEYSTATE_WPARAM으로 추출한다.
+		//lParam 상위 Word : 화면 왼쪽 상단을 원점으로 하는 마우스의 y좌표
+		//	GET_Y_LPARAM으로 추출한다. HIWORD를 사용하면 안된다(음수값이 될 수도 있는데 DWORD로 반환하기 때문)
+		//lParam 하위 Word : 화면 왼쪽 상단을 원점으로 하는 마우스의 x좌표
+		//	GET_X_LPARAM으로 추출한다. LOWORD를 사용하면 안된다(음수값이 될 수도 있는데 DWORD로 반환하기 때문)
+
+		MOUSE_WHEEL_STATE* pWState = &(Input::GetInstance()->m_wheelState);
+
+		pWState->bMoveWheel = true;
+		pWState->iWheelDt			+= GET_WHEEL_DELTA_WPARAM(wParam);
+		pWState->dwExtraKeyInput	= GET_KEYSTATE_WPARAM(wParam);
+		pWState->pt.x				= EXTRACT_LPARAM_X(lParam);
+		pWState->pt.y				= EXTRACT_LPARAM_Y(lParam);
+
+		ScreenToClient(hWnd, &pWState->pt);
+
+		return 0;
+	}
+	
 	case WM_SIZE:
 	{
-		if (DXDevice::g_hWnd != NULL)
+		//최소화가 아닌 경우에만 DX리소스 크기 재조정 작업을 수행한다.
+		if (wParam != SIZE_MINIMIZED)
 		{
-			RECT rc;
-			GetClientRect(hWnd, &rc);
-			DXDevice::Resize(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+			Input::GetInstance()->m_bMinimized = false;
+
+			if (DXDevice::g_hWnd != NULL)
+			{
+				RECT rc;
+				GetClientRect(hWnd, &rc);
+				DXDevice::Resize(rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top);
+			}
+		}
+		else 
+		{
+			Input::GetInstance()->m_bMinimized = true;
 		}
 	}
 	break;
