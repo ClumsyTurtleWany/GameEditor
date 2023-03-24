@@ -70,6 +70,8 @@ bool BattleScene::Init()
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
 
+	MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru.mp3", SoundType::BGM))
 	{
 		bgm = FMODSoundManager::GetInstance()->GetSound(L"Aru.mp3");
@@ -358,12 +360,12 @@ void BattleScene::Init_Chara()
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
 	playerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);
-	playerCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-	playerCharTransformComp->Translation = Vector3(0.0f, 0.0f, 0.0f);
+	playerCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
+	playerCharTransformComp->Translation = Vector3(-100.0f, 0.0f, 0.0f);
 
-	//auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
-	//playerCharMovementComp->Speed = 25.0f;
-	//PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
+	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
+	playerCharMovementComp->Speed = 25.0f;
+	PlayerCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
 
 	////////////// Bounding Box Add /////////////////
 	auto playerOBBComp = PlayerCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.75f, 1.1f, 0.75f), Vector3(0.0f, 1.1f, 0.0f));
@@ -371,16 +373,12 @@ void BattleScene::Init_Chara()
 	// 플레이어용 카메라 및 카메라 암 설정.
 	auto playerCamera = PlayerCharacter->AddComponent<Camera>();
 	auto playerCameraArm = PlayerCharacter->AddComponent<CameraArmComponent>();
-	playerCameraArm->Distance = 100.0f;
+	playerCameraArm->Distance = 150.0f;
 	playerCameraArm->Roll = 45.0f;
 	playerCameraArm->Pitch = 180.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-
 	
-	PlayerCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
-	
-	 
 	//MainCamera = PlayerCharacter->AddComponent<Camera>();
 	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
 	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
@@ -478,22 +476,19 @@ void BattleScene::Init_Chara()
 	{
 		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp);
 	}
-	//enemyCharAnimComp->SetClipByName(L"Kick");
-	//enemyCharAnimComp->CurrentClip->LoopState = false;
-	//enemyCharAnimComp->SetClipByName(L"Hit");
-	//enemyCharAnimComp->CurrentClip->LoopState = false;
+
 	enemyCharAnimComp->SetClipByName(L"Idle");
 
 
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
 	// 얘는 더 작아서 30배 scale 햇음
 	enemyCharTransformComp->Scale = Vector3(30.f, 30.f, 30.f);
-	enemyCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
-	enemyCharTransformComp->Translation = Vector3(50.0f, 0.0f, 200.0f);
+	enemyCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
 
-	//auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
-	//enemyCharMovementComp->Speed = 10.0f;
-	//EnemyCharacter->MoveTo(Vector3(10.0f, 0.0f, 0.0f));
+	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
+	enemyCharMovementComp->Speed = 20.0f;
+	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
 	/////////////// Bounding Box Add ////////////
 	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.2f, 0.45f, 0.2f), Vector3(0.0f, 0.45f, 0.0f));
@@ -506,12 +501,6 @@ void BattleScene::Init_Chara()
 	enemyCameraArm->Pitch = 180.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-
-
-
-	EnemyCharacter->MoveTo(Vector3(10.0f, 0.0f, 0.0f));
-
-
 
 	TheWorld.AddEntity(EnemyCharacter);
 
@@ -560,7 +549,7 @@ void BattleScene::Init_Effect()
 	TheWorld.AddEntity(testEffect7);
 	TheWorld.AddEntity(testEffect8);*/
 
-	PlayEffect(&TheWorld, L"Hit5", { 10.0f, 5.0f, 0.0f });
+	//PlayEffect(&TheWorld, L"Hit5", { 10.0f, 5.0f, 0.0f });
 }
 
 void BattleScene::CameraMove(Vector3& eye, Vector3& target)
@@ -570,7 +559,9 @@ void BattleScene::CameraMove(Vector3& eye, Vector3& target)
 void BattleScene::BattleProcess()
 {
 	if (TurnStart) { TurnStartProcess(); }
-	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }	
+	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
+
+	// 적 턴 행동 애니메이션이 끝난 다음 내 턴이 오도록
 	auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
 	if (!EAnime->IsInAction() && !TurnState) 
 	{ 
@@ -579,6 +570,7 @@ void BattleScene::BattleProcess()
 	}
 
 	CardCheck();
+	DeadCheck();
 }
 
 void BattleScene::TurnStartProcess()
@@ -619,6 +611,10 @@ void BattleScene::EnemyTurnProcess()
 
 void BattleScene::CardCheck()
 {
+	//auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
+	//auto EAnime = EnemyCharacter->GetComponent<AnimationComponent>();
+	//if (!PAnime->IsInAction()) { MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>(); }
+
 	for (int cardNum=0; cardNum<Dick->HandList.size(); cardNum++) 
 	{
 		if (CardList[cardNum]->m_bClicked && CardList[cardNum]->m_OriginPos.y >= 0.5)
@@ -646,8 +642,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
-					//EAnime->SetClipByName(L"Dying"); // 적 피격 모션
-					
+					PlayEffect(&TheWorld, L"Hit5", { 0.0f, 10.0f, 0.0f }, { false, 3.0f, 0.0f, 1.0f });
 				}
 			}break;
 
@@ -670,6 +665,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
+					PlayEffect(&TheWorld, L"Hit5", { 0.0f, 10.0f, 0.0f }, { false, 3.0f, 0.0f, 1.0f });
 				}
 			}break;
 
@@ -703,6 +699,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
+					PlayEffect(&TheWorld, L"Hit5", { 0.0f, 10.0f, 0.0f }, { false, 3.0f, 0.0f, 1.0f });
 				}
 			}break;
 
@@ -714,6 +711,8 @@ void BattleScene::CardCheck()
 				UpdateHand(Dick->HandList.size());
 				UpdatePlayerState();
 				UpdateEnemyState();
+
+				MainCameraSystem->MainCamera = MainCamera;
 			}
 			else {} // 여기서 경고문구 출력
 
@@ -754,6 +753,13 @@ void BattleScene::UpdatePlayerState()
 	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp / 10];
 	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp % 10];
 
+	if (player->hp <= 0) 
+	{
+		auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
+		PAnime->SetClipByName(L"Dying");
+	}
+
+
 	if (player->armor <= 0) 
 	{
 		PlayerArmorIcon->m_bIsDead = true;
@@ -787,6 +793,8 @@ void BattleScene::UpdateEnemyState()
 	{
 		// 적 격파 이벤트 발생
 		enemy->hp = 0;
+		auto EAnime = EnemyCharacter->GetComponent<AnimationComponent>();
+		EAnime->SetClipByName(L"Dying");
 	}
 
 	EnemyCurrentHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->hp / 10];
@@ -819,4 +827,17 @@ void BattleScene::UpdateEnemyState()
 			PlayerArmor2->m_OriginPos = { -0.703, -0.693 };
 		}
 	}*/
+}
+
+void BattleScene::DeadCheck()
+{
+	if (player->hp <= 0 && !PlayerCharacter->GetComponent<AnimationComponent>()->IsInAction())
+	{
+		SS = gameover;
+	}
+
+	else if (enemy->hp <= 0 && !EnemyCharacter->GetComponent<AnimationComponent>()->IsInAction()) // 나중엔 (enemy1->hp <= 0 && enemy2->hp <= 0) 이런식...? 아몰랑
+	{
+		SS = clear;
+	}
 }

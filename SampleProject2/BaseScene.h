@@ -22,6 +22,8 @@ enum SceneState
 	deckView,
 	remainView,
 	discardView,
+	clear,
+	gameover,
 };
 
 class BaseScene

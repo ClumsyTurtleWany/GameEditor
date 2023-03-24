@@ -74,6 +74,12 @@
     <ClInclude Include="WidgetObject.h">
       <Filter>NewComponent</Filter>
     </ClInclude>
+    <ClInclude Include="ClearScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkyDomeComponent.cpp">
@@ -124,6 +130,12 @@
     </ClCompile>
     <ClCompile Include="WidgetObject.cpp">
       <Filter>NewComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="ClearScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -31,6 +31,7 @@ public:
 	void UpdateHand(int handSize);
 	void UpdatePlayerState();
 	void UpdateEnemyState();
+	void DeadCheck();
 
 public:
 	Player* player;

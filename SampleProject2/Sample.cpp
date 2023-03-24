@@ -168,6 +168,10 @@ bool SampleCore::Initialize()
 	CardView->Dick = Dick;
 	CardView->CardTextureList = CardTextureList;
 	CardView->Init();
+	Clear = new ClearScene;
+	Clear->Init();
+	GameOver = new GameOverScene;
+	GameOver->Init();
 
 	CurrentScene = Title;
 	//CurrentScene = Battle;
@@ -240,6 +244,21 @@ bool SampleCore::Release()
 
 	FBXLoader::GetInstance()->Release();
 	return EditorCore::Release();
+
+	Loading->Release();
+	delete Loading;
+	Title->Release();
+	delete Title;
+	Map->Release();
+	delete Map;
+	Battle->Release();
+	delete Battle;
+	CardView->Release();
+	delete CardView;
+	Clear->Release();
+	delete Clear;
+	GameOver->Release();
+	delete GameOver;
 }
 
 
@@ -440,6 +459,19 @@ void SampleCore::SceneChange()
 			CurrentScene->SS = maintain;
 			CurrentScene = CardView;
 			CardView->Update(discard);
+		}break;
+
+		case clear: 
+		{			
+			CurrentScene->SS = maintain;
+			CurrentScene = Clear;
+		}break;
+
+
+		case gameover: 
+		{			
+			CurrentScene->SS = maintain;
+			CurrentScene = GameOver;
 		}break;
 
 		}

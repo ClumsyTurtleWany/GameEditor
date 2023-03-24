@@ -8,6 +8,8 @@
 #include "MapScene.h"
 #include "BattleScene.h"
 #include "CardViewScene.h"
+#include "ClearScene.h"
+#include "GameOverScene.h"
 
 ECS_DEFINE_TYPE(SomeComponent);
 
@@ -39,6 +41,8 @@ public:
 	MapScene* Map;
 	BattleScene* Battle;
 	CardViewScene* CardView;
+	ClearScene* Clear;
+	GameOverScene* GameOver;
 
 public:
 	Deck* Dick;

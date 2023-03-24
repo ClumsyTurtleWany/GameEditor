@@ -152,8 +152,10 @@
     <ClInclude Include="BaseScene.h" />
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="CardViewScene.h" />
+    <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="Enemy_1.h" />
+    <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MapScene.h" />
     <ClInclude Include="Player.h" />
@@ -171,8 +173,10 @@
     <ClCompile Include="BaseScene.cpp" />
     <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="CardViewScene.cpp" />
+    <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Enemy_1.cpp" />
+    <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MapScene.cpp" />
     <ClCompile Include="Player.cpp" />
