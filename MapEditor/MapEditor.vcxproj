@@ -96,11 +96,11 @@
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>../include/;../include/EditorCore/;../include/FMOD/;../include/FBX/;../include/EditorECS/;../include/ECS/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;../include/BaseCore/;../include/EditorCore/;../include/FMOD/;../include/FBX/;../include/EditorECS/;../include/ECS/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>../lib/;../lib/EditorCore/Debug/;../lib/FMOD/;../lib/FBX/debug/;../lib/BaseCore/Debug/;../lib/EditorECS/Debug/;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../lib/;../lib/BaseCore/Debug/;;../lib/EditorCore/Debug/;../lib/FMOD/;../lib/FBX/debug/;../lib/BaseCore/Debug/;../lib/EditorECS/Debug/;</AdditionalLibraryDirectories>
       <AdditionalDependencies>EditorCore.lib</AdditionalDependencies>
     </Link>
     <Midl>

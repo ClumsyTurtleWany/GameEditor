@@ -23,6 +23,11 @@ void GS(triangle GSOutput input[3] : SV_POSITION, inout TriangleStream< GSOutput
 	for (uint i = 0; i < 3; i++)
 	{
 		GSOutput element;
+		element.p = float4(0.0f, 0.0f, 0.0f, 0.0f);
+		element.n = float3(0.0f, 0.0f, 0.0f);
+		element.c = float4(1.0f, 1.0f, 1.0f, 1.0f);
+		element.t = float2(0.0f, 0.0f);
+		element.vWorld = float4(1.0f, 1.0f, 1.0f, 1.0f);
 		float dist = distance(input[i].p.xyz, g_SculptingPosition.xyz);
 		float result = 1.0f - smoothstep(g_BrushRadius * g_Attenuation, g_BrushRadius, dist);
 	
