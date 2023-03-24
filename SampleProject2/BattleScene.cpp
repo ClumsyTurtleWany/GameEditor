@@ -41,9 +41,9 @@ bool BattleScene::Init()
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
 	MainCamera = MainCameraActor->AddComponent<Camera>();
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 45.0f, -100.0f), Vector3(0.0f, -50.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	MainCamera->Pitch += 0.05f;
+	MainCamera->Roll += 20.0f;
 	MainCameraSystem->MainCamera = MainCamera;
 	TheWorld.AddEntity(MainCameraActor);
 
