@@ -182,7 +182,7 @@ bool SampleCore::Initialize()
 		bgm_Title->Play();
 		bgm_Title->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
 		bgm_Title->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Title->Pause();
+		bgm_Title->Stop();
 	}
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Map.ogg", SoundType::BGM))
 	{
@@ -190,7 +190,7 @@ bool SampleCore::Initialize()
 		bgm_Map->Play();
 		bgm_Map->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
 		bgm_Map->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Map->Pause();
+		bgm_Map->Stop();
 	}
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Battle1.mp3", SoundType::BGM))
 	{
@@ -198,7 +198,7 @@ bool SampleCore::Initialize()
 		bgm_Battle->Play();
 		bgm_Battle->SetVolume(0.2); // 볼륨 0 ~ 1 사이 값.
 		bgm_Battle->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Battle->Pause();
+		bgm_Battle->Stop();
 	}
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru.mp3", SoundType::BGM))
 	{
@@ -206,7 +206,7 @@ bool SampleCore::Initialize()
 		bgm_Clear->Play();
 		bgm_Clear->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
 		bgm_Clear->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Clear->Pause();
+		bgm_Clear->Stop();
 	}	
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/GameOver.mp3", SoundType::BGM))
 	{
@@ -214,13 +214,13 @@ bool SampleCore::Initialize()
 		bgm_GameOver->Play();
 		bgm_GameOver->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
 		bgm_GameOver->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_GameOver->Pause();
+		bgm_GameOver->Stop();
 	}
 	
 	bgm_Current = bgm_Title;
 	bgm_Current->Play();
-	bgm_Current->SetVolume(0.3);
-	bgm_Current->SetLoop(true);
+	//bgm_Current->SetVolume(0.3);
+	//bgm_Current->SetLoop(true);
 
 	////테스트 시스템 추가
 	////ECS::TestSystem* test = new ECS::TestSystem;

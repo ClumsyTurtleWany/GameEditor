@@ -602,7 +602,8 @@ void BattleScene::EnemyTurnProcess()
 {
 	TurnState = false;
 
-	enemy->patern(player, TurnNum);	
+	enemy->patern(player, TurnNum);
+	PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 	UpdatePlayerState();
 	UpdateEnemyState();
 }
@@ -640,7 +641,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
-					PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 1.0f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 				}
 			}break;
 
@@ -663,7 +664,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
-					PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 1.0f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 				}
 			}break;
 
@@ -697,7 +698,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Punch");
 					EAnime->SetClipByName(L"Hit");
-					PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 1.0f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 				}
 			}break;
 
