@@ -37,12 +37,15 @@ namespace EFFECTUTIL
 
         if (m_fCurTime < m_PSProp.fDuration + m_PSProp.fStDelay)
         {
-            for (auto it : m_pEmitterList)
+            if (m_fCurTime >= m_PSProp.fStDelay)
             {
-                it->update();
+                for (auto it : m_pEmitterList)
+                {
+                    it->update();
+                }
             }
         }
-        else
+        else 
         {
             if (m_PSProp.bLoop)
             {
