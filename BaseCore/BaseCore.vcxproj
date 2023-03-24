@@ -164,6 +164,7 @@ copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Debug\\"</Command>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>../include/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -180,14 +181,13 @@ copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Debug\\"</Command>
 MkDir "..\\include\\$(TargetName)"
 RmDir /S /Q "..\\lib\\$(TargetName)\\Release"
 MkDir "..\\lib\\$(TargetName)\\Release"
-copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\output\\Release\\$(TargetName)\\"
-copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"</Command>
+copy "..\\lib\\FMOD\\fmodL.dll" "..\\..\\output\\Release\\$(TargetName)\\"
+copy "..\\lib\\FMOD\\fmodL.dll" "..\\$(TargetName)\\"</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>copy "*.h" "..\\include\\$(TargetName)\\"
 copy "*.hpp" "..\\include\\$(TargetName)\\"
-copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Debug\\"
-copy "*.hlsl" "..\\include\\$(TargetName)\\"</Command>
+copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Release\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

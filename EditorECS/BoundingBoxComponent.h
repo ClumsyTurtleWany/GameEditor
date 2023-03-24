@@ -15,7 +15,9 @@ public:
 public:
 	BoundingBoxComponent() 
 	{
+#ifdef _DEBUG
 		pDebugObj = nullptr;
+#endif
 	}
 
 	BoundingBoxComponent(Vector3 exts, Vector3 center = {0.0f, 0.0f, 0.0f})
