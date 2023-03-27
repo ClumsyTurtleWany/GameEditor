@@ -5,6 +5,7 @@
 
 #include "LoadingScene.h"
 #include "TitleScene.h"
+#include "SelectScene.h"
 #include "MapScene.h"
 #include "BattleScene.h"
 #include "CardViewScene.h"
@@ -30,19 +31,21 @@ public:
 	virtual bool Release() override;
 
 public:
-	void TextureLoad();
+	void LoadTexture();
+	void LoadBGM();
 	void SceneChange();
 
 public:
 	BaseScene* CurrentScene;
 
-	LoadingScene* Loading;
-	TitleScene* Title;
-	MapScene* Map;
-	BattleScene* Battle;
-	CardViewScene* CardView;
-	ClearScene* Clear;
-	GameOverScene* GameOver;
+	LoadingScene*	Loading;
+	TitleScene*		Title;
+	SelectScene*	Select;
+	MapScene*		Map;
+	BattleScene*	Battle;
+	CardViewScene*	CardView;
+	ClearScene*		Clear;
+	GameOverScene*	GameOver;
 
 public:
 	FMODSound* bgm_Current;

@@ -169,6 +169,7 @@
     <ClInclude Include="MapScene.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SkyDomeComponent.h" />
     <ClInclude Include="SkyRenderSystem.h" />
     <ClInclude Include="TitleScene.h" />
@@ -190,6 +191,7 @@
     <ClCompile Include="MapScene.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SkyDomeComponent.cpp" />
     <ClCompile Include="SkyRenderSystem.cpp" />
     <ClCompile Include="TitleScene.cpp" />

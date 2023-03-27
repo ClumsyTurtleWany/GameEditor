@@ -146,7 +146,7 @@ bool SampleCore::Initialize()
 	FBXLoader::GetInstance()->Initialize();
 	
 	Dick = new Deck;
-	TextureLoad();
+	LoadTexture();
 
 	// 초기 로딩중에 로딩화면 바로 띄우기.. 인데 뭔가 원하는 그림이 안나오네..
 	//Loading = new LoadingScene;
@@ -156,6 +156,8 @@ bool SampleCore::Initialize()
 
 	Title = new TitleScene;
 	Title->Init();
+	Select = new SelectScene;
+	Select->Init();
 	Map = new MapScene;
 	Map->Init();
 	Battle = new BattleScene;
@@ -176,47 +178,8 @@ bool SampleCore::Initialize()
 	CurrentScene = Title;
 	//CurrentScene = Battle;
 
-	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru_Piano.mp3", SoundType::BGM))
-	{
-		bgm_Title = FMODSoundManager::GetInstance()->GetSound(L"Aru_Piano.mp3");
-		bgm_Title->Play();
-		bgm_Title->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
-		bgm_Title->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Title->Stop();
-	}
-	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Map.ogg", SoundType::BGM))
-	{
-		bgm_Map = FMODSoundManager::GetInstance()->GetSound(L"Map.ogg");
-		bgm_Map->Play();
-		bgm_Map->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
-		bgm_Map->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Map->Stop();
-	}
-	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Battle1.mp3", SoundType::BGM))
-	{
-		bgm_Battle = FMODSoundManager::GetInstance()->GetSound(L"Battle1.mp3");
-		bgm_Battle->Play();
-		bgm_Battle->SetVolume(0.1); // 볼륨 0 ~ 1 사이 값.
-		bgm_Battle->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Battle->Stop();
-	}
-	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru.mp3", SoundType::BGM))
-	{
-		bgm_Clear = FMODSoundManager::GetInstance()->GetSound(L"Aru.mp3");
-		bgm_Clear->Play();
-		bgm_Clear->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
-		bgm_Clear->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_Clear->Stop();
-	}	
-	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/GameOver.mp3", SoundType::BGM))
-	{
-		bgm_GameOver = FMODSoundManager::GetInstance()->GetSound(L"GameOver.mp3");
-		bgm_GameOver->Play();
-		bgm_GameOver->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
-		bgm_GameOver->SetLoop(true); // Effect여도 Loop true 가능.
-		bgm_GameOver->Stop();
-	}
-	
+
+	LoadBGM();
 	bgm_Current = bgm_Title;
 	bgm_Current->Play();
 
@@ -311,7 +274,7 @@ bool SampleCore::Release()
 }
 
 
-void SampleCore::TextureLoad()
+void SampleCore::LoadTexture()
 {
 	// 카드 텍스처 로드
 	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Card/0_Strike.png"))
@@ -456,6 +419,50 @@ void SampleCore::TextureLoad()
 	}
 }
 
+void SampleCore::LoadBGM()
+{
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru_Piano.mp3", SoundType::BGM))
+	{
+		bgm_Title = FMODSoundManager::GetInstance()->GetSound(L"Aru_Piano.mp3");
+		bgm_Title->Play();
+		bgm_Title->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_Title->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Title->Stop();
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Map.ogg", SoundType::BGM))
+	{
+		bgm_Map = FMODSoundManager::GetInstance()->GetSound(L"Map.ogg");
+		bgm_Map->Play();
+		bgm_Map->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_Map->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Map->Stop();
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Battle1.mp3", SoundType::BGM))
+	{
+		bgm_Battle = FMODSoundManager::GetInstance()->GetSound(L"Battle1.mp3");
+		bgm_Battle->Play();
+		bgm_Battle->SetVolume(0.1); // 볼륨 0 ~ 1 사이 값.
+		bgm_Battle->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Battle->Stop();
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/Aru.mp3", SoundType::BGM))
+	{
+		bgm_Clear = FMODSoundManager::GetInstance()->GetSound(L"Aru.mp3");
+		bgm_Clear->Play();
+		bgm_Clear->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_Clear->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_Clear->Stop();
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/BGM/GameOver.mp3", SoundType::BGM))
+	{
+		bgm_GameOver = FMODSoundManager::GetInstance()->GetSound(L"GameOver.mp3");
+		bgm_GameOver->Play();
+		bgm_GameOver->SetVolume(0.3); // 볼륨 0 ~ 1 사이 값.
+		bgm_GameOver->SetLoop(true); // Effect여도 Loop true 가능.
+		bgm_GameOver->Stop();
+	}
+}
+
 void SampleCore::SceneChange()
 {
 	if (CurrentScene->SS != maintain)
@@ -476,6 +483,16 @@ void SampleCore::SceneChange()
 			bgm_Current->Stop();
 			bgm_Current = bgm_Title;
 			bgm_Current->Play();
+		}break;
+
+		case multiSelect:
+		{
+			CurrentScene->SS = maintain;
+			CurrentScene = Select;
+
+			bgm_Current->Stop();
+			//bgm_Current = bgm_Title;
+			//bgm_Current->Play();
 		}break;
 
 		case map:

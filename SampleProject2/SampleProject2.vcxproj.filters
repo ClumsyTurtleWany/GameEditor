@@ -80,6 +80,7 @@
     <ClInclude Include="GameOverScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="SelectScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkyDomeComponent.cpp">
@@ -135,6 +136,9 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>

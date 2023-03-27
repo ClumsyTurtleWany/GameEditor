@@ -17,6 +17,7 @@ enum SceneState
 	maintain,
 	loading,
 	title,
+	multiSelect,
 	map,
 	battle,
 	deckView,
