@@ -10,18 +10,15 @@ bool SelectScene::Init()
 	Loader.FileLoad(wc, L"../resource/UI/Save/Select.txt");
 	SinglePlayButton = wc->FindObj(L"SinglePlay");
 	MultiPlayButton = wc->FindObj(L"MultiPlay");
-
-	// 액터에 카메라 추가.
-	//MainCamera = TitleUI->AddComponent<Camera>();
-	//MainCamera->CreateViewMatrix(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	//MainCamera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+	RoomMakeButton = wc->FindObj(L"RoomMake");
+	RoomMakeButton->m_bIsDead = true;
+	RoomFindButton = wc->FindObj(L"RoomFind");
+	RoomFindButton->m_bIsDead = true;
 
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
 
-	// 카메라 시스템 및 랜더링 시스템 추가.
-	//TheWorld.AddSystem(new CameraSystem);
-	//TheWorld.AddSystem(new RenderSystem);
+	// 랜더링 시스템 추가.
 	TheWorld.AddSystem(new WidgetRenderSystem);
 
 	return true;
@@ -35,12 +32,27 @@ bool SelectScene::Frame()
 		SS = map;
 	}
 
-	if (MultiPlayButton->m_bClicked)
+	else if (MultiPlayButton->m_bClicked)
 	{
 		MultiPlayButton->m_bClicked = false;
 
-		/* 멀티플레이 버튼이 눌렸다면
-		   여기 내용이 실행됩니다 */
+		SinglePlayButton->m_bIsDead = true;
+		MultiPlayButton->m_bIsDead = true;
+
+		RoomMakeButton->m_bIsDead = false;
+		RoomFindButton->m_bIsDead = false;
+	}
+
+	else if (RoomMakeButton->m_bClicked)
+	{
+		RoomMakeButton->m_bClicked = false;
+		// 방 만들기 버튼 눌렀을 경우 요기가 실행
+	}
+
+	else if (RoomFindButton->m_bClicked)
+	{
+		RoomFindButton->m_bClicked = false;
+		// 방 찾기 버튼 눌렀을 경우 요기가 실행
 	}
 
 	BaseScene::Frame();

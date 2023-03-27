@@ -13,11 +13,7 @@ bool LoadingScene::Init()
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(Loading);
 
-	// 카메라 시스템 및 랜더링 시스템 추가.
-	TheWorld.AddSystem(new CameraSystem);
-	TheWorld.AddSystem(new RenderSystem);
 	TheWorld.AddSystem(new WidgetRenderSystem);
-
 	return true;
 }
 
