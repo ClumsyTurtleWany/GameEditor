@@ -3,6 +3,7 @@
 #include "BaseCore/Input.hpp"
 #include "ECS/World.hpp"
 
+#define MAX_PICK_DIST 10000.0f
 //피킹 모드
 enum PICKING_MODE
 {
@@ -16,19 +17,21 @@ enum PICKING_MODE
 class MousePicker
 {
 public:
-	Input*	pMainInput;
+	Input*			pMainInput;
 
-	POINT	ptCursor;
-	Ray		PickingRay;
-	float	ClientWidth;
-	float	ClientHeight;
+	POINT			ptCursor;
+	Ray				PickingRay;
+	float			ClientWidth;
+	float			ClientHeight;
 
-	Matrix  World;
-	Matrix	View;
-	Matrix	Projection;
-	Vector3 Intersection;
+	Matrix			World;
+	Matrix			View;
+	Matrix			Projection;
+	Vector3			Intersection;
+	float			IntersectionDistance;
 
-	ECS::Entity* pTarget;
+	ECS::Entity*	pTarget;
+	float			pickingTargetDistance;
 
 	//피킹 모드 변수
 	PICKING_MODE optPickingMode;
