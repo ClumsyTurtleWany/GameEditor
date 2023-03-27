@@ -2,8 +2,14 @@
 
 MousePicker::MousePicker()
 {
-	optPickingMode = PMOD_DEFAULT;
-	pTarget = nullptr;
+	optPickingMode = PMOD_CHARACTER;
+
+	ZeroMemory(&lastSelect, sizeof(SelectState));
+	ZeroMemory(&curSelect, sizeof(SelectState));
+
+	bClicked = false;
+	dwPickingButton = VK_LBUTTON;
+
 	pMainInput = Input::GetInstance();
 }
 
@@ -13,14 +19,20 @@ MousePicker::~MousePicker()
 
 void MousePicker::Update()
 {
-	IntersectionDistance = MAX_PICK_DIST;
-	pickingTargetDistance = MAX_PICK_DIST;
-	pTarget = nullptr;
+	fIntersectionDistance = MAX_PICK_DIST;
 
 	ptCursor = pMainInput->m_ptPos;
 
 	ClientWidth = DXDevice::g_ViewPort.Width;
 	ClientHeight = DXDevice::g_ViewPort.Height;
+
+	if (pMainInput->getKey(dwPickingButton) == KeyState::Up)
+	{
+		bClicked = true;
+		curSelect.pTarget = nullptr;
+		curSelect.fDistance = MAX_PICK_DIST;
+	}
+	else { bClicked = false; }
 
 	Vector3 v;
 	v.x = (((2.0f * ptCursor.x) / ClientWidth) - 1) / Projection._11;
@@ -34,6 +46,11 @@ void MousePicker::Update()
 	PickingRay.position = DirectX::XMVector3TransformCoord(PickingRay.position, inversedView);
 	PickingRay.direction = DirectX::XMVector3TransformNormal(PickingRay.direction, inversedView);
 	PickingRay.direction.Normalize();
+}
+
+void MousePicker::ClearSelectState()
+{
+	ZeroMemory(&lastSelect, sizeof(SelectState));
 }
 
 void MousePicker::setMatrix(Matrix* pWorld, Matrix* pView, Matrix* pProj)
@@ -119,9 +136,9 @@ bool MousePicker::RayToOBB(const DirectX::BoundingOrientedBox& OBB)
 	if (DECAbs[2] > OBBProjLen) { return false; }
 
 	//교차지점 구하는 부분
-	OBB.Intersects(PickingRay.position, PickingRay.direction, IntersectionDistance);
+	OBB.Intersects(PickingRay.position, PickingRay.direction, fIntersectionDistance);
 
-	Intersection = PickingRay.position + (IntersectionDistance * PickingRay.direction);
+	vIntersection = PickingRay.position + (fIntersectionDistance * PickingRay.direction);
 
 	return true;
 }
@@ -129,9 +146,9 @@ bool MousePicker::RayToOBB(const DirectX::BoundingOrientedBox& OBB)
 bool MousePicker::RayToAABB(const DirectX::BoundingBox& AABB)
 {
 	//교차지점 구하는 부분
-	if (AABB.Intersects(PickingRay.position, PickingRay.direction, IntersectionDistance))
+	if (AABB.Intersects(PickingRay.position, PickingRay.direction, fIntersectionDistance))
 	{
-		Intersection = PickingRay.position + (IntersectionDistance * PickingRay.direction);
+		vIntersection = PickingRay.position + (fIntersectionDistance * PickingRay.direction);
 		return true;
 	}
 
@@ -176,14 +193,14 @@ bool MousePicker::RayToSphere(const DirectX::BoundingSphere& sphere)
 
 	if (t0 >= 0.0f)
 	{
-		IntersectionDistance = t0;
-		Intersection = PickingRay.position + PickingRay.direction * IntersectionDistance;
+		fIntersectionDistance = t0;
+		vIntersection = PickingRay.position + PickingRay.direction * fIntersectionDistance;
 		return true;
 	}
 	if (t1 >= 0.0f)
 	{
-		IntersectionDistance = t1;
-		Intersection = PickingRay.position + PickingRay.direction * IntersectionDistance;
+		fIntersectionDistance = t1;
+		vIntersection = PickingRay.position + PickingRay.direction * fIntersectionDistance;
 		return true;
 	}
 
@@ -192,9 +209,9 @@ bool MousePicker::RayToSphere(const DirectX::BoundingSphere& sphere)
 
 bool MousePicker::CheckPick(const Vector3& v0, const Vector3& v1, const Vector3& v2)
 {
-	if (IntersectTriangle(PickingRay.position, PickingRay.direction, v0, v1, v2, &IntersectionDistance))
+	if (IntersectTriangle(PickingRay.position, PickingRay.direction, v0, v1, v2, &fIntersectionDistance))
 	{
-		Intersection = PickingRay.position + PickingRay.direction * IntersectionDistance;
+		vIntersection = PickingRay.position + PickingRay.direction * fIntersectionDistance;
 		return true;
 	}
 
