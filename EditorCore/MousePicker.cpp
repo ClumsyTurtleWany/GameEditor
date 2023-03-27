@@ -4,6 +4,7 @@ MousePicker::MousePicker()
 {
 	optPickingMode = PMOD_DEFAULT;
 	pTarget = nullptr;
+	pMainInput = Input::GetInstance();
 }
 
 MousePicker::~MousePicker()
@@ -12,7 +13,8 @@ MousePicker::~MousePicker()
 
 void MousePicker::Update()
 {
-	ptCursor = Input::GetInstance()->m_ptPos;
+	ptCursor = pMainInput->m_ptPos;
+
 	ClientWidth = DXDevice::g_ViewPort.Width;
 	ClientHeight = DXDevice::g_ViewPort.Height;
 
@@ -28,6 +30,11 @@ void MousePicker::Update()
 	PickingRay.position = DirectX::XMVector3TransformCoord(PickingRay.position, inversedView);
 	PickingRay.direction = DirectX::XMVector3TransformNormal(PickingRay.direction, inversedView);
 	PickingRay.direction.Normalize();
+
+	if (pMainInput->getKey(VK_LBUTTON) == KeyState::Up)
+	{
+
+	}
 }
 
 void MousePicker::setMatrix(Matrix* pWorld, Matrix* pView, Matrix* pProj)

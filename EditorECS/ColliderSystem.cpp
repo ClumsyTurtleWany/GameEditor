@@ -1,4 +1,5 @@
 #include "ColliderSystem.h"
+#include "SkeletalMeshComponent.h"
 #include "TransformComponent.h"
 #include "BoundingBoxComponent.h"
 #include "BoundingSphereComponent.h"
@@ -11,6 +12,7 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		auto OBB = entity->GetComponent<BoundingBoxComponent>();
 		auto Sphere = entity->GetComponent<BoundingSphereComponent>();
 		auto transform = entity->GetComponent<TransformComponent>();
+		auto skeletonMesh = entity->GetComponent<SkeletalMeshComponent>();
 
 		if ((OBB != nullptr) && (transform != nullptr))
 		{
@@ -43,6 +45,21 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 				Sphere->pDebugObj->update(&matWorld, nullptr, nullptr);
 			}
 #endif // _DEBUG
+		}
+
+		if (Input::GetInstance()->getKey(VK_LBUTTON) == KeyState::Up)
+		{
+			MAIN_PICKER.Update();
+
+			if (skeletonMesh && MAIN_PICKER.RayToOBB(OBB->OBB))
+			{
+				MAIN_PICKER.pTarget = entity;
+
+				std::wstring wszName = EFFECTUTIL::atl_M2W(skeletonMesh->Name);
+
+				OutputDebugString(L"피킹 오브젝트 이름 : ");
+				OutputDebugString((wszName + L'\n').c_str());
+			}
 		}
 	}
 

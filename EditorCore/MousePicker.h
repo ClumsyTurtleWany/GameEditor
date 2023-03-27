@@ -16,6 +16,8 @@ enum PICKING_MODE
 class MousePicker
 {
 public:
+	Input*	pMainInput;
+
 	POINT	ptCursor;
 	Ray		PickingRay;
 	float	ClientWidth;
