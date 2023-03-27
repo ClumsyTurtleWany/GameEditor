@@ -86,37 +86,37 @@ bool BattleScene::Frame()
 	KeyState btnA = Input::GetInstance()->getKey('A');
 	if (btnA == KeyState::Hold || btnA == KeyState::Down)
 	{
-		MainCamera->Yaw -= 0.1f;
+		MainCamera->Pitch -= 0.1f;
 	}
 
 	KeyState btnD = Input::GetInstance()->getKey('D');
 	if (btnD == KeyState::Hold || btnD == KeyState::Down)
 	{
-		MainCamera->Yaw += 0.1f;
+		MainCamera->Pitch += 0.1f;
 	}
 
 	KeyState btnW = Input::GetInstance()->getKey('W');
 	if (btnW == KeyState::Hold || btnW == KeyState::Down)
 	{
-		MainCamera->Pitch -= 0.1f;
+		MainCamera->Roll -= 0.1f;
 	}
 
 	KeyState btnS = Input::GetInstance()->getKey('S');
 	if (btnS == KeyState::Hold || btnS == KeyState::Down)
 	{
-		MainCamera->Pitch += 0.1f;
+		MainCamera->Roll += 0.1f;
 	}
 
 	KeyState btnQ = Input::GetInstance()->getKey('Q');
 	if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
 	{
-		MainCamera->Pos.z += 0.1f;
+		MainCamera->Pos += MainCamera->Look;
 	}
 
 	KeyState btnE = Input::GetInstance()->getKey('E');
 	if (btnE == KeyState::Hold || btnE == KeyState::Down)
 	{
-		MainCamera->Pos.z -= 0.1f;
+		MainCamera->Pos -= MainCamera->Look;
 	}
 
 	// 카메라 전환 예시용. 필요에 따라 수정 바람.
@@ -356,6 +356,7 @@ void BattleScene::Init_Chara()
 	PlayerCharacter = new Character;
 	player->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
+	
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
 	{
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
@@ -399,6 +400,9 @@ void BattleScene::Init_Chara()
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 25.0f;
 	PlayerCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
+
+	//Picking Info Test
+	playerCharMeshComp->Name = "player";
 
 	////////////// Bounding Box Add /////////////////
 	auto playerOBBComp = PlayerCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.75f, 1.1f, 0.75f), Vector3(0.0f, 1.1f, 0.0f));
@@ -479,6 +483,7 @@ void BattleScene::Init_Chara()
 	enemy1->chara = EnemyCharacter;
 
 	auto enemyCharMeshComp = EnemyCharacter->AddComponent<SkeletalMeshComponent>();
+
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx")) 
 	{
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx", enemyCharMeshComp);
@@ -522,6 +527,9 @@ void BattleScene::Init_Chara()
 	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
 	enemyCharMovementComp->Speed = 25.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
+
+	//Picking Info Test
+	enemyCharMeshComp->Name = "Enemy";
 
 	/////////////// Bounding Box Add ////////////
 	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.2f, 0.45f, 0.2f), Vector3(0.0f, 0.45f, 0.0f));

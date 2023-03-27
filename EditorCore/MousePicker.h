@@ -3,35 +3,46 @@
 #include "BaseCore/Input.hpp"
 #include "ECS/World.hpp"
 
+#define MAX_PICK_DIST 10000.0f
 //피킹 모드
 enum PICKING_MODE
 {
-	PMOD_DEFAULT,
-	PMOD_MOVE,
-	PMOD_SELECTTARGET,
-	PMOD_ATTACKTARGET,
+	PMOD_CHARACTER,
+	PMOD_LAND,
 	NUMBER_OF_PICKING_MODE
+};
+
+struct SelectState
+{
+	ECS::Entity*	pTarget;
+	Vector3			vIntersection;
+	float			fDistance;
 };
 
 class MousePicker
 {
 public:
-	Input*	pMainInput;
+	Input*			pMainInput;
 
-	POINT	ptCursor;
-	Ray		PickingRay;
-	float	ClientWidth;
-	float	ClientHeight;
+	bool			bClicked;			
+	DWORD			dwPickingButton;	//기본 : 왼쪽 마우스 버튼
 
-	Matrix  World;
-	Matrix	View;
-	Matrix	Projection;
-	Vector3 Intersection;
+	POINT			ptCursor;
+	Ray				PickingRay;
+	float			ClientWidth;
+	float			ClientHeight;
 
-	ECS::Entity* pTarget;
+	Matrix			World;
+	Matrix			View;
+	Matrix			Projection;
+	Vector3			vIntersection;
+	float			fIntersectionDistance;
+
+	SelectState		lastSelect;			//이전 선택 상태
+	SelectState		curSelect;			//현재 프레임에서의 선택 상태
 
 	//피킹 모드 변수
-	PICKING_MODE optPickingMode;
+	PICKING_MODE	optPickingMode;
 
 public:
 	MousePicker();
@@ -39,6 +50,7 @@ public:
 
 public:
 	void Update();
+	void ClearSelectState();
 
 public:
 	void setMatrix(Matrix* pWorld, Matrix* pView, Matrix* pProj);

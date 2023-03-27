@@ -7,6 +7,8 @@
 
 void ColliderSystem::Tick(ECS::World* world, float time)
 {
+	MousePicker* pPicker = &MAIN_PICKER;
+
 	for (auto& entity : world->GetEntities<BoundingBoxComponent, TransformComponent>())
 	{
 		auto OBB = entity->GetComponent<BoundingBoxComponent>();
@@ -47,62 +49,69 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 #endif // _DEBUG
 		}
 
-		if (Input::GetInstance()->getKey(VK_LBUTTON) == KeyState::Up)
+		if (pPicker->optPickingMode == PICKING_MODE::PMOD_CHARACTER && pPicker->bClicked)
 		{
-			MAIN_PICKER.Update();
-
-			if (skeletonMesh && MAIN_PICKER.RayToOBB(OBB->OBB))
+			if (skeletonMesh && pPicker->RayToOBB(OBB->OBB))
 			{
-				MAIN_PICKER.pTarget = entity;
-
-				std::wstring wszName = EFFECTUTIL::atl_M2W(skeletonMesh->Name);
-
-				OutputDebugString(L"피킹 오브젝트 이름 : ");
-				OutputDebugString((wszName + L'\n').c_str());
+				if (pPicker->fIntersectionDistance < pPicker->curSelect.fDistance)
+				{
+					pPicker->curSelect.pTarget = entity;
+					pPicker->curSelect.vIntersection = pPicker->vIntersection;
+					pPicker->curSelect.fDistance = pPicker->fIntersectionDistance;
+				}
 			}
 		}
 	}
 
-
-//피킹 무빙 테스트용 코드
-#ifdef _DEBUG
-	for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
+	if (pPicker->optPickingMode == PICKING_MODE::PMOD_LAND && pPicker->bClicked)
 	{
-		auto landscape = entity->GetComponent<LandscapeComponents>();
-		auto transform = entity->GetComponent<TransformComponent>();
-
-		if (landscape != nullptr)
+		for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
 		{
-			for (auto it : landscape->Components)
+			auto landscape = entity->GetComponent<LandscapeComponents>();
+			auto transform = entity->GetComponent<TransformComponent>();
+
+			if (landscape != nullptr)
 			{
-				DirectX::BoundingBox temp = it.Box;
-				temp.Center = temp.Center + transform->Translation;
-
-				if (MAIN_PICKER.RayToAABB(temp))
+				for (auto it : landscape->Components)
 				{
-					for (auto& face : it.Faces)
+					DirectX::BoundingBox temp = it.Box;
+					temp.Center = temp.Center + transform->Translation;
+
+					if (MAIN_PICKER.RayToAABB(temp))
 					{
-						Vector3 v0 = face.V0.Pos + transform->Translation;
-						Vector3 v1 = face.V1.Pos + transform->Translation;
-						Vector3 v2 = face.V2.Pos + transform->Translation;
-
-						if (MAIN_PICKER.CheckPick(v0, v1, v2))
+						for (auto& face : it.Faces)
 						{
-							std::wstring Coord = L"MapPoint X : ";
-							Coord += std::to_wstring(MAIN_PICKER.Intersection.x);
-							Coord += L" Y : ";
-							Coord += std::to_wstring(MAIN_PICKER.Intersection.y);
-							Coord += L" Z : ";
-							Coord += std::to_wstring(MAIN_PICKER.Intersection.z);
-							Coord += L" \n";
+							Vector3 v0 = face.V0.Pos + transform->Translation;
+							Vector3 v1 = face.V1.Pos + transform->Translation;
+							Vector3 v2 = face.V2.Pos + transform->Translation;
 
-							OutputDebugString(Coord.c_str());
-							return;
+							if (MAIN_PICKER.CheckPick(v0, v1, v2))
+							{
+								pPicker->curSelect.pTarget = entity;
+								pPicker->curSelect.vIntersection = pPicker->vIntersection;
+								pPicker->curSelect.fDistance = pPicker->fIntersectionDistance;
+
+								//좌표 출력 코드
+								/*std::wstring Coord = L"MapPoint X : ";
+								Coord += std::to_wstring(MAIN_PICKER.vIntersection.x);
+								Coord += L" Y : ";
+								Coord += std::to_wstring(MAIN_PICKER.vIntersection.y);
+								Coord += L" Z : ";
+								Coord += std::to_wstring(MAIN_PICKER.vIntersection.z);
+								Coord += L" \n";
+
+								OutputDebugString(Coord.c_str());
+								return;*/
+							}
 						}
 					}
 				}
 			}
 		}
 	}
-#endif // _DEBUG
+
+	if (pPicker->lastSelect.pTarget != pPicker->curSelect.pTarget)
+	{
+		memcpy(&(pPicker->lastSelect), &(pPicker->curSelect), sizeof(SelectState));
+	}
 }
