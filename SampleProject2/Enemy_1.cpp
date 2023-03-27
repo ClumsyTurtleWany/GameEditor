@@ -3,6 +3,8 @@
 
 bool Enemy_1::Init()
 {
+    BaseEnemy::Init();
+
     hp = 50;
     maxHp = 50;
     armor = 0;

@@ -36,10 +36,13 @@ public:
 
 public:
 	Player* player;
-	Enemy_1* enemy;
+	std::vector<BaseEnemy*> EnemyList;
+	Enemy_1* enemy1;
 
 	Character* PlayerCharacter = nullptr;
 	Character* EnemyCharacter = nullptr;
+	Character* PickedCharacter = nullptr;
+	BaseEnemy* TargetEnemy = nullptr;
 
 public:
 	Camera* CurrentCamera;
@@ -69,17 +72,18 @@ public:
 	WidgetObject* CurrentMana;
 	WidgetObject* MaxMana;
 
-	WidgetObject* EnemyCurrentHP1;
-	WidgetObject* EnemyCurrentHP2;
-	WidgetObject* EnemyMaxHP1;
-	WidgetObject* EnemyMaxHP2;
-	// 적 방어도도 해야하는데.. 귀찮으니까 좀 나중에
-	//WidgetObject* EnemyArmorIcon;
-	//WidgetObject* EnemyArmor1;
-	//WidgetObject* EnemyArmor2;
-	WidgetObject* EnemyIntentIcon;
-	WidgetObject* EnemyIntent1;
-	WidgetObject* EnemyIntent2;
+	//std::vector<WidgetObject*> EnemyStateObjectList;
+	//WidgetObject* EnemyCurrentHP1;
+	//WidgetObject* EnemyCurrentHP2;
+	//WidgetObject* EnemyMaxHP1;
+	//WidgetObject* EnemyMaxHP2;
+	//// 적 방어도도 해야하는데.. 귀찮으니까 좀 나중에
+	////WidgetObject* EnemyArmorIcon;
+	////WidgetObject* EnemyArmor1;
+	////WidgetObject* EnemyArmor2;
+	//WidgetObject* EnemyIntentIcon;
+	//WidgetObject* EnemyIntent1;
+	//WidgetObject* EnemyIntent2;
 
 	WidgetObject* Damage1;
 	WidgetObject* Damage2;

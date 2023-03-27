@@ -1,0 +1,81 @@
+Type	0
+ID	18
+Name	EnemyInfoBG
+OrginPos	0.705000 0.351111
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 196.000000 124.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\¤·¤·\DXÆÀÇÁ\¸®¼Ò½º\gdm-futuristic-game-ui\PURPLE.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	19
+Name	EnemyCurrentHp_1
+OrginPos	0.650000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	20
+Name	EnemyCurrentHp_2
+OrginPos	0.675000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	21
+Name	Slash2
+OrginPos	0.700000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	22
+Name	EnemyMaxHp_1
+OrginPos	0.725000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	23
+Name	EnemyMaxHp_2
+OrginPos	0.750000 0.300000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	28
+Name	EnemyIntent
+OrginPos	0.660000 0.390000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 64.000000 64.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KGCA_2\data\img\intent\attack_intent_3.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	29
+Name	EnemyIntent_1
+OrginPos	0.690000 0.390000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	30
+Name	EnemyIntent_2
+OrginPos	0.715000 0.390000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
