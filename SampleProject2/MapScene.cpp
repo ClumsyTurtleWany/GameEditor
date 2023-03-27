@@ -14,17 +14,10 @@ bool MapScene::Init()
 	BackButton = mc->FindObj(L"Back");
 	Mon1 = mc->FindObj(L"Mon1");
 
-	// 액터에 카메라 추가.
-	MainCamera = MapUI->AddComponent<Camera>();
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	MainCamera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(MapUI);
 
-	// 카메라 시스템 및 랜더링 시스템 추가.
-	TheWorld.AddSystem(new CameraSystem);
-	TheWorld.AddSystem(new RenderSystem);
+	// 시스템 추가.
 	TheWorld.AddSystem(new WidgetRenderSystem);
 
 	return true;

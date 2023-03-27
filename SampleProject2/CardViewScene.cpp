@@ -29,9 +29,7 @@ bool CardViewScene::Init()
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
 
-	// 카메라 시스템 및 랜더링 시스템 추가.
-	TheWorld.AddSystem(new CameraSystem);
-	TheWorld.AddSystem(new RenderSystem);
+	// 랜더링 시스템 추가.
 	TheWorld.AddSystem(new WidgetRenderSystem);
 
 	return true;

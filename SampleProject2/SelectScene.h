@@ -9,5 +9,7 @@ public:
 public:
 	WidgetObject* SinglePlayButton;
 	WidgetObject* MultiPlayButton;
+	WidgetObject* RoomMakeButton;
+	WidgetObject* RoomFindButton;
 };
 

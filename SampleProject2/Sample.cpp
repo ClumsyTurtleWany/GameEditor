@@ -147,6 +147,9 @@ bool SampleCore::Initialize()
 	
 	Dick = new Deck;
 	LoadTexture();
+	LoadBGM();
+	bgm_Current = bgm_Title;
+	bgm_Current->Play();
 
 	// 초기 로딩중에 로딩화면 바로 띄우기.. 인데 뭔가 원하는 그림이 안나오네..
 	//Loading = new LoadingScene;
@@ -177,11 +180,6 @@ bool SampleCore::Initialize()
 
 	CurrentScene = Title;
 	//CurrentScene = Battle;
-
-
-	LoadBGM();
-	bgm_Current = bgm_Title;
-	bgm_Current->Play();
 
 	////테스트 시스템 추가
 	////ECS::TestSystem* test = new ECS::TestSystem;
