@@ -501,49 +501,69 @@ void BattleScene::Init_Chara()
 
 	auto enemyCharMeshComp = EnemyCharacter->AddComponent<SkeletalMeshComponent>();
 
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx")) 
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/Monster.fbx"))
+
 	{
-		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx", enemyCharMeshComp);
+
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Monster_fbx/Monster.fbx", enemyCharMeshComp);
+
 	}
 
 	auto enemyCharAnimComp = EnemyCharacter->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx"))						
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Run.fbx"))
+
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.fbx", enemyCharAnimComp);			// 달리기
+
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Run.fbx", enemyCharAnimComp);			// 달리기
+
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.fbx"))
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Idle.fbx"))
+
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.fbx", enemyCharAnimComp);			// 아이들
+
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Idle.fbx", enemyCharAnimComp);			// 아이들
+
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx"))
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Kick.fbx"))
+
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Kick.fbx", enemyCharAnimComp,false);			// 공격
+
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Kick.fbx", enemyCharAnimComp, false);			// 공격
+
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx"))
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Hit.fbx"))
+
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp,false);			// 피격
+
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Hit.fbx", enemyCharAnimComp, false);			// 피격
+
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.fbx"))
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Dying.fbx"))
+
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.fbx", enemyCharAnimComp, false);			// 사망
+
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Dying.fbx", enemyCharAnimComp);			// 사망
+
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.fbx", enemyCharAnimComp);
-	}
+
+
 
 	enemyCharAnimComp->SetClipByName(L"Idle");
 
-
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
-	// 얘는 더 작아서 30배 scale 햇음
-	enemyCharTransformComp->Scale = Vector3(30.f, 30.f, 30.f);
-	enemyCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
 
-	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
-	enemyCharMovementComp->Speed = 25.0f;
-	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
+	// 얘는 더 작아서 30배 scale 햇음
+
+	enemyCharTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
+
+	enemyCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+
+	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
 
 	//Picking Info Test
 	enemyCharMeshComp->Name = "Enemy";
