@@ -173,7 +173,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MapScene.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="ServerPch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="protocol.pb.h" />
     <ClInclude Include="Sample.h" />
@@ -200,7 +200,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MapScene.cpp" />
-    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="ServerPch.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="protocol.pb.cc" />
     <ClCompile Include="Sample.cpp" />

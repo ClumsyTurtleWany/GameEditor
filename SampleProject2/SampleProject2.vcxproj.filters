@@ -95,7 +95,6 @@
     <ClInclude Include="GameOverScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="SelectScene.h" />
     <ClInclude Include="enum.pb.h">
       <Filter>Network\Protocol</Filter>
     </ClInclude>
@@ -105,7 +104,7 @@
     <ClInclude Include="struct.pb.h">
       <Filter>Network\Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h">
+    <ClInclude Include="ServerPch.h">
       <Filter>Network\Utils</Filter>
     </ClInclude>
     <ClInclude Include="ClientPacketHandler.h">
@@ -113,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="ServerPacketHandler.h">
       <Filter>Network\Server</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -183,7 +185,7 @@
     <ClCompile Include="struct.pb.cc">
       <Filter>Network\Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="ServerPch.cpp">
       <Filter>Network\Utils</Filter>
     </ClCompile>
   </ItemGroup>
