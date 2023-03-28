@@ -536,7 +536,7 @@ void BattleScene::Init_Chara()
 
 	auto player_BCharMovementComp = PlayerCharacter_B->GetComponent<MovementComponent>();
 	player_BCharMovementComp->Speed = 25.0f;
-	PlayerCharacter_B->MoveTo(Vector3(20.0f, 0.0f, 50.0f));
+	PlayerCharacter_B->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
 	auto player_BOBBComp = PlayerCharacter_B->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
@@ -600,19 +600,18 @@ void BattleScene::Init_Chara()
 		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Dying.fbx", enemyCharAnimComp);			// »ç¸Á
 
 	}
-
-
-
 	enemyCharAnimComp->SetClipByName(L"Idle");
 
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
 
 
 	enemyCharTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
-
 	enemyCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-
 	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
+
+	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
+	E1MC->Speed = 25.0f;
+	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
 	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
 	enemyCharMovementComp->Speed = 25.0f;
