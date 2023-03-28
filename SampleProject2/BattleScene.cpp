@@ -364,54 +364,104 @@ void BattleScene::Init_Map()
 
 void BattleScene::Init_Chara()
 {
+	//PlayerCharacter = new Character;
+	//player->chara = PlayerCharacter;
+	//auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
+	//
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
+	//{
+	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
+	//}
+
+	//// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
+	//// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
+	//auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);				// 달리기
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);				// 아이들
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Punch.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);				// 공격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX", playerCharAnimComp);		// 피격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Dying.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Dying.FBX", playerCharAnimComp);				// 사망
+	//}
+	//
+	//playerCharAnimComp->SetClipByName(L"Punch");
+	//playerCharAnimComp->CurrentClip->LoopState = false;
+	//playerCharAnimComp->SetClipByName(L"Stomach_Hit");
+	//playerCharAnimComp->CurrentClip->LoopState = false;
+	//playerCharAnimComp->SetClipByName(L"Idle");
+
+	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
+
+	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
+	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
+
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
+	//{
+	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
+	//}
+
+	////////////////////////////////test////////////////////////
+	
+
 	PlayerCharacter = new Character;
 	player->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
-	
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
+
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx")) 
 	{
-		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Adam_fbx/Adam.fbx", playerCharMeshComp);
 	}
 
 	// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
 	// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
 	auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Run.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);				// 달리기
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Run.fbx", playerCharAnimComp);				// 달리기
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Idle.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);				// 아이들
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Idle.fbx", playerCharAnimComp);				// 아이들
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Punch.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Shooting.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);				// 공격
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Shooting.fbx", playerCharAnimComp,false);				// 공격
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Hit.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX", playerCharAnimComp);		// 피격
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Hit.fbx", playerCharAnimComp,false);		// 피격
 	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Dying.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Dying.fbx"))
 	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Dying.FBX", playerCharAnimComp);				// 사망
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Dying.fbx", playerCharAnimComp, false);				// 사망
 	}
-	
-	playerCharAnimComp->SetClipByName(L"Punch");
-	playerCharAnimComp->CurrentClip->LoopState = false;
-	playerCharAnimComp->SetClipByName(L"Stomach_Hit");
-	playerCharAnimComp->CurrentClip->LoopState = false;
+
 	playerCharAnimComp->SetClipByName(L"Idle");
 
-	auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
+	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
 
-	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
-	weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
+	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
+	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
 
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
-	{
-		FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
-	}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
+	//}
+
 
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
@@ -557,13 +607,16 @@ void BattleScene::Init_Chara()
 
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
 
-	// 얘는 더 작아서 30배 scale 햇음
 
 	enemyCharTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
 
 	enemyCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
 
 	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
+
+	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
+	enemyCharMovementComp->Speed = 25.0f;
+	EnemyCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
 	enemyCharMeshComp->Name = "Enemy";
