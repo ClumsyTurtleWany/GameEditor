@@ -195,6 +195,9 @@
     <ClInclude Include="CameraArmComponent.h">
       <Filter>Component\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="WeaponMeshComponent.h">
+      <Filter>Component\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -271,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="CameraArmComponent.cpp">
       <Filter>Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponMeshComponent.cpp">
+      <Filter>Component\Mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

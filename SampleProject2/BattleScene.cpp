@@ -358,6 +358,17 @@ void BattleScene::Init_Chara()
 	playerCharAnimComp->CurrentClip->LoopState = false;
 	playerCharAnimComp->SetClipByName(L"Idle");
 
+	auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
+
+	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
+	weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
+	{
+		FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
+	}
+
+
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
 	playerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);
 	playerCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
