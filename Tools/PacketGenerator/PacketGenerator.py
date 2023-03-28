@@ -18,6 +18,7 @@ def main():
 	# add_argument 설정시 '--'를 붙이는게 기본인거 같다.
 	arg_parse.add_argument('--path',type=str, default='../../Common/protoc-3.17.1-win64/bin/protocol.proto',help='.proto path')
 	arg_parse.add_argument('--output',type=str,default='TestPacketHandler',help='output file')
+	arg_parse.add_argument('--name',type=str,default='testName',help='namespace')
 	arg_parse.add_argument('--recv', type=str, default='C_', help = 'recv convention')
 	arg_parse.add_argument('--send', type=str, default='S_', help = 'send convention')
 
@@ -42,7 +43,7 @@ def main():
 	# 템플릿 파일을 읽어서 Template 클래스의 객체를 반환하는 메서드입니다.
 	#template = env.get_template('PacketHandler.h')
 	template = env.get_template('PacketHandler.h')
-	output = template.render(parser=parser, output=args.output)
+	output = template.render(parser=parser, output=args.output, spacename = args.name)
 
 	f=open(args.output+'.h','w+')
 	f.write(output)

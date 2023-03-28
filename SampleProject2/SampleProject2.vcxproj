@@ -198,12 +198,14 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat
     <ClCompile Include="BattleScene.cpp" />
     <ClCompile Include="CardViewScene.cpp" />
     <ClCompile Include="ClearScene.cpp" />
+    <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Enemy_1.cpp" />
     <ClCompile Include="enum.pb.cc" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MapScene.cpp" />
+    <ClCompile Include="ServerPacketHandler.cpp" />
     <ClCompile Include="ServerPch.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="protocol.pb.cc" />
