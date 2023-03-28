@@ -87,6 +87,8 @@
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../../Output/Release/$(ProjectName)\</OutDir>
     <IntDir>../../Output/Release/$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)ServerCore\;$(SolutionDir)include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
