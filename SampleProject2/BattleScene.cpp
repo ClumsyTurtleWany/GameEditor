@@ -29,14 +29,17 @@ bool BattleScene::Init()
 {
 	ID = battle;
 
+
 	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
 	player = new Player;
 	player->cost = player->maxCost;
 	player->maxHp = 50;
-	player->hp = 50; 
-	enemy = new Enemy_1;
-	enemy->Init();
-	enemy->NumberTextureList_Red = NumberTextureList_Red;
+	player->hp = 50;
+	enemy1 = new Enemy_1;
+	// enemy1->Init(); // Init_UI 밑으로 이동
+	enemy1->NumberTextureList_Red = NumberTextureList_Red;
+	enemy1->NumberTextureList_Black = NumberTextureList_Black;
+	EnemyList.push_back(enemy1);
 
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
@@ -71,7 +74,7 @@ bool BattleScene::Init()
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
 
-	MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 
 	return true;
 }
@@ -146,6 +149,27 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
+	//PickedCharacter = (Character*)MAIN_PICKER.pTarget;
+	for (auto enemy : EnemyList) 
+	{
+		if (PickedCharacter == enemy->chara)
+		{
+			for (auto obj : enemy->ObjList) // 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
+			{
+				obj->m_bIsDead = false;
+			}
+			TargetEnemy = enemy;
+		}
+		else
+		{
+			for (auto obj : enemy->ObjList)
+			{
+				obj->m_bIsDead = true;
+			}
+			TargetEnemy = nullptr;
+		}
+	}
+
 	return true;
 }
 
@@ -175,9 +199,10 @@ void BattleScene::Init_UI()
 
 	// Actor 생성
 	Actor* UI = new Actor;
-	//UI->Name = L"Battle";
 	auto bc = UI->AddComponent<WidgetComponent>();
 	Loader.FileLoad(bc, L"../resource/UI/Save/Battle.txt");
+	enemy1->wa = UI;
+	enemy1->Init();
 
 	TurnEndButton = bc->FindObj(L"TurnEnd");
 	RemainCardButton = bc->FindObj(L"Remain");
@@ -203,14 +228,23 @@ void BattleScene::Init_UI()
 	MaxMana = bc->FindObj(L"Mana_max");
 	//UpdatePlayerState();
 
-	// 적 상태
-	EnemyCurrentHP1 = bc->FindObj(L"EnemyCurrentHp_1");
-	EnemyCurrentHP2 = bc->FindObj(L"EnemyCurrentHp_2");
-	EnemyMaxHP1 = bc->FindObj(L"EnemyMaxHp_1");
-	EnemyMaxHP2 = bc->FindObj(L"EnemyMaxHp_2");
-	EnemyIntentIcon = bc->FindObj(L"EnemyIntent");
-	EnemyIntent1 = bc->FindObj(L"EnemyIntent_1");
-	EnemyIntent2 = bc->FindObj(L"EnemyIntent_2");
+	// 적 상태, BaseEnemy의 Init으로 넘어감
+	//EnemyCurrentHP1 = bc->FindObj(L"EnemyCurrentHp_1");
+	//EnemyCurrentHP2 = bc->FindObj(L"EnemyCurrentHp_2");
+	//EnemyMaxHP1 = bc->FindObj(L"EnemyMaxHp_1");
+	//EnemyMaxHP2 = bc->FindObj(L"EnemyMaxHp_2");
+	//EnemyIntentIcon = bc->FindObj(L"EnemyIntent");
+	//EnemyIntent1 = bc->FindObj(L"EnemyIntent_1");
+	//EnemyIntent2 = bc->FindObj(L"EnemyIntent_2");
+	//EnemyStateObjectList.push_back(EnemyCurrentHP1);
+	//EnemyStateObjectList.push_back(EnemyCurrentHP2);
+	//EnemyStateObjectList.push_back(EnemyMaxHP1);
+	//EnemyStateObjectList.push_back(EnemyMaxHP2);
+	//EnemyStateObjectList.push_back(EnemyIntentIcon);
+	//EnemyStateObjectList.push_back(EnemyIntent1);
+	//EnemyStateObjectList.push_back(EnemyIntent2);
+	//EnemyStateObjectList.push_back(bc->FindObj(L"EnemyInfoBG"));
+	//EnemyStateObjectList.push_back(bc->FindObj(L"Slash2"));
 	UpdateEnemyState();
 
 	// 데미지, 일단 공용인 두자리만..
@@ -457,7 +491,7 @@ void BattleScene::Init_Chara()
 	/////////////////////////////////////////// 적 테스트 //////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EnemyCharacter = new Character;
-	enemy->chara = EnemyCharacter;
+	enemy1->chara = EnemyCharacter;
 
 	auto enemyCharMeshComp = EnemyCharacter->AddComponent<SkeletalMeshComponent>();
 
@@ -602,11 +636,16 @@ void BattleScene::BattleProcess()
 	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
 
 	// 적 턴 행동 애니메이션이 끝난 다음 내 턴이 오도록
-	auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
-	if (!EAnime->IsInAction() && !TurnState) 
-	{ 
-		TurnStart = true; 
+	if (!TurnState) 
+	{
 		TurnState = true;
+		for (auto enemy : EnemyList) // 모든 적이 행동중이 아니라면
+		{
+			auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
+			if (EAnime->IsInAction()) { TurnState = false; }	// 적 하나라도 행동중이라면 false 반환
+		}
+
+		if (TurnState) { TurnStart = true; }
 	}
 
 	CardCheck();
@@ -620,8 +659,8 @@ void BattleScene::TurnStartProcess()
 	player->cost = player->maxCost;
 	UpdatePlayerState();
 
-	enemy->SetIntentObj(TurnNum, EnemyIntentIcon, EnemyIntent1, EnemyIntent2);
-
+	for (auto enemy : EnemyList) { enemy->SetIntentObj(TurnNum, enemy->IntentIcon, enemy->Intent1, enemy->Intent2); }
+	
 	int drawNum = 3;
 	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
 
@@ -643,8 +682,9 @@ void BattleScene::TurnEndProcess()
 void BattleScene::EnemyTurnProcess()
 {
 	TurnState = false;
+	
+	for (auto enemy : EnemyList) { enemy->patern(player, TurnNum); }
 
-	enemy->patern(player, TurnNum);
 	UpdatePlayerState();
 	UpdateEnemyState();
 
@@ -658,6 +698,8 @@ void BattleScene::CardCheck()
 	//auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
 	//auto EAnime = EnemyCharacter->GetComponent<AnimationComponent>();
 	//if (!PAnime->IsInAction()) { MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>(); }
+
+	if (TargetEnemy == nullptr) { return; } // 타겟이 없다면 실행ㄴ
 
 	for (int cardNum=0; cardNum<Dick->HandList.size(); cardNum++) 
 	{
@@ -681,7 +723,7 @@ void BattleScene::CardCheck()
 					// 데미지 이펙트 초안.. 막 움직이기도 하고 나타나면서 커졌다가 작아졌다가도 해야하는데 아 몰랑 나중에 함수로? 하지 뭐
 					//Damage2->m_bIsDead = false;
 					//Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
-					enemy->hp -= 6;
+					TargetEnemy->hp -= 6;
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Punch");
@@ -704,7 +746,7 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1)) 
 				{
-					enemy->hp -= 9;
+					TargetEnemy->hp -= 9;
 					Dick->Draw(1);
 					CanUse = true;
 
@@ -739,7 +781,7 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1)) 
 				{
-					enemy->hp -= 5;
+					TargetEnemy->hp -= 5;
 					player->armor += 5;
 					CanUse = true;
 
@@ -836,44 +878,7 @@ void BattleScene::UpdatePlayerState()
 
 void BattleScene::UpdateEnemyState()
 {
-	if (enemy->hp <= 0) 
-	{
-		// 적 격파 이벤트 발생
-		enemy->hp = 0;
-		auto EAnime = EnemyCharacter->GetComponent<AnimationComponent>();
-		EAnime->SetClipByName(L"Dying");
-	}
-
-	EnemyCurrentHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->hp / 10];
-	EnemyCurrentHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->hp % 10];
-	EnemyMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->maxHp / 10];
-	EnemyMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[enemy->maxHp % 10];
-
-	// 방어도 부분, 좀 나중에..
-	/*if (player->armor <= 0)
-	{
-		PlayerArmorIcon->m_bIsDead = true;
-		PlayerArmor1->m_bIsDead = true;
-		PlayerArmor2->m_bIsDead = true;
-	}
-	else
-	{
-		PlayerArmorIcon->m_bIsDead = false;
-		PlayerArmor2->m_bIsDead = false;
-		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor % 10];
-		if ((player->armor / 10) >= 1)
-		{
-			PlayerArmor1->m_OriginPos = { -0.714, -0.693 };
-			PlayerArmor2->m_OriginPos = { -0.693, -0.693 };
-
-			PlayerArmor1->m_bIsDead = false;
-			PlayerArmor1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor / 10];
-		}
-		else
-		{
-			PlayerArmor2->m_OriginPos = { -0.703, -0.693 };
-		}
-	}*/
+	for (auto enemy : EnemyList) { enemy->UpdateState(); }
 }
 
 void BattleScene::DeadCheck()
@@ -882,9 +887,12 @@ void BattleScene::DeadCheck()
 	{
 		SS = gameover;
 	}
-
-	else if (enemy->hp <= 0 && !EnemyCharacter->GetComponent<AnimationComponent>()->IsInAction()) // 나중엔 (enemy1->hp <= 0 && enemy2->hp <= 0) 이런식...? 아몰랑
+	else 
 	{
+		for (auto enemy : EnemyList) 
+		{
+			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
+		}
 		SS = clear;
 	}
 }
