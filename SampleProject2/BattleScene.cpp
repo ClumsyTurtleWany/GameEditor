@@ -160,7 +160,7 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
-	PickedCharacter = (Character*)MAIN_PICKER.lastSelect.pTarget;
+	PickedCharacter = (Character*)MAIN_PICKER.pTarget;
 	for (auto enemy : EnemyList) 
 	{
 		if (PickedCharacter == enemy->chara)
@@ -402,6 +402,17 @@ void BattleScene::Init_Chara()
 	playerCharAnimComp->SetClipByName(L"Stomach_Hit");
 	playerCharAnimComp->CurrentClip->LoopState = false;
 	playerCharAnimComp->SetClipByName(L"Idle");
+
+	auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
+
+	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
+	weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
+	{
+		FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
+	}
+
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
 	playerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);

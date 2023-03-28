@@ -61,6 +61,7 @@
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="UpdateAnimSystem.h" />
+    <ClInclude Include="WeaponMeshComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\include\EffectInclude\DXStatePreset.cpp" />
@@ -88,6 +89,7 @@
     <ClCompile Include="SkyBoxComponent.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
     <ClCompile Include="UpdateAnimSystem.cpp" />
+    <ClCompile Include="WeaponMeshComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">

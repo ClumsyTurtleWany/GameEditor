@@ -17,6 +17,7 @@
 #include "SkeletalMeshComponent.h"
 // 추가
 #include "AnimationComponent.h"
+#include "WeaponMeshComponent.h"
 
 
 class FBXLoader : public Singleton<FBXLoader>
@@ -131,4 +132,5 @@ public:
 	bool GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst);
 	// 추가
 	bool GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst,bool Loop = true);
+	bool GenerateWeaponMeshFromFileData(std::wstring filename, WeaponMeshComponent* dst);
 };

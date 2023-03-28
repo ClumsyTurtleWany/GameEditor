@@ -1571,45 +1571,52 @@ bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationCo
 	return true;
 }
 
-//
-//bool FBXLoader::GenerateStaticMeshFromFileData(FBXFileData* _src, StaticMeshComponent* _dst)
-//{
-//	if (_src == nullptr)
-//	{
-//		return false;
-//	}
-//
-//	FBXFileData* pData = _src;
-//	for (auto& node : pData->NodeDataList)
-//	{
-//		if (node.AttributeType != FbxNodeAttribute::EType::eMesh)
-//		{
-//			continue;
-//		}
-//		else
-//		{
-//			if (node.MeshList.empty())
-//			{
-//				continue;
-//			}
-//
-//			size_t meshCnt = node.MeshList.size();
-//			for (size_t idx = 0; idx < meshCnt; idx++)
-//			{
-//				if (node.MaterialList.empty())
-//				{
-//					node.MeshList[idx].MaterialSlot = nullptr;
-//				}
-//				else
-//				{
-//					node.MeshList[idx].MaterialSlot = node.MaterialList[idx];
-//				}
-//			
-//				_dst->Meshes.push_back(node.MeshList[idx]);				
-//			}
-//			
-//		}
-//	}
-//
-//	return true;
-//}
+bool FBXLoader::GenerateWeaponMeshFromFileData(std::wstring filename, WeaponMeshComponent* dst)
+{
+	auto it = FbxFileList.find(filename);
+	if (it == FbxFileList.end())
+	{
+		return false;
+	}
+
+	FBXFileData* pData = it->second;
+	for (auto& node : pData->NodeDataList)
+	{
+		if (node.AttributeType != FbxNodeAttribute::EType::eMesh)
+		{
+			continue;
+		}
+		else
+		{
+			if (node.MeshList.empty())
+			{
+				continue;
+			}
+
+			size_t meshCnt = node.MeshList.size();
+			for (size_t idx = 0; idx < meshCnt; idx++)
+			{
+				if (node.MaterialList.empty())
+				{
+					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(L"Default");
+				}
+				else
+				{
+					std::wstring materialName;
+					materialName.assign(node.Name.begin(), node.Name.end());
+					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
+				}
+
+				dst->Meshes.push_back(node.MeshList[idx]);
+			}
+
+		}
+	}
+
+	for (auto& it : dst->Meshes)
+	{
+		it.Initialize();
+	}
+
+	return true;
+}

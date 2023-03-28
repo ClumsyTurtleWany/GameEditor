@@ -11,6 +11,7 @@
 #include "BoundingBoxComponent.h"
 #include "BoundingSphereComponent.h"
 #include "EffectInclude/EffectSystem.h"
+#include "WeaponMeshComponent.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {
@@ -42,6 +43,17 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		{
 			skeletalMesh->UpdateTransformMatrix(*transform);
 			skeletalMesh->Render();
+		}
+
+	}
+
+	for (auto& entity : world->GetEntities<WeaponMeshComponent>())
+	{
+		auto weaponMesh = entity->GetComponent<WeaponMeshComponent>();
+
+		if (weaponMesh != nullptr)
+		{
+			weaponMesh->Render();
 		}
 
 	}
