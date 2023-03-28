@@ -133,8 +133,7 @@
     </Link>
     <PreBuildEvent>
       <Command>copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\Output\\Debug\\$(TargetName)\\"
-CALL $(SolutionDir)Tools\PacketGenerator\MakeExe.bat
-CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
+</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
