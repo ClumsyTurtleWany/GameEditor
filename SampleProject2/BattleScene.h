@@ -38,6 +38,7 @@ public:
 	Player* player;
 	std::vector<BaseEnemy*> EnemyList;
 	Enemy_1* enemy1;
+	Enemy_2* enemy2;
 
 	Character* PlayerCharacter = nullptr;
 	Character* EnemyCharacter = nullptr;

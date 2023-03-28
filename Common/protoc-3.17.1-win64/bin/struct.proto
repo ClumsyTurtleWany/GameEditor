@@ -1,0 +1,13 @@
+syntax = "proto3";
+package protocol;
+
+import "enum.proto";
+
+//struct
+message BuffData
+{
+	// = 뒤에 붙은 숫자는 인자 순서
+	uint64 buffID = 1;
+	float remainTime = 2;
+	repeated uint64 victims = 3;
+}

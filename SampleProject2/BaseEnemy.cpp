@@ -4,7 +4,8 @@ bool BaseEnemy::Init()
 {	
 	UI_Loader Loader;
 
-	wc = wa->GetComponent<WidgetComponent>();
+	wa = new Actor;
+	wc = wa->AddComponent<WidgetComponent>();
 	Loader.FileLoad(wc, L"../resource/UI/Save/EnemyState.txt");
 
 	CurrentHP1 = wc->FindObj(L"EnemyCurrentHp_1");
@@ -23,6 +24,8 @@ bool BaseEnemy::Init()
 	ObjList.push_back(Intent2);
 	ObjList.push_back(wc->FindObj(L"EnemyInfoBG"));
 	ObjList.push_back(wc->FindObj(L"Slash2"));
+
+	(*pWorld).AddEntity(wa);
 
 	return true;
 }

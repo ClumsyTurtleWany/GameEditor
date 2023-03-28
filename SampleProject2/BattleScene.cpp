@@ -29,24 +29,35 @@ bool BattleScene::Init()
 {
 	ID = battle;
 
-
 	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
 	player = new Player;
 	player->cost = player->maxCost;
 	player->maxHp = 50;
 	player->hp = 50;
 	enemy1 = new Enemy_1;
-	// enemy1->Init(); // Init_UI 밑으로 이동
+	enemy1->pWorld = &TheWorld;
+	enemy1->Init(); 
 	enemy1->NumberTextureList_Red = NumberTextureList_Red;
 	enemy1->NumberTextureList_Black = NumberTextureList_Black;
 	EnemyList.push_back(enemy1);
+	enemy2 = new Enemy_2;
+	enemy2->pWorld = &TheWorld;
+	enemy2->Init();
+	enemy2->NumberTextureList_Red = NumberTextureList_Red;
+	enemy2->NumberTextureList_Black = NumberTextureList_Black;
+	EnemyList.push_back(enemy2);
+	// 밑에 두줄은 임시
+	enemy2->maxHp = 30;
+	enemy2->hp = 30;
 
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
 	MainCamera = MainCameraActor->AddComponent<Camera>();
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 45.0f, -100.0f), Vector3(0.0f, -50.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	//Vector3 pt = PlayerCharacter->GetComponent<TransformComponent>()->Translation; // player transform
+	//Vector3 et = EnemyCharacter->GetComponent<TransformComponent>()->Translation; // enemy transform
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 20.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	MainCamera->Roll += 20.0f;
+	MainCamera->Roll += 30.0f;
 	MainCameraSystem->MainCamera = MainCamera;
 	TheWorld.AddEntity(MainCameraActor);
 
@@ -83,40 +94,42 @@ bool BattleScene::Frame()
 {
 	BaseScene::Frame();
 
-	KeyState btnA = Input::GetInstance()->getKey('A');
-	if (btnA == KeyState::Hold || btnA == KeyState::Down)
-	{
-		MainCamera->Pitch -= 0.1f;
-	}
+	//KeyState btnA = Input::GetInstance()->getKey('A');
+	//if (btnA == KeyState::Hold || btnA == KeyState::Down)
+	//{
+	//	MainCamera->Pitch -= 0.1f;
+	//}
+	//KeyState btnD = Input::GetInstance()->getKey('D');
+	//if (btnD == KeyState::Hold || btnD == KeyState::Down)
+	//{
+	//	MainCamera->Pitch += 0.1f;
+	//}
+	//KeyState btnW = Input::GetInstance()->getKey('W');
+	//if (btnW == KeyState::Hold || btnW == KeyState::Down)
+	//{
+	//	MainCamera->Roll -= 0.1f;
+	//}
+	//KeyState btnS = Input::GetInstance()->getKey('S');
+	//if (btnS == KeyState::Hold || btnS == KeyState::Down)
+	//{
+	//	MainCamera->Roll += 0.1f;
+	//}
+	//KeyState btnQ = Input::GetInstance()->getKey('Q');
+	//if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
+	//{
+	//	MainCamera->Pos += MainCamera->Look;
+	//}
+	//KeyState btnE = Input::GetInstance()->getKey('E');
+	//if (btnE == KeyState::Hold || btnE == KeyState::Down)
+	//{
+	//	MainCamera->Pos -= MainCamera->Look;
+	//}
 
-	KeyState btnD = Input::GetInstance()->getKey('D');
-	if (btnD == KeyState::Hold || btnD == KeyState::Down)
+	KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
+	if (btnLC == KeyState::Hold || btnLC == KeyState::Down)
 	{
-		MainCamera->Pitch += 0.1f;
-	}
-
-	KeyState btnW = Input::GetInstance()->getKey('W');
-	if (btnW == KeyState::Hold || btnW == KeyState::Down)
-	{
-		MainCamera->Roll -= 0.1f;
-	}
-
-	KeyState btnS = Input::GetInstance()->getKey('S');
-	if (btnS == KeyState::Hold || btnS == KeyState::Down)
-	{
-		MainCamera->Roll += 0.1f;
-	}
-
-	KeyState btnQ = Input::GetInstance()->getKey('Q');
-	if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
-	{
-		MainCamera->Pos += MainCamera->Look;
-	}
-
-	KeyState btnE = Input::GetInstance()->getKey('E');
-	if (btnE == KeyState::Hold || btnE == KeyState::Down)
-	{
-		MainCamera->Pos -= MainCamera->Look;
+		float MinGamDoe = 0.3f; // 나중에 마우스 민감도 필요하면?
+		//MainCameraSystem->MainCamera->Pitch += MinGamDoe * Input::GetInstance()->m_ptOffset.x;
 	}
 
 	// 카메라 전환 예시용. 필요에 따라 수정 바람.
@@ -125,13 +138,11 @@ bool BattleScene::Frame()
 	{
 		MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 	}
-
 	KeyState btnX = Input::GetInstance()->getKey('X');
 	if (btnX == KeyState::Hold || btnX == KeyState::Down)
 	{
 		MainCameraSystem->MainCamera = EnemyCharacter->GetComponent<Camera>();
 	}
-
 	KeyState btnC = Input::GetInstance()->getKey('C');
 	if (btnC == KeyState::Hold || btnC == KeyState::Down)
 	{
@@ -149,7 +160,7 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
-	//PickedCharacter = (Character*)MAIN_PICKER.pTarget;
+	PickedCharacter = (Character*)MAIN_PICKER.pTarget;
 	for (auto enemy : EnemyList) 
 	{
 		if (PickedCharacter == enemy->chara)
@@ -162,11 +173,13 @@ bool BattleScene::Frame()
 		}
 		else
 		{
-			for (auto obj : enemy->ObjList)
+			if (enemy != TargetEnemy) 
 			{
-				obj->m_bIsDead = true;
+				for (auto obj : enemy->ObjList)
+				{
+					obj->m_bIsDead = true;
+				}
 			}
-			TargetEnemy = nullptr;
 		}
 	}
 
@@ -201,8 +214,6 @@ void BattleScene::Init_UI()
 	Actor* UI = new Actor;
 	auto bc = UI->AddComponent<WidgetComponent>();
 	Loader.FileLoad(bc, L"../resource/UI/Save/Battle.txt");
-	enemy1->wa = UI;
-	enemy1->Init();
 
 	TurnEndButton = bc->FindObj(L"TurnEnd");
 	RemainCardButton = bc->FindObj(L"Remain");
@@ -421,9 +432,9 @@ void BattleScene::Init_Chara()
 	// 플레이어용 카메라 및 카메라 암 설정.
 	auto playerCamera = PlayerCharacter->AddComponent<Camera>();
 	auto playerCameraArm = PlayerCharacter->AddComponent<CameraArmComponent>();
-	playerCameraArm->Distance = 150.0f;
-	playerCameraArm->Roll = 45.0f;
-	playerCameraArm->Pitch = 180.0f;
+	playerCameraArm->Distance = 100.0f;
+	playerCameraArm->Roll = 35.0f;
+	playerCameraArm->Pitch = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	
@@ -545,8 +556,8 @@ void BattleScene::Init_Chara()
 	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
 	auto enemyCameraArm = EnemyCharacter->AddComponent<CameraArmComponent>();
 	enemyCameraArm->Distance = 100.0f;
-	enemyCameraArm->Roll = 45.0f;
-	enemyCameraArm->Pitch = 180.0f;
+	enemyCameraArm->Roll = 35.0f;
+	enemyCameraArm->Pitch = 180.0f + 40.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
@@ -707,7 +718,7 @@ void BattleScene::CardCheck()
 			CardList[cardNum]->m_OriginPos = CardList[cardNum]->m_OriginalOriginPos;
 
 			auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
-			auto EAnime = EnemyCharacter->GetComponent<AnimationComponent>();
+			auto EAnime = TargetEnemy->chara->GetComponent<AnimationComponent>();
 
 			switch (Dick->HandList[cardNum])
 			{

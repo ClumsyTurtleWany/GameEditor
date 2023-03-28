@@ -5,6 +5,7 @@
 #include "UI_Loader.h"
 #include "Actor.h"
 #include "AnimationComponent.h"
+#include "World.hpp"
 
 class BaseEnemy
 {	
@@ -20,6 +21,9 @@ public:
 	int maxHp;
 	int armor;
 	Character* chara;
+
+public:
+	ECS::World* pWorld;
 	Actor* wa;
 	WidgetComponent* wc;
 
