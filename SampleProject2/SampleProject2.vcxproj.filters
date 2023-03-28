@@ -23,6 +23,21 @@
     <Filter Include="Loader">
       <UniqueIdentifier>{0323f9b6-430a-4ef9-93d0-df4c7c375c9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{e6e89bc6-fda6-496d-b18a-239fd5339460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Client">
+      <UniqueIdentifier>{5c906170-d53f-4ca3-891e-270aecaf95bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Server">
+      <UniqueIdentifier>{a21d6128-0a50-40d1-b46a-771615a0b3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Utils">
+      <UniqueIdentifier>{d08ec1ed-7a41-4858-a104-6a7260ebfd60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Protocol">
+      <UniqueIdentifier>{91df5b85-a165-456f-8794-98795ac1d111}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkyDomeComponent.h">
@@ -81,6 +96,15 @@
       <Filter>Scene</Filter>
     </ClInclude>
     <ClInclude Include="SelectScene.h" />
+    <ClInclude Include="enum.pb.h">
+      <Filter>Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol.pb.h">
+      <Filter>Network\Protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="struct.pb.h">
+      <Filter>Network\Protocol</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkyDomeComponent.cpp">
@@ -141,5 +165,28 @@
     <ClCompile Include="SelectScene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="enum.pb.cc">
+      <Filter>Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol.pb.cc">
+      <Filter>Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="struct.pb.cc">
+      <Filter>Network\Protocol</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\protoc-3.17.1-win64\bin\enum.proto">
+      <Filter>Network\Protocol</Filter>
+    </None>
+    <None Include="..\Common\protoc-3.17.1-win64\bin\genPackets.bat">
+      <Filter>Network\Protocol</Filter>
+    </None>
+    <None Include="..\Common\protoc-3.17.1-win64\bin\protocol.proto">
+      <Filter>Network\Protocol</Filter>
+    </None>
+    <None Include="..\Common\protoc-3.17.1-win64\bin\struct.proto">
+      <Filter>Network\Protocol</Filter>
+    </None>
   </ItemGroup>
 </Project>

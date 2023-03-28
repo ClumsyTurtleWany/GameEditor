@@ -80,6 +80,8 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../Output/Debug/$(ProjectName)\</OutDir>
     <IntDir>../../Output/Debug/$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)ServerCore\;$(SolutionDir)include\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -130,7 +132,8 @@
       <AdditionalDependencies>BaseCore.lib;ECS.lib;EditorCore.lib;EditorECS.lib;EditorFileLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\Output\\Debug\\$(TargetName)\\"</Command>
+      <Command>copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\Output\\Debug\\$(TargetName)\\"
+CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,14 +167,17 @@
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="Enemy_1.h" />
+    <ClInclude Include="enum.pb.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MapScene.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="protocol.pb.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="SelectScene.h" />
     <ClInclude Include="SkyDomeComponent.h" />
     <ClInclude Include="SkyRenderSystem.h" />
+    <ClInclude Include="struct.pb.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UI_Loader.h" />
     <ClInclude Include="WidgetComponent.h" />
@@ -186,19 +192,33 @@
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Enemy_1.cpp" />
+    <ClCompile Include="enum.pb.cc" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MapScene.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="protocol.pb.cc" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="SkyDomeComponent.cpp" />
     <ClCompile Include="SkyRenderSystem.cpp" />
+    <ClCompile Include="struct.pb.cc" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UI_Loader.cpp" />
     <ClCompile Include="WidgetComponent.cpp" />
     <ClCompile Include="WidgetObject.cpp" />
     <ClCompile Include="WidgetRenderSystem.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\protoc-3.17.1-win64\bin\enum.proto" />
+    <None Include="..\Common\protoc-3.17.1-win64\bin\genPackets.bat" />
+    <None Include="..\Common\protoc-3.17.1-win64\bin\protocol.proto" />
+    <None Include="..\Common\protoc-3.17.1-win64\bin\struct.proto" />
+  </ItemGroup>
+    <ItemGroup>
+    <UpToDateCheckInput Include="..\Common\protoc-3.17.1-win64\bin\enum.proto" />
+    <UpToDateCheckInput Include="..\Common\protoc-3.17.1-win64\bin\protocol.proto" />
+    <UpToDateCheckInput Include="..\Common\protoc-3.17.1-win64\bin\struct.proto" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
