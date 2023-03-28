@@ -105,6 +105,15 @@
     <ClInclude Include="struct.pb.h">
       <Filter>Network\Protocol</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Network\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPacketHandler.h">
+      <Filter>Network\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacketHandler.h">
+      <Filter>Network\Server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkyDomeComponent.cpp">
@@ -173,6 +182,9 @@
     </ClCompile>
     <ClCompile Include="struct.pb.cc">
       <Filter>Network\Protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Network\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

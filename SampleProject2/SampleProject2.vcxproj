@@ -133,6 +133,7 @@
     </Link>
     <PreBuildEvent>
       <Command>copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\Output\\Debug\\$(TargetName)\\"
+CALL $(SolutionDir)Tools\PacketGenerator\MakeExe.bat
 CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
@@ -165,16 +166,19 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
     <ClInclude Include="BattleScene.h" />
     <ClInclude Include="CardViewScene.h" />
     <ClInclude Include="ClearScene.h" />
+    <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="Enemy_1.h" />
     <ClInclude Include="enum.pb.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MapScene.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="protocol.pb.h" />
     <ClInclude Include="Sample.h" />
     <ClInclude Include="SelectScene.h" />
+    <ClInclude Include="ServerPacketHandler.h" />
     <ClInclude Include="SkyDomeComponent.h" />
     <ClInclude Include="SkyRenderSystem.h" />
     <ClInclude Include="struct.pb.h" />
@@ -196,6 +200,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MapScene.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="protocol.pb.cc" />
     <ClCompile Include="Sample.cpp" />
@@ -215,7 +220,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat</Command>
     <None Include="..\Common\protoc-3.17.1-win64\bin\protocol.proto" />
     <None Include="..\Common\protoc-3.17.1-win64\bin\struct.proto" />
   </ItemGroup>
-    <ItemGroup>
+  <ItemGroup>
     <UpToDateCheckInput Include="..\Common\protoc-3.17.1-win64\bin\enum.proto" />
     <UpToDateCheckInput Include="..\Common\protoc-3.17.1-win64\bin\protocol.proto" />
     <UpToDateCheckInput Include="..\Common\protoc-3.17.1-win64\bin\struct.proto" />
