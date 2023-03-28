@@ -1,5 +1,5 @@
 #pragma once
-#include "ServerPch.h"
+
 #include "protocol.pb.h"
 
 #define serialize 4
