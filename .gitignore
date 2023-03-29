@@ -400,3 +400,4 @@ EditorFileLoader.lib
 !Common/protoc-3.17.1-win64/include/
 !lib/Protobuf/**/
 !lib/Protobuf/**/*.pdb
+Common/protoc-3.17.1-win64/bin/GenPacket.exe
