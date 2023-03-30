@@ -27,7 +27,7 @@
 
 bool BattleScene::Init()
 {
-	ID = battle;
+	ID = BATTLE;
 
 	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
 	player = new Player;
@@ -191,8 +191,8 @@ bool BattleScene::Render()
 	BaseScene::Render();
 
 	// 남은 카드 확인 or 버린 카드 확인 버튼 클릭시 씬 전환 (카드 보는 씬으로)
-	if (RemainCardButton->m_bClicked){ SS = remainView; RemainCardButton->m_bClicked = false; }
-	if (DiscardButton->m_bClicked) { SS = discardView; DiscardButton->m_bClicked = false; }
+	if (RemainCardButton->m_bClicked){ SS = REMAINVIEW; RemainCardButton->m_bClicked = false; }
+	if (DiscardButton->m_bClicked) { SS = DISCARDVIEW; DiscardButton->m_bClicked = false; }
 
 	//대충 여기서 뭔가 돌아가면 될성싶은디
 	BattleProcess();
@@ -963,7 +963,7 @@ void BattleScene::DeadCheck()
 {
 	if (player->hp <= 0 && !PlayerCharacter->GetComponent<AnimationComponent>()->IsInAction())
 	{
-		SS = gameover;
+		SS = GAMEOVER;
 	}
 	else 
 	{
@@ -971,6 +971,6 @@ void BattleScene::DeadCheck()
 		{
 			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
 		}
-		SS = clear;
+		SS = CLEAR;
 	}
 }

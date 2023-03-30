@@ -239,6 +239,9 @@ bool SampleCore::Render()
 
 bool SampleCore::Release()
 {
+	//server Release
+	gpHost->Release();
+
 	///////////////////////
 	//EFFECTUTIL CleanUp
 	///////////////////////
@@ -460,19 +463,19 @@ void SampleCore::LoadBGM()
 
 void SampleCore::SceneChange()
 {
-	if (CurrentScene->SS != maintain)
+	if (CurrentScene->SS != MAINTAIN)
 	{
 		switch (CurrentScene->SS)
 		{
-		case loading:
+		case LOADING:
 		{
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Loading;
 		}break;
 
-		case title:
+		case TITLE:
 		{
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Title;
 
 			bgm_Current->Stop();
@@ -480,9 +483,9 @@ void SampleCore::SceneChange()
 			bgm_Current->Play();
 		}break;
 
-		case multiSelect:
+		case MULTISELECT:
 		{
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Select;
 
 			bgm_Current->Stop();
@@ -490,9 +493,9 @@ void SampleCore::SceneChange()
 			//bgm_Current->Play();
 		}break;
 
-		case map:
+		case MAP:
 		{
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Map;
 
 			bgm_Current->Stop();
@@ -500,9 +503,9 @@ void SampleCore::SceneChange()
 			bgm_Current->Play();
 		}break;
 
-		case battle:
+		case BATTLE:
 		{
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Battle;
 
 			bgm_Current->Stop();
@@ -511,33 +514,33 @@ void SampleCore::SceneChange()
 			bgm_Current->SetVolume(0.3);
 		}break;
 
-		case deckView:
+		case DECKVIEW:
 		{
 			CardView->BeforeScene = CurrentScene->ID;
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = CardView;
 			CardView->Update(deck);
 		}break;
 
-		case remainView:
+		case REMAINVIEW:
 		{
 			CardView->BeforeScene = CurrentScene->ID;
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = CardView;
 			CardView->Update(remain);
 		}break;
 
-		case discardView:
+		case DISCARDVIEW:
 		{
 			CardView->BeforeScene = CurrentScene->ID;
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = CardView;
 			CardView->Update(discard);
 		}break;
 
-		case clear: 
+		case CLEAR: 
 		{			
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Clear;
 
 			bgm_Current->Stop();
@@ -546,9 +549,9 @@ void SampleCore::SceneChange()
 		}break;
 
 
-		case gameover: 
+		case GAMEOVER: 
 		{			
-			CurrentScene->SS = maintain;
+			CurrentScene->SS = MAINTAIN;
 			CurrentScene = GameOver;
 
 			bgm_Current->Stop();

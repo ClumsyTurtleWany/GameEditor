@@ -29,7 +29,7 @@ bool SelectScene::Frame()
 	if (SinglePlayButton->m_bClicked)
 	{
 		SinglePlayButton->m_bClicked = false;
-		SS = map;
+		SS = MAP;
 	}
 
 	else if (MultiPlayButton->m_bClicked)
@@ -47,6 +47,8 @@ bool SelectScene::Frame()
 	{
 		RoomMakeButton->m_bClicked = false;
 		// 방 만들기 버튼 눌렀을 경우 요기가 실행
+		gpHost = new Host(L"127.0.0.1", 7777);
+		gpHost->Init();
 	}
 
 	else if (RoomFindButton->m_bClicked)
