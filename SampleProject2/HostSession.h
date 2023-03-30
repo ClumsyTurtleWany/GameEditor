@@ -9,6 +9,7 @@ public:
 	{
 #ifdef _DEBUG
 		cout << "~GameSession()" << endl;
+		OutputDebugString(L"~GameSession()");
 #endif // _DEBUG
 	}
 	virtual void OnConnected() override;

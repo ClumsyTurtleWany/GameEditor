@@ -55,6 +55,9 @@ bool SelectScene::Frame()
 	{
 		RoomFindButton->m_bClicked = false;
 		// 방 찾기 버튼 눌렀을 경우 요기가 실행
+
+		gpClient = new Client(L"127.0.0.1", 7777);
+		gpClient->Init();
 	}
 
 	BaseScene::Frame();

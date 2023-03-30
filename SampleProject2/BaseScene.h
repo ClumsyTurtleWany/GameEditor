@@ -14,6 +14,7 @@
 
 //server
 #include "Host.h"
+#include "Client.h"
 
 enum SceneState
 {

@@ -5,7 +5,7 @@
 #include "Service.h"
 #include "ThreadManager.h"
 
-Host* gpHost;
+Host* gpHost = nullptr;
 
 Host::Host(std::wstring ip, int16 port, int16 sessionCount)
 	:ip(ip), port(port), sessionCount(sessionCount)
@@ -31,7 +31,7 @@ bool Host::Init()
 			{
 				while (1)
 				{
-					service->GetIocpCore()->Dispatch();
+					!service->GetIocpCore()->Dispatch();
 				}
 			}
 		);
