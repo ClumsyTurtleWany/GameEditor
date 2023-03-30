@@ -22,21 +22,21 @@ void Enemy_1::patern(Player* player, int turn)
     case 0: 
     {
         attack(player, 5);
-        PAnime->SetClipByName(L"Stomach_Hit");
+        PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Kick");
     }break;
 
     case 1:
     {
         attack(player, 10);
-        PAnime->SetClipByName(L"Stomach_Hit");
+        PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Kick");
     }break;
 
     case 2:
     {
         attack(player, 20);
-        PAnime->SetClipByName(L"Stomach_Hit");
+        PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Kick");
     }break;
 
@@ -94,22 +94,22 @@ void Enemy_2::patern(Player* player, int turn)
     case 0:
     {
         attack(player, 4);
-        PAnime->SetClipByName(L"Stomach_Hit");
-        EAnime->SetClipByName(L"Kick");
+        PAnime->SetClipByName(L"Hit");
+        EAnime->SetClipByName(L"Attack");
     }break;
 
     case 1:
     {
         attack(player, 6);
-        PAnime->SetClipByName(L"Stomach_Hit");
-        EAnime->SetClipByName(L"Kick");
+        PAnime->SetClipByName(L"Hit");
+        EAnime->SetClipByName(L"Attack");
     }break;
 
     case 2:
     {
         attack(player, 12);
-        PAnime->SetClipByName(L"Stomach_Hit");
-        EAnime->SetClipByName(L"Kick");
+        PAnime->SetClipByName(L"Hit");
+        EAnime->SetClipByName(L"Attack");
     }break;
 
     }

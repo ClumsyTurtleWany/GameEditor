@@ -613,9 +613,9 @@ void BattleScene::Init_Chara()
 	E1MC->Speed = 25.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
-	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
-	enemyCharMovementComp->Speed = 25.0f;
-	EnemyCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
+	//auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
+	//enemyCharMovementComp->Speed = 25.0f;
+	//EnemyCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
 	enemyCharMeshComp->Name = "Enemy";
@@ -713,18 +713,20 @@ void BattleScene::BattleProcess()
 	if (TurnStart) { TurnStartProcess(); }
 	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
 
-	// 적 턴 행동 애니메이션이 끝난 다음 내 턴이 오도록
-	if (!TurnState) 
-	{
-		TurnState = true;
-		for (auto enemy : EnemyList) // 모든 적이 행동중이 아니라면
-		{
-			auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
-			if (EAnime->IsInAction()) { TurnState = false; }	// 적 하나라도 행동중이라면 false 반환
-		}
+	//// 적 턴 행동 애니메이션이 끝난 다음 내 턴이 오도록
+	//if (!TurnState) 
+	//{
+	//	TurnState = true;
+	//	for (auto enemy : EnemyList) // 모든 적이 행동중이 아니라면
+	//	{
+	//		auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
+	//		if (EAnime->IsInAction()) { TurnState = false; }	// 적 하나라도 행동중이라면 false 반환
+	//	}
 
-		if (TurnState) { TurnStart = true; }
-	}
+	//	if (TurnState) { TurnStart = true; }
+	//}
+
+	EnemyAttackAnimProcess();
 
 	CardCheck();
 	DeadCheck();
@@ -760,15 +762,37 @@ void BattleScene::TurnEndProcess()
 void BattleScene::EnemyTurnProcess()
 {
 	TurnState = false;
-	
-	for (auto enemy : EnemyList) { enemy->patern(player, TurnNum); }
+
+	InActionEnemy = EnemyList[0];
+	EnemyList[0]->patern(player, TurnNum);
 
 	UpdatePlayerState();
 	UpdateEnemyState();
-
-	// 일단 야매로..
 	PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 	SoundMap.find(L"Hit2")->second->Play();
+}
+
+void BattleScene::EnemyAttackAnimProcess()
+{	
+	// 적 턴이고, 현재 행동중이었던 적의 행동이 끝나면 잡힘
+	if (!TurnState && !InActionEnemy->chara->GetComponent<AnimationComponent>()->IsInAction())
+	{
+		if (InActionEnemy == EnemyList[EnemyList.size() - 1]) // 지금 행동중인 적이 마지막 적이라면  
+		{
+			TurnState = true;
+			TurnStart = true;
+			InActionEnemyNum = 0;
+			return; 
+		}
+
+		InActionEnemyNum++;
+		InActionEnemy = EnemyList[InActionEnemyNum];
+		InActionEnemy->patern(player, TurnNum);
+		UpdatePlayerState();
+		UpdateEnemyState();
+		PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+		SoundMap.find(L"Hit2")->second->Play();
+	}
 }
 
 void BattleScene::CardCheck()
@@ -804,7 +828,7 @@ void BattleScene::CardCheck()
 					TargetEnemy->hp -= 6;
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Punch");
+					PAnime->SetClipByName(L"Shooting");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();
@@ -828,7 +852,7 @@ void BattleScene::CardCheck()
 					Dick->Draw(1);
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Punch");
+					PAnime->SetClipByName(L"Shooting");
 					EAnime->SetClipByName(L"Hit");
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();
@@ -863,7 +887,7 @@ void BattleScene::CardCheck()
 					player->armor += 5;
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Punch");
+					PAnime->SetClipByName(L"Shooting");
 					EAnime->SetClipByName(L"Hit");
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();

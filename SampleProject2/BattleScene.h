@@ -27,6 +27,7 @@ public:
 	void TurnStartProcess();
 	void TurnEndProcess();
 	void EnemyTurnProcess();
+	void EnemyAttackAnimProcess();
 	void CardCheck();
 	bool ManaCheck(int cost);
 	void UpdateHand(int handSize);
@@ -44,6 +45,8 @@ public:
 	Character* EnemyCharacter = nullptr;
 	Character* PickedCharacter = nullptr;
 	BaseEnemy* TargetEnemy = nullptr;
+	BaseEnemy* InActionEnemy = nullptr;
+	int		   InActionEnemyNum = 0;
 
 public:
 	Camera* CurrentCamera;
