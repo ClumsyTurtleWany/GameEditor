@@ -31,7 +31,7 @@ bool Host::Init()
 			{
 				while (1)
 				{
-					!service->GetIocpCore()->Dispatch();
+					service->GetIocpCore()->Dispatch();
 				}
 			}
 		);

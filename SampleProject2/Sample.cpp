@@ -169,6 +169,12 @@ bool SampleCore::Initialize()
 	Battle->NumberTextureList_Red = NumberTextureList_Red;
 	Battle->NumberTextureList_Black = NumberTextureList_Black;
 	Battle->Init();
+	MultiBattle = new MultiBattleScene;
+	MultiBattle->Dick = Dick;
+	MultiBattle->CardTextureList = CardTextureList;
+	MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
+	MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
+	MultiBattle->Init();
 	CardView = new CardViewScene;
 	CardView->Dick = Dick;
 	CardView->CardTextureList = CardTextureList;
@@ -511,6 +517,19 @@ void SampleCore::SceneChange()
 		{
 			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Battle;
+
+			bgm_Current->Stop();
+			bgm_Current = bgm_Battle;
+			bgm_Current->Play();
+			bgm_Current->SetVolume(0.3);
+		}break;
+
+		case MULTIBATTLE:
+		{
+			CurrentScene->SS = MAINTAIN;
+			CurrentScene = MultiBattle;
+			MultiBattle->CurrentPlayer = MultiBattle->player1;
+			MultiBattle->playerNum = 1;
 
 			bgm_Current->Stop();
 			bgm_Current = bgm_Battle;

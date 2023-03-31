@@ -143,6 +143,9 @@
     <ClInclude Include="ClientPacketHandler.h">
       <Filter>Network\Client\Packet</Filter>
     </ClInclude>
+    <ClInclude Include="MultiBattleScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkyDomeComponent.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="ClientPacketHandler.cpp">
       <Filter>Network\Client\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiBattleScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

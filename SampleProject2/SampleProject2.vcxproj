@@ -182,6 +182,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat
     <ClInclude Include="HostSessionManager.h" />
     <ClInclude Include="LoadingScene.h" />
     <ClInclude Include="MapScene.h" />
+    <ClInclude Include="MultiBattleScene.h" />
     <ClInclude Include="NetworkPch.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="protocol.pb.h" />
@@ -215,6 +216,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat
     <ClCompile Include="HostSessionManager.cpp" />
     <ClCompile Include="LoadingScene.cpp" />
     <ClCompile Include="MapScene.cpp" />
+    <ClCompile Include="MultiBattleScene.cpp" />
     <ClCompile Include="ServerPacketHandler.cpp" />
     <ClCompile Include="NetworkPch.cpp" />
     <ClCompile Include="Player.cpp" />

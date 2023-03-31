@@ -8,6 +8,7 @@
 #include "SelectScene.h"
 #include "MapScene.h"
 #include "BattleScene.h"
+#include "MultiBattleScene.h"
 #include "CardViewScene.h"
 #include "ClearScene.h"
 #include "GameOverScene.h"
@@ -38,14 +39,15 @@ public:
 public:
 	BaseScene* CurrentScene;
 
-	LoadingScene*	Loading;
-	TitleScene*		Title;
-	SelectScene*	Select;
-	MapScene*		Map;
-	BattleScene*	Battle;
-	CardViewScene*	CardView;
-	ClearScene*		Clear;
-	GameOverScene*	GameOver;
+	LoadingScene*		Loading;
+	TitleScene*			Title;
+	SelectScene*		Select;
+	MapScene*			Map;
+	BattleScene*		Battle;
+	MultiBattleScene*	MultiBattle;
+	CardViewScene*		CardView;
+	ClearScene*			Clear;
+	GameOverScene*		GameOver;
 
 public:
 	FMODSound* bgm_Current;
