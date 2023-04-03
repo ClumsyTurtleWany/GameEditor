@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ServerPch.h"
+#include "NetworkPch.h"
 #include "protocol.pb.h"
 
 // return type : bool / argument : PacketSession&, BYTE*, int32 인 함수 포인터

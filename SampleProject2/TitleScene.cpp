@@ -25,7 +25,7 @@ bool TitleScene::Frame()
 	if (StartButton->m_bClicked) 
 	{ 
 		StartButton->m_bClicked = false;
-		SS = multiSelect;
+		SS = MULTISELECT;
 	}
 	BaseScene::Frame();
 	return true;

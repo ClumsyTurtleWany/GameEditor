@@ -95,21 +95,21 @@ void Enemy_2::patern(Player* player, int turn)
     {
         attack(player, 4);
         PAnime->SetClipByName(L"Hit");
-        EAnime->SetClipByName(L"Kick");
+        EAnime->SetClipByName(L"Attack");
     }break;
 
     case 1:
     {
         attack(player, 6);
         PAnime->SetClipByName(L"Hit");
-        EAnime->SetClipByName(L"Kick");
+        EAnime->SetClipByName(L"Attack");
     }break;
 
     case 2:
     {
         attack(player, 12);
         PAnime->SetClipByName(L"Hit");
-        EAnime->SetClipByName(L"Kick");
+        EAnime->SetClipByName(L"Attack");
     }break;
 
     }

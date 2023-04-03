@@ -29,14 +29,26 @@
     <Filter Include="Network\Client">
       <UniqueIdentifier>{5c906170-d53f-4ca3-891e-270aecaf95bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Network\Server">
-      <UniqueIdentifier>{a21d6128-0a50-40d1-b46a-771615a0b3ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network\Utils">
       <UniqueIdentifier>{d08ec1ed-7a41-4858-a104-6a7260ebfd60}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network\Protocol">
       <UniqueIdentifier>{91df5b85-a165-456f-8794-98795ac1d111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Client\Packet">
+      <UniqueIdentifier>{3a33299f-8540-40f8-be2a-78b9fa656e00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Client\Session">
+      <UniqueIdentifier>{3cc8fa8c-9f8c-4a6e-8e40-befd084e4743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Server">
+      <UniqueIdentifier>{a21d6128-0a50-40d1-b46a-771615a0b3ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Server\Session">
+      <UniqueIdentifier>{1f033f8c-03d1-4251-909f-613b385ea07a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Server\Packet">
+      <UniqueIdentifier>{f12fc370-606e-40d7-b8a8-4ac32c1bda89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -104,16 +116,34 @@
     <ClInclude Include="struct.pb.h">
       <Filter>Network\Protocol</Filter>
     </ClInclude>
-    <ClInclude Include="ServerPch.h">
+    <ClInclude Include="NetworkPch.h">
       <Filter>Network\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="ClientPacketHandler.h">
-      <Filter>Network\Client</Filter>
+    <ClInclude Include="SelectScene.h">
+      <Filter>Scene</Filter>
     </ClInclude>
-    <ClInclude Include="ServerPacketHandler.h">
+    <ClInclude Include="Host.h">
       <Filter>Network\Server</Filter>
     </ClInclude>
-    <ClInclude Include="SelectScene.h">
+    <ClInclude Include="Client.h">
+      <Filter>Network\Client</Filter>
+    </ClInclude>
+    <ClInclude Include="HostSession.h">
+      <Filter>Network\Server\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="HostSessionManager.h">
+      <Filter>Network\Server\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerPacketHandler.h">
+      <Filter>Network\Server\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientSession.h">
+      <Filter>Network\Client\Session</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientPacketHandler.h">
+      <Filter>Network\Client\Packet</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiBattleScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
   </ItemGroup>
@@ -185,14 +215,32 @@
     <ClCompile Include="struct.pb.cc">
       <Filter>Network\Protocol</Filter>
     </ClCompile>
-    <ClCompile Include="ServerPch.cpp">
+    <ClCompile Include="NetworkPch.cpp">
       <Filter>Network\Utils</Filter>
     </ClCompile>
-    <ClCompile Include="ServerPacketHandler.cpp">
+    <ClCompile Include="Host.cpp">
       <Filter>Network\Server</Filter>
     </ClCompile>
-    <ClCompile Include="ClientPacketHandler.cpp">
+    <ClCompile Include="Client.cpp">
       <Filter>Network\Client</Filter>
+    </ClCompile>
+    <ClCompile Include="HostSession.cpp">
+      <Filter>Network\Server\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="HostSessionManager.cpp">
+      <Filter>Network\Server\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerPacketHandler.cpp">
+      <Filter>Network\Server\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientSession.cpp">
+      <Filter>Network\Client\Session</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientPacketHandler.cpp">
+      <Filter>Network\Client\Packet</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiBattleScene.cpp">
+      <Filter>Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

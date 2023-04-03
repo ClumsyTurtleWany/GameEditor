@@ -122,7 +122,8 @@ SendBufferRef SendBufferManager::Open(uint32 size)
 		LSendBufferChunk = Pop();
 		LSendBufferChunk->Reset();
 	}
-
+	wstring freeSize = std::to_wstring(LSendBufferChunk->FreeSize());
+	OutputDebugString(freeSize.c_str());
 	cout << "FREE : " << LSendBufferChunk->FreeSize() << endl;
 
 	return LSendBufferChunk->Open(size);

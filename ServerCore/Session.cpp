@@ -382,6 +382,10 @@ void Session::HandleError(int32 errorCode)
 		// TODO : Log
 		//콘솔로 출력하는것도 컨텍스트 스위칭 비용이 들기때문에 
 		//로그만 찍는 스레드 하나 만든다음에 거기서 실행을 시키긴 함.
+
+		std::wstring errCode = L"Handle Error : " + to_wstring(errorCode);
+		OutputDebugString(errCode.c_str());
+
 		cout << "Handle Error : " << errorCode << endl;
 		break;
 	}

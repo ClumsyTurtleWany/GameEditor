@@ -8,6 +8,7 @@
 
 #include<Windows.h>
 #include <iostream>
+#include<string>
 
 //network
 #include<WinSock2.h>

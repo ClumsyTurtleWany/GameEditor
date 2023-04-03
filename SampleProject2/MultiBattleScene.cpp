@@ -1,4 +1,4 @@
-#include "BattleScene.h"
+#include "MultiBattleScene.h"
 #include "LightSystem.h"
 #include "DirectionalLight.h"
 #include "SkyBoxComponent.h"
@@ -9,7 +9,6 @@
 #include "SkyRenderSystem.h"
 #include "SkyDomeComponent.h"
 //추가
-#include "SocketComponent.h"
 #include "AnimationComponent.h"
 #include "UpdateAnimSystem.h"
 #include "MovementSystem.h"
@@ -26,15 +25,20 @@
 ///////////////////
 #include "EffectInclude/EffectSystem.h"
 
-bool BattleScene::Init()
+bool MultiBattleScene::Init()
 {
-	ID = BATTLE;
+	ID = MULTIBATTLE;
 
-	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
-	player = new Player;
-	player->cost = player->maxCost;
-	player->maxHp = 50;
-	player->hp = 50;
+	// 이쪽은 map들어갈때쯤 거기서 초기화해주는게 낫겠는데.. 아님 샘플에서?
+	player1 = new Player;
+	player1->cost = player1->maxCost;
+	player1->maxHp = 50;
+	player1->hp = 50;
+	player2 = new Player;
+	player2->cost = player2->maxCost;
+	player2->maxHp = 50;
+	player2->hp = 50;
+
 	enemy1 = new Enemy_1;
 	enemy1->pWorld = &TheWorld;
 	enemy1->Init(); 
@@ -91,7 +95,7 @@ bool BattleScene::Init()
 	return true;
 }
 
-bool BattleScene::Frame()
+bool MultiBattleScene::Frame()
 {
 	BaseScene::Frame();
 
@@ -161,12 +165,13 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
+	// 선택된 적만 상태창 출력, 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
 	PickedCharacter = (Character*)MAIN_PICKER.lastSelect.pTarget;
 	for (auto enemy : EnemyList) 
 	{
 		if (PickedCharacter == enemy->chara)
 		{
-			for (auto obj : enemy->ObjList) // 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
+			for (auto obj : enemy->ObjList) 
 			{
 				obj->m_bIsDead = false;
 			}
@@ -187,7 +192,7 @@ bool BattleScene::Frame()
 	return true;
 }
 
-bool BattleScene::Render()
+bool MultiBattleScene::Render()
 {
 	BaseScene::Render();
 
@@ -201,13 +206,13 @@ bool BattleScene::Render()
 	return true;
 }
 
-bool BattleScene::Release()
+bool MultiBattleScene::Release()
 {
 	BaseScene::Release();
     return true;
 }
 
-void BattleScene::Init_UI()
+void MultiBattleScene::Init_UI()
 {
 	UI_Loader Loader;
 
@@ -269,7 +274,7 @@ void BattleScene::Init_UI()
 	TheWorld.AddEntity(UI);
 }
 
-void BattleScene::Init_Map()
+void MultiBattleScene::Init_Map()
 {	
 	//// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
@@ -363,10 +368,62 @@ void BattleScene::Init_Map()
 	
 }
 
-void BattleScene::Init_Chara()
+void MultiBattleScene::Init_Chara()
 {
+	//PlayerCharacter = new Character;
+	//player->chara = PlayerCharacter;
+	//auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
+	//
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
+	//{
+	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
+	//}
+
+	//// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
+	//// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
+	//auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);				// 달리기
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);				// 아이들
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Punch.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);				// 공격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX", playerCharAnimComp);		// 피격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Dying.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Dying.FBX", playerCharAnimComp);				// 사망
+	//}
+	//
+	//playerCharAnimComp->SetClipByName(L"Punch");
+	//playerCharAnimComp->CurrentClip->LoopState = false;
+	//playerCharAnimComp->SetClipByName(L"Stomach_Hit");
+	//playerCharAnimComp->CurrentClip->LoopState = false;
+	//playerCharAnimComp->SetClipByName(L"Idle");
+
+	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
+
+	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
+	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
+
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
+	//{
+	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
+	//}
+
+	////////////////////////////////test////////////////////////
+	
+
 	PlayerCharacter = new Character;
-	player->chara = PlayerCharacter;
+	player1->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
 
 
@@ -401,15 +458,15 @@ void BattleScene::Init_Chara()
 
 	playerCharAnimComp->SetClipByName(L"Idle");
 
-	auto socketComp = PlayerCharacter->AddComponent<SocketComponent>();
-	socketComp->Attach(*playerCharMeshComp, "RightHand");
-	socketComp->SetOffset(Vector3(2.0f, 2.0f, 0.0f), Vector3(-75.0f, -90.0f, -0.0f), Vector3(1.0f, 1.0f, 1.0f)); // T R S
-	auto weaponMeshComp = PlayerCharacter->AddComponent<StaticMeshComponent>();
+	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
 
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX", weaponMeshComp);
-	}
+	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
+	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
+
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
+	//}
 
 
 
@@ -443,6 +500,55 @@ void BattleScene::Init_Chara()
 	
 	TheWorld.AddEntity(PlayerCharacter);
 	
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////2P 캐릭터 추가//////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	Character* Chara_2P = new Character;
+	player2->chara = Chara_2P;
+
+	auto Char2PMeshComp = Chara_2P->AddComponent<SkeletalMeshComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx", Char2PMeshComp);
+	}
+
+	auto Char2PAnimComp = Chara_2P->AddComponent<AnimationComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX", Char2PAnimComp);					// 달리기
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX", Char2PAnimComp);				// 아이들
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX", Char2PAnimComp, false);				// 공격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX", Char2PAnimComp, false);			// 피격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX", Char2PAnimComp, false);				// 사망
+	}
+
+	auto Char2PTransformComp = Chara_2P->GetComponent<TransformComponent>();
+	Char2PTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
+	Char2PTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	Char2PTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
+
+	auto Char2PMovementComp = Chara_2P->GetComponent<MovementComponent>();
+	Char2PMovementComp->Speed = 25.0f;
+	Chara_2P->MoveTo(Vector3(-20.0f, 0.0f, 40.0f));
+
+	/////////////// Bounding Box Add ////////////
+	auto BBComp = Chara_2P->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
+
+	TheWorld.AddEntity(Chara_2P);
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	///////////////////////////////캐릭터 추가//////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -585,7 +691,7 @@ void BattleScene::Init_Chara()
 
 }
 
-void BattleScene::Init_Effect()
+void MultiBattleScene::Init_Effect()
 {	
 	//Effect Test
 	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
@@ -631,7 +737,7 @@ void BattleScene::Init_Effect()
 	//PlayEffect(&TheWorld, L"Hit5", { Vector3(), Vector3(), Vector3(100.0f, 100.0f, 100.0f) });
 }
 
-void BattleScene::Init_Sound()
+void MultiBattleScene::Init_Sound()
 {
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Attack_Bludgeon.ogg", SoundType::BGM))
 	{
@@ -653,67 +759,68 @@ void BattleScene::Init_Sound()
 	}
 }
 
-void BattleScene::CameraMove(Vector3& eye, Vector3& target)
+void MultiBattleScene::CameraMove(Vector3& eye, Vector3& target)
 {
 }
 
-void BattleScene::BattleProcess()
+void MultiBattleScene::BattleProcess()
 {
 	if (TurnStart) { TurnStartProcess(); }
+	if (WhoseTurn == playerNum && MyTurnStart) { MyTurnProcess(); }
 	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
 
-	//// 적 턴 행동 애니메이션이 끝난 다음 내 턴이 오도록
-	//if (!TurnState) 
-	//{
-	//	TurnState = true;
-	//	for (auto enemy : EnemyList) // 모든 적이 행동중이 아니라면
-	//	{
-	//		auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
-	//		if (EAnime->IsInAction()) { TurnState = false; }	// 적 하나라도 행동중이라면 false 반환
-	//	}
-
-	//	if (TurnState) { TurnStart = true; }
-	//}
+	if(WhoseTurn == playerNum && TurnState)CardCheck();
+	DeadCheck(); 
 
 	EnemyAttackAnimProcess();
-
-	CardCheck();
-	DeadCheck();
 }
 
-void BattleScene::TurnStartProcess()
+void MultiBattleScene::TurnStartProcess()
 {
 	TurnNum++;
-	player->armor = 0;
-	player->cost = player->maxCost;
-	UpdatePlayerState();
+	player1->armor = 0;
+	player1->cost = player1->maxCost;
+	player2->armor = 0;
+	player2->cost = player2->maxCost;
 
 	for (auto enemy : EnemyList) { enemy->SetIntentObj(TurnNum, enemy->IntentIcon, enemy->Intent1, enemy->Intent2); }
-	
+
+	TurnState = true;
+	TurnStart = false;
+	MyTurnStart = true;
+	WhoseTurn = 1;
+}
+
+void MultiBattleScene::MyTurnProcess()
+{
+	UpdatePlayerState();
+
 	int drawNum = 3;
 	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
 
 	Dick->Draw(drawNum);
-	UpdateHand(drawNum);
+	UpdateHand(drawNum); 
 
-	TurnStart = false;
+	MyTurnStart = false;
 }
 
-void BattleScene::TurnEndProcess()
+void MultiBattleScene::TurnEndProcess()
 {
-	TurnNum++;
 	Dick->TurnEnd();
-	EnemyTurnProcess();
+
+	//일단 임시로 1p가 2p플레이까지 같이하는 버전으로
+	if (playerNum == 1) { playerNum++;  WhoseTurn = 2; CurrentPlayer = player2; MyTurnStart = true; }     // 자신이 1p라면 2p에게 턴을 넘겨줌
+	else { playerNum = 1;  CurrentPlayer = player1; TurnNum++; EnemyTurnProcess(); }				// 자신이 2p라면 적에게 턴을 넘겨줌
 
 	TurnEndButton->m_bClicked = false;
 }
 
-void BattleScene::EnemyTurnProcess()
+void MultiBattleScene::EnemyTurnProcess()
 {
 	TurnState = false;
 
 	InActionEnemy = EnemyList[0];
-	EnemyList[0]->patern(player, TurnNum);
+	EnemyList[0]->patern(player1, TurnNum); // 일단 플레이어 1 고정, 근데 뭐 가까운 적 or 피가 더 많/적은놈 타겟 일케바꿀수도..
 
 	UpdatePlayerState();
 	UpdateEnemyState();
@@ -721,7 +828,7 @@ void BattleScene::EnemyTurnProcess()
 	SoundMap.find(L"Hit2")->second->Play();
 }
 
-void BattleScene::EnemyAttackAnimProcess()
+void MultiBattleScene::EnemyAttackAnimProcess()
 {	
 	// 적 턴이고, 현재 행동중이었던 적의 행동이 끝나면 잡힘
 	if (!TurnState && !InActionEnemy->chara->GetComponent<AnimationComponent>()->IsInAction())
@@ -736,7 +843,7 @@ void BattleScene::EnemyAttackAnimProcess()
 
 		InActionEnemyNum++;
 		InActionEnemy = EnemyList[InActionEnemyNum];
-		InActionEnemy->patern(player, TurnNum);
+		InActionEnemy->patern(player1, TurnNum);
 		UpdatePlayerState();
 		UpdateEnemyState();
 		PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
@@ -744,7 +851,7 @@ void BattleScene::EnemyAttackAnimProcess()
 	}
 }
 
-void BattleScene::CardCheck()
+void MultiBattleScene::CardCheck()
 {
 	//auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
 	//auto EAnime = EnemyCharacter->GetComponent<AnimationComponent>();
@@ -761,7 +868,7 @@ void BattleScene::CardCheck()
 			CardList[cardNum]->m_bClicked = false;
 			CardList[cardNum]->m_OriginPos = CardList[cardNum]->m_OriginalOriginPos;
 
-			auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
+			auto PAnime = CurrentPlayer->chara->GetComponent<AnimationComponent>();
 			auto EAnime = TargetEnemy->chara->GetComponent<AnimationComponent>();
 
 			switch (Dick->HandList[cardNum])
@@ -771,7 +878,7 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1))
 				{
-					// 데미지 이펙트 초안.. 막 움직이기도 하고 나타나면서 커졌다가 작아졌다가도 해야하는데 아 몰랑 나중에 함수로? 하지 뭐
+					// 데미지 UI 초안.. 막 움직이기도 하고 나타나면서 커졌다가 작아졌다가도 해야하는데 아 몰랑 나중에 함수로? 하지 뭐
 					//Damage2->m_bIsDead = false;
 					//Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
 					TargetEnemy->hp -= 6;
@@ -788,7 +895,7 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1)) 
 				{
-					player->armor += 5;
+					CurrentPlayer->armor += 5;
 					CanUse = true;
 				}
 			}break;
@@ -812,7 +919,7 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1)) 
 				{
-					player->armor += 8;
+					CurrentPlayer->armor += 8;
 					Dick->Draw(1);
 					CanUse = true;
 				}
@@ -833,7 +940,7 @@ void BattleScene::CardCheck()
 				if (ManaCheck(1)) 
 				{
 					TargetEnemy->hp -= 5;
-					player->armor += 5;
+					CurrentPlayer->armor += 5;
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Shooting");
@@ -860,13 +967,13 @@ void BattleScene::CardCheck()
 	}
 }
 
-bool BattleScene::ManaCheck(int cost)
+bool MultiBattleScene::ManaCheck(int cost)
 {
-	if (player->cost - cost < 0) return false;
-	else { player->cost -= cost; return true; }
+	if (CurrentPlayer->cost - cost < 0) return false;
+	else { CurrentPlayer->cost -= cost; return true; }
 }
 
-void BattleScene::UpdateHand(int handSize)
+void MultiBattleScene::UpdateHand(int handSize)
 {
 	for (int card = 0; card < handSize; card++)
 	{
@@ -883,24 +990,24 @@ void BattleScene::UpdateHand(int handSize)
 	}
 }
 
-void BattleScene::UpdatePlayerState()
+void MultiBattleScene::UpdatePlayerState()
 {
-	CurrentMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->cost];
-	MaxMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxCost];
+	CurrentMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->cost];
+	MaxMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->maxCost];
 
-	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp / 10];
-	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp % 10];
-	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp / 10];
-	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp % 10];
+	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->hp / 10];
+	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->hp % 10];
+	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->maxHp / 10];
+	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->maxHp % 10];
 
-	if (player->hp <= 0)
+	if (CurrentPlayer->hp <= 0)
 	{
 		auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
 		if (PAnime->CurrentClipName != L"Dying") { PAnime->SetClipByName(L"Dying"); }  // 쓰러지는 애니메이션 두 번 재생하지 않도록
 	}
 
 
-	if (player->armor <= 0) 
+	if (CurrentPlayer->armor <= 0)
 	{
 		PlayerArmorIcon->m_bIsDead = true;
 		PlayerArmor1->m_bIsDead = true;
@@ -910,14 +1017,14 @@ void BattleScene::UpdatePlayerState()
 	{
 		PlayerArmorIcon->m_bIsDead = false;
 		PlayerArmor2->m_bIsDead = false;
-		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor % 10];
-		if ((player->armor/10) >= 1) 
+		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->armor % 10];
+		if ((player1->armor/10) >= 1) 
 		{
 			PlayerArmor1->m_OriginPos = { -0.692, -0.795 };
 			PlayerArmor2->m_OriginPos = { -0.667, -0.795 };
 
 			PlayerArmor1->m_bIsDead = false;
-			PlayerArmor1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor / 10];
+			PlayerArmor1->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->armor / 10];
 		}
 		else
 		{
@@ -927,14 +1034,14 @@ void BattleScene::UpdatePlayerState()
 	}
 }
 
-void BattleScene::UpdateEnemyState()
+void MultiBattleScene::UpdateEnemyState()
 {
 	for (auto enemy : EnemyList) { enemy->UpdateState(); }
 }
 
-void BattleScene::DeadCheck()
+void MultiBattleScene::DeadCheck()
 {
-	if (player->hp <= 0 && !PlayerCharacter->GetComponent<AnimationComponent>()->IsInAction())
+	if (CurrentPlayer->hp <= 0 && !PlayerCharacter->GetComponent<AnimationComponent>()->IsInAction())
 	{
 		SS = GAMEOVER;
 	}

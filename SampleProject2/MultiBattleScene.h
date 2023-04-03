@@ -4,7 +4,7 @@
 #include "Enemy_1.h"
 #include "Character.h"
 
-class BattleScene : public BaseScene
+class MultiBattleScene : public BaseScene
 {
 public:
 	virtual bool Init() override;
@@ -25,6 +25,7 @@ public:
 public:
 	void BattleProcess();
 	void TurnStartProcess();
+	void MyTurnProcess();
 	void TurnEndProcess();
 	void EnemyTurnProcess();
 	void EnemyAttackAnimProcess();
@@ -36,7 +37,10 @@ public:
 	void DeadCheck();
 
 public:
-	Player* player;
+	int		playerNum; //1p면 1, 2p면 2
+	Player* player1;
+	Player* player2;
+	Player* CurrentPlayer;
 	std::vector<BaseEnemy*> EnemyList;
 	Enemy_1* enemy1;
 	Enemy_2* enemy2;
@@ -76,19 +80,6 @@ public:
 	WidgetObject* CurrentMana;
 	WidgetObject* MaxMana;
 
-	//std::vector<WidgetObject*> EnemyStateObjectList;
-	//WidgetObject* EnemyCurrentHP1;
-	//WidgetObject* EnemyCurrentHP2;
-	//WidgetObject* EnemyMaxHP1;
-	//WidgetObject* EnemyMaxHP2;
-	//// 적 방어도도 해야하는데.. 귀찮으니까 좀 나중에
-	////WidgetObject* EnemyArmorIcon;
-	////WidgetObject* EnemyArmor1;
-	////WidgetObject* EnemyArmor2;
-	//WidgetObject* EnemyIntentIcon;
-	//WidgetObject* EnemyIntent1;
-	//WidgetObject* EnemyIntent2;
-
 	WidgetObject* Damage1;
 	WidgetObject* Damage2;
 
@@ -103,5 +94,7 @@ public:
 	bool TurnState = true; // true면 내턴, false면 적턴
 	bool TurnStart = true;
 	int	 TurnNum = 1;
+	bool MyTurnStart = true;
+	int  WhoseTurn = 1;	// 1이면 1p턴, 2면 2p턴
 };
 

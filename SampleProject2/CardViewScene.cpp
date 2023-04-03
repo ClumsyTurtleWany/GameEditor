@@ -2,7 +2,7 @@
 
 bool CardViewScene::Init()
 {
-	ID = deckView; // 사실..그.. 세개담당이긴한데.. 아몰랑
+	ID = DECKVIEW; // 사실..그.. 세개담당이긴한데.. 아몰랑
 
 	UI_Loader Loader;
 
