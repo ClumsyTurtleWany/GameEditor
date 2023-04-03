@@ -288,12 +288,12 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 		{
 			FbxSurfaceMaterial* surface = node->GetMaterial(idx);
 			std::wstring materialName;
+			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
 			if (idx >= 1)
 			{
 				std::wstring subMaterial = std::to_wstring(idx);
 				materialName += subMaterial;
 			}
-			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
 			Material* material = MaterialManager::GetInstance()->CreateMaterial(materialName);
 			bool isValid = false;
 			material->Type = MaterialType::Light;
@@ -1526,12 +1526,12 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 				else
 				{
 					std::wstring materialName;
+					materialName.assign(node.Name.begin(), node.Name.end());
 					if (idx >= 1)
 					{
 						std::wstring subMaterial = std::to_wstring(idx);
 						materialName += subMaterial;
-					}
-					materialName.assign(node.Name.begin(), node.Name.end());
+					}					
 					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
 				}
 

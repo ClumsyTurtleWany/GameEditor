@@ -303,3 +303,9 @@ bool StaticMeshComponent::SplitString(std::string line, char delimiter, std::vec
 
 	return isValid;
 }
+
+void StaticMeshComponent::UpdateTransformData(const TransformMatrix& transform)
+{
+	TransformData = transform;
+	return;
+}

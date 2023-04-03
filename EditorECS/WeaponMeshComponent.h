@@ -9,6 +9,7 @@ class WeaponMeshComponent
 {
 public:
 	int SocketIndex = 0;
+	Matrix InitOffset;				///< 전치된 상태로 설정되어있음
 
 	std::wstring Name;
 
@@ -32,6 +33,7 @@ public:
 	virtual bool Render();
 
 public:
+	void SetOffset(Vector3 T, Vector3 R, Vector3 S, Vector3 Origin);
 	bool Attach(const SkeletalMeshComponent& mesh, std::string bone);
 	virtual void UpdatePos(TransformMatrix pos);
 };

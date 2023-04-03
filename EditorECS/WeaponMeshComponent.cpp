@@ -65,6 +65,16 @@ bool WeaponMeshComponent::Render()
 	return true;
 }
 
+void WeaponMeshComponent::SetOffset(Vector3 T, Vector3 R, Vector3 S, Vector3 Origin)
+{
+	Vector3 rotation = R / 180.0f * PI;
+	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(rotation);
+	InitOffset = DirectX::XMMatrixAffineTransformation(S, Origin, q, T);
+	//InitOffset = DirectX::XMMatrixAffineTransformation(S, Vector3(0.0f, 0.0f, 0.0f), q, T);
+	InitOffset = InitOffset.Transpose();
+}
+
+
 void WeaponMeshComponent::UpdatePos(TransformMatrix pos)
 {
 	PositionData = pos;

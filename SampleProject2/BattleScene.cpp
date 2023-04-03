@@ -9,6 +9,7 @@
 #include "SkyRenderSystem.h"
 #include "SkyDomeComponent.h"
 //추가
+#include "SocketComponent.h"
 #include "AnimationComponent.h"
 #include "UpdateAnimSystem.h"
 #include "MovementSystem.h"
@@ -364,58 +365,6 @@ void BattleScene::Init_Map()
 
 void BattleScene::Init_Chara()
 {
-	//PlayerCharacter = new Character;
-	//player->chara = PlayerCharacter;
-	//auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
-	//
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
-	//{
-	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
-	//}
-
-	//// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
-	//// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
-	//auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);				// 달리기
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);				// 아이들
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Punch.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);				// 공격
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX", playerCharAnimComp);		// 피격
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Dying.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Dying.FBX", playerCharAnimComp);				// 사망
-	//}
-	//
-	//playerCharAnimComp->SetClipByName(L"Punch");
-	//playerCharAnimComp->CurrentClip->LoopState = false;
-	//playerCharAnimComp->SetClipByName(L"Stomach_Hit");
-	//playerCharAnimComp->CurrentClip->LoopState = false;
-	//playerCharAnimComp->SetClipByName(L"Idle");
-
-	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
-
-	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
-	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
-
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
-	//{
-	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
-	//}
-
-	////////////////////////////////test////////////////////////
-	
-
 	PlayerCharacter = new Character;
 	player->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
@@ -452,15 +401,15 @@ void BattleScene::Init_Chara()
 
 	playerCharAnimComp->SetClipByName(L"Idle");
 
-	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
+	auto socketComp = PlayerCharacter->AddComponent<SocketComponent>();
+	socketComp->Attach(*playerCharMeshComp, "RightHand");
+	socketComp->SetOffset(Vector3(2.0f, 2.0f, 0.0f), Vector3(-75.0f, -90.0f, -0.0f), Vector3(1.0f, 1.0f, 1.0f)); // T R S
+	auto weaponMeshComp = PlayerCharacter->AddComponent<StaticMeshComponent>();
 
-	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
-	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
-
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
-	//}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX", weaponMeshComp);
+	}
 
 
 
@@ -615,7 +564,7 @@ void BattleScene::Init_Chara()
 
 	auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
 	enemyCharMovementComp->Speed = 25.0f;
-	EnemyCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
+	EnemyCharacter->MoveTo(Vector3(-10.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
 	enemyCharMeshComp->Name = "Enemy";
@@ -803,8 +752,8 @@ void BattleScene::CardCheck()
 					//Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
 					TargetEnemy->hp -= 6;
 					CanUse = true;
-
-					PAnime->SetClipByName(L"Punch");
+					//PAnime->SetClipByName(L"Punch");
+					PAnime->SetClipByName(L"Shooting");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();
@@ -828,7 +777,7 @@ void BattleScene::CardCheck()
 					Dick->Draw(1);
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Punch");
+					PAnime->SetClipByName(L"Shooting");
 					EAnime->SetClipByName(L"Hit");
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();
@@ -863,7 +812,7 @@ void BattleScene::CardCheck()
 					player->armor += 5;
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Punch");
+					PAnime->SetClipByName(L"Shooting");
 					EAnime->SetClipByName(L"Hit");
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();

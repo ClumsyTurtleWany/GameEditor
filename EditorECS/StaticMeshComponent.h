@@ -31,6 +31,7 @@ public:
 	virtual bool Load(std::wstring filename) override;
 
 public:
+	void UpdateTransformData(const TransformMatrix& transform);
 	virtual void UpdateTransformMatrix(const TransformComponent& transform);
 	bool SplitString(std::string line, char delimiter, std::vector<std::string>& dst);
 };
