@@ -25,6 +25,7 @@ class MousePicker
 {
 public:
 	Input*			pMainInput;
+	Timer*			pMainTimer;
 
 	bool			bClicked;			
 	DWORD			dwPickingButton;	//기본 : 왼쪽 마우스 버튼

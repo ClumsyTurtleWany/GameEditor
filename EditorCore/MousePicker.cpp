@@ -11,6 +11,7 @@ MousePicker::MousePicker()
 	dwPickingButton = VK_LBUTTON;
 
 	pMainInput = Input::GetInstance();
+	pMainTimer = Timer::GetInstance();
 
 	bOneTimeInputBlock = false;
 	bPendingClicked = false;
@@ -23,6 +24,17 @@ MousePicker::~MousePicker()
 
 void MousePicker::Update()
 {
+	fLandTraceTimer += pMainTimer->SecondPerFrame;
+
+	if (lastSelect.pTarget != curSelect.pTarget)
+	{
+		memcpy(&lastSelect, &curSelect, sizeof(SelectState));
+	}
+	else if (optPickingMode == PMOD_LAND && (curSelect.vIntersection != lastSelect.vIntersection))
+	{
+		memcpy(&lastSelect, &curSelect, sizeof(SelectState));
+	}
+
 	fIntersectionDistance = MAX_PICK_DIST;
 
 	ptCursor = pMainInput->m_ptPos;

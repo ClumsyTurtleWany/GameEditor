@@ -8,7 +8,6 @@
 void ColliderSystem::Tick(ECS::World* world, float time)
 {
 	MousePicker* pPicker = &MAIN_PICKER;
-	pPicker->fLandTraceTimer += time;
 
 	for (auto& entity : world->GetEntities<BoundingBoxComponent, TransformComponent>())
 	{
@@ -52,6 +51,9 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 
 		if (pPicker->optPickingMode == PICKING_MODE::PMOD_CHARACTER && pPicker->bClicked)
 		{
+			pPicker->curSelect.pTarget = nullptr;
+			pPicker->curSelect.fDistance = MAX_PICK_DIST;
+
 			if (skeletonMesh && pPicker->RayToOBB(OBB->OBB))
 			{
 				if (pPicker->fIntersectionDistance < pPicker->curSelect.fDistance)
@@ -64,14 +66,17 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	if (pPicker->optPickingMode == PICKING_MODE::PMOD_LAND && pPicker->bPendingClicked)
+	if (pPicker->optPickingMode == PICKING_MODE::PMOD_LAND)
 	{
 		if (pPicker->fLandTraceTimer > PICKING_OP_TIME_LIMIT)
 		{
-			pPicker->bPendingClicked = false;
 			pPicker->fLandTraceTimer = 0.0f;
-			pPicker->curSelect.pTarget = nullptr;
-			pPicker->curSelect.fDistance = MAX_PICK_DIST;
+
+			if (pPicker->bPendingClicked)
+			{
+				pPicker->curSelect.pTarget = nullptr;
+				pPicker->curSelect.fDistance = MAX_PICK_DIST;
+			}
 
 			for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
 			{
@@ -95,10 +100,13 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 
 								if (pPicker->CheckPick(v0, v1, v2))
 								{
-									pPicker->curSelect.pTarget = entity;
-									pPicker->curSelect.vIntersection = pPicker->vIntersection;
-									pPicker->curSelect.fDistance = pPicker->fIntersectionDistance;
-
+									if (pPicker->bPendingClicked)
+									{
+										pPicker->bPendingClicked = false;
+										pPicker->curSelect.pTarget = entity;
+										pPicker->curSelect.vIntersection = pPicker->vIntersection;
+										pPicker->curSelect.fDistance = pPicker->fIntersectionDistance;
+									}
 #ifdef _DEBUG
 									//좌표 출력 코드
 									std::wstring Coord = L"MapPoint X : ";
@@ -111,7 +119,6 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 
 									OutputDebugString(Coord.c_str());
 #endif //_DEBUG
-
 									return;
 								}
 							}
@@ -119,11 +126,8 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 					}
 				}
 			}
-		}
-	}
 
-	if (pPicker->lastSelect.pTarget != pPicker->curSelect.pTarget)
-	{
-		memcpy(&(pPicker->lastSelect), &(pPicker->curSelect), sizeof(SelectState));
+			if (pPicker->bPendingClicked) { pPicker->bPendingClicked = false; }
+		}
 	}
 }
