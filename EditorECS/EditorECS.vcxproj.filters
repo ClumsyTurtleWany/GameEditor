@@ -281,6 +281,15 @@
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Entity\Actor</Filter>
     </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">

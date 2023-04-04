@@ -9,13 +9,3 @@ public:
 	PointLight();
 	virtual ~PointLight();
 };
-
-PointLight::PointLight()
-{
-	this->AddComponent<PointLightComponent>();
-}
-
-PointLight::~PointLight()
-{
-
-}

@@ -22,32 +22,38 @@ bool LandscapeComponents::Initialize()
 
 void LandscapeComponents::Build(int column, int row, int sectionSize, int cellDistance)
 {
-	Components.clear();
-	Transform->Translation.x = -static_cast<float>(column) * static_cast<float>(sectionSize + 1) * static_cast<float>(cellDistance) / 2.0f;
-	Transform->Translation.z = -static_cast<float>(row) * static_cast<float>(sectionSize + 1) * static_cast<float>(cellDistance) / 2.0f;
-	for (int compRow = 0; compRow < row; compRow++)
-	{
-		for (int compCol = 0; compCol < column; compCol++)
-		{
-			LandscapeComponent component;
-			component.Row = compRow;
-			component.Column = compCol;
-			size_t vertexCnt = (sectionSize + 1) * (sectionSize + 1);
-			component.Vertices.resize(vertexCnt);
-			float cx = static_cast<float>(compCol) * static_cast<float>(sectionSize) + static_cast<float>(sectionSize) / 2.0f;
-			float cz = static_cast<float>(compRow) * static_cast<float>(sectionSize) + static_cast<float>(sectionSize) / 2.0f;
+	Row = row;
+	Column = column;
+	SectionSize = sectionSize;
+	CellDistance = cellDistance;
 
-			for (int sectRow = 0; sectRow < sectionSize + 1; sectRow++)
+	Components.clear();
+	Components.resize(Row * Column);
+	Transform->Translation.x = -static_cast<float>(Column) * static_cast<float>(SectionSize + 1) * static_cast<float>(CellDistance) / 2.0f;
+	Transform->Translation.z = -static_cast<float>(Row) * static_cast<float>(SectionSize + 1) * static_cast<float>(CellDistance) / 2.0f;
+	for (int compRow = 0; compRow < Row; compRow++)
+	{
+		for (int compCol = 0; compCol < Column; compCol++)
+		{
+			int compIndex = compRow * Column + compCol;
+			Components[compIndex].Row = compRow;
+			Components[compIndex].Column = compCol;
+			size_t vertexCnt = (SectionSize + 1) * (SectionSize + 1);
+			Components[compIndex].Vertices.resize(vertexCnt);
+			float cx = static_cast<float>(compCol) * static_cast<float>(SectionSize) + static_cast<float>(SectionSize) / 2.0f;
+			float cz = static_cast<float>(compRow) * static_cast<float>(SectionSize) + static_cast<float>(SectionSize) / 2.0f;
+
+			for (int sectRow = 0; sectRow < SectionSize + 1; sectRow++)
 			{
-				for (int sectCol = 0; sectCol < sectionSize + 1; sectCol++)
+				for (int sectCol = 0; sectCol < SectionSize + 1; sectCol++)
 				{
-					size_t idx = sectRow * (sectionSize + 1) + sectCol;
+					size_t idx = sectRow * (SectionSize + 1) + sectCol;
 					// compRow == 0, compCol == 0, x(0 ~ sectionSize + 1), z(0 ~ sectionSize + 1) 
 					// compRow == 0, compCol == 1, x(sectionSize ~ sectionSize * compCol + sectionSize + 1), z(0 ~ sectionSize + 1)
 					// compRow == 1, compCol == 0, x(0 ~ sectionSize + 1), z(sectionSize ~ sectionSize * compRow + sectionSize + 1) 
 					// compRow == 1, compCol == 1, x(sectionSize ~ sectionSize * compCol + sectionSize + 1), z(0 ~ sectionSize + 1)
-					float x = (sectionSize * compCol + sectCol) * cellDistance;
-					float z = (sectionSize * compRow + sectRow) * cellDistance;
+					float x = (SectionSize * compCol + sectCol) * CellDistance;
+					float z = (SectionSize * compRow + sectRow) * CellDistance;
 					Vector3 pos = Vector3(x, 0.0f, z);
 					Vector4 color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 					Vector3 normal = Vector3(0.0f, 1.0f, 0.0f);
@@ -55,15 +61,15 @@ void LandscapeComponents::Build(int column, int row, int sectionSize, int cellDi
 					float u = static_cast<float>(sectCol) / static_cast<float>(sectionSize);
 					float v = static_cast<float>(sectRow) / static_cast<float>(sectionSize);
 					Vector2 texture = Vector2(u, v);
-					component.Vertices[idx] = Vertex(pos, normal, color, texture);
+					Components[compIndex].Vertices[idx] = Vertex(pos, normal, color, texture);
 					//component.Vertices.push_back(Vertex(pos, normal, color, texture));
 					if (sectRow == 0 && sectCol == 0)
 					{
-						component.MinVertex = pos;
+						Components[compIndex].MinVertex = pos;
 					}
 					else if (sectRow == sectionSize && sectCol == sectionSize)
 					{
-						component.MaxVertex = pos;
+						Components[compIndex].MaxVertex = pos;
 					}
 				}
 			}
@@ -71,7 +77,7 @@ void LandscapeComponents::Build(int column, int row, int sectionSize, int cellDi
 			size_t cellCnt = sectionSize * sectionSize;
 			size_t faceCnt = sectionSize * sectionSize * 2;
 			size_t IndexCount = faceCnt * 3;
-			component.Indices.resize(IndexCount);
+			Components[compIndex].Indices.resize(IndexCount);
 			size_t idx = 0;
 			for (int sectRow = 0; sectRow < sectionSize; sectRow++)
 			{
@@ -98,37 +104,45 @@ void LandscapeComponents::Build(int column, int row, int sectionSize, int cellDi
 					// sectRow == 0, sectCol == 1 // 1 5 2 2 5 6
 					// sectRow == 0, sectCol == 2 // 2 6 3 3 6 7
 
-					component.Indices[idx + 0] = sectRow * (sectionSize + 1) + sectCol;
-					component.Indices[idx + 1] = (sectRow + 1) * (sectionSize + 1) + sectCol;
-					component.Indices[idx + 2] = sectRow * (sectionSize + 1) + sectCol + 1;
+					Components[compIndex].Indices[idx + 0] = sectRow * (sectionSize + 1) + sectCol;
+					Components[compIndex].Indices[idx + 1] = (sectRow + 1) * (sectionSize + 1) + sectCol;
+					Components[compIndex].Indices[idx + 2] = sectRow * (sectionSize + 1) + sectCol + 1;
 
-					component.Indices[idx + 3] = sectRow * (sectionSize + 1) + sectCol + 1;
-					component.Indices[idx + 4] = (sectRow + 1) * (sectionSize + 1) + sectCol;
-					component.Indices[idx + 5] = (sectRow + 1) * (sectionSize + 1) + sectCol + 1;
+					Components[compIndex].Indices[idx + 3] = sectRow * (sectionSize + 1) + sectCol + 1;
+					Components[compIndex].Indices[idx + 4] = (sectRow + 1) * (sectionSize + 1) + sectCol;
+					Components[compIndex].Indices[idx + 5] = (sectRow + 1) * (sectionSize + 1) + sectCol + 1;
 
-					component.Faces.push_back(
-						Face(component.Vertices[component.Indices[idx + 0]],
-							component.Vertices[component.Indices[idx + 1]],
-							component.Vertices[component.Indices[idx + 2]]));
+					/*Components[compIndex].Faces.push_back(
+						Face(Components[compIndex].Vertices[Components[compIndex].Indices[idx + 0]],
+							Components[compIndex].Vertices[Components[compIndex].Indices[idx + 1]],
+							Components[compIndex].Vertices[Components[compIndex].Indices[idx + 2]]));
 
-					component.Faces.push_back(
-						Face(component.Vertices[component.Indices[idx + 3]],
-							component.Vertices[component.Indices[idx + 4]],
-							component.Vertices[component.Indices[idx + 5]]));
+					Components[compIndex].Faces.push_back(
+						Face(Components[compIndex].Vertices[Components[compIndex].Indices[idx + 3]],
+							Components[compIndex].Vertices[Components[compIndex].Indices[idx + 4]],
+							Components[compIndex].Vertices[Components[compIndex].Indices[idx + 5]]));*/
+
+					Components[compIndex].Faces.push_back(
+						Face(Components[compIndex].Indices[idx + 0],
+							Components[compIndex].Indices[idx + 1],
+							Components[compIndex].Indices[idx + 2]));
+
+					Components[compIndex].Faces.push_back(
+						Face(Components[compIndex].Indices[idx + 3],
+							Components[compIndex].Indices[idx + 4],
+							Components[compIndex].Indices[idx + 5]));
 
 					idx += 6;
 				}
 			}
-			Vector3 center = (component.MinVertex + component.MaxVertex) / 2.0f;
-			Vector3 extend = (component.MaxVertex - component.MinVertex) / 2.0f;
+			Vector3 center = (Components[compIndex].MinVertex + Components[compIndex].MaxVertex) / 2.0f;
+			Vector3 extend = (Components[compIndex].MaxVertex - Components[compIndex].MinVertex) / 2.0f;
 			extend.y += 0.01f;
-			component.Box = DirectX::BoundingBox(center, extend);
-			component.BaseTexture = BaseTexture;
-			component.Initialize();
-			Components.push_back(component);
+			Components[compIndex].Box = DirectX::BoundingBox(center, extend);
+			Components[compIndex].BaseTexture = BaseTexture;
+			Components[compIndex].Initialize();
 		}
 	}
-
 }
 
 void LandscapeComponents::Render()
@@ -204,6 +218,32 @@ void LandscapeComponents::SetBaseTexture(DXTexture* texture)
 void LandscapeComponents::AddLayerTexture(DXTexture* texture)
 {
 	LayerTextureList.push_back(texture);
+}
+
+void LandscapeComponents::Splatting(Vector3 pos, float radius, int idx, float strength)
+{
+	for (auto& component : Components)
+	{
+		DirectX::BoundingSphere sphere = DirectX::BoundingSphere(pos, radius);
+		if (sphere.Intersects(component.Box))
+		{
+			for (auto& face : component.Faces)
+			{
+				if (pos.Distance(pos, component.Vertices[face.V0].Pos) < radius)
+				{
+					component.Splatting(pos, radius, idx, strength);
+				}
+				else if (pos.Distance(pos, component.Vertices[face.V1].Pos) < radius)
+				{
+					component.Splatting(pos, radius, idx, strength);
+				}
+				else if (pos.Distance(pos, component.Vertices[face.V2].Pos) < radius)
+				{
+					component.Splatting(pos, radius, idx, strength);
+				}
+			}
+		}
+	}
 }
 
 void LandscapeComponents::UpdateTransformMatrix(const TransformComponent& transform)

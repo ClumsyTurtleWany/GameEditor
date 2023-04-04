@@ -260,9 +260,9 @@ bool StaticMeshComponent::Load(std::wstring filename)
 							Meshes[meshIdx].Indices[indexIdx + 1] = std::stoi(wordList[2]);
 							Meshes[meshIdx].Indices[indexIdx + 2] = std::stoi(wordList[3]);
 
-							Meshes[meshIdx].Faces[indexIdx].V0 = Meshes[meshIdx].Vertices[Meshes[meshIdx].Indices[indexIdx + 0]];
-							Meshes[meshIdx].Faces[indexIdx].V1 = Meshes[meshIdx].Vertices[Meshes[meshIdx].Indices[indexIdx + 1]];
-							Meshes[meshIdx].Faces[indexIdx].V2 = Meshes[meshIdx].Vertices[Meshes[meshIdx].Indices[indexIdx + 2]];
+							Meshes[meshIdx].Faces[indexIdx].V0 = Meshes[meshIdx].Indices[indexIdx + 0];
+							Meshes[meshIdx].Faces[indexIdx].V1 = Meshes[meshIdx].Indices[indexIdx + 1];
+							Meshes[meshIdx].Faces[indexIdx].V2 = Meshes[meshIdx].Indices[indexIdx + 2];
 						}
 					}
 

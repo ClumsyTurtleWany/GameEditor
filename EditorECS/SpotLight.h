@@ -9,13 +9,3 @@ public:
 	SpotLight();
 	virtual ~SpotLight();
 };
-
-SpotLight::SpotLight()
-{
-	this->AddComponent<SpotLightComponent>();
-}
-
-SpotLight::~SpotLight()
-{
-
-}

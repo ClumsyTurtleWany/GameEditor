@@ -94,9 +94,9 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 						{
 							for (auto& face : it.Faces)
 							{
-								Vector3 v0 = face.V0.Pos + transform->Translation;
-								Vector3 v1 = face.V1.Pos + transform->Translation;
-								Vector3 v2 = face.V2.Pos + transform->Translation;
+								Vector3 v0 = it.Vertices[face.V0].Pos + transform->Translation;
+								Vector3 v1 = it.Vertices[face.V1].Pos + transform->Translation;
+								Vector3 v2 = it.Vertices[face.V2].Pos + transform->Translation;
 
 								if (pPicker->CheckPick(v0, v1, v2))
 								{

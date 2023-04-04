@@ -2,6 +2,7 @@
 #include "LandscapeComponent.h"
 #include "TransformComponent.h"
 #include "Camera.h"
+#include "DXRenderTarget.hpp"
 
 class LandscapeComponents
 {
@@ -27,6 +28,8 @@ public:
 
 	int Row;
 	int Column;
+	int SectionSize;
+	int CellDistance;
 
 	Vector3 Center;
 
@@ -41,11 +44,12 @@ public:
 	bool Initialize();
 
 public:
-	void Build(int row, int column, int sectionSize, int cellDistance = 100);
+	void Build(int row = 8, int column = 8, int sectionSize = 8, int cellDistance = 100);
 	void Render();
 	void SetCamera(Camera* camera);
 	void UpdateTransformMatrix(const TransformComponent& transform);
 	void SetSculptingData(Vector3 pos, float radius, float attenuation, float strength, float weight);
 	void SetBaseTexture(DXTexture* texture);
 	void AddLayerTexture(DXTexture* texture);
+	void Splatting(Vector3 pos, float radius, int idx, float strength);
 };

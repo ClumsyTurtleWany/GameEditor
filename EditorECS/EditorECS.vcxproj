@@ -81,14 +81,17 @@
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LandscapeComponent.cpp" />
     <ClCompile Include="LandscapeComponents.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
+    <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SelectAnimSystem.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />
     <ClCompile Include="SocketComponent.cpp" />
+    <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
     <ClCompile Include="UpdateAnimSystem.cpp" />
   </ItemGroup>

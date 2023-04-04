@@ -1,21 +1,20 @@
 #include "LandscapeComponent.h"
 
-bool LandscapeComponent::Initialize()
+bool LandscapeComponent::Initialize(bool editable)
 {
 	if (isCreated)
 	{
 		return true;
 	}
 
-	ComputeShader = DXShaderManager::GetInstance()->GetComputeShader(L"Splatting");
 	VertexBuffer = DXShaderManager::GetInstance()->CreateVertexBuffer(Vertices);
 	IndexBuffer = DXShaderManager::GetInstance()->CreateIndexBuffer(Indices);
-	StructuredBuffer = DXShaderManager::GetInstance()->CreateStructuredBuffer<SplattingData>(SplattingInfo);
-	StructuredBufferSRV = DXTextureManager::GetInstance()->CreateShaderResourceViewBuffer(StructuredBuffer);
-	AlphaTexture = DXTextureManager::GetInstance()->CreateAlphaTexture(1024, 1024);
-	CopyTexture = DXTextureManager::GetInstance()->CreateCopyTexture(AlphaTexture);
 
-	DXDevice::g_pImmediateContext->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
+	isEditable = editable;
+	if (isEditable)
+	{
+		CreateSplattingData();		
+	}
 
 	isCreated = true;
 
@@ -34,8 +33,11 @@ bool LandscapeComponent::Render()
 	DXDevice::g_pImmediateContext->IASetVertexBuffers(0, 1, &VertexBuffer, &Strides, &Offsets);
 	DXDevice::g_pImmediateContext->UpdateSubresource(VertexBuffer, 0, NULL, &Vertices.at(0), 0, 0);
 
-	ID3D11ShaderResourceView* pSRV = CopyTexture->GetResourceView();
-	DXDevice::g_pImmediateContext->PSSetShaderResources(5, 1, &pSRV);
+	if (AlphaTexture != nullptr)
+	{
+		ID3D11ShaderResourceView* pSRV = AlphaTexture->GetResourceView();
+		DXDevice::g_pImmediateContext->PSSetShaderResources(5, 1, &pSRV);
+	}
 
 	if (IndexBuffer == nullptr)
 	{
@@ -51,8 +53,25 @@ bool LandscapeComponent::Render()
 	return true;
 }
 
-void LandscapeComponent::Splatting(Vector3 pos, float radius, int idx, float strength)
+bool LandscapeComponent::CreateSplattingData()
 {
+	ComputeShader = DXShaderManager::GetInstance()->GetComputeShader(L"Splatting");
+	StructuredBuffer = DXShaderManager::GetInstance()->CreateStructuredBuffer<SplattingData>(SplattingInfo);
+	StructuredBufferSRV = DXTextureManager::GetInstance()->CreateShaderResourceViewBuffer(StructuredBuffer);
+	SplattingTexture = DXTextureManager::GetInstance()->CreateAlphaTexture(1024, 1024);
+	AlphaTexture = DXTextureManager::GetInstance()->CreateCopyTexture(SplattingTexture);
+	DXDevice::g_pImmediateContext->CopyResource(AlphaTexture->GetTexture2D(), SplattingTexture->GetTexture2D());
+
+	return true;
+}
+
+bool LandscapeComponent::Splatting(Vector3 pos, float radius, int idx, float strength)
+{
+	if (!isEditable)
+	{
+		return false;
+	}
+
 	SplattingInfo.Position = pos;
 	SplattingInfo.Radius = radius;
 	SplattingInfo.Index = idx;
@@ -69,11 +88,11 @@ void LandscapeComponent::Splatting(Vector3 pos, float radius, int idx, float str
 	DXDevice::g_pImmediateContext->CSSetShader(ComputeShader, NULL, 0);
 	ID3D11ShaderResourceView* pTextureSRV = BaseTexture->GetResourceView();
 	DXDevice::g_pImmediateContext->CSSetShaderResources(0, 1, &pTextureSRV);
-	ID3D11ShaderResourceView* pCopySRV = CopyTexture->GetResourceView();
+	ID3D11ShaderResourceView* pCopySRV = AlphaTexture->GetResourceView();
 	DXDevice::g_pImmediateContext->CSSetShaderResources(1, 1, &pCopySRV);
 	DXDevice::g_pImmediateContext->CSSetShaderResources(2, 1, &StructuredBufferSRV);
 
-	ID3D11UnorderedAccessView* pUAV = AlphaTexture->GetUAV();
+	ID3D11UnorderedAccessView* pUAV = SplattingTexture->GetUAV();
 	DXDevice::g_pImmediateContext->CSSetUnorderedAccessViews(0, 1, &pUAV, NULL);
 
 	// Dispatch(x, y, z)
@@ -97,5 +116,7 @@ void LandscapeComponent::Splatting(Vector3 pos, float radius, int idx, float str
 	ID3D11ShaderResourceView* pNullSRV[2] = { nullptr, nullptr };
 	DXDevice::g_pImmediateContext->CSSetShaderResources(0, 2, pNullSRV);
 
-	DXDevice::g_pImmediateContext->CopyResource(CopyTexture->GetTexture2D(), AlphaTexture->GetTexture2D());
+	DXDevice::g_pImmediateContext->CopyResource(AlphaTexture->GetTexture2D(), SplattingTexture->GetTexture2D());
+
+	return true;
 }
