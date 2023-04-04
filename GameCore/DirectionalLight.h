@@ -10,12 +10,12 @@ public:
 	virtual ~DirectionalLight();
 };
 
-inline DirectionalLight::DirectionalLight()
-{
-	this->AddComponent<DirectionalLightComponent>();
-}
-
-inline DirectionalLight::~DirectionalLight()
-{
-
-}
+//inline DirectionalLight::DirectionalLight()
+//{
+//	this->AddComponent<DirectionalLightComponent>();
+//}
+//
+//inline DirectionalLight::~DirectionalLight()
+//{
+//
+//}

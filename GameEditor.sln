@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32602.291
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameCore", "GameCore\GameCore.vcxproj", "{331839E3-E6DA-4300-AD38-8FCE3401397D}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTK_Desktop_2019", "DirectXTK-main\DirectXTK_Desktop_2019.vcxproj", "{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libarary", "Libarary", "{3EAC5D98-638A-4539-BDFD-F0AB22F6959A}"
@@ -47,16 +45,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Debug|x64.ActiveCfg = Debug|x64
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Debug|x64.Build.0 = Debug|x64
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Debug|x86.ActiveCfg = Debug|Win32
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Debug|x86.Build.0 = Debug|Win32
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Release|Any CPU.ActiveCfg = Release|Win32
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Release|x64.ActiveCfg = Release|x64
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Release|x64.Build.0 = Release|x64
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Release|x86.ActiveCfg = Release|Win32
-		{331839E3-E6DA-4300-AD38-8FCE3401397D}.Release|x86.Build.0 = Release|Win32
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Debug|x64.ActiveCfg = Debug|x64
 		{E0B52AE7-E160-4D32-BF3F-910B785E5A8E}.Debug|x64.Build.0 = Debug|x64
