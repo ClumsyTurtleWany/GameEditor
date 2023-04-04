@@ -48,6 +48,7 @@ public:
 	ServiceType GetServiceType() { return _type; }
 	NetAddress GetNetAddress() { return _netAddress; }
 	IocpCoreRef& GetIocpCore() { return _iocpCore; }
+	Set<SessionRef>& GetSesseions() { return _sessions; }
 };
 
 /*-----------------
@@ -56,6 +57,8 @@ public:
 
 class ClientService :public Service
 {
+public:
+	Vector<SessionRef> sessionsForConnect;
 public:
 	ClientService(NetAddress address, IocpCoreRef core, SessionFactory factorty, int32 maxSessionCount = 1);
 	virtual ~ClientService() {}
@@ -69,6 +72,7 @@ public:
 
 class ServerService : public Service
 {
+public:
 	ListenerRef _listener = nullptr;
 public:
 	ServerService(NetAddress address, IocpCoreRef core, SessionFactory factorty, int32 maxSessionCount = 1);

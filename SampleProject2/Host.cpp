@@ -12,6 +12,10 @@ Host::Host(std::wstring ip, int16 port, int16 sessionCount)
 {
 }
 
+//Host::~Host()
+//{
+//}
+
 bool Host::Init()
 {
 	ServerPacketHandler::Init();
@@ -22,26 +26,28 @@ bool Host::Init()
 		MakeShared<HostSession>,
 		sessionCount);
 
-	ASSERT_CRASH(service->Start());
-
-	for (int32 i = 0; i < std::thread::hardware_concurrency() / 2 - 1; i++)
+	//for (int32 i = 0; i < std::thread::hardware_concurrency() / 2 - 1; i++)
+	for (int32 i = 0; i < 1 ; i++)	//TEST
 	{
 		GThreadManager->Launch(
 			[=]()
 			{
 				while (1)
 				{
-					service->GetIocpCore()->Dispatch();
+					if (service->GetIocpCore()->Dispatch() && connecting == false)
+						connecting = true;
 				}
 			}
 		);
 	}
+	ASSERT_CRASH(service->Start());
 
 	return true;
 }
 
 bool Host::Frame()
 {
+
 	return false;
 }
 
@@ -56,3 +62,42 @@ bool Host::Release()
 	return false;
 }
 
+bool Host::CancelAccept()
+{
+	WRITE_LOCK;
+	for (auto& acEvent : service->_listener->GetAcceptVector())
+	{
+		AcceptEvent* acceptEvent = acEvent;
+		BOOL result = CancelIoEx((HANDLE)acceptEvent->_session->GetSocket(), static_cast<LPOVERLAPPED>(acceptEvent));
+		if (!result)
+		{
+			int32 errorCode = GetLastError();
+			if (errorCode != ERROR_NOT_FOUND)
+			{
+				wstring errorString = L"CancelIoEx failed with error : ";
+				errorString += to_wstring(errorCode);
+				OutputDebugString(errorString.c_str());
+				return false;
+			}
+		}
+	}
+	for (auto& acEvent : service->_listener->GetAcceptVector())
+		xdelete(acEvent);
+	service->_listener->clearAceeptEvents();
+	return true;
+}
+
+bool Host::IsConnected()
+{
+	return connecting;
+}
+
+ServerServiceRef Host::GetService()
+{
+	return service;
+}
+
+int16 Host::GetSessionCount()
+{
+	return sessionCount;
+}

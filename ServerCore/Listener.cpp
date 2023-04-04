@@ -68,6 +68,30 @@ bool Listener::StartAccept(ServerServiceRef service)
 	return true;
 }
 
+//불편해서 만든 코드
+void Listener::addAcceptEvent()
+{
+	const int32 acceptCount = _service->GetMaxSessionCount();
+	for (int32 i = 0; i < acceptCount; i++)
+	{
+		AcceptEvent* acceptEvent = xnew<AcceptEvent>();
+
+		//acceptEvent->owner = shared_ptr<IocpObject>(this); 
+		//이렇게 하면 참조카운트가 1인 shared_ptr하나 생성하는거임 
+		//acceptex를 실행시킨놈이 listener자기 자신이니까 여기서 acceptevent의 owner는 listener자기자신
+
+		/*추가*/acceptEvent->_owner = shared_from_this();
+		_acceptEvents.push_back(acceptEvent);
+		RegisterAccept(acceptEvent);
+	}
+}
+
+bool Listener::clearAceeptEvents()
+{
+	_acceptEvents.clear();
+	return true;
+}
+
 void Listener::CloseSocket()
 {
 	SocketUtils::Close(_socket);
@@ -84,6 +108,11 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 	ASSERT_CRASH(iocpEvent->_type == EventType::Accept);
 	AcceptEvent* acceptEvent = static_cast<AcceptEvent*>(iocpEvent);
 	ProcessAccept(acceptEvent);
+}
+
+Vector<AcceptEvent*> Listener::GetAcceptVector()
+{
+	return _acceptEvents;
 }
 
 void Listener::RegisterAccept(AcceptEvent* acceptEvent)

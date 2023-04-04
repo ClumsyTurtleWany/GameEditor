@@ -28,6 +28,9 @@ public:
 	//bool Register(class IocpObject* iocpObject);
 	bool Register(IocpObjectRef iocpObject);
 	bool Dispatch(uint32 timeoutMs = INFINITE);
+public:
+	USE_LOCK;
+	int32 forReturnErrorCode;
 };
 
 //TEMP

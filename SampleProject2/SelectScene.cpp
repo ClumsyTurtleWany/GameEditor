@@ -1,5 +1,5 @@
 #include "SelectScene.h"
-
+#include "Service.h"
 bool SelectScene::Init()
 {
 	UI_Loader Loader;
@@ -47,17 +47,31 @@ bool SelectScene::Frame()
 	{
 		RoomMakeButton->m_bClicked = false;
 		// 방 만들기 버튼 눌렀을 경우 요기가 실행
-		//gpHost = new Host(L"127.0.0.1", 7777);
-		//gpHost->Init();
+
+		if (gpHost == nullptr)
+		{
+			gpHost = new Host(L"127.0.0.1", 7777);
+			gpHost->Init();
+		}
+		else
+		{
+			gpHost->GetService()->_listener->addAcceptEvent();
+		}
+		gpHost->CancelAccept();
 	}
 
 	else if (RoomFindButton->m_bClicked)
 	{
 		RoomFindButton->m_bClicked = false;
 		// 방 찾기 버튼 눌렀을 경우 요기가 실행
-		//gpClient = new Client(L"127.0.0.1", 7777);
-		//gpClient->Init();
-		SS = MULTIBATTLE;
+		if (gpClient == nullptr)
+		{
+			gpClient = new Client(L"192.168.0.93", 7777);
+			gpClient->Init();
+		}
+		else
+			gpClient->GetClientservice()->Start();
+		//gpClient->CancelAccept();
 	}
 
 	BaseScene::Frame();

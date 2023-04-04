@@ -21,9 +21,8 @@ bool Client::Init()
 		MakeShared<ClientSession>, // TODO : SessionManager µî
 		sessionCount);
 
-	ASSERT_CRASH(service->Start());
-
-	for (int32 i = 0; i < std::thread::hardware_concurrency() / 2 - 1; i++)
+	//for (int32 i = 0; i < std::thread::hardware_concurrency() / 2 - 1; i++)
+	for (int32 i = 0; i < 1; i++)
 	{
 		GThreadManager->Launch([=]()
 			{
@@ -33,6 +32,8 @@ bool Client::Init()
 				}
 			});
 	}
+
+	ASSERT_CRASH(service->Start());
 
 	return true;
 }
@@ -51,4 +52,29 @@ bool Client::Release()
 {
 	GThreadManager->Join();
 	return false;
+}
+
+bool Client::CancelAccept()
+{
+	WRITE_LOCK;
+	for (auto& session : service->sessionsForConnect)
+	{
+		ConnectEvent& connectEvent = session->GetConnectEvent();
+		BOOL result = CancelIoEx((HANDLE)session->GetSocket(), static_cast<LPOVERLAPPED>(&connectEvent));
+		if (!result)
+		{
+			int32 errorCode = GetLastError();
+			if (errorCode != ERROR_NOT_FOUND)
+			{
+				wstring errorString = L"CancelIoEx failed with error : ";
+				errorString += to_wstring(errorCode);
+				OutputDebugString(errorString.c_str());
+				return false;
+			}
+		}
+	}
+	for (auto& session : service->sessionsForConnect)
+		session->GetConnectEvent()._owner = nullptr; 
+	service->sessionsForConnect.clear();
+	return true;
 }

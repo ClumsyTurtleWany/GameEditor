@@ -56,7 +56,6 @@ bool Session::Connect()
 {
 	return RegisterConnect();
 }
-
 void Session::Disconnect(const WCHAR* cause)
 {
 	//exchange : _connected 안에 false를 넣고 넣기 전의 값을 리턴함
@@ -120,22 +119,53 @@ bool Session::RegisterConnect()
 	if (SocketUtils::BindAnyAddress(_socket, 0/*남는거*/) == false)
 		return false;
 
-	_connectEvent.Init();
-	_connectEvent._owner = shared_from_this();// ADD_REF
-	
-	DWORD numOfBytes = 0;
-	//연결할 서버의 주소
-	SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
-	if (false == SocketUtils::ConnectEx(
-		_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
-	{
-		int32 errorCode = ::WSAGetLastError();
-		if (errorCode != WSA_IO_PENDING)
+	//_connectEvent.Init();
+	//_connectEvent._owner = shared_from_this();// ADD_REF
+	//
+	//DWORD numOfBytes = 0;
+	////연결할 서버의 주소
+	//SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+	//
+	//if (false == SocketUtils::ConnectEx(
+	//	_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
+	//{
+	//	int32 temp = GetService()->GetIocpCore()->forReturnErrorCode;
+	//	int32 errorCode = ::WSAGetLastError();
+	//	if (errorCode != WSA_IO_PENDING)
+	//	{
+	//		_connectEvent._owner = nullptr;
+	//		return false;
+	//	}
+	//}
+
+	GThreadManager->Launch([&]()
 		{
-			_connectEvent._owner = nullptr;
-			return false;
-		}
-	}
+			WRITE_LOCK;
+			do
+			{
+				_connectEvent.Init();
+				_connectEvent._owner = shared_from_this();// ADD_REF
+
+				DWORD numOfBytes = 0;
+				//연결할 서버의 주소
+				SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+				if(false == SocketUtils::ConnectEx(_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
+				{
+					int32 temp = GetService()->GetIocpCore()->forReturnErrorCode;
+					int32 errorCode = ::WSAGetLastError();
+					//if (errorCode == WSAEINVAL)
+					//	continue;
+					if (errorCode != WSA_IO_PENDING)
+					{
+						_connectEvent._owner = nullptr;
+						return false;
+					}
+				}
+				this_thread::sleep_for(2s);
+			} while (GetService()->GetIocpCore()->forReturnErrorCode == ERROR_CONNECTION_REFUSED);
+		});
+
+
 	return true;
 }
 
@@ -147,7 +177,7 @@ bool Session::RegisterDisconnect()
 	if (false == SocketUtils::DisconnectEx(_socket, &_disconnectEvent, TF_REUSE_SOCKET, 0))
 	{
 		int32 errorCode = ::WSAGetLastError();
-		if(errorCode != WSA_IO_PENDING)
+		if (errorCode != WSA_IO_PENDING)
 		{
 			_disconnectEvent._owner = nullptr;
 			return false;
@@ -234,7 +264,7 @@ void Session::RegisterSend()
 
 	_sendEvent.Init();
 	_sendEvent._owner = shared_from_this();
-	
+
 	//보낼 데이터 sendEvent에 등록
 	{
 		WRITE_LOCK;				//외부에서 lock안걸어줬을때 대비
@@ -426,4 +456,4 @@ int32 PacketSession::OnRecv(BYTE* buffer, int32 len)
 		processLen += header.size;
 	}
 	return processLen;
-} 
+}

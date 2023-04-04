@@ -34,9 +34,8 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 	ULONG_PTR key = 0;
 	//IocpObject* iocpObject = nullptr;
 	IocpEvent* iocpEvent = nullptr;
-
 	//if (::GetQueuedCompletionStatus(
-	//	_iocpHandle, OUT & numOfBytes, OUT reinterpret_cast<PULONG_PTR>(&iocpObject), 
+	//	_iocpHandle, OUT & numOfBytes, OUT reinterp ret_cast<PULONG_PTR>(&iocpObject), 
 	//	OUT reinterpret_cast<LPOVERLAPPED*>(&iocpEvent), timeoutMs))
 	//{
 	//	//iocpObject(key), iocpEvent(overlapped) 성공적으로 복원
@@ -64,6 +63,7 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 		//iocpObject(key), iocpEvent(overlapped) 성공적으로 복원
 		IocpObjectRef iocpObject = iocpEvent->_owner;
 		iocpObject->Dispatch(iocpEvent, numOfBytes);
+		forReturnErrorCode = 0;
 	}
 	else
 	{
@@ -72,6 +72,17 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 		{
 		case WAIT_TIMEOUT:
 			return false;
+		case ERROR_OPERATION_ABORTED:
+			{
+				WRITE_LOCK;
+				forReturnErrorCode = errorCode;
+				//if(auto acEvent = static_cast<AcceptEvent*>(iocpEvent))
+			}break;
+		case ERROR_CONNECTION_REFUSED:
+			{
+				forReturnErrorCode = errorCode;
+				
+			}break;
 		default:
 			//TODO : 로그 찍기
 			IocpObjectRef iocpObject = iocpEvent->_owner;

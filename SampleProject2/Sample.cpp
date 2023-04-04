@@ -248,11 +248,11 @@ bool SampleCore::Render()
 bool SampleCore::Release()
 {
 	//server Release
-	//gpHost->Release();
-	//delete(gpHost);
-	//
-	//gpClient->Release();
-	//delete(gpClient);
+	gpHost->Release();
+	delete(gpHost);
+	
+	gpClient->Release();
+	delete(gpClient);
 
 	///////////////////////
 	//EFFECTUTIL CleanUp
