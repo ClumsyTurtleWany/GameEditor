@@ -3,7 +3,9 @@
 #include "BaseCore/Input.hpp"
 #include "ECS/World.hpp"
 
-#define MAX_PICK_DIST 10000.0f
+#define MAX_PICK_DIST				10000.0f
+#define PICKING_OP_TIME_LIMIT		0.0167f		//1 / 60 
+
 //피킹 모드
 enum PICKING_MODE
 {
@@ -44,6 +46,11 @@ public:
 	//피킹 모드 변수
 	PICKING_MODE	optPickingMode;
 
+	//피킹 작업 수행 딜레이를 위한 타이머와 입력 지연
+	float			fLandTraceTimer;
+	bool			bPendingClicked;
+	bool			bOneTimeInputBlock;
+
 public:
 	MousePicker();
 	~MousePicker();
@@ -62,6 +69,8 @@ public:
 
 	bool CheckPick(const Vector3& v0, const Vector3& v1, const Vector3& v2);
 	bool IntersectTriangle(const Vector3& origin, const Vector3& direction, const Vector3& v0, const Vector3& v1, const Vector3& v2, float* distance);
+
+	void SetPickingMode(PICKING_MODE pMode);
 
 	static MousePicker& GetInstance()
 	{

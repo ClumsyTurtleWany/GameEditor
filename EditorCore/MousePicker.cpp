@@ -11,6 +11,10 @@ MousePicker::MousePicker()
 	dwPickingButton = VK_LBUTTON;
 
 	pMainInput = Input::GetInstance();
+
+	bOneTimeInputBlock = false;
+	bPendingClicked = false;
+	fLandTraceTimer = 0.0f;
 }
 
 MousePicker::~MousePicker()
@@ -26,13 +30,23 @@ void MousePicker::Update()
 	ClientWidth = DXDevice::g_ViewPort.Width;
 	ClientHeight = DXDevice::g_ViewPort.Height;
 
-	if (pMainInput->getKey(dwPickingButton) == KeyState::Up)
+	if (bOneTimeInputBlock)
 	{
-		bClicked = true;
-		curSelect.pTarget = nullptr;
-		curSelect.fDistance = MAX_PICK_DIST;
+		bOneTimeInputBlock = false;
 	}
-	else { bClicked = false; }
+	else
+	{
+		if (pMainInput->getKey(dwPickingButton) == KeyState::Up)
+		{
+			bClicked = true;
+
+			if (optPickingMode == PMOD_LAND)
+			{
+				bPendingClicked = true;
+			}
+		}
+		else { bClicked = false; }
+	}
 
 	Vector3 v;
 	v.x = (((2.0f * ptCursor.x) / ClientWidth) - 1) / Projection._11;
@@ -263,4 +277,18 @@ bool MousePicker::IntersectTriangle(const Vector3& origin, const Vector3& direct
 	v *= invDet;
 
 	return true;
+}
+
+void MousePicker::SetPickingMode(PICKING_MODE PickMode)
+{
+	if (optPickingMode != PickMode)
+	{
+		if (0 <= PickMode && PickMode < NUMBER_OF_PICKING_MODE)
+		{
+			optPickingMode = PickMode;
+			bOneTimeInputBlock = true;
+			bClicked = false;
+			bPendingClicked = false;
+		}
+	}
 }
