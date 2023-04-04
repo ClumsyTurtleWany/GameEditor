@@ -14,7 +14,11 @@ public:
 	Matrix AnimMat;
 	// Offset
 	Matrix OffsetMat;
-	// FinalPos
+	// Basic Transform
+	Vector3 T;
+	DirectX::SimpleMath::Quaternion Q;
+	Vector3 S;
+	// Final TransformData
 	TransformMatrix TransformData;
 	// Bone Name
 	std::string BoneName;
@@ -44,11 +48,34 @@ public:
 
 	/**
 	 * @brief 소켓의 최종 월드 행렬을 얻는다
-	 * @param[in] T 이동
-	 * @param[in] R 회전
-	 * @param[in] S 스케일
-	 * @return true
+	 * @return TransformMatrix를 리턴한다
 	*/
-	TransformMatrix GetPosition();
+	TransformMatrix GetTransformMatrix();
+
+	/**
+	 * @brief 소켓의 위치를 얻는다
+	 * @return Translation을 리턴한다
+	*/
+	Vector3 GetTranslation() 
+	{
+		return T;
+	}
+	/**
+	 * @brief 소켓의 회전 정보를 얻는다
+	 * @return Rotation을 리턴한다
+	*/
+	Vector3 GetRotation()
+	{
+		Vector3 R = Q.ToEuler();
+		return R;
+	}
+	/**
+	 * @brief 소켓의 스케일 값을 얻는다
+	 * @return Scale을 리턴한다
+	*/
+	Vector3 GetScale()
+	{
+		return S;
+	}
 };
 

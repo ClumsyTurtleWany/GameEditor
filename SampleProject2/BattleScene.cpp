@@ -401,16 +401,26 @@ void BattleScene::Init_Chara()
 
 	playerCharAnimComp->SetClipByName(L"Idle");
 
+
+
+	// 소켓 컴포넌트 추가
 	auto socketComp = PlayerCharacter->AddComponent<SocketComponent>();
+	// 스켈레탈 메시 & 본 이름 넘겨서 소켓 부착
 	socketComp->Attach(*playerCharMeshComp, "RightHand");
-	socketComp->SetOffset(Vector3(2.0f, 2.0f, 0.0f), Vector3(-75.0f, -90.0f, -0.0f), Vector3(1.0f, 1.0f, 1.0f)); // T R S
-	auto weaponMeshComp = PlayerCharacter->AddComponent<StaticMeshComponent>();
+	// 오프셋 조정 T R S
+	socketComp->SetOffset(Vector3(2.0f, 2.0f, 0.0f), 
+						  Vector3(-75.0f, -90.0f, -0.0f), 
+						  Vector3(1.0f, 1.0f, 1.0f)); 
+
+	// 무기로 쓸 스태틱 메시 추가 - 
+	//엔티티가 소켓 컴포넌트를 갖고있으면 소켓 위치에 따라 스태틱 메시의 위치가 업데이트 되도록 렌더 시스템 설정
+	auto weaponMesh = PlayerCharacter->AddComponent<StaticMeshComponent>();
 
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX"))
 	{
-		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX", weaponMeshComp);
+		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(
+							L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX", weaponMesh);
 	}
-
 
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();

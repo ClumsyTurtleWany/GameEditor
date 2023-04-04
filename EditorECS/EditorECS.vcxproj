@@ -62,7 +62,6 @@
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="UpdateAnimSystem.h" />
-    <ClInclude Include="WeaponMeshComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\include\EffectInclude\DXStatePreset.cpp" />
@@ -78,6 +77,7 @@
     <ClCompile Include="CameraSystem.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="ColliderSystem.cpp" />
+    <ClCompile Include="DirectionalLight.cpp" />
     <ClCompile Include="Landscape.cpp" />
     <ClCompile Include="LandscapeComponent.cpp" />
     <ClCompile Include="LandscapeComponents.cpp" />
@@ -91,7 +91,6 @@
     <ClCompile Include="SocketComponent.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
     <ClCompile Include="UpdateAnimSystem.cpp" />
-    <ClCompile Include="WeaponMeshComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">

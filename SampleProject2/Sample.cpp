@@ -169,12 +169,12 @@ bool SampleCore::Initialize()
 	Battle->NumberTextureList_Red = NumberTextureList_Red;
 	Battle->NumberTextureList_Black = NumberTextureList_Black;
 	Battle->Init();
-	MultiBattle = new MultiBattleScene;
-	MultiBattle->Dick = Dick;
-	MultiBattle->CardTextureList = CardTextureList;
-	MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
-	MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
-	MultiBattle->Init();
+	//MultiBattle = new MultiBattleScene;
+	//MultiBattle->Dick = Dick;
+	//MultiBattle->CardTextureList = CardTextureList;
+	//MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
+	//MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
+	//MultiBattle->Init();
 	CardView = new CardViewScene;
 	CardView->Dick = Dick;
 	CardView->CardTextureList = CardTextureList;

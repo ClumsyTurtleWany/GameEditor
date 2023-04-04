@@ -57,7 +57,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 			if (entity->has<SocketComponent>())
 			{
 				auto socket = entity->GetComponent<SocketComponent>();
-				staticMesh->UpdateTransformData(socket->GetPosition());
+				staticMesh->UpdateTransformData(socket->GetTransformMatrix());
 				staticMesh->Render();
 			}
 			else
