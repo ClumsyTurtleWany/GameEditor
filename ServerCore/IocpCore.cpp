@@ -74,7 +74,6 @@ bool IocpCore::Dispatch(uint32 timeoutMs)
 			return false;
 		case ERROR_OPERATION_ABORTED:
 			{
-				WRITE_LOCK;
 				forReturnErrorCode = errorCode;
 				//if(auto acEvent = static_cast<AcceptEvent*>(iocpEvent))
 			}break;

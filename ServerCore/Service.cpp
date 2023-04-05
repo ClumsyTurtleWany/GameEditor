@@ -66,6 +66,17 @@ bool ClientService::Start()
 	return true;
 }
 
+bool ClientService::Reconnect()
+{
+	for (auto& session : sessionsForConnect)
+	{
+		if (!session->ReConnect())
+			return false;
+	}
+
+	return true;
+}
+
 /*-----------------
 	ServerService
 ------------------*/

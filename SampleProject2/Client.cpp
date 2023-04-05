@@ -15,7 +15,7 @@ bool Client::Init()
 {
 	ClientPacketHandler::Init();
 
-	ClientServiceRef service = MakeShared<ClientService>(
+	service = MakeShared<ClientService>(
 		NetAddress(ip, port),
 		MakeShared<IocpCore>(),
 		MakeShared<ClientSession>, // TODO : SessionManager µî
@@ -54,7 +54,7 @@ bool Client::Release()
 	return false;
 }
 
-bool Client::CancelAccept()
+bool Client::CancelConnect()
 {
 	WRITE_LOCK;
 	for (auto& session : service->sessionsForConnect)
@@ -73,8 +73,9 @@ bool Client::CancelAccept()
 			}
 		}
 	}
-	for (auto& session : service->sessionsForConnect)
-		session->GetConnectEvent()._owner = nullptr; 
-	service->sessionsForConnect.clear();
+	//for (auto& session : service->sessionsForConnect)
+	//	session->GetConnectEvent()._owner = nullptr; 
+	//service->sessionsForConnect.clear();
+
 	return true;
 }

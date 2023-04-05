@@ -119,13 +119,13 @@ bool Session::RegisterConnect()
 	if (SocketUtils::BindAnyAddress(_socket, 0/*남는거*/) == false)
 		return false;
 
-	//_connectEvent.Init();
-	//_connectEvent._owner = shared_from_this();// ADD_REF
-	//
-	//DWORD numOfBytes = 0;
-	////연결할 서버의 주소
-	//SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
-	//
+	_connectEvent.Init();
+	_connectEvent._owner = shared_from_this();// ADD_REF
+	
+	DWORD numOfBytes = 0;
+	//연결할 서버의 주소
+	SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+
 	//if (false == SocketUtils::ConnectEx(
 	//	_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
 	//{
@@ -143,18 +143,15 @@ bool Session::RegisterConnect()
 			WRITE_LOCK;
 			do
 			{
-				_connectEvent.Init();
-				_connectEvent._owner = shared_from_this();// ADD_REF
-
-				DWORD numOfBytes = 0;
-				//연결할 서버의 주소
-				SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+				//_connectEvent.Init();
+				//_connectEvent._owner = shared_from_this();// ADD_REF
+				//
+				//DWORD numOfBytes = 0;
+				////연결할 서버의 주소
+				//SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
 				if(false == SocketUtils::ConnectEx(_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
 				{
-					int32 temp = GetService()->GetIocpCore()->forReturnErrorCode;
 					int32 errorCode = ::WSAGetLastError();
-					//if (errorCode == WSAEINVAL)
-					//	continue;
 					if (errorCode != WSA_IO_PENDING)
 					{
 						_connectEvent._owner = nullptr;
@@ -165,6 +162,53 @@ bool Session::RegisterConnect()
 			} while (GetService()->GetIocpCore()->forReturnErrorCode == ERROR_CONNECTION_REFUSED);
 		});
 
+
+	return true;
+}
+
+bool Session::ReConnect()
+{
+	if (IsConnected())
+		return false;
+
+	//현재 이 session과 연결되어있는 service type이 클라이언트 여야 한다.
+	//그래야 다른 서버에 연결 할 수있다.
+	if (GetService()->GetServiceType() != ServiceType::Client)
+		return false;
+
+	if (SocketUtils::SetReuseAddress(_socket, true) == false)
+		return false;
+
+	_connectEvent.Init();
+	_connectEvent._owner = shared_from_this();// ADD_REF
+
+	DWORD numOfBytes = 0;
+	//연결할 서버의 주소
+	SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+
+	GThreadManager->Launch([&]()
+		{
+			WRITE_LOCK;
+			do
+			{
+				//_connectEvent.Init();
+				//_connectEvent._owner = shared_from_this();// ADD_REF
+				//
+				//DWORD numOfBytes = 0;
+				////연결할 서버의 주소
+				//SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+				if (false == SocketUtils::ConnectEx(_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
+				{
+					int32 errorCode = ::WSAGetLastError();
+					if (errorCode != WSA_IO_PENDING)
+					{
+						_connectEvent._owner = nullptr;
+						return false;
+					}
+				}
+				this_thread::sleep_for(2s);
+			} while (GetService()->GetIocpCore()->forReturnErrorCode == ERROR_CONNECTION_REFUSED);
+		});
 
 	return true;
 }

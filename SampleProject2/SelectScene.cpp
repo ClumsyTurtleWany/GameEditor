@@ -70,8 +70,8 @@ bool SelectScene::Frame()
 			gpClient->Init();
 		}
 		else
-			gpClient->GetClientservice()->Start();
-		//gpClient->CancelAccept();
+			gpClient->GetClientservice()->Reconnect();
+		gpClient->CancelConnect();
 	}
 
 	BaseScene::Frame();

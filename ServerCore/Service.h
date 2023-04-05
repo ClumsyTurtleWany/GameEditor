@@ -64,6 +64,7 @@ public:
 	virtual ~ClientService() {}
 
 	virtual bool Start() override;
+	bool Reconnect();
 };
 
 /*-----------------
