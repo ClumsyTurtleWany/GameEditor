@@ -211,8 +211,6 @@ bool SampleCore::Initialize()
 
 	//Battle->TheWorld.AddEntity(temp);
 
-	MAIN_PICKER.optPickingMode = PMOD_LAND;
-
 	return true;
 }
 
