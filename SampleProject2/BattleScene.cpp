@@ -162,10 +162,6 @@ bool BattleScene::Frame()
 	}
 
 	PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
-	if (MAIN_PICKER.curSelect.pTarget)
-	{
-		int k = 10;
-	}
 
 	for (auto enemy : EnemyList) 
 	{
