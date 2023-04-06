@@ -28,6 +28,7 @@ public:
 	void TurnEndProcess();
 	void EnemyTurnProcess();
 	void EnemyAttackAnimProcess();
+	void MoveProcess();
 	void CardCheck();
 	bool ManaCheck(int cost);
 	void UpdateHand(int handSize);
@@ -64,6 +65,7 @@ public:
 	WidgetObject* TurnEndButton;
 	WidgetObject* RemainCardButton;
 	WidgetObject* DiscardButton;
+	WidgetObject* MoveButton;
 
 	WidgetObject* PlayerCurrenHP1;
 	WidgetObject* PlayerCurrenHP2;
@@ -103,5 +105,6 @@ public:
 	bool TurnState = true; // true면 내턴, false면 적턴
 	bool TurnStart = true;
 	int	 TurnNum = 1;
+	bool IsMoving = false;
 };
 

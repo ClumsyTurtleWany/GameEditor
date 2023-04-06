@@ -218,6 +218,7 @@ void BattleScene::Init_UI()
 	TurnEndButton = bc->FindObj(L"TurnEnd");
 	RemainCardButton = bc->FindObj(L"Remain");
 	DiscardButton = bc->FindObj(L"Discard");
+	MoveButton = bc->FindObj(L"MoveButton");
 
 	// 카드 오브젝트 생성 후 리스트에 넣어줌
 	CardList[0] = bc->FindObj(L"Card1");
@@ -712,24 +713,12 @@ void BattleScene::BattleProcess()
 {
 	if (TurnStart) { TurnStartProcess(); }
 	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
-
-	//// 적 턴 행동 애니메이션이 끝난 다음 내 턴이 오도록
-	//if (!TurnState) 
-	//{
-	//	TurnState = true;
-	//	for (auto enemy : EnemyList) // 모든 적이 행동중이 아니라면
-	//	{
-	//		auto EAnime = enemy->chara->GetComponent<AnimationComponent>();
-	//		if (EAnime->IsInAction()) { TurnState = false; }	// 적 하나라도 행동중이라면 false 반환
-	//	}
-
-	//	if (TurnState) { TurnStart = true; }
-	//}
-
+	if (MoveButton->m_bClicked) { IsMoving = true; MoveButton->m_bClicked = false; MAIN_PICKER.optPickingMode = PMOD_LAND; }
+	
 	EnemyAttackAnimProcess();
-
 	CardCheck();
 	DeadCheck();
+	if (IsMoving) { MoveProcess(); }
 }
 
 void BattleScene::TurnStartProcess()
@@ -792,6 +781,31 @@ void BattleScene::EnemyAttackAnimProcess()
 		UpdateEnemyState();
 		PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 		SoundMap.find(L"Hit2")->second->Play();
+	}
+}
+
+static float MoveTimer = 0.0f;
+void BattleScene::MoveProcess()
+{
+	// 딜레이주려고
+	MoveTimer += Timer::GetInstance()->GetDeltaTime();
+
+	if (MoveTimer >= 0.5f)
+	{
+		// 카메라 좀 바꿔주고
+
+		// 피킹될 지점 표시해주는 이펙트
+		PlayEffect(&TheWorld, L"Hit5", { MAIN_PICKER.vIntersection, {0.0f, 0.0f, 0.0f}, {2.0f, 2.0f, 2.0f} }, { false, 0.5f, 0.2f, 1.0f });
+
+		// 땅 클릭하면 글로 이동
+		KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
+		if (btnLC == KeyState::Down) 
+		{ 
+			PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
+			IsMoving = false; 
+			MoveTimer = 0.0f; 
+			MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
+		}
 	}
 }
 

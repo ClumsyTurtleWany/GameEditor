@@ -51,9 +51,6 @@ bool MultiBattleScene::Init()
 	enemy2->NumberTextureList_Red = NumberTextureList_Red;
 	enemy2->NumberTextureList_Black = NumberTextureList_Black;
 	EnemyList.push_back(enemy2);
-	// 밑에 두줄은 임시
-	enemy2->maxHp = 30;
-	enemy2->hp = 30;
 
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;

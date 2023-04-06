@@ -170,7 +170,7 @@ CutNum	1
 CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Number\black\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	24
+ID	18
 Name	Mana_Image
 OrginPos	-0.851250 -0.686667
 Depth	0.000000
@@ -179,7 +179,7 @@ CutNum	1
 CutInfo	0 | 48.000000 48.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\mana.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	25
+ID	19
 Name	Mana_current
 OrginPos	-0.800001 -0.690000
 Depth	0.000000
@@ -188,7 +188,7 @@ CutNum	1
 CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	26
+ID	20
 Name	Slash3
 OrginPos	-0.775000 -0.690000
 Depth	0.000000
@@ -197,7 +197,7 @@ CutNum	1
 CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	27
+ID	21
 Name	Mana_max
 OrginPos	-0.750000 -0.690000
 Depth	0.000000
@@ -206,7 +206,7 @@ CutNum	1
 CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	31
+ID	22
 Name	Damage_1
 OrginPos	-0.573751 0.475000
 Depth	0.000000
@@ -215,7 +215,7 @@ CutNum	1
 CutInfo	0 | 100.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	32
+ID	23
 Name	Damage_2
 OrginPos	-0.450000 0.475000
 Depth	0.000000
@@ -224,11 +224,23 @@ CutNum	1
 CutInfo	0 | 100.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	33
+ID	24
 Name	TurnEndText
 OrginPos	0.812750 -0.830000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
 CutInfo	0 | 160.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\TurnEndText.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	26
+Name	MoveButton
+OrginPos	-0.789999 -0.391111
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2_D.png | ../../data/shader/DefaultObject_Orgin.txt
 =
