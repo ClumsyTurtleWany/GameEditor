@@ -48,7 +48,8 @@ public:
 	bool AddCut(Vector2 pxWH, Vector4 uv, std::wstring tn);
 	bool UpdateCut(int cutNum);
 	Vector2 PtoN(Vector2 pxWH);		// 이건 너비/높이
-	Vector2 PtoN_Pos(Vector2 pxWH); // 이건 위치
+	Vector2 PtoN_Pos(Vector2 pxPos); // 이건 위치
+	Vector2 NtoP_Pos(Vector2 ndcPos);
 
 	bool SetButtonState();
 	bool Drag();

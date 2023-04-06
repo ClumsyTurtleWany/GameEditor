@@ -193,6 +193,9 @@ bool WidgetObject::UpdateCut(int cutNum)
 
 	Texture = m_pCutInfoList[cutNum]->tc;
 
+	m_CollisionBox[0] = { Vertices[0].Pos };
+	m_CollisionBox[1] = { Vertices[3].Pos };
+
 	return true;
 }
 
@@ -206,12 +209,22 @@ Vector2 WidgetObject::PtoN(Vector2 pxWH)
 	return result;
 }
 
-Vector2 WidgetObject::PtoN_Pos(Vector2 pxWH)
+Vector2 WidgetObject::PtoN_Pos(Vector2 pxPos)
 {
 	Vector2 result;
 
-	result.x = -1.0f + (pxWH.x / DXDevice::g_ViewPort.Width)*2.0f;
-	result.y = -(-1.0f + (pxWH.y / DXDevice::g_ViewPort.Height)*2.0f);
+	result.x = -1.0f + (pxPos.x / DXDevice::g_ViewPort.Width)*2.0f;
+	result.y = -(-1.0f + (pxPos.y / DXDevice::g_ViewPort.Height)*2.0f);
+
+	return result;
+}
+
+Vector2 WidgetObject::NtoP_Pos(Vector2 ndcPos)
+{
+	Vector2 result;
+
+	result.x = DXDevice::g_ViewPort.Width * (ndcPos.x + 1.0f)/2;
+	result.y = DXDevice::g_ViewPort.Height * (-ndcPos.y + 1.0f)/2;
 
 	return result;
 }

@@ -247,23 +247,6 @@ void BattleScene::Init_UI()
 	MaxMana = bc->FindObj(L"Mana_max");
 	//UpdatePlayerState();
 
-	// 적 상태, BaseEnemy의 Init으로 넘어감
-	//EnemyCurrentHP1 = bc->FindObj(L"EnemyCurrentHp_1");
-	//EnemyCurrentHP2 = bc->FindObj(L"EnemyCurrentHp_2");
-	//EnemyMaxHP1 = bc->FindObj(L"EnemyMaxHp_1");
-	//EnemyMaxHP2 = bc->FindObj(L"EnemyMaxHp_2");
-	//EnemyIntentIcon = bc->FindObj(L"EnemyIntent");
-	//EnemyIntent1 = bc->FindObj(L"EnemyIntent_1");
-	//EnemyIntent2 = bc->FindObj(L"EnemyIntent_2");
-	//EnemyStateObjectList.push_back(EnemyCurrentHP1);
-	//EnemyStateObjectList.push_back(EnemyCurrentHP2);
-	//EnemyStateObjectList.push_back(EnemyMaxHP1);
-	//EnemyStateObjectList.push_back(EnemyMaxHP2);
-	//EnemyStateObjectList.push_back(EnemyIntentIcon);
-	//EnemyStateObjectList.push_back(EnemyIntent1);
-	//EnemyStateObjectList.push_back(EnemyIntent2);
-	//EnemyStateObjectList.push_back(bc->FindObj(L"EnemyInfoBG"));
-	//EnemyStateObjectList.push_back(bc->FindObj(L"Slash2"));
 	UpdateEnemyState();
 
 	// 데미지, 일단 공용인 두자리만..
@@ -274,6 +257,20 @@ void BattleScene::Init_UI()
 
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
+
+
+	// 카드 위치정보 셋팅, 일단 1장 2장 3장일때만? 나중에 바꿔야할지도 모르니 좀 편하게 세팅해두기
+	float CSS = 400.0f; // Card Space Start
+	float CSW = 900.0f; // Card Space Width
+	CardPosList[0].push_back({ CSS + CSW * 1 / 2, 700.0f });	// 1장일때 위치
+	CardPosList[0].push_back({ CSS + CSW * 1 / 3, 700.0f });	// 2장일때
+	CardPosList[0].push_back({ CSS + CSW * 1 / 4, 700.0f });	// 3장일때
+	CardPosList[1].push_back({ 0.0f, 0.0f });
+	CardPosList[1].push_back({ CSS + CSW * 2 / 3, 700.0f });
+	CardPosList[1].push_back({ CSS + CSW * 2 / 4, 700.0f });
+	CardPosList[2].push_back({ 0.0f, 0.0f });
+	CardPosList[2].push_back({ 0.0f, 0.0f });
+	CardPosList[2].push_back({ CSS + CSW * 3 / 4, 700.0f });
 }
 
 void BattleScene::Init_Map()
@@ -707,14 +704,17 @@ void BattleScene::TurnStartProcess()
 void BattleScene::TurnEndProcess()
 {
 	TurnNum++;
-	Dick->TurnEnd();
-	EnemyTurnProcess();
+
 	for (int card = 0; card < Dick->HandList.size(); card++)
 	{
 		CardList[card]->m_bIsDead = false;
-		Vector2 AnimPos[2] = { {-100.0f, 700.0f}, {(400.0f + 300.0f * card),700.0f} };
-		CardList[card]->SetAnimation(AnimPos, 1.0f);
+		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), {1800.0f,700.0f} };
+		CardList[card]->SetAnimation(AnimPos, 0.5f);
 	}
+	Dick->TurnEnd();
+
+	EnemyTurnProcess();
+
 	TurnEndButton->m_bClicked = false;
 }
 
@@ -901,6 +901,7 @@ bool BattleScene::ManaCheck(int cost)
 	else { player->cost -= cost; return true; }
 }
 
+// 턴 시작시
 void BattleScene::UpdateHand(int handSize)
 {
 	for (int card = 0; card < handSize; card++)
@@ -910,10 +911,33 @@ void BattleScene::UpdateHand(int handSize)
 			CardList[card]->m_pCutInfoList[ci]->tc = CardTextureList[Dick->HandList[card]];
 		}
 		CardList[card]->m_bIsDead = false;
-		Vector2 AnimPos[2] = { {-100.0f, 700.0f}, {(400.0f +300.0f*card),700.0f} };
-		CardList[card]->SetAnimation(AnimPos, 1.0f);
+
+		// Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), CardPosList[card][handSize - 1] };
+		Vector2 AnimPos[2] = { { -200.0f, 700.0f }, CardPosList[card][handSize - 1] };
+		CardList[card]->SetAnimation(AnimPos, 0.5f);
 	}
 	
+	for (int card = handSize; card < 3; card++) // for (int card = handSize; card < CardList.size(); card++)
+	{
+		CardList[card]->m_bIsDead = true;
+	}
+}
+
+// 카드 썼을때 
+void BattleScene::UpdateHand(int handSize, int UsedCard)
+{
+	for (int card = 0; card < handSize; card++)
+	{
+		for (int ci = 0; ci < 4; ci++)
+		{
+			CardList[card]->m_pCutInfoList[ci]->tc = CardTextureList[Dick->HandList[card]];
+		}
+		CardList[card]->m_bIsDead = false;
+
+		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), CardPosList[card][handSize - 1] };
+		CardList[card]->SetAnimation(AnimPos, 0.5f);
+	}
+
 	for (int card = handSize; card < 3; card++) // for (int card = handSize; card < CardList.size(); card++)
 	{
 		CardList[card]->m_bIsDead = true;
