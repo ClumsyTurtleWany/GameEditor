@@ -211,6 +211,8 @@ bool SampleCore::Initialize()
 
 	//Battle->TheWorld.AddEntity(temp);
 
+	MAIN_PICKER.optPickingMode = PMOD_LAND;
+
 	return true;
 }
 
@@ -246,11 +248,11 @@ bool SampleCore::Render()
 bool SampleCore::Release()
 {
 	//server Release
-	//gpHost->Release();
-	//delete(gpHost);
-	//
-	//gpClient->Release();
-	//delete(gpClient);
+	gpHost->Release();
+	delete(gpHost);
+	
+	gpClient->Release();
+	delete(gpClient);
 
 	///////////////////////
 	//EFFECTUTIL CleanUp

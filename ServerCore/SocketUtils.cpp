@@ -104,7 +104,13 @@ bool SocketUtils::BindAnyAddress(SOCKET socket, uint16 port)
 	myAddress.sin_addr.s_addr = ::htonl(INADDR_ANY);
 	myAddress.sin_port = ::htons(port);
 
-	return SOCKET_ERROR != ::bind(socket, reinterpret_cast<const SOCKADDR*>(&myAddress), sizeof(myAddress));
+	//return SOCKET_ERROR != ::bind(socket, reinterpret_cast<const SOCKADDR*>(&myAddress), sizeof(myAddress));
+	if (SOCKET_ERROR == ::bind(socket, reinterpret_cast<const SOCKADDR*>(&myAddress), sizeof(myAddress)))
+	{
+		int32 errorCode = WSAGetLastError();
+		return false;
+	}
+	return true;
 }
 
 //backlog = 허용 인원

@@ -59,9 +59,21 @@ bool ClientService::Start()
 	for (int32 i = 0; i < sessionCount; i++)
 	{
 		SessionRef session = CreateSession();
+		sessionsForConnect.push_back(session);
 		if (session->Connect() == false)
 			return false;
 	}
+	return true;
+}
+
+bool ClientService::Reconnect()
+{
+	for (auto& session : sessionsForConnect)
+	{
+		if (!session->ReConnect())
+			return false;
+	}
+
 	return true;
 }
 

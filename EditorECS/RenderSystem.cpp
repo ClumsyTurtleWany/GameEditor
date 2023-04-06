@@ -11,7 +11,7 @@
 #include "BoundingBoxComponent.h"
 #include "BoundingSphereComponent.h"
 #include "EffectInclude/EffectSystem.h"
-#include "WeaponMeshComponent.h"
+#include "SocketComponent.h"
 
 void RenderSystem::Tick(ECS::World* world, float time)
 {
@@ -47,26 +47,24 @@ void RenderSystem::Tick(ECS::World* world, float time)
 
 	}
 
-	for (auto& entity : world->GetEntities<WeaponMeshComponent>())
-	{
-		auto weaponMesh = entity->GetComponent<WeaponMeshComponent>();
-
-		if (weaponMesh != nullptr)
-		{
-			weaponMesh->Render();
-		}
-
-	}
 
 	for (auto& entity : world->GetEntities<StaticMeshComponent, TransformComponent>())
 	{
 		auto staticMesh = entity->GetComponent<StaticMeshComponent>();
 		auto transform = entity->GetComponent<TransformComponent>();
-		
 		if ((staticMesh != nullptr) && (transform != nullptr))
 		{
-			staticMesh->UpdateTransformMatrix(*transform);
-			staticMesh->Render();
+			if (entity->has<SocketComponent>())
+			{
+				auto socket = entity->GetComponent<SocketComponent>();
+				staticMesh->UpdateTransformData(socket->GetTransformMatrix());
+				staticMesh->Render();
+			}
+			else
+			{
+				staticMesh->UpdateTransformMatrix(*transform);
+				staticMesh->Render();
+			}
 		}
 	}
 

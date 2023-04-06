@@ -17,5 +17,7 @@ public:
 
 	static void InitTLS();
 	static void DestroyTLS();
+public:
+	bool eraseThreadVector();
 };
 

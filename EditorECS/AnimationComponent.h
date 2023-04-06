@@ -16,7 +16,7 @@ struct AnimationClip
 
 
 	std::map<std::string, std::vector<Matrix>> LerpFrameMatrixList; ///< FBXLoader::PreProcess()의 GenerateAnimationTrack()에서 생성된 보간 행렬
-
+	
 
 
 	std::wstring	FileName;										///< Fbx 파일의 이름

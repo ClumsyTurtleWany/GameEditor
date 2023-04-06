@@ -195,8 +195,8 @@
     <ClInclude Include="CameraArmComponent.h">
       <Filter>Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponMeshComponent.h">
-      <Filter>Component\Mesh</Filter>
+    <ClInclude Include="SocketComponent.h">
+      <Filter>Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -275,8 +275,20 @@
     <ClCompile Include="CameraArmComponent.cpp">
       <Filter>Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponMeshComponent.cpp">
-      <Filter>Component\Mesh</Filter>
+    <ClCompile Include="SocketComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectionalLight.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="SpotLight.cpp">
+      <Filter>Entity\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

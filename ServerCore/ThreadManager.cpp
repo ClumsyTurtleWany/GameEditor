@@ -47,3 +47,9 @@ void ThreadManager::DestroyTLS()
 {
 
 }
+  
+bool ThreadManager::eraseThreadVector()
+{
+	_threads.clear();
+	return true;
+}

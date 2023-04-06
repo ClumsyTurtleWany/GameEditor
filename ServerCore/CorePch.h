@@ -22,5 +22,6 @@
 #include"Memory.h"
 #include"SendBuffer.h"
 #include"Session.h"
+#include"ThreadManager.h"
 
 using namespace std;

@@ -51,6 +51,9 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 
 		if (pPicker->optPickingMode == PICKING_MODE::PMOD_CHARACTER && pPicker->bClicked)
 		{
+			pPicker->curSelect.pTarget = nullptr;
+			pPicker->curSelect.fDistance = MAX_PICK_DIST;
+
 			if (skeletonMesh && pPicker->RayToOBB(OBB->OBB))
 			{
 				if (pPicker->fIntersectionDistance < pPicker->curSelect.fDistance)
@@ -63,55 +66,68 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	if (pPicker->optPickingMode == PICKING_MODE::PMOD_LAND && pPicker->bClicked)
+	if (pPicker->optPickingMode == PICKING_MODE::PMOD_LAND)
 	{
-		for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
+		if (pPicker->fLandTraceTimer > PICKING_OP_TIME_LIMIT)
 		{
-			auto landscape = entity->GetComponent<LandscapeComponents>();
-			auto transform = entity->GetComponent<TransformComponent>();
+			pPicker->fLandTraceTimer = 0.0f;
 
-			if (landscape != nullptr)
+			if (pPicker->bPendingClicked)
 			{
-				for (auto it : landscape->Components)
+				pPicker->curSelect.pTarget = nullptr;
+				pPicker->curSelect.fDistance = MAX_PICK_DIST;
+			}
+
+			for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
+			{
+				auto landscape = entity->GetComponent<LandscapeComponents>();
+				auto transform = entity->GetComponent<TransformComponent>();
+
+				if (landscape != nullptr)
 				{
-					DirectX::BoundingBox temp = it.Box;
-					temp.Center = temp.Center + transform->Translation;
-
-					if (MAIN_PICKER.RayToAABB(temp))
+					for (auto it : landscape->Components)
 					{
-						for (auto& face : it.Faces)
+						DirectX::BoundingBox temp = it.Box;
+						temp.Center = temp.Center + transform->Translation;
+
+						if (pPicker->RayToAABB(temp))
 						{
-							Vector3 v0 = face.V0.Pos + transform->Translation;
-							Vector3 v1 = face.V1.Pos + transform->Translation;
-							Vector3 v2 = face.V2.Pos + transform->Translation;
-
-							if (MAIN_PICKER.CheckPick(v0, v1, v2))
+							for (auto& face : it.Faces)
 							{
-								pPicker->curSelect.pTarget = entity;
-								pPicker->curSelect.vIntersection = pPicker->vIntersection;
-								pPicker->curSelect.fDistance = pPicker->fIntersectionDistance;
+								Vector3 v0 = it.Vertices[face.V0].Pos + transform->Translation;
+								Vector3 v1 = it.Vertices[face.V1].Pos + transform->Translation;
+								Vector3 v2 = it.Vertices[face.V2].Pos + transform->Translation;
 
-								//좌표 출력 코드
-								/*std::wstring Coord = L"MapPoint X : ";
-								Coord += std::to_wstring(MAIN_PICKER.vIntersection.x);
-								Coord += L" Y : ";
-								Coord += std::to_wstring(MAIN_PICKER.vIntersection.y);
-								Coord += L" Z : ";
-								Coord += std::to_wstring(MAIN_PICKER.vIntersection.z);
-								Coord += L" \n";
+								if (pPicker->CheckPick(v0, v1, v2))
+								{
+									if (pPicker->bPendingClicked)
+									{
+										pPicker->bPendingClicked = false;
+										pPicker->curSelect.pTarget = entity;
+										pPicker->curSelect.vIntersection = pPicker->vIntersection;
+										pPicker->curSelect.fDistance = pPicker->fIntersectionDistance;
+									}
+#ifdef _DEBUG
+									//좌표 출력 코드
+									std::wstring Coord = L"MapPoint X : ";
+									Coord += std::to_wstring(pPicker->vIntersection.x);
+									Coord += L" Y : ";
+									Coord += std::to_wstring(pPicker->vIntersection.y);
+									Coord += L" Z : ";
+									Coord += std::to_wstring(pPicker->vIntersection.z);
+									Coord += L" \n";
 
-								OutputDebugString(Coord.c_str());
-								return;*/
+									OutputDebugString(Coord.c_str());
+#endif //_DEBUG
+									return;
+								}
 							}
 						}
 					}
 				}
 			}
-		}
-	}
 
-	if (pPicker->lastSelect.pTarget != pPicker->curSelect.pTarget)
-	{
-		memcpy(&(pPicker->lastSelect), &(pPicker->curSelect), sizeof(SelectState));
+			if (pPicker->bPendingClicked) { pPicker->bPendingClicked = false; }
+		}
 	}
 }

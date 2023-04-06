@@ -288,12 +288,12 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 		{
 			FbxSurfaceMaterial* surface = node->GetMaterial(idx);
 			std::wstring materialName;
+			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
 			if (idx >= 1)
 			{
 				std::wstring subMaterial = std::to_wstring(idx);
 				materialName += subMaterial;
 			}
-			materialName.assign(NodeData.Name.begin(), NodeData.Name.end());
 			Material* material = MaterialManager::GetInstance()->CreateMaterial(materialName);
 			bool isValid = false;
 			material->Type = MaterialType::Light;
@@ -1526,12 +1526,12 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 				else
 				{
 					std::wstring materialName;
+					materialName.assign(node.Name.begin(), node.Name.end());
 					if (idx >= 1)
 					{
 						std::wstring subMaterial = std::to_wstring(idx);
 						materialName += subMaterial;
-					}
-					materialName.assign(node.Name.begin(), node.Name.end());
+					}					
 					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
 				}
 
@@ -1581,52 +1581,3 @@ bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationCo
 	return true;
 }
 
-bool FBXLoader::GenerateWeaponMeshFromFileData(std::wstring filename, WeaponMeshComponent* dst)
-{
-	auto it = FbxFileList.find(filename);
-	if (it == FbxFileList.end())
-	{
-		return false;
-	}
-
-	FBXFileData* pData = it->second;
-	for (auto& node : pData->NodeDataList)
-	{
-		if (node.AttributeType != FbxNodeAttribute::EType::eMesh)
-		{
-			continue;
-		}
-		else
-		{
-			if (node.MeshList.empty())
-			{
-				continue;
-			}
-
-			size_t meshCnt = node.MeshList.size();
-			for (size_t idx = 0; idx < meshCnt; idx++)
-			{
-				if (node.MaterialList.empty())
-				{
-					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(L"Default");
-				}
-				else
-				{
-					std::wstring materialName;
-					materialName.assign(node.Name.begin(), node.Name.end());
-					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
-				}
-
-				dst->Meshes.push_back(node.MeshList[idx]);
-			}
-
-		}
-	}
-
-	for (auto& it : dst->Meshes)
-	{
-		it.Initialize();
-	}
-
-	return true;
-}

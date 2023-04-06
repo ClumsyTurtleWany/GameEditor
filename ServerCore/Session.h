@@ -55,6 +55,7 @@ public:
 	void					Send(BYTE* buffer, int32 len);
 	void					Send(SendBufferRef sendBuffer);
 	bool					Connect();	//서버끼리 연결할 필요가 있을때
+	bool					ReConnect();
 	void					Disconnect(const WCHAR* cause);
 	void					SetService(shared_ptr<Service> service) { _service = service; }
 	shared_ptr<Service>		GetService() { return _service.lock(); }
@@ -91,6 +92,8 @@ protected:
 	virtual void			OnDisconnected() {}
 	virtual int32			OnRecv(BYTE* buffer, int32 len) { return len; }
 	virtual void			OnSend(int32 len) {}
+public:
+	ConnectEvent& GetConnectEvent() { return _connectEvent; }
 };
 
 /*-----------------

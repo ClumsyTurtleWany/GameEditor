@@ -9,6 +9,7 @@
 #include "SkyRenderSystem.h"
 #include "SkyDomeComponent.h"
 //추가
+#include "SocketComponent.h"
 #include "AnimationComponent.h"
 #include "UpdateAnimSystem.h"
 #include "MovementSystem.h"
@@ -365,58 +366,6 @@ void BattleScene::Init_Map()
 
 void BattleScene::Init_Chara()
 {
-	//PlayerCharacter = new Character;
-	//player->chara = PlayerCharacter;
-	//auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
-	//
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
-	//{
-	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
-	//}
-
-	//// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
-	//// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
-	//auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);				// 달리기
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);				// 아이들
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Punch.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);				// 공격
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX", playerCharAnimComp);		// 피격
-	//}
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Dying.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Dying.FBX", playerCharAnimComp);				// 사망
-	//}
-	//
-	//playerCharAnimComp->SetClipByName(L"Punch");
-	//playerCharAnimComp->CurrentClip->LoopState = false;
-	//playerCharAnimComp->SetClipByName(L"Stomach_Hit");
-	//playerCharAnimComp->CurrentClip->LoopState = false;
-	//playerCharAnimComp->SetClipByName(L"Idle");
-
-	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
-
-	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
-	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
-
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
-	//{
-	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
-	//}
-
-	////////////////////////////////test////////////////////////
-	
-
 	PlayerCharacter = new Character;
 	player->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
@@ -453,16 +402,26 @@ void BattleScene::Init_Chara()
 
 	playerCharAnimComp->SetClipByName(L"Idle");
 
-	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
 
-	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
-	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
 
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
-	//}
+	// 소켓 컴포넌트 추가
+	auto socketComp = PlayerCharacter->AddComponent<SocketComponent>();
+	// 스켈레탈 메시 & 본 이름 넘겨서 소켓 부착
+	socketComp->Attach(*playerCharMeshComp, "RightHand");
+	// 오프셋 조정 T R S
+	socketComp->SetOffset(Vector3(2.0f, 2.0f, 0.0f), 
+						  Vector3(-75.0f, -90.0f, -0.0f), 
+						  Vector3(1.0f, 1.0f, 1.0f)); 
 
+	// 무기로 쓸 스태틱 메시 추가 - 
+	//엔티티가 소켓 컴포넌트를 갖고있으면 소켓 위치에 따라 스태틱 메시의 위치가 업데이트 되도록 렌더 시스템 설정
+	auto weaponMesh = PlayerCharacter->AddComponent<StaticMeshComponent>();
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(
+							L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX", weaponMesh);
+	}
 
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
