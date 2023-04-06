@@ -47,10 +47,15 @@ public:
 	bool SetPosition(Vector2 orginPos);
 	bool AddCut(Vector2 pxWH, Vector4 uv, std::wstring tn);
 	bool UpdateCut(int cutNum);
-	Vector2 PtoN(Vector2 pxWH);
+	Vector2 PtoN(Vector2 pxWH);		// 이건 너비/높이
+	Vector2 PtoN_Pos(Vector2 pxWH); // 이건 위치
 
 	bool SetButtonState();
 	bool Drag();
+	// 애니메이션 셋팅, 매개변수로 위치(출발,목적) 회전(그냥 각도만), 스케일(x,y), 애니메이션 시간
+	void SetAnimation(Vector2 transform[2], float rotation[2], Vector2 scale[2], float playtime); 
+	void SetAnimation(Vector2 transform[2], float playtime); // 위치만 있는버전 오버로드
+	void Animation();
 
 public:
 	std::vector<Vertex> Vertices;
@@ -91,5 +96,11 @@ public:
 	bool			m_bDraggable = false; // 카드는 드래그 가능하도록
 	Vector2			m_OriginalOriginPos;  // 원래 자리로 다시 돌아오도록
 
+	bool			m_bIsAnime = false; // 애니메이션 중인지?
+	Vector2			m_AnimT[2]; // TransForm, 출발지/목적지
+	float			m_AnimR[2]; // Rotation, 시작각/목적각, 시계방향으로 디그리각
+	Vector2			m_AnimS[2]; // Scale, 시작크기/목적크기
+	float			m_AnimPT;	// Play Time, 즉 애니메이션 재생시간(길이)
+	float			m_AnimCT = 0.0f; // Current Time, 현재 애니메이션이 얼마나 진행되었는지 뭐 그런
 };
 

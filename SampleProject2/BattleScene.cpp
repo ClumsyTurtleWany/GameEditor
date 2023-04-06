@@ -87,6 +87,7 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(lightSystem);
 
 	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
 
 	return true;
 }
@@ -153,7 +154,6 @@ bool BattleScene::Frame()
 	// 얘는 일단 주기적으로 업데이트 해줘야함.
 	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 
-	//PlayerCharacter->MoveTo(MAIN_PICKER.Intersection);
 
 	//Effect test
 	if (Input::GetInstance()->getKey('U') == KeyState::Up)
@@ -161,7 +161,8 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
-	PickedCharacter = (Character*)MAIN_PICKER.lastSelect.pTarget;
+
+	PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
 	for (auto enemy : EnemyList) 
 	{
 		if (PickedCharacter == enemy->chara)
@@ -182,6 +183,11 @@ bool BattleScene::Frame()
 				}
 			}
 		}
+	}
+
+	if (PickedCharacter != nullptr) 
+	{
+		int a = 10;
 	}
 
 	return true;
@@ -703,7 +709,12 @@ void BattleScene::TurnEndProcess()
 	TurnNum++;
 	Dick->TurnEnd();
 	EnemyTurnProcess();
-
+	for (int card = 0; card < Dick->HandList.size(); card++)
+	{
+		CardList[card]->m_bIsDead = false;
+		Vector2 AnimPos[2] = { {-100.0f, 700.0f}, {(400.0f + 300.0f * card),700.0f} };
+		CardList[card]->SetAnimation(AnimPos, 1.0f);
+	}
 	TurnEndButton->m_bClicked = false;
 }
 
@@ -899,6 +910,8 @@ void BattleScene::UpdateHand(int handSize)
 			CardList[card]->m_pCutInfoList[ci]->tc = CardTextureList[Dick->HandList[card]];
 		}
 		CardList[card]->m_bIsDead = false;
+		Vector2 AnimPos[2] = { {-100.0f, 700.0f}, {(400.0f +300.0f*card),700.0f} };
+		CardList[card]->SetAnimation(AnimPos, 1.0f);
 	}
 	
 	for (int card = handSize; card < 3; card++) // for (int card = handSize; card < CardList.size(); card++)

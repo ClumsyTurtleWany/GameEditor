@@ -112,7 +112,7 @@ bool WidgetObject::Render()
 
 bool WidgetObject::Frame()
 {
-	if (m_pCutInfoList.size() == 0) return false;
+	if (m_pCutInfoList.size() == 0) return false;	// 컷정보 하나도 없는 오류 오브젝트 거르기용
 
 	switch (m_Type)
 	{
@@ -125,7 +125,7 @@ bool WidgetObject::Frame()
 	case(BUTTON):
 	{
 		SetButtonState();
-		Drag();
+		if (!m_bIsAnime) { Drag(); }
 	} break;
 
 	case(SPRITE):
@@ -133,6 +133,9 @@ bool WidgetObject::Frame()
 	} break;
 
 	}
+
+	if (m_bIsAnime) 
+	{ Animation(); }
 
 	return true;
 }
@@ -197,8 +200,18 @@ Vector2 WidgetObject::PtoN(Vector2 pxWH)
 {
 	Vector2 result;
 
-	result.x = pxWH.x / DXDevice::g_ViewPort.Width * 2.0f;
-	result.y = pxWH.y / DXDevice::g_ViewPort.Height * 2.0f;
+	result.x = (pxWH.x / DXDevice::g_ViewPort.Width) * 2.0f;
+	result.y = (pxWH.y / DXDevice::g_ViewPort.Height) * 2.0f;
+
+	return result;
+}
+
+Vector2 WidgetObject::PtoN_Pos(Vector2 pxWH)
+{
+	Vector2 result;
+
+	result.x = -1.0f + (pxWH.x / DXDevice::g_ViewPort.Width)*2.0f;
+	result.y = -(-1.0f + (pxWH.y / DXDevice::g_ViewPort.Height)*2.0f);
 
 	return result;
 }
@@ -246,4 +259,49 @@ bool WidgetObject::Drag()
 	else if (m_bDraggable) { m_OriginPos = m_OriginalOriginPos; }
 
 	return true;
+}
+
+// 위치는 일단 픽셀단위로 받아옴
+void WidgetObject::SetAnimation(Vector2 transform[2], float rotation[2], Vector2 scale[2], float playtime)
+{
+	m_bIsAnime = true;
+
+	m_AnimT[0] = PtoN_Pos(transform[0]);
+	m_AnimT[0] = PtoN_Pos(transform[1]);
+	m_AnimR[0] = rotation[0];
+	m_AnimR[1] = rotation[1];
+	m_AnimS[0] = scale[0];
+	m_AnimS[1] = scale[1];
+						  
+	m_AnimPT = playtime;
+	m_AnimCT = 0.0f;
+}
+
+void WidgetObject::SetAnimation(Vector2 transform[2], float playtime)
+{
+	m_bIsAnime = true;
+
+	m_AnimT[0] = PtoN_Pos(transform[0]);
+	m_AnimT[1] = PtoN_Pos(transform[1]);
+
+	m_AnimPT = playtime;
+	m_AnimCT = 0.0f;
+}
+
+// 일단은 이동만
+void WidgetObject::Animation()
+{
+	m_AnimCT += Timer::GetInstance()->GetDeltaTime();
+
+	if (m_AnimCT >= m_AnimPT) // 시간 다 됐을경우
+	{
+		m_AnimCT = m_AnimPT;
+		m_bIsAnime = false;
+		m_OriginalOriginPos = m_AnimT[1];
+	}
+
+	m_OriginPos.x = ((m_AnimPT-m_AnimCT)/m_AnimPT)*m_AnimT[0].x + (m_AnimCT/m_AnimPT)*m_AnimT[1].x;
+	m_OriginPos.y = ((m_AnimPT - m_AnimCT) / m_AnimPT) * m_AnimT[0].y + (m_AnimCT / m_AnimPT) * m_AnimT[1].y;
+
+	UpdateCut(0); // 걍 노말상태로 애니메이션 되게 해도 괜찮겠지..?
 }
