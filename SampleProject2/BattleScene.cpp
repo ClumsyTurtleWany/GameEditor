@@ -883,7 +883,7 @@ void BattleScene::CardCheck()
 			if (CanUse) 
 			{
 				Dick->Use(cardNum);
-				UpdateHand(Dick->HandList.size());
+				UpdateHand(Dick->HandList.size(), cardNum);
 				UpdatePlayerState();
 				UpdateEnemyState();
 
@@ -935,6 +935,7 @@ void BattleScene::UpdateHand(int handSize, int UsedCard)
 		CardList[card]->m_bIsDead = false;
 
 		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), CardPosList[card][handSize - 1] };
+		if (card >= UsedCard) { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card+1]->m_OriginalOriginPos); }
 		CardList[card]->SetAnimation(AnimPos, 0.5f);
 	}
 
