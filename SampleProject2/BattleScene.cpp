@@ -161,7 +161,12 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
-	PickedCharacter = (Character*)MAIN_PICKER.lastSelect.pTarget;
+	PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
+	if (MAIN_PICKER.curSelect.pTarget)
+	{
+		int k = 10;
+	}
+
 	for (auto enemy : EnemyList) 
 	{
 		if (PickedCharacter == enemy->chara)

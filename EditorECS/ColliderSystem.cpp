@@ -51,7 +51,7 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 
 		if (pPicker->optPickingMode == PICKING_MODE::PMOD_CHARACTER && pPicker->bClicked)
 		{
-			pPicker->curSelect.pTarget = nullptr;
+			//pPicker->curSelect.pTarget = nullptr;
 			pPicker->curSelect.fDistance = MAX_PICK_DIST;
 
 			if (skeletonMesh && pPicker->RayToOBB(OBB->OBB))
