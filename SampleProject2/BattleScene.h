@@ -31,8 +31,8 @@ public:
 	void MoveProcess();
 	void CardCheck();
 	bool ManaCheck(int cost);
-	void UpdateHand(int handSize);					// 턴 시작시
-	void UpdateHand(int handSize, int UsedCard);	// 카드 썼을때 
+	void UpdateHand(int handSize);									// 턴 시작시
+	void UpdateHand(int handSize, int UsedCard, int DrawedCard);	// 카드 썼을때 
 	void UpdatePlayerState();
 	void UpdateEnemyState();
 	void DeadCheck();

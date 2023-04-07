@@ -262,15 +262,18 @@ void BattleScene::Init_UI()
 	// 카드 위치정보 셋팅, 일단 1장 2장 3장일때만? 나중에 바꿔야할지도 모르니 좀 편하게 세팅해두기
 	float CSS = 400.0f; // Card Space Start
 	float CSW = 900.0f; // Card Space Width
-	CardPosList[0].push_back({ CSS + CSW * 1 / 2, 700.0f });	// 1장일때 위치
-	CardPosList[0].push_back({ CSS + CSW * 1 / 3, 700.0f });	// 2장일때
-	CardPosList[0].push_back({ CSS + CSW * 1 / 4, 700.0f });	// 3장일때
-	CardPosList[1].push_back({ 0.0f, 0.0f });
-	CardPosList[1].push_back({ CSS + CSW * 2 / 3, 700.0f });
-	CardPosList[1].push_back({ CSS + CSW * 2 / 4, 700.0f });
-	CardPosList[2].push_back({ 0.0f, 0.0f });
-	CardPosList[2].push_back({ 0.0f, 0.0f });
-	CardPosList[2].push_back({ CSS + CSW * 3 / 4, 700.0f });
+	float CH = 700.0f;	// Card Height
+	Vector2 CFS = { 0.0f, 700.0f };	// Card Flying Start, 카드 날라오는 시작점 
+
+	CardPosList[0].push_back({ CSS + CSW * 1 / 2, CH });	// 1장일때 위치
+	CardPosList[0].push_back({ CSS + CSW * 1 / 3, CH });	// 2장일때
+	CardPosList[0].push_back({ CSS + CSW * 1 / 4, CH });	// 3장일때
+	CardPosList[1].push_back(CFS);				  
+	CardPosList[1].push_back({ CSS + CSW * 2 / 3, CH });
+	CardPosList[1].push_back({ CSS + CSW * 2 / 4, CH });
+	CardPosList[2].push_back(CFS);				  
+	CardPosList[2].push_back(CFS);				  
+	CardPosList[2].push_back({ CSS + CSW * 3 / 4, CH });
 }
 
 void BattleScene::Init_Map()
@@ -792,6 +795,7 @@ void BattleScene::CardCheck()
 		if (CardList[cardNum]->m_bClicked && CardList[cardNum]->m_OriginPos.y >= 0.5)
 		{
 			bool CanUse = false;
+			int	 DrawedCard = 0;
 
 			CardList[cardNum]->m_bClicked = false;
 			CardList[cardNum]->m_OriginPos = CardList[cardNum]->m_OriginalOriginPos;
@@ -834,6 +838,7 @@ void BattleScene::CardCheck()
 				{
 					TargetEnemy->hp -= 9;
 					Dick->Draw(1);
+					DrawedCard = 1;
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Shooting");
@@ -849,6 +854,7 @@ void BattleScene::CardCheck()
 				{
 					player->armor += 8;
 					Dick->Draw(1);
+					DrawedCard = 1;
 					CanUse = true;
 				}
 			}break;
@@ -883,7 +889,7 @@ void BattleScene::CardCheck()
 			if (CanUse) 
 			{
 				Dick->Use(cardNum);
-				UpdateHand(Dick->HandList.size(), cardNum);
+				UpdateHand(Dick->HandList.size(), cardNum, DrawedCard);
 				UpdatePlayerState();
 				UpdateEnemyState();
 
@@ -924,7 +930,7 @@ void BattleScene::UpdateHand(int handSize)
 }
 
 // 카드 썼을때 
-void BattleScene::UpdateHand(int handSize, int UsedCard)
+void BattleScene::UpdateHand(int handSize, int UsedCard, int DrawedCard)
 {
 	for (int card = 0; card < handSize; card++)
 	{
@@ -935,7 +941,13 @@ void BattleScene::UpdateHand(int handSize, int UsedCard)
 		CardList[card]->m_bIsDead = false;
 
 		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), CardPosList[card][handSize - 1] };
-		if (card >= UsedCard) { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card+1]->m_OriginalOriginPos); }
+		if (card >= UsedCard) // 써진 카드 위치부터 한칸씩 밀어서 애니메이션 시작점을 줘야 멀쩡해보임
+		{
+			// 드로우카드를 썼을 때, 벡터 마지막+1을 참조하면 안되니까
+			if (DrawedCard > 0 && card + DrawedCard >= handSize) { AnimPos[0] = { -100.0f, 700.0f }; }
+			else { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card + 1]->m_OriginalOriginPos); } // 드로우X
+
+		}
 		CardList[card]->SetAnimation(AnimPos, 0.5f);
 	}
 
