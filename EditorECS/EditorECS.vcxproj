@@ -57,6 +57,7 @@
     <ClInclude Include="SkeletalMeshComponent.h" />
     <ClInclude Include="SkyBoxComponent.h" />
     <ClInclude Include="SocketComponent.h" />
+    <ClInclude Include="SplineComponent.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="TransformComponent.h" />
@@ -91,6 +92,7 @@
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />
     <ClCompile Include="SocketComponent.cpp" />
+    <ClCompile Include="SplineComponent.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
     <ClCompile Include="UpdateAnimSystem.cpp" />

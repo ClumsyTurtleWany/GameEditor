@@ -1,6 +1,7 @@
 #include "MovementSystem.h"
 #include "MovementComponent.h"
 #include "TransformComponent.h"
+#include "SplineComponent.h"
 
 void MovementSystem::Tick(ECS::World* world, float time)
 {
@@ -38,5 +39,15 @@ void MovementSystem::Tick(ECS::World* world, float time)
 
 		movement->Location += movement->Forword * movement->Speed * time;
 		transform->Translation = movement->Location;
+	}
+
+	for (auto& entity : world->GetEntities<SplineComponent>())
+	{
+		auto spline = entity->GetComponent<SplineComponent>();
+
+		if (spline)
+		{
+			spline->update(time);
+		}
 	}
 }

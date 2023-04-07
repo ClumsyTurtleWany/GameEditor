@@ -69,6 +69,9 @@
     <Filter Include="System\AnimSystem">
       <UniqueIdentifier>{3c4d5874-a24c-482c-a0a7-ec0543c79c9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Spline">
+      <UniqueIdentifier>{d6b11a21-5086-4719-a2c9-774b63a8278c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -198,6 +201,9 @@
     <ClInclude Include="SocketComponent.h">
       <Filter>Component</Filter>
     </ClInclude>
+    <ClInclude Include="SplineComponent.h">
+      <Filter>Component\Spline</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -289,6 +295,9 @@
     </ClCompile>
     <ClCompile Include="SpotLight.cpp">
       <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="SplineComponent.cpp">
+      <Filter>Component\Spline</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

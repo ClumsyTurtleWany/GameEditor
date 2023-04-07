@@ -118,14 +118,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>../include/;../include/Core/;../include/FMOD/;../include/FBX/;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../include/;../include/BaseCore/;../include/ECS/;../include/EditorECS/;../include/EditorCore/;../include/FMOD/;../include/FBX/;../include/EditorFileLoader/;</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>../lib/;../lib/Core/;../lib/FMOD/;../lib/FBX/debug/;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>GameCore_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../lib/;../lib/BaseCore/Debug/;../lib/EditorCore/Debug/;../lib/ECS/Debug/;../lib/EditorECS/Debug/;../lib/FMOD/;../lib/FBX/debug/;../lib/EditorFileLoader/Debug/;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BaseCore.lib;ECS.lib;EditorCore.lib;EditorECS.lib;EditorFileLoader.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>copy "..\\lib\\FMOD\\fmod.dll" "..\\..\\output\\Debug\\$(TargetName)\\"</Command>
@@ -149,9 +149,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="SkyDomeComponent.cpp" />
+    <ClCompile Include="SkyRenderSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sample.h" />
+    <ClInclude Include="SkyDomeComponent.h" />
+    <ClInclude Include="SkyRenderSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

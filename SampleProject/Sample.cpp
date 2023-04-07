@@ -1,10 +1,33 @@
 #include "Sample.h"
-#include "WindowsClient.h"
-#include "RenderSystem.h"
-#include "Actor.h"
-#include "StaticMeshComponent.h"
-#include "CameraSystem.h"
-#include "PlaneComponent.h"
+
+#include "SkyRenderSystem.h"
+#include "SkyDomeComponent.h"
+#include "FBXLoader.hpp"
+#include "MaterialManager.h"
+#include "LightSystem.h"
+#include "DirectionalLight.h"
+#include "SkyBoxComponent.h"
+#include "FBXLoader.hpp"
+#include "Landscape.h"
+#include "SkeletalMeshComponent.h"
+#include "MaterialManager.h"
+//추가
+#include "SocketComponent.h"
+#include "AnimationComponent.h"
+#include "UpdateAnimSystem.h"
+#include "MovementSystem.h"
+#include "Character.h"
+#include "SelectAnimSystem.h"
+#include "BoundingBoxComponent.h"
+#include "CameraArmComponent.h"
+
+//추가
+#include "ColliderSystem.h"
+#include "SplineComponent.h"
+
+///////////////////
+//Effect Include
+///////////////////
 #include "EffectInclude/EffectSystem.h"
 
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
@@ -37,6 +60,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 
 SampleCore::SampleCore()
 {
+	toggleCam = false;
 }
 
 SampleCore::~SampleCore()
@@ -45,97 +69,166 @@ SampleCore::~SampleCore()
 
 bool SampleCore::Initialize()
 {
-	// 1. Actor 생성
-	Actor* actor = new Actor;
-	
-	// 2. Static Mesh Component 추가.
-	auto comp = actor->AddComponent<StaticMeshComponent>();
+	EditorCore::Initialize();
+	FBXLoader::GetInstance()->Initialize();
 
-	// 3. Material 생성
-	Material* material = new Material;
+	MainCameraSystem = new CameraSystem;
+	MainCameraActor = new Actor;
+	MainCamera = MainCameraActor->AddComponent<Camera>();
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 50.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+	MainCameraSystem->MainCamera = MainCamera;
+	MainWorld.AddEntity(MainCameraActor);
 
-	// 4. 텍스쳐 로드 및 머테리얼에 추가.
-	DXTexture* texture = nullptr;
-	if (DXTextureManager::getInstance()->Load(L"../resource/Default.bmp"))
+	SubCameraActor = new Actor;
+	SubCamera = SubCameraActor->AddComponent<Camera>();
+
+	TRANSFORM_KEY p0(0.0f, { -300.0f, 20.0f, 0.0f }, { 0.0f, -90.0f, 0.0f });
+	TRANSFORM_KEY p1(5.0f, { -100.0f, 40.0f, 120.0f }, { 0.0f, -45.0f, 0.0f });
+	TRANSFORM_KEY p2(10.0f, { 100.0f, 120.0f, 240.0f }, { 0.0f, 0.0f, 0.0f });
+	TRANSFORM_KEY p3(15.0f, { 20.0f, 80.0f, -120.0f }, { 0.0f, 45.0f, 0.0f });
+
+	std::vector<TRANSFORM_KEY> CPList;
+	CPList.push_back(p0);
+	CPList.push_back(p1);
+	CPList.push_back(p2);
+	CPList.push_back(p3);
+	SubCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 50.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
+	SubCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	auto Spline = SubCameraActor->AddComponent<SplineComponent>(SPLINE_LOOP_OPT::SPLOPT_LOOP_ONEWAY, CPList.data(), CPList.size(), true, -1.0f);
+	MainWorld.AddEntity(SubCameraActor);
+
+	Spline->start();
+
+	//// 지형 액터 추가.
+	Landscape* landscape = new Landscape;
+	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
+	landscapeComponents->Build(16, 16, 7, 10);
+	landscapeComponents->SetCamera(MainCameraSystem->MainCamera);
+	MainWorld.AddEntity(landscape);
+
+	// Sky Dome 추가.
+	Actor* skyDomeActor = new Actor;
+	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
+	skyDomeComp->Scale = Vector3(5000.0f, 5000.0f, 5000.0f);
+	MainWorld.AddEntity(skyDomeActor);
+	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
+	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	MainWorld.AddSystem(skyRenderSystem);
+
+	DirectionalLight* light = new DirectionalLight;
+	auto lightComp = light->GetComponent<DirectionalLightComponent>();
+	lightComp->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	lightComp->Direction = Vector4(1.0f, -1.0f, 1.0f, 1.0f);
+	MainWorld.AddEntity(light);
+
+	DirectionalLight* light2 = new DirectionalLight;
+	auto lightComp2 = light2->GetComponent<DirectionalLightComponent>();
+	lightComp2->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	lightComp2->Direction = Vector4(-1.0f, 1.0f, 1.0f, 1.0f);
+	MainWorld.AddEntity(light2);
+
+	for (int cnt = 0; cnt < 4; cnt++)
 	{
-		texture = DXTextureManager::getInstance()->getTexture(L"../resource/Default.bmp");
+		Actor* backgroundBuliding = new Actor;
+		auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
+		auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
+		}
+		auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
+		backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
+		backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		backgroundBulidingTransform->Translation = Vector3(-500.0f + static_cast<float>(cnt) * 250, 40.0f, 300.0f);
+		MainWorld.AddEntity(backgroundBuliding);
 	}
-	if (texture != nullptr)
+
+	for (int cnt = 0; cnt < 4; cnt++)
 	{
-		material->SetDiffuseTexture(texture);
+		Actor* backgroundBuliding = new Actor;
+		auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
+		auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
+		}
+		auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
+		backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
+		backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		backgroundBulidingTransform->Translation = Vector3(-500.0f + static_cast<float>(cnt) * 250, 40.0f, -300.0f);
+		MainWorld.AddEntity(backgroundBuliding);
 	}
 
-	// 5. 평면 메쉬 생성 후 머테리얼 세팅. 
-	PlaneComponent* plane = new PlaneComponent;
-	plane->SetMaterial(material);
+	for (int cnt = 0; cnt < 8; cnt++)
+	{
+		Actor* container = new Actor;
+		auto staticMesh = container->AddComponent<StaticMeshComponent>();
+		auto boundBox = container->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX", staticMesh);
+		}
+		auto transform = container->GetComponent<TransformComponent>();
+		transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
+		transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
+		transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
+		MainWorld.AddEntity(container);
+	}
 
-	// 6. 스태틱 메쉬에 평면 메쉬 추가.
-	comp->Meshes.push_back(*plane);
-	
-	// 7. 액터에 트랜스 폼 추가.
-	auto transformComp = actor->AddComponent<TransformComponent>();
-	transformComp->Translation = Vector3(0.0f, 0.0, 0.0f);
-	transformComp->Rotation = Vector3(0.0f, 3.14f / 4.0f, 0.0f);
-	transformComp->Scale = Vector3(20.0f, 20.0f, 1.0f);
-	
-	// 8. 액터에 카메라 추가.
-	DebugCamera = actor->AddComponent<Camera>();
-	DebugCamera->CreateViewMatrix(Vector3(0.0f, 0.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	DebugCamera->CreateProjectionMatrix(1.0f, 500.0f, PI * 0.25, (Device.m_ViewPort.Width) / (Device.m_ViewPort.Height));
+	// 카메라 시스템 및 랜더링 시스템 추가.
+	MainWorld.AddSystem(MainCameraSystem);
+	MainWorld.AddSystem(new ColliderSystem);
+	MainRenderSystem = new RenderSystem;
+	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	MainWorld.AddSystem(MainRenderSystem);
 
-	// 9. 메인 월드에 액터 추가.
-	MainWorld.AddEntity(actor);
+	MainWorld.AddSystem(new MovementSystem);
+	MainWorld.AddSystem(new UpdateAnimSystem);
+	// SelectAnimSystem 추가
+	MainWorld.AddSystem(new SelectAnimSystem);
 
-	// 10. 카메라 시스템 및 랜더링 시스템 추가.
-	MainWorld.AddSystem(new CameraSystem);
-	MainWorld.AddSystem(new RenderSystem);
-
-	//Effect Test
-	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
-	ESystem->init(&MainWorld);
-	MainWorld.AddSystem(ESystem);
-
-	ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
-	/*ParticleEffect* testEffect2 = new ParticleEffect(L"Hit2", { true, 0.5, 0.0, 1.0 });
-	ParticleEffect* testEffect3 = new ParticleEffect(L"Hit3", { true, 0.5, 0.0, 1.0 });
-	ParticleEffect* testEffect4 = new ParticleEffect(L"Hit4", { true, 0.5, 0.0, 1.0 });
-	ParticleEffect* testEffect5 = new ParticleEffect(L"Hit5", { true, 0.5, 0.0, 1.0 });*/
-
-	auto testEffectTransform1 = testEffect1->GetComponent<TransformComponent>();
-	/*auto testEffectTransform2 = testEffect2->GetComponent<TransformComponent>();
-	auto testEffectTransform3 = testEffect3->GetComponent<TransformComponent>();
-	auto testEffectTransform4 = testEffect1->GetComponent<TransformComponent>();
-	auto testEffectTransform5 = testEffect2->GetComponent<TransformComponent>();*/
-
-	testEffectTransform1->Translation = { 10.0f, 0.0f, 0.0f };
-	/*testEffectTransform2->Translation = { 20.0f, 0.0f, 0.0f };
-	testEffectTransform3->Translation = { 30.0f, 0.0f, 0.0f };
-	testEffectTransform4->Translation = { 40.0f, 0.0f, 0.0f };
-	testEffectTransform5->Translation = { 50.0f, 0.0f, 0.0f };*/
-
-	MainWorld.AddEntity(testEffect1);
-	/*TheWorld.AddEntity(testEffect2);
-	TheWorld.AddEntity(testEffect3);
-	TheWorld.AddEntity(testEffect4);
-	TheWorld.AddEntity(testEffect5);*/
+	LightSystem* lightSystem = new LightSystem;
+	lightSystem->MainCamera = MainCameraSystem->MainCamera;
+	lightSystem->Initialize();
+	MainWorld.AddSystem(lightSystem);
 
 	return true;
 }
 
 bool SampleCore::Frame()
 {
-	
+	if (Input::GetInstance()->getKey(VK_F2) == KeyState::Down)
+	{
+		swaping(MainCamera, SubCamera, temp);
+
+		MainCameraSystem->MainCamera = MainCamera;
+		MainRenderSystem->MainCamera = MainCamera;
+	}
+
 	return true;
 }
 
 bool SampleCore::Render()
 {
-	float dt = Timer::getInstance()->secondPerFrame;
+	float dt = Timer::GetInstance()->SecondPerFrame;
 	MainWorld.Tick(dt);
 	return true;
 }
 
 bool SampleCore::Release()
 {
-	return true;
+	///////////////////////
+	//EFFECTUTIL CleanUp
+	///////////////////////
+	EFFECTUTIL::EFFECT_MGR.release();
+	EFFECTUTIL::SPRITE_MGR.release();
+	EFFECTUTIL::FILEIO_MGR.release();
+	EFFECTUTIL::DXSTATE_MGR.release();
+
+	BV_MGR.release();
+
+	FBXLoader::GetInstance()->Release();
+	return EditorCore::Release();
 }
