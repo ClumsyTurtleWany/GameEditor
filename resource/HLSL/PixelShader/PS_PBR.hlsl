@@ -15,7 +15,7 @@ struct PixelShader_input
 cbuffer DirectionLightData : register(b0)
 {
 	float4 g_DirectionLightColor[20];
-	float4 g_DirectionLightDir[20];
+	float3 g_DirectionLightDir[20];
 	int  g_DirectionLightCnt;
 	int g_DirectionalDummy1;
 	int g_DirectionalDummy2;
@@ -61,24 +61,50 @@ cbuffer MaterialData : register(b4)
 }
 
 Texture2D		g_DiffuseTexture	: register(t0); // register를 안 붙여주면 기본적으로 0번 레지스터에 들어감.
-Texture2D		g_DiffuseTextureL1	: register(t1);
-Texture2D		g_DiffuseTextureL2	: register(t2);
-Texture2D		g_DiffuseTextureL3	: register(t3);
-Texture2D		g_DiffuseTextureL4	: register(t4);
-Texture2D		g_LayerAlpha		: register(t5);
+Texture2D		g_NormalTexture		: register(t1);
+Texture2D		g_MetalicTexture	: register(t2);
+Texture2D		g_RoughnessTexture	: register(t3);
+Texture2D		g_EmissiveTexture	: register(t4);
+Texture2D		g_AlbedoTexture		: register(t7);
+
+TextureCube		g_SpecularTexture	: register(t5);
+TextureCube		g_IrradianceTexture : register(t6); // 이레이디언스맵(방사맵), 방출되는(픽셀로부터 나오는)빛의 
 
 SamplerState	g_SampleA		: register(s0); // 샘플링을 하려면 샘플러가 필요함
 
+
+
+float4 ComputePBR(PixelShader_input input, float3 normal)
+{
+	float3 albedo = g_AlbedoTexture.Sample(g_SampleA, input.t);
+	float3 diffuseBRDF = 0;
+	float3 specularBRDF = 0;
+	// PDR = BRDF + IBL(Image Based Light)
+	float4 outputColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	for (int idx = 0; idx < 20; idx++)
+	{
+		float3 li = -g_DirectionLightDir[idx].xyz;
+		float3 lh = normalize(li + lo);
+		float cosLi = max(0.0f, dot(N, li));
+		float cosLh = max(0.0f, dot(N, lh));
+		float3 fresnelVal = fersnelSchlick(F0, max(0.0, dot(lh, lo));
+		float3 kd = lerp();
+
+
+		float intensity = max(0, dot(normal, normalize(-g_DirectionLightDir[idx].xyz)));
+		outputColor += g_DirectionLightColor[idx] * intensity;
+	}
+	outputColor.w = 1.0f;
+	return outputColor;
+}
+
 float4 ComputeDirectionDiffuseLight(float3 normal)
 {
-	//float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 outputColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	for (int idx = 0; idx < 20; idx++)
 	{
 		float intensity = max(0, dot(normal, normalize(-g_DirectionLightDir[idx].xyz)));
 		outputColor += g_DirectionLightColor[idx] * intensity;
-		//outputColor += ambientColor;
-		//outputColor = float4(0.0f, 1.0f, 0.0f, 1.0f);
 	}
 	outputColor.w = 1.0f;
 	return outputColor;
@@ -195,17 +221,7 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 // SV_Target: 출력 영역에 뿌릴 색상.
 float4 PS(PixelShader_input _input) : SV_Target
 {
-	float4 baseColor = g_DiffuseTexture.Sample(g_SampleA, _input.t);
-	float4 layerColor1 = g_DiffuseTextureL1.Sample(g_SampleA, _input.t);
-	float4 layerColor2 = g_DiffuseTextureL2.Sample(g_SampleA, _input.t);
-	float4 layerColor3 = g_DiffuseTextureL3.Sample(g_SampleA, _input.t);
-	float4 layerColor4 = g_DiffuseTextureL4.Sample(g_SampleA, _input.t);
-	float4 alpha = g_LayerAlpha.Sample(g_SampleA, _input.t);
-	float4 textureColor = lerp(baseColor, layerColor1, alpha.r);
-	textureColor = lerp(textureColor, layerColor2, alpha.g);
-	textureColor = lerp(textureColor, layerColor3, alpha.b);
-	textureColor = lerp(textureColor, layerColor4, alpha.a);
-	
+	float4 textureColor = g_DiffuseTexture.Sample(g_SampleA, _input.t);
 	float4 lightColor = ComputeDirectionDiffuseLight(_input.n) +
 						ComputePointDiffuseLight(_input.vWorld, _input.n) +
 						ComputePointSpecularLight(_input.vWorld, _input.n) +

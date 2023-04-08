@@ -18,6 +18,9 @@ public:
 	ID3D11Buffer* BPABuffer = nullptr;
 	BindPoseAnimationData	BPAData;
 
+	ID3D11VertexShader* ShadowVertexShader = nullptr;
+	ID3D11PixelShader* ShadowPixelShader = nullptr;
+
 	bool isCreated = false;
 
 	// add
@@ -31,6 +34,7 @@ public:
 
 public:
 	virtual bool Render();
+	virtual bool RenderShadow();
 	virtual bool Initialize();
 
 public:

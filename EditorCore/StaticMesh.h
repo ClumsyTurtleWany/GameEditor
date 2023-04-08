@@ -15,4 +15,5 @@ public:
 public:
 	virtual bool Initialize() override;
 	virtual bool Render() override;
+	virtual bool RenderShadow() override;
 };

@@ -71,11 +71,6 @@ bool BattleScene::Init()
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	TheWorld.AddSystem(MainCameraSystem);
 	TheWorld.AddSystem(new ColliderSystem);
-	MainRenderSystem = new RenderSystem;
-	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
-	TheWorld.AddSystem(MainRenderSystem);
-
-	TheWorld.AddSystem(new WidgetRenderSystem);
 	TheWorld.AddSystem(new MovementSystem);
 	TheWorld.AddSystem(new UpdateAnimSystem);
 	// SelectAnimSystem 추가
@@ -85,6 +80,16 @@ bool BattleScene::Init()
 	lightSystem->MainCamera = MainCameraSystem->MainCamera;
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
+
+	MainRenderSystem = new RenderSystem;
+	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	TheWorld.AddSystem(MainRenderSystem);
+
+	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
+	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	TheWorld.AddSystem(skyRenderSystem);
+
+	TheWorld.AddSystem(new WidgetRenderSystem);
 
 	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
@@ -96,36 +101,46 @@ bool BattleScene::Frame()
 {
 	BaseScene::Frame();
 
-	//KeyState btnA = Input::GetInstance()->getKey('A');
-	//if (btnA == KeyState::Hold || btnA == KeyState::Down)
-	//{
-	//	MainCamera->Pitch -= 0.1f;
-	//}
-	//KeyState btnD = Input::GetInstance()->getKey('D');
-	//if (btnD == KeyState::Hold || btnD == KeyState::Down)
-	//{
-	//	MainCamera->Pitch += 0.1f;
-	//}
-	//KeyState btnW = Input::GetInstance()->getKey('W');
-	//if (btnW == KeyState::Hold || btnW == KeyState::Down)
-	//{
-	//	MainCamera->Roll -= 0.1f;
-	//}
-	//KeyState btnS = Input::GetInstance()->getKey('S');
-	//if (btnS == KeyState::Hold || btnS == KeyState::Down)
-	//{
-	//	MainCamera->Roll += 0.1f;
-	//}
-	//KeyState btnQ = Input::GetInstance()->getKey('Q');
-	//if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
-	//{
-	//	MainCamera->Pos += MainCamera->Look;
-	//}
-	//KeyState btnE = Input::GetInstance()->getKey('E');
-	//if (btnE == KeyState::Hold || btnE == KeyState::Down)
-	//{
-	//	MainCamera->Pos -= MainCamera->Look;
-	//}
+	KeyState btnA = Input::GetInstance()->getKey('A');
+	if (btnA == KeyState::Hold || btnA == KeyState::Down)
+	{
+		MainCamera->Pitch -= 0.5f;
+	}
+	KeyState btnD = Input::GetInstance()->getKey('D');
+	if (btnD == KeyState::Hold || btnD == KeyState::Down)
+	{
+		MainCamera->Pitch += 0.5f;
+	}
+	KeyState btnW = Input::GetInstance()->getKey('W');
+	if (btnW == KeyState::Hold || btnW == KeyState::Down)
+	{
+		MainCamera->Roll -= 0.5f;
+	}
+	KeyState btnS = Input::GetInstance()->getKey('S');
+	if (btnS == KeyState::Hold || btnS == KeyState::Down)
+	{
+		MainCamera->Roll += 0.5f;
+	}
+	KeyState btnQ = Input::GetInstance()->getKey('Q');
+	if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
+	{
+		MainCamera->Pos += MainCamera->Look;
+	}
+	KeyState btnE = Input::GetInstance()->getKey('E');
+	if (btnE == KeyState::Hold || btnE == KeyState::Down)
+	{
+		MainCamera->Pos -= MainCamera->Look;
+	}
+	KeyState btnR = Input::GetInstance()->getKey('R');
+	if (btnR == KeyState::Hold || btnR == KeyState::Down)
+	{
+		MainCamera->Yaw -= 0.5f;
+	}
+	KeyState btnT = Input::GetInstance()->getKey('T');
+	if (btnT == KeyState::Hold || btnT == KeyState::Down)
+	{
+		MainCamera->Yaw += 0.5f;
+	}
 
 	KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 	if (btnLC == KeyState::Hold || btnLC == KeyState::Down)
@@ -290,21 +305,30 @@ void BattleScene::Init_Map()
 	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
 	skyDomeComp->Scale = Vector3(5000.0f, 5000.0f, 5000.0f);
 	TheWorld.AddEntity(skyDomeActor);
-	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
-	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
-	TheWorld.AddSystem(skyRenderSystem);
 
 	DirectionalLight* light = new DirectionalLight;
 	auto lightComp = light->GetComponent<DirectionalLightComponent>();
 	lightComp->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	lightComp->Direction = Vector4(1.0f, -1.0f, 1.0f, 1.0f);
+	auto lightCompTransform = light->GetComponent<TransformComponent>();
+	lightCompTransform->Translation = Vector3(-500.0f, 500.0f, -500.0f);
 	TheWorld.AddEntity(light);
 
-	DirectionalLight* light2 = new DirectionalLight;
+	/*DirectionalLight* light2 = new DirectionalLight;
 	auto lightComp2 = light2->GetComponent<DirectionalLightComponent>();
 	lightComp2->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-	lightComp2->Direction = Vector4(-1.0f, 1.0f, 1.0f, 1.0f);
-	TheWorld.AddEntity(light2);
+	lightComp2->Direction = Vector4(-1.0f, 1.0f, -1.0f, 1.0f);
+	auto lightCompTransform2 = light2->GetComponent<TransformComponent>();
+	lightCompTransform2->Translation = Vector3(500.0f, 0.0f, 500.0f);
+	TheWorld.AddEntity(light2);*/
+
+	DirectionalLight* light3 = new DirectionalLight;
+	auto lightComp3 = light3->GetComponent<DirectionalLightComponent>();
+	lightComp3->Color = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
+	lightComp3->Direction = Vector4(1.0f, -1.0f, 1.0f, 1.0f);
+	auto lightCompTransform3 = light3->GetComponent<TransformComponent>();
+	lightCompTransform3->Translation = Vector3(-250.0f, 500.0f, -500.0f);
+	TheWorld.AddEntity(light3);
 
 	for (int cnt = 0; cnt < 4; cnt++)
 	{

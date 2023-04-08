@@ -2,12 +2,14 @@
 
 ID3D11SamplerState* DXSamplerState::pDefaultSamplerState = nullptr;
 ID3D11SamplerState* DXSamplerState::pDefaultMirrorSamplerState = nullptr;
+ID3D11SamplerState* DXSamplerState::ShadowMapCompState = nullptr;
 ID3D11RasterizerState* DXSamplerState::pDefaultRSWireFrame = nullptr;
 ID3D11RasterizerState* DXSamplerState::pRSWireFrame_CullNone = nullptr;
 ID3D11RasterizerState* DXSamplerState::pRSWireFrame_CullFront = nullptr;
 ID3D11RasterizerState* DXSamplerState::pDefaultRSSolid = nullptr;
 ID3D11RasterizerState* DXSamplerState::pRSSolid_CullNone = nullptr;
 ID3D11RasterizerState* DXSamplerState::pRSSolid_CullFront = nullptr;
+ID3D11RasterizerState* DXSamplerState::RSSlopeScaledDepthBias = nullptr;
 ID3D11BlendState* DXSamplerState::pBlendSamplerState = nullptr;
 ID3D11DepthStencilState* DXSamplerState::pDefaultDepthStencil = nullptr;
 ID3D11DepthStencilState* DXSamplerState::pGreaterDepthStencil = nullptr;
@@ -56,6 +58,28 @@ bool DXSamplerState::SetDevice(ID3D11Device* _pd3dDevice)
 	if (FAILED(rst))
 	{
 		OutputDebugStringA("DXSamplerState::Failed Create Mirror Sampler State.\n");
+		return false;
+	}
+
+
+	D3D11_SAMPLER_DESC shadowSamplerDesc =
+	{
+		D3D11_FILTER_COMPARISON_MIN_MAG_LINEAR_MIP_POINT,// D3D11_FILTER Filter;
+		D3D11_TEXTURE_ADDRESS_BORDER, //D3D11_TEXTURE_ADDRESS_MODE AddressU;
+		D3D11_TEXTURE_ADDRESS_BORDER, //D3D11_TEXTURE_ADDRESS_MODE AddressV;
+		D3D11_TEXTURE_ADDRESS_BORDER, //D3D11_TEXTURE_ADDRESS_MODE AddressW;
+		0,//FLOAT MipLODBias;
+		0,//UINT MaxAnisotropy;
+		D3D11_COMPARISON_LESS , //D3D11_COMPARISON_FUNC ComparisonFunc;
+		0.0,0.0,0.0,0.0,//FLOAT BorderColor[ 4 ];
+		0,//FLOAT MinLOD;
+		0//FLOAT MaxLOD;   
+	};
+
+	rst = DXDevice::g_pd3dDevice->CreateSamplerState(&shadowSamplerDesc, &ShadowMapCompState);
+	if (FAILED(rst))
+	{
+		OutputDebugStringA("DXSamplerState::Failed Create Shadow Sampler State.\n");
 		return false;
 	}
 
@@ -138,6 +162,21 @@ bool DXSamplerState::SetDevice(ID3D11Device* _pd3dDevice)
 		return false;
 	}
 	
+
+	D3D11_RASTERIZER_DESC rsDesc;
+	ZeroMemory(&rsDesc, sizeof(rsDesc));
+	rsDesc.FillMode = D3D11_FILL_SOLID;
+	rsDesc.CullMode = D3D11_CULL_BACK;
+	rsDesc.DepthBias = 10000;
+	rsDesc.DepthBiasClamp = 0.0f;
+	rsDesc.SlopeScaledDepthBias = 1.0f;
+	rst = DXDevice::g_pd3dDevice->CreateRasterizerState(&rsDesc, &RSSlopeScaledDepthBias);
+	if (FAILED(rst))
+	{
+		OutputDebugStringA("DXSamplerState::Failed Create Slope Scaled Depth Bias Rasterizer.\n");
+		return false;
+	}
+
 	/////////////////////////////////////////////////////////////////////////////////////////////////
 	// Blend State
 	/////////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,6 +264,12 @@ bool DXSamplerState::Release()
 		pDefaultMirrorSamplerState = nullptr;
 	}
 
+	if (ShadowMapCompState != nullptr)
+	{
+		ShadowMapCompState->Release();
+		ShadowMapCompState = nullptr;
+	}
+	
 	if (pDefaultRSWireFrame != nullptr)
 	{
 		pDefaultRSWireFrame->Release();
@@ -259,6 +304,12 @@ bool DXSamplerState::Release()
 	{
 		pRSSolid_CullFront->Release();
 		pRSSolid_CullFront = nullptr;
+	}
+
+	if (RSSlopeScaledDepthBias != nullptr)
+	{
+		RSSlopeScaledDepthBias->Release();
+		RSSlopeScaledDepthBias = nullptr;
 	}
 
 	if (pBlendSamplerState != nullptr)

@@ -28,6 +28,7 @@ public:
 public:
 	virtual bool Initialize() = 0;
 	virtual bool Render() = 0;
+	virtual bool RenderShadow() = 0;
 
 public:
 	void SetMaterial(Material* material);

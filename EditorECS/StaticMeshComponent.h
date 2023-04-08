@@ -20,6 +20,9 @@ public:
 
 	bool isCreated = false;
 
+	ID3D11VertexShader* ShadowVertexShader = nullptr;
+	ID3D11PixelShader*	ShadowPixelShader = nullptr;
+
 public:
 	StaticMeshComponent();
 	virtual ~StaticMeshComponent();
@@ -27,6 +30,7 @@ public:
 public:
 	virtual bool Initialize();
 	virtual bool Render();
+	virtual bool RenderShadow();
 	virtual bool Save(std::wstring filename) override;
 	virtual bool Load(std::wstring filename) override;
 

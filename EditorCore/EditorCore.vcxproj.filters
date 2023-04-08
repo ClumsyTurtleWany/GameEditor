@@ -47,9 +47,6 @@
     <Filter Include="Picker">
       <UniqueIdentifier>{24fab745-3730-4c5e-bbc5-efa6b038ff55}</UniqueIdentifier>
     </Filter>
-    <Filter Include="HLSL">
-      <UniqueIdentifier>{afa8c5b0-81c8-48bd-b5f2-93ffb4a9df6f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EditorCore.h">
@@ -106,6 +103,9 @@
     <ClInclude Include="MousePicker.h">
       <Filter>Picker</Filter>
     </ClInclude>
+    <ClInclude Include="DXRenderTargetManager.h">
+      <Filter>DirectX\RenderTarget</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditorCore.cpp">
@@ -132,52 +132,61 @@
     <ClCompile Include="MousePicker.cpp">
       <Filter>Picker</Filter>
     </ClCompile>
+    <ClCompile Include="DXRenderTargetManager.cpp">
+      <Filter>DirectX\RenderTarget</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="GS_Landscape.hlsl">
-      <Filter>DirectX\HLSL\Goemetry</Filter>
-    </FxCompile>
-    <FxCompile Include="VS_SkeletalMesh.hlsl">
-      <Filter>DirectX\HLSL\Vertex</Filter>
-    </FxCompile>
-    <FxCompile Include="VS_StaticMesh.hlsl">
-      <Filter>DirectX\HLSL\Vertex</Filter>
-    </FxCompile>
-    <FxCompile Include="PS_Default.hlsl">
-      <Filter>DirectX\HLSL\Pixel</Filter>
-    </FxCompile>
-    <FxCompile Include="PS_Light.hlsl">
-      <Filter>DirectX\HLSL\Pixel</Filter>
-    </FxCompile>
-    <FxCompile Include="PS_NonTexturedUI.hlsl">
-      <Filter>DirectX\HLSL\Pixel</Filter>
-    </FxCompile>
-    <FxCompile Include="PS_TexturedUI.hlsl">
-      <Filter>DirectX\HLSL\Pixel</Filter>
-    </FxCompile>
-    <FxCompile Include="VS_UserInterface.hlsl">
-      <Filter>DirectX\HLSL\Vertex</Filter>
-    </FxCompile>
-    <FxCompile Include="CS_LandscapeSplatting.hlsl">
+    <FxCompile Include="..\resource\HLSL\ComputeShader\CS_LandscapeSplatting.hlsl">
       <Filter>DirectX\HLSL\Compute</Filter>
     </FxCompile>
-    <FxCompile Include="PS_Landscape.hlsl">
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_Default.hlsl">
       <Filter>DirectX\HLSL\Pixel</Filter>
     </FxCompile>
-    <FxCompile Include="VS_NormalMapStaticMesh.hlsl">
-      <Filter>DirectX\HLSL\Vertex</Filter>
-    </FxCompile>
-    <FxCompile Include="PS_NormalMap.hlsl">
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_Landscape.hlsl">
       <Filter>DirectX\HLSL\Pixel</Filter>
     </FxCompile>
-    <FxCompile Include="VS_Sky.hlsl">
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_Light.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_NonTexturedUI.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_NormalMap.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_Shadow.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_Texture2DArray.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_TexturedUI.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\VertexShader\VS_Shadow.hlsl">
       <Filter>DirectX\HLSL\Vertex</Filter>
     </FxCompile>
-    <FxCompile Include="VS_LineObject.hlsl">
-      <Filter>HLSL</Filter>
+    <FxCompile Include="..\resource\HLSL\VertexShader\VS_SkeletalMesh.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
     </FxCompile>
-    <FxCompile Include="PS_LineObject.hlsl">
-      <Filter>HLSL</Filter>
+    <FxCompile Include="..\resource\HLSL\VertexShader\VS_SkeletalShadow.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\VertexShader\VS_Sky.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\VertexShader\VS_StaticMesh.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\VertexShader\VS_UserInterface.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_LineObject.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\HLSL\VertexShader\VS_LineObject.hlsl">
+      <Filter>DirectX\HLSL\Vertex</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

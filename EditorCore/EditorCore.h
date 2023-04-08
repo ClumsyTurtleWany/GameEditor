@@ -1,6 +1,8 @@
 #pragma once
 #include "Define.h"
 #include "MousePicker.h"
+#include "MaterialManager.h"
+#include "DXRenderTargetManager.h"
 
 class EditorCore : public BaseCore
 {

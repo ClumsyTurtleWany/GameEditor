@@ -21,6 +21,7 @@ bool SkeletalMeshComponent::Render()
 	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
 	DXDevice::g_pImmediateContext->UpdateSubresource(BPABuffer, 0, NULL, &BPAData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(2, 1, &BPABuffer);
 
 	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
@@ -28,6 +29,31 @@ bool SkeletalMeshComponent::Render()
 	for (auto& it : Meshes)
 	{
 		it.Render();
+	}
+
+	return true;
+}
+
+bool SkeletalMeshComponent::RenderShadow()
+{
+	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::g_pImmediateContext->VSSetShader(ShadowVertexShader, NULL, 0);
+	DXDevice::g_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::g_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	//DXDevice::g_pImmediateContext->PSSetShader(ShadowPixelShader, NULL, 0);
+	DXDevice::g_pImmediateContext->PSSetShader(nullptr, NULL, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(BPABuffer, 0, NULL, &BPAData, 0, 0);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(2, 1, &BPABuffer);
+
+	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
+
+	for (auto& it : Meshes)
+	{
+		it.RenderShadow();
 	}
 
 	return true;
@@ -45,6 +71,20 @@ bool SkeletalMeshComponent::Initialize()
 	TransformBuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<TransformMatrix>(TransformData);
 	BPABuffer = DXShaderManager::GetInstance()->CreateConstantBuffer<BindPoseAnimationData>(BPAData);
 	isCreated = true;
+
+	ShadowVertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"SkeletalShadow");
+	if (ShadowVertexShader == nullptr)
+	{
+		OutputDebugString(L"EditorECS::SkeletalMeshComponent::Initialize::Failed Get Shadow Vertex Shader.");
+		return false;
+	}
+
+	ShadowPixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"Shadow");
+	if (ShadowPixelShader == nullptr)
+	{
+		OutputDebugString(L"EditorECS::SkeletalMeshComponent::Initialize::Failed Get Shadow Pixel Shader.");
+		return false;
+	}
 
 	return true;
 }

@@ -31,6 +31,9 @@ public:
 	int SectionSize;
 	int CellDistance;
 
+	ID3D11VertexShader* ShadowVertexShader = nullptr;
+	ID3D11PixelShader* ShadowPixelShader = nullptr;
+
 	Vector3 Center;
 
 	std::vector<DirectX::BoundingBox> BoundingBoxList;
@@ -46,6 +49,7 @@ public:
 public:
 	void Build(int row = 8, int column = 8, int sectionSize = 8, int cellDistance = 100);
 	void Render();
+	void RenderShadow();
 	void SetCamera(Camera* camera);
 	void UpdateTransformMatrix(const TransformComponent& transform);
 	void SetSculptingData(Vector3 pos, float radius, float attenuation, float strength, float weight);

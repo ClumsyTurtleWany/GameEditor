@@ -1,5 +1,4 @@
 #include "EditorCore.h"
-#include "MaterialManager.h"
 
 EditorCore::EditorCore()
 {
@@ -47,6 +46,12 @@ bool EditorCore::Initialize()
         return false;
     }
 
+    if (!DXRenderTargetManager::GetInstance()->Initialize())
+    {
+        OutputDebugString(L"EditorCore::Initialize::DXRenderTargetManager::Failed Initialize Render Target Manager.");
+        return false;
+    }
+
     return true;
 }
 
@@ -63,7 +68,16 @@ bool EditorCore::Render()
 
 bool EditorCore::Release()
 {
-    MaterialManager::GetInstance()->Release();
+    if (!DXRenderTargetManager::GetInstance()->Release())
+    {
+        OutputDebugString(L"EditorCore::Release::DXRenderTargetManager::Failed Release Render Target Manager.");
+    }
+
+    if (!MaterialManager::GetInstance()->Release())
+    {
+        OutputDebugString(L"EditorCore::Release::MaterialManager::Failed Release Material Manager.");
+    }
+
     return true;
 }
 
@@ -101,21 +115,6 @@ bool EditorCore::CreateInputLayout()
     };
     UINT skeletalMeshInputElementNum = sizeof(skeletalMeshInputDescs) / sizeof(skeletalMeshInputDescs[0]);
     DXShaderManager::GetInstance()->CreateInputLayout(skeletalMeshVSCode, skeletalMeshInputDescs, skeletalMeshInputElementNum, L"SkeletalMesh");
-    
-    ////------------------------------------------------------------------------------------
-    //// Normal Map Static Mesh Input Layout
-    ////------------------------------------------------------------------------------------
-    //ID3DBlob* normalMapStaticMeshVSCode = DXShaderManager::GetInstance()->GetVSCode(L"NormalMapStaticMesh");
-    //D3D11_INPUT_ELEMENT_DESC normalMapStaticMeshInputDescs[] =
-    //{
-    //    {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-    //    {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-    //    {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 12 == float * 3 // Vertex의 Color 시작 바이트.
-    //    {"TEXTURE", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 40, D3D11_INPUT_PER_VERTEX_DATA, 0}, // 28 == float * 28 // Vertex의 Texture 시작 바이트.
-    //    {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 48, D3D11_INPUT_PER_VERTEX_DATA, 0}
-    //};
-    //UINT normalMapStaticMeshInputElementNum = sizeof(normalMapStaticMeshInputDescs) / sizeof(normalMapStaticMeshInputDescs[0]);
-    //DXShaderManager::GetInstance()->CreateInputLayout(normalMapStaticMeshVSCode, normalMapStaticMeshInputDescs, normalMapStaticMeshInputElementNum, L"NormalMapStaticMesh");
 
     //------------------------------------------------------------------------------------
     // ParticleEffect Input Layout
@@ -151,29 +150,39 @@ bool EditorCore::CreateInputLayout()
 
 bool EditorCore::CreateVertexShader()
 {
-    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_NormalMapStaticMesh.hlsl", L"StaticMesh"))
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_NormalMapStaticMesh.hlsl", L"StaticMesh"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_StaticMesh.hlsl).");
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_StaticMesh.hlsl).");
     }
 
-    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_SkeletalMesh.hlsl", L"SkeletalMesh"))
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_SkeletalMesh.hlsl", L"SkeletalMesh"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_SkeletalMesh.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_SkeletalMesh.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_UserInterface.hlsl", L"UI"))
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_UserInterface.hlsl", L"UI"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_UserInterface.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_UserInterface.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_NormalMapStaticMesh.hlsl", L"NormalMapStaticMesh"))
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_NormalMapStaticMesh.hlsl", L"NormalMapStaticMesh"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_NormalMapStaticMesh.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_NormalMapStaticMesh.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_Sky.hlsl", L"Sky"))
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_Sky.hlsl", L"Sky"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_Sky.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_Sky.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_Shadow.hlsl", L"Shadow"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_Shadow.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_SkeletalShadow.hlsl", L"SkeletalShadow"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_SkeletalShadow.hlsl)");
     }
 
     //------------------------------------------------------------------------------------
@@ -187,9 +196,9 @@ bool EditorCore::CreateVertexShader()
     //------------------------------------------------------------------------------------
     // Line Object Shader
     //------------------------------------------------------------------------------------
-    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../include/EditorCore/VS_LineObject.hlsl", L"VS_LineObject"))
+    if (!DXShaderManager::GetInstance()->CreateVertexShader(L"../resource/HLSL/VertexShader/VS_LineObject.hlsl", L"VS_LineObject"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../include/EditorCore/VS_LineObject.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreateVertexShader::Failed Create Vertex Shader.(../resource/HLSL/VertexShader/VS_LineObject.hlsl)");
     }
 
     return true;
@@ -197,34 +206,44 @@ bool EditorCore::CreateVertexShader()
 
 bool EditorCore::CreatePixelShader()
 {
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Light.hlsl", L"Light"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_Light.hlsl", L"Light"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Light.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_Light.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Landscape.hlsl", L"Landscape"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_Landscape.hlsl", L"Landscape"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Landscape.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_Landscape.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_TexturedUI.hlsl", L"T_UI"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_TexturedUI.hlsl", L"T_UI"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_TexturedUI.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_TexturedUI.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_NonTexturedUI.hlsl", L"NT_UI"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_NonTexturedUI.hlsl", L"NT_UI"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_NonTexturedUI.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_NonTexturedUI.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_Default.hlsl", L"Default"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_Default.hlsl", L"Default"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_Default.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_Default.hlsl)");
     }
 
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_NormalMap.hlsl", L"NormalMap"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_NormalMap.hlsl", L"NormalMap"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_NormalMap.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_NormalMap.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_Shadow.hlsl", L"Shadow"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_Shadow.hlsl)");
+    }
+
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_Texture2DArray.hlsl", L"2DArray"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_Texture2DArray.hlsl)");
     }
 
     //------------------------------------------------------------------------------------
@@ -248,9 +267,9 @@ bool EditorCore::CreatePixelShader()
     //------------------------------------------------------------------------------------
     // Line Object Shader
     //------------------------------------------------------------------------------------
-    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../include/EditorCore/PS_LineObject.hlsl", L"PS_LineObject"))
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_LineObject.hlsl", L"PS_LineObject"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../include/EditorCore/PS_LineObject.hlsl)");
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_LineObject.hlsl)");
     }
 
     return true;
@@ -258,9 +277,9 @@ bool EditorCore::CreatePixelShader()
 
 bool EditorCore::CreateComputeShader()
 {
-    if (!DXShaderManager::GetInstance()->CreateComputeShader(L"../include/EditorCore/CS_LandscapeSplatting.hlsl", L"Splatting"))
+    if (!DXShaderManager::GetInstance()->CreateComputeShader(L"../resource/HLSL/ComputeShader/CS_LandscapeSplatting.hlsl", L"Splatting"))
     {
-        OutputDebugString(L"EditorCore::Initialize::CreateComputeShader::Failed Create Compute Shader.(../include/EditorCore/CS_LandscapeSplatting.hlsl).");
+        OutputDebugString(L"EditorCore::Initialize::CreateComputeShader::Failed Create Compute Shader.(../resource/HLSL/ComputeShader/CS_LandscapeSplatting.hlsl).");
     }
     return true;
 }

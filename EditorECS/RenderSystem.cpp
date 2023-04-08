@@ -20,33 +20,13 @@ void RenderSystem::Tick(ECS::World* world, float time)
 	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
 	DXDevice::g_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);
 	DXDevice::g_pImmediateContext->PSSetSamplers(0, 1, &DXSamplerState::pDefaultSamplerState);
+	DXDevice::g_pImmediateContext->PSSetSamplers(1, 1, &DXSamplerState::ShadowMapCompState);
 	DXDevice::g_pImmediateContext->OMSetDepthStencilState(DXSamplerState::pDefaultDepthStencil, 0xff);
 
-	for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
+	if (MainCamera != nullptr)
 	{
-		auto landscape = entity->GetComponent<LandscapeComponents>();
-		auto transform = entity->GetComponent<TransformComponent>();
-		if ((landscape != nullptr) && (transform != nullptr))
-		{
-			landscape->SetCamera(MainCamera);
-			landscape->UpdateTransformMatrix(*transform);
-			landscape->Render();
-		}
+		MainCamera->Apply();
 	}
-
-	for (auto& entity : world->GetEntities<SkeletalMeshComponent>())
-	{
-		auto skeletalMesh = entity->GetComponent<SkeletalMeshComponent>();
-		auto transform = entity->GetComponent<TransformComponent>();
-
-		if ((skeletalMesh != nullptr) && (transform != nullptr))
-		{
-			skeletalMesh->UpdateTransformMatrix(*transform);
-			skeletalMesh->Render();
-		}
-
-	}
-
 
 	for (auto& entity : world->GetEntities<StaticMeshComponent, TransformComponent>())
 	{
@@ -65,6 +45,31 @@ void RenderSystem::Tick(ECS::World* world, float time)
 				staticMesh->UpdateTransformMatrix(*transform);
 				staticMesh->Render();
 			}
+		}
+	}
+
+	for (auto& entity : world->GetEntities<SkeletalMeshComponent>())
+	{
+		auto skeletalMesh = entity->GetComponent<SkeletalMeshComponent>();
+		auto transform = entity->GetComponent<TransformComponent>();
+
+		if ((skeletalMesh != nullptr) && (transform != nullptr))
+		{
+			skeletalMesh->UpdateTransformMatrix(*transform);
+			skeletalMesh->Render();
+		}
+
+	}
+	
+	for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
+	{
+		auto landscape = entity->GetComponent<LandscapeComponents>();
+		auto transform = entity->GetComponent<TransformComponent>();
+		if ((landscape != nullptr) && (transform != nullptr))
+		{
+			landscape->SetCamera(MainCamera);
+			landscape->UpdateTransformMatrix(*transform);
+			landscape->Render();
 		}
 	}
 

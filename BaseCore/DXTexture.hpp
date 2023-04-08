@@ -59,6 +59,6 @@ public:
 	bool						Release();
 	
 public:
-	bool						CreateRenderTarget(float _width, float _height);
+	bool						CreateRenderTarget(float _width, float _height, UINT cnt, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM);
 };
 

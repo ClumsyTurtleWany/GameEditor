@@ -27,12 +27,14 @@ bool DXShaderManager::LoadVSCode(std::wstring filename, std::wstring key)
 		// _Always_(_Outptr_opt_result_maybenull_ : Error Code
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
+		DWORD dwShaderFlags = D3DCOMPILE_DEBUG;
+		dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 		result = D3DCompileFromFile(
 			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"VS",
 			"vs_5_0",
-			0, 0,
+			dwShaderFlags, 0,
 			&pVSCode,
 			&pErrorCode);
 
@@ -77,12 +79,14 @@ bool DXShaderManager::LoadHSCode(std::wstring filename, std::wstring key)
 		// _Always_(_Outptr_opt_result_maybenull_ : Error Code
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
+		DWORD dwShaderFlags = D3DCOMPILE_DEBUG;
+		dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 		result = D3DCompileFromFile(
 			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"HS",
 			"hs_5_0",
-			0, 0,
+			dwShaderFlags, 0,
 			&pHSCode,
 			&pErrorCode);
 
@@ -127,12 +131,14 @@ bool DXShaderManager::LoadDSCode(std::wstring filename, std::wstring key)
 		// _Always_(_Outptr_opt_result_maybenull_ : Error Code
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
+		DWORD dwShaderFlags = D3DCOMPILE_DEBUG;
+		dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 		result = D3DCompileFromFile(
 			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"DS",
 			"ds_5_0",
-			0, 0,
+			dwShaderFlags, 0,
 			&pDSCode,
 			&pErrorCode);
 
@@ -177,12 +183,14 @@ bool DXShaderManager::LoadGSCode(std::wstring filename, std::wstring key)
 		// _Always_(_Outptr_opt_result_maybenull_ : Error Code
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr;
+		DWORD dwShaderFlags = D3DCOMPILE_DEBUG;
+		dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 		result = D3DCompileFromFile(
 			filename.c_str(), //"../../resource/shader/ShapeShader.txt",  //"VertexShader.txt",
 			NULL, NULL,
 			"GS",
 			"gs_5_0",
-			0, 0,
+			dwShaderFlags, 0,
 			&pGSCode,
 			&pErrorCode);
 
@@ -215,12 +223,14 @@ bool DXShaderManager::LoadPSCode(std::wstring filename, std::wstring key)
 		// Pixel Shader Create
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr; // 
+		DWORD dwShaderFlags = D3DCOMPILE_DEBUG;
+		dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 		result = D3DCompileFromFile(
 			filename.c_str(), //"../../resource/shader/ShapeShader.txt", //"PixelShader.txt",
 			NULL, NULL,
 			"PS",
 			"ps_5_0",
-			0, 0,
+			dwShaderFlags, 0,
 			&pPSCode,
 			&pErrorCode);
 
@@ -252,12 +262,14 @@ bool DXShaderManager::LoadCSCode(std::wstring filename, std::wstring key)
 	{
 		HRESULT result;
 		ID3DBlob* pErrorCode = nullptr; // 
+		DWORD dwShaderFlags = D3DCOMPILE_DEBUG;
+		dwShaderFlags |= D3DCOMPILE_SKIP_OPTIMIZATION;
 		result = D3DCompileFromFile(
 			filename.c_str(), //"../../resource/shader/ShapeShader.txt", //"PixelShader.txt",
 			NULL, NULL,
 			"CS",
 			"cs_5_0",
-			0, 0,
+			dwShaderFlags, 0,
 			&pCSCode,
 			&pErrorCode);
 

@@ -39,6 +39,20 @@ bool StaticMeshComponent::Initialize()
 		return false;
 	}
 
+	ShadowVertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"Shadow");
+	if (ShadowVertexShader == nullptr)
+	{
+		OutputDebugString(L"EditorECS::StaticMeshComponent::Initialize::Failed Get Shadow Vertex Shader.");
+		return false;
+	}
+
+	ShadowPixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"Shadow");
+	if (ShadowPixelShader == nullptr)
+	{
+		OutputDebugString(L"EditorECS::StaticMeshComponent::Initialize::Failed Get Shadow Pixel Shader.");
+		return false;
+	}
+
 	isCreated = true;
 
 	return true;
@@ -54,12 +68,34 @@ bool StaticMeshComponent::Render()
 	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
 	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
-
 	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
 
 	for (auto& it : Meshes)
 	{
 		it.Render();
+	}
+
+	return true;
+}
+
+bool StaticMeshComponent::RenderShadow()
+{
+	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::g_pImmediateContext->VSSetShader(ShadowVertexShader, NULL, 0);
+	DXDevice::g_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::g_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	//DXDevice::g_pImmediateContext->PSSetShader(ShadowPixelShader, NULL, 0);
+	DXDevice::g_pImmediateContext->PSSetShader(nullptr, NULL, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+
+	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
+
+	for (auto& it : Meshes)
+	{
+		it.RenderShadow();
 	}
 
 	return true;

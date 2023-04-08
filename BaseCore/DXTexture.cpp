@@ -185,14 +185,14 @@ bool DXTexture::Release()
 	return true;
 }
 
-bool DXTexture::CreateRenderTarget(float _width, float _height)
+bool DXTexture::CreateRenderTarget(float _width, float _height, UINT cnt, DXGI_FORMAT format)
 {
 	ZeroMemory(&m_Desc, sizeof(m_Desc));
 	m_Desc.Width = _width;
 	m_Desc.Height = _height;
 	m_Desc.MipLevels = 1;
-	m_Desc.ArraySize = 1;
-	m_Desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	m_Desc.ArraySize = cnt;
+	m_Desc.Format = format;
 	m_Desc.SampleDesc.Count = 1;
 	m_Desc.SampleDesc.Quality = 0;
 	m_Desc.Usage = D3D11_USAGE_DEFAULT;
@@ -207,11 +207,32 @@ bool DXTexture::CreateRenderTarget(float _width, float _height)
 		return false;
 	}
 
-	rst = m_pd3dDevice->CreateShaderResourceView(m_pTextureResource, NULL, &m_pTextureResourceView);
-	if (FAILED(rst))
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+	ZeroMemory(&srvDesc, sizeof(srvDesc));
+	srvDesc.Format = format;
+	if (cnt > 1)
 	{
-		OutputDebugStringA("DXTexture::CreateRenderTarget::Failed Create Render Target Texture Resource View.\n");
-		return false;
+		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+		srvDesc.Texture2DArray.ArraySize = cnt;
+		srvDesc.Texture2DArray.FirstArraySlice = 0;
+		srvDesc.Texture2DArray.MostDetailedMip = 0;
+		srvDesc.Texture2DArray.MipLevels = 1;
+
+		rst = m_pd3dDevice->CreateShaderResourceView(m_pTextureResource, &srvDesc, &m_pTextureResourceView);
+		if (FAILED(rst))
+		{
+			OutputDebugStringA("DXTexture::CreateRenderTarget::Failed Create Render Target Texture Resource View.\n");
+			return false;
+		}
+	}
+	else
+	{
+		rst = m_pd3dDevice->CreateShaderResourceView(m_pTextureResource, NULL, &m_pTextureResourceView);
+		if (FAILED(rst))
+		{
+			OutputDebugStringA("DXTexture::CreateRenderTarget::Failed Create Render Target Texture Resource View.\n");
+			return false;
+		}
 	}
 
 	return true;

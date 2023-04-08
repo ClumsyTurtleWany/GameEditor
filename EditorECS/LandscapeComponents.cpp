@@ -17,6 +17,10 @@ bool LandscapeComponents::Initialize()
 	LayerTextureList[2] = BaseTexture;
 	LayerTextureList[3] = BaseTexture;
 
+	// Shadow
+	ShadowVertexShader = DXShaderManager::GetInstance()->GetVertexShader(L"Shadow");
+	ShadowPixelShader = DXShaderManager::GetInstance()->GetPixelShader(L"Shadow");
+
 	return true;
 }
 
@@ -156,7 +160,68 @@ void LandscapeComponents::Render()
 	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
 	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
 	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
+
+	ID3D11ShaderResourceView* pSRV = BaseTexture->GetResourceView();
+	DXDevice::g_pImmediateContext->PSSetShaderResources(0, 1, &pSRV);
+	int layerTextureSize = min(LayerTextureList.size(), 4);
+	for (int idx = 0; idx < layerTextureSize; idx++)
+	{
+		ID3D11ShaderResourceView* pLayerSRV = LayerTextureList[idx]->GetResourceView();
+		DXDevice::g_pImmediateContext->PSSetShaderResources(idx + 1, 1, &pLayerSRV);
+	}
+
+	int intersectCompCnt = 0;
+	int nonRenderCompCnt = 0;
+
+	Vector3 rotation = Transform->Rotation / 180.0f * PI;
+	DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(rotation);
+	Matrix transformMatrix = DirectX::XMMatrixAffineTransformation(Transform->Scale, Vector3(0.0f, 0.0f, 0.0f), q, Transform->Translation);
+	for (auto& it : Components)
+	{
+		if (MainCamera != nullptr)
+		{
+			Vector3 center = Vector3(it.Box.Center.x, it.Box.Center.y, it.Box.Center.z);
+			Vector3 newCenter = DirectX::XMVector3Transform(center, transformMatrix);
+			DirectX::BoundingBox bBox = it.Box;
+			bBox.Center.x = newCenter.x;
+			bBox.Center.y = newCenter.y;
+			bBox.Center.z = newCenter.z;
+			bool isIntersect = MainCamera->Frustum.Intersects(bBox);
+			if (isIntersect)
+			{
+				intersectCompCnt++;
+				it.Render();
+			}
+			else
+			{
+				nonRenderCompCnt++;
+				continue;
+			}
+		}
+		else
+		{
+			it.Render();
+		}
+	}
+
+	std::string debugStr = "Render Comp: " + std::to_string(intersectCompCnt) + ", Non Render Comp: " + std::to_string(nonRenderCompCnt) + "\n";
+	OutputDebugStringA(debugStr.c_str());
+}
+
+void LandscapeComponents::RenderShadow()
+{
+	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::g_pImmediateContext->VSSetShader(ShadowVertexShader, NULL, 0);
+	//DXDevice::g_pImmediateContext->PSSetShader(ShadowPixelShader, NULL, 0);
+	DXDevice::g_pImmediateContext->PSSetShader(nullptr, NULL, 0);
+	DXDevice::g_pImmediateContext->HSSetShader(nullptr, NULL, 0);
+	DXDevice::g_pImmediateContext->DSSetShader(nullptr, NULL, 0);
+	DXDevice::g_pImmediateContext->GSSetShader(nullptr, NULL, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
 
 	ID3D11ShaderResourceView* pSRV = BaseTexture->GetResourceView();
 	DXDevice::g_pImmediateContext->PSSetShaderResources(0, 1, &pSRV);
