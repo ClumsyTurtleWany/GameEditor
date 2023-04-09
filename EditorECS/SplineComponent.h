@@ -79,6 +79,5 @@ public:
 
 	Vector3 HornerRule_VPoly(Vector3* vfactorList, int iNumE, int t);
 	void Catmull_RomSpline(float t, float tension, Vector3& p0, Vector3& p1, Vector3& p2, Vector3& p3, Vector3& pOut);
-	void Catmull_RomSpline(float t, float tension, Quaternion& p0, Quaternion& p1, Quaternion& p2, Quaternion& p3, Quaternion& pOut);
 };
 
