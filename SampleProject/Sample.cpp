@@ -80,27 +80,6 @@ bool SampleCore::Initialize()
 	MainCameraSystem->MainCamera = MainCamera;
 	MainWorld.AddEntity(MainCameraActor);
 
-	SubCameraActor = new Actor;
-	SubCamera = SubCameraActor->AddComponent<Camera>();
-
-	TRANSFORM_KEY p0(0.0f, { -300.0f, 20.0f, 0.0f }, { 0.0f, -90.0f, 0.0f });
-	TRANSFORM_KEY p1(5.0f, { -100.0f, 40.0f, 120.0f }, { 0.0f, -45.0f, 0.0f });
-	TRANSFORM_KEY p2(10.0f, { 100.0f, 120.0f, 240.0f }, { 0.0f, 0.0f, 0.0f });
-	TRANSFORM_KEY p3(15.0f, { 20.0f, 80.0f, -120.0f }, { 0.0f, 45.0f, 0.0f });
-
-	std::vector<TRANSFORM_KEY> CPList;
-	CPList.push_back(p0);
-	CPList.push_back(p1);
-	CPList.push_back(p2);
-	CPList.push_back(p3);
-	SubCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 50.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
-	SubCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-
-	auto Spline = SubCameraActor->AddComponent<SplineComponent>(SPLINE_LOOP_OPT::SPLOPT_LOOP_ONEWAY, CPList.data(), CPList.size(), true, -1.0f);
-	MainWorld.AddEntity(SubCameraActor);
-
-	Spline->start();
-
 	//// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
 	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
@@ -113,9 +92,6 @@ bool SampleCore::Initialize()
 	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
 	skyDomeComp->Scale = Vector3(5000.0f, 5000.0f, 5000.0f);
 	MainWorld.AddEntity(skyDomeActor);
-	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
-	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
-	MainWorld.AddSystem(skyRenderSystem);
 
 	DirectionalLight* light = new DirectionalLight;
 	auto lightComp = light->GetComponent<DirectionalLightComponent>();
@@ -180,19 +156,43 @@ bool SampleCore::Initialize()
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	MainWorld.AddSystem(MainCameraSystem);
 	MainWorld.AddSystem(new ColliderSystem);
-	MainRenderSystem = new RenderSystem;
-	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
-	MainWorld.AddSystem(MainRenderSystem);
-
 	MainWorld.AddSystem(new MovementSystem);
 	MainWorld.AddSystem(new UpdateAnimSystem);
-	// SelectAnimSystem 추가
 	MainWorld.AddSystem(new SelectAnimSystem);
 
 	LightSystem* lightSystem = new LightSystem;
 	lightSystem->MainCamera = MainCameraSystem->MainCamera;
 	lightSystem->Initialize();
 	MainWorld.AddSystem(lightSystem);
+
+	MainRenderSystem = new RenderSystem;
+	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	MainWorld.AddSystem(MainRenderSystem);
+
+	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
+	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	MainWorld.AddSystem(skyRenderSystem);
+
+	SubCameraActor = new Actor;
+	SubCamera = SubCameraActor->AddComponent<Camera>();
+
+	TRANSFORM_KEY p0(0.0f, { -300.0f, 20.0f, 0.0f }, { 0.0f, -90.0f, 0.0f });
+	TRANSFORM_KEY p1(5.0f, { -100.0f, 40.0f, 120.0f }, { 0.0f, -45.0f, 30.0f });
+	TRANSFORM_KEY p2(10.0f, { 100.0f, 120.0f, 240.0f }, { 0.0f, 0.0f, 90.0f });
+	TRANSFORM_KEY p3(15.0f, { -100.0f, 80.0f, -120.0f }, { 0.0f, 45.0f, -270.0f });
+
+	std::vector<TRANSFORM_KEY> CPList;
+	CPList.push_back(p0);
+	CPList.push_back(p1);
+	CPList.push_back(p2);
+	CPList.push_back(p3);
+	SubCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 50.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
+	SubCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	auto Spline = SubCameraActor->AddComponent<SplineComponent>(SPLINE_LOOP_OPT::SPLOPT_LOOP_ONEWAY, CPList.data(), CPList.size(), true);
+	MainWorld.AddEntity(SubCameraActor);
+
+	Spline->start();
 
 	return true;
 }

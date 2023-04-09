@@ -91,7 +91,7 @@ bool MultiBattleScene::Init()
 
 
 	//서버에서 추가
-	if (gpHost->IsConnected())
+	/*if (gpHost->IsConnected())
 	{
 		playerNum = 1;
 		CurrentPlayer = player1;
@@ -100,7 +100,7 @@ bool MultiBattleScene::Init()
 	{
 		playerNum = 2;
 		CurrentPlayer = player2;
-	}
+	}*/
 
 	return true;
 }

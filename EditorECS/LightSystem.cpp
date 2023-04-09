@@ -350,8 +350,8 @@ void LightSystem::Initialize()
 
 	// Shadow
 	DirectionalLights.ShadowTextureSize = 4096.0f;
-	PointLights.ShadowTextureSize = 4096.0f;
-	SpotLights.ShadowTextureSize = 4096.0f;
+	PointLights.ShadowTextureSize = 1024.0f;
+	SpotLights.ShadowTextureSize = 1024.0f;
 
 	DirectionalLightShadowRenderTarget = DXRenderTargetManager::GetInstance()->Create(0, 0, DirectionalLights.ShadowTextureSize, DirectionalLights.ShadowTextureSize, MAX_DIRECTIONAL_LIGHT_CNT);
 	PointLightShadowRenderTarget = DXRenderTargetManager::GetInstance()->Create(0, 0, PointLights.ShadowTextureSize, PointLights.ShadowTextureSize, MAX_POINT_LIGHT_CNT);

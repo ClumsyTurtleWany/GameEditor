@@ -1,8 +1,8 @@
 #pragma once
 #include "Define.h"
 
-
-#define Deg2Rad(angle) ((angle * (float)PI) / 180.0f)
+#define BOUNDEPSILON	0.0005f
+#define DEG2RAD(angle) ((angle * (float)PI) / 180.0f)
 
 enum class SPLINE_LOOP_OPT
 {
@@ -16,6 +16,7 @@ enum class SPLINE_LOOP_OPT
 struct TRANSFORM_KEY
 {
 	Vector3			vPos;
+	Vector3			vRot;
 	Quaternion		qRot;
 	Vector3			vScale;
 
@@ -27,14 +28,13 @@ struct TRANSFORM_KEY
 		fTime = time;
 
 		vPos = Pos;
+		vRot = { DEG2RAD(PitchYawRoll.x), DEG2RAD(PitchYawRoll.y), DEG2RAD(PitchYawRoll.z) };
+		qRot = DirectX::XMQuaternionRotationRollPitchYawFromVector(vRot);
 
-		Vector3 PYR = { Deg2Rad(PitchYawRoll.x), Deg2Rad(PitchYawRoll.y), Deg2Rad(PitchYawRoll.z) };
-
-		qRot = DirectX::XMQuaternionRotationRollPitchYawFromVector(PitchYawRoll);
 		vScale = Scale;
 	}
 
-	TRANSFORM_KEY(float time, Vector3 Pos, Quaternion Rot, Vector3 Scale)
+	TRANSFORM_KEY(float time, Vector3 Pos, Quaternion Rot, Vector3 Scale = { 1.0f, 1.0f, 1.0f })
 	{
 		fTime = time;
 
@@ -70,12 +70,15 @@ public:
 	~SplineComponent();
 
 	bool update(float dt);
+	bool lerp(TRANSFORM_KEY& p0, TRANSFORM_KEY& p1, float time);
 	bool interp(float time);
 
 	void start();
 	void pause();
 	void reset();
 
+	Vector3 HornerRule_VPoly(Vector3* vfactorList, int iNumE, int t);
 	void Catmull_RomSpline(float t, float tension, Vector3& p0, Vector3& p1, Vector3& p2, Vector3& p3, Vector3& pOut);
+	void Catmull_RomSpline(float t, float tension, Quaternion& p0, Quaternion& p1, Quaternion& p2, Quaternion& p3, Quaternion& pOut);
 };
 
