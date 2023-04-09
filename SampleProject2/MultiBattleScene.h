@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Enemy_1.h"
 #include "Character.h"
+#include "protocol.pb.h"
 
 class MultiBattleScene : public BaseScene
 {
@@ -84,7 +85,8 @@ public:
 	WidgetObject* Damage2;
 
 public:
-	Deck* Dick;
+	Deck* MyDeck = nullptr;
+	Deck* YourDeck = nullptr;
 	std::vector<DXTexture*> CardTextureList;
 	WidgetObject* CardList[3] = { 0, };
 	std::vector<DXTexture*> NumberTextureList_Red;
@@ -96,5 +98,13 @@ public:
 	int	 TurnNum = 1;
 	bool MyTurnStart = true;
 	int  WhoseTurn = 1;	// 1이면 1p턴, 2면 2p턴
-};
 
+// 서버 추가
+public:
+	Character* hostCharacter = nullptr;
+	Character* clientCharacter = nullptr;
+	bool initTriger = true;
+public:
+	//void temp(); //혁 테스트 용도
+	void Init_Chara2();
+};

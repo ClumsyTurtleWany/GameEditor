@@ -11,3 +11,30 @@ message BuffData
 	float remainTime = 2;
 	repeated uint64 victims = 3;
 }
+
+//Deck
+message Deck 
+{
+	repeated int32 DeckList = 1;
+	repeated int32 RemainingCardList = 2;	
+	repeated int32 HandList = 3;
+	repeated int32 DiscardList = 4;
+}
+
+
+message StateMap
+{
+	string stateName = 1;
+	int32 stateSec = 2; // TODO : 임시 이름 영민한태 물어보고 변경
+}
+
+//Player
+message Player
+{
+	int32 maxHp = 1;
+	int32 hp = 2;
+	int32 armor = 3;
+	repeated StateMap stateMap = 4;
+	int32 maxCost = 5;
+	int32 cost = 6;
+}

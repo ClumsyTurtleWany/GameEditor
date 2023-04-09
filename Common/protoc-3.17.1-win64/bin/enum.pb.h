@@ -84,6 +84,36 @@ inline bool PlayerType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerType>(
     PlayerType_descriptor(), name, value);
 }
+enum CardNum : int {
+  Strike = 0,
+  Defend = 1,
+  PomelStrike = 2,
+  ShrugItOff = 3,
+  Hemokinesis = 4,
+  BludGeon = 5,
+  IronWave = 6,
+  CardNum_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  CardNum_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool CardNum_IsValid(int value);
+constexpr CardNum CardNum_MIN = Strike;
+constexpr CardNum CardNum_MAX = IronWave;
+constexpr int CardNum_ARRAYSIZE = CardNum_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CardNum_descriptor();
+template<typename T>
+inline const std::string& CardNum_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, CardNum>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function CardNum_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    CardNum_descriptor(), enum_t_value);
+}
+inline bool CardNum_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, CardNum* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<CardNum>(
+    CardNum_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -110,6 +140,11 @@ template <> struct is_proto_enum< ::protocol::PlayerType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protocol::PlayerType>() {
   return ::protocol::PlayerType_descriptor();
+}
+template <> struct is_proto_enum< ::protocol::CardNum> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::CardNum>() {
+  return ::protocol::CardNum_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

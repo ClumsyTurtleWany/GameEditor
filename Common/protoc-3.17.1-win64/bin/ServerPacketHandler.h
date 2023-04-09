@@ -14,6 +14,14 @@ enum : uint16
 	PKT_C_MOVE = 2,
 	PKT_S_TEST = 3,
 	PKT_S_LOGIN = 4,
+	PKT_S_CONNECT = 5,
+	PKT_C_CONNECT = 6,
+	PKT_S_DECK = 7,
+	PKT_C_DECK = 8,
+	PKT_S_USECARD = 9,
+	PKT_C_USECARD = 10,
+	PKT_S_SHUFFLE_DECK = 11,
+	PKT_C_SHUFFLE_DECK = 12,
 };
 
 namespace server
@@ -29,6 +37,14 @@ namespace server
 	bool Handle_C_MOVE(PacketSessionRef& session, protocol::C_MOVE& pkt);
 	bool Handle_S_TEST(PacketSessionRef& session, protocol::S_TEST& pkt);
 	bool Handle_S_LOGIN(PacketSessionRef& session, protocol::S_LOGIN& pkt);
+	bool Handle_S_CONNECT(PacketSessionRef& session, protocol::S_CONNECT& pkt);
+	bool Handle_C_CONNECT(PacketSessionRef& session, protocol::C_CONNECT& pkt);
+	bool Handle_S_DECK(PacketSessionRef& session, protocol::S_DECK& pkt);
+	bool Handle_C_DECK(PacketSessionRef& session, protocol::C_DECK& pkt);
+	bool Handle_S_USECARD(PacketSessionRef& session, protocol::S_USECARD& pkt);
+	bool Handle_C_USECARD(PacketSessionRef& session, protocol::C_USECARD& pkt);
+	bool Handle_S_SHUFFLE_DECK(PacketSessionRef& session, protocol::S_SHUFFLE_DECK& pkt);
+	bool Handle_C_SHUFFLE_DECK(PacketSessionRef& session, protocol::C_SHUFFLE_DECK& pkt);
 }
 
 
@@ -50,6 +66,14 @@ public: //외부 사용(래핑?)
 		{return ServerPacketHandler::HandlePacket<protocol::C_TEST>(server::Handle_C_TEST, session, buffer, len); };
 		server::GPacketHandler[PKT_C_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
 		{return ServerPacketHandler::HandlePacket<protocol::C_MOVE>(server::Handle_C_MOVE, session, buffer, len); };
+		server::GPacketHandler[PKT_C_CONNECT] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
+		{return ServerPacketHandler::HandlePacket<protocol::C_CONNECT>(server::Handle_C_CONNECT, session, buffer, len); };
+		server::GPacketHandler[PKT_C_DECK] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
+		{return ServerPacketHandler::HandlePacket<protocol::C_DECK>(server::Handle_C_DECK, session, buffer, len); };
+		server::GPacketHandler[PKT_C_USECARD] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
+		{return ServerPacketHandler::HandlePacket<protocol::C_USECARD>(server::Handle_C_USECARD, session, buffer, len); };
+		server::GPacketHandler[PKT_C_SHUFFLE_DECK] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
+		{return ServerPacketHandler::HandlePacket<protocol::C_SHUFFLE_DECK>(server::Handle_C_SHUFFLE_DECK, session, buffer, len); };
 	}
 
 	// C++에서 템플릿 함수와 비-템플릿 함수가 같은 이름을 가질 수 있습니다. 
@@ -64,6 +88,10 @@ public: //외부 사용(래핑?)
 	//static SendBufferRef MakeSendBuffer(protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, PKT_S_TEST); }
 	static SendBufferRef MakeSendBuffer(protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, PKT_S_TEST); }
 	static SendBufferRef MakeSendBuffer(protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, PKT_S_LOGIN); }
+	static SendBufferRef MakeSendBuffer(protocol::S_CONNECT& pkt) { return MakeSendBuffer(pkt, PKT_S_CONNECT); }
+	static SendBufferRef MakeSendBuffer(protocol::S_DECK& pkt) { return MakeSendBuffer(pkt, PKT_S_DECK); }
+	static SendBufferRef MakeSendBuffer(protocol::S_USECARD& pkt) { return MakeSendBuffer(pkt, PKT_S_USECARD); }
+	static SendBufferRef MakeSendBuffer(protocol::S_SHUFFLE_DECK& pkt) { return MakeSendBuffer(pkt, PKT_S_SHUFFLE_DECK); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

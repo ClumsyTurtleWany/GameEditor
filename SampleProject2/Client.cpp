@@ -28,7 +28,8 @@ bool Client::Init()
 			{
 				while (true)
 				{
-					service->GetIocpCore()->Dispatch();
+					if (service->GetIocpCore()->Dispatch() && connecting == false)
+						connecting = true;
 				}
 			});
 	}
@@ -52,6 +53,11 @@ bool Client::Release()
 {
 	GThreadManager->Join();
 	return false;
+}
+
+bool Client::IsConnected()
+{
+	return connecting;
 }
 
 bool Client::CancelConnect()

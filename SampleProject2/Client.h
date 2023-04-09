@@ -6,6 +6,7 @@ class Client
 	int16 port;
 	int16 sessionCount;
 	ClientServiceRef service;
+	bool connecting = false;
 public:
 	Client(std::wstring ip, int16 port, int16 sessionCount = 1);
 public:
@@ -13,6 +14,7 @@ public:
 	bool Frame();
 	bool Render();
 	bool Release();
+	bool IsConnected();
 public:
 	USE_LOCK;
 	bool CancelConnect();

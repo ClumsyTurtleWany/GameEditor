@@ -34,10 +34,10 @@ bool MultiBattleScene::Init()
 	player1->cost = player1->maxCost;
 	player1->maxHp = 50;
 	player1->hp = 50;
-	player2 = new Player;
-	player2->cost = player2->maxCost;
-	player2->maxHp = 50;
-	player2->hp = 50;
+	//player2 = new Player;
+	//player2->cost = player2->maxCost;
+	//player2->maxHp = 50;
+	//player2->hp = 50;
 
 	enemy1 = new Enemy_1;
 	enemy1->pWorld = &TheWorld;
@@ -65,7 +65,7 @@ bool MultiBattleScene::Init()
 
 	Init_UI();
 	Init_Map();
-	Init_Chara();
+	//Init_Chara();
 	Init_Effect();
 	Init_Sound();
 
@@ -89,12 +89,32 @@ bool MultiBattleScene::Init()
 
 	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 
+
+	//서버에서 추가
+	if (gpHost->IsConnected())
+	{
+		playerNum = 1;
+		CurrentPlayer = player1;
+	}
+	if (gpClient->IsConnected())
+	{
+		playerNum = 2;
+		CurrentPlayer = player2;
+	}
+
 	return true;
 }
 
 bool MultiBattleScene::Frame()
 {
 	BaseScene::Frame();
+
+	//서버 추가
+	if (initTriger)
+	{
+		Init_Chara2();
+		initTriger = false;
+	}
 
 	//KeyState btnA = Input::GetInstance()->getKey('A');
 	//if (btnA == KeyState::Hold || btnA == KeyState::Down)
@@ -375,7 +395,7 @@ void MultiBattleScene::Init_Chara()
 	//{
 	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
 	//}
-
+	//
 	//// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
 	//// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
 	//auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
@@ -405,12 +425,12 @@ void MultiBattleScene::Init_Chara()
 	//playerCharAnimComp->SetClipByName(L"Stomach_Hit");
 	//playerCharAnimComp->CurrentClip->LoopState = false;
 	//playerCharAnimComp->SetClipByName(L"Idle");
-
+	//
 	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
-
+	//
 	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
 	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
-
+	//
 	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
 	//{
 	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
@@ -456,10 +476,10 @@ void MultiBattleScene::Init_Chara()
 	playerCharAnimComp->SetClipByName(L"Idle");
 
 	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
-
+	//
 	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
 	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
-
+	//
 	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
 	//{
 	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
@@ -687,6 +707,237 @@ void MultiBattleScene::Init_Chara()
 	TheWorld.AddEntity(EnemyCharacter);
 
 }
+void MultiBattleScene::Init_Chara2()
+{
+	if(gpHost->IsConnected())
+	{
+		hostCharacter = new Character;
+		player1->chara = hostCharacter;
+		auto hostPlayerCharacterMeshComp = hostCharacter->AddComponent<SkeletalMeshComponent>();
+
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx"))
+		{
+			FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Adam_fbx/Adam.fbx", hostPlayerCharacterMeshComp);
+		}
+
+		// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
+		// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
+		auto hostPlayerCharAnimComp = hostCharacter->AddComponent<AnimationComponent>();
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Run.fbx"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Run.fbx", hostPlayerCharAnimComp);				// 달리기
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Idle.fbx"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Idle.fbx", hostPlayerCharAnimComp);				// 아이들
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Shooting.fbx"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Shooting.fbx", hostPlayerCharAnimComp, false);				// 공격
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Hit.fbx"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Hit.fbx", hostPlayerCharAnimComp, false);		// 피격
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Dying.fbx"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Dying.fbx", hostPlayerCharAnimComp, false);				// 사망
+		}
+
+		hostPlayerCharAnimComp->SetClipByName(L"Idle");
+
+		auto hostPlayerCharTransformComp = hostCharacter->GetComponent<TransformComponent>();
+		hostPlayerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);
+		hostPlayerCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
+		hostPlayerCharTransformComp->Translation = Vector3(-100.0f, 0.0f, 0.0f);
+
+		auto hostPlayerCharMovementComp = hostCharacter->GetComponent<MovementComponent>();
+		hostPlayerCharMovementComp->Speed = 25.0f;
+		hostCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
+
+		//Picking Info Test
+		hostPlayerCharacterMeshComp->Name = "player";
+
+		////////////// Bounding Box Add /////////////////
+		auto playerOBBComp = hostCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.75f, 1.1f, 0.75f), Vector3(0.0f, 1.1f, 0.0f));
+
+		// 플레이어용 카메라 및 카메라 암 설정.
+		auto hostPlayerCamera = hostCharacter->AddComponent<Camera>();
+		auto hostPlayerCameraArm = hostCharacter->AddComponent<CameraArmComponent>();
+		hostPlayerCameraArm->Distance = 100.0f;
+		hostPlayerCameraArm->Roll = 35.0f;
+		hostPlayerCameraArm->Pitch = 180.0f - 40.0f;
+		hostPlayerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+		hostPlayerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+		TheWorld.AddEntity(hostCharacter);
+
+		//////////////////////////////////////////////////2p///////////////////////////////////////////////////////////////////
+		Character* clientCharacter = new Character;
+		player2->chara = clientCharacter;
+
+		auto clientPlayerCharacterMeshComp = clientCharacter->AddComponent<SkeletalMeshComponent>();
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx"))
+		{
+			FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx", clientPlayerCharacterMeshComp);
+		}
+
+		auto clientPlayerCharAnimComp = clientCharacter->AddComponent<AnimationComponent>();
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX", clientPlayerCharAnimComp);					// 달리기
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX", clientPlayerCharAnimComp);					// 아이들
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX", clientPlayerCharAnimComp, false);			// 공격
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX", clientPlayerCharAnimComp, false);				// 피격
+		}
+		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX"))
+		{
+			FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX", clientPlayerCharAnimComp, false);			// 사망
+		}
+
+		auto clientTransformComp = clientCharacter->GetComponent<TransformComponent>();
+		clientTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
+		clientTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+		clientTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
+
+		auto clientMovementComp = clientCharacter->GetComponent<MovementComponent>();
+		clientMovementComp->Speed = 25.0f;
+		clientCharacter->MoveTo(Vector3(-20.0f, 0.0f, 40.0f));
+
+		/////////////// Bounding Box Add ////////////
+		auto BBComp = clientCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
+
+		TheWorld.AddEntity(clientCharacter);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////캐릭터 추가//////////////////////////////////////////////////////////////////
+	///////////////////////////////혁 : 적인듯..?///////////////////////////////////////////////////////////////
+
+	Character* PlayerCharacter_B = new Character;
+	enemy2->chara = PlayerCharacter_B;
+
+	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX", player_BCharMeshComp);
+	}
+
+	auto player_BCharAnimComp = PlayerCharacter_B->AddComponent<AnimationComponent>();
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Run.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Run.FBX", player_BCharAnimComp);					// 달리기
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Idle.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Idle.FBX", player_BCharAnimComp);				// 아이들
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Attack.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Attack.FBX", player_BCharAnimComp, false);				// 공격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Hit.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Hit.FBX", player_BCharAnimComp, false);			// 피격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Dying.FBX"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Dying.FBX", player_BCharAnimComp, false);				// 사망
+	}
+
+	auto player_BCharTransformComp = PlayerCharacter_B->GetComponent<TransformComponent>();
+	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
+	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
+
+	auto player_BCharMovementComp = PlayerCharacter_B->GetComponent<MovementComponent>();
+	player_BCharMovementComp->Speed = 25.0f;
+	PlayerCharacter_B->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
+
+	/////////////// Bounding Box Add ////////////
+	auto player_BOBBComp = PlayerCharacter_B->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
+
+	TheWorld.AddEntity(PlayerCharacter_B);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////// 적 테스트 //////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	EnemyCharacter = new Character;
+	enemy1->chara = EnemyCharacter;
+
+	auto enemyCharMeshComp = EnemyCharacter->AddComponent<SkeletalMeshComponent>();
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/Monster.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Monster_fbx/Monster.fbx", enemyCharMeshComp);
+	}
+
+	auto enemyCharAnimComp = EnemyCharacter->AddComponent<AnimationComponent>();
+
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Run.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Run.fbx", enemyCharAnimComp);			// 달리기
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Idle.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Idle.fbx", enemyCharAnimComp);			// 아이들
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Kick.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Kick.fbx", enemyCharAnimComp, false);			// 공격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Hit.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Hit.fbx", enemyCharAnimComp, false);			// 피격
+	}
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Dying.fbx"))
+	{
+		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Dying.fbx", enemyCharAnimComp);			// 사망
+	}
+	enemyCharAnimComp->SetClipByName(L"Idle");
+
+	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
+
+
+	enemyCharTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
+	enemyCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
+
+	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
+	E1MC->Speed = 25.0f;
+	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
+
+	//auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
+	//enemyCharMovementComp->Speed = 25.0f;
+	//EnemyCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
+
+	//Picking Info Test
+	enemyCharMeshComp->Name = "Enemy";
+
+	/////////////// Bounding Box Add ////////////
+	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.2f, 0.45f, 0.2f), Vector3(0.0f, 0.45f, 0.0f));
+
+	// 적 캐릭터 용 카메라 및 카메라 암
+	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
+	auto enemyCameraArm = EnemyCharacter->AddComponent<CameraArmComponent>();
+	enemyCameraArm->Distance = 100.0f;
+	enemyCameraArm->Roll = 35.0f;
+	enemyCameraArm->Pitch = 180.0f + 40.0f;
+	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	TheWorld.AddEntity(EnemyCharacter);
+
+}
 
 void MultiBattleScene::Init_Effect()
 {	
@@ -763,10 +1014,16 @@ void MultiBattleScene::CameraMove(Vector3& eye, Vector3& target)
 void MultiBattleScene::BattleProcess()
 {
 	if (TurnStart) { TurnStartProcess(); }
-	if (WhoseTurn == playerNum && MyTurnStart) { MyTurnProcess(); }
+	if ((WhoseTurn == playerNum) && MyTurnStart) { MyTurnProcess(); }
 	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
 
-	if(WhoseTurn == playerNum && TurnState)CardCheck();
+	if (WhoseTurn == playerNum && TurnState)
+		CardCheck();
+	else
+	{
+		//TODO : 다른 플레이어 턴일때 실행할 코드
+	}
+
 	DeadCheck(); 
 
 	EnemyAttackAnimProcess();
@@ -795,21 +1052,71 @@ void MultiBattleScene::MyTurnProcess()
 	int drawNum = 3;
 	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
 
-	Dick->Draw(drawNum);
+	MyDeck->Draw(drawNum);
 	UpdateHand(drawNum); 
 
 	MyTurnStart = false;
+	
+	//TODO : need S_USECARD, C_USECARD
 }
+
+//void MultiBattleScene::temp()
+//{
+//	protocol::S_DECK sDeck;
+//	protocol::Deck toSendDeck;
+//	*toSendDeck.mutable_decklist() = { MyDeck->DeckList.begin(), MyDeck->DeckList.end() };
+//	*toSendDeck.mutable_discardlist() = { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
+//	*toSendDeck.mutable_handlist() = { MyDeck->HandList.begin(), MyDeck->HandList.end() };
+//	*toSendDeck.mutable_remainingcardlist() = { MyDeck->RemainingCardList.begin(), MyDeck->RemainingCardList.end() };
+//	sDeck.set_allocated_deck(&toSendDeck);
+//	std::string serial = sDeck.SerializeAsString();
+//	protocol::S_DECK rDeck;
+//	rDeck.ParseFromString(serial);
+//}
 
 void MultiBattleScene::TurnEndProcess()
 {
-	Dick->TurnEnd();
+	MyDeck->TurnEnd();
 
 	//일단 임시로 1p가 2p플레이까지 같이하는 버전으로
-	if (playerNum == 1) { playerNum++;  WhoseTurn = 2; CurrentPlayer = player2; MyTurnStart = true; }     // 자신이 1p라면 2p에게 턴을 넘겨줌
-	else { playerNum = 1;  CurrentPlayer = player1; TurnNum++; EnemyTurnProcess(); }				// 자신이 2p라면 적에게 턴을 넘겨줌
+	if (gpHost->IsConnected())
+	{
+		if (playerNum == 1)
+		{
+			playerNum++;
+			WhoseTurn = 2;
+			CurrentPlayer = player2;
+			MyTurnStart = true;
+		}     // 자신이 1p라면 2p에게 턴을 넘겨줌
+		else
+		{
+			playerNum = 1;
+			CurrentPlayer = player1;
+			TurnNum++;
+			EnemyTurnProcess();
+		}				// 자신이 2p라면 적에게 턴을 넘겨줌
+	}
+	if (gpClient->IsConnected())
+	{
+		if (playerNum == 2)
+		{
+			playerNum = 1;
+			WhoseTurn = 1;
+			CurrentPlayer = player1;
+			MyTurnStart = true;
+		}     // 자신이 1p라면 2p에게 턴을 넘겨줌
+		else
+		{
+			playerNum = 2;
+			CurrentPlayer = player2;
+			TurnNum++;
+			EnemyTurnProcess();
+		}				// 자신이 2p라면 적에게 턴을 넘겨줌
+	}
 
 	TurnEndButton->m_bClicked = false;
+
+	//TODO : need S_TURNEND, C_TURNEND
 }
 
 void MultiBattleScene::EnemyTurnProcess()
@@ -817,6 +1124,7 @@ void MultiBattleScene::EnemyTurnProcess()
 	TurnState = false;
 
 	InActionEnemy = EnemyList[0];
+	//TODO : patern에 대해 어떻게 할지 논의 필요
 	EnemyList[0]->patern(player1, TurnNum); // 일단 플레이어 1 고정, 근데 뭐 가까운 적 or 피가 더 많/적은놈 타겟 일케바꿀수도..
 
 	UpdatePlayerState();
@@ -856,7 +1164,7 @@ void MultiBattleScene::CardCheck()
 
 	if (TargetEnemy == nullptr) { return; } // 타겟이 없다면 실행ㄴ
 
-	for (int cardNum=0; cardNum<Dick->HandList.size(); cardNum++) 
+	for (int cardNum=0; cardNum<MyDeck->HandList.size(); cardNum++) 
 	{
 		if (CardList[cardNum]->m_bClicked && CardList[cardNum]->m_OriginPos.y >= 0.5)
 		{
@@ -868,7 +1176,7 @@ void MultiBattleScene::CardCheck()
 			auto PAnime = CurrentPlayer->chara->GetComponent<AnimationComponent>();
 			auto EAnime = TargetEnemy->chara->GetComponent<AnimationComponent>();
 
-			switch (Dick->HandList[cardNum])
+			switch (MyDeck->HandList[cardNum])
 			{
 
 			case Strike:
@@ -887,7 +1195,7 @@ void MultiBattleScene::CardCheck()
 					SoundMap.find(L"Hit1")->second->Play();
 				}
 			}break;
-
+			 
 			case Defend:
 			{
 				if (ManaCheck(1)) 
@@ -902,7 +1210,7 @@ void MultiBattleScene::CardCheck()
 				if (ManaCheck(1)) 
 				{
 					TargetEnemy->hp -= 9;
-					Dick->Draw(1);
+					MyDeck->Draw(1);
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Shooting");
@@ -917,7 +1225,7 @@ void MultiBattleScene::CardCheck()
 				if (ManaCheck(1)) 
 				{
 					CurrentPlayer->armor += 8;
-					Dick->Draw(1);
+					MyDeck->Draw(1);
 					CanUse = true;
 				}
 			}break;
@@ -951,8 +1259,8 @@ void MultiBattleScene::CardCheck()
 
 			if (CanUse) 
 			{
-				Dick->Use(cardNum);
-				UpdateHand(Dick->HandList.size());
+				MyDeck->Use(cardNum);
+				UpdateHand(MyDeck->HandList.size());
 				UpdatePlayerState();
 				UpdateEnemyState();
 
@@ -976,7 +1284,7 @@ void MultiBattleScene::UpdateHand(int handSize)
 	{
 		for (int ci = 0; ci < 4; ci++)
 		{
-			CardList[card]->m_pCutInfoList[ci]->tc = CardTextureList[Dick->HandList[card]];
+			CardList[card]->m_pCutInfoList[ci]->tc = CardTextureList[MyDeck->HandList[card]];
 		}
 		CardList[card]->m_bIsDead = false;
 	}

@@ -42,3 +42,43 @@
 	{
 		return false;
 	}
+
+	bool client::Handle_S_CONNECT(PacketSessionRef& session, protocol::S_CONNECT& pkt)
+	{
+		return false;
+	}
+
+	bool client::Handle_C_CONNECT(PacketSessionRef& session, protocol::C_CONNECT& pkt)
+	{
+		return false;
+	}
+
+	bool client::Handle_S_DECK(PacketSessionRef& session, protocol::S_DECK& pkt)
+	{
+		return false;
+	}
+
+	bool client::Handle_C_DECK(PacketSessionRef& session, protocol::C_DECK& pkt)
+	{
+		return false;
+	}
+
+	bool client::Handle_S_USECARD(PacketSessionRef& session, protocol::S_USECARD& pkt)
+	{
+		return false;
+	}
+
+	bool client::Handle_C_USECARD(PacketSessionRef& session, protocol::C_USECARD& pkt)
+	{
+		return false;
+	}
+
+	bool client::Handle_S_SHUFFLE_DECK(PacketSessionRef& session, protocol::S_SHUFFLE_DECK& pkt)
+	{
+		return false;
+	}
+
+	bool client::Handle_C_SHUFFLE_DECK(PacketSessionRef& session, protocol::C_SHUFFLE_DECK& pkt)
+	{
+		return false;
+	}

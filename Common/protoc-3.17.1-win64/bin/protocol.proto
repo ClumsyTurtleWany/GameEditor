@@ -35,3 +35,47 @@ message S_LOGIN
 	//비 효율적, 실수 여지 많음 
 	//enum PacketId { NONE = 0; PACKET_ID = 2;}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message S_CONNECT
+{
+	Player HostPlayer = 1;
+	Deck HostDeck = 2;
+}
+
+message C_CONNECT
+{
+	Player ClientPlayer = 1;
+	Deck ClientDeck = 2; 
+}
+
+message S_DECK
+{
+	Deck deck = 1;
+}
+
+message C_DECK
+{
+	Deck deck = 1;
+}
+
+message S_USECARD
+{
+	//어떻게 하는게 좋을까
+}
+
+message C_USECARD
+{
+	//어떻게 하는게 좋을까
+}
+
+message S_SHUFFLE_DECK
+{
+	Deck deck = 1;
+}
+
+message C_SHUFFLE_DECK
+{
+	Deck deck = 1;
+}

@@ -48,7 +48,7 @@ struct TableStruct_protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[12]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -56,24 +56,56 @@ struct TableStruct_protocol_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_protocol_2eproto;
 namespace protocol {
+class C_CONNECT;
+struct C_CONNECTDefaultTypeInternal;
+extern C_CONNECTDefaultTypeInternal _C_CONNECT_default_instance_;
+class C_DECK;
+struct C_DECKDefaultTypeInternal;
+extern C_DECKDefaultTypeInternal _C_DECK_default_instance_;
 class C_MOVE;
 struct C_MOVEDefaultTypeInternal;
 extern C_MOVEDefaultTypeInternal _C_MOVE_default_instance_;
+class C_SHUFFLE_DECK;
+struct C_SHUFFLE_DECKDefaultTypeInternal;
+extern C_SHUFFLE_DECKDefaultTypeInternal _C_SHUFFLE_DECK_default_instance_;
 class C_TEST;
 struct C_TESTDefaultTypeInternal;
 extern C_TESTDefaultTypeInternal _C_TEST_default_instance_;
+class C_USECARD;
+struct C_USECARDDefaultTypeInternal;
+extern C_USECARDDefaultTypeInternal _C_USECARD_default_instance_;
+class S_CONNECT;
+struct S_CONNECTDefaultTypeInternal;
+extern S_CONNECTDefaultTypeInternal _S_CONNECT_default_instance_;
+class S_DECK;
+struct S_DECKDefaultTypeInternal;
+extern S_DECKDefaultTypeInternal _S_DECK_default_instance_;
 class S_LOGIN;
 struct S_LOGINDefaultTypeInternal;
 extern S_LOGINDefaultTypeInternal _S_LOGIN_default_instance_;
+class S_SHUFFLE_DECK;
+struct S_SHUFFLE_DECKDefaultTypeInternal;
+extern S_SHUFFLE_DECKDefaultTypeInternal _S_SHUFFLE_DECK_default_instance_;
 class S_TEST;
 struct S_TESTDefaultTypeInternal;
 extern S_TESTDefaultTypeInternal _S_TEST_default_instance_;
+class S_USECARD;
+struct S_USECARDDefaultTypeInternal;
+extern S_USECARDDefaultTypeInternal _S_USECARD_default_instance_;
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::protocol::C_CONNECT* Arena::CreateMaybeMessage<::protocol::C_CONNECT>(Arena*);
+template<> ::protocol::C_DECK* Arena::CreateMaybeMessage<::protocol::C_DECK>(Arena*);
 template<> ::protocol::C_MOVE* Arena::CreateMaybeMessage<::protocol::C_MOVE>(Arena*);
+template<> ::protocol::C_SHUFFLE_DECK* Arena::CreateMaybeMessage<::protocol::C_SHUFFLE_DECK>(Arena*);
 template<> ::protocol::C_TEST* Arena::CreateMaybeMessage<::protocol::C_TEST>(Arena*);
+template<> ::protocol::C_USECARD* Arena::CreateMaybeMessage<::protocol::C_USECARD>(Arena*);
+template<> ::protocol::S_CONNECT* Arena::CreateMaybeMessage<::protocol::S_CONNECT>(Arena*);
+template<> ::protocol::S_DECK* Arena::CreateMaybeMessage<::protocol::S_DECK>(Arena*);
 template<> ::protocol::S_LOGIN* Arena::CreateMaybeMessage<::protocol::S_LOGIN>(Arena*);
+template<> ::protocol::S_SHUFFLE_DECK* Arena::CreateMaybeMessage<::protocol::S_SHUFFLE_DECK>(Arena*);
 template<> ::protocol::S_TEST* Arena::CreateMaybeMessage<::protocol::S_TEST>(Arena*);
+template<> ::protocol::S_USECARD* Arena::CreateMaybeMessage<::protocol::S_USECARD>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
 
@@ -645,6 +677,1130 @@ class S_LOGIN final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_protocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class S_CONNECT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_CONNECT) */ {
+ public:
+  inline S_CONNECT() : S_CONNECT(nullptr) {}
+  ~S_CONNECT() override;
+  explicit constexpr S_CONNECT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_CONNECT(const S_CONNECT& from);
+  S_CONNECT(S_CONNECT&& from) noexcept
+    : S_CONNECT() {
+    *this = ::std::move(from);
+  }
+
+  inline S_CONNECT& operator=(const S_CONNECT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_CONNECT& operator=(S_CONNECT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_CONNECT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_CONNECT* internal_default_instance() {
+    return reinterpret_cast<const S_CONNECT*>(
+               &_S_CONNECT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(S_CONNECT& a, S_CONNECT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_CONNECT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_CONNECT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_CONNECT* New() const final {
+    return new S_CONNECT();
+  }
+
+  S_CONNECT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_CONNECT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_CONNECT& from);
+  void MergeFrom(const S_CONNECT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_CONNECT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.S_CONNECT";
+  }
+  protected:
+  explicit S_CONNECT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kHostPlayerFieldNumber = 1,
+    kHostDeckFieldNumber = 2,
+  };
+  // .protocol.Player HostPlayer = 1;
+  bool has_hostplayer() const;
+  private:
+  bool _internal_has_hostplayer() const;
+  public:
+  void clear_hostplayer();
+  const ::protocol::Player& hostplayer() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Player* release_hostplayer();
+  ::protocol::Player* mutable_hostplayer();
+  void set_allocated_hostplayer(::protocol::Player* hostplayer);
+  private:
+  const ::protocol::Player& _internal_hostplayer() const;
+  ::protocol::Player* _internal_mutable_hostplayer();
+  public:
+  void unsafe_arena_set_allocated_hostplayer(
+      ::protocol::Player* hostplayer);
+  ::protocol::Player* unsafe_arena_release_hostplayer();
+
+  // .protocol.Deck HostDeck = 2;
+  bool has_hostdeck() const;
+  private:
+  bool _internal_has_hostdeck() const;
+  public:
+  void clear_hostdeck();
+  const ::protocol::Deck& hostdeck() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_hostdeck();
+  ::protocol::Deck* mutable_hostdeck();
+  void set_allocated_hostdeck(::protocol::Deck* hostdeck);
+  private:
+  const ::protocol::Deck& _internal_hostdeck() const;
+  ::protocol::Deck* _internal_mutable_hostdeck();
+  public:
+  void unsafe_arena_set_allocated_hostdeck(
+      ::protocol::Deck* hostdeck);
+  ::protocol::Deck* unsafe_arena_release_hostdeck();
+
+  // @@protoc_insertion_point(class_scope:protocol.S_CONNECT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::protocol::Player* hostplayer_;
+  ::protocol::Deck* hostdeck_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_CONNECT final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_CONNECT) */ {
+ public:
+  inline C_CONNECT() : C_CONNECT(nullptr) {}
+  ~C_CONNECT() override;
+  explicit constexpr C_CONNECT(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_CONNECT(const C_CONNECT& from);
+  C_CONNECT(C_CONNECT&& from) noexcept
+    : C_CONNECT() {
+    *this = ::std::move(from);
+  }
+
+  inline C_CONNECT& operator=(const C_CONNECT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_CONNECT& operator=(C_CONNECT&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_CONNECT& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_CONNECT* internal_default_instance() {
+    return reinterpret_cast<const C_CONNECT*>(
+               &_C_CONNECT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(C_CONNECT& a, C_CONNECT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_CONNECT* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_CONNECT* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_CONNECT* New() const final {
+    return new C_CONNECT();
+  }
+
+  C_CONNECT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_CONNECT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_CONNECT& from);
+  void MergeFrom(const C_CONNECT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_CONNECT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.C_CONNECT";
+  }
+  protected:
+  explicit C_CONNECT(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kClientPlayerFieldNumber = 1,
+    kClientDeckFieldNumber = 2,
+  };
+  // .protocol.Player ClientPlayer = 1;
+  bool has_clientplayer() const;
+  private:
+  bool _internal_has_clientplayer() const;
+  public:
+  void clear_clientplayer();
+  const ::protocol::Player& clientplayer() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Player* release_clientplayer();
+  ::protocol::Player* mutable_clientplayer();
+  void set_allocated_clientplayer(::protocol::Player* clientplayer);
+  private:
+  const ::protocol::Player& _internal_clientplayer() const;
+  ::protocol::Player* _internal_mutable_clientplayer();
+  public:
+  void unsafe_arena_set_allocated_clientplayer(
+      ::protocol::Player* clientplayer);
+  ::protocol::Player* unsafe_arena_release_clientplayer();
+
+  // .protocol.Deck ClientDeck = 2;
+  bool has_clientdeck() const;
+  private:
+  bool _internal_has_clientdeck() const;
+  public:
+  void clear_clientdeck();
+  const ::protocol::Deck& clientdeck() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_clientdeck();
+  ::protocol::Deck* mutable_clientdeck();
+  void set_allocated_clientdeck(::protocol::Deck* clientdeck);
+  private:
+  const ::protocol::Deck& _internal_clientdeck() const;
+  ::protocol::Deck* _internal_mutable_clientdeck();
+  public:
+  void unsafe_arena_set_allocated_clientdeck(
+      ::protocol::Deck* clientdeck);
+  ::protocol::Deck* unsafe_arena_release_clientdeck();
+
+  // @@protoc_insertion_point(class_scope:protocol.C_CONNECT)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::protocol::Player* clientplayer_;
+  ::protocol::Deck* clientdeck_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_DECK final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_DECK) */ {
+ public:
+  inline S_DECK() : S_DECK(nullptr) {}
+  ~S_DECK() override;
+  explicit constexpr S_DECK(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_DECK(const S_DECK& from);
+  S_DECK(S_DECK&& from) noexcept
+    : S_DECK() {
+    *this = ::std::move(from);
+  }
+
+  inline S_DECK& operator=(const S_DECK& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_DECK& operator=(S_DECK&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_DECK& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_DECK* internal_default_instance() {
+    return reinterpret_cast<const S_DECK*>(
+               &_S_DECK_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(S_DECK& a, S_DECK& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_DECK* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_DECK* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_DECK* New() const final {
+    return new S_DECK();
+  }
+
+  S_DECK* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_DECK>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_DECK& from);
+  void MergeFrom(const S_DECK& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_DECK* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.S_DECK";
+  }
+  protected:
+  explicit S_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDeckFieldNumber = 1,
+  };
+  // .protocol.Deck deck = 1;
+  bool has_deck() const;
+  private:
+  bool _internal_has_deck() const;
+  public:
+  void clear_deck();
+  const ::protocol::Deck& deck() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_deck();
+  ::protocol::Deck* mutable_deck();
+  void set_allocated_deck(::protocol::Deck* deck);
+  private:
+  const ::protocol::Deck& _internal_deck() const;
+  ::protocol::Deck* _internal_mutable_deck();
+  public:
+  void unsafe_arena_set_allocated_deck(
+      ::protocol::Deck* deck);
+  ::protocol::Deck* unsafe_arena_release_deck();
+
+  // @@protoc_insertion_point(class_scope:protocol.S_DECK)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::protocol::Deck* deck_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_DECK final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_DECK) */ {
+ public:
+  inline C_DECK() : C_DECK(nullptr) {}
+  ~C_DECK() override;
+  explicit constexpr C_DECK(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_DECK(const C_DECK& from);
+  C_DECK(C_DECK&& from) noexcept
+    : C_DECK() {
+    *this = ::std::move(from);
+  }
+
+  inline C_DECK& operator=(const C_DECK& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_DECK& operator=(C_DECK&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_DECK& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_DECK* internal_default_instance() {
+    return reinterpret_cast<const C_DECK*>(
+               &_C_DECK_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(C_DECK& a, C_DECK& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_DECK* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_DECK* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_DECK* New() const final {
+    return new C_DECK();
+  }
+
+  C_DECK* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_DECK>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_DECK& from);
+  void MergeFrom(const C_DECK& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_DECK* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.C_DECK";
+  }
+  protected:
+  explicit C_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDeckFieldNumber = 1,
+  };
+  // .protocol.Deck deck = 1;
+  bool has_deck() const;
+  private:
+  bool _internal_has_deck() const;
+  public:
+  void clear_deck();
+  const ::protocol::Deck& deck() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_deck();
+  ::protocol::Deck* mutable_deck();
+  void set_allocated_deck(::protocol::Deck* deck);
+  private:
+  const ::protocol::Deck& _internal_deck() const;
+  ::protocol::Deck* _internal_mutable_deck();
+  public:
+  void unsafe_arena_set_allocated_deck(
+      ::protocol::Deck* deck);
+  ::protocol::Deck* unsafe_arena_release_deck();
+
+  // @@protoc_insertion_point(class_scope:protocol.C_DECK)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::protocol::Deck* deck_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_USECARD final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_USECARD) */ {
+ public:
+  inline S_USECARD() : S_USECARD(nullptr) {}
+  ~S_USECARD() override;
+  explicit constexpr S_USECARD(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_USECARD(const S_USECARD& from);
+  S_USECARD(S_USECARD&& from) noexcept
+    : S_USECARD() {
+    *this = ::std::move(from);
+  }
+
+  inline S_USECARD& operator=(const S_USECARD& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_USECARD& operator=(S_USECARD&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_USECARD& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_USECARD* internal_default_instance() {
+    return reinterpret_cast<const S_USECARD*>(
+               &_S_USECARD_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(S_USECARD& a, S_USECARD& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_USECARD* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_USECARD* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_USECARD* New() const final {
+    return new S_USECARD();
+  }
+
+  S_USECARD* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_USECARD>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_USECARD& from);
+  void MergeFrom(const S_USECARD& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_USECARD* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.S_USECARD";
+  }
+  protected:
+  explicit S_USECARD(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:protocol.S_USECARD)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_USECARD final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_USECARD) */ {
+ public:
+  inline C_USECARD() : C_USECARD(nullptr) {}
+  ~C_USECARD() override;
+  explicit constexpr C_USECARD(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_USECARD(const C_USECARD& from);
+  C_USECARD(C_USECARD&& from) noexcept
+    : C_USECARD() {
+    *this = ::std::move(from);
+  }
+
+  inline C_USECARD& operator=(const C_USECARD& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_USECARD& operator=(C_USECARD&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_USECARD& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_USECARD* internal_default_instance() {
+    return reinterpret_cast<const C_USECARD*>(
+               &_C_USECARD_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(C_USECARD& a, C_USECARD& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_USECARD* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_USECARD* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_USECARD* New() const final {
+    return new C_USECARD();
+  }
+
+  C_USECARD* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_USECARD>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_USECARD& from);
+  void MergeFrom(const C_USECARD& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_USECARD* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.C_USECARD";
+  }
+  protected:
+  explicit C_USECARD(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:protocol.C_USECARD)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class S_SHUFFLE_DECK final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_SHUFFLE_DECK) */ {
+ public:
+  inline S_SHUFFLE_DECK() : S_SHUFFLE_DECK(nullptr) {}
+  ~S_SHUFFLE_DECK() override;
+  explicit constexpr S_SHUFFLE_DECK(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  S_SHUFFLE_DECK(const S_SHUFFLE_DECK& from);
+  S_SHUFFLE_DECK(S_SHUFFLE_DECK&& from) noexcept
+    : S_SHUFFLE_DECK() {
+    *this = ::std::move(from);
+  }
+
+  inline S_SHUFFLE_DECK& operator=(const S_SHUFFLE_DECK& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline S_SHUFFLE_DECK& operator=(S_SHUFFLE_DECK&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const S_SHUFFLE_DECK& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const S_SHUFFLE_DECK* internal_default_instance() {
+    return reinterpret_cast<const S_SHUFFLE_DECK*>(
+               &_S_SHUFFLE_DECK_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(S_SHUFFLE_DECK& a, S_SHUFFLE_DECK& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(S_SHUFFLE_DECK* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(S_SHUFFLE_DECK* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline S_SHUFFLE_DECK* New() const final {
+    return new S_SHUFFLE_DECK();
+  }
+
+  S_SHUFFLE_DECK* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<S_SHUFFLE_DECK>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const S_SHUFFLE_DECK& from);
+  void MergeFrom(const S_SHUFFLE_DECK& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(S_SHUFFLE_DECK* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.S_SHUFFLE_DECK";
+  }
+  protected:
+  explicit S_SHUFFLE_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDeckFieldNumber = 1,
+  };
+  // .protocol.Deck deck = 1;
+  bool has_deck() const;
+  private:
+  bool _internal_has_deck() const;
+  public:
+  void clear_deck();
+  const ::protocol::Deck& deck() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_deck();
+  ::protocol::Deck* mutable_deck();
+  void set_allocated_deck(::protocol::Deck* deck);
+  private:
+  const ::protocol::Deck& _internal_deck() const;
+  ::protocol::Deck* _internal_mutable_deck();
+  public:
+  void unsafe_arena_set_allocated_deck(
+      ::protocol::Deck* deck);
+  ::protocol::Deck* unsafe_arena_release_deck();
+
+  // @@protoc_insertion_point(class_scope:protocol.S_SHUFFLE_DECK)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::protocol::Deck* deck_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C_SHUFFLE_DECK final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_SHUFFLE_DECK) */ {
+ public:
+  inline C_SHUFFLE_DECK() : C_SHUFFLE_DECK(nullptr) {}
+  ~C_SHUFFLE_DECK() override;
+  explicit constexpr C_SHUFFLE_DECK(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C_SHUFFLE_DECK(const C_SHUFFLE_DECK& from);
+  C_SHUFFLE_DECK(C_SHUFFLE_DECK&& from) noexcept
+    : C_SHUFFLE_DECK() {
+    *this = ::std::move(from);
+  }
+
+  inline C_SHUFFLE_DECK& operator=(const C_SHUFFLE_DECK& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C_SHUFFLE_DECK& operator=(C_SHUFFLE_DECK&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C_SHUFFLE_DECK& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C_SHUFFLE_DECK* internal_default_instance() {
+    return reinterpret_cast<const C_SHUFFLE_DECK*>(
+               &_C_SHUFFLE_DECK_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(C_SHUFFLE_DECK& a, C_SHUFFLE_DECK& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C_SHUFFLE_DECK* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C_SHUFFLE_DECK* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline C_SHUFFLE_DECK* New() const final {
+    return new C_SHUFFLE_DECK();
+  }
+
+  C_SHUFFLE_DECK* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<C_SHUFFLE_DECK>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const C_SHUFFLE_DECK& from);
+  void MergeFrom(const C_SHUFFLE_DECK& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C_SHUFFLE_DECK* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.C_SHUFFLE_DECK";
+  }
+  protected:
+  explicit C_SHUFFLE_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDeckFieldNumber = 1,
+  };
+  // .protocol.Deck deck = 1;
+  bool has_deck() const;
+  private:
+  bool _internal_has_deck() const;
+  public:
+  void clear_deck();
+  const ::protocol::Deck& deck() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_deck();
+  ::protocol::Deck* mutable_deck();
+  void set_allocated_deck(::protocol::Deck* deck);
+  private:
+  const ::protocol::Deck& _internal_deck() const;
+  ::protocol::Deck* _internal_mutable_deck();
+  public:
+  void unsafe_arena_set_allocated_deck(
+      ::protocol::Deck* deck);
+  ::protocol::Deck* unsafe_arena_release_deck();
+
+  // @@protoc_insertion_point(class_scope:protocol.C_SHUFFLE_DECK)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::protocol::Deck* deck_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_protocol_2eproto;
+};
 // ===================================================================
 
 
@@ -824,9 +1980,689 @@ S_TEST::buffs() const {
 
 // S_LOGIN
 
+// -------------------------------------------------------------------
+
+// S_CONNECT
+
+// .protocol.Player HostPlayer = 1;
+inline bool S_CONNECT::_internal_has_hostplayer() const {
+  return this != internal_default_instance() && hostplayer_ != nullptr;
+}
+inline bool S_CONNECT::has_hostplayer() const {
+  return _internal_has_hostplayer();
+}
+inline const ::protocol::Player& S_CONNECT::_internal_hostplayer() const {
+  const ::protocol::Player* p = hostplayer_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Player&>(
+      ::protocol::_Player_default_instance_);
+}
+inline const ::protocol::Player& S_CONNECT::hostplayer() const {
+  // @@protoc_insertion_point(field_get:protocol.S_CONNECT.HostPlayer)
+  return _internal_hostplayer();
+}
+inline void S_CONNECT::unsafe_arena_set_allocated_hostplayer(
+    ::protocol::Player* hostplayer) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostplayer_);
+  }
+  hostplayer_ = hostplayer;
+  if (hostplayer) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.S_CONNECT.HostPlayer)
+}
+inline ::protocol::Player* S_CONNECT::release_hostplayer() {
+  
+  ::protocol::Player* temp = hostplayer_;
+  hostplayer_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Player* S_CONNECT::unsafe_arena_release_hostplayer() {
+  // @@protoc_insertion_point(field_release:protocol.S_CONNECT.HostPlayer)
+  
+  ::protocol::Player* temp = hostplayer_;
+  hostplayer_ = nullptr;
+  return temp;
+}
+inline ::protocol::Player* S_CONNECT::_internal_mutable_hostplayer() {
+  
+  if (hostplayer_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Player>(GetArenaForAllocation());
+    hostplayer_ = p;
+  }
+  return hostplayer_;
+}
+inline ::protocol::Player* S_CONNECT::mutable_hostplayer() {
+  // @@protoc_insertion_point(field_mutable:protocol.S_CONNECT.HostPlayer)
+  return _internal_mutable_hostplayer();
+}
+inline void S_CONNECT::set_allocated_hostplayer(::protocol::Player* hostplayer) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostplayer_);
+  }
+  if (hostplayer) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostplayer));
+    if (message_arena != submessage_arena) {
+      hostplayer = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, hostplayer, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  hostplayer_ = hostplayer;
+  // @@protoc_insertion_point(field_set_allocated:protocol.S_CONNECT.HostPlayer)
+}
+
+// .protocol.Deck HostDeck = 2;
+inline bool S_CONNECT::_internal_has_hostdeck() const {
+  return this != internal_default_instance() && hostdeck_ != nullptr;
+}
+inline bool S_CONNECT::has_hostdeck() const {
+  return _internal_has_hostdeck();
+}
+inline const ::protocol::Deck& S_CONNECT::_internal_hostdeck() const {
+  const ::protocol::Deck* p = hostdeck_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
+      ::protocol::_Deck_default_instance_);
+}
+inline const ::protocol::Deck& S_CONNECT::hostdeck() const {
+  // @@protoc_insertion_point(field_get:protocol.S_CONNECT.HostDeck)
+  return _internal_hostdeck();
+}
+inline void S_CONNECT::unsafe_arena_set_allocated_hostdeck(
+    ::protocol::Deck* hostdeck) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostdeck_);
+  }
+  hostdeck_ = hostdeck;
+  if (hostdeck) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.S_CONNECT.HostDeck)
+}
+inline ::protocol::Deck* S_CONNECT::release_hostdeck() {
+  
+  ::protocol::Deck* temp = hostdeck_;
+  hostdeck_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Deck* S_CONNECT::unsafe_arena_release_hostdeck() {
+  // @@protoc_insertion_point(field_release:protocol.S_CONNECT.HostDeck)
+  
+  ::protocol::Deck* temp = hostdeck_;
+  hostdeck_ = nullptr;
+  return temp;
+}
+inline ::protocol::Deck* S_CONNECT::_internal_mutable_hostdeck() {
+  
+  if (hostdeck_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
+    hostdeck_ = p;
+  }
+  return hostdeck_;
+}
+inline ::protocol::Deck* S_CONNECT::mutable_hostdeck() {
+  // @@protoc_insertion_point(field_mutable:protocol.S_CONNECT.HostDeck)
+  return _internal_mutable_hostdeck();
+}
+inline void S_CONNECT::set_allocated_hostdeck(::protocol::Deck* hostdeck) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostdeck_);
+  }
+  if (hostdeck) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostdeck));
+    if (message_arena != submessage_arena) {
+      hostdeck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, hostdeck, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  hostdeck_ = hostdeck;
+  // @@protoc_insertion_point(field_set_allocated:protocol.S_CONNECT.HostDeck)
+}
+
+// -------------------------------------------------------------------
+
+// C_CONNECT
+
+// .protocol.Player ClientPlayer = 1;
+inline bool C_CONNECT::_internal_has_clientplayer() const {
+  return this != internal_default_instance() && clientplayer_ != nullptr;
+}
+inline bool C_CONNECT::has_clientplayer() const {
+  return _internal_has_clientplayer();
+}
+inline const ::protocol::Player& C_CONNECT::_internal_clientplayer() const {
+  const ::protocol::Player* p = clientplayer_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Player&>(
+      ::protocol::_Player_default_instance_);
+}
+inline const ::protocol::Player& C_CONNECT::clientplayer() const {
+  // @@protoc_insertion_point(field_get:protocol.C_CONNECT.ClientPlayer)
+  return _internal_clientplayer();
+}
+inline void C_CONNECT::unsafe_arena_set_allocated_clientplayer(
+    ::protocol::Player* clientplayer) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientplayer_);
+  }
+  clientplayer_ = clientplayer;
+  if (clientplayer) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.C_CONNECT.ClientPlayer)
+}
+inline ::protocol::Player* C_CONNECT::release_clientplayer() {
+  
+  ::protocol::Player* temp = clientplayer_;
+  clientplayer_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Player* C_CONNECT::unsafe_arena_release_clientplayer() {
+  // @@protoc_insertion_point(field_release:protocol.C_CONNECT.ClientPlayer)
+  
+  ::protocol::Player* temp = clientplayer_;
+  clientplayer_ = nullptr;
+  return temp;
+}
+inline ::protocol::Player* C_CONNECT::_internal_mutable_clientplayer() {
+  
+  if (clientplayer_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Player>(GetArenaForAllocation());
+    clientplayer_ = p;
+  }
+  return clientplayer_;
+}
+inline ::protocol::Player* C_CONNECT::mutable_clientplayer() {
+  // @@protoc_insertion_point(field_mutable:protocol.C_CONNECT.ClientPlayer)
+  return _internal_mutable_clientplayer();
+}
+inline void C_CONNECT::set_allocated_clientplayer(::protocol::Player* clientplayer) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientplayer_);
+  }
+  if (clientplayer) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientplayer));
+    if (message_arena != submessage_arena) {
+      clientplayer = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, clientplayer, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  clientplayer_ = clientplayer;
+  // @@protoc_insertion_point(field_set_allocated:protocol.C_CONNECT.ClientPlayer)
+}
+
+// .protocol.Deck ClientDeck = 2;
+inline bool C_CONNECT::_internal_has_clientdeck() const {
+  return this != internal_default_instance() && clientdeck_ != nullptr;
+}
+inline bool C_CONNECT::has_clientdeck() const {
+  return _internal_has_clientdeck();
+}
+inline const ::protocol::Deck& C_CONNECT::_internal_clientdeck() const {
+  const ::protocol::Deck* p = clientdeck_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
+      ::protocol::_Deck_default_instance_);
+}
+inline const ::protocol::Deck& C_CONNECT::clientdeck() const {
+  // @@protoc_insertion_point(field_get:protocol.C_CONNECT.ClientDeck)
+  return _internal_clientdeck();
+}
+inline void C_CONNECT::unsafe_arena_set_allocated_clientdeck(
+    ::protocol::Deck* clientdeck) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientdeck_);
+  }
+  clientdeck_ = clientdeck;
+  if (clientdeck) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.C_CONNECT.ClientDeck)
+}
+inline ::protocol::Deck* C_CONNECT::release_clientdeck() {
+  
+  ::protocol::Deck* temp = clientdeck_;
+  clientdeck_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Deck* C_CONNECT::unsafe_arena_release_clientdeck() {
+  // @@protoc_insertion_point(field_release:protocol.C_CONNECT.ClientDeck)
+  
+  ::protocol::Deck* temp = clientdeck_;
+  clientdeck_ = nullptr;
+  return temp;
+}
+inline ::protocol::Deck* C_CONNECT::_internal_mutable_clientdeck() {
+  
+  if (clientdeck_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
+    clientdeck_ = p;
+  }
+  return clientdeck_;
+}
+inline ::protocol::Deck* C_CONNECT::mutable_clientdeck() {
+  // @@protoc_insertion_point(field_mutable:protocol.C_CONNECT.ClientDeck)
+  return _internal_mutable_clientdeck();
+}
+inline void C_CONNECT::set_allocated_clientdeck(::protocol::Deck* clientdeck) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientdeck_);
+  }
+  if (clientdeck) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientdeck));
+    if (message_arena != submessage_arena) {
+      clientdeck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, clientdeck, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  clientdeck_ = clientdeck;
+  // @@protoc_insertion_point(field_set_allocated:protocol.C_CONNECT.ClientDeck)
+}
+
+// -------------------------------------------------------------------
+
+// S_DECK
+
+// .protocol.Deck deck = 1;
+inline bool S_DECK::_internal_has_deck() const {
+  return this != internal_default_instance() && deck_ != nullptr;
+}
+inline bool S_DECK::has_deck() const {
+  return _internal_has_deck();
+}
+inline const ::protocol::Deck& S_DECK::_internal_deck() const {
+  const ::protocol::Deck* p = deck_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
+      ::protocol::_Deck_default_instance_);
+}
+inline const ::protocol::Deck& S_DECK::deck() const {
+  // @@protoc_insertion_point(field_get:protocol.S_DECK.deck)
+  return _internal_deck();
+}
+inline void S_DECK::unsafe_arena_set_allocated_deck(
+    ::protocol::Deck* deck) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  deck_ = deck;
+  if (deck) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.S_DECK.deck)
+}
+inline ::protocol::Deck* S_DECK::release_deck() {
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Deck* S_DECK::unsafe_arena_release_deck() {
+  // @@protoc_insertion_point(field_release:protocol.S_DECK.deck)
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  return temp;
+}
+inline ::protocol::Deck* S_DECK::_internal_mutable_deck() {
+  
+  if (deck_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
+    deck_ = p;
+  }
+  return deck_;
+}
+inline ::protocol::Deck* S_DECK::mutable_deck() {
+  // @@protoc_insertion_point(field_mutable:protocol.S_DECK.deck)
+  return _internal_mutable_deck();
+}
+inline void S_DECK::set_allocated_deck(::protocol::Deck* deck) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  if (deck) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck));
+    if (message_arena != submessage_arena) {
+      deck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, deck, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  deck_ = deck;
+  // @@protoc_insertion_point(field_set_allocated:protocol.S_DECK.deck)
+}
+
+// -------------------------------------------------------------------
+
+// C_DECK
+
+// .protocol.Deck deck = 1;
+inline bool C_DECK::_internal_has_deck() const {
+  return this != internal_default_instance() && deck_ != nullptr;
+}
+inline bool C_DECK::has_deck() const {
+  return _internal_has_deck();
+}
+inline const ::protocol::Deck& C_DECK::_internal_deck() const {
+  const ::protocol::Deck* p = deck_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
+      ::protocol::_Deck_default_instance_);
+}
+inline const ::protocol::Deck& C_DECK::deck() const {
+  // @@protoc_insertion_point(field_get:protocol.C_DECK.deck)
+  return _internal_deck();
+}
+inline void C_DECK::unsafe_arena_set_allocated_deck(
+    ::protocol::Deck* deck) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  deck_ = deck;
+  if (deck) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.C_DECK.deck)
+}
+inline ::protocol::Deck* C_DECK::release_deck() {
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Deck* C_DECK::unsafe_arena_release_deck() {
+  // @@protoc_insertion_point(field_release:protocol.C_DECK.deck)
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  return temp;
+}
+inline ::protocol::Deck* C_DECK::_internal_mutable_deck() {
+  
+  if (deck_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
+    deck_ = p;
+  }
+  return deck_;
+}
+inline ::protocol::Deck* C_DECK::mutable_deck() {
+  // @@protoc_insertion_point(field_mutable:protocol.C_DECK.deck)
+  return _internal_mutable_deck();
+}
+inline void C_DECK::set_allocated_deck(::protocol::Deck* deck) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  if (deck) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck));
+    if (message_arena != submessage_arena) {
+      deck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, deck, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  deck_ = deck;
+  // @@protoc_insertion_point(field_set_allocated:protocol.C_DECK.deck)
+}
+
+// -------------------------------------------------------------------
+
+// S_USECARD
+
+// -------------------------------------------------------------------
+
+// C_USECARD
+
+// -------------------------------------------------------------------
+
+// S_SHUFFLE_DECK
+
+// .protocol.Deck deck = 1;
+inline bool S_SHUFFLE_DECK::_internal_has_deck() const {
+  return this != internal_default_instance() && deck_ != nullptr;
+}
+inline bool S_SHUFFLE_DECK::has_deck() const {
+  return _internal_has_deck();
+}
+inline const ::protocol::Deck& S_SHUFFLE_DECK::_internal_deck() const {
+  const ::protocol::Deck* p = deck_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
+      ::protocol::_Deck_default_instance_);
+}
+inline const ::protocol::Deck& S_SHUFFLE_DECK::deck() const {
+  // @@protoc_insertion_point(field_get:protocol.S_SHUFFLE_DECK.deck)
+  return _internal_deck();
+}
+inline void S_SHUFFLE_DECK::unsafe_arena_set_allocated_deck(
+    ::protocol::Deck* deck) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  deck_ = deck;
+  if (deck) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.S_SHUFFLE_DECK.deck)
+}
+inline ::protocol::Deck* S_SHUFFLE_DECK::release_deck() {
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Deck* S_SHUFFLE_DECK::unsafe_arena_release_deck() {
+  // @@protoc_insertion_point(field_release:protocol.S_SHUFFLE_DECK.deck)
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  return temp;
+}
+inline ::protocol::Deck* S_SHUFFLE_DECK::_internal_mutable_deck() {
+  
+  if (deck_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
+    deck_ = p;
+  }
+  return deck_;
+}
+inline ::protocol::Deck* S_SHUFFLE_DECK::mutable_deck() {
+  // @@protoc_insertion_point(field_mutable:protocol.S_SHUFFLE_DECK.deck)
+  return _internal_mutable_deck();
+}
+inline void S_SHUFFLE_DECK::set_allocated_deck(::protocol::Deck* deck) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  if (deck) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck));
+    if (message_arena != submessage_arena) {
+      deck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, deck, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  deck_ = deck;
+  // @@protoc_insertion_point(field_set_allocated:protocol.S_SHUFFLE_DECK.deck)
+}
+
+// -------------------------------------------------------------------
+
+// C_SHUFFLE_DECK
+
+// .protocol.Deck deck = 1;
+inline bool C_SHUFFLE_DECK::_internal_has_deck() const {
+  return this != internal_default_instance() && deck_ != nullptr;
+}
+inline bool C_SHUFFLE_DECK::has_deck() const {
+  return _internal_has_deck();
+}
+inline const ::protocol::Deck& C_SHUFFLE_DECK::_internal_deck() const {
+  const ::protocol::Deck* p = deck_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
+      ::protocol::_Deck_default_instance_);
+}
+inline const ::protocol::Deck& C_SHUFFLE_DECK::deck() const {
+  // @@protoc_insertion_point(field_get:protocol.C_SHUFFLE_DECK.deck)
+  return _internal_deck();
+}
+inline void C_SHUFFLE_DECK::unsafe_arena_set_allocated_deck(
+    ::protocol::Deck* deck) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  deck_ = deck;
+  if (deck) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.C_SHUFFLE_DECK.deck)
+}
+inline ::protocol::Deck* C_SHUFFLE_DECK::release_deck() {
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::Deck* C_SHUFFLE_DECK::unsafe_arena_release_deck() {
+  // @@protoc_insertion_point(field_release:protocol.C_SHUFFLE_DECK.deck)
+  
+  ::protocol::Deck* temp = deck_;
+  deck_ = nullptr;
+  return temp;
+}
+inline ::protocol::Deck* C_SHUFFLE_DECK::_internal_mutable_deck() {
+  
+  if (deck_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
+    deck_ = p;
+  }
+  return deck_;
+}
+inline ::protocol::Deck* C_SHUFFLE_DECK::mutable_deck() {
+  // @@protoc_insertion_point(field_mutable:protocol.C_SHUFFLE_DECK.deck)
+  return _internal_mutable_deck();
+}
+inline void C_SHUFFLE_DECK::set_allocated_deck(::protocol::Deck* deck) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
+  }
+  if (deck) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck));
+    if (message_arena != submessage_arena) {
+      deck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, deck, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  deck_ = deck;
+  // @@protoc_insertion_point(field_set_allocated:protocol.C_SHUFFLE_DECK.deck)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

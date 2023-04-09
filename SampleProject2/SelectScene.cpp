@@ -57,7 +57,12 @@ bool SelectScene::Frame()
 		{
 			gpHost->GetService()->_listener->addAcceptEvent();
 		}
-		gpHost->CancelAccept();
+		//// 연결 성공시 true를 리턴하는 함수
+		//// 신 변경 어떻게함?
+		//gpHost->IsConnected();
+
+		////취소 버튼 나오면 풀어주세요~
+		//gpHost->CancelAccept();
 	}
 
 	else if (RoomFindButton->m_bClicked)
@@ -71,7 +76,13 @@ bool SelectScene::Frame()
 		}
 		else
 			gpClient->GetClientservice()->Reconnect();
-		gpClient->CancelConnect();
+
+		//// 연결 성공시 true를 리턴하는 함수
+		//// 신 변경 어떻게함?
+		//gpClient->IsConnected();
+
+		////취소 버튼 나오면 풀어주세요~
+		//gpClient->CancelConnect();
 	}
 
 	BaseScene::Frame();

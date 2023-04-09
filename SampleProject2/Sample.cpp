@@ -170,7 +170,7 @@ bool SampleCore::Initialize()
 	Battle->NumberTextureList_Black = NumberTextureList_Black;
 	Battle->Init();
 	MultiBattle = new MultiBattleScene;
-	MultiBattle->Dick = Dick;
+	MultiBattle->MyDeck = Dick;
 	MultiBattle->CardTextureList = CardTextureList;
 	MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
 	MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
@@ -528,8 +528,9 @@ void SampleCore::SceneChange()
 		{
 			CurrentScene->SS = MAINTAIN;
 			CurrentScene = MultiBattle;
-			MultiBattle->CurrentPlayer = MultiBattle->player1;
-			MultiBattle->playerNum = 1;
+			//서버에서 주석
+			//MultiBattle->CurrentPlayer = MultiBattle->player1;
+			//MultiBattle->playerNum = 1;
 
 			bgm_Current->Stop();
 			bgm_Current = bgm_Battle;

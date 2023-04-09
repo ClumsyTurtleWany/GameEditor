@@ -10,3 +10,15 @@ enum PlayerType
 	PLAYER_TYPE_ARCHER = 3;
 	PLAYER_TYPE_ASSASSIN = 4;
 }
+
+//DECK 
+enum CardNum
+{
+	Strike = 0;
+	Defend = 1;
+	PomelStrike = 2;
+	ShrugItOff = 3;
+	Hemokinesis = 4;
+	BludGeon = 5;
+	IronWave = 6;
+}
