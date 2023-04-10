@@ -1,4 +1,4 @@
-#include "OscillationComponenth.h"
+#include "OscillationComponent.h"
 #include <cmath>
 
 void OscillationComponent::Damped(Vector3 pos, Vector3 forward, float amplitude, float duration, float freq, float coef)
