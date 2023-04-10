@@ -39,7 +39,7 @@ void CameraSystem::Tick(ECS::World* world, float time)
 				// ¹æÇâº¤ÅÍ
 				Vector3 Up = Vector3::Up;
 				Vector3 BaseRight = Vector3::Right;
-				Vector3 InvRight = -Up.Cross(movement->Forword);
+				Vector3 InvRight = -Up.Cross(movement->Forward);
 				InvRight.Normalize();
 
 				Vector3 dest = box->OBB.Center - InvRight * (box->OBB.Extents.x + box->OBB.Extents.z) * 0.5f * 10.0f;

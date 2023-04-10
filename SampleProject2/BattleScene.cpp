@@ -17,7 +17,7 @@
 #include "SelectAnimSystem.h"
 #include "BoundingBoxComponent.h"
 #include "CameraArmComponent.h"
-#include "OscillationComponenth.h"
+#include "OscillationComponent.h"
 
 //Ãß°¡
 #include "ColliderSystem.h"

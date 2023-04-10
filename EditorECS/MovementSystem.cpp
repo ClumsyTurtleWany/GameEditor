@@ -2,7 +2,7 @@
 #include "MovementComponent.h"
 #include "TransformComponent.h"
 #include "SplineComponent.h"
-#include "OscillationComponenth.h"
+#include "OscillationComponent.h"
 #include "Camera.h"
 
 void MovementSystem::Tick(ECS::World* world, float time)
@@ -25,12 +25,12 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		else 
 			movement->IsMoving = true;
 
-		movement->Forword = diff;
-		movement->Forword.Normalize();
+		movement->Forward = diff;
+		movement->Forward.Normalize();
 
 		Vector3 basisAxis = Vector3(0.0f, 0.0f, -1.0f);
-		float yaw = acos(basisAxis.Dot(movement->Forword) / (basisAxis.LengthSquared() * movement->Forword.LengthSquared())) / PI * 180.0f;
-		if (movement->Forword.x < 0.0f)
+		float yaw = acos(basisAxis.Dot(movement->Forward) / (basisAxis.LengthSquared() * movement->Forward.LengthSquared())) / PI * 180.0f;
+		if (movement->Forward.x < 0.0f)
 		{			
 			transform->Rotation.y = yaw;
 		}
@@ -39,7 +39,7 @@ void MovementSystem::Tick(ECS::World* world, float time)
 			transform->Rotation.y = -yaw;
 		}
 
-		movement->Location += movement->Forword * movement->Speed * time;
+		movement->Location += movement->Forward * movement->Speed * time;
 		transform->Translation = movement->Location;
 	}
 

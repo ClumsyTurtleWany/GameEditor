@@ -9,7 +9,7 @@ class MovementComponent
 {
 public:
 	Vector3 Location;
-	Vector3 Forword;
+	Vector3 Forward;
 	Vector3 Destination;
 	float	Speed;
 	bool	IsMoving = false;			///< 현재 이동중이라면 true
