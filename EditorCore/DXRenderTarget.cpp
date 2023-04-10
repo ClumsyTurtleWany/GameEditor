@@ -73,8 +73,8 @@ bool DXRenderTarget::Create(float x, float y, float width, float height, UINT co
 	// Depth Stencil View
 	D3D11_TEXTURE2D_DESC desc;
 	ZeroMemory(&desc, sizeof(desc));
-	desc.Width = width;
-	desc.Height = height;
+	desc.Width = static_cast<UINT>(width);
+	desc.Height = static_cast<UINT>(height);
 	desc.MipLevels = 1; // 0으로 하면 9단계 까지 생성
 	desc.ArraySize = Count; // 1개만 생성
 	desc.Format = DXGI_FORMAT_R24G8_TYPELESS; //DXGI_FORMAT_D24_UNORM_S8_UINT; //DXGI_FORMAT_R24G8_TYPELESS; // 32bit, 24bit는 Z버퍼(Depth)로 사용하고, 8bit는 스텐실 버퍼로 사용 하겠다.
@@ -282,7 +282,7 @@ bool DXRenderTarget::End(UINT index)
 	return true;
 }
 
-bool DXRenderTarget::Render(UINT index, UINT x, UINT y, UINT width, UINT height)
+bool DXRenderTarget::Render(UINT index, float x, float y, float width, float height)
 {
 	if (RTVList.empty() || DSVList.empty())
 	{
@@ -336,7 +336,7 @@ bool DXRenderTarget::Render(UINT index, UINT x, UINT y, UINT width, UINT height)
 	return true;
 }
 
-bool DXRenderTarget::RenderDepthTexture(UINT index, UINT x, UINT y, UINT width, UINT height)
+bool DXRenderTarget::RenderDepthTexture(UINT index, float x, float y, float width, float height)
 {
 	if (RTVList.empty() || DSVList.empty())
 	{

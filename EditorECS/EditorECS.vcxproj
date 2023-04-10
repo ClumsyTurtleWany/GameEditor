@@ -50,6 +50,7 @@
     <ClInclude Include="LightSystem.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
+    <ClInclude Include="OscillationComponent.h" />
     <ClInclude Include="PlaneComponent.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderSystem.h" />
@@ -86,6 +87,7 @@
     <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
+    <ClCompile Include="OscillationComponent.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SelectAnimSystem.cpp" />

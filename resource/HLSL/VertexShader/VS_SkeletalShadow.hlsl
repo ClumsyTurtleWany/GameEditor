@@ -63,8 +63,8 @@ VertexShader_output VS(VertexShader_input input)
 		uint iBoneIndex = input.index[iBone];
 		float fWeight = input.weight[iBone];
 		vAnimation += mul(vLocal, g_matBone[iBoneIndex]) * fWeight;
-		vAnimationNormal += mul(input.n, g_matBone[iBoneIndex]) * fWeight;
-		vAnimationTangent += mul(input.tangent, g_matBone[iBoneIndex]) * fWeight;
+		vAnimationNormal += mul(float4(input.n, 1.0f), g_matBone[iBoneIndex]) * fWeight;
+		vAnimationTangent += mul(float4(input.tangent, 1.0f), g_matBone[iBoneIndex]) * fWeight;
 	}
 
 	float4 vWorld = mul(vAnimation, g_WorldTransform);

@@ -17,6 +17,7 @@
 #include "SelectAnimSystem.h"
 #include "BoundingBoxComponent.h"
 #include "CameraArmComponent.h"
+#include "OscillationComponenth.h"
 
 //Ãß°¡
 #include "ColliderSystem.h"
@@ -60,6 +61,8 @@ bool BattleScene::Init()
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	MainCamera->Roll += 30.0f;
 	MainCameraSystem->MainCamera = MainCamera;
+	MainCameraActor->AddComponent<OscillationComponent>();
+
 	TheWorld.AddEntity(MainCameraActor);
 
 	Init_UI();
@@ -140,6 +143,17 @@ bool BattleScene::Frame()
 	if (btnT == KeyState::Hold || btnT == KeyState::Down)
 	{
 		MainCamera->Yaw += 0.5f;
+	}
+
+	KeyState btnF = Input::GetInstance()->getKey('F');
+	if (btnF == KeyState::Hold || btnF == KeyState::Down)
+	{
+		auto oscillation = MainCameraActor->GetComponent<OscillationComponent>();
+		auto camera = MainCameraActor->GetComponent<Camera>();
+		if ((oscillation != nullptr) && (camera != nullptr))
+		{
+			oscillation->Damped(camera->Pos, camera->Look, 20.0f, 10.0f, 10.0f, 10.0f);
+		}
 	}
 
 	KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);

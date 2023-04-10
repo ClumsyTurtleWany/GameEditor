@@ -58,8 +58,8 @@ public:
 public:
 	bool Create(float x, float y, float width, float height, UINT count = 1, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM);
 	bool Begin(UINT index = 0);
-	bool Render(UINT index, UINT x, UINT y, UINT width, UINT height);
-	bool RenderDepthTexture(UINT index, UINT x, UINT y, UINT width, UINT height);
+	bool Render(UINT index, float x, float y, float width, float height);
+	bool RenderDepthTexture(UINT index, float x, float y, float width, float height);
 	bool End(UINT index = 0);
 	bool Release();
 };

@@ -188,8 +188,8 @@ bool DXTexture::Release()
 bool DXTexture::CreateRenderTarget(float _width, float _height, UINT cnt, DXGI_FORMAT format)
 {
 	ZeroMemory(&m_Desc, sizeof(m_Desc));
-	m_Desc.Width = _width;
-	m_Desc.Height = _height;
+	m_Desc.Width = static_cast<UINT>(_width);
+	m_Desc.Height = static_cast<UINT>(_height);
 	m_Desc.MipLevels = 1;
 	m_Desc.ArraySize = cnt;
 	m_Desc.Format = format;

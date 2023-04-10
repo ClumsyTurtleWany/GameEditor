@@ -204,6 +204,9 @@
     <ClInclude Include="SplineComponent.h">
       <Filter>Component\Spline</Filter>
     </ClInclude>
+    <ClInclude Include="OscillationComponent.h">
+      <Filter>Component</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -298,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="SplineComponent.cpp">
       <Filter>Component\Spline</Filter>
+    </ClCompile>
+    <ClCompile Include="OscillationComponent.cpp">
+      <Filter>Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

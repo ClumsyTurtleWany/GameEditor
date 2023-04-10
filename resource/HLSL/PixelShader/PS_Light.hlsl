@@ -155,7 +155,7 @@ float4 ComputePointSpecularLight(float3 pos, float3 normal)
 		float dist = distance(pos, g_PointLightPos[idx].xyz);
 
 		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx].x);
-		float intensity = saturate(dot(-g_EyeDir, vLight));
+		float intensity = saturate(dot(-g_EyeDir.xyz, vLight));
 
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);
 	}
@@ -173,9 +173,9 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 		float3 vLight = reflect(g_SpotLightDir[idx].xyz, normal.xyz);;
 		float dist = distance(pos, g_SpotLightPos[idx].xyz);
 
-		float fDot = dot(g_SpotLightDir[idx], vLight);
+		float fDot = dot(g_SpotLightDir[idx].xyz, vLight);
 		float luminance = smoothstep(dist - 5.0f, dist, g_SpotLightRadius[idx].x);
-		float intensity = saturate(dot(g_EyeDir, vLight));
+		float intensity = saturate(dot(g_EyeDir.xyz, vLight));
 
 		if (fDot >= 0.98)
 		{
@@ -282,12 +282,12 @@ float4 PS(PixelShader_input _input) : SV_Target
 {
 	float4 textureColor = g_DiffuseTexture.Sample(g_SampleA, _input.t);
 	float4 lightColor = ComputeDirectionDiffuseLight(_input.n) +
-						ComputePointDiffuseLight(_input.vWorld, _input.n) +
-						ComputePointSpecularLight(_input.vWorld, _input.n) +
-						ComputeSpotDiffuseLight(_input.vWorld, _input.n) +
-						ComputeSpotSpecularLight(_input.vWorld, _input.n);
+						ComputePointDiffuseLight(_input.vWorld.xyz, _input.n) +
+						ComputePointSpecularLight(_input.vWorld.xyz, _input.n) +
+						ComputeSpotDiffuseLight(_input.vWorld.xyz, _input.n) +
+						ComputeSpotSpecularLight(_input.vWorld.xyz, _input.n);
 
-	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
+	float4 ambientColor = float4(0.5f, 0.5f, 0.5f, 1.0f);
 	float4 finalColor = textureColor * (lightColor + ambientColor);
 	
 	float directionalLightShadowBright = ComputeDirectionalLightShadowAmount(_input.vWorld);

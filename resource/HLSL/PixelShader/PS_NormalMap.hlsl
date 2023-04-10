@@ -156,7 +156,7 @@ float4 ComputePointSpecularLight(float3 pos, float3 normal, float3x3 tangent)
 		float dist = distance(pos, g_PointLightPos[idx].xyz);
 
 		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx].x);
-		float intensity = saturate(dot(-normalize(mul(g_EyeDir, tangent)), vLight));
+		float intensity = saturate(dot(-normalize(mul(g_EyeDir.xyz, tangent)), vLight));
 
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);
 	}
@@ -175,9 +175,9 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal, float3x3 tangent)
 		vLight = normalize(mul(vLight, tangent));
 		float dist = distance(pos, g_SpotLightPos[idx].xyz);
 
-		float fDot = dot(g_SpotLightDir[idx], vLight);
+		float fDot = dot(g_SpotLightDir[idx].xyz, vLight);
 		float luminance = smoothstep(dist - 5.0f, dist, g_SpotLightRadius[idx].x);
-		float intensity = saturate(dot(normalize(mul(g_EyeDir, tangent)), vLight));
+		float intensity = saturate(dot(normalize(mul(g_EyeDir.xyz, tangent)), vLight));
 
 		if (fDot >= 0.98)
 		{
@@ -298,11 +298,11 @@ float4 PS(PixelShader_input _input) : SV_Target
 	normalMap = normalize((normalMap - 0.5f) * 2.0f);
 
 
-	float4 lightColor = ComputeDirectionDiffuseLight(normalMap, tanMat) +
-						ComputePointDiffuseLight(_input.vWorld, normalMap, tanMat) +
-						ComputePointSpecularLight(_input.vWorld, normalMap, tanMat) +
-						ComputeSpotDiffuseLight(_input.vWorld, normalMap, tanMat) +
-						ComputeSpotSpecularLight(_input.vWorld, normalMap, tanMat);
+	float4 lightColor = ComputeDirectionDiffuseLight(normalMap.xyz, tanMat) +
+						ComputePointDiffuseLight(_input.vWorld.xyz, normalMap.xyz, tanMat) +
+						ComputePointSpecularLight(_input.vWorld.xyz, normalMap.xyz, tanMat) +
+						ComputeSpotDiffuseLight(_input.vWorld.xyz, normalMap.xyz, tanMat) +
+						ComputeSpotSpecularLight(_input.vWorld.xyz, normalMap.xyz, tanMat);
 
 	float4 ambientColor = float4(0.3f, 0.3f, 0.3f, 1.0f);
 	float4 finalColor = textureColor * (lightColor + ambientColor);

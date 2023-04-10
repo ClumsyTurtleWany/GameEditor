@@ -2,6 +2,8 @@
 #include "MovementComponent.h"
 #include "TransformComponent.h"
 #include "SplineComponent.h"
+#include "OscillationComponenth.h"
+#include "Camera.h"
 
 void MovementSystem::Tick(ECS::World* world, float time)
 {
@@ -49,5 +51,24 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		{
 			spline->update(time);
 		}
+	}
+
+	for (auto& entity : world->GetEntities<OscillationComponent>())
+	{
+		auto oscillation = entity->GetComponent<OscillationComponent>();
+		auto transform = entity->GetComponent<TransformComponent>();
+		auto camera = entity->GetComponent<Camera>();
+
+		if (camera != nullptr)
+		{
+			oscillation->Update(camera->Pos, time);
+		}
+		else
+		{
+			if (transform != nullptr)
+			{
+				oscillation->Update(transform->Translation, time);
+			}
+		}		
 	}
 }
