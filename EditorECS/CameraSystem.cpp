@@ -36,38 +36,24 @@ void CameraSystem::Tick(ECS::World* world, float time)
 			}
 			else if (movement && box)
 			{
-				// 방향벡터
-				Vector3 Up = Vector3::Up;
-				Vector3 BaseRight = Vector3::Right;
-				Vector3 InvRight = -Up.Cross(movement->Forward);
-				InvRight.Normalize();
-
-				Vector3 dest = box->OBB.Center - InvRight * (box->OBB.Extents.x + box->OBB.Extents.z) * 0.5f * 10.0f;
-
-				Quaternion cur = Quaternion::CreateFromAxisAngle(Up, BaseRight.Dot(camera->Right));
-				Quaternion rot = Quaternion::CreateFromAxisAngle(Up, BaseRight.Dot(InvRight));
-				Quaternion res;
-
-				//1초동안 해당거리를 추적하도록 보간 => 가까이 붙을 수록 느려짐
-				if (Vector3::DistanceSquared(camera->Pos, dest) < 0.25f)
+				if (movement->IsMoving)
 				{
-					camera->Pos = dest;
-					res = rot;
-				}
-				else
-				{
-					camera->Pos = Vector3::Lerp(camera->Pos, dest, min(time * 3.0f, 1.0f));
-					res = Quaternion::Slerp(cur, rot, min(time * 3.0f, 1.0f));
-				}
+					// 방향벡터
+					Vector3 Up = -Vector3::Up;
+					Vector3 Right = Up.Cross(movement->Forward);
+					Right.Normalize();
 
-				Matrix world = DirectX::XMMatrixAffineTransformation(Vector4(1.0f, 1.0f, 1.0f, 1.0f), Vector4(), res, camera->Pos);
-				Matrix invView = Matrix::CreateFromQuaternion(res);
-				invView *= Matrix::CreateTranslation(camera->Pos);
+					camera->Pos = box->OBB.Center + Right * 100.0f;
 
-				camera->View = invView.Invert();
-				camera->Update();
-				DirectX::BoundingFrustum newFrustum(camera->Projection);
-				newFrustum.Transform(camera->Frustum, world);
+					camera->View = DirectX::XMMatrixLookAtLH(camera->Pos, (Vector3)box->OBB.Center, Vector3::Up);
+					camera->Update();
+
+					Matrix invView;
+					camera->View.Invert(invView);
+
+					DirectX::BoundingFrustum newFrustum(camera->Projection);
+					newFrustum.Transform(camera->Frustum, invView);
+				}
 			}
 			else
 			{

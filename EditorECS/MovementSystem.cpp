@@ -28,8 +28,10 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		movement->Forward = diff;
 		movement->Forward.Normalize();
 
-		Vector3 basisAxis = Vector3(0.0f, 0.0f, -1.0f);
-		float yaw = acos(basisAxis.Dot(movement->Forward) / (basisAxis.LengthSquared() * movement->Forward.LengthSquared())) / PI * 180.0f;
+		Vector3 basisAxis = Vector3::Forward;
+		Vector3 PYR = DirectX::XMVector3AngleBetweenVectors(basisAxis, movement->Forward);
+		float yaw = (PYR.y / PI) * 180.0f;
+
 		if (movement->Forward.x < 0.0f)
 		{			
 			transform->Rotation.y = yaw;
