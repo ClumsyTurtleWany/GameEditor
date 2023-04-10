@@ -4,6 +4,9 @@
 #define BOUNDEPSILON	0.0005f
 #define DEG2RAD(angle) ((angle * (float)PI) / 180.0f)
 
+#define PYR_INTERP
+//#define USE_SLERP
+
 enum class SPLINE_LOOP_OPT
 {
 	SPLOPT_NOLOOP_ONEWAY,
@@ -23,7 +26,16 @@ struct TRANSFORM_KEY
 	float			fTime;
 
 	TRANSFORM_KEY() { fTime = -1.0f; }
-	TRANSFORM_KEY(float time, Vector3 Pos, Vector3 PitchYawRoll = { 0.0f, 0.0f, 0.0f }, Vector3 Scale = {1.0f, 1.0f, 1.0f})
+
+	//위치만 사용
+	TRANSFORM_KEY(Vector3 Pos, float time)
+	{
+		fTime = time;
+		vPos = Pos;
+	}
+
+	//PYR 회전
+	TRANSFORM_KEY(Vector3 Pos, Vector3 PitchYawRoll, float time, Vector3 Scale = {1.0f, 1.0f, 1.0f})
 	{
 		fTime = time;
 
@@ -34,12 +46,37 @@ struct TRANSFORM_KEY
 		vScale = Scale;
 	}
 
-	TRANSFORM_KEY(float time, Vector3 Pos, Quaternion Rot, Vector3 Scale = { 1.0f, 1.0f, 1.0f })
+	//QT 회전
+	TRANSFORM_KEY(Vector3 Pos, Quaternion Rot, float time, Vector3 Scale = { 1.0f, 1.0f, 1.0f })
 	{
 		fTime = time;
 
 		vPos = Pos;
 		qRot = Rot;
+		vScale = Scale;
+	}
+
+	//임의의 축 회전
+	TRANSFORM_KEY(Vector3 Pos, Vector3 Axis, float fRadAngle, float time, Vector3 Scale = { 1.0f, 1.0f, 1.0f })
+	{
+		fTime = time;
+
+		vPos = Pos;
+		qRot = Quaternion::CreateFromAxisAngle(Axis, fRadAngle);
+
+		vRot = { Quaternion::Angle({1, 0, 0, 0}, qRot),  Quaternion::Angle({0, 1, 0, 0}, qRot), Quaternion::Angle({0, 0, 1, 0}, qRot) };
+		vScale = Scale;
+	}
+
+	//Look벡터 회전
+	TRANSFORM_KEY(Vector3 Pos, Vector3 from, Vector3 to, float time, Vector3 Scale = { 1.0f, 1.0f, 1.0f })
+	{
+		fTime = time;
+
+		vPos = Pos;
+		qRot = Quaternion::FromToRotation(from, to);
+
+		vRot = { Quaternion::Angle({1, 0, 0, 0}, qRot),  Quaternion::Angle({0, 1, 0, 0}, qRot), Quaternion::Angle({0, 0, 1, 0}, qRot) };
 		vScale = Scale;
 	}
 
@@ -57,6 +94,7 @@ public:
 	std::wstring					m_wszName;
 
 	bool							m_bPaused;
+	bool							m_bReverse;
 	float							m_fTime;
 
 	SPLINE_LOOP_OPT					m_loopOpt;
@@ -70,8 +108,8 @@ public:
 	~SplineComponent();
 
 	bool update(float dt);
-	bool lerp(TRANSFORM_KEY& p0, TRANSFORM_KEY& p1, float time);
-	bool interp(float time);
+	bool Lerp(TRANSFORM_KEY& p0, TRANSFORM_KEY& p1, float time);
+	bool SplineInterp(float time);
 
 	void start();
 	void pause();
@@ -79,5 +117,6 @@ public:
 
 	Vector3 HornerRule_VPoly(Vector3* vfactorList, int iNumE, int t);
 	void Catmull_RomSpline(float t, float tension, Vector3& p0, Vector3& p1, Vector3& p2, Vector3& p3, Vector3& pOut);
+	void Catmull_RomSpline(float t, float tension, Quaternion& p0, Quaternion& p1, Quaternion& p2, Quaternion& p3, Quaternion& pOut);
 };
 

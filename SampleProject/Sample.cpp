@@ -176,10 +176,27 @@ bool SampleCore::Initialize()
 	SubCameraActor = new Actor;
 	SubCamera = SubCameraActor->AddComponent<Camera>();
 
-	TRANSFORM_KEY p0(0.0f, { -300.0f, 20.0f, 0.0f }, { 0.0f, -90.0f, 0.0f });
-	TRANSFORM_KEY p1(5.0f, { -100.0f, 40.0f, 120.0f }, { 0.0f, -45.0f, 30.0f });
-	TRANSFORM_KEY p2(10.0f, { 100.0f, 120.0f, 240.0f }, { 0.0f, 0.0f, 90.0f });
-	TRANSFORM_KEY p3(15.0f, { -100.0f, 80.0f, -120.0f }, { 0.0f, 45.0f, -270.0f });
+	//PYR
+	TRANSFORM_KEY p0({ -300.0f, 20.0f, 0.0f }, { 0.0f, -90.0f, 0.0f }, 0.0f);
+	TRANSFORM_KEY p1({ -100.0f, 40.0f, 120.0f }, { 0.0f, -45.0f, 10.0f }, 5.0f);
+	TRANSFORM_KEY p2({ 100.0f, 120.0f, 240.0f }, { 0.0f, 0.0f, 20.0f },	10.0f);
+	TRANSFORM_KEY p3({ -100.0f, 80.0f, -120.0f }, { 0.0f, 45.0f, 0.0f }, 15.0f);
+
+	////From - To
+	//Vector3 vLook = {0.0f, 0.0f, 1.0f};
+	//Vector3 D0 = { -1.0f, 0.0f, 0.0f }; //왼쪽
+	//D0.Normalize();
+	//Vector3 D1 = { 0.0f, 1.0f, 1.0f }; //전방 45도
+	//D1.Normalize();
+	//Vector3 D2 = { 1.0f, 0.0f, 0.0f }; //오른쪽
+	//D2.Normalize();
+	//Vector3 D3 = { 0.0f, -1.0f, -1.0f }; //후방 -45도
+	//D3.Normalize();
+
+	//TRANSFORM_KEY p0({ -300.0f, 20.0f, 0.0f }, vLook, D0, 0.0f);
+	//TRANSFORM_KEY p1({ -100.0f, 40.0f, 120.0f }, vLook, D1, 5.0f);
+	//TRANSFORM_KEY p2({ 100.0f, 120.0f, 240.0f }, vLook, D2, 10.0f);
+	//TRANSFORM_KEY p3({ -100.0f, 80.0f, -120.0f }, vLook, D3, 15.0f);
 
 	std::vector<TRANSFORM_KEY> CPList;
 	CPList.push_back(p0);

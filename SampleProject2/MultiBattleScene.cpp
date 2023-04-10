@@ -119,22 +119,22 @@ bool MultiBattleScene::Frame()
 	//KeyState btnA = Input::GetInstance()->getKey('A');
 	//if (btnA == KeyState::Hold || btnA == KeyState::Down)
 	//{
-	//	MainCamera->Pitch -= 0.1f;
+	//	MainCamera->Yaw -= 0.1f;
 	//}
 	//KeyState btnD = Input::GetInstance()->getKey('D');
 	//if (btnD == KeyState::Hold || btnD == KeyState::Down)
 	//{
-	//	MainCamera->Pitch += 0.1f;
+	//	MainCamera->Yaw += 0.1f;
 	//}
 	//KeyState btnW = Input::GetInstance()->getKey('W');
 	//if (btnW == KeyState::Hold || btnW == KeyState::Down)
 	//{
-	//	MainCamera->Roll -= 0.1f;
+	//	MainCamera->Pitch -= 0.1f;
 	//}
 	//KeyState btnS = Input::GetInstance()->getKey('S');
 	//if (btnS == KeyState::Hold || btnS == KeyState::Down)
 	//{
-	//	MainCamera->Roll += 0.1f;
+	//	MainCamera->Pitch += 0.1f;
 	//}
 	//KeyState btnQ = Input::GetInstance()->getKey('Q');
 	//if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
@@ -506,8 +506,8 @@ void MultiBattleScene::Init_Chara()
 	auto playerCamera = PlayerCharacter->AddComponent<Camera>();
 	auto playerCameraArm = PlayerCharacter->AddComponent<CameraArmComponent>();
 	playerCameraArm->Distance = 100.0f;
-	playerCameraArm->Roll = 35.0f;
-	playerCameraArm->Pitch = 180.0f - 40.0f;
+	playerCameraArm->Pitch = 35.0f;
+	playerCameraArm->Yaw = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	
@@ -699,8 +699,8 @@ void MultiBattleScene::Init_Chara()
 	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
 	auto enemyCameraArm = EnemyCharacter->AddComponent<CameraArmComponent>();
 	enemyCameraArm->Distance = 100.0f;
-	enemyCameraArm->Roll = 35.0f;
-	enemyCameraArm->Pitch = 180.0f + 40.0f;
+	enemyCameraArm->Pitch = 35.0f;
+	enemyCameraArm->Yaw = 180.0f + 40.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
@@ -765,8 +765,8 @@ void MultiBattleScene::Init_Chara2()
 		auto hostPlayerCamera = hostCharacter->AddComponent<Camera>();
 		auto hostPlayerCameraArm = hostCharacter->AddComponent<CameraArmComponent>();
 		hostPlayerCameraArm->Distance = 100.0f;
-		hostPlayerCameraArm->Roll = 35.0f;
-		hostPlayerCameraArm->Pitch = 180.0f - 40.0f;
+		hostPlayerCameraArm->Pitch = 35.0f;
+		hostPlayerCameraArm->Yaw = 180.0f - 40.0f;
 		hostPlayerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 		hostPlayerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
@@ -930,8 +930,8 @@ void MultiBattleScene::Init_Chara2()
 	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
 	auto enemyCameraArm = EnemyCharacter->AddComponent<CameraArmComponent>();
 	enemyCameraArm->Distance = 100.0f;
-	enemyCameraArm->Roll = 35.0f;
-	enemyCameraArm->Pitch = 180.0f + 40.0f;
+	enemyCameraArm->Pitch = 35.0f;
+	enemyCameraArm->Yaw = 180.0f + 40.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 

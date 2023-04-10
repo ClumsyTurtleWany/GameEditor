@@ -29,14 +29,14 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		movement->Forword.Normalize();
 
 		Vector3 basisAxis = Vector3(0.0f, 0.0f, -1.0f);
-		float pitch = acos(basisAxis.Dot(movement->Forword) / (basisAxis.LengthSquared() * movement->Forword.LengthSquared())) / PI * 180.0f;
+		float yaw = acos(basisAxis.Dot(movement->Forword) / (basisAxis.LengthSquared() * movement->Forword.LengthSquared())) / PI * 180.0f;
 		if (movement->Forword.x < 0.0f)
 		{			
-			transform->Rotation.y = pitch;
+			transform->Rotation.y = yaw;
 		}
 		else
 		{
-			transform->Rotation.y = -pitch;
+			transform->Rotation.y = -yaw;
 		}
 
 		movement->Location += movement->Forword * movement->Speed * time;
@@ -47,7 +47,7 @@ void MovementSystem::Tick(ECS::World* world, float time)
 	{
 		auto spline = entity->GetComponent<SplineComponent>();
 
-		if (spline)
+		if (spline && !spline->m_bPaused)
 		{
 			spline->update(time);
 		}

@@ -147,8 +147,8 @@ public:
 
 		float rotAngle = TAU / (float)MAX_NUMBER_OF_CIRCLE_VERTEX;
 
-		Matrix rotX = Matrix::CreateFromYawPitchRoll(rotAngle, 0.0f, 0.0f);
-		Matrix rotZ = Matrix::CreateFromYawPitchRoll(0.0f, 0.0f, rotAngle);
+		Matrix rotX = DirectX::XMMatrixRotationRollPitchYaw(rotAngle, 0.0f, 0.0f);
+		Matrix rotZ = DirectX::XMMatrixRotationRollPitchYaw(0.0f, 0.0f, rotAngle);
 
 		verticesX[0] = { { unit.x, unit.y, unit.z }, vColor };
 		verticesZ[0] = { { unit.x, unit.y, unit.z }, vColor };

@@ -24,9 +24,9 @@ public:
 	float FovY;
 
 public:
-	float Yaw = 0.0f;
-	float Pitch = 0.0f;
-	float Roll = 0.0f;
+	float Pitch = 0.0f;		//Right Vector		(X Rotation)
+	float Yaw = 0.0f;		//Up Vector			(Y Rotation)
+	float Roll = 0.0f;		//Forward Vector	(Z Rotation)
 
 public:
 	CameraMatrix CameraMatrixData;

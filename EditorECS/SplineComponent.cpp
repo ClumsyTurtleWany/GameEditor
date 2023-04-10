@@ -6,6 +6,7 @@ SplineComponent::SplineComponent()
 	m_fTension = 0.0f;
 	m_fTime = 0.0f;
 	m_bPaused = true;
+	m_bReverse = false;
 }
 
 SplineComponent::SplineComponent(SPLINE_LOOP_OPT SPLOpt, TRANSFORM_KEY* keyList, int iNumCP, bool bPaused, float fTension)
@@ -13,6 +14,7 @@ SplineComponent::SplineComponent(SPLINE_LOOP_OPT SPLOpt, TRANSFORM_KEY* keyList,
 	m_loopOpt = SPLOpt;
 	m_fTension = fTension;
 	m_bPaused = bPaused;
+	m_bReverse = false;
 
 	m_fTime = 0.0f;
 
@@ -48,32 +50,62 @@ bool SplineComponent::update(float dt)
 					pause();
 				} return true;
 
-				/*case SPLINE_LOOP_OPT::SPLOPT_NOLOOP_ROUNDTRIP:
+				case SPLINE_LOOP_OPT::SPLOPT_NOLOOP_ROUNDTRIP:
 				{
-
-				}break;*/
+					if (!m_bReverse)
+					{
+						m_fTime = 0.0f;
+						m_bReverse = true;
+					}
+					else
+					{
+						m_bReverse = false;
+						pause();
+						return true;
+					}
+				}break;
 
 				case SPLINE_LOOP_OPT::SPLOPT_LOOP_ONEWAY:
 				{
 					m_fTime = 0.0f;
 				}break;
 
-				/*case SPLINE_LOOP_OPT::SPLOPT_LOOP_ROUNDTRIP:
+				case SPLINE_LOOP_OPT::SPLOPT_LOOP_ROUNDTRIP:
 				{
-
-				}break;*/
+					if (!m_bReverse)
+					{
+						m_fTime = 0.0f;
+						m_bReverse = true;
+					}
+					else
+					{
+						m_bReverse = false;
+						m_fTime = 0.0f;
+					}
+				}break;
 				}
 			}
 
-			if (len == 2) { lerp(m_CPList[0], m_CPList[1], m_fTime); }
-			else { interp(m_fTime); }
+			if (len == 2) 
+			{
+				if (m_bReverse)
+				{
+					Lerp(m_CPList[1], m_CPList[0], m_fTime);
+				}
+				else
+				{
+					Lerp(m_CPList[0], m_CPList[1], m_fTime);
+				}
+				
+			}
+			else { SplineInterp(m_fTime); }
 		}
 	}
 
 	return true;
 }
 
-bool SplineComponent::lerp(TRANSFORM_KEY& p0, TRANSFORM_KEY& p1, float time)
+bool SplineComponent::Lerp(TRANSFORM_KEY& p0, TRANSFORM_KEY& p1, float time)
 {
 	UINT p[4] = { 0 };
 
@@ -81,7 +113,10 @@ bool SplineComponent::lerp(TRANSFORM_KEY& p0, TRANSFORM_KEY& p1, float time)
 	Quaternion		qRot;
 	Vector3			vScale;
 
-	float			t = (time - p0.fTime) / (p0.fTime - p1.fTime);
+	float tSt = min(p0.fTime, p1.fTime);
+	float tEd = max(p0.fTime, p1.fTime);
+
+	float	t = (time - tSt) / (tEd - tSt);
 	m_curKey.fTime = t;
 
 	m_curKey.vPos = Vector3::Lerp(p0.vScale, p1.vScale, t);
@@ -91,41 +126,78 @@ bool SplineComponent::lerp(TRANSFORM_KEY& p0, TRANSFORM_KEY& p1, float time)
 	return true;
 }
 
-bool SplineComponent::interp(float time)
+bool SplineComponent::SplineInterp(float time)
 {
-	UINT p[4] = { 0 };
+	int p[4] = { 0 };
 
 	Vector3			vPos;
 	Quaternion		qRot;
 	Vector3			vScale;
-
-	float			t = 0.0f;
 
 	//예외 처리
 	size_t len = m_CPList.size();
 	if (!len) { return false; }
 
 	//1. 시간에 해당하는 보간 구간의 제어점 리스트 구성하기
-	for (UINT i = 0; i < len; i++)
+	if (!m_bReverse)
 	{
-		if (time < m_CPList[i].fTime - BOUNDEPSILON)
-		{ 
-			p[2] = i;
-			
-			//왼쪽 제어점 2개
-			if (p[1] == 0) { p[0] == 0; }
-			else { p[0] = p[1] - 1; }
+		for (int i = 0; i < len; i++)
+		{
+			if (time < m_CPList[i].fTime)
+			{
+				p[2] = i;
 
-			//오른쪽 제어점 2개
-			if (i == len - 1) { p[3] = p[2]; }
-			else { p[3] = p[2] + 1; }
-			break; 
+				//왼쪽 제어점 2개
+				if (p[1] == 0) { p[0] = 0; }
+				else { p[0] = p[1] - 1; }
+
+				//오른쪽 제어점 2개
+				if (p[2] == len - 1) { p[3] = p[2]; }
+				else { p[3] = p[2] + 1; }
+				break;
+			}
+
+			p[1] = i;
 		}
 
-		p[1] = i;
+	}
+	else
+	{
+		p[2] = len - 1;
+
+		for (int i = len - 1; i >= 0; i--)
+		{
+			if (m_CPList[len - 1].fTime - time > m_CPList[i].fTime)
+			{
+				p[2] = i;
+
+				//왼쪽 제어점 2개
+				if (p[2] == 0) { p[3] = 0; }
+				else { p[3] = p[2] - 1; }
+
+				//오른쪽 제어점 2개
+				if (p[1] == len - 1) { p[0] = p[1]; }
+				else { p[0] = p[1] + 1; }
+				break;
+			}
+
+			p[1] = i;
+		}
 	}
 
-	t = (time - m_CPList[p[1]].fTime) / (m_CPList[p[2]].fTime - m_CPList[p[1]].fTime);
+	float tSt = min(m_CPList[p[1]].fTime, m_CPList[p[2]].fTime);
+	float tEd = max(m_CPList[p[1]].fTime, m_CPList[p[2]].fTime);
+	float	t = 0.0f;
+
+	if (!m_bReverse)
+	{
+		t = (time - tSt) / (tEd - tSt);
+	}
+	else
+	{
+		t = (tEd - m_CPList[len - 1].fTime + time) / (tEd - tSt);
+	}
+
 	m_curKey.fTime = t;
 
 	if (m_fTension <= 0.0f || m_fTension >= 1.0f)
@@ -138,13 +210,25 @@ bool SplineComponent::interp(float time)
 			m_CPList[p[3]].vPos,
 			t, m_curKey.vPos);
 
-		////회전 문제 해결방법 1 : 각축에 대한 회전 각도를 벡터로 취급한다.
-		////회전 변화량을 스플라인으로 보간한다.
+		//회전 문제 해결방법 1 : 각축에 대한 회전 각도를 벡터로 취급한다.
+		//회전 변화량을 스플라인으로 보간한다. 같은 시간 구간으로 구성된다면 
+		//구간별 회전각도를 다르게 주면 구간마다 애니메이션 속도가 달라진다.
+#ifdef PYR_INTERP
 		Vector3::CatmullRom(m_CPList[p[0]].vRot,
 			m_CPList[p[1]].vRot,
 			m_CPList[p[2]].vRot,
 			m_CPList[p[3]].vRot,
 			t, m_curKey.vRot);
+#else 
+		//회전 문제 해결방법 2 : 쿼터니언을 직접 보간한다.
+		//항상 최단거리로 보간하므로 축 벡터의 PI Rad.이상의 회전각도 보간은
+		//가장 가까운 거리로 우선 보간 하므로 이를 유의할 것
+		m_curKey.qRot = DirectX::XMVectorCatmullRom(m_CPList[p[0]].qRot,
+			m_CPList[p[1]].qRot,
+			m_CPList[p[2]].qRot,
+			m_CPList[p[3]].qRot,
+			t);
+#endif //PYR_INTERP
 	}
 	else
 	{
@@ -154,16 +238,27 @@ bool SplineComponent::interp(float time)
 			m_CPList[p[3]].vPos,
 			m_curKey.vPos);
 
+#ifdef PYR_INTERP
 		Catmull_RomSpline(t, m_fTension, m_CPList[p[0]].vRot,
 			m_CPList[p[1]].vRot,
 			m_CPList[p[2]].vRot,
 			m_CPList[p[3]].vRot,
 			m_curKey.vRot);
+#else
+		Catmull_RomSpline(t, m_fTension, m_CPList[p[0]].qRot,
+			m_CPList[p[1]].qRot,
+			m_CPList[p[2]].qRot,
+			m_CPList[p[3]].qRot,
+			m_curKey.qRot);
+#endif //PYR_INTERP
 	}
 	
+#ifdef PYR_INTERP
 	m_curKey.qRot = DirectX::XMQuaternionRotationRollPitchYawFromVector(m_curKey.vRot);
+#elif USE_SLERP
+	m_curKey.qRot = Quaternion::Slerp(m_CPList[p[1]].qRot, m_CPList[p[2]].qRot, t);
+#endif //PYR_INTERP
 
-	//m_curKey.qRot = Quaternion::Slerp(m_CPList[p[1]].qRot, m_CPList[p[2]].qRot, t);
 	m_curKey.vScale = Vector3::Lerp(m_CPList[p[1]].vScale, m_CPList[p[2]].vScale, t);
 
 	return true;
@@ -204,6 +299,21 @@ void SplineComponent::Catmull_RomSpline(float t, float tension, Vector3& p0, Vec
 {
 	//p(t) = F[0] * t^3 + F[1] * t^2 + F[2] * t + F[3]
 	Vector3 F[4];
+
+	F[0] = (-tension * p0) + ((2.0f - tension) * p1) + ((tension - 2.0f) * p2) + (tension * p3);
+	F[1] = (2.0f * tension * p0) + ((tension - 3.0f) * p1) + ((3.0f - 2 * tension) * p2) + (-tension * p3);
+	F[2] = (-tension * p0) /*+(0.0f * p1)*/ + (tension * p2);// +(0.0f * p3);
+	F[3] = /*(1.0f * p0);*/ (1.0f * p1); // +(0.0f * p2) + (0.0f * p3);
+
+	//pOut = HornerRule_VPoly(F, sizeof(F) / sizeof(F[0]), t);
+	pOut = F[0];
+	for (int i = 1; i < 4; i++) { pOut = (pOut * t) + F[i]; }
+}
+
+void SplineComponent::Catmull_RomSpline(float t, float tension, Quaternion& p0, Quaternion& p1, Quaternion& p2, Quaternion& p3, Quaternion& pOut)
+{
+	//p(t) = F[0] * t^3 + F[1] * t^2 + F[2] * t + F[3]
+	Quaternion F[4];
 
 	F[0] = (-tension * p0) + ((2.0f - tension) * p1) + ((tension - 2.0f) * p2) + (tension * p3);
 	F[1] = (2.0f * tension * p0) + ((tension - 3.0f) * p1) + ((3.0f - 2 * tension) * p2) + (-tension * p3);

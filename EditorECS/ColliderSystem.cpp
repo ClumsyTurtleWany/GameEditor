@@ -19,7 +19,8 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		if ((OBB != nullptr) && (transform != nullptr))
 		{
 			Matrix matWorld = Matrix::CreateScale(transform->Scale);
-			matWorld *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
+
+			matWorld *= DirectX::XMMatrixRotationRollPitchYawFromVector(transform->Rotation);
 			matWorld *= Matrix::CreateTranslation(transform->Translation);
 
 			//In -> Out
@@ -36,7 +37,7 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		if ((Sphere != nullptr) && (transform != nullptr))
 		{
 			Matrix matWorld = Matrix::CreateScale(transform->Scale);
-			matWorld *= Matrix::CreateFromYawPitchRoll(transform->Rotation);
+			matWorld *= DirectX::XMMatrixRotationRollPitchYawFromVector(transform->Rotation);
 			matWorld *= Matrix::CreateTranslation(transform->Translation);
 
 			Sphere->InitSphere.Transform(Sphere->Sphere, matWorld);
