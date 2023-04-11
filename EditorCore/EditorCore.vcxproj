@@ -362,8 +362,7 @@ copy "..\\lib\\FMOD\\fmod.dll" "..\\$(TargetName)\\"</Command>
     <PostBuildEvent>
       <Command>copy "*.h" "..\\include\\$(TargetName)\\"
 copy "*.hpp" "..\\include\\$(TargetName)\\"
-copy "EditorCore.lib" "..\\lib\\$(TargetName)\\Release\\"
-copy "*.hlsl" "..\\include\\$(TargetName)\\"</Command>
+copy "EditorCore.lib" "..\\lib\\$(TargetName)\\Release\\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

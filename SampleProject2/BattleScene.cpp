@@ -256,24 +256,37 @@ void BattleScene::Init_UI()
 	DiscardButton = bc->FindObj(L"Discard");
 	MoveButton = bc->FindObj(L"MoveButton");
 
+	//TurnEndButton->SetOrginStandard(false); // 테스트용
+	//RemainCardButton->SetOrginStandard(false);
+	//DiscardButton->SetOrginStandard(false);
+
 	// 카드 오브젝트 생성 후 리스트에 넣어줌
 	CardList[0] = bc->FindObj(L"Card1");
-	CardList[0]->m_bDraggable = true;
 	CardList[1] = bc->FindObj(L"Card2");
-	CardList[1]->m_bDraggable = true;
 	CardList[2] = bc->FindObj(L"Card3");
+	CardList[0]->m_bDraggable = true;
+	CardList[1]->m_bDraggable = true;
 	CardList[2]->m_bDraggable = true;
+	CardList[0]->m_bIsDead = true;		// 드로우 전까진 안보이게
+	CardList[1]->m_bIsDead = true;
+	CardList[2]->m_bIsDead = true;
 
-	// 플레이어 거시기 표시용 
+	// 플레이어 거시기 상태 표시용 
 	PlayerCurrenHP1 = bc->FindObj(L"PlayerCurrentHP_1");
 	PlayerCurrenHP2 = bc->FindObj(L"PlayerCurrentHP_2");
 	PlayerMaxHP1 = bc->FindObj(L"PlayerMaxHP_1");
 	PlayerMaxHP2 = bc->FindObj(L"PlayerMaxHP_2");
+	PlayerHPBar_Full = bc->FindObj(L"PlayerHpBar_Full");
+	PlayerHPBar_Empty = bc->FindObj(L"PlayerHpBar_Empty");
 	PlayerArmorIcon = bc->FindObj(L"PlayerArmor_Icon");
 	PlayerArmor1 = bc->FindObj(L"PlayerArmor_1");
 	PlayerArmor2 = bc->FindObj(L"PlayerArmor_2");
 	CurrentMana = bc->FindObj(L"Mana_current");
 	MaxMana = bc->FindObj(L"Mana_max");
+
+	// 프로그레스 바를 위해서 좌상단 원점으로 바꿔줌
+	PlayerHPBar_Full->SetOrginStandard(false);
+	PlayerHPBar_Full->SetOrginStandard(false);
 	//UpdatePlayerState();
 
 	UpdateEnemyState();
@@ -933,7 +946,7 @@ void BattleScene::CardCheck()
 
 				MainCameraSystem->MainCamera = MainCamera;
 			}
-			else {} // 여기서 경고문구 출력
+			else {} // 여기서 마나부족 경고문구 출력
 
 		}
 	}
@@ -979,14 +992,18 @@ void BattleScene::UpdateHand(int handSize, int UsedCard, int DrawedCard)
 		CardList[card]->m_bIsDead = false;
 
 		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), CardPosList[card][handSize - 1] };
+		float AnimTime = 0.15f;
 		if (card >= UsedCard) // 써진 카드 위치부터 한칸씩 밀어서 애니메이션 시작점을 줘야 멀쩡해보임
 		{
 			// 드로우카드를 썼을 때, 벡터 마지막+1을 참조하면 안되니까
-			if (DrawedCard > 0 && card + DrawedCard >= handSize) { AnimPos[0] = { -100.0f, 700.0f }; }
-			else { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card + 1]->m_OriginalOriginPos); } // 드로우X
+			if (DrawedCard > 0 && card + DrawedCard >= handSize) 
+			{ AnimPos[0] = { -100.0f, 700.0f }; 
+			AnimTime = 0.5f;}	// 드로우된 카드는 멀리서 날라오니까 애니메이션 시간 좀 더줌
 
+			// 드로우X
+			else { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card + 1]->m_OriginalOriginPos);} 
 		}
-		CardList[card]->SetAnimation(AnimPos, 0.5f);
+		CardList[card]->SetAnimation(AnimPos, AnimTime);
 	}
 
 	for (int card = handSize; card < 3; card++) // for (int card = handSize; card < CardList.size(); card++)

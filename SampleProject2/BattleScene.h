@@ -72,25 +72,14 @@ public:
 	WidgetObject* PlayerCurrenHP2;
 	WidgetObject* PlayerMaxHP1;
 	WidgetObject* PlayerMaxHP2;
+	WidgetObject* PlayerHPBar_Full;
+	WidgetObject* PlayerHPBar_Empty;
 	WidgetObject* PlayerArmorIcon;
 	WidgetObject* PlayerArmor1;
 	WidgetObject* PlayerArmor2;
 	WidgetObject* ManaIcon;
 	WidgetObject* CurrentMana;
 	WidgetObject* MaxMana;
-
-	//std::vector<WidgetObject*> EnemyStateObjectList;
-	//WidgetObject* EnemyCurrentHP1;
-	//WidgetObject* EnemyCurrentHP2;
-	//WidgetObject* EnemyMaxHP1;
-	//WidgetObject* EnemyMaxHP2;
-	//// 적 방어도도 해야하는데.. 귀찮으니까 좀 나중에
-	////WidgetObject* EnemyArmorIcon;
-	////WidgetObject* EnemyArmor1;
-	////WidgetObject* EnemyArmor2;
-	//WidgetObject* EnemyIntentIcon;
-	//WidgetObject* EnemyIntent1;
-	//WidgetObject* EnemyIntent2;
 
 	WidgetObject* Damage1;
 	WidgetObject* Damage2;

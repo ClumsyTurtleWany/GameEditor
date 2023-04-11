@@ -107,4 +107,8 @@ public:
 public:
 	//void temp(); //혁 테스트 용도
 	void Init_Chara2();
+
+public:
+	int UsedCard;
+	int TargetEnemyNumber;
 };

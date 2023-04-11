@@ -181,10 +181,20 @@ bool WidgetObject::UpdateCut(int cutNum)
 
 	Vector2 ndcWH = PtoN(m_pCutInfoList[cutNum]->pxWH);
 
-	Vertices[0].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, m_fDepth }; // p1-LT
-	Vertices[1].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, m_fDepth }; // p2-RT
-	Vertices[2].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, m_fDepth }; // p3-LB
-	Vertices[3].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, m_fDepth }; // p4-RB
+	if (m_bOPS) // 원점이 중앙일 경우
+	{
+		Vertices[0].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, m_fDepth }; // p1-LT
+		Vertices[1].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, m_fDepth }; // p2-RT
+		Vertices[2].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, m_fDepth }; // p3-LB
+		Vertices[3].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, m_fDepth }; // p4-RB
+	}
+	else // 원점이 좌상단일 경우 
+	{
+		Vertices[0].Pos = { m_OriginPos.x ,			  m_OriginPos.y			 , m_fDepth }; // p1-LT
+		Vertices[1].Pos = { m_OriginPos.x + ndcWH.x , m_OriginPos.y			 , m_fDepth }; // p2-RT
+		Vertices[2].Pos = { m_OriginPos.x ,			  m_OriginPos.y - ndcWH.y, m_fDepth }; // p3-LB
+		Vertices[3].Pos = { m_OriginPos.x + ndcWH.x , m_OriginPos.y - ndcWH.y, m_fDepth }; // p4-RB
+	}
 
 	Vertices[0].Texture = { m_pCutInfoList[cutNum]->uv.x, m_pCutInfoList[cutNum]->uv.y }; // p1-LT
 	Vertices[1].Texture = { m_pCutInfoList[cutNum]->uv.z, m_pCutInfoList[cutNum]->uv.y }; // p2-RT
@@ -227,6 +237,19 @@ Vector2 WidgetObject::NtoP_Pos(Vector2 ndcPos)
 	result.y = DXDevice::g_ViewPort.Height * (-ndcPos.y + 1.0f)/2;
 
 	return result;
+}
+
+// 원점이 좌상단인 오브젝트일 경우, 원점 재설정
+void WidgetObject::SetOrginStandard(bool ops)
+{
+	m_bOPS = ops;
+
+	Vector2 ndcWH = PtoN(m_pCutInfoList[0]->pxWH);	// 일단 첫번째 컷 기준, 뭐 상관없겠제~
+	if (!ops) // 원점이 좌상단이라면 (중앙이 아니라)
+	{
+		m_OriginPos.x -= ndcWH.x / 2;
+		m_OriginPos.y += ndcWH.y / 2;
+	}
 }
 
 bool WidgetObject::SetButtonState()
