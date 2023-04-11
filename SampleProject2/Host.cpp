@@ -47,7 +47,6 @@ bool Host::Init()
 
 bool Host::Frame()
 {
-
 	return false;
 }
 

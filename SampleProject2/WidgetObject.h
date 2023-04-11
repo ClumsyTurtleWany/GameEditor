@@ -50,6 +50,7 @@ public:
 	Vector2 PtoN(Vector2 pxWH);		// 이건 너비/높이
 	Vector2 PtoN_Pos(Vector2 pxPos); // 이건 위치
 	Vector2 NtoP_Pos(Vector2 ndcPos);
+	void SetOrginStandard(bool ops);
 
 	bool SetButtonState();
 	bool Drag();
@@ -85,6 +86,7 @@ public:
 
 	UIType			m_Type;
 	int				m_ID; // 얘는 여기서 필요없지않나? 흠
+	bool			m_bOPS = true;	// Orgin Pos Standard, 원점 위치. true면 중앙, false면 좌상단
 	Vector2			m_OriginPos;
 	float			m_fDepth = 0.0f;
 	float			m_fAlpha = 1.0f;

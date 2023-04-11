@@ -98,7 +98,7 @@ void Listener::CloseSocket()
 }
 
 HANDLE Listener::GetHandle()
-{
+{ 
 	return reinterpret_cast<HANDLE>(_socket);
 }
 
