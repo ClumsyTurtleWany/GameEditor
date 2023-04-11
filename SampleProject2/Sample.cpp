@@ -6,6 +6,10 @@
 #include "BoundingBoxComponent.h"
 #include "BoundingSphereComponent.h"
 
+//¼­¹ö Ãß°¡ 
+#include "ServerPacketHandler.h"
+#include "ClientPacketHandler.h"
+
 // ¹Ø¿¡ ³ðµéÀº BaseScene ¾Æ´Ï¸é BattleScene ¹ØÀ¸·Î °¬À¾´Ï´Ù 
 //#include "WindowsClient.h"
 //#include "Actor.h"
@@ -175,6 +179,8 @@ bool SampleCore::Initialize()
 	MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
 	MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
 	MultiBattle->Init();
+	multyserver = MultiBattle;
+	multyclient = MultiBattle;
 	CardView = new CardViewScene;
 	CardView->Dick = Dick;
 	CardView->CardTextureList = CardTextureList;

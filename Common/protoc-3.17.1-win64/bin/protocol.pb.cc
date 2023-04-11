@@ -118,6 +118,40 @@ struct C_DECKDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT C_DECKDefaultTypeInternal _C_DECK_default_instance_;
+constexpr S_DRAWCARD::S_DRAWCARD(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : remainingcardlist_()
+  , _remainingcardlist_cached_byte_size_()
+  , handlist_()
+  , _handlist_cached_byte_size_()
+  , discardlist_()
+  , _discardlist_cached_byte_size_(){}
+struct S_DRAWCARDDefaultTypeInternal {
+  constexpr S_DRAWCARDDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~S_DRAWCARDDefaultTypeInternal() {}
+  union {
+    S_DRAWCARD _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_DRAWCARDDefaultTypeInternal _S_DRAWCARD_default_instance_;
+constexpr C_DRAWCARD::C_DRAWCARD(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : remainingcardlist_()
+  , _remainingcardlist_cached_byte_size_()
+  , handlist_()
+  , _handlist_cached_byte_size_()
+  , discardlist_()
+  , _discardlist_cached_byte_size_(){}
+struct C_DRAWCARDDefaultTypeInternal {
+  constexpr C_DRAWCARDDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~C_DRAWCARDDefaultTypeInternal() {}
+  union {
+    C_DRAWCARD _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT C_DRAWCARDDefaultTypeInternal _C_DRAWCARD_default_instance_;
 constexpr S_USECARD::S_USECARD(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
 struct S_USECARDDefaultTypeInternal {
@@ -140,32 +174,34 @@ struct C_USECARDDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT C_USECARDDefaultTypeInternal _C_USECARD_default_instance_;
-constexpr S_SHUFFLE_DECK::S_SHUFFLE_DECK(
+constexpr S_TURNEND::S_TURNEND(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : deck_(nullptr){}
-struct S_SHUFFLE_DECKDefaultTypeInternal {
-  constexpr S_SHUFFLE_DECKDefaultTypeInternal()
+  : discardlist_()
+  , _discardlist_cached_byte_size_(){}
+struct S_TURNENDDefaultTypeInternal {
+  constexpr S_TURNENDDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~S_SHUFFLE_DECKDefaultTypeInternal() {}
+  ~S_TURNENDDefaultTypeInternal() {}
   union {
-    S_SHUFFLE_DECK _instance;
+    S_TURNEND _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_SHUFFLE_DECKDefaultTypeInternal _S_SHUFFLE_DECK_default_instance_;
-constexpr C_SHUFFLE_DECK::C_SHUFFLE_DECK(
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT S_TURNENDDefaultTypeInternal _S_TURNEND_default_instance_;
+constexpr C_TURNEND::C_TURNEND(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : deck_(nullptr){}
-struct C_SHUFFLE_DECKDefaultTypeInternal {
-  constexpr C_SHUFFLE_DECKDefaultTypeInternal()
+  : discardlist_()
+  , _discardlist_cached_byte_size_(){}
+struct C_TURNENDDefaultTypeInternal {
+  constexpr C_TURNENDDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~C_SHUFFLE_DECKDefaultTypeInternal() {}
+  ~C_TURNENDDefaultTypeInternal() {}
   union {
-    C_SHUFFLE_DECK _instance;
+    C_TURNEND _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT C_SHUFFLE_DECKDefaultTypeInternal _C_SHUFFLE_DECK_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT C_TURNENDDefaultTypeInternal _C_TURNEND_default_instance_;
 }  // namespace protocol
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_protocol_2eproto[12];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_protocol_2eproto[14];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_protocol_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_protocol_2eproto = nullptr;
 
@@ -224,6 +260,22 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_protocol_2eproto::offsets[] PR
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::C_DECK, deck_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protocol::S_DRAWCARD, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protocol::S_DRAWCARD, remainingcardlist_),
+  PROTOBUF_FIELD_OFFSET(::protocol::S_DRAWCARD, handlist_),
+  PROTOBUF_FIELD_OFFSET(::protocol::S_DRAWCARD, discardlist_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protocol::C_DRAWCARD, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protocol::C_DRAWCARD, remainingcardlist_),
+  PROTOBUF_FIELD_OFFSET(::protocol::C_DRAWCARD, handlist_),
+  PROTOBUF_FIELD_OFFSET(::protocol::C_DRAWCARD, discardlist_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::S_USECARD, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -234,17 +286,17 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_protocol_2eproto::offsets[] PR
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::protocol::S_SHUFFLE_DECK, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::protocol::S_TURNEND, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::protocol::S_SHUFFLE_DECK, deck_),
+  PROTOBUF_FIELD_OFFSET(::protocol::S_TURNEND, discardlist_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::protocol::C_SHUFFLE_DECK, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::protocol::C_TURNEND, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::protocol::C_SHUFFLE_DECK, deck_),
+  PROTOBUF_FIELD_OFFSET(::protocol::C_TURNEND, discardlist_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::protocol::C_TEST)},
@@ -255,10 +307,12 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 34, -1, sizeof(::protocol::C_CONNECT)},
   { 41, -1, sizeof(::protocol::S_DECK)},
   { 47, -1, sizeof(::protocol::C_DECK)},
-  { 53, -1, sizeof(::protocol::S_USECARD)},
-  { 58, -1, sizeof(::protocol::C_USECARD)},
-  { 63, -1, sizeof(::protocol::S_SHUFFLE_DECK)},
-  { 69, -1, sizeof(::protocol::C_SHUFFLE_DECK)},
+  { 53, -1, sizeof(::protocol::S_DRAWCARD)},
+  { 61, -1, sizeof(::protocol::C_DRAWCARD)},
+  { 69, -1, sizeof(::protocol::S_USECARD)},
+  { 74, -1, sizeof(::protocol::C_USECARD)},
+  { 79, -1, sizeof(::protocol::S_TURNEND)},
+  { 85, -1, sizeof(::protocol::C_TURNEND)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -270,10 +324,12 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_C_CONNECT_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_S_DECK_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_C_DECK_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_S_DRAWCARD_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_C_DRAWCARD_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_S_USECARD_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_C_USECARD_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_S_SHUFFLE_DECK_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_C_SHUFFLE_DECK_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_S_TURNEND_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_C_TURNEND_default_instance_),
 };
 
 const char descriptor_table_protodef_protocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -288,10 +344,14 @@ const char descriptor_table_protodef_protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\001 \001(\0132\020.protocol.Player\022\"\n\nClientDeck\030\002 "
   "\001(\0132\016.protocol.Deck\"&\n\006S_DECK\022\034\n\004deck\030\001 "
   "\001(\0132\016.protocol.Deck\"&\n\006C_DECK\022\034\n\004deck\030\001 "
-  "\001(\0132\016.protocol.Deck\"\013\n\tS_USECARD\"\013\n\tC_US"
-  "ECARD\".\n\016S_SHUFFLE_DECK\022\034\n\004deck\030\001 \001(\0132\016."
-  "protocol.Deck\".\n\016C_SHUFFLE_DECK\022\034\n\004deck\030"
-  "\001 \001(\0132\016.protocol.Deckb\006proto3"
+  "\001(\0132\016.protocol.Deck\"N\n\nS_DRAWCARD\022\031\n\021rem"
+  "ainingCardList\030\001 \003(\005\022\020\n\010handList\030\002 \003(\005\022\023"
+  "\n\013discardList\030\003 \003(\005\"N\n\nC_DRAWCARD\022\031\n\021rem"
+  "ainingCardList\030\001 \003(\005\022\020\n\010handList\030\002 \003(\005\022\023"
+  "\n\013discardList\030\003 \003(\005\"\013\n\tS_USECARD\"\013\n\tC_US"
+  "ECARD\" \n\tS_TURNEND\022\023\n\013discardList\030\002 \003(\005\""
+  " \n\tC_TURNEND\022\023\n\013discardList\030\002 \003(\005b\006proto"
+  "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_protocol_2eproto_deps[2] = {
   &::descriptor_table_enum_2eproto,
@@ -299,8 +359,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_protocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_protocol_2eproto = {
-  false, false, 589, descriptor_table_protodef_protocol_2eproto, "protocol.proto", 
-  &descriptor_table_protocol_2eproto_once, descriptor_table_protocol_2eproto_deps, 2, 12,
+  false, false, 721, descriptor_table_protodef_protocol_2eproto, "protocol.proto", 
+  &descriptor_table_protocol_2eproto_once, descriptor_table_protocol_2eproto_deps, 2, 14,
   schemas, file_default_instances, TableStruct_protocol_2eproto::offsets,
   file_level_metadata_protocol_2eproto, file_level_enum_descriptors_protocol_2eproto, file_level_service_descriptors_protocol_2eproto,
 };
@@ -2122,6 +2182,566 @@ void C_DECK::InternalSwap(C_DECK* other) {
 
 // ===================================================================
 
+class S_DRAWCARD::_Internal {
+ public:
+};
+
+S_DRAWCARD::S_DRAWCARD(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  remainingcardlist_(arena),
+  handlist_(arena),
+  discardlist_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:protocol.S_DRAWCARD)
+}
+S_DRAWCARD::S_DRAWCARD(const S_DRAWCARD& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      remainingcardlist_(from.remainingcardlist_),
+      handlist_(from.handlist_),
+      discardlist_(from.discardlist_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:protocol.S_DRAWCARD)
+}
+
+void S_DRAWCARD::SharedCtor() {
+}
+
+S_DRAWCARD::~S_DRAWCARD() {
+  // @@protoc_insertion_point(destructor:protocol.S_DRAWCARD)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void S_DRAWCARD::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void S_DRAWCARD::ArenaDtor(void* object) {
+  S_DRAWCARD* _this = reinterpret_cast< S_DRAWCARD* >(object);
+  (void)_this;
+}
+void S_DRAWCARD::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void S_DRAWCARD::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void S_DRAWCARD::Clear() {
+// @@protoc_insertion_point(message_clear_start:protocol.S_DRAWCARD)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  remainingcardlist_.Clear();
+  handlist_.Clear();
+  discardlist_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_DRAWCARD::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated int32 remainingCardList = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_remainingcardlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8) {
+          _internal_add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated int32 handList = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_handlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16) {
+          _internal_add_handlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated int32 discardList = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_discardlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24) {
+          _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* S_DRAWCARD::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protocol.S_DRAWCARD)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated int32 remainingCardList = 1;
+  {
+    int byte_size = _remainingcardlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          1, _internal_remainingcardlist(), byte_size, target);
+    }
+  }
+
+  // repeated int32 handList = 2;
+  {
+    int byte_size = _handlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          2, _internal_handlist(), byte_size, target);
+    }
+  }
+
+  // repeated int32 discardList = 3;
+  {
+    int byte_size = _discardlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          3, _internal_discardlist(), byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protocol.S_DRAWCARD)
+  return target;
+}
+
+size_t S_DRAWCARD::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protocol.S_DRAWCARD)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated int32 remainingCardList = 1;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->remainingcardlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _remainingcardlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated int32 handList = 2;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->handlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _handlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated int32 discardList = 3;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->discardlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _discardlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void S_DRAWCARD::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protocol.S_DRAWCARD)
+  GOOGLE_DCHECK_NE(&from, this);
+  const S_DRAWCARD* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S_DRAWCARD>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.S_DRAWCARD)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.S_DRAWCARD)
+    MergeFrom(*source);
+  }
+}
+
+void S_DRAWCARD::MergeFrom(const S_DRAWCARD& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protocol.S_DRAWCARD)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  remainingcardlist_.MergeFrom(from.remainingcardlist_);
+  handlist_.MergeFrom(from.handlist_);
+  discardlist_.MergeFrom(from.discardlist_);
+}
+
+void S_DRAWCARD::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protocol.S_DRAWCARD)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void S_DRAWCARD::CopyFrom(const S_DRAWCARD& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protocol.S_DRAWCARD)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S_DRAWCARD::IsInitialized() const {
+  return true;
+}
+
+void S_DRAWCARD::InternalSwap(S_DRAWCARD* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  remainingcardlist_.InternalSwap(&other->remainingcardlist_);
+  handlist_.InternalSwap(&other->handlist_);
+  discardlist_.InternalSwap(&other->discardlist_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S_DRAWCARD::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
+      file_level_metadata_protocol_2eproto[8]);
+}
+
+// ===================================================================
+
+class C_DRAWCARD::_Internal {
+ public:
+};
+
+C_DRAWCARD::C_DRAWCARD(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  remainingcardlist_(arena),
+  handlist_(arena),
+  discardlist_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:protocol.C_DRAWCARD)
+}
+C_DRAWCARD::C_DRAWCARD(const C_DRAWCARD& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      remainingcardlist_(from.remainingcardlist_),
+      handlist_(from.handlist_),
+      discardlist_(from.discardlist_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:protocol.C_DRAWCARD)
+}
+
+void C_DRAWCARD::SharedCtor() {
+}
+
+C_DRAWCARD::~C_DRAWCARD() {
+  // @@protoc_insertion_point(destructor:protocol.C_DRAWCARD)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void C_DRAWCARD::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void C_DRAWCARD::ArenaDtor(void* object) {
+  C_DRAWCARD* _this = reinterpret_cast< C_DRAWCARD* >(object);
+  (void)_this;
+}
+void C_DRAWCARD::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void C_DRAWCARD::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void C_DRAWCARD::Clear() {
+// @@protoc_insertion_point(message_clear_start:protocol.C_DRAWCARD)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  remainingcardlist_.Clear();
+  handlist_.Clear();
+  discardlist_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* C_DRAWCARD::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated int32 remainingCardList = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_remainingcardlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8) {
+          _internal_add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated int32 handList = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_handlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16) {
+          _internal_add_handlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated int32 discardList = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_discardlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24) {
+          _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* C_DRAWCARD::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protocol.C_DRAWCARD)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated int32 remainingCardList = 1;
+  {
+    int byte_size = _remainingcardlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          1, _internal_remainingcardlist(), byte_size, target);
+    }
+  }
+
+  // repeated int32 handList = 2;
+  {
+    int byte_size = _handlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          2, _internal_handlist(), byte_size, target);
+    }
+  }
+
+  // repeated int32 discardList = 3;
+  {
+    int byte_size = _discardlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          3, _internal_discardlist(), byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protocol.C_DRAWCARD)
+  return target;
+}
+
+size_t C_DRAWCARD::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protocol.C_DRAWCARD)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated int32 remainingCardList = 1;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->remainingcardlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _remainingcardlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated int32 handList = 2;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->handlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _handlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated int32 discardList = 3;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->discardlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _discardlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void C_DRAWCARD::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protocol.C_DRAWCARD)
+  GOOGLE_DCHECK_NE(&from, this);
+  const C_DRAWCARD* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<C_DRAWCARD>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.C_DRAWCARD)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.C_DRAWCARD)
+    MergeFrom(*source);
+  }
+}
+
+void C_DRAWCARD::MergeFrom(const C_DRAWCARD& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protocol.C_DRAWCARD)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  remainingcardlist_.MergeFrom(from.remainingcardlist_);
+  handlist_.MergeFrom(from.handlist_);
+  discardlist_.MergeFrom(from.discardlist_);
+}
+
+void C_DRAWCARD::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protocol.C_DRAWCARD)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void C_DRAWCARD::CopyFrom(const C_DRAWCARD& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protocol.C_DRAWCARD)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool C_DRAWCARD::IsInitialized() const {
+  return true;
+}
+
+void C_DRAWCARD::InternalSwap(C_DRAWCARD* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  remainingcardlist_.InternalSwap(&other->remainingcardlist_);
+  handlist_.InternalSwap(&other->handlist_);
+  discardlist_.InternalSwap(&other->discardlist_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata C_DRAWCARD::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
+      file_level_metadata_protocol_2eproto[9]);
+}
+
+// ===================================================================
+
 class S_USECARD::_Internal {
  public:
 };
@@ -2275,7 +2895,7 @@ void S_USECARD::InternalSwap(S_USECARD* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata S_USECARD::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
-      file_level_metadata_protocol_2eproto[8]);
+      file_level_metadata_protocol_2eproto[10]);
 }
 
 // ===================================================================
@@ -2433,429 +3053,411 @@ void C_USECARD::InternalSwap(C_USECARD* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata C_USECARD::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
-      file_level_metadata_protocol_2eproto[9]);
-}
-
-// ===================================================================
-
-class S_SHUFFLE_DECK::_Internal {
- public:
-  static const ::protocol::Deck& deck(const S_SHUFFLE_DECK* msg);
-};
-
-const ::protocol::Deck&
-S_SHUFFLE_DECK::_Internal::deck(const S_SHUFFLE_DECK* msg) {
-  return *msg->deck_;
-}
-void S_SHUFFLE_DECK::clear_deck() {
-  if (GetArenaForAllocation() == nullptr && deck_ != nullptr) {
-    delete deck_;
-  }
-  deck_ = nullptr;
-}
-S_SHUFFLE_DECK::S_SHUFFLE_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:protocol.S_SHUFFLE_DECK)
-}
-S_SHUFFLE_DECK::S_SHUFFLE_DECK(const S_SHUFFLE_DECK& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_deck()) {
-    deck_ = new ::protocol::Deck(*from.deck_);
-  } else {
-    deck_ = nullptr;
-  }
-  // @@protoc_insertion_point(copy_constructor:protocol.S_SHUFFLE_DECK)
-}
-
-void S_SHUFFLE_DECK::SharedCtor() {
-deck_ = nullptr;
-}
-
-S_SHUFFLE_DECK::~S_SHUFFLE_DECK() {
-  // @@protoc_insertion_point(destructor:protocol.S_SHUFFLE_DECK)
-  SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-void S_SHUFFLE_DECK::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete deck_;
-}
-
-void S_SHUFFLE_DECK::ArenaDtor(void* object) {
-  S_SHUFFLE_DECK* _this = reinterpret_cast< S_SHUFFLE_DECK* >(object);
-  (void)_this;
-}
-void S_SHUFFLE_DECK::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
-void S_SHUFFLE_DECK::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-
-void S_SHUFFLE_DECK::Clear() {
-// @@protoc_insertion_point(message_clear_start:protocol.S_SHUFFLE_DECK)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  if (GetArenaForAllocation() == nullptr && deck_ != nullptr) {
-    delete deck_;
-  }
-  deck_ = nullptr;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* S_SHUFFLE_DECK::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // .protocol.Deck deck = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_deck(), ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* S_SHUFFLE_DECK::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:protocol.S_SHUFFLE_DECK)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .protocol.Deck deck = 1;
-  if (this->has_deck()) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        1, _Internal::deck(this), target, stream);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:protocol.S_SHUFFLE_DECK)
-  return target;
-}
-
-size_t S_SHUFFLE_DECK::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:protocol.S_SHUFFLE_DECK)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // .protocol.Deck deck = 1;
-  if (this->has_deck()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *deck_);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void S_SHUFFLE_DECK::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:protocol.S_SHUFFLE_DECK)
-  GOOGLE_DCHECK_NE(&from, this);
-  const S_SHUFFLE_DECK* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S_SHUFFLE_DECK>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.S_SHUFFLE_DECK)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.S_SHUFFLE_DECK)
-    MergeFrom(*source);
-  }
-}
-
-void S_SHUFFLE_DECK::MergeFrom(const S_SHUFFLE_DECK& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:protocol.S_SHUFFLE_DECK)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.has_deck()) {
-    _internal_mutable_deck()->::protocol::Deck::MergeFrom(from._internal_deck());
-  }
-}
-
-void S_SHUFFLE_DECK::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:protocol.S_SHUFFLE_DECK)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void S_SHUFFLE_DECK::CopyFrom(const S_SHUFFLE_DECK& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:protocol.S_SHUFFLE_DECK)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool S_SHUFFLE_DECK::IsInitialized() const {
-  return true;
-}
-
-void S_SHUFFLE_DECK::InternalSwap(S_SHUFFLE_DECK* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(deck_, other->deck_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata S_SHUFFLE_DECK::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
-      file_level_metadata_protocol_2eproto[10]);
-}
-
-// ===================================================================
-
-class C_SHUFFLE_DECK::_Internal {
- public:
-  static const ::protocol::Deck& deck(const C_SHUFFLE_DECK* msg);
-};
-
-const ::protocol::Deck&
-C_SHUFFLE_DECK::_Internal::deck(const C_SHUFFLE_DECK* msg) {
-  return *msg->deck_;
-}
-void C_SHUFFLE_DECK::clear_deck() {
-  if (GetArenaForAllocation() == nullptr && deck_ != nullptr) {
-    delete deck_;
-  }
-  deck_ = nullptr;
-}
-C_SHUFFLE_DECK::C_SHUFFLE_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:protocol.C_SHUFFLE_DECK)
-}
-C_SHUFFLE_DECK::C_SHUFFLE_DECK(const C_SHUFFLE_DECK& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_deck()) {
-    deck_ = new ::protocol::Deck(*from.deck_);
-  } else {
-    deck_ = nullptr;
-  }
-  // @@protoc_insertion_point(copy_constructor:protocol.C_SHUFFLE_DECK)
-}
-
-void C_SHUFFLE_DECK::SharedCtor() {
-deck_ = nullptr;
-}
-
-C_SHUFFLE_DECK::~C_SHUFFLE_DECK() {
-  // @@protoc_insertion_point(destructor:protocol.C_SHUFFLE_DECK)
-  SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-void C_SHUFFLE_DECK::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete deck_;
-}
-
-void C_SHUFFLE_DECK::ArenaDtor(void* object) {
-  C_SHUFFLE_DECK* _this = reinterpret_cast< C_SHUFFLE_DECK* >(object);
-  (void)_this;
-}
-void C_SHUFFLE_DECK::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
-void C_SHUFFLE_DECK::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-
-void C_SHUFFLE_DECK::Clear() {
-// @@protoc_insertion_point(message_clear_start:protocol.C_SHUFFLE_DECK)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  if (GetArenaForAllocation() == nullptr && deck_ != nullptr) {
-    delete deck_;
-  }
-  deck_ = nullptr;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* C_SHUFFLE_DECK::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // .protocol.Deck deck = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_deck(), ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* C_SHUFFLE_DECK::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:protocol.C_SHUFFLE_DECK)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // .protocol.Deck deck = 1;
-  if (this->has_deck()) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        1, _Internal::deck(this), target, stream);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:protocol.C_SHUFFLE_DECK)
-  return target;
-}
-
-size_t C_SHUFFLE_DECK::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:protocol.C_SHUFFLE_DECK)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // .protocol.Deck deck = 1;
-  if (this->has_deck()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *deck_);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void C_SHUFFLE_DECK::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:protocol.C_SHUFFLE_DECK)
-  GOOGLE_DCHECK_NE(&from, this);
-  const C_SHUFFLE_DECK* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<C_SHUFFLE_DECK>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.C_SHUFFLE_DECK)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.C_SHUFFLE_DECK)
-    MergeFrom(*source);
-  }
-}
-
-void C_SHUFFLE_DECK::MergeFrom(const C_SHUFFLE_DECK& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:protocol.C_SHUFFLE_DECK)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.has_deck()) {
-    _internal_mutable_deck()->::protocol::Deck::MergeFrom(from._internal_deck());
-  }
-}
-
-void C_SHUFFLE_DECK::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:protocol.C_SHUFFLE_DECK)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void C_SHUFFLE_DECK::CopyFrom(const C_SHUFFLE_DECK& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:protocol.C_SHUFFLE_DECK)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool C_SHUFFLE_DECK::IsInitialized() const {
-  return true;
-}
-
-void C_SHUFFLE_DECK::InternalSwap(C_SHUFFLE_DECK* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(deck_, other->deck_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata C_SHUFFLE_DECK::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
       file_level_metadata_protocol_2eproto[11]);
+}
+
+// ===================================================================
+
+class S_TURNEND::_Internal {
+ public:
+};
+
+S_TURNEND::S_TURNEND(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  discardlist_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:protocol.S_TURNEND)
+}
+S_TURNEND::S_TURNEND(const S_TURNEND& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      discardlist_(from.discardlist_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:protocol.S_TURNEND)
+}
+
+void S_TURNEND::SharedCtor() {
+}
+
+S_TURNEND::~S_TURNEND() {
+  // @@protoc_insertion_point(destructor:protocol.S_TURNEND)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void S_TURNEND::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void S_TURNEND::ArenaDtor(void* object) {
+  S_TURNEND* _this = reinterpret_cast< S_TURNEND* >(object);
+  (void)_this;
+}
+void S_TURNEND::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void S_TURNEND::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void S_TURNEND::Clear() {
+// @@protoc_insertion_point(message_clear_start:protocol.S_TURNEND)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  discardlist_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* S_TURNEND::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated int32 discardList = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_discardlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16) {
+          _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* S_TURNEND::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protocol.S_TURNEND)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated int32 discardList = 2;
+  {
+    int byte_size = _discardlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          2, _internal_discardlist(), byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protocol.S_TURNEND)
+  return target;
+}
+
+size_t S_TURNEND::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protocol.S_TURNEND)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated int32 discardList = 2;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->discardlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _discardlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void S_TURNEND::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protocol.S_TURNEND)
+  GOOGLE_DCHECK_NE(&from, this);
+  const S_TURNEND* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<S_TURNEND>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.S_TURNEND)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.S_TURNEND)
+    MergeFrom(*source);
+  }
+}
+
+void S_TURNEND::MergeFrom(const S_TURNEND& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protocol.S_TURNEND)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  discardlist_.MergeFrom(from.discardlist_);
+}
+
+void S_TURNEND::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protocol.S_TURNEND)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void S_TURNEND::CopyFrom(const S_TURNEND& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protocol.S_TURNEND)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool S_TURNEND::IsInitialized() const {
+  return true;
+}
+
+void S_TURNEND::InternalSwap(S_TURNEND* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  discardlist_.InternalSwap(&other->discardlist_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata S_TURNEND::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
+      file_level_metadata_protocol_2eproto[12]);
+}
+
+// ===================================================================
+
+class C_TURNEND::_Internal {
+ public:
+};
+
+C_TURNEND::C_TURNEND(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  discardlist_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:protocol.C_TURNEND)
+}
+C_TURNEND::C_TURNEND(const C_TURNEND& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      discardlist_(from.discardlist_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:protocol.C_TURNEND)
+}
+
+void C_TURNEND::SharedCtor() {
+}
+
+C_TURNEND::~C_TURNEND() {
+  // @@protoc_insertion_point(destructor:protocol.C_TURNEND)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void C_TURNEND::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void C_TURNEND::ArenaDtor(void* object) {
+  C_TURNEND* _this = reinterpret_cast< C_TURNEND* >(object);
+  (void)_this;
+}
+void C_TURNEND::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void C_TURNEND::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void C_TURNEND::Clear() {
+// @@protoc_insertion_point(message_clear_start:protocol.C_TURNEND)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  discardlist_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* C_TURNEND::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated int32 discardList = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_discardlist(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16) {
+          _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* C_TURNEND::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protocol.C_TURNEND)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated int32 discardList = 2;
+  {
+    int byte_size = _discardlist_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          2, _internal_discardlist(), byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protocol.C_TURNEND)
+  return target;
+}
+
+size_t C_TURNEND::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protocol.C_TURNEND)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated int32 discardList = 2;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      Int32Size(this->discardlist_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _discardlist_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void C_TURNEND::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protocol.C_TURNEND)
+  GOOGLE_DCHECK_NE(&from, this);
+  const C_TURNEND* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<C_TURNEND>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.C_TURNEND)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.C_TURNEND)
+    MergeFrom(*source);
+  }
+}
+
+void C_TURNEND::MergeFrom(const C_TURNEND& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protocol.C_TURNEND)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  discardlist_.MergeFrom(from.discardlist_);
+}
+
+void C_TURNEND::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protocol.C_TURNEND)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void C_TURNEND::CopyFrom(const C_TURNEND& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protocol.C_TURNEND)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool C_TURNEND::IsInitialized() const {
+  return true;
+}
+
+void C_TURNEND::InternalSwap(C_TURNEND* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  discardlist_.InternalSwap(&other->discardlist_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata C_TURNEND::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_protocol_2eproto_getter, &descriptor_table_protocol_2eproto_once,
+      file_level_metadata_protocol_2eproto[13]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2885,17 +3487,23 @@ template<> PROTOBUF_NOINLINE ::protocol::S_DECK* Arena::CreateMaybeMessage< ::pr
 template<> PROTOBUF_NOINLINE ::protocol::C_DECK* Arena::CreateMaybeMessage< ::protocol::C_DECK >(Arena* arena) {
   return Arena::CreateMessageInternal< ::protocol::C_DECK >(arena);
 }
+template<> PROTOBUF_NOINLINE ::protocol::S_DRAWCARD* Arena::CreateMaybeMessage< ::protocol::S_DRAWCARD >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::protocol::S_DRAWCARD >(arena);
+}
+template<> PROTOBUF_NOINLINE ::protocol::C_DRAWCARD* Arena::CreateMaybeMessage< ::protocol::C_DRAWCARD >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::protocol::C_DRAWCARD >(arena);
+}
 template<> PROTOBUF_NOINLINE ::protocol::S_USECARD* Arena::CreateMaybeMessage< ::protocol::S_USECARD >(Arena* arena) {
   return Arena::CreateMessageInternal< ::protocol::S_USECARD >(arena);
 }
 template<> PROTOBUF_NOINLINE ::protocol::C_USECARD* Arena::CreateMaybeMessage< ::protocol::C_USECARD >(Arena* arena) {
   return Arena::CreateMessageInternal< ::protocol::C_USECARD >(arena);
 }
-template<> PROTOBUF_NOINLINE ::protocol::S_SHUFFLE_DECK* Arena::CreateMaybeMessage< ::protocol::S_SHUFFLE_DECK >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::protocol::S_SHUFFLE_DECK >(arena);
+template<> PROTOBUF_NOINLINE ::protocol::S_TURNEND* Arena::CreateMaybeMessage< ::protocol::S_TURNEND >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::protocol::S_TURNEND >(arena);
 }
-template<> PROTOBUF_NOINLINE ::protocol::C_SHUFFLE_DECK* Arena::CreateMaybeMessage< ::protocol::C_SHUFFLE_DECK >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::protocol::C_SHUFFLE_DECK >(arena);
+template<> PROTOBUF_NOINLINE ::protocol::C_TURNEND* Arena::CreateMaybeMessage< ::protocol::C_TURNEND >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::protocol::C_TURNEND >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

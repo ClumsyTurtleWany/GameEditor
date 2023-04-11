@@ -3,20 +3,32 @@
 #include "NetworkPch.h"
 #include "protocol.pb.h"
 
+class MultiBattleScene;
+
 // return type : bool / argument : PacketSession&, BYTE*, int32 인 함수 포인터
 // 참조값으로 받는 이유는 refcount를 한개 더 추가하지 않을려고
 using PacketHandlerFunc = std::function<bool(PacketSessionRef&, BYTE*, int32)>;
 
-enum : uint16
-{
-	//PKT_S_TEST = 1,
-{%- for pkt in parser.total_pkt %}
-	PKT_{{pkt.name}} = {{pkt.id}},
-{%- endfor %}
-};
+extern MultiBattleScene* multy{{spacename}};
+
+//enum : uint16
+//{
+//	//PKT_S_TEST = 1,
+//{%- for pkt in parser.total_pkt %}
+//	PKT_{{pkt.name}} = {{pkt.id}},
+//{%- endfor %}
+//};
 
 namespace {{spacename}}
 {
+	enum : uint16
+	{
+		//PKT_S_TEST = 1,
+{%- for pkt in parser.total_pkt %}
+		PKT_{{pkt.name}} = {{pkt.id}},
+{%- endfor %}
+	};
+
 	// 그 함수 포인터의 배열
 	extern PacketHandlerFunc GPacketHandler[UINT16_MAX];
 	// TODO : 자동화
@@ -24,7 +36,7 @@ namespace {{spacename}}
 	bool Handle_INVALID(PacketSessionRef& session, BYTE * buffer, int32 len);
 
 	//bool Handle_S_TEST(PacketSessionRef& session, protocol::S_TEST& pkt);
-{%- for pkt in parser.total_pkt %}
+{%- for pkt in parser.recv_pkt %}
 	bool Handle_{{pkt.name}}(PacketSessionRef& session, protocol::{{pkt.name}}& pkt);
 {%- endfor%}
 }
@@ -45,7 +57,7 @@ public: //외부 사용(래핑?)
 		//GPacketHandler[PKT_S_TEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
 		//{return HandlePacket<protocol::S_TEST>(Handle_S_TEST, session, buffer, len); };		
 {%- for pkt in parser.recv_pkt %}
-		{{spacename}}::GPacketHandler[PKT_{{pkt.name}}] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
+		{{spacename}}::GPacketHandler[{{spacename}}::PKT_{{pkt.name}}] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
 		{return {{output}}::HandlePacket<protocol::{{pkt.name}}>({{spacename}}::Handle_{{pkt.name}}, session, buffer, len); };
 {%- endfor %}
 	}
@@ -61,7 +73,7 @@ public: //외부 사용(래핑?)
 
 	//static SendBufferRef MakeSendBuffer(protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, PKT_S_TEST); }
 {%- for pkt in parser.send_pkt %}
-	static SendBufferRef MakeSendBuffer(protocol::{{pkt.name}}& pkt) { return MakeSendBuffer(pkt, PKT_{{pkt.name}}); }
+static SendBufferRef MakeSendBuffer(protocol::{{pkt.name}}& pkt) { return MakeSendBuffer(pkt, {{spacename}}::PKT_{{pkt.name}}); }
 {%- endfor %}
 
 private:
