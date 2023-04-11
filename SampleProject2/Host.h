@@ -3,6 +3,7 @@
 
 class Host
 {
+public:
 	std::wstring ip;
 	int16 port;
 	int16 sessionCount;

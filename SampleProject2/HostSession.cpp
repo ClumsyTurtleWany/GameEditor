@@ -1,11 +1,36 @@
+#include "MultiBattleScene.h"
 #include "NetworkPch.h"
 #include "HostSession.h"
 #include "HostSessionManager.h"
 #include "ServerPacketHandler.h"
 
+
 void HostSession::OnConnected()
 {
 	GHostSessionManager.Add(static_pointer_cast<HostSession>(shared_from_this()));
+
+	protocol::Player hostPlayer;
+	{
+		hostPlayer.set_armor(multyserver->player1->armor);
+		hostPlayer.set_cost(multyserver->player1->cost);
+		hostPlayer.set_hp(multyserver->player1->hp);
+		hostPlayer.set_maxcost(multyserver->player1->maxCost);
+		hostPlayer.set_maxhp(multyserver->player1->maxHp);
+	}
+	protocol::Deck hostDeck;
+	{
+		*hostDeck.mutable_decklist() = { multyserver->MyDeck->DeckList.begin(), multyserver->MyDeck->DeckList.end() };
+		*hostDeck.mutable_discardlist() = { multyserver->MyDeck->DiscardList.begin(), multyserver->MyDeck->DiscardList.end() };
+		*hostDeck.mutable_handlist() = { multyserver->MyDeck->HandList.begin(), multyserver->MyDeck->HandList.end() };
+		*hostDeck.mutable_remainingcardlist() = { multyserver->MyDeck->RemainingCardList.begin(),multyserver->MyDeck->RemainingCardList.end() };
+	}
+	protocol::S_CONNECT hostCon;
+	{
+		hostCon.set_allocated_hostplayer(&hostPlayer);
+		hostCon.set_allocated_hostdeck(&hostDeck);
+	}
+	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(hostCon);
+	Send(sendBuffer);
 }
 
 void HostSession::OnDisconnected()
@@ -23,4 +48,15 @@ void HostSession::OnRecvPacket(BYTE* buffer, int32 len)
 
 void HostSession::OnSend(int32 len)
 {
+}
+
+void HostSession::SendDrawnDeck()
+{
+	protocol::S_DRAWCARD hostDraw;
+	*hostDraw.mutable_remainingcardlist() = { multyserver->MyDeck->RemainingCardList.begin(), multyserver->MyDeck->RemainingCardList.end() };
+	*hostDraw.mutable_handlist() = { multyserver->MyDeck->HandList.begin(), multyserver->MyDeck->HandList.end() };
+	*hostDraw.mutable_discardlist() = { multyserver->MyDeck->DiscardList.begin(), multyserver->MyDeck->DiscardList.end() };
+
+	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(hostDraw);
+	Send(sendBuffer);
 }

@@ -1,8 +1,11 @@
 
+#include "MultiBattleScene.h"
 #include "ServerPacketHandler.h"
 #include "bufferReader.h"
 #include "bufferWriter.h"
 
+
+MultiBattleScene* multyserver;
 PacketHandlerFunc server::GPacketHandler[UINT16_MAX];
 
 // Á÷Á¢ ÄÁÅÙÃ÷ ÀÛ¾÷ÀÚ 
@@ -19,43 +22,33 @@ bool server::Handle_C_TEST(PacketSessionRef& session, protocol::C_TEST& pkt)
 	return false;
 }
 
-bool server::Handle_S_TEST(PacketSessionRef& session, protocol::S_TEST& pkt)
-{
-	//TODO 
-
-	return true;
-}
 bool server::Handle_C_MOVE(PacketSessionRef& session, protocol::C_MOVE& pkt)
-{
-	return false;
-}
-
-bool server::Handle_S_LOGIN(PacketSessionRef& session, protocol::S_LOGIN& pkt)
-{
-	return false;
-}
-
-bool server::Handle_S_CONNECT(PacketSessionRef& session, protocol::S_CONNECT& pkt)
 {
 	return false;
 }
 
 bool server::Handle_C_CONNECT(PacketSessionRef& session, protocol::C_CONNECT& pkt)
 {
-	return false;
-}
+	multyserver->player2->armor = pkt.clientplayer().armor();
+	multyserver->player2->cost = pkt.clientplayer().cost();
+	multyserver->player2->hp = pkt.clientplayer().hp();
+	multyserver->player2->maxCost = pkt.clientplayer().maxcost();
+	multyserver->player2->maxHp = pkt.clientplayer().maxhp();
 
-bool server::Handle_S_DECK(PacketSessionRef& session, protocol::S_DECK& pkt)
-{
+	//host deck
+	for (auto& dklist : pkt.clientdeck().decklist())
+		multyserver->YourDeck->DeckList.push_back(dklist);
+	for (auto& remCardList : pkt.clientdeck().remainingcardlist())
+		multyserver->YourDeck->RemainingCardList.push_back(remCardList);
+	for (auto& hdList : pkt.clientdeck().handlist())
+		multyserver->YourDeck->HandList.push_back(hdList);
+	for (auto& disList : pkt.clientdeck().discardlist())
+		multyserver->YourDeck->DiscardList.push_back(disList);
+
 	return false;
 }
 
 bool server::Handle_C_DECK(PacketSessionRef& session, protocol::C_DECK& pkt)
-{
-	return false;
-}
-
-bool server::Handle_S_USECARD(PacketSessionRef& session, protocol::S_USECARD& pkt)
 {
 	return false;
 }
@@ -65,12 +58,24 @@ bool server::Handle_C_USECARD(PacketSessionRef& session, protocol::C_USECARD& pk
 	return false;
 }
 
-bool server::Handle_S_SHUFFLE_DECK(PacketSessionRef& session, protocol::S_SHUFFLE_DECK& pkt)
+bool server::Handle_C_DRAWCARD(PacketSessionRef& session, protocol::C_DRAWCARD& pkt)
 {
-	return false;
+	multyserver->YourDeck->RemainingCardList.clear();
+	for (auto& remainCard : pkt.remainingcardlist())
+		multyserver->YourDeck->RemainingCardList.push_back(remainCard);
+
+	multyserver->YourDeck->HandList.clear();
+	for (auto& handCard : pkt.handlist())
+		multyserver->YourDeck->HandList.push_back(handCard);
+	  
+	return true;
 }
 
-bool server::Handle_C_SHUFFLE_DECK(PacketSessionRef& session, protocol::C_SHUFFLE_DECK& pkt)
+bool server::Handle_C_TURNEND(PacketSessionRef& session, protocol::C_TURNEND& pkt)
 {
-	return false;
+	multyserver->YourDeck->DiscardList.clear();
+	for (auto& discard : pkt.discardlist())
+		multyserver->YourDeck->DiscardList.push_back(discard);
+	    
+	return true;
 }
