@@ -1424,6 +1424,8 @@ void MultiBattleScene::CardCheck()
 				UpdateEnemyState();
 
 				MainCameraSystem->MainCamera = MainCamera;
+
+				// 패킷보냄(4,1);	<- 카드 성공적으로 쓰면 호출되는 곳, 매개변수:(쓴카드번호, 맞는적번호) ㅇㅇ
 			}
 			else {} // 여기서 경고문구 출력
 
