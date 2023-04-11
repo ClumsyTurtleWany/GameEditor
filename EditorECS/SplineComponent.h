@@ -2,7 +2,7 @@
 #include "Define.h"
 
 #define BOUNDEPSILON	0.0005f
-#define DEG2RAD(angle) ((angle * (float)PI) / 180.0f)
+#define DEG2RAD(x)		(x)*((float)PI/180.0f)
 
 #define PYR_INTERP
 //#define USE_SLERP

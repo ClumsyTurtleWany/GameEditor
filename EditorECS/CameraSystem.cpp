@@ -34,26 +34,20 @@ void CameraSystem::Tick(ECS::World* world, float time)
 				DirectX::BoundingFrustum newFrustum(camera->Projection);
 				newFrustum.Transform(camera->Frustum, world);
 			}
-			else if (movement && box)
+			else if (camera == MainCamera && TargetCamera)
 			{
-				if (movement->IsMoving)
-				{
-					// ¹æÇâº¤ÅÍ
-					Vector3 Up = -Vector3::Up;
-					Vector3 Right = Up.Cross(movement->Forward);
-					Right.Normalize();
+				camera->Pos = Vector3::Lerp(camera->Pos, TargetCamera->Pos, min(time, 1.0f));
+				camera->lastQ = Quaternion::Slerp(camera->lastQ, TargetCamera->lastQ, min(time, 1.0f));
 
-					camera->Pos = box->OBB.Center + Right * 100.0f;
+				Matrix matWorld = DirectX::XMMatrixAffineTransformation({ 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, camera->lastQ, camera->Pos);
 
-					camera->View = DirectX::XMMatrixLookAtLH(camera->Pos, (Vector3)box->OBB.Center, Vector3::Up);
-					camera->Update();
+				DirectX::XMVECTOR determinant;
+				DirectX::XMMATRIX view = DirectX::XMMatrixInverse(&determinant, matWorld);
+				camera->View = view;
+				camera->Update();
 
-					Matrix invView;
-					camera->View.Invert(invView);
-
-					DirectX::BoundingFrustum newFrustum(camera->Projection);
-					newFrustum.Transform(camera->Frustum, invView);
-				}
+				DirectX::BoundingFrustum newFrustum(camera->Projection);
+				newFrustum.Transform(camera->Frustum, matWorld);
 			}
 			else
 			{
@@ -61,25 +55,36 @@ void CameraSystem::Tick(ECS::World* world, float time)
 				float yaw = camera->Yaw;
 				float roll = camera->Roll;
 
+				Quaternion q;
+				Matrix world;
+
 				if (cameraArm != nullptr)
 				{
 					pitch = cameraArm->Pitch + transform->Rotation.x;
 					yaw = cameraArm->Yaw + transform->Rotation.y;
 					roll = cameraArm->Roll + transform->Rotation.z;
 
-					Vector3 dist = Vector3(0.0f, 0.0f, -cameraArm->Distance);
+					Vector3 dist = Vector3::Forward * cameraArm->Distance;
+					if (box) dist.y += box->OBB.Center.y;
+
 					Vector3 rotation = Vector3(pitch, yaw, roll) / 180.0f * PI;
-					DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(rotation);
-					DirectX::XMMATRIX world = DirectX::XMMatrixAffineTransformation({ 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, q, transform->Translation);
+					q = DirectX::XMQuaternionRotationRollPitchYawFromVector(rotation);
+					world = DirectX::XMMatrixAffineTransformation({ 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, q, transform->Translation);
 					Vector3 vecDist = DirectX::XMVector3Transform(dist, world);
+
+					camera->Pos.x = vecDist.x;
+					camera->Pos.y = vecDist.y;
+					camera->Pos.z = vecDist.z;
 				}
 
 				Vector3 rotation = Vector3(pitch, yaw, roll) / 180.0f * PI;
-				DirectX::FXMVECTOR q = DirectX::XMQuaternionRotationRollPitchYawFromVector(rotation);
-				DirectX::XMMATRIX world = DirectX::XMMatrixAffineTransformation({ 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, q, camera->Pos);
+				q = DirectX::XMQuaternionRotationRollPitchYawFromVector(rotation);
+				world = DirectX::XMMatrixAffineTransformation({ 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, q, camera->Pos);
+
+				camera->lastQ = q;
+
 				DirectX::XMVECTOR determinant;
 				DirectX::XMMATRIX view = DirectX::XMMatrixInverse(&determinant, world);
-
 				camera->View = view;
 				camera->Update();
 

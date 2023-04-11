@@ -28,6 +28,8 @@ public:
 	float Yaw = 0.0f;		//Up Vector			(Y Rotation)
 	float Roll = 0.0f;		//Forward Vector	(Z Rotation)
 
+	Quaternion	lastQ;		//트레이스 보간을 위한 쿼터니언
+
 public:
 	CameraMatrix CameraMatrixData;
 	ID3D11Buffer* CameraMatrixBuffer = nullptr;

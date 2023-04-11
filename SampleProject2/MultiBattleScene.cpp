@@ -158,17 +158,17 @@ bool MultiBattleScene::Frame()
 	KeyState btnZ = Input::GetInstance()->getKey('Z');
 	if (btnZ == KeyState::Hold || btnZ == KeyState::Down)
 	{
-		MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+		MainCameraSystem->TargetCamera = PlayerCharacter->GetComponent<Camera>();
 	}
 	KeyState btnX = Input::GetInstance()->getKey('X');
 	if (btnX == KeyState::Hold || btnX == KeyState::Down)
 	{
-		MainCameraSystem->MainCamera = EnemyCharacter->GetComponent<Camera>();
+		MainCameraSystem->TargetCamera = EnemyCharacter->GetComponent<Camera>();
 	}
 	KeyState btnC = Input::GetInstance()->getKey('C');
 	if (btnC == KeyState::Hold || btnC == KeyState::Down)
 	{
-		MainCameraSystem->MainCamera = MainCamera;
+		MainCameraSystem->TargetCamera = nullptr;
 	}
 
 	// 얘는 일단 주기적으로 업데이트 해줘야함.
@@ -184,6 +184,7 @@ bool MultiBattleScene::Frame()
 
 	// 선택된 적만 상태창 출력, 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
 	PickedCharacter = (Character*)MAIN_PICKER.lastSelect.pTarget;
+
 	for (auto enemy : EnemyList) 
 	{
 		if (PickedCharacter == enemy->chara)

@@ -7,7 +7,7 @@
 class Actor : public ECS::Entity
 {
 public:
-
+	TransformComponent* Transform;
 public:
 	Actor();
 	virtual ~Actor();

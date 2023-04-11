@@ -72,6 +72,9 @@
     <Filter Include="Component\Spline">
       <UniqueIdentifier>{d6b11a21-5086-4719-a2c9-774b63a8278c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Arrow">
+      <UniqueIdentifier>{c01f17e3-8fba-4de6-817b-0bbb68a4458c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -123,9 +126,6 @@
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="RenderSystem.h">
-      <Filter>System</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformSystem.h">
       <Filter>System</Filter>
     </ClInclude>
     <ClInclude Include="Define.h" />
@@ -206,6 +206,12 @@
     </ClInclude>
     <ClInclude Include="OscillationComponent.h">
       <Filter>Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowComponent.h">
+      <Filter>Component\Arrow</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderableStringComponent.h">
+      <Filter>Component\EffectComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -304,6 +310,12 @@
     </ClCompile>
     <ClCompile Include="OscillationComponent.cpp">
       <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowComponent.cpp">
+      <Filter>Component\Arrow</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderableStringComponent.cpp">
+      <Filter>Component\EffectComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

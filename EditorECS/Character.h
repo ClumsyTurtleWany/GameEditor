@@ -1,11 +1,13 @@
 #pragma once
 #include "Actor.h"
 #include "MovementComponent.h"
+#include "ArrowComponent.h"
 
 class Character : public Actor
 {
 public:
-	MovementComponent* MovementComp;
+	MovementComponent*		MovementComp;
+	ArrowComponent*			Arrow;
 
 public:
 	Character();

@@ -1,6 +1,7 @@
 #include "MovementSystem.h"
 #include "MovementComponent.h"
 #include "TransformComponent.h"
+#include "ArrowComponent.h"
 #include "SplineComponent.h"
 #include "OscillationComponent.h"
 #include "Camera.h"
@@ -11,38 +12,32 @@ void MovementSystem::Tick(ECS::World* world, float time)
 	{
 		auto transform = entity->GetComponent<TransformComponent>();
 		auto movement = entity->GetComponent<MovementComponent>();
+		auto arrow = entity->GetComponent<ArrowComponent>();
 		
-		movement->Location = transform->Translation;
-		Vector3 diff = movement->Destination - movement->Location;
-		// ADD -> 목적지에 도달했다면 IsMoving = false
-		if (diff.Distance(movement->Destination, movement->Location) <= 0.5f)
+		if (transform && movement && arrow)
 		{
-			movement->Location = movement->Destination;
+			movement->Location = transform->Translation;
+			movement->Forward = arrow->Forward;
+
+			Vector3 diff = movement->Destination - movement->Location;
+
+			// ADD -> 목적지에 도달했다면 IsMoving = false
+			if (diff.Distance(movement->Destination, movement->Location) <= 0.5f)
+			{
+				movement->Location = movement->Destination;
+				transform->Translation = movement->Location;
+				movement->IsMoving = false;
+				continue;
+			}			
+			else 
+				movement->IsMoving = true;
+
+			transform->Rotation.y = DirectX::XMVectorGetX(DirectX::XMVector3AngleBetweenNormals(Vector3::Forward, arrow->Forward)) / PI * 180.0f;
+			if (movement->Forward.x > 0.0f) { transform->Rotation.y = -transform->Rotation.y; }
+
+			movement->Location += movement->Forward * movement->Speed * time;
 			transform->Translation = movement->Location;
-			movement->IsMoving = false;
-			continue;
-		}			
-		else 
-			movement->IsMoving = true;
-
-		movement->Forward = diff;
-		movement->Forward.Normalize();
-
-		Vector3 basisAxis = Vector3::Forward;
-		Vector3 PYR = DirectX::XMVector3AngleBetweenVectors(basisAxis, movement->Forward);
-		float yaw = (PYR.y / PI) * 180.0f;
-
-		if (movement->Forward.x < 0.0f)
-		{			
-			transform->Rotation.y = yaw;
 		}
-		else
-		{
-			transform->Rotation.y = -yaw;
-		}
-
-		movement->Location += movement->Forward * movement->Speed * time;
-		transform->Translation = movement->Location;
 	}
 
 	for (auto& entity : world->GetEntities<SplineComponent>())
