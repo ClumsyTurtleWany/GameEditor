@@ -349,8 +349,8 @@ const char descriptor_table_protodef_protocol_2eproto[] PROTOBUF_SECTION_VARIABL
   "\n\013discardList\030\003 \003(\005\"N\n\nC_DRAWCARD\022\031\n\021rem"
   "ainingCardList\030\001 \003(\005\022\020\n\010handList\030\002 \003(\005\022\023"
   "\n\013discardList\030\003 \003(\005\"\013\n\tS_USECARD\"\013\n\tC_US"
-  "ECARD\" \n\tS_TURNEND\022\023\n\013discardList\030\002 \003(\005\""
-  " \n\tC_TURNEND\022\023\n\013discardList\030\002 \003(\005b\006proto"
+  "ECARD\" \n\tS_TURNEND\022\023\n\013discardList\030\001 \003(\005\""
+  " \n\tC_TURNEND\022\023\n\013discardList\030\001 \003(\005b\006proto"
   "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_protocol_2eproto_deps[2] = {
@@ -3115,12 +3115,12 @@ const char* S_TURNEND::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // repeated int32 discardList = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+      // repeated int32 discardList = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_discardlist(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16) {
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8) {
           _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
           CHK_(ptr);
         } else goto handle_unusual;
@@ -3154,12 +3154,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated int32 discardList = 2;
+  // repeated int32 discardList = 1;
   {
     int byte_size = _discardlist_cached_byte_size_.load(std::memory_order_relaxed);
     if (byte_size > 0) {
       target = stream->WriteInt32Packed(
-          2, _internal_discardlist(), byte_size, target);
+          1, _internal_discardlist(), byte_size, target);
     }
   }
 
@@ -3179,7 +3179,7 @@ size_t S_TURNEND::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated int32 discardList = 2;
+  // repeated int32 discardList = 1;
   {
     size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       Int32Size(this->discardlist_);
@@ -3317,12 +3317,12 @@ const char* C_TURNEND::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // repeated int32 discardList = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+      // repeated int32 discardList = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_discardlist(), ptr, ctx);
           CHK_(ptr);
-        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16) {
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8) {
           _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr));
           CHK_(ptr);
         } else goto handle_unusual;
@@ -3356,12 +3356,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated int32 discardList = 2;
+  // repeated int32 discardList = 1;
   {
     int byte_size = _discardlist_cached_byte_size_.load(std::memory_order_relaxed);
     if (byte_size > 0) {
       target = stream->WriteInt32Packed(
-          2, _internal_discardlist(), byte_size, target);
+          1, _internal_discardlist(), byte_size, target);
     }
   }
 
@@ -3381,7 +3381,7 @@ size_t C_TURNEND::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated int32 discardList = 2;
+  // repeated int32 discardList = 1;
   {
     size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       Int32Size(this->discardlist_);

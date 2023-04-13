@@ -2029,9 +2029,9 @@ class S_TURNEND final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDiscardListFieldNumber = 2,
+    kDiscardListFieldNumber = 1,
   };
-  // repeated int32 discardList = 2;
+  // repeated int32 discardList = 1;
   int discardlist_size() const;
   private:
   int _internal_discardlist_size() const;
@@ -2175,9 +2175,9 @@ class C_TURNEND final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDiscardListFieldNumber = 2,
+    kDiscardListFieldNumber = 1,
   };
-  // repeated int32 discardList = 2;
+  // repeated int32 discardList = 1;
   int discardlist_size() const;
   private:
   int _internal_discardlist_size() const;
@@ -3182,7 +3182,7 @@ C_DRAWCARD::mutable_discardlist() {
 
 // S_TURNEND
 
-// repeated int32 discardList = 2;
+// repeated int32 discardList = 1;
 inline int S_TURNEND::_internal_discardlist_size() const {
   return discardlist_.size();
 }
@@ -3233,7 +3233,7 @@ S_TURNEND::mutable_discardlist() {
 
 // C_TURNEND
 
-// repeated int32 discardList = 2;
+// repeated int32 discardList = 1;
 inline int C_TURNEND::_internal_discardlist_size() const {
   return discardlist_.size();
 }
