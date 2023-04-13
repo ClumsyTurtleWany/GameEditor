@@ -57,9 +57,6 @@ bool SelectScene::Frame()
 		{
 			gpHost->GetService()->_listener->addAcceptEvent();
 		}
-		//// 연결 성공시 true를 리턴하는 함수
-		//// 신 변경 어떻게함?
-		//gpHost->IsConnected();
 
 		////취소 버튼 나오면 풀어주세요~
 		//gpHost->CancelAccept();
@@ -71,23 +68,27 @@ bool SelectScene::Frame()
 		// 방 찾기 버튼 눌렀을 경우 요기가 실행
 		if (gpClient == nullptr)
 		{
-			gpClient = new Client(L"192.168.0.93", 7777);
+			gpClient = new Client(L"127.0.0.1", 7777);
 			gpClient->Init();
 		}
 		else
 			gpClient->GetClientservice()->Reconnect();
-
-		//// 연결 성공시 true를 리턴하는 함수
-		//// 신 변경 어떻게함?
-		//gpClient->IsConnected();
 
 		////취소 버튼 나오면 풀어주세요~
 		//gpClient->CancelConnect();
 	}
 
 	// 연결 성공시 씬 변경, 일단은 바로 멀티 전투씬으로
-	if (gpClient != nullptr && gpClient->IsConnected()) { SS = MULTIBATTLE; }  
-	
+	//if (gpClient != nullptr && gpClient->IsConnected()) { SS = MULTIBATTLE; }  
+
+	if (gpHost != nullptr && gpHost->IsConnected())
+	{
+		SS = MULTIBATTLE;
+	}
+	if (gpClient!=nullptr && gpClient->IsConnected())
+	{
+		SS = MULTIBATTLE;
+	}
 
 	BaseScene::Frame();
 	return true;

@@ -15,33 +15,17 @@ extern MultiBattleScene* multyserver;
 //{
 //	//PKT_S_TEST = 1,
 //
-//	PKT_C_TEST = 1,
+//	PKT_S_CONNECT = 1,
 //
-//	PKT_C_MOVE = 2,
+//	PKT_C_CONNECT = 2,
 //
-//	PKT_S_TEST = 3,
+//	PKT_S_USECARD = 3,
 //
-//	PKT_S_LOGIN = 4,
+//	PKT_C_USECARD = 4,
 //
-//	PKT_S_CONNECT = 5,
+//	PKT_S_TURNEND = 5,
 //
-//	PKT_C_CONNECT = 6,
-//
-//	PKT_S_DECK = 7,
-//
-//	PKT_C_DECK = 8,
-//
-//	PKT_S_DRAWCARD = 9,
-//
-//	PKT_C_DRAWCARD = 10,
-//
-//	PKT_S_USECARD = 11,
-//
-//	PKT_C_USECARD = 12,
-//
-//	PKT_S_TURNEND = 13,
-//
-//	PKT_C_TURNEND = 14,
+//	PKT_C_TURNEND = 6,
 //
 //};
 
@@ -50,20 +34,12 @@ namespace server
 	enum : uint16
 	{
 		//PKT_S_TEST = 1,
-		PKT_C_TEST = 1,
-		PKT_C_MOVE = 2,
-		PKT_S_TEST = 3,
-		PKT_S_LOGIN = 4,
-		PKT_S_CONNECT = 5,
-		PKT_C_CONNECT = 6,
-		PKT_S_DECK = 7,
-		PKT_C_DECK = 8,
-		PKT_S_DRAWCARD = 9,
-		PKT_C_DRAWCARD = 10,
-		PKT_S_USECARD = 11,
-		PKT_C_USECARD = 12,
-		PKT_S_TURNEND = 13,
-		PKT_C_TURNEND = 14,
+		PKT_S_CONNECT = 1,
+		PKT_C_CONNECT = 2,
+		PKT_S_USECARD = 3,
+		PKT_C_USECARD = 4,
+		PKT_S_TURNEND = 5,
+		PKT_C_TURNEND = 6,
 	};
 
 	// 그 함수 포인터의 배열
@@ -73,11 +49,7 @@ namespace server
 	bool Handle_INVALID(PacketSessionRef& session, BYTE * buffer, int32 len);
 
 	//bool Handle_S_TEST(PacketSessionRef& session, protocol::S_TEST& pkt);
-	bool Handle_C_TEST(PacketSessionRef& session, protocol::C_TEST& pkt);
-	bool Handle_C_MOVE(PacketSessionRef& session, protocol::C_MOVE& pkt);
 	bool Handle_C_CONNECT(PacketSessionRef& session, protocol::C_CONNECT& pkt);
-	bool Handle_C_DECK(PacketSessionRef& session, protocol::C_DECK& pkt);
-	bool Handle_C_DRAWCARD(PacketSessionRef& session, protocol::C_DRAWCARD& pkt);
 	bool Handle_C_USECARD(PacketSessionRef& session, protocol::C_USECARD& pkt);
 	bool Handle_C_TURNEND(PacketSessionRef& session, protocol::C_TURNEND& pkt);
 }
@@ -97,16 +69,8 @@ public: //외부 사용(래핑?)
 
 		//GPacketHandler[PKT_S_TEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
 		//{return HandlePacket<protocol::S_TEST>(Handle_S_TEST, session, buffer, len); };
-		server::GPacketHandler[server::PKT_C_TEST] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
-		{return ServerPacketHandler::HandlePacket<protocol::C_TEST>(server::Handle_C_TEST, session, buffer, len); };
-		server::GPacketHandler[server::PKT_C_MOVE] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
-		{return ServerPacketHandler::HandlePacket<protocol::C_MOVE>(server::Handle_C_MOVE, session, buffer, len); };
 		server::GPacketHandler[server::PKT_C_CONNECT] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
 		{return ServerPacketHandler::HandlePacket<protocol::C_CONNECT>(server::Handle_C_CONNECT, session, buffer, len); };
-		server::GPacketHandler[server::PKT_C_DECK] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
-		{return ServerPacketHandler::HandlePacket<protocol::C_DECK>(server::Handle_C_DECK, session, buffer, len); };
-		server::GPacketHandler[server::PKT_C_DRAWCARD] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
-		{return ServerPacketHandler::HandlePacket<protocol::C_DRAWCARD>(server::Handle_C_DRAWCARD, session, buffer, len); };
 		server::GPacketHandler[server::PKT_C_USECARD] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
 		{return ServerPacketHandler::HandlePacket<protocol::C_USECARD>(server::Handle_C_USECARD, session, buffer, len); };
 		server::GPacketHandler[server::PKT_C_TURNEND] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
@@ -123,11 +87,7 @@ public: //외부 사용(래핑?)
 	}
 
 	//static SendBufferRef MakeSendBuffer(protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, PKT_S_TEST); }
-static SendBufferRef MakeSendBuffer(protocol::S_TEST& pkt) { return MakeSendBuffer(pkt, server::PKT_S_TEST); }
-static SendBufferRef MakeSendBuffer(protocol::S_LOGIN& pkt) { return MakeSendBuffer(pkt, server::PKT_S_LOGIN); }
 static SendBufferRef MakeSendBuffer(protocol::S_CONNECT& pkt) { return MakeSendBuffer(pkt, server::PKT_S_CONNECT); }
-static SendBufferRef MakeSendBuffer(protocol::S_DECK& pkt) { return MakeSendBuffer(pkt, server::PKT_S_DECK); }
-static SendBufferRef MakeSendBuffer(protocol::S_DRAWCARD& pkt) { return MakeSendBuffer(pkt, server::PKT_S_DRAWCARD); }
 static SendBufferRef MakeSendBuffer(protocol::S_USECARD& pkt) { return MakeSendBuffer(pkt, server::PKT_S_USECARD); }
 static SendBufferRef MakeSendBuffer(protocol::S_TURNEND& pkt) { return MakeSendBuffer(pkt, server::PKT_S_TURNEND); }
 

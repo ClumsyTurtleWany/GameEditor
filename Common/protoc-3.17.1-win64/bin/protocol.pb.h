@@ -48,7 +48,7 @@ struct TableStruct_protocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[14]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -59,18 +59,6 @@ namespace protocol {
 class C_CONNECT;
 struct C_CONNECTDefaultTypeInternal;
 extern C_CONNECTDefaultTypeInternal _C_CONNECT_default_instance_;
-class C_DECK;
-struct C_DECKDefaultTypeInternal;
-extern C_DECKDefaultTypeInternal _C_DECK_default_instance_;
-class C_DRAWCARD;
-struct C_DRAWCARDDefaultTypeInternal;
-extern C_DRAWCARDDefaultTypeInternal _C_DRAWCARD_default_instance_;
-class C_MOVE;
-struct C_MOVEDefaultTypeInternal;
-extern C_MOVEDefaultTypeInternal _C_MOVE_default_instance_;
-class C_TEST;
-struct C_TESTDefaultTypeInternal;
-extern C_TESTDefaultTypeInternal _C_TEST_default_instance_;
 class C_TURNEND;
 struct C_TURNENDDefaultTypeInternal;
 extern C_TURNENDDefaultTypeInternal _C_TURNEND_default_instance_;
@@ -80,18 +68,6 @@ extern C_USECARDDefaultTypeInternal _C_USECARD_default_instance_;
 class S_CONNECT;
 struct S_CONNECTDefaultTypeInternal;
 extern S_CONNECTDefaultTypeInternal _S_CONNECT_default_instance_;
-class S_DECK;
-struct S_DECKDefaultTypeInternal;
-extern S_DECKDefaultTypeInternal _S_DECK_default_instance_;
-class S_DRAWCARD;
-struct S_DRAWCARDDefaultTypeInternal;
-extern S_DRAWCARDDefaultTypeInternal _S_DRAWCARD_default_instance_;
-class S_LOGIN;
-struct S_LOGINDefaultTypeInternal;
-extern S_LOGINDefaultTypeInternal _S_LOGIN_default_instance_;
-class S_TEST;
-struct S_TESTDefaultTypeInternal;
-extern S_TESTDefaultTypeInternal _S_TEST_default_instance_;
 class S_TURNEND;
 struct S_TURNENDDefaultTypeInternal;
 extern S_TURNENDDefaultTypeInternal _S_TURNEND_default_instance_;
@@ -101,591 +77,15 @@ extern S_USECARDDefaultTypeInternal _S_USECARD_default_instance_;
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::protocol::C_CONNECT* Arena::CreateMaybeMessage<::protocol::C_CONNECT>(Arena*);
-template<> ::protocol::C_DECK* Arena::CreateMaybeMessage<::protocol::C_DECK>(Arena*);
-template<> ::protocol::C_DRAWCARD* Arena::CreateMaybeMessage<::protocol::C_DRAWCARD>(Arena*);
-template<> ::protocol::C_MOVE* Arena::CreateMaybeMessage<::protocol::C_MOVE>(Arena*);
-template<> ::protocol::C_TEST* Arena::CreateMaybeMessage<::protocol::C_TEST>(Arena*);
 template<> ::protocol::C_TURNEND* Arena::CreateMaybeMessage<::protocol::C_TURNEND>(Arena*);
 template<> ::protocol::C_USECARD* Arena::CreateMaybeMessage<::protocol::C_USECARD>(Arena*);
 template<> ::protocol::S_CONNECT* Arena::CreateMaybeMessage<::protocol::S_CONNECT>(Arena*);
-template<> ::protocol::S_DECK* Arena::CreateMaybeMessage<::protocol::S_DECK>(Arena*);
-template<> ::protocol::S_DRAWCARD* Arena::CreateMaybeMessage<::protocol::S_DRAWCARD>(Arena*);
-template<> ::protocol::S_LOGIN* Arena::CreateMaybeMessage<::protocol::S_LOGIN>(Arena*);
-template<> ::protocol::S_TEST* Arena::CreateMaybeMessage<::protocol::S_TEST>(Arena*);
 template<> ::protocol::S_TURNEND* Arena::CreateMaybeMessage<::protocol::S_TURNEND>(Arena*);
 template<> ::protocol::S_USECARD* Arena::CreateMaybeMessage<::protocol::S_USECARD>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
 
 // ===================================================================
-
-class C_TEST final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_TEST) */ {
- public:
-  inline C_TEST() : C_TEST(nullptr) {}
-  ~C_TEST() override;
-  explicit constexpr C_TEST(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  C_TEST(const C_TEST& from);
-  C_TEST(C_TEST&& from) noexcept
-    : C_TEST() {
-    *this = ::std::move(from);
-  }
-
-  inline C_TEST& operator=(const C_TEST& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline C_TEST& operator=(C_TEST&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const C_TEST& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const C_TEST* internal_default_instance() {
-    return reinterpret_cast<const C_TEST*>(
-               &_C_TEST_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(C_TEST& a, C_TEST& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(C_TEST* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(C_TEST* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline C_TEST* New() const final {
-    return new C_TEST();
-  }
-
-  C_TEST* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<C_TEST>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const C_TEST& from);
-  void MergeFrom(const C_TEST& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(C_TEST* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.C_TEST";
-  }
-  protected:
-  explicit C_TEST(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIdFieldNumber = 1,
-  };
-  // uint64 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::uint64 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:protocol.C_TEST)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 id_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class C_MOVE final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_MOVE) */ {
- public:
-  inline C_MOVE() : C_MOVE(nullptr) {}
-  ~C_MOVE() override;
-  explicit constexpr C_MOVE(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  C_MOVE(const C_MOVE& from);
-  C_MOVE(C_MOVE&& from) noexcept
-    : C_MOVE() {
-    *this = ::std::move(from);
-  }
-
-  inline C_MOVE& operator=(const C_MOVE& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline C_MOVE& operator=(C_MOVE&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const C_MOVE& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const C_MOVE* internal_default_instance() {
-    return reinterpret_cast<const C_MOVE*>(
-               &_C_MOVE_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(C_MOVE& a, C_MOVE& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(C_MOVE* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(C_MOVE* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline C_MOVE* New() const final {
-    return new C_MOVE();
-  }
-
-  C_MOVE* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<C_MOVE>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const C_MOVE& from);
-  void MergeFrom(const C_MOVE& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(C_MOVE* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.C_MOVE";
-  }
-  protected:
-  explicit C_MOVE(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIdFieldNumber = 1,
-    kPosFieldNumber = 2,
-  };
-  // uint64 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::uint64 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 pos = 2;
-  void clear_pos();
-  ::PROTOBUF_NAMESPACE_ID::uint64 pos() const;
-  void set_pos(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_pos() const;
-  void _internal_set_pos(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:protocol.C_MOVE)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 id_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 pos_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class S_TEST final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_TEST) */ {
- public:
-  inline S_TEST() : S_TEST(nullptr) {}
-  ~S_TEST() override;
-  explicit constexpr S_TEST(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  S_TEST(const S_TEST& from);
-  S_TEST(S_TEST&& from) noexcept
-    : S_TEST() {
-    *this = ::std::move(from);
-  }
-
-  inline S_TEST& operator=(const S_TEST& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline S_TEST& operator=(S_TEST&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const S_TEST& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const S_TEST* internal_default_instance() {
-    return reinterpret_cast<const S_TEST*>(
-               &_S_TEST_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    2;
-
-  friend void swap(S_TEST& a, S_TEST& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(S_TEST* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(S_TEST* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline S_TEST* New() const final {
-    return new S_TEST();
-  }
-
-  S_TEST* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<S_TEST>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const S_TEST& from);
-  void MergeFrom(const S_TEST& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(S_TEST* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.S_TEST";
-  }
-  protected:
-  explicit S_TEST(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kBuffsFieldNumber = 4,
-    kIdFieldNumber = 1,
-    kHpFieldNumber = 2,
-    kAttackFieldNumber = 3,
-  };
-  // repeated .protocol.BuffData buffs = 4;
-  int buffs_size() const;
-  private:
-  int _internal_buffs_size() const;
-  public:
-  void clear_buffs();
-  ::protocol::BuffData* mutable_buffs(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::BuffData >*
-      mutable_buffs();
-  private:
-  const ::protocol::BuffData& _internal_buffs(int index) const;
-  ::protocol::BuffData* _internal_add_buffs();
-  public:
-  const ::protocol::BuffData& buffs(int index) const;
-  ::protocol::BuffData* add_buffs();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::BuffData >&
-      buffs() const;
-
-  // uint64 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::uint64 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint32 hp = 2;
-  void clear_hp();
-  ::PROTOBUF_NAMESPACE_ID::uint32 hp() const;
-  void set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_hp() const;
-  void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 attack = 3;
-  void clear_attack();
-  ::PROTOBUF_NAMESPACE_ID::uint32 attack() const;
-  void set_attack(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_attack() const;
-  void _internal_set_attack(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:protocol.S_TEST)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::BuffData > buffs_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 id_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 hp_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 attack_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class S_LOGIN final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_LOGIN) */ {
- public:
-  inline S_LOGIN() : S_LOGIN(nullptr) {}
-  ~S_LOGIN() override;
-  explicit constexpr S_LOGIN(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  S_LOGIN(const S_LOGIN& from);
-  S_LOGIN(S_LOGIN&& from) noexcept
-    : S_LOGIN() {
-    *this = ::std::move(from);
-  }
-
-  inline S_LOGIN& operator=(const S_LOGIN& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline S_LOGIN& operator=(S_LOGIN&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const S_LOGIN& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const S_LOGIN* internal_default_instance() {
-    return reinterpret_cast<const S_LOGIN*>(
-               &_S_LOGIN_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(S_LOGIN& a, S_LOGIN& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(S_LOGIN* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(S_LOGIN* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline S_LOGIN* New() const final {
-    return new S_LOGIN();
-  }
-
-  S_LOGIN* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<S_LOGIN>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const S_LOGIN& from);
-  void MergeFrom(const S_LOGIN& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(S_LOGIN* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.S_LOGIN";
-  }
-  protected:
-  explicit S_LOGIN(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:protocol.S_LOGIN)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
 
 class S_CONNECT final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_CONNECT) */ {
@@ -731,7 +131,7 @@ class S_CONNECT final :
                &_S_CONNECT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    0;
 
   friend void swap(S_CONNECT& a, S_CONNECT& b) {
     a.Swap(&b);
@@ -795,44 +195,16 @@ class S_CONNECT final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kHostPlayerFieldNumber = 1,
-    kHostDeckFieldNumber = 2,
+    kConnectFieldNumber = 1,
   };
-  // .protocol.Player HostPlayer = 1;
-  bool has_hostplayer() const;
+  // bool connect = 1;
+  void clear_connect();
+  bool connect() const;
+  void set_connect(bool value);
   private:
-  bool _internal_has_hostplayer() const;
+  bool _internal_connect() const;
+  void _internal_set_connect(bool value);
   public:
-  void clear_hostplayer();
-  const ::protocol::Player& hostplayer() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Player* release_hostplayer();
-  ::protocol::Player* mutable_hostplayer();
-  void set_allocated_hostplayer(::protocol::Player* hostplayer);
-  private:
-  const ::protocol::Player& _internal_hostplayer() const;
-  ::protocol::Player* _internal_mutable_hostplayer();
-  public:
-  void unsafe_arena_set_allocated_hostplayer(
-      ::protocol::Player* hostplayer);
-  ::protocol::Player* unsafe_arena_release_hostplayer();
-
-  // .protocol.Deck HostDeck = 2;
-  bool has_hostdeck() const;
-  private:
-  bool _internal_has_hostdeck() const;
-  public:
-  void clear_hostdeck();
-  const ::protocol::Deck& hostdeck() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_hostdeck();
-  ::protocol::Deck* mutable_hostdeck();
-  void set_allocated_hostdeck(::protocol::Deck* hostdeck);
-  private:
-  const ::protocol::Deck& _internal_hostdeck() const;
-  ::protocol::Deck* _internal_mutable_hostdeck();
-  public:
-  void unsafe_arena_set_allocated_hostdeck(
-      ::protocol::Deck* hostdeck);
-  ::protocol::Deck* unsafe_arena_release_hostdeck();
 
   // @@protoc_insertion_point(class_scope:protocol.S_CONNECT)
  private:
@@ -841,8 +213,7 @@ class S_CONNECT final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::protocol::Player* hostplayer_;
-  ::protocol::Deck* hostdeck_;
+  bool connect_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_protocol_2eproto;
 };
@@ -892,7 +263,7 @@ class C_CONNECT final :
                &_C_CONNECT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    1;
 
   friend void swap(C_CONNECT& a, C_CONNECT& b) {
     a.Swap(&b);
@@ -956,44 +327,16 @@ class C_CONNECT final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kClientPlayerFieldNumber = 1,
-    kClientDeckFieldNumber = 2,
+    kConnectFieldNumber = 1,
   };
-  // .protocol.Player ClientPlayer = 1;
-  bool has_clientplayer() const;
+  // bool connect = 1;
+  void clear_connect();
+  bool connect() const;
+  void set_connect(bool value);
   private:
-  bool _internal_has_clientplayer() const;
+  bool _internal_connect() const;
+  void _internal_set_connect(bool value);
   public:
-  void clear_clientplayer();
-  const ::protocol::Player& clientplayer() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Player* release_clientplayer();
-  ::protocol::Player* mutable_clientplayer();
-  void set_allocated_clientplayer(::protocol::Player* clientplayer);
-  private:
-  const ::protocol::Player& _internal_clientplayer() const;
-  ::protocol::Player* _internal_mutable_clientplayer();
-  public:
-  void unsafe_arena_set_allocated_clientplayer(
-      ::protocol::Player* clientplayer);
-  ::protocol::Player* unsafe_arena_release_clientplayer();
-
-  // .protocol.Deck ClientDeck = 2;
-  bool has_clientdeck() const;
-  private:
-  bool _internal_has_clientdeck() const;
-  public:
-  void clear_clientdeck();
-  const ::protocol::Deck& clientdeck() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_clientdeck();
-  ::protocol::Deck* mutable_clientdeck();
-  void set_allocated_clientdeck(::protocol::Deck* clientdeck);
-  private:
-  const ::protocol::Deck& _internal_clientdeck() const;
-  ::protocol::Deck* _internal_mutable_clientdeck();
-  public:
-  void unsafe_arena_set_allocated_clientdeck(
-      ::protocol::Deck* clientdeck);
-  ::protocol::Deck* unsafe_arena_release_clientdeck();
 
   // @@protoc_insertion_point(class_scope:protocol.C_CONNECT)
  private:
@@ -1002,682 +345,7 @@ class C_CONNECT final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::protocol::Player* clientplayer_;
-  ::protocol::Deck* clientdeck_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class S_DECK final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_DECK) */ {
- public:
-  inline S_DECK() : S_DECK(nullptr) {}
-  ~S_DECK() override;
-  explicit constexpr S_DECK(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  S_DECK(const S_DECK& from);
-  S_DECK(S_DECK&& from) noexcept
-    : S_DECK() {
-    *this = ::std::move(from);
-  }
-
-  inline S_DECK& operator=(const S_DECK& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline S_DECK& operator=(S_DECK&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const S_DECK& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const S_DECK* internal_default_instance() {
-    return reinterpret_cast<const S_DECK*>(
-               &_S_DECK_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    6;
-
-  friend void swap(S_DECK& a, S_DECK& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(S_DECK* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(S_DECK* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline S_DECK* New() const final {
-    return new S_DECK();
-  }
-
-  S_DECK* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<S_DECK>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const S_DECK& from);
-  void MergeFrom(const S_DECK& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(S_DECK* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.S_DECK";
-  }
-  protected:
-  explicit S_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kDeckFieldNumber = 1,
-  };
-  // .protocol.Deck deck = 1;
-  bool has_deck() const;
-  private:
-  bool _internal_has_deck() const;
-  public:
-  void clear_deck();
-  const ::protocol::Deck& deck() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_deck();
-  ::protocol::Deck* mutable_deck();
-  void set_allocated_deck(::protocol::Deck* deck);
-  private:
-  const ::protocol::Deck& _internal_deck() const;
-  ::protocol::Deck* _internal_mutable_deck();
-  public:
-  void unsafe_arena_set_allocated_deck(
-      ::protocol::Deck* deck);
-  ::protocol::Deck* unsafe_arena_release_deck();
-
-  // @@protoc_insertion_point(class_scope:protocol.S_DECK)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::protocol::Deck* deck_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class C_DECK final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_DECK) */ {
- public:
-  inline C_DECK() : C_DECK(nullptr) {}
-  ~C_DECK() override;
-  explicit constexpr C_DECK(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  C_DECK(const C_DECK& from);
-  C_DECK(C_DECK&& from) noexcept
-    : C_DECK() {
-    *this = ::std::move(from);
-  }
-
-  inline C_DECK& operator=(const C_DECK& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline C_DECK& operator=(C_DECK&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const C_DECK& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const C_DECK* internal_default_instance() {
-    return reinterpret_cast<const C_DECK*>(
-               &_C_DECK_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    7;
-
-  friend void swap(C_DECK& a, C_DECK& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(C_DECK* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(C_DECK* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline C_DECK* New() const final {
-    return new C_DECK();
-  }
-
-  C_DECK* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<C_DECK>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const C_DECK& from);
-  void MergeFrom(const C_DECK& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(C_DECK* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.C_DECK";
-  }
-  protected:
-  explicit C_DECK(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kDeckFieldNumber = 1,
-  };
-  // .protocol.Deck deck = 1;
-  bool has_deck() const;
-  private:
-  bool _internal_has_deck() const;
-  public:
-  void clear_deck();
-  const ::protocol::Deck& deck() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::Deck* release_deck();
-  ::protocol::Deck* mutable_deck();
-  void set_allocated_deck(::protocol::Deck* deck);
-  private:
-  const ::protocol::Deck& _internal_deck() const;
-  ::protocol::Deck* _internal_mutable_deck();
-  public:
-  void unsafe_arena_set_allocated_deck(
-      ::protocol::Deck* deck);
-  ::protocol::Deck* unsafe_arena_release_deck();
-
-  // @@protoc_insertion_point(class_scope:protocol.C_DECK)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::protocol::Deck* deck_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class S_DRAWCARD final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.S_DRAWCARD) */ {
- public:
-  inline S_DRAWCARD() : S_DRAWCARD(nullptr) {}
-  ~S_DRAWCARD() override;
-  explicit constexpr S_DRAWCARD(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  S_DRAWCARD(const S_DRAWCARD& from);
-  S_DRAWCARD(S_DRAWCARD&& from) noexcept
-    : S_DRAWCARD() {
-    *this = ::std::move(from);
-  }
-
-  inline S_DRAWCARD& operator=(const S_DRAWCARD& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline S_DRAWCARD& operator=(S_DRAWCARD&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const S_DRAWCARD& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const S_DRAWCARD* internal_default_instance() {
-    return reinterpret_cast<const S_DRAWCARD*>(
-               &_S_DRAWCARD_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    8;
-
-  friend void swap(S_DRAWCARD& a, S_DRAWCARD& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(S_DRAWCARD* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(S_DRAWCARD* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline S_DRAWCARD* New() const final {
-    return new S_DRAWCARD();
-  }
-
-  S_DRAWCARD* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<S_DRAWCARD>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const S_DRAWCARD& from);
-  void MergeFrom(const S_DRAWCARD& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(S_DRAWCARD* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.S_DRAWCARD";
-  }
-  protected:
-  explicit S_DRAWCARD(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRemainingCardListFieldNumber = 1,
-    kHandListFieldNumber = 2,
-    kDiscardListFieldNumber = 3,
-  };
-  // repeated int32 remainingCardList = 1;
-  int remainingcardlist_size() const;
-  private:
-  int _internal_remainingcardlist_size() const;
-  public:
-  void clear_remainingcardlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_remainingcardlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_remainingcardlist() const;
-  void _internal_add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_remainingcardlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 remainingcardlist(int index) const;
-  void set_remainingcardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      remainingcardlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_remainingcardlist();
-
-  // repeated int32 handList = 2;
-  int handlist_size() const;
-  private:
-  int _internal_handlist_size() const;
-  public:
-  void clear_handlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_handlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_handlist() const;
-  void _internal_add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_handlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 handlist(int index) const;
-  void set_handlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      handlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_handlist();
-
-  // repeated int32 discardList = 3;
-  int discardlist_size() const;
-  private:
-  int _internal_discardlist_size() const;
-  public:
-  void clear_discardlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_discardlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_discardlist() const;
-  void _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_discardlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 discardlist(int index) const;
-  void set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      discardlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_discardlist();
-
-  // @@protoc_insertion_point(class_scope:protocol.S_DRAWCARD)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > remainingcardlist_;
-  mutable std::atomic<int> _remainingcardlist_cached_byte_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > handlist_;
-  mutable std::atomic<int> _handlist_cached_byte_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > discardlist_;
-  mutable std::atomic<int> _discardlist_cached_byte_size_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_protocol_2eproto;
-};
-// -------------------------------------------------------------------
-
-class C_DRAWCARD final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.C_DRAWCARD) */ {
- public:
-  inline C_DRAWCARD() : C_DRAWCARD(nullptr) {}
-  ~C_DRAWCARD() override;
-  explicit constexpr C_DRAWCARD(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  C_DRAWCARD(const C_DRAWCARD& from);
-  C_DRAWCARD(C_DRAWCARD&& from) noexcept
-    : C_DRAWCARD() {
-    *this = ::std::move(from);
-  }
-
-  inline C_DRAWCARD& operator=(const C_DRAWCARD& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline C_DRAWCARD& operator=(C_DRAWCARD&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const C_DRAWCARD& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const C_DRAWCARD* internal_default_instance() {
-    return reinterpret_cast<const C_DRAWCARD*>(
-               &_C_DRAWCARD_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    9;
-
-  friend void swap(C_DRAWCARD& a, C_DRAWCARD& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(C_DRAWCARD* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(C_DRAWCARD* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline C_DRAWCARD* New() const final {
-    return new C_DRAWCARD();
-  }
-
-  C_DRAWCARD* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<C_DRAWCARD>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const C_DRAWCARD& from);
-  void MergeFrom(const C_DRAWCARD& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(C_DRAWCARD* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.C_DRAWCARD";
-  }
-  protected:
-  explicit C_DRAWCARD(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRemainingCardListFieldNumber = 1,
-    kHandListFieldNumber = 2,
-    kDiscardListFieldNumber = 3,
-  };
-  // repeated int32 remainingCardList = 1;
-  int remainingcardlist_size() const;
-  private:
-  int _internal_remainingcardlist_size() const;
-  public:
-  void clear_remainingcardlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_remainingcardlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_remainingcardlist() const;
-  void _internal_add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_remainingcardlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 remainingcardlist(int index) const;
-  void set_remainingcardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      remainingcardlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_remainingcardlist();
-
-  // repeated int32 handList = 2;
-  int handlist_size() const;
-  private:
-  int _internal_handlist_size() const;
-  public:
-  void clear_handlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_handlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_handlist() const;
-  void _internal_add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_handlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 handlist(int index) const;
-  void set_handlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      handlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_handlist();
-
-  // repeated int32 discardList = 3;
-  int discardlist_size() const;
-  private:
-  int _internal_discardlist_size() const;
-  public:
-  void clear_discardlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_discardlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_discardlist() const;
-  void _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_discardlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 discardlist(int index) const;
-  void set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      discardlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_discardlist();
-
-  // @@protoc_insertion_point(class_scope:protocol.C_DRAWCARD)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > remainingcardlist_;
-  mutable std::atomic<int> _remainingcardlist_cached_byte_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > handlist_;
-  mutable std::atomic<int> _handlist_cached_byte_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > discardlist_;
-  mutable std::atomic<int> _discardlist_cached_byte_size_;
+  bool connect_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_protocol_2eproto;
 };
@@ -1727,7 +395,7 @@ class S_USECARD final :
                &_S_USECARD_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    2;
 
   friend void swap(S_USECARD& a, S_USECARD& b) {
     a.Swap(&b);
@@ -1790,6 +458,28 @@ class S_USECARD final :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kUsedCardNumFieldNumber = 1,
+    kTargetEnemyNumFieldNumber = 2,
+  };
+  // int32 usedCardNum = 1;
+  void clear_usedcardnum();
+  ::PROTOBUF_NAMESPACE_ID::int32 usedcardnum() const;
+  void set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_usedcardnum() const;
+  void _internal_set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 targetEnemyNum = 2;
+  void clear_targetenemynum();
+  ::PROTOBUF_NAMESPACE_ID::int32 targetenemynum() const;
+  void set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_targetenemynum() const;
+  void _internal_set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.S_USECARD)
  private:
   class _Internal;
@@ -1797,6 +487,8 @@ class S_USECARD final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 usedcardnum_;
+  ::PROTOBUF_NAMESPACE_ID::int32 targetenemynum_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_protocol_2eproto;
 };
@@ -1846,7 +538,7 @@ class C_USECARD final :
                &_C_USECARD_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    3;
 
   friend void swap(C_USECARD& a, C_USECARD& b) {
     a.Swap(&b);
@@ -1909,6 +601,28 @@ class C_USECARD final :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kUsedCardNumFieldNumber = 1,
+    kTargetEnemyNumFieldNumber = 2,
+  };
+  // int32 usedCardNum = 1;
+  void clear_usedcardnum();
+  ::PROTOBUF_NAMESPACE_ID::int32 usedcardnum() const;
+  void set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_usedcardnum() const;
+  void _internal_set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 targetEnemyNum = 2;
+  void clear_targetenemynum();
+  ::PROTOBUF_NAMESPACE_ID::int32 targetenemynum() const;
+  void set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_targetenemynum() const;
+  void _internal_set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.C_USECARD)
  private:
   class _Internal;
@@ -1916,6 +630,8 @@ class C_USECARD final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 usedcardnum_;
+  ::PROTOBUF_NAMESPACE_ID::int32 targetenemynum_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_protocol_2eproto;
 };
@@ -1965,7 +681,7 @@ class S_TURNEND final :
                &_S_TURNEND_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    4;
 
   friend void swap(S_TURNEND& a, S_TURNEND& b) {
     a.Swap(&b);
@@ -2029,29 +745,16 @@ class S_TURNEND final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDiscardListFieldNumber = 1,
+    kBTurnEndFieldNumber = 1,
   };
-  // repeated int32 discardList = 1;
-  int discardlist_size() const;
+  // bool bTurnEnd = 1;
+  void clear_bturnend();
+  bool bturnend() const;
+  void set_bturnend(bool value);
   private:
-  int _internal_discardlist_size() const;
+  bool _internal_bturnend() const;
+  void _internal_set_bturnend(bool value);
   public:
-  void clear_discardlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_discardlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_discardlist() const;
-  void _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_discardlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 discardlist(int index) const;
-  void set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      discardlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_discardlist();
 
   // @@protoc_insertion_point(class_scope:protocol.S_TURNEND)
  private:
@@ -2060,8 +763,7 @@ class S_TURNEND final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > discardlist_;
-  mutable std::atomic<int> _discardlist_cached_byte_size_;
+  bool bturnend_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_protocol_2eproto;
 };
@@ -2111,7 +813,7 @@ class C_TURNEND final :
                &_C_TURNEND_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    5;
 
   friend void swap(C_TURNEND& a, C_TURNEND& b) {
     a.Swap(&b);
@@ -2175,29 +877,16 @@ class C_TURNEND final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kDiscardListFieldNumber = 1,
+    kBTurnEndFieldNumber = 1,
   };
-  // repeated int32 discardList = 1;
-  int discardlist_size() const;
+  // bool bTurnEnd = 1;
+  void clear_bturnend();
+  bool bturnend() const;
+  void set_bturnend(bool value);
   private:
-  int _internal_discardlist_size() const;
+  bool _internal_bturnend() const;
+  void _internal_set_bturnend(bool value);
   public:
-  void clear_discardlist();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_discardlist(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      _internal_discardlist() const;
-  void _internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      _internal_mutable_discardlist();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::int32 discardlist(int index) const;
-  void set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value);
-  void add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-      discardlist() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-      mutable_discardlist();
 
   // @@protoc_insertion_point(class_scope:protocol.C_TURNEND)
  private:
@@ -2206,8 +895,7 @@ class C_TURNEND final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 > discardlist_;
-  mutable std::atomic<int> _discardlist_cached_byte_size_;
+  bool bturnend_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_protocol_2eproto;
 };
@@ -2220,1085 +908,191 @@ class C_TURNEND final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// C_TEST
-
-// uint64 id = 1;
-inline void C_TEST::clear_id() {
-  id_ = uint64_t{0u};
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 C_TEST::_internal_id() const {
-  return id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 C_TEST::id() const {
-  // @@protoc_insertion_point(field_get:protocol.C_TEST.id)
-  return _internal_id();
-}
-inline void C_TEST::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  
-  id_ = value;
-}
-inline void C_TEST::set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:protocol.C_TEST.id)
-}
-
-// -------------------------------------------------------------------
-
-// C_MOVE
-
-// uint64 id = 1;
-inline void C_MOVE::clear_id() {
-  id_ = uint64_t{0u};
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 C_MOVE::_internal_id() const {
-  return id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 C_MOVE::id() const {
-  // @@protoc_insertion_point(field_get:protocol.C_MOVE.id)
-  return _internal_id();
-}
-inline void C_MOVE::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  
-  id_ = value;
-}
-inline void C_MOVE::set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:protocol.C_MOVE.id)
-}
-
-// uint64 pos = 2;
-inline void C_MOVE::clear_pos() {
-  pos_ = uint64_t{0u};
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 C_MOVE::_internal_pos() const {
-  return pos_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 C_MOVE::pos() const {
-  // @@protoc_insertion_point(field_get:protocol.C_MOVE.pos)
-  return _internal_pos();
-}
-inline void C_MOVE::_internal_set_pos(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  
-  pos_ = value;
-}
-inline void C_MOVE::set_pos(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_pos(value);
-  // @@protoc_insertion_point(field_set:protocol.C_MOVE.pos)
-}
-
-// -------------------------------------------------------------------
-
-// S_TEST
-
-// uint64 id = 1;
-inline void S_TEST::clear_id() {
-  id_ = uint64_t{0u};
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 S_TEST::_internal_id() const {
-  return id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 S_TEST::id() const {
-  // @@protoc_insertion_point(field_get:protocol.S_TEST.id)
-  return _internal_id();
-}
-inline void S_TEST::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  
-  id_ = value;
-}
-inline void S_TEST::set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:protocol.S_TEST.id)
-}
-
-// uint32 hp = 2;
-inline void S_TEST::clear_hp() {
-  hp_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 S_TEST::_internal_hp() const {
-  return hp_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 S_TEST::hp() const {
-  // @@protoc_insertion_point(field_get:protocol.S_TEST.hp)
-  return _internal_hp();
-}
-inline void S_TEST::_internal_set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  hp_ = value;
-}
-inline void S_TEST::set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_hp(value);
-  // @@protoc_insertion_point(field_set:protocol.S_TEST.hp)
-}
-
-// uint32 attack = 3;
-inline void S_TEST::clear_attack() {
-  attack_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 S_TEST::_internal_attack() const {
-  return attack_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 S_TEST::attack() const {
-  // @@protoc_insertion_point(field_get:protocol.S_TEST.attack)
-  return _internal_attack();
-}
-inline void S_TEST::_internal_set_attack(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  attack_ = value;
-}
-inline void S_TEST::set_attack(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_attack(value);
-  // @@protoc_insertion_point(field_set:protocol.S_TEST.attack)
-}
-
-// repeated .protocol.BuffData buffs = 4;
-inline int S_TEST::_internal_buffs_size() const {
-  return buffs_.size();
-}
-inline int S_TEST::buffs_size() const {
-  return _internal_buffs_size();
-}
-inline ::protocol::BuffData* S_TEST::mutable_buffs(int index) {
-  // @@protoc_insertion_point(field_mutable:protocol.S_TEST.buffs)
-  return buffs_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::BuffData >*
-S_TEST::mutable_buffs() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.S_TEST.buffs)
-  return &buffs_;
-}
-inline const ::protocol::BuffData& S_TEST::_internal_buffs(int index) const {
-  return buffs_.Get(index);
-}
-inline const ::protocol::BuffData& S_TEST::buffs(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.S_TEST.buffs)
-  return _internal_buffs(index);
-}
-inline ::protocol::BuffData* S_TEST::_internal_add_buffs() {
-  return buffs_.Add();
-}
-inline ::protocol::BuffData* S_TEST::add_buffs() {
-  // @@protoc_insertion_point(field_add:protocol.S_TEST.buffs)
-  return _internal_add_buffs();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::BuffData >&
-S_TEST::buffs() const {
-  // @@protoc_insertion_point(field_list:protocol.S_TEST.buffs)
-  return buffs_;
-}
-
-// -------------------------------------------------------------------
-
-// S_LOGIN
-
-// -------------------------------------------------------------------
-
 // S_CONNECT
 
-// .protocol.Player HostPlayer = 1;
-inline bool S_CONNECT::_internal_has_hostplayer() const {
-  return this != internal_default_instance() && hostplayer_ != nullptr;
+// bool connect = 1;
+inline void S_CONNECT::clear_connect() {
+  connect_ = false;
 }
-inline bool S_CONNECT::has_hostplayer() const {
-  return _internal_has_hostplayer();
+inline bool S_CONNECT::_internal_connect() const {
+  return connect_;
 }
-inline const ::protocol::Player& S_CONNECT::_internal_hostplayer() const {
-  const ::protocol::Player* p = hostplayer_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Player&>(
-      ::protocol::_Player_default_instance_);
+inline bool S_CONNECT::connect() const {
+  // @@protoc_insertion_point(field_get:protocol.S_CONNECT.connect)
+  return _internal_connect();
 }
-inline const ::protocol::Player& S_CONNECT::hostplayer() const {
-  // @@protoc_insertion_point(field_get:protocol.S_CONNECT.HostPlayer)
-  return _internal_hostplayer();
-}
-inline void S_CONNECT::unsafe_arena_set_allocated_hostplayer(
-    ::protocol::Player* hostplayer) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostplayer_);
-  }
-  hostplayer_ = hostplayer;
-  if (hostplayer) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.S_CONNECT.HostPlayer)
-}
-inline ::protocol::Player* S_CONNECT::release_hostplayer() {
+inline void S_CONNECT::_internal_set_connect(bool value) {
   
-  ::protocol::Player* temp = hostplayer_;
-  hostplayer_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
+  connect_ = value;
 }
-inline ::protocol::Player* S_CONNECT::unsafe_arena_release_hostplayer() {
-  // @@protoc_insertion_point(field_release:protocol.S_CONNECT.HostPlayer)
-  
-  ::protocol::Player* temp = hostplayer_;
-  hostplayer_ = nullptr;
-  return temp;
-}
-inline ::protocol::Player* S_CONNECT::_internal_mutable_hostplayer() {
-  
-  if (hostplayer_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::Player>(GetArenaForAllocation());
-    hostplayer_ = p;
-  }
-  return hostplayer_;
-}
-inline ::protocol::Player* S_CONNECT::mutable_hostplayer() {
-  // @@protoc_insertion_point(field_mutable:protocol.S_CONNECT.HostPlayer)
-  return _internal_mutable_hostplayer();
-}
-inline void S_CONNECT::set_allocated_hostplayer(::protocol::Player* hostplayer) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostplayer_);
-  }
-  if (hostplayer) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
-            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostplayer));
-    if (message_arena != submessage_arena) {
-      hostplayer = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, hostplayer, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  hostplayer_ = hostplayer;
-  // @@protoc_insertion_point(field_set_allocated:protocol.S_CONNECT.HostPlayer)
-}
-
-// .protocol.Deck HostDeck = 2;
-inline bool S_CONNECT::_internal_has_hostdeck() const {
-  return this != internal_default_instance() && hostdeck_ != nullptr;
-}
-inline bool S_CONNECT::has_hostdeck() const {
-  return _internal_has_hostdeck();
-}
-inline const ::protocol::Deck& S_CONNECT::_internal_hostdeck() const {
-  const ::protocol::Deck* p = hostdeck_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
-      ::protocol::_Deck_default_instance_);
-}
-inline const ::protocol::Deck& S_CONNECT::hostdeck() const {
-  // @@protoc_insertion_point(field_get:protocol.S_CONNECT.HostDeck)
-  return _internal_hostdeck();
-}
-inline void S_CONNECT::unsafe_arena_set_allocated_hostdeck(
-    ::protocol::Deck* hostdeck) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostdeck_);
-  }
-  hostdeck_ = hostdeck;
-  if (hostdeck) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.S_CONNECT.HostDeck)
-}
-inline ::protocol::Deck* S_CONNECT::release_hostdeck() {
-  
-  ::protocol::Deck* temp = hostdeck_;
-  hostdeck_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::protocol::Deck* S_CONNECT::unsafe_arena_release_hostdeck() {
-  // @@protoc_insertion_point(field_release:protocol.S_CONNECT.HostDeck)
-  
-  ::protocol::Deck* temp = hostdeck_;
-  hostdeck_ = nullptr;
-  return temp;
-}
-inline ::protocol::Deck* S_CONNECT::_internal_mutable_hostdeck() {
-  
-  if (hostdeck_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
-    hostdeck_ = p;
-  }
-  return hostdeck_;
-}
-inline ::protocol::Deck* S_CONNECT::mutable_hostdeck() {
-  // @@protoc_insertion_point(field_mutable:protocol.S_CONNECT.HostDeck)
-  return _internal_mutable_hostdeck();
-}
-inline void S_CONNECT::set_allocated_hostdeck(::protocol::Deck* hostdeck) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostdeck_);
-  }
-  if (hostdeck) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
-            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(hostdeck));
-    if (message_arena != submessage_arena) {
-      hostdeck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, hostdeck, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  hostdeck_ = hostdeck;
-  // @@protoc_insertion_point(field_set_allocated:protocol.S_CONNECT.HostDeck)
+inline void S_CONNECT::set_connect(bool value) {
+  _internal_set_connect(value);
+  // @@protoc_insertion_point(field_set:protocol.S_CONNECT.connect)
 }
 
 // -------------------------------------------------------------------
 
 // C_CONNECT
 
-// .protocol.Player ClientPlayer = 1;
-inline bool C_CONNECT::_internal_has_clientplayer() const {
-  return this != internal_default_instance() && clientplayer_ != nullptr;
+// bool connect = 1;
+inline void C_CONNECT::clear_connect() {
+  connect_ = false;
 }
-inline bool C_CONNECT::has_clientplayer() const {
-  return _internal_has_clientplayer();
+inline bool C_CONNECT::_internal_connect() const {
+  return connect_;
 }
-inline const ::protocol::Player& C_CONNECT::_internal_clientplayer() const {
-  const ::protocol::Player* p = clientplayer_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Player&>(
-      ::protocol::_Player_default_instance_);
+inline bool C_CONNECT::connect() const {
+  // @@protoc_insertion_point(field_get:protocol.C_CONNECT.connect)
+  return _internal_connect();
 }
-inline const ::protocol::Player& C_CONNECT::clientplayer() const {
-  // @@protoc_insertion_point(field_get:protocol.C_CONNECT.ClientPlayer)
-  return _internal_clientplayer();
-}
-inline void C_CONNECT::unsafe_arena_set_allocated_clientplayer(
-    ::protocol::Player* clientplayer) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientplayer_);
-  }
-  clientplayer_ = clientplayer;
-  if (clientplayer) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.C_CONNECT.ClientPlayer)
-}
-inline ::protocol::Player* C_CONNECT::release_clientplayer() {
+inline void C_CONNECT::_internal_set_connect(bool value) {
   
-  ::protocol::Player* temp = clientplayer_;
-  clientplayer_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::protocol::Player* C_CONNECT::unsafe_arena_release_clientplayer() {
-  // @@protoc_insertion_point(field_release:protocol.C_CONNECT.ClientPlayer)
-  
-  ::protocol::Player* temp = clientplayer_;
-  clientplayer_ = nullptr;
-  return temp;
-}
-inline ::protocol::Player* C_CONNECT::_internal_mutable_clientplayer() {
-  
-  if (clientplayer_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::Player>(GetArenaForAllocation());
-    clientplayer_ = p;
-  }
-  return clientplayer_;
-}
-inline ::protocol::Player* C_CONNECT::mutable_clientplayer() {
-  // @@protoc_insertion_point(field_mutable:protocol.C_CONNECT.ClientPlayer)
-  return _internal_mutable_clientplayer();
-}
-inline void C_CONNECT::set_allocated_clientplayer(::protocol::Player* clientplayer) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientplayer_);
-  }
-  if (clientplayer) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
-            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientplayer));
-    if (message_arena != submessage_arena) {
-      clientplayer = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, clientplayer, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  clientplayer_ = clientplayer;
-  // @@protoc_insertion_point(field_set_allocated:protocol.C_CONNECT.ClientPlayer)
-}
-
-// .protocol.Deck ClientDeck = 2;
-inline bool C_CONNECT::_internal_has_clientdeck() const {
-  return this != internal_default_instance() && clientdeck_ != nullptr;
-}
-inline bool C_CONNECT::has_clientdeck() const {
-  return _internal_has_clientdeck();
-}
-inline const ::protocol::Deck& C_CONNECT::_internal_clientdeck() const {
-  const ::protocol::Deck* p = clientdeck_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
-      ::protocol::_Deck_default_instance_);
-}
-inline const ::protocol::Deck& C_CONNECT::clientdeck() const {
-  // @@protoc_insertion_point(field_get:protocol.C_CONNECT.ClientDeck)
-  return _internal_clientdeck();
-}
-inline void C_CONNECT::unsafe_arena_set_allocated_clientdeck(
-    ::protocol::Deck* clientdeck) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientdeck_);
-  }
-  clientdeck_ = clientdeck;
-  if (clientdeck) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.C_CONNECT.ClientDeck)
-}
-inline ::protocol::Deck* C_CONNECT::release_clientdeck() {
-  
-  ::protocol::Deck* temp = clientdeck_;
-  clientdeck_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::protocol::Deck* C_CONNECT::unsafe_arena_release_clientdeck() {
-  // @@protoc_insertion_point(field_release:protocol.C_CONNECT.ClientDeck)
-  
-  ::protocol::Deck* temp = clientdeck_;
-  clientdeck_ = nullptr;
-  return temp;
-}
-inline ::protocol::Deck* C_CONNECT::_internal_mutable_clientdeck() {
-  
-  if (clientdeck_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
-    clientdeck_ = p;
-  }
-  return clientdeck_;
-}
-inline ::protocol::Deck* C_CONNECT::mutable_clientdeck() {
-  // @@protoc_insertion_point(field_mutable:protocol.C_CONNECT.ClientDeck)
-  return _internal_mutable_clientdeck();
-}
-inline void C_CONNECT::set_allocated_clientdeck(::protocol::Deck* clientdeck) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientdeck_);
-  }
-  if (clientdeck) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
-            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(clientdeck));
-    if (message_arena != submessage_arena) {
-      clientdeck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, clientdeck, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  clientdeck_ = clientdeck;
-  // @@protoc_insertion_point(field_set_allocated:protocol.C_CONNECT.ClientDeck)
-}
-
-// -------------------------------------------------------------------
-
-// S_DECK
-
-// .protocol.Deck deck = 1;
-inline bool S_DECK::_internal_has_deck() const {
-  return this != internal_default_instance() && deck_ != nullptr;
-}
-inline bool S_DECK::has_deck() const {
-  return _internal_has_deck();
-}
-inline const ::protocol::Deck& S_DECK::_internal_deck() const {
-  const ::protocol::Deck* p = deck_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
-      ::protocol::_Deck_default_instance_);
-}
-inline const ::protocol::Deck& S_DECK::deck() const {
-  // @@protoc_insertion_point(field_get:protocol.S_DECK.deck)
-  return _internal_deck();
-}
-inline void S_DECK::unsafe_arena_set_allocated_deck(
-    ::protocol::Deck* deck) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
-  }
-  deck_ = deck;
-  if (deck) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.S_DECK.deck)
-}
-inline ::protocol::Deck* S_DECK::release_deck() {
-  
-  ::protocol::Deck* temp = deck_;
-  deck_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::protocol::Deck* S_DECK::unsafe_arena_release_deck() {
-  // @@protoc_insertion_point(field_release:protocol.S_DECK.deck)
-  
-  ::protocol::Deck* temp = deck_;
-  deck_ = nullptr;
-  return temp;
-}
-inline ::protocol::Deck* S_DECK::_internal_mutable_deck() {
-  
-  if (deck_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
-    deck_ = p;
-  }
-  return deck_;
-}
-inline ::protocol::Deck* S_DECK::mutable_deck() {
-  // @@protoc_insertion_point(field_mutable:protocol.S_DECK.deck)
-  return _internal_mutable_deck();
-}
-inline void S_DECK::set_allocated_deck(::protocol::Deck* deck) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
-  }
-  if (deck) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
-            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck));
-    if (message_arena != submessage_arena) {
-      deck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, deck, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  deck_ = deck;
-  // @@protoc_insertion_point(field_set_allocated:protocol.S_DECK.deck)
-}
-
-// -------------------------------------------------------------------
-
-// C_DECK
-
-// .protocol.Deck deck = 1;
-inline bool C_DECK::_internal_has_deck() const {
-  return this != internal_default_instance() && deck_ != nullptr;
-}
-inline bool C_DECK::has_deck() const {
-  return _internal_has_deck();
-}
-inline const ::protocol::Deck& C_DECK::_internal_deck() const {
-  const ::protocol::Deck* p = deck_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::Deck&>(
-      ::protocol::_Deck_default_instance_);
-}
-inline const ::protocol::Deck& C_DECK::deck() const {
-  // @@protoc_insertion_point(field_get:protocol.C_DECK.deck)
-  return _internal_deck();
-}
-inline void C_DECK::unsafe_arena_set_allocated_deck(
-    ::protocol::Deck* deck) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
-  }
-  deck_ = deck;
-  if (deck) {
-    
-  } else {
-    
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.C_DECK.deck)
-}
-inline ::protocol::Deck* C_DECK::release_deck() {
-  
-  ::protocol::Deck* temp = deck_;
-  deck_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::protocol::Deck* C_DECK::unsafe_arena_release_deck() {
-  // @@protoc_insertion_point(field_release:protocol.C_DECK.deck)
-  
-  ::protocol::Deck* temp = deck_;
-  deck_ = nullptr;
-  return temp;
-}
-inline ::protocol::Deck* C_DECK::_internal_mutable_deck() {
-  
-  if (deck_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::Deck>(GetArenaForAllocation());
-    deck_ = p;
-  }
-  return deck_;
-}
-inline ::protocol::Deck* C_DECK::mutable_deck() {
-  // @@protoc_insertion_point(field_mutable:protocol.C_DECK.deck)
-  return _internal_mutable_deck();
-}
-inline void C_DECK::set_allocated_deck(::protocol::Deck* deck) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck_);
-  }
-  if (deck) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
-            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
-                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(deck));
-    if (message_arena != submessage_arena) {
-      deck = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, deck, submessage_arena);
-    }
-    
-  } else {
-    
-  }
-  deck_ = deck;
-  // @@protoc_insertion_point(field_set_allocated:protocol.C_DECK.deck)
-}
-
-// -------------------------------------------------------------------
-
-// S_DRAWCARD
-
-// repeated int32 remainingCardList = 1;
-inline int S_DRAWCARD::_internal_remainingcardlist_size() const {
-  return remainingcardlist_.size();
-}
-inline int S_DRAWCARD::remainingcardlist_size() const {
-  return _internal_remainingcardlist_size();
-}
-inline void S_DRAWCARD::clear_remainingcardlist() {
-  remainingcardlist_.Clear();
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_DRAWCARD::_internal_remainingcardlist(int index) const {
-  return remainingcardlist_.Get(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_DRAWCARD::remainingcardlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.S_DRAWCARD.remainingCardList)
-  return _internal_remainingcardlist(index);
-}
-inline void S_DRAWCARD::set_remainingcardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  remainingcardlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.S_DRAWCARD.remainingCardList)
-}
-inline void S_DRAWCARD::_internal_add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  remainingcardlist_.Add(value);
-}
-inline void S_DRAWCARD::add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_remainingcardlist(value);
-  // @@protoc_insertion_point(field_add:protocol.S_DRAWCARD.remainingCardList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_DRAWCARD::_internal_remainingcardlist() const {
-  return remainingcardlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_DRAWCARD::remainingcardlist() const {
-  // @@protoc_insertion_point(field_list:protocol.S_DRAWCARD.remainingCardList)
-  return _internal_remainingcardlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_DRAWCARD::_internal_mutable_remainingcardlist() {
-  return &remainingcardlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_DRAWCARD::mutable_remainingcardlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.S_DRAWCARD.remainingCardList)
-  return _internal_mutable_remainingcardlist();
-}
-
-// repeated int32 handList = 2;
-inline int S_DRAWCARD::_internal_handlist_size() const {
-  return handlist_.size();
-}
-inline int S_DRAWCARD::handlist_size() const {
-  return _internal_handlist_size();
-}
-inline void S_DRAWCARD::clear_handlist() {
-  handlist_.Clear();
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_DRAWCARD::_internal_handlist(int index) const {
-  return handlist_.Get(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_DRAWCARD::handlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.S_DRAWCARD.handList)
-  return _internal_handlist(index);
-}
-inline void S_DRAWCARD::set_handlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  handlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.S_DRAWCARD.handList)
-}
-inline void S_DRAWCARD::_internal_add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  handlist_.Add(value);
-}
-inline void S_DRAWCARD::add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_handlist(value);
-  // @@protoc_insertion_point(field_add:protocol.S_DRAWCARD.handList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_DRAWCARD::_internal_handlist() const {
-  return handlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_DRAWCARD::handlist() const {
-  // @@protoc_insertion_point(field_list:protocol.S_DRAWCARD.handList)
-  return _internal_handlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_DRAWCARD::_internal_mutable_handlist() {
-  return &handlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_DRAWCARD::mutable_handlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.S_DRAWCARD.handList)
-  return _internal_mutable_handlist();
-}
-
-// repeated int32 discardList = 3;
-inline int S_DRAWCARD::_internal_discardlist_size() const {
-  return discardlist_.size();
-}
-inline int S_DRAWCARD::discardlist_size() const {
-  return _internal_discardlist_size();
-}
-inline void S_DRAWCARD::clear_discardlist() {
-  discardlist_.Clear();
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_DRAWCARD::_internal_discardlist(int index) const {
-  return discardlist_.Get(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_DRAWCARD::discardlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.S_DRAWCARD.discardList)
-  return _internal_discardlist(index);
-}
-inline void S_DRAWCARD::set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.S_DRAWCARD.discardList)
-}
-inline void S_DRAWCARD::_internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Add(value);
-}
-inline void S_DRAWCARD::add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_discardlist(value);
-  // @@protoc_insertion_point(field_add:protocol.S_DRAWCARD.discardList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_DRAWCARD::_internal_discardlist() const {
-  return discardlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_DRAWCARD::discardlist() const {
-  // @@protoc_insertion_point(field_list:protocol.S_DRAWCARD.discardList)
-  return _internal_discardlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_DRAWCARD::_internal_mutable_discardlist() {
-  return &discardlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_DRAWCARD::mutable_discardlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.S_DRAWCARD.discardList)
-  return _internal_mutable_discardlist();
-}
-
-// -------------------------------------------------------------------
-
-// C_DRAWCARD
-
-// repeated int32 remainingCardList = 1;
-inline int C_DRAWCARD::_internal_remainingcardlist_size() const {
-  return remainingcardlist_.size();
-}
-inline int C_DRAWCARD::remainingcardlist_size() const {
-  return _internal_remainingcardlist_size();
-}
-inline void C_DRAWCARD::clear_remainingcardlist() {
-  remainingcardlist_.Clear();
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_DRAWCARD::_internal_remainingcardlist(int index) const {
-  return remainingcardlist_.Get(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_DRAWCARD::remainingcardlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.C_DRAWCARD.remainingCardList)
-  return _internal_remainingcardlist(index);
-}
-inline void C_DRAWCARD::set_remainingcardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  remainingcardlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.C_DRAWCARD.remainingCardList)
-}
-inline void C_DRAWCARD::_internal_add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  remainingcardlist_.Add(value);
-}
-inline void C_DRAWCARD::add_remainingcardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_remainingcardlist(value);
-  // @@protoc_insertion_point(field_add:protocol.C_DRAWCARD.remainingCardList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_DRAWCARD::_internal_remainingcardlist() const {
-  return remainingcardlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_DRAWCARD::remainingcardlist() const {
-  // @@protoc_insertion_point(field_list:protocol.C_DRAWCARD.remainingCardList)
-  return _internal_remainingcardlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_DRAWCARD::_internal_mutable_remainingcardlist() {
-  return &remainingcardlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_DRAWCARD::mutable_remainingcardlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.C_DRAWCARD.remainingCardList)
-  return _internal_mutable_remainingcardlist();
-}
-
-// repeated int32 handList = 2;
-inline int C_DRAWCARD::_internal_handlist_size() const {
-  return handlist_.size();
-}
-inline int C_DRAWCARD::handlist_size() const {
-  return _internal_handlist_size();
-}
-inline void C_DRAWCARD::clear_handlist() {
-  handlist_.Clear();
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_DRAWCARD::_internal_handlist(int index) const {
-  return handlist_.Get(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_DRAWCARD::handlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.C_DRAWCARD.handList)
-  return _internal_handlist(index);
-}
-inline void C_DRAWCARD::set_handlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  handlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.C_DRAWCARD.handList)
-}
-inline void C_DRAWCARD::_internal_add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  handlist_.Add(value);
-}
-inline void C_DRAWCARD::add_handlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_handlist(value);
-  // @@protoc_insertion_point(field_add:protocol.C_DRAWCARD.handList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_DRAWCARD::_internal_handlist() const {
-  return handlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_DRAWCARD::handlist() const {
-  // @@protoc_insertion_point(field_list:protocol.C_DRAWCARD.handList)
-  return _internal_handlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_DRAWCARD::_internal_mutable_handlist() {
-  return &handlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_DRAWCARD::mutable_handlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.C_DRAWCARD.handList)
-  return _internal_mutable_handlist();
-}
-
-// repeated int32 discardList = 3;
-inline int C_DRAWCARD::_internal_discardlist_size() const {
-  return discardlist_.size();
-}
-inline int C_DRAWCARD::discardlist_size() const {
-  return _internal_discardlist_size();
-}
-inline void C_DRAWCARD::clear_discardlist() {
-  discardlist_.Clear();
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_DRAWCARD::_internal_discardlist(int index) const {
-  return discardlist_.Get(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_DRAWCARD::discardlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.C_DRAWCARD.discardList)
-  return _internal_discardlist(index);
-}
-inline void C_DRAWCARD::set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.C_DRAWCARD.discardList)
-}
-inline void C_DRAWCARD::_internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Add(value);
-}
-inline void C_DRAWCARD::add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_discardlist(value);
-  // @@protoc_insertion_point(field_add:protocol.C_DRAWCARD.discardList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_DRAWCARD::_internal_discardlist() const {
-  return discardlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_DRAWCARD::discardlist() const {
-  // @@protoc_insertion_point(field_list:protocol.C_DRAWCARD.discardList)
-  return _internal_discardlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_DRAWCARD::_internal_mutable_discardlist() {
-  return &discardlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_DRAWCARD::mutable_discardlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.C_DRAWCARD.discardList)
-  return _internal_mutable_discardlist();
+  connect_ = value;
+}
+inline void C_CONNECT::set_connect(bool value) {
+  _internal_set_connect(value);
+  // @@protoc_insertion_point(field_set:protocol.C_CONNECT.connect)
 }
 
 // -------------------------------------------------------------------
 
 // S_USECARD
 
+// int32 usedCardNum = 1;
+inline void S_USECARD::clear_usedcardnum() {
+  usedcardnum_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_USECARD::_internal_usedcardnum() const {
+  return usedcardnum_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_USECARD::usedcardnum() const {
+  // @@protoc_insertion_point(field_get:protocol.S_USECARD.usedCardNum)
+  return _internal_usedcardnum();
+}
+inline void S_USECARD::_internal_set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  usedcardnum_ = value;
+}
+inline void S_USECARD::set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_usedcardnum(value);
+  // @@protoc_insertion_point(field_set:protocol.S_USECARD.usedCardNum)
+}
+
+// int32 targetEnemyNum = 2;
+inline void S_USECARD::clear_targetenemynum() {
+  targetenemynum_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_USECARD::_internal_targetenemynum() const {
+  return targetenemynum_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 S_USECARD::targetenemynum() const {
+  // @@protoc_insertion_point(field_get:protocol.S_USECARD.targetEnemyNum)
+  return _internal_targetenemynum();
+}
+inline void S_USECARD::_internal_set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  targetenemynum_ = value;
+}
+inline void S_USECARD::set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_targetenemynum(value);
+  // @@protoc_insertion_point(field_set:protocol.S_USECARD.targetEnemyNum)
+}
+
 // -------------------------------------------------------------------
 
 // C_USECARD
+
+// int32 usedCardNum = 1;
+inline void C_USECARD::clear_usedcardnum() {
+  usedcardnum_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C_USECARD::_internal_usedcardnum() const {
+  return usedcardnum_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C_USECARD::usedcardnum() const {
+  // @@protoc_insertion_point(field_get:protocol.C_USECARD.usedCardNum)
+  return _internal_usedcardnum();
+}
+inline void C_USECARD::_internal_set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  usedcardnum_ = value;
+}
+inline void C_USECARD::set_usedcardnum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_usedcardnum(value);
+  // @@protoc_insertion_point(field_set:protocol.C_USECARD.usedCardNum)
+}
+
+// int32 targetEnemyNum = 2;
+inline void C_USECARD::clear_targetenemynum() {
+  targetenemynum_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C_USECARD::_internal_targetenemynum() const {
+  return targetenemynum_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 C_USECARD::targetenemynum() const {
+  // @@protoc_insertion_point(field_get:protocol.C_USECARD.targetEnemyNum)
+  return _internal_targetenemynum();
+}
+inline void C_USECARD::_internal_set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  targetenemynum_ = value;
+}
+inline void C_USECARD::set_targetenemynum(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_targetenemynum(value);
+  // @@protoc_insertion_point(field_set:protocol.C_USECARD.targetEnemyNum)
+}
 
 // -------------------------------------------------------------------
 
 // S_TURNEND
 
-// repeated int32 discardList = 1;
-inline int S_TURNEND::_internal_discardlist_size() const {
-  return discardlist_.size();
+// bool bTurnEnd = 1;
+inline void S_TURNEND::clear_bturnend() {
+  bturnend_ = false;
 }
-inline int S_TURNEND::discardlist_size() const {
-  return _internal_discardlist_size();
+inline bool S_TURNEND::_internal_bturnend() const {
+  return bturnend_;
 }
-inline void S_TURNEND::clear_discardlist() {
-  discardlist_.Clear();
+inline bool S_TURNEND::bturnend() const {
+  // @@protoc_insertion_point(field_get:protocol.S_TURNEND.bTurnEnd)
+  return _internal_bturnend();
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_TURNEND::_internal_discardlist(int index) const {
-  return discardlist_.Get(index);
+inline void S_TURNEND::_internal_set_bturnend(bool value) {
+  
+  bturnend_ = value;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 S_TURNEND::discardlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.S_TURNEND.discardList)
-  return _internal_discardlist(index);
-}
-inline void S_TURNEND::set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.S_TURNEND.discardList)
-}
-inline void S_TURNEND::_internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Add(value);
-}
-inline void S_TURNEND::add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_discardlist(value);
-  // @@protoc_insertion_point(field_add:protocol.S_TURNEND.discardList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_TURNEND::_internal_discardlist() const {
-  return discardlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-S_TURNEND::discardlist() const {
-  // @@protoc_insertion_point(field_list:protocol.S_TURNEND.discardList)
-  return _internal_discardlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_TURNEND::_internal_mutable_discardlist() {
-  return &discardlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-S_TURNEND::mutable_discardlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.S_TURNEND.discardList)
-  return _internal_mutable_discardlist();
+inline void S_TURNEND::set_bturnend(bool value) {
+  _internal_set_bturnend(value);
+  // @@protoc_insertion_point(field_set:protocol.S_TURNEND.bTurnEnd)
 }
 
 // -------------------------------------------------------------------
 
 // C_TURNEND
 
-// repeated int32 discardList = 1;
-inline int C_TURNEND::_internal_discardlist_size() const {
-  return discardlist_.size();
+// bool bTurnEnd = 1;
+inline void C_TURNEND::clear_bturnend() {
+  bturnend_ = false;
 }
-inline int C_TURNEND::discardlist_size() const {
-  return _internal_discardlist_size();
+inline bool C_TURNEND::_internal_bturnend() const {
+  return bturnend_;
 }
-inline void C_TURNEND::clear_discardlist() {
-  discardlist_.Clear();
+inline bool C_TURNEND::bturnend() const {
+  // @@protoc_insertion_point(field_get:protocol.C_TURNEND.bTurnEnd)
+  return _internal_bturnend();
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_TURNEND::_internal_discardlist(int index) const {
-  return discardlist_.Get(index);
+inline void C_TURNEND::_internal_set_bturnend(bool value) {
+  
+  bturnend_ = value;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 C_TURNEND::discardlist(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.C_TURNEND.discardList)
-  return _internal_discardlist(index);
-}
-inline void C_TURNEND::set_discardlist(int index, ::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Set(index, value);
-  // @@protoc_insertion_point(field_set:protocol.C_TURNEND.discardList)
-}
-inline void C_TURNEND::_internal_add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  discardlist_.Add(value);
-}
-inline void C_TURNEND::add_discardlist(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_add_discardlist(value);
-  // @@protoc_insertion_point(field_add:protocol.C_TURNEND.discardList)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_TURNEND::_internal_discardlist() const {
-  return discardlist_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >&
-C_TURNEND::discardlist() const {
-  // @@protoc_insertion_point(field_list:protocol.C_TURNEND.discardList)
-  return _internal_discardlist();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_TURNEND::_internal_mutable_discardlist() {
-  return &discardlist_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::int32 >*
-C_TURNEND::mutable_discardlist() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.C_TURNEND.discardList)
-  return _internal_mutable_discardlist();
+inline void C_TURNEND::set_bturnend(bool value) {
+  _internal_set_bturnend(value);
+  // @@protoc_insertion_point(field_set:protocol.C_TURNEND.bTurnEnd)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

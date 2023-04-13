@@ -251,13 +251,6 @@ bool SampleCore::Render()
 
 bool SampleCore::Release()
 {
-	//server Release
-	gpHost->Release();
-	delete(gpHost);
-	
-	gpClient->Release();
-	delete(gpClient);
-
 	///////////////////////
 	//EFFECTUTIL CleanUp
 	///////////////////////
@@ -285,6 +278,12 @@ bool SampleCore::Release()
 	delete Clear;
 	GameOver->Release();
 	delete GameOver;
+
+	//server Release
+	GThreadManager->Join();
+	//GThreadManager->eraseThreadVector();
+	delete(gpHost);
+	delete(gpClient);
 }
 
 

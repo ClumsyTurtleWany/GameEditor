@@ -48,7 +48,7 @@ public:
 	ServiceType GetServiceType() { return _type; }
 	NetAddress GetNetAddress() { return _netAddress; }
 	IocpCoreRef& GetIocpCore() { return _iocpCore; }
-	Set<SessionRef>& GetSesseions() { return _sessions; }
+	Set<SessionRef>& GetSessions() { return _sessions; }
 };
 
 /*-----------------

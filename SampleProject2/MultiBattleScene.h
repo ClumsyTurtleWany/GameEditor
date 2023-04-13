@@ -108,9 +108,9 @@ public:
 	//void temp(); //혁 테스트 용도
 	void Init_Chara2();
 	void OtherPlayerUsedCard();
+public: //패킷 보내는 함수, S_ : server sends to client, C_ : client sends to server
 
 public:
-	int UsedCardNum = 0; // 상대 플레이어가 사용한 카드 종류
-	int TargetEnemyNum = 0; // 상대 플레이어가 카드의 타겟으로 정한 적의 넘버, 방어류 카드라면 0
-
+	int OtherPlayerUsedCardNum = 0; // 상대 플레이어가 사용한 카드 종류
+	int OtherPlayerTargetEnemyNum = 0; // 상대 플레이어가 카드의 타겟으로 정한 적의 넘버, 방어류 카드라면 0
 };

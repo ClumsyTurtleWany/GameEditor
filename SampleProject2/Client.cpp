@@ -28,8 +28,18 @@ bool Client::Init()
 			{
 				while (true)
 				{
-					if (service->GetIocpCore()->Dispatch() && connecting == false)
-						connecting = true;
+					//if (service->GetIocpCore()->Dispatch() && connecting == false)
+					////if (service->GetIocpCore()->Dispatch())
+					//	connecting = true;
+					service->GetIocpCore()->Dispatch();
+					//for (auto& session : service->GetSessions())
+					//{
+					//	if (session->IsConnected())
+					//	{
+					//		connecting = true;
+					//		break;
+					//	}
+					//}
 				}
 			});
 	}
@@ -63,7 +73,8 @@ bool Client::IsConnected()
 bool Client::CancelConnect()
 {
 	WRITE_LOCK;
-	for (auto& session : service->sessionsForConnect)
+	//for (auto& session : service->sessionsForConnect)
+	for (auto& session : service->GetSessions())
 	{
 		ConnectEvent& connectEvent = session->GetConnectEvent();
 		BOOL result = CancelIoEx((HANDLE)session->GetSocket(), static_cast<LPOVERLAPPED>(&connectEvent));
@@ -84,4 +95,9 @@ bool Client::CancelConnect()
 	//service->sessionsForConnect.clear();
 
 	return true;
+}
+
+bool& Client::SetConnect()
+{
+	return connecting;
 }

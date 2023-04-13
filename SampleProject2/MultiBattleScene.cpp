@@ -43,10 +43,11 @@ bool MultiBattleScene::Init()
 	player1->cost = player1->maxCost;
 	player1->maxHp = 50;
 	player1->hp = 50;
+
 	player2 = new Player;
-	//player2->cost = player2->maxCost;
-	//player2->maxHp = 50;
-	//player2->hp = 50;
+	player2->cost = player2->maxCost;
+	player2->maxHp = 50;
+	player2->hp = 50;
 
 	enemy1 = new Enemy_1;
 	enemy1->pWorld = &TheWorld;
@@ -111,18 +112,18 @@ bool MultiBattleScene::Frame()
 	if (initTriger)
 	{
 		//서버에서 추가
-		if (gpHost->IsConnected())
+		if (gpHost != nullptr && gpHost->IsConnected())
 		{
 			playerNum = 1;
-			CurrentPlayer = player1;
+			//CurrentPlayer = player1;
 		}
-		if (gpClient->IsConnected())
+		if (gpClient != nullptr && gpClient->IsConnected())
 		{
 			playerNum = 2;
-			CurrentPlayer = player2;
+			//CurrentPlayer = player2;
 		}
-
-		Init_Chara2();
+		CurrentPlayer = player1;
+		//Init_Chara2();
 		initTriger = false;
 	}
 
@@ -721,7 +722,7 @@ void MultiBattleScene::Init_Chara()
 void MultiBattleScene::Init_Chara2()
 {
 	//1p : host
-	if(gpHost->IsConnected())
+	if(gpHost != nullptr && gpHost->IsConnected())
 	{
 		hostCharacter = new Character;
 		player1->chara = hostCharacter;
@@ -832,7 +833,7 @@ void MultiBattleScene::Init_Chara2()
 	}
 
 	//1p : client
-	if (gpClient->IsConnected())
+	if (gpClient != nullptr && gpClient->IsConnected())
 	{
 		clientCharacter = new Character;
 		player1->chara = clientCharacter;
@@ -1180,28 +1181,28 @@ void MultiBattleScene::MyTurnProcess()
 
 	MyTurnStart = false;
 	
-	if (gpHost->IsConnected())
-	{
-		protocol::S_DRAWCARD hostDraw;
-		*hostDraw.mutable_remainingcardlist()	= { multyserver->MyDeck->RemainingCardList.begin(), multyserver->MyDeck->RemainingCardList.end() };
-		*hostDraw.mutable_handlist()			= { multyserver->MyDeck->HandList.begin(), multyserver->MyDeck->HandList.end() };
-		*hostDraw.mutable_discardlist()			= { multyserver->MyDeck->DiscardList.begin(), multyserver->MyDeck->DiscardList.end() };
-
-		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(hostDraw);
-
-		auto session = gpHost->GetService()->_listener->GetAcceptVector().front()->_session;
-		session->Send(sendBuffer);
-	}
-	if (gpClient->IsConnected())
-	{
-		protocol::C_DRAWCARD clientDraw;
-		*clientDraw.mutable_remainingcardlist()		= { MyDeck->RemainingCardList.begin(), MyDeck->RemainingCardList.end() };
-		*clientDraw.mutable_handlist()				= { MyDeck->HandList.begin(), MyDeck->HandList.end() };
-		*clientDraw.mutable_discardlist()			= { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(clientDraw);
-		auto session = gpClient->GetClientservice()->sessionsForConnect.front();
-		session->Send(sendBuffer);
-	}
+	//if (gpHost != nullptr && gpHost->IsConnected())
+	//{
+	//	protocol::S_DRAWCARD hostDraw;
+	//	*hostDraw.mutable_remainingcardlist()	= { multyserver->MyDeck->RemainingCardList.begin(), multyserver->MyDeck->RemainingCardList.end() };
+	//	*hostDraw.mutable_handlist()			= { multyserver->MyDeck->HandList.begin(), multyserver->MyDeck->HandList.end() };
+	//	*hostDraw.mutable_discardlist()			= { multyserver->MyDeck->DiscardList.begin(), multyserver->MyDeck->DiscardList.end() };
+	//
+	//	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(hostDraw);
+	//
+	//	auto session = gpHost->GetService()->_listener->GetAcceptVector().front()->_session;
+	//	session->Send(sendBuffer);
+	//}
+	//if (gpClient != nullptr && gpClient->IsConnected())
+	//{
+	//	protocol::C_DRAWCARD clientDraw;
+	//	*clientDraw.mutable_remainingcardlist()		= { MyDeck->RemainingCardList.begin(), MyDeck->RemainingCardList.end() };
+	//	*clientDraw.mutable_handlist()				= { MyDeck->HandList.begin(), MyDeck->HandList.end() };
+	//	*clientDraw.mutable_discardlist()			= { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
+	//	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(clientDraw);
+	//	auto session = gpClient->GetClientservice()->sessionsForConnect.front();
+	//	session->Send(sendBuffer);
+	//}
 }
 
 //void MultiBattleScene::temp()
@@ -1223,7 +1224,7 @@ void MultiBattleScene::TurnEndProcess()
 	MyDeck->TurnEnd();
 
 	//일단 임시로 1p가 2p플레이까지 같이하는 버전으로
-	if (gpHost->IsConnected())
+	if (gpHost != nullptr && gpHost->IsConnected())
 	{
 		if (playerNum == 1)
 		{
@@ -1240,7 +1241,7 @@ void MultiBattleScene::TurnEndProcess()
 			EnemyTurnProcess();
 		}				// 자신이 2p라면 적에게 턴을 넘겨줌
 	}
-	if (gpClient->IsConnected())
+	if (gpClient != nullptr && gpClient->IsConnected())
 	{
 		if (playerNum == 2)
 		{
@@ -1261,22 +1262,22 @@ void MultiBattleScene::TurnEndProcess()
 	TurnEndButton->m_bClicked = false;
 
 	//TODO : need S_TURNEND, C_TURNEND
-	if (gpHost->IsConnected())
-	{
-		protocol::S_TURNEND hostTurnEnd;
-		*hostTurnEnd.mutable_discardlist() = { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
-		auto sendBuffer = ServerPacketHandler::MakeSendBuffer(hostTurnEnd);
-		auto session = gpHost->GetService()->_listener->GetAcceptVector().front()->_session;
-		session->Send(sendBuffer);
-	}
-	if (gpClient->IsConnected())
-	{
-		protocol::C_TURNEND clientTurnEnd;
-		*clientTurnEnd.mutable_discardlist() = { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
-		auto sendBuffer = ClientPacketHandler::MakeSendBuffer(clientTurnEnd);
-		auto session = gpClient->GetClientservice()->sessionsForConnect.front();
-		session->Send(sendBuffer);
-	}
+	//if (gpHost != nullptr && gpHost->IsConnected())
+	//{
+	//	protocol::S_TURNEND hostTurnEnd;
+	//	*hostTurnEnd.mutable_discardlist() = { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
+	//	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(hostTurnEnd);
+	//	auto session = gpHost->GetService()->_listener->GetAcceptVector().front()->_session;
+	//	session->Send(sendBuffer);
+	//}
+	//if (gpClient != nullptr && gpClient->IsConnected())
+	//{
+	//	protocol::C_TURNEND clientTurnEnd;
+	//	*clientTurnEnd.mutable_discardlist() = { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
+	//	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(clientTurnEnd);
+	//	auto session = gpClient->GetClientservice()->sessionsForConnect.front();
+	//	session->Send(sendBuffer);
+	//}
 } 
 
 void MultiBattleScene::EnemyTurnProcess()
@@ -1427,6 +1428,27 @@ void MultiBattleScene::CardCheck()
 				MainCameraSystem->MainCamera = MainCamera;
 
 				// 패킷보냄(4,1);	<- 카드 성공적으로 쓰면 호출되는 곳, 매개변수:(쓴카드번호, 맞는적번호) ㅇㅇ
+				//
+				if (gpHost != nullptr && gpHost->IsConnected())
+				{
+					protocol::S_USECARD hostUseCard;
+					for (int i = 0; i < EnemyList.size(); i++)
+					{
+						if (EnemyList[i] == TargetEnemy)
+							hostUseCard.set_usedcardnum(i);
+					}
+					hostUseCard.set_targetenemynum(cardNum);
+				}
+				if (gpClient != nullptr && gpClient->IsConnected())
+				{
+					protocol::C_USECARD clientUseCard;
+					for (int i = 0; i < EnemyList.size(); i++)
+					{
+						if (EnemyList[i] == TargetEnemy)
+							clientUseCard.set_usedcardnum(i);
+					}
+					clientUseCard.set_targetenemynum(cardNum);
+				}
 			}
 			else {} // 여기서 경고문구 출력
 

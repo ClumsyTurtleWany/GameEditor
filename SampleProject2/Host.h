@@ -24,6 +24,7 @@ public:
 	USE_LOCK;
 	ServerServiceRef GetService();
 	int16 GetSessionCount();
+	bool& SetConnect();
 };
 
 extern Host* gpHost;

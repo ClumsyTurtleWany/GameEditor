@@ -29,13 +29,22 @@ bool Host::Init()
 	//for (int32 i = 0; i < std::thread::hardware_concurrency() / 2 - 1; i++)
 	for (int32 i = 0; i < 1 ; i++)	//TEST
 	{
-		GThreadManager->Launch(
-			[=]()
+		GThreadManager->Launch([=]()
 			{
 				while (1)
 				{
-					if (service->GetIocpCore()->Dispatch() && connecting == false)
-						connecting = true;
+					//if (service->GetIocpCore()->Dispatch() && connecting == false)
+					////if (service->GetIocpCore()->Dispatch())
+					//	connecting = true;
+					service->GetIocpCore()->Dispatch();
+					//for(auto& session : service->GetSessions())
+					//{
+					//	if (session->IsConnected())
+					//	{
+					//		connecting = true;
+					//		break;
+					//	}
+					//}
 				}
 			}
 		);
@@ -58,7 +67,8 @@ bool Host::Render()
 bool Host::Release()
 {
 	GThreadManager->Join();
-	return false;
+	
+	return true;
 }
 
 bool Host::CancelAccept()
@@ -99,4 +109,11 @@ ServerServiceRef Host::GetService()
 int16 Host::GetSessionCount()
 {
 	return sessionCount;
+}
+
+bool& Host::SetConnect()
+{
+	// TODO: 여기에 return 문을 삽입합니다.
+
+	return connecting;
 }

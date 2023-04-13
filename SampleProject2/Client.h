@@ -19,5 +19,6 @@ public:
 	USE_LOCK;
 	bool CancelConnect();
 	ClientServiceRef& GetClientservice() { return service; }
+	bool& SetConnect();
 };
 extern Client* gpClient;

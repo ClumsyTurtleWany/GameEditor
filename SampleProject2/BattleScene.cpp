@@ -94,7 +94,7 @@ bool BattleScene::Init()
 
 	TheWorld.AddSystem(new WidgetRenderSystem);
 
-	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+	MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
 
 	return true;
