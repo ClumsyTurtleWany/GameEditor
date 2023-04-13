@@ -7,6 +7,8 @@
 #define PYR_INTERP
 //#define USE_SLERP
 
+void QuaternionToEulerRad(Quaternion Q, Vector3 vOut);
+
 enum class SPLINE_LOOP_OPT
 {
 	SPLOPT_NOLOOP_ONEWAY,

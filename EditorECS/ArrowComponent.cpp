@@ -53,30 +53,41 @@ void ArrowComponent::rotateArrow(Vector3 angle)
 	rotation = DirectX::XMQuaternionRotationRollPitchYawFromVector(angle);
 }
 
-Vector3 ArrowComponent::calculatePitchYawRollRadian(Quaternion q)
+Vector3 calculatePitchYawRollRadian(Quaternion q)
 {
-	Vector3 res;
-	
-	//2(yz+wx)
-	float C0 = 2.0f * (q.y * q.z + q.x * q.w);
+	//좌표계 축에 대한 회전 연산순서에 따라 달리 결정된다.
+	//DX의 PYR연산순서는 YXZ순서를 따르므로 이를 반영한다.
+	//각 축의 180도 이상의 회전에 대해 조건처리를 하지 않았으므로 
+	//회전의 방향이 항상 반시계 방향이 아닐 수 있음에 유의
 
-	//-x^2 -y^2 + z^2 + w^2
-	float C1 = -1.0f * (q.x * q.x) -(q.y * q.y) + (q.z * q.z) + (q.w * q.w);
+	Vector3 vOut;
 
-	//x^2 - y^2 - z^2 + w^2
-	float C2 = (q.x * q.x) - (q.y * q.y) - (q.z * q.z) + (q.w * q.w);
+	//Yaw - Pitch - Roll
+	float x = q.y;
+	float y = q.x;
+	float z = q.z;
+	float w = q.w;
 
-	//2(xy-zw)
-	float C3 = 2.0f * (q.x * q.y - q.z * q.w);
+	float sqX = x * x;
+	float sqY = y * y;
+	float sqZ = z * z;
+	float sqW = w * w;
 
-	res.x = atan2f(C0, C1);
-	res.y = asin(-C3);
-	res.z = atan2f(C3, C2);
+	float C0 = 2.0f * (y * z + x * w);
+	float C1 = -2.0f * (x * z - y * w);
+	float C2 = 2.0f * (x * y + z * w);
 
-	return res;
+	float C3 = -sqX - sqY + sqZ + sqW;
+	float C4 = sqX - sqY - sqZ + sqW;
+
+	vOut.x = atan2f(C0, C3);
+	vOut.y = asinf(C1);
+	vOut.z = atan2f(C2, C4);
+
+	return vOut;
 }
 
-Vector3 ArrowComponent::calculatePitchYawRollDegree(Quaternion q)
+Vector3 calculatePitchYawRollDegree(Quaternion q)
 {
 	Vector3 res = calculatePitchYawRollRadian(q) / PI * 180.0f;
 

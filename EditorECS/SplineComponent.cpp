@@ -1,5 +1,35 @@
 #include "SplineComponent.h"
 
+void QuaternionToEulerRad(Quaternion Q, Vector3 vOut)
+{
+	//좌표계 축에 대한 회전 연산순서에 따라 달리 결정된다.
+	//DX의 PYR연산순서는 YXZ순서를 따르므로 이를 반영한다.
+	//각 축의 180도 이상의 회전에 대해 조건처리를 하지 않았으므로 
+	//회전의 방향이 항상 반시계 방향이 아닐 수 있음에 유의
+
+	//Yaw - Pitch - Roll
+	float x = Q.y;
+	float y = Q.x;
+	float z = Q.z;
+	float w = Q.w;
+
+	float sqX = x * x;
+	float sqY = y * y;
+	float sqZ = z * z;
+	float sqW = w * w;
+
+	float C0 = 2.0f * (y * z + x * w);
+	float C1 = -2.0f * (x * z - y * w);
+	float C2 = 2.0f * (x * y + z * w);
+
+	float C3 = -sqX - sqY + sqZ + sqW;
+	float C4 = sqX - sqY - sqZ + sqW;
+
+	vOut.x = atan2f(C0, C3);
+	vOut.y = asinf(C1);
+	vOut.z = atan2f(C2, C4);
+}
+
 SplineComponent::SplineComponent()
 {
 	m_loopOpt = SPLINE_LOOP_OPT::SPLOPT_NOLOOP_ONEWAY;
