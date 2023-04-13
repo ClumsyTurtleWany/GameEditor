@@ -752,6 +752,7 @@ void BattleScene::TurnStartProcess()
 	UpdateHand(drawNum);
 
 	TurnStart = false;
+	TurnEndButton->m_bDisable = false;
 }
 
 void BattleScene::TurnEndProcess()
@@ -769,6 +770,7 @@ void BattleScene::TurnEndProcess()
 	EnemyTurnProcess();
 
 	TurnEndButton->m_bClicked = false;
+	TurnEndButton->m_bDisable = true;
 }
 
 void BattleScene::EnemyTurnProcess()
@@ -834,15 +836,11 @@ void BattleScene::MoveProcess()
 
 void BattleScene::CardCheck()
 {
-	//auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();
-	//auto EAnime = EnemyCharacter->GetComponent<AnimationComponent>();
-	//if (!PAnime->IsInAction()) { MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>(); }
-
 	if (TargetEnemy == nullptr) { return; } // 타겟이 없다면 실행ㄴ
 
 	for (int cardNum=0; cardNum<Dick->HandList.size(); cardNum++) 
 	{
-		if (CardList[cardNum]->m_bClicked && CardList[cardNum]->m_OriginPos.y >= 0.5)
+		if (CardList[cardNum]->m_bClicked && CardList[cardNum]->m_OriginPos.y >= 0.5)	// 카드를 드래그해서 일정 높이 이상으로 올라갔다면
 		{
 			bool CanUse = false;
 			int	 DrawedCard = 0;
