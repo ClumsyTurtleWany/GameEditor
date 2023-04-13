@@ -276,8 +276,7 @@ void BattleScene::Init_UI()
 	PlayerCurrenHP2 = bc->FindObj(L"PlayerCurrentHP_2");
 	PlayerMaxHP1 = bc->FindObj(L"PlayerMaxHP_1");
 	PlayerMaxHP2 = bc->FindObj(L"PlayerMaxHP_2");
-	PlayerHPBar_Full = bc->FindObj(L"PlayerHpBar_Full");
-	PlayerHPBar_Empty = bc->FindObj(L"PlayerHpBar_Empty");
+	PlayerHPBar = bc->FindObj(L"PlayerHpBar_Full");
 	PlayerArmorIcon = bc->FindObj(L"PlayerArmor_Icon");
 	PlayerArmor1 = bc->FindObj(L"PlayerArmor_1");
 	PlayerArmor2 = bc->FindObj(L"PlayerArmor_2");
@@ -285,8 +284,9 @@ void BattleScene::Init_UI()
 	MaxMana = bc->FindObj(L"Mana_max");
 
 	// 프로그레스 바를 위해서 좌상단 원점으로 바꿔줌
-	PlayerHPBar_Full->SetOrginStandard(false);
-	PlayerHPBar_Full->SetOrginStandard(false);
+	PlayerHPBar->SetOrginStandard(false);
+	PlayerHPBar->m_OriginWH = PlayerHPBar->m_pCutInfoList[0]->pxWH;
+	PlayerHPBar->m_OriginUV = PlayerHPBar->m_pCutInfoList[0]->uv;
 	//UpdatePlayerState();
 
 	UpdateEnemyState();
@@ -1014,13 +1014,20 @@ void BattleScene::UpdateHand(int handSize, int UsedCard, int DrawedCard)
 
 void BattleScene::UpdatePlayerState()
 {
+	// 마나 (코스트)
 	CurrentMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->cost];
 	MaxMana->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxCost];
 
+	// 
 	PlayerCurrenHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp / 10];
 	PlayerCurrenHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->hp % 10];
 	PlayerMaxHP1->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp / 10];
 	PlayerMaxHP2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->maxHp % 10];
+
+	// 프로그레스 바 (HP바) 
+	float hpPercentage = (float)player->hp / (float)player->maxHp;
+	PlayerHPBar->m_pCutInfoList[0]->pxWH.x = PlayerHPBar->m_OriginWH.x * hpPercentage;	// X축만(가로로만)줄어들어야하니까
+	PlayerHPBar->m_pCutInfoList[0]->uv = PlayerHPBar->m_OriginUV * hpPercentage;			// x축만 ㅇㅇ
 
 	if (player->hp <= 0)
 	{

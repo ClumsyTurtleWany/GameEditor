@@ -86,8 +86,10 @@ public:
 
 	UIType			m_Type;
 	int				m_ID; // 얘는 여기서 필요없지않나? 흠
-	bool			m_bOPS = true;	// Orgin Pos Standard, 원점 위치. true면 중앙, false면 좌상단
+	bool			m_bOPS = true;	// Origin Pos Standard, 원점 위치. true면 중앙, false면 좌상단
 	Vector2			m_OriginPos;
+	Vector2			m_OriginWH;		// 프로그레스바에 쓰려고 만들었음, 원래 너비/높이
+	Vector4			m_OriginUV;		// 얘도 프바용 ㅇㅇ 
 	float			m_fDepth = 0.0f;
 	float			m_fAlpha = 1.0f;
 
