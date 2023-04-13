@@ -4,6 +4,11 @@ Fog.dds
 ../resource/EffectPart/texture/particle/UVSprite\Fog.dds
 8
 8
+UVS_PixelFont_8x15.png
+PixelFont_8x15.png
+../resource/EffectPart/texture/particle/UVSprite\PixelFont_8x15.png
+8
+15
 UVS_Shield1.png
 Shield1.png
 ../resource/EffectPart/texture/particle/UVSprite\Shield1.png

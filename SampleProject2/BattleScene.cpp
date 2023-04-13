@@ -167,22 +167,21 @@ bool BattleScene::Frame()
 	KeyState btnZ = Input::GetInstance()->getKey('Z');
 	if (btnZ == KeyState::Hold || btnZ == KeyState::Down)
 	{
-		MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+		MainCameraSystem->TargetCamera = PlayerCharacter->GetComponent<Camera>();
 	}
 	KeyState btnX = Input::GetInstance()->getKey('X');
 	if (btnX == KeyState::Hold || btnX == KeyState::Down)
 	{
-		MainCameraSystem->MainCamera = EnemyCharacter->GetComponent<Camera>();
+		MainCameraSystem->TargetCamera = EnemyCharacter->GetComponent<Camera>();
 	}
 	KeyState btnC = Input::GetInstance()->getKey('C');
 	if (btnC == KeyState::Hold || btnC == KeyState::Down)
 	{
-		MainCameraSystem->MainCamera = MainCamera;
+		MainCameraSystem->TargetCamera = nullptr;
 	}
 
 	// 얘는 일단 주기적으로 업데이트 해줘야함.
 	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
-
 
 	//Effect test
 	if (Input::GetInstance()->getKey('U') == KeyState::Up)

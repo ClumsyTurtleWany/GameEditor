@@ -31,6 +31,7 @@
     <ClInclude Include="..\include\EffectInclude\SpriteManager.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="ArrowComponent.h" />
     <ClInclude Include="BoundingBoxComponent.h" />
     <ClInclude Include="BoundingSphereComponent.h" />
     <ClInclude Include="BVRender.h" />
@@ -53,6 +54,7 @@
     <ClInclude Include="OscillationComponent.h" />
     <ClInclude Include="PlaneComponent.h" />
     <ClInclude Include="PointLight.h" />
+    <ClInclude Include="RenderableStringComponent.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SelectAnimSystem.h" />
     <ClInclude Include="SkeletalMeshComponent.h" />
@@ -62,7 +64,6 @@
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticMeshComponent.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="TransformSystem.h" />
     <ClInclude Include="UpdateAnimSystem.h" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +75,7 @@
     <ClCompile Include="..\include\EffectInclude\SpriteManager.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
+    <ClCompile Include="ArrowComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraArmComponent.cpp" />
     <ClCompile Include="CameraSystem.cpp" />
@@ -89,6 +91,7 @@
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="OscillationComponent.cpp" />
     <ClCompile Include="PointLight.cpp" />
+    <ClCompile Include="RenderableStringComponent.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SelectAnimSystem.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
