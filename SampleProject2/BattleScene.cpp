@@ -782,6 +782,15 @@ void BattleScene::EnemyTurnProcess()
 
 	UpdatePlayerState();
 	UpdateEnemyState();
+
+	//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
+	auto HitCam = player->chara->GetComponent<Camera>();
+	if (HitCam)
+	{
+		MainCameraSystem->TargetCamera = HitCam;
+	}
+	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 	PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 	SoundMap.find(L"Hit2")->second->Play();
 }
@@ -861,6 +870,15 @@ void BattleScene::CardCheck()
 					// 데미지 이펙트 초안.. 막 움직이기도 하고 나타나면서 커졌다가 작아졌다가도 해야하는데 아 몰랑 나중에 함수로? 하지 뭐
 					//Damage2->m_bIsDead = false;
 					//Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
+					
+					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
+					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
+					if (HitCam)
+					{
+						MainCameraSystem->TargetCamera = HitCam;
+					}
+					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 					TargetEnemy->hp -= 6;
 					CanUse = true;
 
@@ -884,6 +902,14 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1)) 
 				{
+					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
+					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
+					if (HitCam)
+					{
+						MainCameraSystem->TargetCamera = HitCam;
+					}
+					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 					TargetEnemy->hp -= 9;
 					Dick->Draw(1);
 					DrawedCard = 1;
@@ -921,6 +947,14 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1)) 
 				{
+					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
+					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
+					if (HitCam)
+					{
+						MainCameraSystem->TargetCamera = HitCam;
+					}
+					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 					TargetEnemy->hp -= 5;
 					player->armor += 5;
 					CanUse = true;
