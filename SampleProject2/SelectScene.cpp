@@ -48,16 +48,15 @@ bool SelectScene::Frame()
 		RoomMakeButton->m_bClicked = false;
 		// 방 만들기 버튼 눌렀을 경우 요기가 실행
 
-		SS = MULTIBATTLE;
-		//if (gpHost == nullptr)
-		//{
-		//	gpHost = new Host(L"127.0.0.1", 7777);
-		//	gpHost->Init();
-		//}
-		//else
-		//{
-		//	gpHost->GetService()->_listener->addAcceptEvent();
-		//}
+		if (gpHost == nullptr)
+		{
+			gpHost = new Host(L"127.0.0.1", 7777);
+			gpHost->Init();
+		}
+		else
+		{
+			gpHost->GetService()->_listener->addAcceptEvent();
+		}
 
 		////취소 버튼 나오면 풀어주세요~
 		//gpHost->CancelAccept();
