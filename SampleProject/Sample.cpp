@@ -211,10 +211,6 @@ bool SampleCore::Initialize()
 
 	Spline->start();
 
-	ArrowComponent TestComp;
-
-	TestComp
-
 	return true;
 }
 
