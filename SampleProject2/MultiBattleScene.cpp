@@ -16,7 +16,7 @@
 #include "SelectAnimSystem.h"
 #include "BoundingBoxComponent.h"
 #include "CameraArmComponent.h"
-
+#include "OscillationComponent.h"
 //추가
 #include "ColliderSystem.h"
 
@@ -62,6 +62,46 @@ bool MultiBattleScene::Init()
 	enemy2->NumberTextureList_Black = NumberTextureList_Black;
 	EnemyList.push_back(enemy2);
 
+	//MainCameraSystem = new CameraSystem;
+	//MainCameraActor = new Actor;
+	//MainCamera = MainCameraActor->AddComponent<Camera>();
+	////Vector3 pt = PlayerCharacter->GetComponent<TransformComponent>()->Translation; // player transform
+	////Vector3 et = EnemyCharacter->GetComponent<TransformComponent>()->Translation; // enemy transform
+	//MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 20.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
+	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+	//MainCamera->Roll += 30.0f;
+	//MainCameraSystem->MainCamera = MainCamera;
+	//TheWorld.AddEntity(MainCameraActor);
+	//MainCameraActor->AddComponent<OscillationComponent>();
+
+	//TheWorld.AddEntity(MainCameraActor);
+
+	//Init_UI();
+	//Init_Map();
+	//Init_Chara();
+	//Init_Effect();
+	//Init_Sound();
+
+	//// 카메라 시스템 및 랜더링 시스템 추가.
+	//TheWorld.AddSystem(MainCameraSystem);
+	//TheWorld.AddSystem(new ColliderSystem);
+	//MainRenderSystem = new RenderSystem;
+	//MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	//TheWorld.AddSystem(MainRenderSystem);
+
+	//TheWorld.AddSystem(new WidgetRenderSystem);
+	//TheWorld.AddSystem(new MovementSystem);
+	//TheWorld.AddSystem(new UpdateAnimSystem);
+	//// SelectAnimSystem 추가
+	//TheWorld.AddSystem(new SelectAnimSystem);
+
+	//LightSystem* lightSystem = new LightSystem;
+	//lightSystem->MainCamera = MainCameraSystem->MainCamera;
+	//lightSystem->Initialize();
+	//TheWorld.AddSystem(lightSystem);
+
+	////MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
 	MainCamera = MainCameraActor->AddComponent<Camera>();
@@ -69,24 +109,21 @@ bool MultiBattleScene::Init()
 	//Vector3 et = EnemyCharacter->GetComponent<TransformComponent>()->Translation; // enemy transform
 	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 20.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	MainCamera->Roll += 30.0f;
+	MainCamera->Pitch += 30.0f;
 	MainCameraSystem->MainCamera = MainCamera;
+	MainCameraActor->AddComponent<OscillationComponent>();
+
 	TheWorld.AddEntity(MainCameraActor);
 
 	Init_UI();
 	Init_Map();
-	//Init_Chara();
+	Init_Chara();
 	Init_Effect();
 	Init_Sound();
 
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	TheWorld.AddSystem(MainCameraSystem);
 	TheWorld.AddSystem(new ColliderSystem);
-	MainRenderSystem = new RenderSystem;
-	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
-	TheWorld.AddSystem(MainRenderSystem);
-
-	TheWorld.AddSystem(new WidgetRenderSystem);
 	TheWorld.AddSystem(new MovementSystem);
 	TheWorld.AddSystem(new UpdateAnimSystem);
 	// SelectAnimSystem 추가
@@ -97,9 +134,18 @@ bool MultiBattleScene::Init()
 	lightSystem->Initialize();
 	TheWorld.AddSystem(lightSystem);
 
-	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+	MainRenderSystem = new RenderSystem;
+	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	TheWorld.AddSystem(MainRenderSystem);
 
+	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
+	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	TheWorld.AddSystem(skyRenderSystem);
 
+	TheWorld.AddSystem(new WidgetRenderSystem);
+
+	MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
 
 	return true;
 }
@@ -127,36 +173,6 @@ bool MultiBattleScene::Frame()
 		initTriger = false;
 	}
 
-	//KeyState btnA = Input::GetInstance()->getKey('A');
-	//if (btnA == KeyState::Hold || btnA == KeyState::Down)
-	//{
-	//	MainCamera->Yaw -= 0.1f;
-	//}
-	//KeyState btnD = Input::GetInstance()->getKey('D');
-	//if (btnD == KeyState::Hold || btnD == KeyState::Down)
-	//{
-	//	MainCamera->Yaw += 0.1f;
-	//}
-	//KeyState btnW = Input::GetInstance()->getKey('W');
-	//if (btnW == KeyState::Hold || btnW == KeyState::Down)
-	//{
-	//	MainCamera->Pitch -= 0.1f;
-	//}
-	//KeyState btnS = Input::GetInstance()->getKey('S');
-	//if (btnS == KeyState::Hold || btnS == KeyState::Down)
-	//{
-	//	MainCamera->Pitch += 0.1f;
-	//}
-	//KeyState btnQ = Input::GetInstance()->getKey('Q');
-	//if (btnQ == KeyState::Hold || btnQ == KeyState::Down)
-	//{
-	//	MainCamera->Pos += MainCamera->Look;
-	//}
-	//KeyState btnE = Input::GetInstance()->getKey('E');
-	//if (btnE == KeyState::Hold || btnE == KeyState::Down)
-	//{
-	//	MainCamera->Pos -= MainCamera->Look;
-	//}
 
 	KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 	if (btnLC == KeyState::Hold || btnLC == KeyState::Down)
