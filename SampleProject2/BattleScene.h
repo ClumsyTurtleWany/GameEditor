@@ -72,8 +72,7 @@ public:
 	WidgetObject* PlayerCurrenHP2;
 	WidgetObject* PlayerMaxHP1;
 	WidgetObject* PlayerMaxHP2;
-	WidgetObject* PlayerHPBar_Full;
-	WidgetObject* PlayerHPBar_Empty;
+	WidgetObject* PlayerHPBar;
 	WidgetObject* PlayerArmorIcon;
 	WidgetObject* PlayerArmor1;
 	WidgetObject* PlayerArmor2;

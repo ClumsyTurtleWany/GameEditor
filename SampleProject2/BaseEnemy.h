@@ -32,7 +32,9 @@ public:
 	WidgetObject* CurrentHP1;
 	WidgetObject* CurrentHP2;
 	WidgetObject* MaxHP1;
-	WidgetObject* MaxHP2;
+	WidgetObject* MaxHP2; 
+	WidgetObject* HPBar;
+
 	// 방어도도 해야하는데.. 귀찮으니까 좀 나중에
 	//WidgetObject* ArmorIcon;
 	//WidgetObject* Armor1;
