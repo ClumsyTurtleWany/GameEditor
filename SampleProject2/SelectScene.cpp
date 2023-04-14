@@ -8,12 +8,18 @@ bool SelectScene::Init()
 	Actor* UI = new Actor;
 	auto wc = UI->AddComponent<WidgetComponent>();
 	Loader.FileLoad(wc, L"../resource/UI/Save/Select.txt");
+
 	SinglePlayButton = wc->FindObj(L"SinglePlay");
 	MultiPlayButton = wc->FindObj(L"MultiPlay");
 	RoomMakeButton = wc->FindObj(L"RoomMake");
-	RoomMakeButton->m_bIsDead = true;
 	RoomFindButton = wc->FindObj(L"RoomFind");
+	LoadingImage = wc->FindObj(L"Loading");
+	CancleButton = wc->FindObj(L"Cancle");
+
+	RoomMakeButton->m_bIsDead = true;
 	RoomFindButton->m_bIsDead = true;
+	CancleButton->m_bIsDead = true;
+	LoadingImage->m_bIsDead = true;
 
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
@@ -26,6 +32,8 @@ bool SelectScene::Init()
 
 bool SelectScene::Frame()
 {
+	BaseScene::Frame();
+
 	if (SinglePlayButton->m_bClicked)
 	{
 		SinglePlayButton->m_bClicked = false;
@@ -43,10 +51,14 @@ bool SelectScene::Frame()
 		RoomFindButton->m_bIsDead = false;
 	}
 
+	// 방 만들기 버튼
 	else if (RoomMakeButton->m_bClicked)
 	{
 		RoomMakeButton->m_bClicked = false;
-		// 방 만들기 버튼 눌렀을 경우 요기가 실행
+		RoomMakeButton->m_bIsDead = true;
+		RoomFindButton->m_bIsDead = true;
+		CancleButton->m_bIsDead = false;
+		LoadingImage->m_bIsDead = false;
 
 		if (gpHost == nullptr)
 		{
@@ -57,15 +69,17 @@ bool SelectScene::Frame()
 		{
 			gpHost->GetService()->_listener->addAcceptEvent();
 		}
-
-		////취소 버튼 나오면 풀어주세요~
-		//gpHost->CancelAccept();
 	}
 
+	// 방 찾기 버튼
 	else if (RoomFindButton->m_bClicked)
 	{
 		RoomFindButton->m_bClicked = false;
-		// 방 찾기 버튼 눌렀을 경우 요기가 실행
+		RoomMakeButton->m_bIsDead = true;
+		RoomFindButton->m_bIsDead = true;
+		CancleButton->m_bIsDead = false;
+		LoadingImage->m_bIsDead = false;
+
 		if (gpClient == nullptr)
 		{
 			gpClient = new Client(L"127.0.0.1", 7777);
@@ -73,14 +87,23 @@ bool SelectScene::Frame()
 		}
 		else
 			gpClient->GetClientservice()->Reconnect();
-
-		////취소 버튼 나오면 풀어주세요~
-		//gpClient->CancelConnect();
 	}
 
-	// 연결 성공시 씬 변경, 일단은 바로 멀티 전투씬으로
-	//if (gpClient != nullptr && gpClient->IsConnected()) { SS = MULTIBATTLE; }  
+	// 취소 버튼 
+	else if (CancleButton->m_bClicked) 
+	{
+		CancleButton->m_bClicked = false;
+		RoomMakeButton->m_bIsDead = false;
+		RoomFindButton->m_bIsDead = false;
+		CancleButton->m_bIsDead = true;
+		LoadingImage->m_bIsDead = true;
 
+		gpClient->CancelConnect();
+	}
+
+
+
+	// 연결 성공시 씬 변경, 일단은 바로 멀티 전투씬으로
 	if (gpHost != nullptr && gpHost->IsConnected())
 	{
 		SS = MULTIBATTLE;
@@ -90,6 +113,5 @@ bool SelectScene::Frame()
 		SS = MULTIBATTLE;
 	}
 
-	BaseScene::Frame();
 	return true;
 }

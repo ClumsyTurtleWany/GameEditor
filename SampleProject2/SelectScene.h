@@ -11,5 +11,7 @@ public:
 	WidgetObject* MultiPlayButton;
 	WidgetObject* RoomMakeButton;
 	WidgetObject* RoomFindButton;
+	WidgetObject* CancleButton;
+	WidgetObject* LoadingImage;
 };
 

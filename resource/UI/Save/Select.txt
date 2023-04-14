@@ -1,7 +1,7 @@
 Type	0
 ID	1
 Name	BG
-OrginPos	-0.036248 -1.188887
+OrginPos	0.017500 -0.935555
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
@@ -56,11 +56,23 @@ CutInfo	2 | 160.000000 40.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitH
 CutInfo	3 | 160.000000 40.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\RoomFind.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	8
+ID	6
 Name	Loading
 OrginPos	0.862501 -0.784445
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
 CutInfo	0 | 100.000000 100.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\LC.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	1
+ID	7
+Name	Cancle
+OrginPos	0.000000 -0.100000
+Depth	0.000000
+Alpha	1.000000
+CutNum	4
+CutInfo	0 | 160.000000 40.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Cancle.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	1 | 176.000000 44.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Cancle.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	2 | 160.000000 40.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Cancle.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	3 | 160.000000 40.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Cancle.png | ../../data/shader/DefaultObject_Orgin.txt
 =
