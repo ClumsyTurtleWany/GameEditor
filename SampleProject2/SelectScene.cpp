@@ -100,7 +100,8 @@ bool SelectScene::Frame()
 		CancleButton->m_bIsDead = true;
 		LoadingImage->m_bIsDead = true;
 
-		gpClient->CancelConnect();
+		if(gpClient != nullptr) gpClient->CancelConnect();
+		else if (gpHost != nullptr) gpHost->CancelAccept();
 	}
 
 	// 연결 성공시 씬 변경, 일단은 바로 멀티 전투씬으로

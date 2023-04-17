@@ -347,7 +347,7 @@ void MultiBattleScene::Init_Chara()
 	PlayerCharacter = new Character;
 	player1->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
-	/*if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx"))
 	{
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Adam_fbx/Adam.fbx", playerCharMeshComp);
 	}
@@ -428,11 +428,11 @@ void MultiBattleScene::Init_Chara()
 	}
 	auto Char2PAnimComp = Chara_2P->AddComponent<AnimationComponent>();
 
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Run.clp", Char2PAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Idle.clp", Char2PAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Punch.clp", Char2PAnimComp, false);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Hit.clp", Char2PAnimComp, false);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Dying.clp", Char2PAnimComp, false);
+	//FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Run.clp", Char2PAnimComp);
+	//FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Idle.clp", Char2PAnimComp);
+	//FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Punch.clp", Char2PAnimComp, false);
+	//FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Hit.clp", Char2PAnimComp, false);
+	//FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Dying.clp", Char2PAnimComp, false);
 
 	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX"))
 	//{
@@ -473,9 +473,9 @@ void MultiBattleScene::Init_Chara()
 	Character* PlayerCharacter_B = new Character;
 	enemy2->chara = PlayerCharacter_B;
 	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
-	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
+	//FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
 
-	/*if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX"))
 	{
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX", player_BCharMeshComp);
 	}
