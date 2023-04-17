@@ -24,12 +24,14 @@ class FBXLoader : public Singleton<FBXLoader>
 private:
 	friend class Singleton<FBXLoader>;
 
-	FbxManager*		m_pManager = nullptr;
-	FbxImporter*	m_pImporter = nullptr;
-	
-	std::wstring	ResourceDirection = L"";
+	FbxManager* m_pManager = nullptr;
+	FbxImporter* m_pImporter = nullptr;
 
+	std::wstring	ResourceDirection = L"";
 	std::map<std::wstring, FBXFileData*> FbxFileList;
+
+public:
+	std::map<std::wstring, FBXFileData*>* GetList() { return &FbxFileList; }
 
 public:
 	virtual bool Initialize();
@@ -44,7 +46,7 @@ private:
 	bool ParseDummy(FbxNull* dummy, FBXFileData* dst);
 	bool ParseSkeleton(FbxSkeleton* skeleton, FBXFileData* dst);
 	bool PreProcess(FBXFileData* dst);
-	
+
 	// Read Data
 	bool ReadTextureCoord(FbxLayerElementUV* uv, int vertexIdx, int uvIdx, FbxVector2& dst);
 	bool ReadColorCoord(FbxLayerElementVertexColor* color, int vertexIdx, int colorIdx, FbxColor& dst);
@@ -130,6 +132,13 @@ public:
 	bool GenerateStaticMeshFromFileData(std::wstring filename, StaticMeshComponent* dst);
 	bool GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst);
 	// 추가
-	bool GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst,bool Loop = true);
+	bool GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst, bool Loop = true);
+
+public:
+	// FBX 자체 포맷 LOAD
+	bool LoadSkeletalMesh(std::string filename, SkeletalMeshComponent* SKM);
+	bool LoadAnimClip(std::string filename, AnimationComponent* ANIM, bool Loop = true);
+
+
 
 };

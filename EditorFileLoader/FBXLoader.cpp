@@ -1,5 +1,25 @@
 #include "FBXLoader.hpp"
 #include "MaterialManager.h"
+#include <fstream>
+
+static std::wstring to_mw(const std::string& _src)
+{
+	if (_src.empty()) return std::wstring();
+	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &_src[0], (int)_src.size(), NULL, 0);
+	std::wstring wstrTo(size_needed, 0);
+	MultiByteToWideChar(CP_UTF8, 0, &_src[0], (int)_src.size(), &wstrTo[0], size_needed);
+	return wstrTo;
+};
+
+static std::string to_wm(const std::wstring& _src)
+{
+	if (_src.empty()) return std::string();
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &_src[0], (int)_src.size(), NULL, 0, NULL, NULL);
+	std::string strTo(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, &_src[0], (int)_src.size(), &strTo[0], size_needed, NULL, NULL);
+	return strTo;
+
+};
 
 bool FBXLoader::Initialize()
 {
@@ -29,7 +49,7 @@ bool FBXLoader::Release()
 		m_pImporter->Destroy();
 		m_pImporter = nullptr;
 	}
-	
+
 	if (m_pManager != nullptr)
 	{
 		m_pManager->Destroy();
@@ -221,48 +241,48 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 		NodeData.AttributeType = pAttribute->GetAttributeType();
 		switch (NodeData.AttributeType)
 		{
-			case FbxNodeAttribute::EType::eNull: // 보통 Root 노드는 NULL을 가짐.
+		case FbxNodeAttribute::EType::eNull: // 보통 Root 노드는 NULL을 가짐.
+		{
+			isValid = true;
+			//FbxNull* pDummy = _node->GetNull();
+			NodeData.Dummy = node->GetNull();
+			if (NodeData.Dummy != nullptr)
 			{
-				isValid = true;
-				//FbxNull* pDummy = _node->GetNull();
-				NodeData.Dummy = node->GetNull();
-				if (NodeData.Dummy != nullptr)
-				{
-					// Dummy: 자식 오브젝트의 원점과 부모 오브젝트의 원점을 맞춰주기 위한 정보.
-					//ParseDummy(pDummy, _dst);
-					dst->DummyList.push_back(NodeData.Dummy);
-				}
-				break;
+				// Dummy: 자식 오브젝트의 원점과 부모 오브젝트의 원점을 맞춰주기 위한 정보.
+				//ParseDummy(pDummy, _dst);
+				dst->DummyList.push_back(NodeData.Dummy);
 			}
+			break;
+		}
 
-			case FbxNodeAttribute::EType::eSkeleton:
+		case FbxNodeAttribute::EType::eSkeleton:
+		{
+			isValid = true;
+			//FbxSkeleton* pSkeleton = _node->GetSkeleton();
+			NodeData.Skeleton = node->GetSkeleton();
+			if (NodeData.Skeleton != nullptr)
 			{
-				isValid = true;
-				//FbxSkeleton* pSkeleton = _node->GetSkeleton();
-				NodeData.Skeleton = node->GetSkeleton();
-				if (NodeData.Skeleton != nullptr)
-				{
-					// Skeleton: 애니메이션을 위한 정보
-					//ParseSkeleton(pSkeleton, _dst);
-					dst->SkeletonList.push_back(NodeData.Skeleton);
-				}
-				break;
+				// Skeleton: 애니메이션을 위한 정보
+				//ParseSkeleton(pSkeleton, _dst);
+				dst->SkeletonList.push_back(NodeData.Skeleton);
 			}
+			break;
+		}
 
-			case FbxNodeAttribute::EType::eMesh:
+		case FbxNodeAttribute::EType::eMesh:
+		{
+			isValid = true;
+			//FbxMesh* pMesh = _node->GetMesh();
+			NodeData.FMesh = node->GetMesh();
+			if (NodeData.FMesh != nullptr)
 			{
-				isValid = true;
-				//FbxMesh* pMesh = _node->GetMesh();
-				NodeData.FMesh = node->GetMesh();
-				if (NodeData.FMesh != nullptr)
-				{
-					// Mesh: 랜더 가능한 데이터
-					// Scene graph 형식(트리에 모든 정보를 다 넣어서 저장 후 사용 및 랜더링하는 방식) 이라고 부름.
-					//ParseMesh(pMesh, _dst);
-					dst->MeshList.push_back(NodeData.FMesh);
-				}
-				break;
+				// Mesh: 랜더 가능한 데이터
+				// Scene graph 형식(트리에 모든 정보를 다 넣어서 저장 후 사용 및 랜더링하는 방식) 이라고 부름.
+				//ParseMesh(pMesh, _dst);
+				dst->MeshList.push_back(NodeData.FMesh);
 			}
+			break;
+		}
 		}
 	}
 
@@ -332,6 +352,62 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 				material = MaterialManager::GetInstance()->GetMaterial(L"Default");
 			}
 			NodeData.MaterialList.push_back(material);
+
+			std::string filename = "../resource/FBX/MTL/";
+			filename += to_wm(materialName);
+			filename += ".mtl";
+
+			std::ofstream mtl(filename, std::ios::binary);
+			if (mtl.is_open())
+			{
+				int size;// = materialName.size() + 1;
+				//mtl.write(reinterpret_cast<const char*>(&size), sizeof(int));
+				//
+				std::string temp;// = to_wm(materialName);
+				//mtl.write(reinterpret_cast<const char*>(temp.c_str()), size);
+
+
+				size = material->DiffuseTextureName.size() + 1;
+				mtl.write(reinterpret_cast<const char*>(&size), sizeof(int));
+				if (!material->DiffuseTextureName.empty())
+				{
+					temp = to_wm(material->DiffuseTextureName);
+					mtl.write(reinterpret_cast<const char*>(temp.c_str()), size);
+				}
+
+				size = material->NormalTextureName.size() + 1;
+				mtl.write(reinterpret_cast<const char*>(&size), sizeof(int));
+				if (!material->NormalTextureName.empty())
+				{
+					temp = to_wm(material->NormalTextureName);
+					mtl.write(reinterpret_cast<const char*>(temp.c_str()), size);
+				}
+
+				size = material->AmbientTextureName.size() + 1;
+				mtl.write(reinterpret_cast<const char*>(&size), sizeof(int));
+				if (!material->AmbientTextureName.empty())
+				{
+					temp = to_wm(material->AmbientTextureName);
+					mtl.write(reinterpret_cast<const char*>(temp.c_str()), size);
+				}
+
+				size = material->SpecularTextureName.size() + 1;
+				mtl.write(reinterpret_cast<const char*>(&size), sizeof(int));
+				if (!material->SpecularTextureName.empty())
+				{
+					temp = to_wm(material->SpecularTextureName);
+					mtl.write(reinterpret_cast<const char*>(temp.c_str()), size);
+				}
+
+				size = material->EmissiveTextureName.size() + 1;
+				mtl.write(reinterpret_cast<const char*>(&size), sizeof(int));
+				if (!material->EmissiveTextureName.empty())
+				{
+					temp = to_wm(material->EmissiveTextureName);
+					mtl.write(reinterpret_cast<const char*>(temp.c_str()), size);
+				}
+				mtl.close();
+			}
 		}
 
 		dst->NodeDataList.push_back(NodeData);
@@ -348,7 +424,7 @@ bool FBXLoader::ParseNode(FbxNode* node, FBXFileData* dst)
 		{
 		}
 	}
-	
+
 	return isValid;
 }
 
@@ -359,7 +435,7 @@ bool FBXLoader::PreProcess(FBXFileData* dst)
 
 	}
 
-	for (auto &it : dst->NodeDataList)
+	for (auto& it : dst->NodeDataList)
 	{
 		if (!ParseDummy(it.Dummy, dst))
 		{
@@ -397,9 +473,9 @@ bool FBXLoader::ParseMesh(FbxMesh* mesh, FBXFileData* dst, FBXNodeData* dstData)
 		dstData->MeshList.resize(1);
 	}
 
-	if (ParseMeshSkinning(mesh, dst , dstData))
+	if (ParseMeshSkinning(mesh, dst, dstData))
 	{
-		
+
 	}
 
 	// Layer 개념 필요. 여러번에 걸쳐 동일한 곳에 랜더링 하는것 == 멀티 패스 랜더링. 텍스쳐로 치환하면 멀티 텍스처 랜더링.
@@ -408,7 +484,7 @@ bool FBXLoader::ParseMesh(FbxMesh* mesh, FBXFileData* dst, FBXNodeData* dstData)
 	std::vector<FbxLayerElementMaterial*> materialList;
 	std::vector<FbxLayerElementNormal*> normalList;
 	std::vector<FbxLayerElementTangent*> tangentList;
-	
+
 	int layerCount = mesh->GetLayerCount();
 	for (int layerIdx = 0; layerIdx < layerCount; layerIdx++)
 	{
@@ -595,7 +671,7 @@ bool FBXLoader::ParseMesh(FbxMesh* mesh, FBXFileData* dst, FBXNodeData* dstData)
 								IWDatas.Index.w = dstData->BindPoseKeyToIndexMap.find(SkinWeightList[SkinWeightIdx].BoneName)->second;
 								IWDatas.Weight.w = SkinWeightList[SkinWeightIdx].weight;
 							}
-							
+
 						}
 						else
 						{
@@ -738,7 +814,7 @@ bool FBXLoader::ParseMeshSkinning(FbxMesh* mesh, FBXFileData* dst, FBXNodeData* 
 			//_dst->BindPoseMap.insert(std::make_pair(BoneIndex, matInvBindPose)); // 상수 버퍼 적용 전에 곱해 주고
 			dstData->BindPoseMap.insert(std::make_pair(LinkedNodeName, matInvBindPose)); // 상수 버퍼 적용 전에 곱해 주고
 		}
-		
+
 	}
 
 	int BindPoseIdx = 0;
@@ -795,57 +871,57 @@ bool FBXLoader::ReadTextureCoord(FbxLayerElementUV* uv, int vertexIdx, int uvIdx
 	// eIndexToDirect: 인덱스에 저장되어 있음. 
 	switch (uv->GetMappingMode())
 	{
-		case FbxLayerElementUV::eByControlPoint:
+	case FbxLayerElementUV::eByControlPoint:
+	{
+		// 정점 마다 UV가 1개씩 있으니 해당 Vertex에서 정보를 가져옴.
+		switch (uv->GetReferenceMode())
 		{
-			// 정점 마다 UV가 1개씩 있으니 해당 Vertex에서 정보를 가져옴.
-			switch (uv->GetReferenceMode())
-			{
-				case FbxLayerElementUV::eDirect:
-				{
-					FbxVector2 fbxUv = uv->GetDirectArray().GetAt(vertexIdx); 
-					dst.mData[0] = fbxUv.mData[0];
-					dst.mData[1] = fbxUv.mData[1];
-					break;
-				}
-				case FbxLayerElementUV::eIndexToDirect:
-				{
-					int id = uv->GetIndexArray().GetAt(vertexIdx);
-					FbxVector2 fbxUv = uv->GetDirectArray().GetAt(id);
-					dst.mData[0] = fbxUv.mData[0];
-					dst.mData[1] = fbxUv.mData[1];
-					break;
-				}
-			}
+		case FbxLayerElementUV::eDirect:
+		{
+			FbxVector2 fbxUv = uv->GetDirectArray().GetAt(vertexIdx);
+			dst.mData[0] = fbxUv.mData[0];
+			dst.mData[1] = fbxUv.mData[1];
 			break;
 		}
-		case FbxLayerElementUV::eByPolygonVertex:
+		case FbxLayerElementUV::eIndexToDirect:
 		{
-			// 폴리곤에 하나 있으니 다이렉트로 가져와도 된다.
-			switch (uv->GetReferenceMode())
-			{
-				case FbxLayerElementUV::eDirect:
-				//{
-				//	FbxVector2 fbxUv = _uv->GetDirectArray().GetAt(_uvIdx);
-				//	_dst.mData[0] = fbxUv.mData[0];
-				//	_dst.mData[1] = fbxUv.mData[1];
-				//	break;
-				//}
-				case FbxLayerElementUV::eIndexToDirect:
-				{
-					//int id = _uv->GetIndexArray().GetAt(_uvIdx);
-					//FbxVector2 fbxUv = _uv->GetDirectArray().GetAt(id);
-					//_dst.mData[0] = fbxUv.mData[0];
-					//_dst.mData[1] = fbxUv.mData[1];
+			int id = uv->GetIndexArray().GetAt(vertexIdx);
+			FbxVector2 fbxUv = uv->GetDirectArray().GetAt(id);
+			dst.mData[0] = fbxUv.mData[0];
+			dst.mData[1] = fbxUv.mData[1];
+			break;
+		}
+		}
+		break;
+	}
+	case FbxLayerElementUV::eByPolygonVertex:
+	{
+		// 폴리곤에 하나 있으니 다이렉트로 가져와도 된다.
+		switch (uv->GetReferenceMode())
+		{
+		case FbxLayerElementUV::eDirect:
+			//{
+			//	FbxVector2 fbxUv = _uv->GetDirectArray().GetAt(_uvIdx);
+			//	_dst.mData[0] = fbxUv.mData[0];
+			//	_dst.mData[1] = fbxUv.mData[1];
+			//	break;
+			//}
+		case FbxLayerElementUV::eIndexToDirect:
+		{
+			//int id = _uv->GetIndexArray().GetAt(_uvIdx);
+			//FbxVector2 fbxUv = _uv->GetDirectArray().GetAt(id);
+			//_dst.mData[0] = fbxUv.mData[0];
+			//_dst.mData[1] = fbxUv.mData[1];
 
-					FbxVector2 fbxUv = uv->GetDirectArray().GetAt(uvIdx); // 다이렉트로 가져오면 됨.
-					dst.mData[0] = fbxUv.mData[0];
-					dst.mData[1] = fbxUv.mData[1];
-					break;
-				}
-			}
+			FbxVector2 fbxUv = uv->GetDirectArray().GetAt(uvIdx); // 다이렉트로 가져오면 됨.
+			dst.mData[0] = fbxUv.mData[0];
+			dst.mData[1] = fbxUv.mData[1];
 			break;
 		}
-		
+		}
+		break;
+	}
+
 	}
 
 	return true;
@@ -1162,7 +1238,7 @@ DXTexture* FBXLoader::FindTexture(FbxSurfaceMaterial* surface, const char* name,
 	// 텍스처 정보를 가져오기 위한 것. 보통 1개의 Surface에 24개 이상의 텍스쳐가 붙어 있다.(24종 이상의 텍스쳐 방식이 존재한다.)
 	// 텍스쳐 맵을 가지고 있다(ex. 마스크 텍스처처럼 알파를 가진 놈들 등 여러가지 종류가 있음.)
 	std::string textureName;
-	auto prop = surface->FindProperty(name); 
+	auto prop = surface->FindProperty(name);
 	if (prop.IsValid())
 	{
 		const FbxFileTexture* fbxFile = prop.GetSrcObject<FbxFileTexture>();
@@ -1207,7 +1283,7 @@ DXTexture* FBXLoader::FindTexture(FbxSurfaceMaterial* surface, const char* name,
 			}
 		}
 	}
-	
+
 	return nullptr;
 }
 
@@ -1442,7 +1518,11 @@ bool FBXLoader::GenerateStaticMeshFromFileData(std::wstring filename, StaticMesh
 	{
 		return false;
 	}
-		
+	std::filesystem::path path(filename);
+	std::wstring FBXname = path.filename();
+
+
+	dst->FBXName = FBXname;
 	FBXFileData* pData = it->second;
 	for (auto& node : pData->NodeDataList)
 	{
@@ -1456,7 +1536,7 @@ bool FBXLoader::GenerateStaticMeshFromFileData(std::wstring filename, StaticMesh
 			{
 				continue;
 			}
-		
+
 			size_t meshCnt = node.MeshList.size();
 			for (size_t idx = 0; idx < meshCnt; idx++)
 			{
@@ -1468,15 +1548,21 @@ bool FBXLoader::GenerateStaticMeshFromFileData(std::wstring filename, StaticMesh
 				{
 					std::wstring materialName;
 					materialName.assign(node.Name.begin(), node.Name.end());
-					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
+					if (idx >= 1)
+					{
+						std::wstring subMaterial = std::to_wstring(idx);
+						materialName += subMaterial;
+					}
+					node.MeshList[idx].MaterialName = materialName;
+					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(node.MeshList[idx].MaterialName);
 				}
-				
-				dst->Meshes.push_back(node.MeshList[idx]);				
+
+				dst->Meshes.push_back(node.MeshList[idx]);
 			}
-					
+
 		}
 	}
-		
+
 	for (auto& it : dst->Meshes)
 	{
 		it.Initialize();
@@ -1492,8 +1578,11 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 	{
 		return false;
 	}
+	std::filesystem::path path(filename);
+	std::wstring FBXname = path.filename();
 
 	FBXFileData* pData = it->second;
+	dst->FBXName = FBXname;
 	// Root Node Name 할당(?)
 	dst->Name = pData->NodeNameList.front();
 
@@ -1531,8 +1620,17 @@ bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, Skeletal
 					{
 						std::wstring subMaterial = std::to_wstring(idx);
 						materialName += subMaterial;
-					}					
-					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);
+					}
+					node.MeshList[idx].MaterialName = materialName;
+					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(node.MeshList[idx].MaterialName);
+					/*std::wstring materialName;
+					materialName.assign(node.Name.begin(), node.Name.end());
+					if (idx >= 1)
+					{
+						std::wstring subMaterial = std::to_wstring(idx);
+						materialName += subMaterial;
+					}
+					node.MeshList[idx].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(materialName);*/
 				}
 
 				dst->Meshes.push_back(node.MeshList[idx]);
@@ -1581,3 +1679,253 @@ bool FBXLoader::GenerateAnimationFromFileData(std::wstring filename, AnimationCo
 	return true;
 }
 
+bool FBXLoader::LoadSkeletalMesh(std::string filename, SkeletalMeshComponent* SKM)
+{
+	std::ifstream skm_in(filename, std::ios::binary);
+	if (skm_in.is_open())
+	{
+		int meshCnt = 0;
+		skm_in.read(reinterpret_cast<char*>(&meshCnt), sizeof(int));
+		SKM->Meshes.resize(meshCnt);
+		for (int i = 0; i < meshCnt; i++)
+		{
+			int name_size;
+			skm_in.read(reinterpret_cast<char*>(&name_size), sizeof(int));
+			char temp[256];
+			skm_in.read(reinterpret_cast<char*>(&temp[0]), name_size);
+			SKM->Meshes[i].Name = to_mw(temp);
+
+			int matname_size;
+			skm_in.read(reinterpret_cast<char*>(&matname_size), sizeof(int));
+			skm_in.read(reinterpret_cast<char*>(&temp[0]), matname_size);
+			SKM->Meshes[i].MaterialName = to_mw(temp);
+
+			int vertices_size;
+			skm_in.read(reinterpret_cast<char*>(&vertices_size), sizeof(int));
+			SKM->Meshes[i].Vertices.resize(vertices_size);
+			skm_in.read(reinterpret_cast<char*>(&SKM->Meshes[i].Vertices[0]), sizeof(Vertex) * vertices_size);
+			int faces_size;
+			skm_in.read(reinterpret_cast<char*>(&faces_size), sizeof(int));
+			if (faces_size > 0)
+			{
+				SKM->Meshes[i].Faces.resize(faces_size);
+				skm_in.read(reinterpret_cast<char*>(&SKM->Meshes[i].Faces[0]), sizeof(Face) * faces_size);
+			}
+
+			int indices_size;
+			skm_in.read(reinterpret_cast<char*>(&indices_size), sizeof(int));
+			if (indices_size > 0)
+			{
+				SKM->Meshes[i].Indices.resize(indices_size);
+				skm_in.read(reinterpret_cast<char*>(&SKM->Meshes[i].Indices[0]), sizeof(DWORD) * indices_size);
+			}
+
+			int iw_size;
+			skm_in.read(reinterpret_cast<char*>(&iw_size), sizeof(int));
+			if (iw_size > 0)
+			{
+				SKM->Meshes[i].SkinningIWList.resize(iw_size);
+				skm_in.read(reinterpret_cast<char*>(&SKM->Meshes[i].SkinningIWList[0]), sizeof(IWData) * iw_size);
+			}
+
+		}
+		int fbxname_size;
+		skm_in.read(reinterpret_cast<char*>(&fbxname_size), sizeof(int));
+		std::string temp;
+		temp.resize(fbxname_size);
+		skm_in.read(reinterpret_cast<char*>(&temp[0]), fbxname_size);
+		SKM->FBXName = to_mw(temp);
+
+		int meshname_size;
+		skm_in.read(reinterpret_cast<char*>(&meshname_size), sizeof(int));
+		SKM->Name.resize(meshname_size);
+		skm_in.read(reinterpret_cast<char*>(&SKM->Name[0]), meshname_size);
+		int bpmap_size;
+		skm_in.read(reinterpret_cast<char*>(&bpmap_size), sizeof(int));
+		for (int i = 0; i < bpmap_size; i++)
+		{
+			int bonename_size;
+			std::string bone;
+			Matrix mat;
+
+			skm_in.read(reinterpret_cast<char*>(&bonename_size), sizeof(int));
+			bone.resize(bonename_size);
+			skm_in.read(reinterpret_cast<char*>(&bone[0]), bonename_size);
+			skm_in.read(reinterpret_cast<char*>(&mat), sizeof(Matrix));
+
+			///add-
+			int pointer = bone.size() - 1;
+			if (bone[pointer] == NULL)
+			{
+				bone.pop_back();
+			}
+			///-add
+
+			SKM->BindPoseMap.insert(std::make_pair(bone, mat));
+			SKM->BindPoseKeyToIndexMap.insert(std::make_pair(bone, i));
+		}
+
+		for (int i = 0; i < meshCnt; i++)
+		{
+			std::string mtlname = "../resource/FBX/MTL/";
+			mtlname += to_wm(SKM->Meshes[i].MaterialName);
+			mtlname += ".mtl";
+
+			std::ifstream mtl_in(mtlname, std::ios::binary);
+			if (mtl_in.is_open())
+			{
+				Material* material = MaterialManager::GetInstance()->CreateMaterial(SKM->Meshes[i].MaterialName);
+				material->Type = MaterialType::Light;
+
+				int size;
+				std::string temp;
+				std::wstring _mtlPath = L"../resource/FBX/MTL/";
+				std::wstring _mtlName;
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->DiffuseTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->NormalTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->AmbientTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->SpecularTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->EmissiveTextureName = _mtlPath + _mtlName;
+				}
+
+				if (!material->Create())
+				{
+					material = MaterialManager::GetInstance()->GetMaterial(L"Default");
+				}
+
+				mtl_in.close();
+			}
+			SKM->Meshes[i].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(SKM->Meshes[i].MaterialName);
+			//SKM->Meshes[i].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(L"Default");
+			SKM->Meshes[i].Initialize();
+		}
+		SKM->isCreated = false;
+		SKM->Initialize();
+
+		skm_in.close();
+
+	}
+
+	return true;
+}
+
+bool FBXLoader::LoadAnimClip(std::string filename, AnimationComponent* ANIM, bool Loop)
+{
+
+	std::ifstream CLP_in(filename, std::ios::binary);
+	if (CLP_in.is_open())
+	{
+		AnimationClip* newClip = new AnimationClip;
+
+		unsigned int uint;
+		CLP_in.read(reinterpret_cast<char*>(&uint), sizeof(unsigned int));
+		newClip->StartFrame = uint;
+		CLP_in.read(reinterpret_cast<char*>(&uint), sizeof(unsigned int));
+		newClip->EndFrame = uint;
+		float f;
+		CLP_in.read(reinterpret_cast<char*>(&f), sizeof(float));
+		newClip->TickPerFrame = f;
+		CLP_in.read(reinterpret_cast<char*>(&f), sizeof(float));
+		newClip->FrameSpeed = f;
+		bool b;
+		CLP_in.read(reinterpret_cast<char*>(&b), sizeof(bool));
+		newClip->LoopState = b;
+
+		int map_size;
+		CLP_in.read(reinterpret_cast<char*>(&map_size), sizeof(int));
+		for (int i = 0; i < map_size; i++)
+		{
+			int bonename_size;
+			std::string bone;
+			std::vector<Matrix> mat_list;
+
+			CLP_in.read(reinterpret_cast<char*>(&bonename_size), sizeof(int));
+			bone.resize(bonename_size);
+			CLP_in.read(reinterpret_cast<char*>(&bone[0]), bonename_size);
+			int list_size;
+			CLP_in.read(reinterpret_cast<char*>(&list_size), sizeof(int));
+			for (int i = 0; i < list_size; i++)
+			{
+				Matrix mat;
+				CLP_in.read(reinterpret_cast<char*>(&mat), sizeof(Matrix));
+				mat_list.push_back(mat);
+			}
+			int pointer = bone.size() - 1;
+			if (bone[pointer] == NULL)
+			{
+				bone.pop_back();
+			}
+
+			newClip->LerpFrameMatrixList.insert(std::make_pair(bone, mat_list));
+		}
+
+		int filename_size;
+		std::string temp;
+		CLP_in.read(reinterpret_cast<char*>(&filename_size), sizeof(int));
+		temp.resize(filename_size);
+		CLP_in.read(reinterpret_cast<char*>(&temp[0]), filename_size);
+
+		///add-
+		newClip->FileName = to_mw(temp);
+		int pointer = newClip->FileName.size() - 1;
+		if (newClip->FileName[pointer] == NULL)
+		{
+			newClip->FileName.pop_back();
+		}
+		///-add
+
+		//newClip->FileName = to_mw(temp);
+
+		newClip->LoopState = Loop;	// Default = true
+
+		CLP_in.close();
+
+		ANIM->AddClip(newClip->FileName, newClip);
+
+	}
+	return true;
+}

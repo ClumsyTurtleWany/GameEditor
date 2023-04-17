@@ -38,7 +38,7 @@ bool BattleScene::Init()
 	player->hp = 50;
 	enemy1 = new Enemy_1;
 	enemy1->pWorld = &TheWorld;
-	enemy1->Init(); 
+	enemy1->Init();
 	enemy1->NumberTextureList_Red = NumberTextureList_Red;
 	enemy1->NumberTextureList_Black = NumberTextureList_Black;
 	EnemyList.push_back(enemy1);
@@ -191,7 +191,7 @@ bool BattleScene::Frame()
 
 
 	PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
-	for (auto enemy : EnemyList) 
+	for (auto enemy : EnemyList)
 	{
 		if (PickedCharacter == enemy->chara)
 		{
@@ -203,7 +203,7 @@ bool BattleScene::Frame()
 		}
 		else
 		{
-			if (enemy != TargetEnemy) 
+			if (enemy != TargetEnemy)
 			{
 				for (auto obj : enemy->ObjList)
 				{
@@ -213,7 +213,7 @@ bool BattleScene::Frame()
 		}
 	}
 
-	if (PickedCharacter != nullptr) 
+	if (PickedCharacter != nullptr)
 	{
 		int a = 10;
 	}
@@ -226,7 +226,7 @@ bool BattleScene::Render()
 	BaseScene::Render();
 
 	// 남은 카드 확인 or 버린 카드 확인 버튼 클릭시 씬 전환 (카드 보는 씬으로)
-	if (RemainCardButton->m_bClicked){ SS = REMAINVIEW; RemainCardButton->m_bClicked = false; }
+	if (RemainCardButton->m_bClicked) { SS = REMAINVIEW; RemainCardButton->m_bClicked = false; }
 	if (DiscardButton->m_bClicked) { SS = DISCARDVIEW; DiscardButton->m_bClicked = false; }
 
 	//대충 여기서 뭔가 돌아가면 될성싶은디
@@ -238,7 +238,7 @@ bool BattleScene::Render()
 bool BattleScene::Release()
 {
 	BaseScene::Release();
-    return true;
+	return true;
 }
 
 void BattleScene::Init_UI()
@@ -309,23 +309,23 @@ void BattleScene::Init_UI()
 	CardPosList[0].push_back({ CSS + CSW * 1 / 2, CH });	// 1장일때 위치
 	CardPosList[0].push_back({ CSS + CSW * 1 / 3, CH });	// 2장일때
 	CardPosList[0].push_back({ CSS + CSW * 1 / 4, CH });	// 3장일때
-	CardPosList[1].push_back(CFS);				  
+	CardPosList[1].push_back(CFS);
 	CardPosList[1].push_back({ CSS + CSW * 2 / 3, CH });
 	CardPosList[1].push_back({ CSS + CSW * 2 / 4, CH });
-	CardPosList[2].push_back(CFS);				  
-	CardPosList[2].push_back(CFS);				  
+	CardPosList[2].push_back(CFS);
+	CardPosList[2].push_back(CFS);
 	CardPosList[2].push_back({ CSS + CSW * 3 / 4, CH });
 }
 
 void BattleScene::Init_Map()
-{	
+{
 	//// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
 	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
 	landscapeComponents->Build(16, 16, 7, 10);
 	landscapeComponents->SetCamera(MainCameraSystem->MainCamera);
 	TheWorld.AddEntity(landscape);
-	
+
 	// Sky Dome 추가.
 	Actor* skyDomeActor = new Actor;
 	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
@@ -400,7 +400,7 @@ void BattleScene::Init_Map()
 		auto transform = container->GetComponent<TransformComponent>();
 		transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
 		transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-		transform->Translation = Vector3(500.0f , 0.0f, -500.0f + static_cast<float>(cnt) * 125);
+		transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
 		TheWorld.AddEntity(container);
 	}
 
@@ -417,7 +417,7 @@ void BattleScene::Init_Map()
 	////transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
 	//TheWorld.AddEntity(containerShip);
 
-	
+
 }
 
 void BattleScene::Init_Chara()
@@ -425,35 +425,18 @@ void BattleScene::Init_Chara()
 	PlayerCharacter = new Character;
 	player->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
+	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Adam/Adam.skm", playerCharMeshComp);
 
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx")) 
-	{
-		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Adam_fbx/Adam.fbx", playerCharMeshComp);
-	}
-
-	// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
 	// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
 	auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Run.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Run.fbx", playerCharAnimComp);				// 달리기
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Idle.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Idle.fbx", playerCharAnimComp);				// 아이들
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Shooting.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Shooting.fbx", playerCharAnimComp,false);				// 공격
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Hit.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Hit.fbx", playerCharAnimComp,false);		// 피격
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam_anim/Dying.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Dying.fbx", playerCharAnimComp, false);				// 사망
-	}
+
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Run.clp", playerCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Idle.clp", playerCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Shooting.clp", playerCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Hit.clp", playerCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Dying.clp", playerCharAnimComp, false);
+
+
 	playerCharAnimComp->SetClipByName(L"Idle");
 
 	// 소켓 컴포넌트 추가
@@ -461,18 +444,18 @@ void BattleScene::Init_Chara()
 	// 스켈레탈 메시 & 본 이름 넘겨서 소켓 부착
 	socketComp->Attach(*playerCharMeshComp, "RightHand");
 	// 오프셋 조정 T R S
-	socketComp->SetOffset(Vector3(2.0f, 2.0f, 0.0f), 
-						  Vector3(-75.0f, -90.0f, -0.0f), 
-						  Vector3(1.0f, 1.0f, 1.0f)); 
+	socketComp->SetOffset(Vector3(2.0f, 2.0f, 0.0f),
+		Vector3(-75.0f, -90.0f, -0.0f),
+		Vector3(1.0f, 1.0f, 1.0f));
 
 	// 무기로 쓸 스태틱 메시 추가 - 
 	//엔티티가 소켓 컴포넌트를 갖고있으면 소켓 위치에 따라 스태틱 메시의 위치가 업데이트 되도록 렌더 시스템 설정
 	auto weaponMesh = PlayerCharacter->AddComponent<StaticMeshComponent>();
 
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX"))
+	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam/Pistol_fbx/Pistol.FBX"))
 	{
 		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(
-							L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX", weaponMesh);
+			L"../resource/FBX/Adam/Pistol_fbx/Pistol.FBX", weaponMesh);
 	}
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
@@ -493,43 +476,34 @@ void BattleScene::Init_Chara()
 	playerCameraArm->Pitch = 35.0f;
 	playerCameraArm->Yaw = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
-	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	TheWorld.AddEntity(PlayerCharacter);
+
+	//MainCamera = PlayerCharacter->AddComponent<Camera>();
+	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
 	
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////////캐릭터 추가//////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	TheWorld.AddEntity(PlayerCharacter);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////캐릭터 추가//////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	Character* PlayerCharacter_B = new Character;
 	enemy2->chara = PlayerCharacter_B;
 
 	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX", player_BCharMeshComp);
-	}
+
+	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
+
 
 	auto player_BCharAnimComp = PlayerCharacter_B->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Run.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Run.FBX", player_BCharAnimComp);					// 달리기
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Idle.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Idle.FBX", player_BCharAnimComp);				// 아이들
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Attack.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Attack.FBX", player_BCharAnimComp, false);				// 공격
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Hit.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Hit.FBX", player_BCharAnimComp, false);			// 피격
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Dying.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Wolverine_fbx/Wolverine_Anim/Dying.FBX", player_BCharAnimComp, false);				// 사망
-	}
+
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Run.clp", player_BCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Idle.clp", player_BCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Attack.clp", player_BCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Hit.clp", player_BCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Dying.clp", player_BCharAnimComp, false);
+
 
 	auto player_BCharTransformComp = PlayerCharacter_B->GetComponent<TransformComponent>();
 	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
@@ -552,56 +526,15 @@ void BattleScene::Init_Chara()
 	enemy1->chara = EnemyCharacter;
 
 	auto enemyCharMeshComp = EnemyCharacter->AddComponent<SkeletalMeshComponent>();
-
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/Monster.fbx"))
-
-	{
-
-		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Monster_fbx/Monster.fbx", enemyCharMeshComp);
-
-	}
+	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Monster/Monster.skm", enemyCharMeshComp);
 
 	auto enemyCharAnimComp = EnemyCharacter->AddComponent<AnimationComponent>();
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Run.clp", enemyCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Idle.clp", enemyCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Kick.clp", enemyCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Hit.clp", enemyCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Dying.clp", enemyCharAnimComp, false);
 
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Run.fbx"))
-
-	{
-
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Run.fbx", enemyCharAnimComp);			// 달리기
-
-	}
-
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Idle.fbx"))
-
-	{
-
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Idle.fbx", enemyCharAnimComp);			// 아이들
-
-	}
-
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Kick.fbx"))
-
-	{
-
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Kick.fbx", enemyCharAnimComp, false);			// 공격
-
-	}
-
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Hit.fbx"))
-
-	{
-
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Hit.fbx", enemyCharAnimComp, false);			// 피격
-
-	}
-
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Monster_fbx/MonsterAnim/Dying.fbx"))
-
-	{
-
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Monster_fbx/MonsterAnim/Dying.fbx", enemyCharAnimComp);			// 사망
-
-	}
 	enemyCharAnimComp->SetClipByName(L"Idle");
 
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
@@ -639,12 +572,12 @@ void BattleScene::Init_Chara()
 }
 
 void BattleScene::Init_Effect()
-{	
+{
 	//Effect Test
 	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
 	ESystem->init(&TheWorld);
 	TheWorld.AddSystem(ESystem);
-	
+
 	//ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
 	//ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke", { true, 0.5, 0.0, 1.0 });
 	//ParticleEffect* testEffect3 = new ParticleEffect(L"Spark", { true, 0.5, 0.0, 1.0 });
@@ -715,7 +648,7 @@ void BattleScene::BattleProcess()
 	if (TurnStart) { TurnStartProcess(); }
 	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
 	if (MoveButton->m_bClicked) { IsMoving = true; MoveButton->m_bClicked = false; MAIN_PICKER.optPickingMode = PMOD_LAND; }
-	
+
 	EnemyAttackAnimProcess();
 	CardCheck();
 	DeadCheck();
@@ -730,7 +663,7 @@ void BattleScene::TurnStartProcess()
 	UpdatePlayerState();
 
 	for (auto enemy : EnemyList) { enemy->SetIntentObj(TurnNum, enemy->IntentIcon, enemy->Intent1, enemy->Intent2); }
-	
+
 	int drawNum = 3;
 	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
 
@@ -782,7 +715,7 @@ void BattleScene::EnemyTurnProcess()
 }
 
 void BattleScene::EnemyAttackAnimProcess()
-{	
+{
 	// 적 턴이고, 현재 행동중이었던 적의 행동이 끝나면 잡힘
 	if (!TurnState && !InActionEnemy->chara->GetComponent<AnimationComponent>()->IsInAction())
 	{
@@ -791,7 +724,7 @@ void BattleScene::EnemyAttackAnimProcess()
 			TurnState = true;
 			TurnStart = true;
 			InActionEnemyNum = 0;
-			return; 
+			return;
 		}
 
 		InActionEnemyNum++;
@@ -819,11 +752,11 @@ void BattleScene::MoveProcess()
 
 		// 땅 클릭하면 글로 이동
 		KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
-		if (btnLC == KeyState::Down) 
-		{ 
+		if (btnLC == KeyState::Down)
+		{
 			PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
-			IsMoving = false; 
-			MoveTimer = 0.0f; 
+			IsMoving = false;
+			MoveTimer = 0.0f;
 			MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
 		}
 	}
@@ -833,7 +766,7 @@ void BattleScene::CardCheck()
 {
 	if (TargetEnemy == nullptr) { return; } // 타겟이 없다면 실행ㄴ
 
-	for (int cardNum=0; cardNum<Dick->HandList.size(); cardNum++) 
+	for (int cardNum = 0; cardNum < Dick->HandList.size(); cardNum++)
 	{
 		if (CardList[cardNum]->m_bClicked && CardList[cardNum]->m_OriginPos.y >= 0.5)	// 카드를 드래그해서 일정 높이 이상으로 올라갔다면
 		{
@@ -856,7 +789,7 @@ void BattleScene::CardCheck()
 					// 데미지 이펙트 초안.. 막 움직이기도 하고 나타나면서 커졌다가 작아졌다가도 해야하는데 아 몰랑 나중에 함수로? 하지 뭐
 					//Damage2->m_bIsDead = false;
 					//Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
-					
+
 					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
 					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
 					if (HitCam)
@@ -877,7 +810,7 @@ void BattleScene::CardCheck()
 
 			case Defend:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					player->armor += 5;
 					CanUse = true;
@@ -886,7 +819,7 @@ void BattleScene::CardCheck()
 
 			case PommelStrike:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
 					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
@@ -910,7 +843,7 @@ void BattleScene::CardCheck()
 
 			case ShrugItOff:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					player->armor += 8;
 					Dick->Draw(1);
@@ -921,17 +854,17 @@ void BattleScene::CardCheck()
 
 			case Hemokinesis:
 			{
-				
+
 			}break;
 
 			case Bludgeon:
 			{
-				
+
 			}break;
 
 			case IronWave:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
 					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
@@ -954,7 +887,7 @@ void BattleScene::CardCheck()
 
 			}
 
-			if (CanUse) 
+			if (CanUse)
 			{
 				Dick->Use(cardNum);
 				UpdateHand(Dick->HandList.size(), cardNum, DrawedCard);
@@ -990,7 +923,7 @@ void BattleScene::UpdateHand(int handSize)
 		Vector2 AnimPos[2] = { { -200.0f, 700.0f }, CardPosList[card][handSize - 1] };
 		CardList[card]->SetAnimation(AnimPos, 0.5f);
 	}
-	
+
 	for (int card = handSize; card < 3; card++) // for (int card = handSize; card < CardList.size(); card++)
 	{
 		CardList[card]->m_bIsDead = true;
@@ -1013,12 +946,14 @@ void BattleScene::UpdateHand(int handSize, int UsedCard, int DrawedCard)
 		if (card >= UsedCard) // 써진 카드 위치부터 한칸씩 밀어서 애니메이션 시작점을 줘야 멀쩡해보임
 		{
 			// 드로우카드를 썼을 때, 벡터 마지막+1을 참조하면 안되니까
-			if (DrawedCard > 0 && card + DrawedCard >= handSize) 
-			{ AnimPos[0] = { -100.0f, 700.0f }; 
-			AnimTime = 0.5f;}	// 드로우된 카드는 멀리서 날라오니까 애니메이션 시간 좀 더줌
+			if (DrawedCard > 0 && card + DrawedCard >= handSize)
+			{
+				AnimPos[0] = { -100.0f, 700.0f };
+				AnimTime = 0.5f;
+			}	// 드로우된 카드는 멀리서 날라오니까 애니메이션 시간 좀 더줌
 
-			// 드로우X
-			else { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card + 1]->m_OriginalOriginPos);} 
+// 드로우X
+			else { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card + 1]->m_OriginalOriginPos); }
 		}
 		CardList[card]->SetAnimation(AnimPos, AnimTime);
 	}
@@ -1053,18 +988,18 @@ void BattleScene::UpdatePlayerState()
 	}
 
 
-	if (player->armor <= 0) 
+	if (player->armor <= 0)
 	{
 		PlayerArmorIcon->m_bIsDead = true;
 		PlayerArmor1->m_bIsDead = true;
 		PlayerArmor2->m_bIsDead = true;
 	}
-	else 
+	else
 	{
 		PlayerArmorIcon->m_bIsDead = false;
 		PlayerArmor2->m_bIsDead = false;
 		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[player->armor % 10];
-		if ((player->armor/10) >= 1) 
+		if ((player->armor / 10) >= 1)
 		{
 			PlayerArmor1->m_OriginPos = { -0.692, -0.795 };
 			PlayerArmor2->m_OriginPos = { -0.667, -0.795 };
@@ -1091,9 +1026,9 @@ void BattleScene::DeadCheck()
 	{
 		SS = GAMEOVER;
 	}
-	else 
+	else
 	{
-		for (auto enemy : EnemyList) 
+		for (auto enemy : EnemyList)
 		{
 			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
 		}

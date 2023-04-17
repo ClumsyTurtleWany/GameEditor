@@ -25,7 +25,7 @@ bool MaterialManager::Initialize()
 			OutputDebugString(L"EditorCore::MaterialManager::Initialize::Failed Create Default Material.");
 		}
 	}
-	
+
 	return true;
 }
 
@@ -226,14 +226,14 @@ Material* MaterialManager::GetMaterial(std::wstring name)
 
 Material* MaterialManager::CreateMaterial(std::wstring name)
 {
-	Material* material = new Material;
-	material->Name = name;
 	auto it = MaterialMap.find(name);
 	if (it != MaterialMap.end())
 	{
-		delete it->second;
-		MaterialMap.erase(name);
+		return it->second;
 	}
+	Material* material = new Material;
+	material->Name = name;
+
 	MaterialMap.insert(std::make_pair(name, material));
 	return material;
 }

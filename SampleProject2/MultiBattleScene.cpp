@@ -52,7 +52,7 @@ bool MultiBattleScene::Init()
 
 	enemy1 = new Enemy_1;
 	enemy1->pWorld = &TheWorld;
-	enemy1->Init(); 
+	enemy1->Init();
 	enemy1->NumberTextureList_Red = NumberTextureList_Red;
 	enemy1->NumberTextureList_Black = NumberTextureList_Black;
 	EnemyList.push_back(enemy1);
@@ -163,7 +163,7 @@ bool MultiBattleScene::Frame()
 		}
 		else
 		{
-			if (enemy != TargetEnemy) 
+			if (enemy != TargetEnemy)
 			{
 				for (auto obj : enemy->ObjList) {obj->m_bIsDead = true;}
 			}
@@ -189,7 +189,7 @@ bool MultiBattleScene::Render()
 	BaseScene::Render();
 
 	// 남은 카드 확인 or 버린 카드 확인 버튼 클릭시 씬 전환 (카드 보는 씬으로)
-	if (RemainCardButton->m_bClicked){ SS = REMAINVIEW; RemainCardButton->m_bClicked = false; }
+	if (RemainCardButton->m_bClicked) { SS = REMAINVIEW; RemainCardButton->m_bClicked = false; }
 	if (DiscardButton->m_bClicked) { SS = DISCARDVIEW; DiscardButton->m_bClicked = false; }
 
 	//대충 여기서 뭔가 돌아가면 될성싶은디
@@ -201,7 +201,7 @@ bool MultiBattleScene::Render()
 bool MultiBattleScene::Release()
 {
 	BaseScene::Release();
-    return true;
+	return true;
 }
 
 void MultiBattleScene::Init_UI()
@@ -248,14 +248,14 @@ void MultiBattleScene::Init_UI()
 }
 
 void MultiBattleScene::Init_Map()
-{	
+{
 	//// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
 	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
 	landscapeComponents->Build(16, 16, 7, 10);
 	landscapeComponents->SetCamera(MainCameraSystem->MainCamera);
 	TheWorld.AddEntity(landscape);
-	
+
 	// Sky Dome 추가.
 	Actor* skyDomeActor = new Actor;
 	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
@@ -321,7 +321,7 @@ void MultiBattleScene::Init_Map()
 		auto transform = container->GetComponent<TransformComponent>();
 		transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
 		transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
-		transform->Translation = Vector3(500.0f , 0.0f, -500.0f + static_cast<float>(cnt) * 125);
+		transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
 		TheWorld.AddEntity(container);
 	}
 
@@ -338,7 +338,7 @@ void MultiBattleScene::Init_Map()
 	////transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
 	//TheWorld.AddEntity(containerShip);
 
-	
+
 }
 
 void MultiBattleScene::Init_Chara()
@@ -347,7 +347,7 @@ void MultiBattleScene::Init_Chara()
 	PlayerCharacter = new Character;
 	player1->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx")) 
+	/*if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx"))
 	{
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Adam_fbx/Adam.fbx", playerCharMeshComp);
 	}
@@ -415,7 +415,7 @@ void MultiBattleScene::Init_Chara()
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	TheWorld.AddEntity(PlayerCharacter);
-	
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////// 2P 캐릭터 //////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -427,26 +427,33 @@ void MultiBattleScene::Init_Chara()
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/WinterSoldier_fbx/WINTERSOLDIER.fbx", Char2PMeshComp);
 	}
 	auto Char2PAnimComp = Chara_2P->AddComponent<AnimationComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX", Char2PAnimComp);					// 달리기
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX", Char2PAnimComp);				// 아이들
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX", Char2PAnimComp, false);				// 공격
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX", Char2PAnimComp, false);			// 피격
-	}
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX", Char2PAnimComp, false);				// 사망
-	}
+
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Run.clp", Char2PAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Idle.clp", Char2PAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Punch.clp", Char2PAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Hit.clp", Char2PAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/WinterSoldier/WinterSoldier_anim/Dying.clp", Char2PAnimComp, false);
+
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Run.FBX", Char2PAnimComp);					// 달리기
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Idle.FBX", Char2PAnimComp);				// 아이들
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Punch.FBX", Char2PAnimComp, false);				// 공격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Hit.FBX", Char2PAnimComp, false);			// 피격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/WinterSoldier_fbx/WS_Anim/Dying.FBX", Char2PAnimComp, false);				// 사망
+	//}
 
 	auto Char2PTransformComp = Chara_2P->GetComponent<TransformComponent>();
 	Char2PTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
@@ -466,7 +473,9 @@ void MultiBattleScene::Init_Chara()
 	Character* PlayerCharacter_B = new Character;
 	enemy2->chara = PlayerCharacter_B;
 	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX"))
+	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
+
+	/*if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX"))
 	{
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Wolverine_fbx/WOLVERINE.FBX", player_BCharMeshComp);
 	}
@@ -902,12 +911,12 @@ void MultiBattleScene::Init_Chara()
 //}
 
 void MultiBattleScene::Init_Effect()
-{	
+{
 	//Effect Test
 	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
 	ESystem->init(&TheWorld);
 	TheWorld.AddSystem(ESystem);
-	
+
 	//ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
 	//ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke", { true, 0.5, 0.0, 1.0 });
 	//ParticleEffect* testEffect3 = new ParticleEffect(L"Spark", { true, 0.5, 0.0, 1.0 });
@@ -985,7 +994,7 @@ void MultiBattleScene::BattleProcess()
 		//TODO : 다른 플레이어 턴일때 실행할 코드
 	}
 
-	DeadCheck(); 
+	DeadCheck();
 
 	EnemyAttackAnimProcess();
 }
@@ -1014,10 +1023,10 @@ void MultiBattleScene::MyTurnProcess()
 	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
 
 	MyDeck->Draw(drawNum);
-	UpdateHand(drawNum); 
+	UpdateHand(drawNum);
 
 	MyTurnStart = false;
-	
+
 	//if (gpHost != nullptr && gpHost->IsConnected())
 	//{
 	//	protocol::S_DRAWCARD hostDraw;
@@ -1115,7 +1124,7 @@ void MultiBattleScene::TurnEndProcess()
 	//	auto session = gpClient->GetClientservice()->sessionsForConnect.front();
 	//	session->Send(sendBuffer);
 	//}
-} 
+}
 
 void MultiBattleScene::EnemyTurnProcess()
 {
@@ -1132,7 +1141,7 @@ void MultiBattleScene::EnemyTurnProcess()
 }
 
 void MultiBattleScene::EnemyAttackAnimProcess()
-{	
+{
 	// 적 턴이고, 현재 행동중이었던 적의 행동이 끝나면 잡힘
 	if (!TurnState && !InActionEnemy->chara->GetComponent<AnimationComponent>()->IsInAction())
 	{
@@ -1141,7 +1150,7 @@ void MultiBattleScene::EnemyAttackAnimProcess()
 			TurnState = true;
 			TurnStart = true;
 			InActionEnemyNum = 0;
-			return; 
+			return;
 		}
 
 		InActionEnemyNum++;
@@ -1162,7 +1171,7 @@ void MultiBattleScene::CardCheck()
 
 	if (TargetEnemy == nullptr) { return; } // 타겟이 없다면 실행ㄴ
 
-	for (int cardNum=0; cardNum<MyDeck->HandList.size(); cardNum++) 
+	for (int cardNum = 0; cardNum < MyDeck->HandList.size(); cardNum++)
 	{
 		if (CardList[cardNum]->m_bClicked && CardList[cardNum]->m_OriginPos.y >= 0.5)
 		{
@@ -1187,16 +1196,16 @@ void MultiBattleScene::CardCheck()
 					TargetEnemy->hp -= 6;
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Shooting"); 
+					PAnime->SetClipByName(L"Shooting");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();
 				}
 			}break;
-			 
+
 			case Defend:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					CurrentPlayer->armor += 5;
 					CanUse = true;
@@ -1205,7 +1214,7 @@ void MultiBattleScene::CardCheck()
 
 			case PommelStrike:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					TargetEnemy->hp -= 9;
 					MyDeck->Draw(1);
@@ -1220,7 +1229,7 @@ void MultiBattleScene::CardCheck()
 
 			case ShrugItOff:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					CurrentPlayer->armor += 8;
 					MyDeck->Draw(1);
@@ -1230,17 +1239,17 @@ void MultiBattleScene::CardCheck()
 
 			case Hemokinesis:
 			{
-				
+
 			}break;
 
 			case Bludgeon:
 			{
-				
+
 			}break;
 
 			case IronWave:
 			{
-				if (ManaCheck(1)) 
+				if (ManaCheck(1))
 				{
 					TargetEnemy->hp -= 5;
 					CurrentPlayer->armor += 5;
@@ -1255,7 +1264,7 @@ void MultiBattleScene::CardCheck()
 
 			}
 
-			if (CanUse) 
+			if (CanUse)
 			{
 				MyDeck->Use(cardNum);
 				UpdateHand(MyDeck->HandList.size());
@@ -1409,7 +1418,7 @@ void MultiBattleScene::UpdateHand(int handSize)
 		}
 		CardList[card]->m_bIsDead = false;
 	}
-	
+
 	for (int card = handSize; card < 3; card++) // for (int card = handSize; card < CardList.size(); card++)
 	{
 		CardList[card]->m_bIsDead = true;
@@ -1439,12 +1448,12 @@ void MultiBattleScene::UpdatePlayerState()
 		PlayerArmor1->m_bIsDead = true;
 		PlayerArmor2->m_bIsDead = true;
 	}
-	else 
+	else
 	{
 		PlayerArmorIcon->m_bIsDead = false;
 		PlayerArmor2->m_bIsDead = false;
 		PlayerArmor2->m_pCutInfoList[0]->tc = NumberTextureList_Black[CurrentPlayer->armor % 10];
-		if ((player1->armor/10) >= 1) 
+		if ((player1->armor / 10) >= 1)
 		{
 			PlayerArmor1->m_OriginPos = { -0.692, -0.795 };
 			PlayerArmor2->m_OriginPos = { -0.667, -0.795 };
@@ -1471,9 +1480,9 @@ void MultiBattleScene::DeadCheck()
 	{
 		SS = GAMEOVER;
 	}
-	else 
+	else
 	{
-		for (auto enemy : EnemyList) 
+		for (auto enemy : EnemyList)
 		{
 			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
 		}
