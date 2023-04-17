@@ -191,7 +191,7 @@ bool SampleCore::Initialize()
 	GameOver->Init();
 
 	CurrentScene = Title;
-	//CurrentScene = Battle;
+	//CurrentScene = MultiBattle;
 
 	////테스트 시스템 추가
 	////ECS::TestSystem* test = new ECS::TestSystem;

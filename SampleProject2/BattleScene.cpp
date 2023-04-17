@@ -426,7 +426,6 @@ void BattleScene::Init_Chara()
 	player->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
 
-
 	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam_fbx/Adam.fbx")) 
 	{
 		FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Adam_fbx/Adam.fbx", playerCharMeshComp);
@@ -455,10 +454,7 @@ void BattleScene::Init_Chara()
 	{
 		FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Adam_fbx/Adam_anim/Dying.fbx", playerCharAnimComp, false);				// 사망
 	}
-
 	playerCharAnimComp->SetClipByName(L"Idle");
-
-
 
 	// 소켓 컴포넌트 추가
 	auto socketComp = PlayerCharacter->AddComponent<SocketComponent>();
@@ -479,22 +475,17 @@ void BattleScene::Init_Chara()
 							L"../resource/FBX/Adam_fbx/Pistol_fbx/Pistol.FBX", weaponMesh);
 	}
 
-
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
 	playerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);
 	playerCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
 	playerCharTransformComp->Translation = Vector3(-100.0f, 0.0f, 0.0f);
-
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 25.0f;
 	PlayerCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
-
 	//Picking Info Test
 	playerCharMeshComp->Name = "player";
-
 	////////////// Bounding Box Add /////////////////
 	auto playerOBBComp = PlayerCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.75f, 1.1f, 0.75f), Vector3(0.0f, 1.1f, 0.0f));
-
 	// 플레이어용 카메라 및 카메라 암 설정.
 	auto playerCamera = PlayerCharacter->AddComponent<Camera>();
 	auto playerCameraArm = PlayerCharacter->AddComponent<CameraArmComponent>();
@@ -503,11 +494,6 @@ void BattleScene::Init_Chara()
 	playerCameraArm->Yaw = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	
-	//MainCamera = PlayerCharacter->AddComponent<Camera>();
-	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	
 	TheWorld.AddEntity(PlayerCharacter);
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////

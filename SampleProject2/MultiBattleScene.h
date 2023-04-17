@@ -38,7 +38,7 @@ public:
 	void DeadCheck();
 
 public:
-	int		playerNum; //1p면 1, 2p면 2
+	int		playerNum = 1; //1p면 1, 2p면 2
 	Player* player1;
 	Player* player2;
 	Player* CurrentPlayer;
@@ -106,8 +106,8 @@ public:
 	bool initTriger = true;
 public:
 	//void temp(); //혁 테스트 용도
-	void Init_Chara2();
-	void OtherPlayerUsedCard();
+	//void Init_Chara2();
+	//void OtherPlayerUsedCard();
 public: //패킷 보내는 함수, S_ : server sends to client, C_ : client sends to server
 
 public:

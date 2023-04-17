@@ -86,7 +86,9 @@ bool SelectScene::Frame()
 			gpClient->Init();
 		}
 		else
+		{
 			gpClient->GetClientservice()->Reconnect();
+		}
 	}
 
 	// 취소 버튼 
@@ -101,14 +103,8 @@ bool SelectScene::Frame()
 		gpClient->CancelConnect();
 	}
 
-
-
 	// 연결 성공시 씬 변경, 일단은 바로 멀티 전투씬으로
-	if (gpHost != nullptr && gpHost->IsConnected())
-	{
-		SS = MULTIBATTLE;
-	}
-	if (gpClient!=nullptr && gpClient->IsConnected())
+	if ((gpHost != nullptr && gpHost->IsConnected()) || (gpClient != nullptr && gpClient->IsConnected()))
 	{
 		SS = MULTIBATTLE;
 	}
