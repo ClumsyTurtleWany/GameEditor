@@ -81,6 +81,12 @@ bool AnimationComponent::AddClip(std::wstring name, AnimationClip* clip)
 
 bool AnimationComponent::SetClipByName(std::wstring name)
 {
+	int pointer = name.size() - 1;
+	if (name[pointer] == NULL)
+	{
+		name.pop_back();
+	}
+
 	auto ret = ClipList.find(name);
 	if (ret != ClipList.end())
 	{
@@ -104,7 +110,7 @@ bool AnimationComponent::IsInAction()
 	{
 		return false;
 	}
-	else if (CurrentClip->FileName == L"Idle") 
+	else if (CurrentClip->FileName == L"Idle")
 	{
 		return false;
 	}
