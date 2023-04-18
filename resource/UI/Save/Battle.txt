@@ -233,7 +233,7 @@ CutNum	1
 CutInfo	0 | 160.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\TurnEndText.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	1
-ID	26
+ID	25
 Name	MoveButton
 OrginPos	-0.789999 -0.391111
 Depth	0.000000
@@ -243,4 +243,22 @@ CutInfo	0 | 128.000000 128.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\Git
 CutInfo	1 | 140.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2.png | ../../data/shader/DefaultObject_Orgin.txt
 CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2.png | ../../data/shader/DefaultObject_Orgin.txt
 CutInfo	3 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2_D.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	27
+Name	ToolTipBoard
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 400.000000 200.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\ToolTipBoard.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	28
+Name	ToolTipText
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 400.000000 200.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\Text_test.png | ../../data/shader/DefaultObject_Orgin.txt
 =

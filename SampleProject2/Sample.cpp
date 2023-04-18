@@ -172,6 +172,7 @@ bool SampleCore::Initialize()
 	Battle->CardTextureList = CardTextureList;
 	Battle->NumberTextureList_Red = NumberTextureList_Red;
 	Battle->NumberTextureList_Black = NumberTextureList_Black;
+	Battle->TextTextureList = TextTextureList;
 	Battle->Init();
 	MultiBattle = new MultiBattleScene;
 	MultiBattle->MyDeck = Dick;
@@ -438,6 +439,34 @@ void SampleCore::LoadTexture()
 	{
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/black/9.png");
 		NumberTextureList_Black.push_back(tc);
+	}
+
+
+	// 텍스트 텍스처 로드, 일단 주로 툴팁용
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/base.png"))	// 베이스, 암것도 없음
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/base.png");
+		TextTextureList.insert(make_pair(L"base", tc));
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/test.png"))	// 테스트
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/test.png");
+		TextTextureList.insert(make_pair(L"test", tc));
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/remain.png"))	// 남은 덱
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/remain.png");
+		TextTextureList.insert(make_pair(L"remain", tc));
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/discard.png"))	// 버린 카드
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/discard.png");
+		TextTextureList.insert(make_pair(L"discard", tc));
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/move.png"))	// 이동 버튼
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/move.png");
+		TextTextureList.insert(make_pair(L"move", tc));
 	}
 }
 

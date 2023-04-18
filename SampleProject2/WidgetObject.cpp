@@ -113,6 +113,7 @@ bool WidgetObject::Render()
 bool WidgetObject::Frame()
 {
 	if (m_pCutInfoList.size() == 0) return false;	// 컷정보 하나도 없는 오류 오브젝트 거르기용
+	CheckMouseHover();	// 마우스 호버 체크, 툴팁에 쓰려고 따로 빼냄
 
 	switch (m_Type)
 	{
@@ -258,13 +259,9 @@ void WidgetObject::SetOrginStandard(bool ops)
 	}
 }
 
-bool WidgetObject::SetButtonState()
+void WidgetObject::CheckMouseHover()
 {
-	if (m_bDisable) // 비활성화 상태라면
-	{
-		UpdateCut(DISABLE);
-		return true;
-	}
+	if (m_bIsDead) return;	// 죽인 상태라면 귀찮게 체크 ㄴ
 
 	POINT cp;
 	::GetCursorPos(&cp);
@@ -273,9 +270,24 @@ bool WidgetObject::SetButtonState()
 	float mouseNdcX = (cp.x / DXDevice::g_ViewPort.Width) * 2.0f - 1.0f;
 	float mouseNdcY = -((cp.y / DXDevice::g_ViewPort.Height) * 2.0f - 1.0f);
 
-	// 마우스가 위젯 위에 위치해있다면
 	if (m_CollisionBox[0].x <= mouseNdcX && m_CollisionBox[1].x >= mouseNdcX &&
-		m_CollisionBox[0].y >= mouseNdcY && m_CollisionBox[1].y <= mouseNdcY)
+		m_CollisionBox[0].y >= mouseNdcY && m_CollisionBox[1].y <= mouseNdcY) 
+	{m_bHover = true;}
+
+	else { m_bHover = false; }
+}
+
+bool WidgetObject::SetButtonState()
+{
+	if (m_bDisable) // 비활성화 상태라면
+	{
+		UpdateCut(DISABLE);
+		return true;
+	}
+
+
+	// 마우스가 위젯 위에 위치해있다면
+	if (m_bHover)
 	{
 		KeyState LButtonState = Input::GetInstance()->getKey(VK_LBUTTON);
 		if (LButtonState == KeyState::Down || LButtonState == KeyState::Hold)
@@ -332,7 +344,7 @@ void WidgetObject::SetAnimation(Vector2 transform[2], float playtime, bool fade)
 	m_AnimCT = 0.0f;
 }
 
-// 일단은 이동만, + 페이드인
+// 일단은 이동만, + 페이드
 void WidgetObject::Animation()
 {
 	m_AnimCT += Timer::GetInstance()->GetDeltaTime();

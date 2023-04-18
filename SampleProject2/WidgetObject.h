@@ -52,6 +52,7 @@ public:
 	Vector2 NtoP_Pos(Vector2 ndcPos);
 	void SetOrginStandard(bool ops);
 
+	void CheckMouseHover();
 	bool SetButtonState();
 	bool Drag();
 	// 애니메이션 셋팅, 매개변수로 위치(출발,목적) 회전(그냥 각도만), 스케일(x,y), 애니메이션 시간
@@ -97,6 +98,7 @@ public:
 	bool			m_bIsDead = false;
 	bool			m_bDisable = false; // 버튼이랑 스프라이트 공용
 	bool			m_bClicked = false; // 이벤트 처리용, 음..
+	bool			m_bHover = false;	// 마우스가 호버중임?
 	Vector2			m_CollisionBox[2];  // NDC 기준, 각각 Top Left, Bottom Right
 
 	bool			m_bDraggable = false; // 카드는 드래그 가능하도록

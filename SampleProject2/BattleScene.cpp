@@ -286,19 +286,30 @@ void BattleScene::Init_UI()
 	PlayerHPBar->SetOrginStandard(false);
 	PlayerHPBar->m_OriginWH = PlayerHPBar->m_pCutInfoList[0]->pxWH;
 	PlayerHPBar->m_OriginUV = PlayerHPBar->m_pCutInfoList[0]->uv;
-	//UpdatePlayerState();
-
 	UpdateEnemyState();
 
 	// 데미지, 일단 공용인 두자리만..
 	Damage1 = bc->FindObj(L"Damage_1");
-	Damage1->m_bIsDead = true;
 	Damage2 = bc->FindObj(L"Damage_2");
+	Damage1->m_bIsDead = true;
 	Damage2->m_bIsDead = true;
+
+	// 툴팁 보드&텍스트, 보드 크기를 바꾸는건 굳이?같긴한데 암튼 텍스트는 자주 갈아끼워야 할듯
+	ToolTipBoard = bc->FindObj(L"ToolTipBoard");
+	ToolTipText	 = bc->FindObj(L"ToolTipText");
+	ToolTipBoard->m_fAlpha = 0.7f;
+	ToolTipText->m_fAlpha = 0.5f;
+	ToolTipBoard->SetOrginStandard(false);
+	ToolTipText->SetOrginStandard(false);
+	ToolTipBoard->m_bIsDead = true;
+	ToolTipText->m_bIsDead = true;
+
+
+
+
 
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
-
 
 	// 카드 위치정보 셋팅, 일단 1장 2장 3장일때만? 나중에 바꿔야할지도 모르니 좀 편하게 세팅해두기
 	float CSS = 400.0f; // Card Space Start
@@ -627,11 +638,12 @@ void BattleScene::BattleProcess()
 	if (TurnStart) { TurnStartProcess(); }
 	if (TurnEndButton->m_bClicked) { TurnEndProcess(); }
 	if (MoveButton->m_bClicked) { IsMoving = true; MoveButton->m_bClicked = false; MAIN_PICKER.optPickingMode = PMOD_LAND; }
+	if (IsMoving) { MoveProcess(); }
 
 	EnemyAttackAnimProcess();
 	CardCheck();
 	DeadCheck();
-	if (IsMoving) { MoveProcess(); }
+	ToolTipCheck();
 }
 
 void BattleScene::TurnStartProcess()
@@ -1048,5 +1060,43 @@ void BattleScene::DeadCheck()
 			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
 		}
 		SS = CLEAR;
+	}
+}
+
+void BattleScene::ToolTipCheck()
+{
+	POINT cp;
+	::GetCursorPos(&cp);
+	::ScreenToClient(DXDevice::g_hWnd, &cp);
+	float mouseNdcX = (cp.x / DXDevice::g_ViewPort.Width) * 2.0f - 1.0f;
+	float mouseNdcY = -((cp.y / DXDevice::g_ViewPort.Height) * 2.0f - 1.0f);
+	ToolTipBoard->m_OriginPos = { mouseNdcX,mouseNdcY };
+	ToolTipText->m_OriginPos = { mouseNdcX,mouseNdcY };
+
+	if (RemainCardButton->m_bHover) // 남은 카드 버튼
+	{
+		ToolTipText->m_pCutInfoList[0]->tc = TextTextureList.find(L"remain")->second;
+		ToolTipBoard->m_bIsDead = false;
+		ToolTipText->m_bIsDead = false;
+	}
+	else if (DiscardButton->m_bHover) // 버린 카드 버튼
+	{
+		ToolTipText->m_pCutInfoList[0]->tc = TextTextureList.find(L"discard")->second;
+		// 오른쪽 끝이라서 왼쪽으로 땡겨줌
+		ToolTipBoard->m_OriginPos.x = mouseNdcX - ToolTipBoard->PtoN(ToolTipBoard->m_pCutInfoList[0]->pxWH).x;	
+		ToolTipText->m_OriginPos.x = mouseNdcX - ToolTipText->PtoN(ToolTipText->m_pCutInfoList[0]->pxWH).x;
+		ToolTipBoard->m_bIsDead = false;
+		ToolTipText->m_bIsDead = false;
+	}
+	else if (MoveButton->m_bHover) // 이동 버튼
+	{
+		ToolTipText->m_pCutInfoList[0]->tc = TextTextureList.find(L"move")->second;
+		ToolTipBoard->m_bIsDead = false;
+		ToolTipText->m_bIsDead = false;
+	}
+	else 
+	{
+		ToolTipBoard->m_bIsDead = true;
+		ToolTipText->m_bIsDead = true;
 	}
 }
