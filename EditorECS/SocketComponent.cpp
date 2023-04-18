@@ -2,7 +2,6 @@
 
 void SocketComponent::Update(const AnimationComponent& anim, const TransformComponent& transform)
 {
-	
 	if (anim.CurrentClip != nullptr) 
 	{
 		AnimMat = anim.CurrentClip->LerpFrameMatrixList.find(BoneName)->second[anim.m_currentAnimationFrame * 100];
