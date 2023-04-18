@@ -396,10 +396,10 @@ EditorFileLoader.lib
 /lib/EffectInclude/
 /lib/FBX/
 /lib/FMOD/
+/resource/FBX/
 !Common/protoc-3.17.1-win64/bin/
 !Common/protoc-3.17.1-win64/include/
 !lib/Protobuf/**/
 !lib/Protobuf/**/*.pdb
 Common/protoc-3.17.1-win64/bin/GenPacket.exe
 Tools/PacketGenerator/GenPacket.exe
-*.clp

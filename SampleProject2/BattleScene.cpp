@@ -361,10 +361,8 @@ void BattleScene::Init_Map()
 		Actor* backgroundBuliding = new Actor;
 		auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
 		auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
-		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
-		{
-			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
-		}
+		FBXLoader::GetInstance()->LoadStaticMesh("../resource/FBX/warehouse/warehouse.stm", backgroundBulidingStaticMesh);
+
 		auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
 		backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
 		backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
@@ -377,10 +375,8 @@ void BattleScene::Init_Map()
 		Actor* backgroundBuliding = new Actor;
 		auto backgroundBulidingStaticMesh = backgroundBuliding->AddComponent<StaticMeshComponent>();
 		auto boundBox = backgroundBuliding->AddComponent<BoundingBoxComponent>(Vector3(1.2f, 0.5f, 1.0f));
-		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX"))
-		{
-			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", backgroundBulidingStaticMesh);
-		}
+		FBXLoader::GetInstance()->LoadStaticMesh("../resource/FBX/warehouse/warehouse.stm", backgroundBulidingStaticMesh);
+
 		auto backgroundBulidingTransform = backgroundBuliding->GetComponent<TransformComponent>();
 		backgroundBulidingTransform->Scale = Vector3(100.0f, 100.0f, 100.0f);
 		backgroundBulidingTransform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
@@ -393,10 +389,8 @@ void BattleScene::Init_Map()
 		Actor* container = new Actor;
 		auto staticMesh = container->AddComponent<StaticMeshComponent>();
 		auto boundBox = container->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
-		if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX"))
-		{
-			FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_A_-_Model.FBX", staticMesh);
-		}
+		FBXLoader::GetInstance()->LoadStaticMesh("../resource/FBX/Shipping_Container_A_-_Model/Shipping_Container_A_-_Model.stm", staticMesh);
+
 		auto transform = container->GetComponent<TransformComponent>();
 		transform->Scale = Vector3(0.2f, 0.2f, 0.2f);
 		transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
@@ -451,12 +445,7 @@ void BattleScene::Init_Chara()
 	// 무기로 쓸 스태틱 메시 추가 - 
 	//엔티티가 소켓 컴포넌트를 갖고있으면 소켓 위치에 따라 스태틱 메시의 위치가 업데이트 되도록 렌더 시스템 설정
 	auto weaponMesh = PlayerCharacter->AddComponent<StaticMeshComponent>();
-
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Adam/Pistol_fbx/Pistol.FBX"))
-	{
-		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(
-			L"../resource/FBX/Adam/Pistol_fbx/Pistol.FBX", weaponMesh);
-	}
+	FBXLoader::GetInstance()->LoadStaticMesh("../resource/FBX/Pistol/Pistol.stm", weaponMesh);
 
 	auto playerCharTransformComp = PlayerCharacter->GetComponent<TransformComponent>();
 	playerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);
