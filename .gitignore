@@ -403,4 +403,3 @@ EditorFileLoader.lib
 !lib/Protobuf/**/*.pdb
 Common/protoc-3.17.1-win64/bin/GenPacket.exe
 Tools/PacketGenerator/GenPacket.exe
-*.clp
