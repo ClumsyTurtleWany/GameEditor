@@ -50,6 +50,8 @@ void ThreadManager::DestroyTLS()
   
 bool ThreadManager::eraseThreadVector()
 {
-	_threads.clear();
+	for (auto& t : _threads)
+		TerminateThread(t.native_handle(), 0);
+		//t.detach();
 	return true;
 }

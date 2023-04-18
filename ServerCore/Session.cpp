@@ -141,7 +141,7 @@ bool Session::RegisterConnect()
 	GThreadManager->Launch([&]()
 		{
 			int32 code;
-			WRITE_LOCK;
+			//WRITE_LOCK;
 			do
 			{
 				_connectEvent.Init();
@@ -181,24 +181,24 @@ bool Session::ReConnect()
 	if (SocketUtils::SetReuseAddress(_socket, true) == false)
 		return false;
 
-	_connectEvent.Init();
-	_connectEvent._owner = shared_from_this();// ADD_REF
+	//_connectEvent.Init();
+	//_connectEvent._owner = shared_from_this();// ADD_REF
 
-	DWORD numOfBytes = 0;
-	//연결할 서버의 주소
-	SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+	//DWORD numOfBytes = 0;
+	////연결할 서버의 주소
+	//SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
 
 	GThreadManager->Launch([&]()
 		{
-			WRITE_LOCK;
+			//WRITE_LOCK;
 			do
 			{
-				//_connectEvent.Init();
-				//_connectEvent._owner = shared_from_this();// ADD_REF
-				//
-				//DWORD numOfBytes = 0;
+				_connectEvent.Init();
+				_connectEvent._owner = shared_from_this();// ADD_REF
+				
+				DWORD numOfBytes = 0;
 				////연결할 서버의 주소
-				//SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
+				SOCKADDR_IN sockAddr = GetService()->GetNetAddress().GetSockAddr();
 				if (false == SocketUtils::ConnectEx(_socket, reinterpret_cast<SOCKADDR*>(&sockAddr), sizeof(sockAddr), nullptr, 0, &numOfBytes, &_connectEvent))
 				{
 					int32 errorCode = ::WSAGetLastError();

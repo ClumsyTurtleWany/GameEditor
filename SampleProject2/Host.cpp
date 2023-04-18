@@ -36,7 +36,8 @@ bool Host::Init()
 					//if (service->GetIocpCore()->Dispatch() && connecting == false)
 					////if (service->GetIocpCore()->Dispatch())
 					//	connecting = true;
-					service->GetIocpCore()->Dispatch();
+					if (service->GetIocpCore()->Dispatch() == false)
+						return false;
 					//for(auto& session : service->GetSessions())
 					//{
 					//	if (session->IsConnected())

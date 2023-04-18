@@ -96,8 +96,8 @@ bool client::Handle_S_TURNEND(PacketSessionRef& session, protocol::S_TURNEND& pk
 	//multyclient->YourDeck->DiscardList.clear();
 	//for (auto& discard : pkt.discardlist())
 	//	multyclient->YourDeck->DiscardList.push_back(discard);
-
-	
+	 
+	multyclient->hostTurnEnd = pkt.bturnend();
 
 	return true;
 }

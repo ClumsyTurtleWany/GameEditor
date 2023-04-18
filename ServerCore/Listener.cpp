@@ -110,7 +110,7 @@ void Listener::Dispatch(IocpEvent* iocpEvent, int32 numOfBytes)
 	ProcessAccept(acceptEvent);
 }
 
-Vector<AcceptEvent*> Listener::GetAcceptVector()
+Vector<AcceptEvent*>& Listener::GetAcceptVector()
 {
 	return _acceptEvents;
 }

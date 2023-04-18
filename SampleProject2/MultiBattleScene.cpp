@@ -154,11 +154,15 @@ bool MultiBattleScene::Frame()
 
 	// 선택된 적만 상태창 출력, 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
 	PickedCharacter = (Character*)MAIN_PICKER.lastSelect.pTarget;
-	for (auto enemy : EnemyList) 
+
+	for (auto enemy : EnemyList)
 	{
 		if (PickedCharacter == enemy->chara)
 		{
-			for (auto obj : enemy->ObjList) {obj->m_bIsDead = false;}
+			for (auto obj : enemy->ObjList)
+			{
+				obj->m_bIsDead = false;
+			}
 			TargetEnemy = enemy;
 		}
 		else
@@ -337,7 +341,58 @@ void MultiBattleScene::Init_Map()
 
 void MultiBattleScene::Init_Chara()
 {
-	//////////////////////////////// 1P 캐릭터 ////////////////////////
+	//PlayerCharacter = new Character;
+	//player->chara = PlayerCharacter;
+	//auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
+	//
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/HULK.FBX")) //hulk_removeTwist
+	//{
+	//	FBXLoader::GetInstance()->GenerateSkeletalMeshFromFileData(L"../resource/FBX/Hulk_fbx/HULK.FBX", playerCharMeshComp);
+	//}
+	//
+	//// GenerateAnimationFromFileData()에서 애니메이션 컴포넌트에 애니메이션 추가하는 방식 
+	//// ClipList에 저장되며 SetClipByName(name) 함수로 변경가능 <- name = 확장자명 제외한 파일명
+	//auto playerCharAnimComp = PlayerCharacter->AddComponent<AnimationComponent>();
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Run.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Run.FBX", playerCharAnimComp);				// 달리기
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Idle.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Idle.FBX", playerCharAnimComp);				// 아이들
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Punch.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Punch.FBX", playerCharAnimComp);				// 공격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Stomach_Hit.FBX", playerCharAnimComp);		// 피격
+	//}
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Hulk_fbx/Dying.FBX"))
+	//{
+	//	FBXLoader::GetInstance()->GenerateAnimationFromFileData(L"../resource/FBX/Hulk_fbx/Dying.FBX", playerCharAnimComp);				// 사망
+	//}
+	//
+	//playerCharAnimComp->SetClipByName(L"Punch");
+	//playerCharAnimComp->CurrentClip->LoopState = false;
+	//playerCharAnimComp->SetClipByName(L"Stomach_Hit");
+	//playerCharAnimComp->CurrentClip->LoopState = false;
+	//playerCharAnimComp->SetClipByName(L"Idle");
+	//
+	//auto weaponMeshComp = PlayerCharacter->AddComponent<WeaponMeshComponent>();
+	//
+	////weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 L Hand");
+	//weaponMeshComp->Attach(*playerCharMeshComp, "Bip001 R Hand");
+	//
+	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Warehouse/Warehouse.FBX")) 
+	//{
+	//	FBXLoader::GetInstance()->GenerateWeaponMeshFromFileData(L"../resource/FBX/Map/Warehouse/Warehouse.FBX", weaponMeshComp);
+	//}
+
+	////////////////////////////////test////////////////////////
+
+
 	PlayerCharacter = new Character;
 	player1->chara = PlayerCharacter;
 	auto playerCharMeshComp = PlayerCharacter->AddComponent<SkeletalMeshComponent>();
@@ -388,8 +443,13 @@ void MultiBattleScene::Init_Chara()
 	playerCameraArm->Pitch = 35.0f;
 	playerCameraArm->Yaw = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	playerCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
-	//TheWorld.AddEntity(PlayerCharacter);
+	//MainCamera = PlayerCharacter->AddComponent<Camera>();
+	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
+	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	TheWorld.AddEntity(PlayerCharacter);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////// 2P 캐릭터 //////////////////////////////////////////////////////////////////
@@ -1034,23 +1094,25 @@ void MultiBattleScene::TurnEndProcess()
 
 	TurnEndButton->m_bClicked = false;
 
-	//TODO : need S_TURNEND, C_TURNEND
-	//if (gpHost != nullptr && gpHost->IsConnected())
-	//{
-	//	protocol::S_TURNEND hostTurnEnd;
-	//	*hostTurnEnd.mutable_discardlist() = { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
-	//	auto sendBuffer = ServerPacketHandler::MakeSendBuffer(hostTurnEnd);
-	//	auto session = gpHost->GetService()->_listener->GetAcceptVector().front()->_session;
-	//	session->Send(sendBuffer);
-	//}
-	//if (gpClient != nullptr && gpClient->IsConnected())
-	//{
-	//	protocol::C_TURNEND clientTurnEnd;
-	//	*clientTurnEnd.mutable_discardlist() = { MyDeck->DiscardList.begin(), MyDeck->DiscardList.end() };
-	//	auto sendBuffer = ClientPacketHandler::MakeSendBuffer(clientTurnEnd);
-	//	auto session = gpClient->GetClientservice()->sessionsForConnect.front();
-	//	session->Send(sendBuffer);
-	//}
+	//실제 턴 앤드시 보내는 패킷
+	if (gpHost != nullptr && gpHost->IsConnected())
+	{
+		protocol::S_TURNEND hostEnd;
+		hostEnd.set_bturnend(true);
+
+		auto sendBuf = ServerPacketHandler::MakeSendBuffer(hostEnd);
+		auto session = gpHost->GetService()->GetSessions().begin();
+		(*session)->Send(sendBuf);
+	}
+	if (gpClient != nullptr && gpClient->IsConnected())
+	{
+		protocol::C_TURNEND clientEnd;
+		clientEnd.set_bturnend(true);
+
+		auto sendBuf = ClientPacketHandler::MakeSendBuffer(clientEnd);
+		auto session = gpClient->GetClientservice()->GetSessions().begin();
+		(*session)->Send(sendBuf);
+	}
 }
 
 void MultiBattleScene::EnemyTurnProcess()
@@ -1210,6 +1272,24 @@ void MultiBattleScene::CardCheck()
 							hostUseCard.set_usedcardnum(i+1);	// 적 번호는 1번부터 시작하게
 					}
 					hostUseCard.set_targetenemynum(cardNum);
+
+					auto sendBuf = ServerPacketHandler::MakeSendBuffer(hostUseCard);
+					auto session = gpHost->GetService()->_listener->GetAcceptVector().front()->_session;
+					session->Send(sendBuf);
+				}
+				if (gpClient != nullptr && gpClient->IsConnected())
+				{
+					protocol::C_USECARD clientUseCard;
+					for (int i = 0; i < EnemyList.size(); i++)
+					{
+						if (EnemyList[i] == TargetEnemy)
+							clientUseCard.set_usedcardnum(i);
+					}
+					clientUseCard.set_targetenemynum(cardNum);
+
+					auto sendBuf = ClientPacketHandler::MakeSendBuffer(clientUseCard);
+					auto session = gpClient->GetClientservice()->sessionsForConnect.front();
+					session->Send(sendBuf);
 				}
 			}
 			else {} // 여기서 경고문구 출력

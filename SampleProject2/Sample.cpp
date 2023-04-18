@@ -179,7 +179,9 @@ bool SampleCore::Initialize()
 	MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
 	MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
 	MultiBattle->Init();
+	//serverpackethandler에서 연결하기 위한 포인터
 	multyserver = MultiBattle;
+	//clientpackethandler에서 연결하기 위한 포인터
 	multyclient = MultiBattle;
 	CardView = new CardViewScene;
 	CardView->Dick = Dick;
@@ -251,6 +253,16 @@ bool SampleCore::Render()
 
 bool SampleCore::Release()
 {
+	//server Release
+	//GThreadManager->Join();
+	//서버 : 난 쓰레드한태 졌어
+	if (gpHost != nullptr)
+		delete(gpHost);
+	if (gpClient != nullptr)
+		delete(gpClient);
+	GThreadManager->eraseThreadVector();
+
+
 	///////////////////////
 	//EFFECTUTIL CleanUp
 	///////////////////////
@@ -261,11 +273,9 @@ bool SampleCore::Release()
 
 	BV_MGR.release();
 
-	FBXLoader::GetInstance()->Release();
-	return EditorCore::Release();
-
-	Loading->Release();
-	delete Loading;
+	//서버 : 이거 뻑나서 일단 주석
+	//Loading->Release();
+	//delete Loading;
 	Title->Release();
 	delete Title;
 	Map->Release();
@@ -278,12 +288,11 @@ bool SampleCore::Release()
 	delete Clear;
 	GameOver->Release();
 	delete GameOver;
+	FBXLoader::GetInstance()->Release();
 
-	//server Release
-	GThreadManager->Join();
 	//GThreadManager->eraseThreadVector();
-	delete(gpHost);
-	delete(gpClient);
+
+	return EditorCore::Release();
 }
 
 

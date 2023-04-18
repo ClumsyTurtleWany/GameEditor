@@ -20,7 +20,7 @@ void ClientSession::OnConnected()
 #endif // _DEBUG
 	if (gpClient != nullptr)
 	{
-		auto& clientService = gpClient->GetClientservice();
+		auto clientService = gpClient->GetClientservice();
 		for(int i = 0;i<clientService->sessionsForConnect.size(); i++)
 		{
 			// 이 부분 햇갈리는게 맞나?
