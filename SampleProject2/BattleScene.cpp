@@ -492,7 +492,6 @@ void BattleScene::Init_Chara()
 	enemy2->chara = PlayerCharacter_B;
 
 	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
-
 	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
 
 
