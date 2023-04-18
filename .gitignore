@@ -396,6 +396,7 @@ EditorFileLoader.lib
 /lib/EffectInclude/
 /lib/FBX/
 /lib/FMOD/
+/resource/FBX/
 !Common/protoc-3.17.1-win64/bin/
 !Common/protoc-3.17.1-win64/include/
 !lib/Protobuf/**/
