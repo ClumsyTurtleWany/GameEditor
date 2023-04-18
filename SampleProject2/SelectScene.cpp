@@ -74,6 +74,7 @@ bool SelectScene::Frame()
 	// 방 찾기 버튼
 	else if (RoomFindButton->m_bClicked)
 	{
+		SS = MULTIBATTLE;
 		RoomFindButton->m_bClicked = false;
 		RoomMakeButton->m_bIsDead = true;
 		RoomFindButton->m_bIsDead = true;

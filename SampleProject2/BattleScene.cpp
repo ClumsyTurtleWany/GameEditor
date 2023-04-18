@@ -181,7 +181,7 @@ bool BattleScene::Frame()
 	}
 
 	// 얘는 일단 주기적으로 업데이트 해줘야함.
-	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	// MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 
 	//Effect test
 	if (Input::GetInstance()->getKey('U') == KeyState::Up)
@@ -893,8 +893,6 @@ void BattleScene::CardCheck()
 				UpdateHand(Dick->HandList.size(), cardNum, DrawedCard);
 				UpdatePlayerState();
 				UpdateEnemyState();
-
-				MainCameraSystem->MainCamera = MainCamera;
 			}
 			else {} // 여기서 마나부족 경고문구 출력
 
