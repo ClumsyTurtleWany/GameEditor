@@ -13,10 +13,7 @@ SkyDomeComponent::~SkyDomeComponent()
 
 bool SkyDomeComponent::Initialize()
 {
-	if (FBXLoader::GetInstance()->Load(L"../resource/FBX/CloudDome.fbx"))
-	{
-		FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/CloudDome.fbx", &MeshComp);
-	}
+	FBXLoader::GetInstance()->LoadStaticMesh("../resource/FBX/CloudDome/CloudDome.stm", &MeshComp);
 
 	if (!MaterialManager::GetInstance()->Load(L"../resource/Material/DefaultSkyDome.material", L"DefaultSkyDome"))
 	{

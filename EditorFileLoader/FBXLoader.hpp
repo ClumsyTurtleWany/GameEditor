@@ -137,6 +137,7 @@ public:
 public:
 	// FBX 자체 포맷 LOAD
 	bool LoadSkeletalMesh(std::string filename, SkeletalMeshComponent* SKM);
+	bool LoadStaticMesh(std::string filename, StaticMeshComponent* STM);
 	bool LoadAnimClip(std::string filename, AnimationComponent* ANIM, bool Loop = true);
 
 
