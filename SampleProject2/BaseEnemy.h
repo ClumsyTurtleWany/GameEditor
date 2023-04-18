@@ -11,7 +11,7 @@ class BaseEnemy
 {	
 public:
 	virtual bool Init();
-	virtual void patern(Player* player, int turn);
+	virtual int	 patern(Player* player, int turn);
 	virtual void attack(Player* player, int damage);
 	virtual void SetIntentObj(int turn,  WidgetObject* image, WidgetObject* intent1, WidgetObject* intent2);
 	virtual void UpdateState();

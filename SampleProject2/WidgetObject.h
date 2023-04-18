@@ -56,7 +56,7 @@ public:
 	bool Drag();
 	// 애니메이션 셋팅, 매개변수로 위치(출발,목적) 회전(그냥 각도만), 스케일(x,y), 애니메이션 시간
 	void SetAnimation(Vector2 transform[2], float rotation[2], Vector2 scale[2], float playtime); 
-	void SetAnimation(Vector2 transform[2], float playtime); // 위치만 있는버전 오버로드
+	void SetAnimation(Vector2 transform[2], float playtime, bool fade = false); // 위치만 있는버전 오버로드
 	void Animation();
 
 public:
@@ -92,6 +92,7 @@ public:
 	Vector4			m_OriginUV;		// 얘도 프바용 ㅇㅇ 
 	float			m_fDepth = 0.0f;
 	float			m_fAlpha = 1.0f;
+	bool			m_bIsFade = false;
 
 	bool			m_bIsDead = false;
 	bool			m_bDisable = false; // 버튼이랑 스프라이트 공용

@@ -196,6 +196,12 @@ bool WidgetObject::UpdateCut(int cutNum)
 		Vertices[3].Pos = { m_OriginPos.x + ndcWH.x , m_OriginPos.y - ndcWH.y, m_fDepth }; // p4-RB
 	}
 
+	// Color, 알파값 적용용
+	Vertices[0].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p1-LT
+	Vertices[1].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p2-RT
+	Vertices[2].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p3-LB
+	Vertices[3].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p4-LB
+
 	Vertices[0].Texture = { m_pCutInfoList[cutNum]->uv.x, m_pCutInfoList[cutNum]->uv.y }; // p1-LT
 	Vertices[1].Texture = { m_pCutInfoList[cutNum]->uv.z, m_pCutInfoList[cutNum]->uv.y }; // p2-RT
 	Vertices[2].Texture = { m_pCutInfoList[cutNum]->uv.x, m_pCutInfoList[cutNum]->uv.w }; // p3-LB
@@ -313,9 +319,11 @@ void WidgetObject::SetAnimation(Vector2 transform[2], float rotation[2], Vector2
 	m_AnimCT = 0.0f;
 }
 
-void WidgetObject::SetAnimation(Vector2 transform[2], float playtime)
+void WidgetObject::SetAnimation(Vector2 transform[2], float playtime, bool fade)
 {
 	m_bIsAnime = true;
+	if (fade) 
+	{m_bIsFade = true; m_fAlpha = 0.0f;}
 
 	m_AnimT[0] = PtoN_Pos(transform[0]);
 	m_AnimT[1] = PtoN_Pos(transform[1]);
@@ -324,7 +332,7 @@ void WidgetObject::SetAnimation(Vector2 transform[2], float playtime)
 	m_AnimCT = 0.0f;
 }
 
-// 일단은 이동만
+// 일단은 이동만, + 페이드인
 void WidgetObject::Animation()
 {
 	m_AnimCT += Timer::GetInstance()->GetDeltaTime();
@@ -333,11 +341,25 @@ void WidgetObject::Animation()
 	{
 		m_AnimCT = m_AnimPT;
 		m_bIsAnime = false;
+		if (m_bIsFade) { m_fAlpha = 0.0f; m_bIsFade = false;}
 		m_OriginalOriginPos = m_AnimT[1];
 	}
 
 	m_OriginPos.x = ((m_AnimPT-m_AnimCT)/m_AnimPT)*m_AnimT[0].x + (m_AnimCT/m_AnimPT)*m_AnimT[1].x;
 	m_OriginPos.y = ((m_AnimPT - m_AnimCT) / m_AnimPT) * m_AnimT[0].y + (m_AnimCT / m_AnimPT) * m_AnimT[1].y;
+
+	if (m_bIsFade) // 페이드인 옵션이 들어간 애니메이션이라면
+	{
+		// 페이드 인/아웃 퍼센트
+		float fadeIn = 0.25f;
+		float fadeOut = 0.2f;
+		// 플레이타임의 초반 fadeIn%동안 페이드인
+		if ((m_AnimCT / m_AnimPT) <= fadeIn) { m_fAlpha = (m_AnimCT / m_AnimPT) / fadeIn; }
+		// 플레이타임의 후반 fadeOut%동안 페이드아웃
+		else if ((m_AnimCT / m_AnimPT) >= (1.0f-fadeOut)) { m_fAlpha = ((m_AnimPT - m_AnimCT) / m_AnimPT) / fadeOut; }
+		// 중간에는 그냥 풀알파
+		else { m_fAlpha = 1.0f; }
+	}
 
 	UpdateCut(0); // 걍 노말상태로 애니메이션 되게 해도 괜찮겠지..?
 }

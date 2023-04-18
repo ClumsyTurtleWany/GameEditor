@@ -30,8 +30,9 @@ bool BaseEnemy::Init()
 	return true;
 }
 
-void BaseEnemy::patern(Player* player, int turn)
+int BaseEnemy::patern(Player* player, int turn)
 {
+	return 0;
 }
 
 void BaseEnemy::attack(Player* player, int damage)

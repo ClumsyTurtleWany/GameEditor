@@ -11,10 +11,11 @@ bool Enemy_1::Init()
     return true;
 }
 
-void Enemy_1::patern(Player* player, int turn)
+int Enemy_1::patern(Player* player, int turn)
 {
     auto PAnime = player->chara->GetComponent<AnimationComponent>();
     auto EAnime = chara->GetComponent<AnimationComponent>();
+    int  damage = 0;
 
     switch (((turn / 2)-1) % 3) // 0, 1, 2, 0, 1, 2, ....
     {
@@ -22,6 +23,7 @@ void Enemy_1::patern(Player* player, int turn)
     case 0: 
     {
         attack(player, 5);
+        damage = 5;
         PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Kick");
     }break;
@@ -29,6 +31,7 @@ void Enemy_1::patern(Player* player, int turn)
     case 1:
     {
         attack(player, 10);
+        damage = 10;
         PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Kick");
     }break;
@@ -36,6 +39,7 @@ void Enemy_1::patern(Player* player, int turn)
     case 2:
     {
         attack(player, 20);
+        damage = 20;
         PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Kick");
     }break;
@@ -43,6 +47,7 @@ void Enemy_1::patern(Player* player, int turn)
     }
 
     if (player->hp < 0) player->hp = 0;
+    return  damage;
 }
 
 void Enemy_1::SetIntentObj(int turn, WidgetObject* image, WidgetObject* intent1, WidgetObject* intent2)
@@ -83,10 +88,11 @@ bool Enemy_2::Init()
     return true;
 }
 
-void Enemy_2::patern(Player* player, int turn)
+int Enemy_2::patern(Player* player, int turn)
 {
     auto PAnime = player->chara->GetComponent<AnimationComponent>();
     auto EAnime = chara->GetComponent<AnimationComponent>();
+    int  damage = 0;
 
     switch (((turn / 2) - 1) % 3) // 0, 1, 2, 0, 1, 2, ....
     {
@@ -94,6 +100,7 @@ void Enemy_2::patern(Player* player, int turn)
     case 0:
     {
         attack(player, 4);
+        damage = 4;
         PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Attack");
     }break;
@@ -101,6 +108,7 @@ void Enemy_2::patern(Player* player, int turn)
     case 1:
     {
         attack(player, 6);
+        damage = 6;
         PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Attack");
     }break;
@@ -108,6 +116,7 @@ void Enemy_2::patern(Player* player, int turn)
     case 2:
     {
         attack(player, 12);
+        damage = 12;
         PAnime->SetClipByName(L"Hit");
         EAnime->SetClipByName(L"Attack");
     }break;
@@ -115,6 +124,7 @@ void Enemy_2::patern(Player* player, int turn)
     }
 
     if (player->hp < 0) player->hp = 0;
+    return damage;
 }
 
 void Enemy_2::SetIntentObj(int turn, WidgetObject* image, WidgetObject* intent1, WidgetObject* intent2)

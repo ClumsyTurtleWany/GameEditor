@@ -30,6 +30,7 @@ public:
 	void EnemyAttackAnimProcess();
 	void MoveProcess();
 	void CardCheck();
+	void DamageAnimation(int damage, bool hitEnemy);
 	bool ManaCheck(int cost);
 	void UpdateHand(int handSize);									// 턴 시작시
 	void UpdateHand(int handSize, int UsedCard, int DrawedCard);	// 카드 썼을때 

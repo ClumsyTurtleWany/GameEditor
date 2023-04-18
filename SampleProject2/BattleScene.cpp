@@ -476,11 +476,6 @@ void BattleScene::Init_Chara()
 	playerCameraArm->Pitch = 35.0f;
 	playerCameraArm->Yaw = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
-
-	//MainCamera = PlayerCharacter->AddComponent<Camera>();
-	//MainCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 1.0, 0.0f));
-	//MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-
 	
 	TheWorld.AddEntity(PlayerCharacter);
 
@@ -546,10 +541,6 @@ void BattleScene::Init_Chara()
 	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
 	E1MC->Speed = 25.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
-
-	//auto enemyCharMovementComp = EnemyCharacter->GetComponent<MovementComponent>();
-	//enemyCharMovementComp->Speed = 25.0f;
-	//EnemyCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
 	enemyCharMeshComp->Name = "Enemy";
@@ -696,7 +687,8 @@ void BattleScene::EnemyTurnProcess()
 	TurnState = false;
 
 	InActionEnemy = EnemyList[0];
-	EnemyList[0]->patern(player, TurnNum);
+	int damage = EnemyList[0]->patern(player, TurnNum);
+	DamageAnimation(damage, false);
 
 	UpdatePlayerState();
 	UpdateEnemyState();
@@ -728,7 +720,8 @@ void BattleScene::EnemyAttackAnimProcess()
 
 		InActionEnemyNum++;
 		InActionEnemy = EnemyList[InActionEnemyNum];
-		InActionEnemy->patern(player, TurnNum);
+		int damage = InActionEnemy->patern(player, TurnNum);
+		DamageAnimation(damage, false);
 		UpdatePlayerState();
 		UpdateEnemyState();
 		PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
@@ -785,10 +778,6 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1))
 				{
-					// 데미지 이펙트 초안.. 막 움직이기도 하고 나타나면서 커졌다가 작아졌다가도 해야하는데 아 몰랑 나중에 함수로? 하지 뭐
-					//Damage2->m_bIsDead = false;
-					//Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
-
 					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
 					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
 					if (HitCam)
@@ -798,6 +787,7 @@ void BattleScene::CardCheck()
 					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 					TargetEnemy->hp -= 6;
+					DamageAnimation(6, true);
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Shooting");
@@ -829,6 +819,7 @@ void BattleScene::CardCheck()
 					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 					TargetEnemy->hp -= 9;
+					DamageAnimation(9, true);
 					Dick->Draw(1);
 					DrawedCard = 1;
 					CanUse = true;
@@ -874,6 +865,7 @@ void BattleScene::CardCheck()
 					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 					TargetEnemy->hp -= 5;
+					DamageAnimation(5, true);
 					player->armor += 5;
 					CanUse = true;
 
@@ -896,6 +888,43 @@ void BattleScene::CardCheck()
 			else {} // 여기서 마나부족 경고문구 출력
 
 		}
+	}
+}
+
+// 데미지 애니메이션, 
+void BattleScene::DamageAnimation(int damage, bool hitEnemy)
+{
+	// 아군 캐릭터가 적 공격, 뭐 큰차인 없고 걍 데미지 날라가는 방향
+	if (hitEnemy) 
+	{
+		// 데미지가 10 이상일 경우, 두자리수 ㅇㅇ
+		if (damage/10 > 0) 
+		{
+			Damage1->m_bIsDead = false;
+			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage/10];
+			Vector2 AnimPos[2] = { {1000.0f, 450.0f},{1200.0f, 350.0f} };
+			Damage1->SetAnimation( AnimPos, 0.5f, true);
+		}
+		Damage2->m_bIsDead = false;
+		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage % 10];
+		Vector2 AnimPos[2] = { {1100.0f, 450.0f},{1300.0f, 350.0f} };
+		Damage2->SetAnimation(AnimPos, 0.5f, true);
+	}
+
+	// 적이 아군 공격
+	else 
+	{	// 데미지가 10 이상일 경우, 두자리수 ㅇㅇ
+		if (damage / 10 > 0)
+		{
+			Damage1->m_bIsDead = false;
+			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage / 10];
+			Vector2 AnimPos[2] = { {400.0f, 450.0f},{200.0f, 350.0f} };
+			Damage1->SetAnimation(AnimPos, 0.5f, true);
+		}
+		Damage2->m_bIsDead = false;
+		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage % 10];
+		Vector2 AnimPos[2] = { {500.0f, 450.0f},{300.0f, 350.0f} };
+		Damage2->SetAnimation(AnimPos, 0.5f, true);
 	}
 }
 
