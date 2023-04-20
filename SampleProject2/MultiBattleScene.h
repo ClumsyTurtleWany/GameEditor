@@ -85,6 +85,9 @@ public:
 	WidgetObject* Damage1;
 	WidgetObject* Damage2;
 
+	WidgetObject* ToolTipBoard;
+	WidgetObject* ToolTipText;
+
 public:
 	Deck* MyDeck = nullptr;
 	Deck* YourDeck = nullptr;

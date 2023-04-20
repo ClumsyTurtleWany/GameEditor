@@ -196,6 +196,15 @@ void MultiBattleScene::Init_UI()
 	CardList[1]->m_bDraggable = true;
 	CardList[2] = bc->FindObj(L"Card3");
 	CardList[2]->m_bDraggable = true;
+	CardList[0]->m_bDraggable = true;
+	CardList[1]->m_bDraggable = true;
+	CardList[2]->m_bDraggable = true;
+	CardList[0]->m_OriginalOriginPos = CardList[0]->m_OriginPos;
+	CardList[0]->m_OriginalOriginPos = CardList[0]->m_OriginPos;
+	CardList[0]->m_OriginalOriginPos = CardList[0]->m_OriginPos;
+	CardList[0]->m_bIsDead = true;		// 드로우 전까진 안보이게
+	CardList[1]->m_bIsDead = true;
+	CardList[2]->m_bIsDead = true;
 
 	// 플레이어 거시기 표시용 
 	PlayerCurrenHP1 = bc->FindObj(L"PlayerCurrentHP_1");
@@ -214,6 +223,16 @@ void MultiBattleScene::Init_UI()
 	Damage1->m_bIsDead = true;
 	Damage2 = bc->FindObj(L"Damage_2");
 	Damage2->m_bIsDead = true;
+
+	// 툴팁 보드&텍스트, 보드 크기를 바꾸는건 굳이?같긴한데 암튼 텍스트는 자주 갈아끼워야 할듯
+	ToolTipBoard = bc->FindObj(L"ToolTipBoard");
+	ToolTipText = bc->FindObj(L"ToolTipText");
+	ToolTipBoard->m_fAlpha = 0.7f;
+	ToolTipText->m_fAlpha = 0.5f;
+	ToolTipBoard->SetOrginStandard(false);
+	ToolTipText->SetOrginStandard(false);
+	ToolTipBoard->m_bIsDead = true;
+	ToolTipText->m_bIsDead = true;
 
 	// 메인 월드에 액터 추가.
 	TheWorld.AddEntity(UI);
@@ -764,13 +783,11 @@ void MultiBattleScene::CardCheck()
 				if ( (gpHost != nullptr && gpHost->IsConnected()) ) //|| (gpClient != nullptr && gpClient->IsConnected()) )
 				{
 					protocol::S_USECARD hostUseCard;
-					//for (int i = 0; i < EnemyList.size(); i++)
-					//{
-					//	//if (EnemyList[i] == TargetEnemy){ hostUseCard.set_targetenemynum(i); }
-					//}
-					//hostUseCard.set_usedcardnum(MyDeck->HandList[cardNum]);
-					hostUseCard.set_targetenemynum(1);
-					hostUseCard.set_usedcardnum(0);
+					for (int i = 0; i < EnemyList.size(); i++)
+					{
+						if (EnemyList[i] == TargetEnemy){ hostUseCard.set_targetenemynum(i); }
+					}
+					hostUseCard.set_usedcardnum(MyDeck->HandList[cardNum]);
 
 					auto sendBuf = ServerPacketHandler::MakeSendBuffer(hostUseCard);
 					auto session = gpHost->GetService()->GetSessions().begin();
@@ -779,13 +796,11 @@ void MultiBattleScene::CardCheck()
 				if (gpClient != nullptr && gpClient->IsConnected())
 				{
 					protocol::C_USECARD clientUseCard;
-					//for (int i = 0; i < EnemyList.size(); i++)
-					//{
-					//	//if (EnemyList[i] == TargetEnemy) { clientUseCard.set_targetenemynum(i); }
-					//}
-					//clientUseCard.set_usedcardnum(MyDeck->HandList[cardNum]);
-					clientUseCard.set_targetenemynum(1);
-					clientUseCard.set_usedcardnum(0);
+					for (int i = 0; i < EnemyList.size(); i++)
+					{
+						if (EnemyList[i] == TargetEnemy) { clientUseCard.set_targetenemynum(i); }
+					}
+					clientUseCard.set_usedcardnum(MyDeck->HandList[cardNum]);
 
 					auto sendBuf = ClientPacketHandler::MakeSendBuffer(clientUseCard);
 					auto session = gpClient->GetClientservice()->GetSessions().begin();
@@ -811,10 +826,9 @@ void MultiBattleScene::Reaction()
 
 	if (OtherPlayerUsedCardNum != 999) // 상대방이 카드를 사용했을 때
 	{
-		int a = 10;
-
 		TargetEnemy = EnemyList[OtherPlayerTargetEnemyNum];
 
+		CardList[0]->m_bIsDead = false;
 		CardList[0]->m_pCutInfoList[0]->tc = CardTextureList[OtherPlayerUsedCardNum];
 		Vector2 AnimPos[2] = { {800.0f, 450.0f},{800.0f, 450.0f} };
 		CardList[0]->SetAnimation(AnimPos, 1.0f, true);
@@ -878,6 +892,8 @@ void MultiBattleScene::Reaction()
 		}break;
 
 		}
+		UpdatePlayerState();
+		UpdateEnemyState();
 		OtherPlayerUsedCardNum = 999;
 	}
 }
