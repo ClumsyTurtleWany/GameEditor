@@ -31,27 +31,6 @@ bool BattleScene::Init()
 {
 	ID = BATTLE;
 
-	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
-	player = new Player;
-	player->cost = player->maxCost;
-	player->maxHp = 50;
-	player->hp = 50;
-	enemy1 = new Enemy_1;
-	enemy1->pWorld = &TheWorld;
-	enemy1->Init();
-	enemy1->NumberTextureList_Red = NumberTextureList_Red;
-	enemy1->NumberTextureList_Black = NumberTextureList_Black;
-	EnemyList.push_back(enemy1);
-	enemy2 = new Enemy_2;
-	enemy2->pWorld = &TheWorld;
-	enemy2->Init();
-	enemy2->NumberTextureList_Red = NumberTextureList_Red;
-	enemy2->NumberTextureList_Black = NumberTextureList_Black;
-	EnemyList.push_back(enemy2);
-	// 밑에 두줄은 임시
-	enemy2->maxHp = 30;
-	enemy2->hp = 30;
-
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
 	MainCamera = MainCameraActor->AddComponent<Camera>();
@@ -64,6 +43,30 @@ bool BattleScene::Init()
 	MainCameraActor->AddComponent<OscillationComponent>();
 
 	TheWorld.AddEntity(MainCameraActor);
+
+	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
+	player = new Player;
+	player->cost = player->maxCost;
+	player->maxHp = 50;
+	player->hp = 50;
+	enemy1 = new Enemy_1;
+	enemy1->pWorld = &TheWorld;
+	enemy1->MainCamera = MainCamera;
+	enemy1->Init();
+	enemy1->NumberTextureList_Red = NumberTextureList_Red;
+	enemy1->NumberTextureList_Black = NumberTextureList_Black;
+	EnemyList.push_back(enemy1);
+	enemy2 = new Enemy_2;
+	enemy2->pWorld = &TheWorld;
+	enemy2->MainCamera = MainCamera;
+	enemy2->Init();
+	enemy2->NumberTextureList_Red = NumberTextureList_Red;
+	enemy2->NumberTextureList_Black = NumberTextureList_Black;
+	EnemyList.push_back(enemy2);
+	// 밑에 두줄은 임시
+	enemy2->maxHp = 30;
+	enemy2->hp = 30;
+
 
 	Init_UI();
 	Init_Map();
@@ -189,7 +192,6 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
-
 	PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
 	for (auto enemy : EnemyList)
 	{
@@ -213,10 +215,10 @@ bool BattleScene::Frame()
 		}
 	}
 
-	if (PickedCharacter != nullptr)
-	{
-		int a = 10;
-	}
+	enemy1->IntentIcon->m_OrginPos3D = enemy1->chara->MovementComp->Location;
+	enemy1->IntentIcon->m_OrginPos3D.z += 300.0f;
+	enemy2->IntentIcon->m_OrginPos3D = enemy2->chara->MovementComp->Location;
+	enemy1->IntentIcon->m_OrginPos3D.z += 500.0f;
 
 	return true;
 }

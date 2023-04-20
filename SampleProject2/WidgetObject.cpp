@@ -67,9 +67,7 @@ bool WidgetObject::Initialize()
 
 bool WidgetObject::PostRender()
 {
-	// 일단 컴포넌트 렌더만 돌려본 거라 임시로 추가, 나중에 시스템에 붙이고 나면 빼도 될지도 -> 아니네!
-	CameraMatrix CameraMatrixData;
-	DXDevice::g_pImmediateContext->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraMatrixData, 0, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(CameraMatrixBuffer, 0, NULL, &CameraData, 0, 0);
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
 
 	// 머터리얼 담당
@@ -120,7 +118,8 @@ bool WidgetObject::Frame()
 
 	case(IMAGE):
 	{
-		UpdateCut(0);
+		if (m_b3D) UpdateCut3D(0);
+		else UpdateCut(0);
 	} break;
 
 	case(BUTTON):
@@ -212,6 +211,46 @@ bool WidgetObject::UpdateCut(int cutNum)
 
 	m_CollisionBox[0] = { Vertices[0].Pos };
 	m_CollisionBox[1] = { Vertices[3].Pos };
+
+	return true;
+}
+
+// 3D 빌보드 UI용
+bool WidgetObject::UpdateCut3D(int cutNum)
+{
+	//Vertices[0].Pos = {-1.0f, 1.0f, 0.0f}; // p1-LT
+	//Vertices[1].Pos = { 1.0f, 1.0f, 0.0f}; // p2-RT
+	//Vertices[2].Pos = {-1.0f,-1.0f, 0.0f}; // p3-LB
+	//Vertices[3].Pos = { 1.0f,-1.0f, 0.0f}; // p4-RB
+	Vector2 ndcWH = PtoN(m_pCutInfoList[cutNum]->pxWH);
+	Vertices[0].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, 0.0f }; // p1-LT
+	Vertices[1].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, 0.0f }; // p2-RT
+	Vertices[2].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, 0.0f }; // p3-LB
+	Vertices[3].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, 0.0f }; // p4-RB
+
+	// Color, 알파값 적용용
+	Vertices[0].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p1-LT
+	Vertices[1].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p2-RT
+	Vertices[2].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p3-LB
+	Vertices[3].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p4-LB
+
+	Vertices[0].Texture = { m_pCutInfoList[cutNum]->uv.x, m_pCutInfoList[cutNum]->uv.y }; // p1-LT
+	Vertices[1].Texture = { m_pCutInfoList[cutNum]->uv.z, m_pCutInfoList[cutNum]->uv.y }; // p2-RT
+	Vertices[2].Texture = { m_pCutInfoList[cutNum]->uv.x, m_pCutInfoList[cutNum]->uv.w }; // p3-LB
+	Vertices[3].Texture = { m_pCutInfoList[cutNum]->uv.z, m_pCutInfoList[cutNum]->uv.w }; // p4-RB
+
+	CameraData.View = MainCamera->View.Transpose();
+	CameraData.Projection = MainCamera->Projection.Transpose();
+
+	Matrix BiilTMat;
+	BiilTMat = Matrix::CreateScale(scale) * MainCamera->View.Invert() ;
+	BiilTMat._41 = m_OrginPos3D.x;
+	BiilTMat._42 = m_OrginPos3D.y;
+	BiilTMat._43 = m_OrginPos3D.z;
+	BiilTMat = BiilTMat.Transpose();
+
+	TransformData.Mat = BiilTMat;
+	TransformData.InversedMat = TransformData.Mat.Invert().Transpose();
 
 	return true;
 }
