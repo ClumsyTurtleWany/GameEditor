@@ -11,6 +11,7 @@ public:
 	Vector3 Look;
 	Vector3 Right;
 	Vector3 Up;
+	Vector3 Target;
 
 public:
 	Matrix View;

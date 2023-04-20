@@ -248,6 +248,9 @@ bool Material::Create()
 	case MaterialType::Normal:
 		PixelShaderName = L"NormalMap";
 		break;
+	case MaterialType::Sky:
+		PixelShaderName = L"Sky";
+		break;
 	}
 
 	if (PixelShaderName.empty())

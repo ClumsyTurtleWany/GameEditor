@@ -188,5 +188,8 @@
     <FxCompile Include="..\resource\HLSL\VertexShader\VS_LineObject.hlsl">
       <Filter>DirectX\HLSL\Vertex</Filter>
     </FxCompile>
+    <FxCompile Include="..\resource\HLSL\PixelShader\PS_Sky.hlsl">
+      <Filter>DirectX\HLSL\Pixel</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

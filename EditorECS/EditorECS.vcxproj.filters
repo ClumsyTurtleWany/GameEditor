@@ -213,6 +213,12 @@
     <ClInclude Include="RenderableStringComponent.h">
       <Filter>Component\EffectComponent</Filter>
     </ClInclude>
+    <ClInclude Include="ActionCameraComponent.h">
+      <Filter>Component\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionCamera.h">
+      <Filter>Entity\Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -316,6 +322,12 @@
     </ClCompile>
     <ClCompile Include="RenderableStringComponent.cpp">
       <Filter>Component\EffectComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCameraComponent.cpp">
+      <Filter>Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCamera.cpp">
+      <Filter>Entity\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

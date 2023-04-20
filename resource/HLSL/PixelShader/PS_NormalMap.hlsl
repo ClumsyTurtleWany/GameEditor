@@ -44,6 +44,7 @@ cbuffer SpotLightData : register(b2)
 	float4 g_SpotLightPos[MAX_SPOT_LIGHT_CNT];
 	float4 g_SpotLightDir[MAX_SPOT_LIGHT_CNT];
 	float4 g_SpotLightRadius[MAX_SPOT_LIGHT_CNT];
+	float4 g_SpotLightDistance[MAX_SPOT_LIGHT_CNT];
 	float4x4 g_SpotLightView[MAX_SPOT_LIGHT_CNT];
 	int  g_SpotLightCnt;
 	int g_SpotLightShadowTextureSize;
@@ -118,7 +119,7 @@ float4 ComputeSpotDiffuseLight(float3 pos, float3 normal, float3x3 tangent)
 		float dist = distance(pos, g_SpotLightPos[idx].xyz);
 
 		float fDot = dot(g_SpotLightDir[idx].xyz, vLight);
-		float luminance = smoothstep(dist - 5.0f, dist, g_SpotLightRadius[idx].x);
+		float luminance = smoothstep(dist - g_SpotLightDistance[idx], dist, g_SpotLightRadius[idx].x);
 		float intensity = saturate(dot(normal, -vLight));
 
 		if (fDot >= 0.98)
@@ -155,7 +156,7 @@ float4 ComputePointSpecularLight(float3 pos, float3 normal, float3x3 tangent)
 		vLight = normalize(mul(vLight, tangent));
 		float dist = distance(pos, g_PointLightPos[idx].xyz);
 
-		float luminance = smoothstep(dist - 5.0f, dist, g_PointLightRadius[idx].x);
+		float luminance = smoothstep(dist - g_SpotLightDistance[idx], dist, g_PointLightRadius[idx].x);
 		float intensity = saturate(dot(-normalize(mul(g_EyeDir.xyz, tangent)), vLight));
 
 		outputColor += float4(g_PointLightColor[idx].rgb * luminance * intensity, 1.0f);

@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Enemy_1.h"
 #include "Character.h"
+#include "ActionCamera.h"
 
 class BattleScene : public BaseScene
 {
@@ -56,6 +57,7 @@ public:
 	Camera* CurrentCamera;
 	Camera* MoveCamera;
 	Camera* CloseupCamera;
+	ActionCamera* TestActionCamera;
 	
 	CameraSystem* MainCameraSystem = nullptr;
 	RenderSystem* MainRenderSystem = nullptr;

@@ -246,6 +246,11 @@ bool EditorCore::CreatePixelShader()
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_Texture2DArray.hlsl)");
     }
 
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/HLSL/PixelShader/PS_Sky.hlsl", L"Sky"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/HLSL/PixelShader/PS_Sky.hlsl)");
+    }
+
     //------------------------------------------------------------------------------------
     // Effect Pixel Shader
     //------------------------------------------------------------------------------------

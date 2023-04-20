@@ -6,6 +6,7 @@
 #include "SkeletalMeshComponent.h"
 #include "StaticMeshComponent.h"
 #include "SocketComponent.h"
+#include "BoundingBoxComponent.h"
 
 void LightSystem::Tick(ECS::World* world, float time)
 {
@@ -59,6 +60,7 @@ void LightSystem::Tick(ECS::World* world, float time)
 		SpotLights.Direction[SpotLights.Cnt] = lightComp->Direction;
 		SpotLights.Position[SpotLights.Cnt] = Vector4(transformComp->Translation.x, transformComp->Translation.y, transformComp->Translation.z, 0.0f);
 		SpotLights.Radius[SpotLights.Cnt].x = lightComp->Radius;
+		SpotLights.Distance[SpotLights.Cnt].x = lightComp->Distance;
 		//SpotLights.View[SpotLights.Cnt] = DirectX::XMMatrixLookAtLH(SpotLights.Position[SpotLights.Cnt], SpotLights.Direction[SpotLights.Cnt], Vector3(0.0f, 1.0f, 0.0f));
 		SpotLights.Cnt++;
 		if (SpotLights.Cnt >= MAX_SPOT_LIGHT_CNT)
@@ -128,8 +130,6 @@ void LightSystem::Tick(ECS::World* world, float time)
 
 	Matrix projection = DirectX::XMMatrixOrthographicOffCenterLH(-maxViewDistance / 2.0f, maxViewDistance / 2.0f, -maxViewDistance / 2.0f, maxViewDistance / 2.0f, 1.0f, 1000.0f);
 	DirectionalLightShadowMatrix.Projection = projection.Transpose();
-	PointLightShadowMatrix.Projection = DirectionalLightShadowMatrix.Projection;
-	SpotLightShadowMatrix.Projection = DirectionalLightShadowMatrix.Projection;
 
 	//---------------------------------------------------------------------------------------
 	// Directional Light Shadow
@@ -137,7 +137,12 @@ void LightSystem::Tick(ECS::World* world, float time)
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &DirectionalLightShadowBuffer);
 	for (size_t idx = 0; idx < DirectionalLights.Cnt; idx++)
 	{
-		DirectionalLightShadowMatrix.View = DirectX::XMMatrixLookAtLH(DirectionalLights.Position[idx], DirectionalLights.Direction[idx], Vector3(0.0f, 1.0f, 0.0f));
+		Vector4 target = DirectionalLights.Position[idx] + 
+			Vector4(fabs(DirectionalLights.Position[idx].x) * DirectionalLights.Direction[idx].x, 
+				fabs(DirectionalLights.Position[idx].y) * DirectionalLights.Direction[idx].y, 
+				fabs(DirectionalLights.Position[idx].z) * DirectionalLights.Direction[idx].z, 0.0f);
+		//DirectionalLightShadowMatrix.View = DirectX::XMMatrixLookAtLH(DirectionalLights.Position[idx], target, Vector3(0.0f, 0.999f, 0.0f));
+		DirectionalLightShadowMatrix.View = CreateViewMatrix(DirectionalLights.Position[idx], target, Vector3(0.0f, 1.0f, 0.0f));
 		DirectionalLights.View[idx] = DirectionalLightShadowMatrix.View * projection * TextureConversionMatrix;
 		DirectionalLights.View[idx] = DirectionalLights.View[idx].Transpose();
 		DirectionalLightShadowMatrix.View = DirectionalLightShadowMatrix.View.Transpose();
@@ -199,10 +204,17 @@ void LightSystem::Tick(ECS::World* world, float time)
 	//---------------------------------------------------------------------------------------
 	// Point Light Shadow
 	//---------------------------------------------------------------------------------------
+	projection = DirectX::XMMatrixOrthographicOffCenterLH(-500.0f / 2.0f, 500.0f / 2.0f, -500.0f / 2.0f, 500.0f / 2.0f, 1.0f, 500.0f);
+	PointLightShadowMatrix.Projection = projection.Transpose();
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &PointLightShadowBuffer);
 	for (size_t idx = 0; idx < PointLights.Cnt; idx++)
 	{
-		PointLightShadowMatrix.View = DirectX::XMMatrixLookAtLH(PointLights.Position[idx], PointLights.Direction[idx], Vector3(0.0f, 1.0f, 0.0f));
+		Vector4 target = PointLights.Position[idx] +
+			Vector4(fabs(PointLights.Position[idx].x) * PointLights.Direction[idx].x,
+				fabs(PointLights.Position[idx].y) * PointLights.Direction[idx].y,
+				fabs(PointLights.Position[idx].z) * PointLights.Direction[idx].z, 0.0f);
+		//PointLightShadowMatrix.View = DirectX::XMMatrixLookAtLH(PointLights.Position[idx], target, Vector3(0.0f, 0.999f, 0.0f));
+		PointLightShadowMatrix.View = CreateViewMatrix(PointLights.Position[idx], target, Vector3(0.0f, 1.0f, 0.0f));
 		PointLights.View[idx] = PointLightShadowMatrix.View * projection * TextureConversionMatrix;
 		PointLights.View[idx] = PointLights.View[idx].Transpose();
 		PointLightShadowMatrix.View = PointLightShadowMatrix.View.Transpose();
@@ -260,10 +272,17 @@ void LightSystem::Tick(ECS::World* world, float time)
 	//---------------------------------------------------------------------------------------
 	// Spot Light Shadow
 	//---------------------------------------------------------------------------------------
+	projection = DirectX::XMMatrixOrthographicOffCenterLH(-500.0f / 2.0f, 500.0f / 2.0f, -500.0f / 2.0f, 500.0f / 2.0f, 1.0f, 500.0f);
+	SpotLightShadowMatrix.Projection = projection.Transpose();
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &SpotLightShadowBuffer);
 	for (size_t idx = 0; idx < SpotLights.Cnt; idx++)
 	{
-		SpotLightShadowMatrix.View = DirectX::XMMatrixLookAtLH(SpotLights.Position[idx], SpotLights.Direction[idx], Vector3(0.0f, 1.0f, 0.0f));
+		Vector4 target = SpotLights.Position[idx] +
+			Vector4(fabs(SpotLights.Position[idx].x) * SpotLights.Direction[idx].x,
+				fabs(SpotLights.Position[idx].y) * SpotLights.Direction[idx].y,
+				fabs(SpotLights.Position[idx].z) * SpotLights.Direction[idx].z, 0.0f);
+		//SpotLightShadowMatrix.View = DirectX::XMMatrixLookAtLH(SpotLights.Position[idx], target, Vector3(0.0f, 0.0f, 1.0f));
+		SpotLightShadowMatrix.View = CreateViewMatrix(SpotLights.Position[idx], target, Vector3(0.0f, 1.0f, 0.0f));
 		SpotLights.View[idx] = SpotLightShadowMatrix.View * projection * TextureConversionMatrix;
 		SpotLights.View[idx] = SpotLights.View[idx].Transpose();
 		SpotLightShadowMatrix.View = SpotLightShadowMatrix.View.Transpose();
@@ -287,7 +306,6 @@ void LightSystem::Tick(ECS::World* world, float time)
 			{
 				auto skeletalMesh = entity->GetComponent<SkeletalMeshComponent>();
 				auto transform = entity->GetComponent<TransformComponent>();
-
 				if ((skeletalMesh != nullptr) && (transform != nullptr))
 				{
 					skeletalMesh->UpdateTransformMatrix(*transform);
@@ -400,4 +418,34 @@ void LightSystem::CleanUp()
 	PointLights.Cnt = 0;
 	Eye.Position = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
 	Eye.Direction = Vector4(0.0f, 0.0f, 0.0f, 0.0f);
+}
+
+Matrix LightSystem::CreateViewMatrix(const Vector4& eye, const Vector4& target, const Vector3& up)
+{
+	Matrix view;
+
+	Vector3 direction = Vector3(target.x, target.y, target.z);
+	direction -= Vector3(eye.x, eye.y, eye.z);
+	direction.Normalize();
+	Vector3 diff = direction + up;
+	Vector3 newUp = up;
+	if (diff.x < EPSILON && diff.y < EPSILON && diff.z < EPSILON)
+	{
+		newUp = Vector3(0.0f, 0.0f, -1.0f);
+	}
+	Vector3 right = newUp.Cross(direction);
+	right.Normalize();
+	newUp = direction.Cross(right);
+	newUp.Normalize();
+
+	view._11 = right.x; view._12 = newUp.x; view._13 = direction.x;
+	view._21 = right.y; view._22 = newUp.y; view._23 = direction.y;
+	view._31 = right.z; view._32 = newUp.z; view._33 = direction.z;
+	view._41 = -(eye.x * view._11 + eye.y * view._21 + eye.z * view._31);
+	view._42 = -(eye.x * view._12 + eye.y * view._22 + eye.z * view._32);
+	view._43 = -(eye.x * view._13 + eye.y * view._23 + eye.z * view._33);
+	view._14 = view._24 = view._34 = 0.0f;
+	view._44 = 1.0f;
+
+	return view;
 }

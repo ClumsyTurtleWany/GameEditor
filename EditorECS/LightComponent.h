@@ -20,4 +20,5 @@ struct SpotLightComponent
 	Vector4 Color;
 	Vector4 Direction;
 	float Radius;
+	float Distance;
 };
