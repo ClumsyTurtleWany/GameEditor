@@ -761,7 +761,7 @@ void MultiBattleScene::CardCheck()
 			if (CanUse)
 			{
 				// 패킷보냄(4,1);	<- 카드 성공적으로 쓰면 호출되는 곳, 매개변수:(쓴카드번호, 맞는적번호) ㅇㅇ
-				if ( gpHost != nullptr && gpHost->IsConnected() )
+				if ( (gpHost != nullptr && gpHost->IsConnected()) ) //|| (gpClient != nullptr && gpClient->IsConnected()) )
 				{
 					protocol::S_USECARD hostUseCard;
 					//for (int i = 0; i < EnemyList.size(); i++)
@@ -773,8 +773,8 @@ void MultiBattleScene::CardCheck()
 					hostUseCard.set_usedcardnum(0);
 
 					auto sendBuf = ServerPacketHandler::MakeSendBuffer(hostUseCard);
-					auto session = gpHost->GetService()->_listener->GetAcceptVector().front()->_session;
-					session->Send(sendBuf);
+					auto session = gpHost->GetService()->GetSessions().begin();
+					(*session)->Send(sendBuf);
 				}
 				if (gpClient != nullptr && gpClient->IsConnected())
 				{
@@ -788,8 +788,8 @@ void MultiBattleScene::CardCheck()
 					clientUseCard.set_usedcardnum(0);
 
 					auto sendBuf = ClientPacketHandler::MakeSendBuffer(clientUseCard);
-					auto session = gpClient->GetClientservice()->sessionsForConnect.front();
-					session->Send(sendBuf);
+					auto session = gpClient->GetClientservice()->GetSessions().begin();
+					(*session)->Send(sendBuf);
 				}
 
 				MyDeck->Use(cardNum);
