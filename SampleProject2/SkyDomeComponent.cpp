@@ -19,7 +19,7 @@ bool SkyDomeComponent::Initialize()
 	{
 		MaterialSlot = MaterialManager::GetInstance()->CreateMaterial(L"DefaultSkyDome");
 		MaterialSlot->Name = L"DefaultSkyDome";
-		MaterialSlot->Type = MaterialType::Default;
+		MaterialSlot->Type = MaterialType::Sky;
 		MaterialSlot->DiffuseTextureName = L"../resource/Texture/CloudSky2.jpg";
 		if (MaterialSlot->Create())
 		{

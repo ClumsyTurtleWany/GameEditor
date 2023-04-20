@@ -16,6 +16,8 @@
 void RenderSystem::Tick(ECS::World* world, float time)
 {
 	ID3D11RasterizerState* pOldRSState;
+	float color[4] = { 207.0f / 255.0f, 246.0f / 255.0f, 255.0f / 255.0f, 1.0f };
+	DXDevice::g_pImmediateContext->ClearRenderTargetView(DXDevice::g_pRTV, color);
 	DXDevice::g_pImmediateContext->RSGetState(&pOldRSState);
 	DXDevice::g_pImmediateContext->RSSetState(DXSamplerState::pDefaultRSSolid);
 	DXDevice::g_pImmediateContext->OMSetBlendState(DXSamplerState::pBlendSamplerState, 0, -1);

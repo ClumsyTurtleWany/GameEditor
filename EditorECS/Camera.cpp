@@ -14,6 +14,7 @@ Camera::~Camera()
 void Camera::CreateViewMatrix(const Vector3& eye, const Vector3& target, const Vector3& up)
 {
 	Pos = eye;
+	Target = target;
 	Look = target;
 	Up = up;
 

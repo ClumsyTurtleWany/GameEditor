@@ -1,6 +1,8 @@
 #include "BattleScene.h"
 #include "LightSystem.h"
 #include "DirectionalLight.h"
+#include "SpotLight.h"
+#include "PointLight.h"
 #include "SkyBoxComponent.h"
 #include "FBXLoader.hpp"
 #include "Landscape.h"
@@ -18,6 +20,9 @@
 #include "BoundingBoxComponent.h"
 #include "CameraArmComponent.h"
 #include "OscillationComponent.h"
+#include "CloudDomeComponent.h"
+
+#include "ActionCameraComponent.h"
 
 //추가
 #include "ColliderSystem.h"
@@ -32,17 +37,15 @@ bool BattleScene::Init()
 	ID = BATTLE;
 
 	MainCameraSystem = new CameraSystem;
-	MainCameraActor = new Actor;
-	MainCamera = MainCameraActor->AddComponent<Camera>();
-	//Vector3 pt = PlayerCharacter->GetComponent<TransformComponent>()->Translation; // player transform
-	//Vector3 et = EnemyCharacter->GetComponent<TransformComponent>()->Translation; // enemy transform
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 20.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
-	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	MainCamera->Pitch += 30.0f;
-	MainCameraSystem->MainCamera = MainCamera;
-	MainCameraActor->AddComponent<OscillationComponent>();
 
-	TheWorld.AddEntity(MainCameraActor);
+	TestActionCamera = new ActionCamera;
+	TestActionCamera->Create(Vector3(0.0f, 50.0f, -70.0f), Vector3(0.0f, 20.0f, 50.0f), 1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	MainCamera = TestActionCamera->GetComponent<ActionCameraComponent>();
+	
+	MainCameraSystem->MainCamera = MainCamera;
+
+	TheWorld.AddEntity(TestActionCamera);
 
 	// 사실 플레이어는 타이틀에서 함 초기화하고 가는것도..
 	player = new Player;
@@ -97,7 +100,7 @@ bool BattleScene::Init()
 
 	TheWorld.AddSystem(new WidgetRenderSystem);
 
-	MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
+	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
 
 	return true;
@@ -151,11 +154,9 @@ bool BattleScene::Frame()
 	KeyState btnF = Input::GetInstance()->getKey('F');
 	if (btnF == KeyState::Hold || btnF == KeyState::Down)
 	{
-		auto oscillation = MainCameraActor->GetComponent<OscillationComponent>();
-		auto camera = MainCameraActor->GetComponent<Camera>();
-		if ((oscillation != nullptr) && (camera != nullptr))
+		if (TestActionCamera != nullptr)
 		{
-			oscillation->Damped(camera->Pos, camera->Look, 20.0f, 10.0f, 10.0f, 10.0f);
+			TestActionCamera->Damped(20.0f, 2.0f, 10.0f, 10.0f);
 		}
 	}
 
@@ -170,21 +171,70 @@ bool BattleScene::Frame()
 	KeyState btnZ = Input::GetInstance()->getKey('Z');
 	if (btnZ == KeyState::Hold || btnZ == KeyState::Down)
 	{
-		MainCameraSystem->TargetCamera = PlayerCharacter->GetComponent<Camera>();
+		auto boundingBox = PlayerCharacter->GetComponent<BoundingBoxComponent>();
+		if (TestActionCamera != nullptr)
+		{
+			TestActionCamera->LookAt(boundingBox->OBB.Center, 0.5f);
+		}
 	}
 	KeyState btnX = Input::GetInstance()->getKey('X');
 	if (btnX == KeyState::Hold || btnX == KeyState::Down)
 	{
-		MainCameraSystem->TargetCamera = EnemyCharacter->GetComponent<Camera>();
+		auto boundingBox = EnemyCharacter->GetComponent<BoundingBoxComponent>();
+		if (TestActionCamera != nullptr)
+		{
+			TestActionCamera->LookAt(boundingBox->OBB.Center, 0.5f);
+		}
 	}
 	KeyState btnC = Input::GetInstance()->getKey('C');
 	if (btnC == KeyState::Hold || btnC == KeyState::Down)
 	{
-		MainCameraSystem->TargetCamera = nullptr;
+		MainCameraSystem->MainCamera = MainCamera;
+	}
+	KeyState btnV = Input::GetInstance()->getKey('V');
+	if (btnV == KeyState::Hold || btnV == KeyState::Down)
+	{
+		auto boundingBox1 = PlayerCharacter->GetComponent<BoundingBoxComponent>();
+		auto boundingBox2 = EnemyCharacter->GetComponent<BoundingBoxComponent>();
+		Vector3 t1 = boundingBox1->OBB.Center;
+		Vector3 t2 = boundingBox2->OBB.Center;
+		float dist = t1.Distance(t1, t2);
+		if (TestActionCamera != nullptr)
+		{
+			TestActionCamera->Lerp(t1, t2, dist, 1.0f);
+		}
+	}
+	KeyState btnB = Input::GetInstance()->getKey('B');
+	if (btnB == KeyState::Hold || btnB == KeyState::Down)
+	{
+		auto boundingBox1 = PlayerCharacter->GetComponent<BoundingBoxComponent>();
+		auto boundingBox2 = EnemyCharacter->GetComponent<BoundingBoxComponent>();
+		Vector3 t1 = boundingBox1->OBB.Center;
+		Vector3 t2 = boundingBox2->OBB.Center;
+		
+		if (TestActionCamera != nullptr)
+		{
+			TestActionCamera->MoveTo(t1, 1.0f);
+			TestActionCamera->LookAt(t2, 1.0f);
+		}
+	}
+	KeyState btnN = Input::GetInstance()->getKey('N');
+	if (btnN == KeyState::Hold || btnN == KeyState::Down)
+	{
+		auto boundingBox1 = PlayerCharacter->GetComponent<BoundingBoxComponent>();
+		auto boundingBox2 = EnemyCharacter->GetComponent<BoundingBoxComponent>();
+		Vector3 t1 = boundingBox1->OBB.Center;
+		Vector3 t2 = boundingBox2->OBB.Center;
+
+		if (TestActionCamera != nullptr)
+		{
+			TestActionCamera->MoveTo(t2, 1.0f);
+			TestActionCamera->LookAt(t1, 1.0f);
+		}
 	}
 
 	// 얘는 일단 주기적으로 업데이트 해줘야함.
-	// MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
+	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 
 	//Effect test
 	if (Input::GetInstance()->getKey('U') == KeyState::Up)
@@ -346,7 +396,19 @@ void BattleScene::Init_Map()
 	Actor* skyDomeActor = new Actor;
 	auto skyDomeComp = skyDomeActor->AddComponent<SkyDomeComponent>();
 	skyDomeComp->Scale = Vector3(5000.0f, 5000.0f, 5000.0f);
+
+	Material* skyDomeMaterial = MaterialManager::GetInstance()->CreateMaterial(L"SkyDome");
+	skyDomeMaterial->DiffuseTextureName = L"../resource/Texture/SkyDome.png";
+	skyDomeMaterial->Create();
+	skyDomeComp->SetMaterial(skyDomeMaterial);
+
 	TheWorld.AddEntity(skyDomeActor);
+
+	// Cloud Dome 추가
+	Actor* cloudDomeActor = new Actor;
+	auto cloudDomeComp = cloudDomeActor->AddComponent<CloudDomeComponent>();
+	cloudDomeComp->Scale = Vector3(4500, 4500, 4500);
+	TheWorld.AddEntity(cloudDomeActor);
 
 	DirectionalLight* light = new DirectionalLight;
 	auto lightComp = light->GetComponent<DirectionalLightComponent>();

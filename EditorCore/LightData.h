@@ -35,6 +35,7 @@ struct SpotLightData
 	Vector4 Position[MAX_SPOT_LIGHT_CNT];
 	Vector4 Direction[MAX_SPOT_LIGHT_CNT];
 	Vector4 Radius[MAX_SPOT_LIGHT_CNT];
+	Vector4 Distance[MAX_SPOT_LIGHT_CNT];
 	Matrix	View[MAX_SPOT_LIGHT_CNT];
 	int Cnt = 0;
 	int ShadowTextureSize;

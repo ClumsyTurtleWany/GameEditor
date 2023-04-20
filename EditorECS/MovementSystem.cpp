@@ -55,6 +55,7 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		auto oscillation = entity->GetComponent<OscillationComponent>();
 		auto transform = entity->GetComponent<TransformComponent>();
 		auto camera = entity->GetComponent<Camera>();
+		auto movement = entity->GetComponent<MovementComponent>();
 
 		if (camera != nullptr)
 		{
@@ -62,7 +63,7 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		}
 		else
 		{
-			if (transform != nullptr)
+			if (transform != nullptr && movement != nullptr)
 			{
 				oscillation->Update(transform->Translation, time);
 			}

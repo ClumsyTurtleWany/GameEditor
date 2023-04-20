@@ -146,6 +146,9 @@
     <ClInclude Include="MultiBattleScene.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="CloudDomeComponent.h">
+      <Filter>NewComponent</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkyDomeComponent.cpp">
@@ -241,6 +244,9 @@
     </ClCompile>
     <ClCompile Include="MultiBattleScene.cpp">
       <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CloudDomeComponent.cpp">
+      <Filter>NewComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
