@@ -266,6 +266,9 @@ void BattleScene::Init_UI()
 	CardList[0]->m_bDraggable = true;
 	CardList[1]->m_bDraggable = true;
 	CardList[2]->m_bDraggable = true;
+	CardList[0]->m_OriginalOriginPos = CardList[0]->m_OriginPos;
+	CardList[0]->m_OriginalOriginPos = CardList[0]->m_OriginPos;
+	CardList[0]->m_OriginalOriginPos = CardList[0]->m_OriginPos;
 	CardList[0]->m_bIsDead = true;		// 드로우 전까진 안보이게
 	CardList[1]->m_bIsDead = true;
 	CardList[2]->m_bIsDead = true;

@@ -310,7 +310,13 @@ bool WidgetObject::Drag()
 	{
 		m_OriginPos += PtoN({(float)Input::GetInstance()->m_ptOffset.x, -((float)Input::GetInstance()->m_ptOffset.y)});
 	}
-	else if (m_bDraggable) { m_OriginPos = m_OriginalOriginPos; }
+	//else { m_OriginPos = m_OriginalOriginPos; }
+	//드래그 풀리면, 이걸 여기서 다뤄도 되나 싶긴한데 뭐 드래그 자체가 카드만이니까..
+	else if (m_bDraggable && !m_bIsAnime && m_OriginPos != m_OriginalOriginPos)
+	{
+		Vector2 AnimPos[2] = { NtoP_Pos(m_OriginPos), NtoP_Pos(m_OriginalOriginPos) };
+		SetAnimation(AnimPos, 0.3f);
+	}
 
 	return true;
 }
