@@ -1571,6 +1571,76 @@ bool FBXLoader::GenerateStaticMeshFromFileData(std::wstring filename, StaticMesh
 	return true;
 }
 
+bool FBXLoader::SaveSTMFromSTComp(StaticMeshComponent* dst)
+{
+
+	std::string fbxName = to_wm(dst->FBXName);
+	int pointer = fbxName.size() - 1;
+	if (fbxName[pointer] == NULL)
+	{
+		fbxName.pop_back();
+	}
+	fbxName = fbxName.substr(0, fbxName.size() -  4);
+
+
+	std::string filepath = "../resource/FBX/";
+	filepath += fbxName;
+
+	std::filesystem::path dir(filepath);
+	std::filesystem::create_directory(dir);
+
+	filepath += "/" + fbxName + ".stm";
+
+	std::ofstream STM(filepath, std::ios::binary);
+	if (STM.is_open())
+	{
+		int meshCnt = dst->Meshes.size();
+		STM.write(reinterpret_cast<const char*>(&meshCnt), sizeof(int));
+		for (int i = 0; i < dst->Meshes.size(); i++)
+		{
+			int name_size = dst->Meshes[i].Name.size() + 1;
+			STM.write(reinterpret_cast<const char*>(&name_size), sizeof(int));
+			std::string temp = to_wm(dst->Meshes[i].Name);
+			STM.write(reinterpret_cast<const char*>(temp.c_str()), name_size);
+			int matname_size = dst->Meshes[i].MaterialName.size() + 1;
+			STM.write(reinterpret_cast<const char*>(&matname_size), sizeof(int));
+			temp = to_wm(dst->Meshes[i].MaterialName);
+			STM.write(reinterpret_cast<const char*>(temp.c_str()), matname_size);
+			int vertices_size = dst->Meshes[i].Vertices.size();
+			STM.write(reinterpret_cast<const char*>(&vertices_size), sizeof(int));
+			STM.write(reinterpret_cast<const char*>(&dst->Meshes[i].Vertices[0]), sizeof(Vertex) * vertices_size);
+			int faces_size = dst->Meshes[i].Faces.size();
+			STM.write(reinterpret_cast<const char*>(&faces_size), sizeof(int));
+			if (faces_size > 0)
+			{
+				STM.write(reinterpret_cast<const char*>(&dst->Meshes[i].Faces[0]), sizeof(Face) * faces_size);
+
+			}
+			int indices_size = dst->Meshes[i].Indices.size();
+			STM.write(reinterpret_cast<const char*>(&indices_size), sizeof(int));
+			if (indices_size > 0)
+			{
+				STM.write(reinterpret_cast<const char*>(&dst->Meshes[i].Indices[0]), sizeof(DWORD) * indices_size);
+			}
+		}
+
+		int fbxname_size = dst->FBXName.size() + 1;
+		STM.write(reinterpret_cast<const char*>(&fbxname_size), sizeof(int));
+		std::string temp = to_wm(dst->FBXName);
+		STM.write(reinterpret_cast<const char*>(temp.c_str()), fbxname_size);
+		// std::string                           Name;               
+		int meshname_size = dst->Name.size() + 1;
+		STM.write(reinterpret_cast<const char*>(&meshname_size), sizeof(int));
+		temp = to_wm(dst->Name);
+		STM.write(reinterpret_cast<const char*>(temp.c_str()), meshname_size);
+
+
+		STM.close();
+	}
+	return true;
+}
+
+
 bool FBXLoader::GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst)
 {
 	auto it = FbxFileList.find(filename);

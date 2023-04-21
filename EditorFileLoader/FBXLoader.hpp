@@ -130,6 +130,8 @@ public:
 public:
 	bool GenerateAnimationTrack(FBXFileData* data, float sampling);
 	bool GenerateStaticMeshFromFileData(std::wstring filename, StaticMeshComponent* dst);
+	// stm 파일 생성
+	bool SaveSTMFromSTComp(StaticMeshComponent* dst);
 	bool GenerateSkeletalMeshFromFileData(std::wstring filename, SkeletalMeshComponent* dst);
 	// 추가
 	bool GenerateAnimationFromFileData(std::wstring filename, AnimationComponent* dst, bool Loop = true);

@@ -484,17 +484,19 @@ void BattleScene::Init_Map()
 
 	//Actor* containerShip = new Actor;
 	//auto staticMesh = containerShip->AddComponent<StaticMeshComponent>();
-	//auto boundBox = containerShip->AddComponent<BoundingBoxComponent>(Vector3(150.0f, 250.0f, 300.0f));
-	//if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/CargoShip/CargoshipBLEND.fbx"))
-	//{
-	//	FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/CargoShip/CargoshipBLEND.fbx", staticMesh);
-	//}
+	////if (FBXLoader::GetInstance()->Load(L"../resource/FBX/Map/Container/Shipping_Container_C.fbx"))
+	////{
+	////	FBXLoader::GetInstance()->GenerateStaticMeshFromFileData(L"../resource/FBX/Map/Container/Shipping_Container_C.fbx", staticMesh);
+	////	FBXLoader::GetInstance()->SaveSTMFromSTComp(staticMesh);
+	////}
+	//FBXLoader::GetInstance()->LoadStaticMesh("../resource/FBX/Shipping_Container_C/Shipping_Container_C.stm", staticMesh);
 	//auto transform = containerShip->GetComponent<TransformComponent>();
-	//transform->Scale = Vector3(10.0f, 10.2f, 10.2f);
+	//transform->Scale = Vector3(0.1f, 0.1f, 0.1f);
+	//transform->Translation = Vector3(0.0f, 3.2f, 0.2f);
 	////transform->Rotation = Vector3(0.0f, 0.0f, 0.0f);
 	////transform->Translation = Vector3(500.0f, 0.0f, -500.0f + static_cast<float>(cnt) * 125);
 	//TheWorld.AddEntity(containerShip);
-
+	//
 
 }
 
