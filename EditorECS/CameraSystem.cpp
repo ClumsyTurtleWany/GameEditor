@@ -7,6 +7,8 @@
 #include "MovementComponent.h"
 #include "BoundingBoxComponent.h"
 #include "BoundingSphereComponent.h"
+#include "ActionCameraComponent.h"
+#include "OscillationComponent.h"
 
 void CameraSystem::Tick(ECS::World* world, float time)
 {
@@ -92,6 +94,58 @@ void CameraSystem::Tick(ECS::World* world, float time)
 				newFrustum.Transform(camera->Frustum, world);
 			}
 		}
+	}
+
+	for (auto& entity : world->GetEntities<ActionCameraComponent, TransformComponent>())
+	{
+		auto camera = entity->GetComponent<ActionCameraComponent>();
+		auto spline = entity->GetComponent<SplineComponent>();
+		auto oscillation = entity->GetComponent<OscillationComponent>();
+		auto transform = entity->GetComponent<TransformComponent>();
+		if (transform != nullptr)
+		{
+			camera->Pos = transform->Translation;
+		}
+
+		if (spline)
+		{
+			if (!spline->m_CPList.empty())
+			{
+				camera->Pos = spline->m_curKey.vPos;
+			}
+		}
+
+		if (camera->isLockOn)
+		{
+			if (camera->ElapseTime < camera->InterpolationTime)
+			{
+				camera->ElapseTime += time;
+				Vector3 lerp = DirectX::XMVectorLerp(camera->PrevLook, camera->NextLook, camera->ElapseTime / camera->InterpolationTime);
+				camera->Look = lerp;
+			}
+			else
+			{
+				camera->Look = camera->NextLook;
+				camera->isLockOn = false;
+			}
+			camera->CreateViewMatrix(camera->Pos, camera->Look, Vector3(0.0f, 1.0f, 0.0f));
+		}
+		else
+		{
+			Vector3 diff = camera->Pos - camera->PrevPos;
+			camera->Look = camera->Target + diff;
+		}
+
+		camera->CreateViewMatrix(camera->Pos, camera->Look, Vector3(0.0f, 1.0f, 0.0f));
+
+		camera->Update();
+
+		Matrix world = camera->View.Invert();
+
+		DirectX::BoundingFrustum newFrustum(camera->Projection);
+		newFrustum.Transform(camera->Frustum, world);
+
+		camera->PrevPos = camera->Pos;
 	}
 
 	if (MainCamera != nullptr)

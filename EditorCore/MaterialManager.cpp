@@ -25,7 +25,7 @@ bool MaterialManager::Initialize()
 			OutputDebugString(L"EditorCore::MaterialManager::Initialize::Failed Create Default Material.");
 		}
 	}
-
+	
 	return true;
 }
 

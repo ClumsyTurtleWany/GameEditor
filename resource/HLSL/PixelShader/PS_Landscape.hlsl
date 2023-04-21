@@ -44,6 +44,7 @@ cbuffer SpotLightData : register(b2)
 	float4 g_SpotLightPos[MAX_SPOT_LIGHT_CNT];
 	float4 g_SpotLightDir[MAX_SPOT_LIGHT_CNT];
 	float4 g_SpotLightRadius[MAX_SPOT_LIGHT_CNT];
+	float4 g_SpotLightDistance[MAX_SPOT_LIGHT_CNT];
 	float4x4 g_SpotLightView[MAX_SPOT_LIGHT_CNT];
 	int  g_SpotLightCnt;
 	int g_SpotLightShadowTextureSize;
@@ -124,11 +125,11 @@ float4 ComputeSpotDiffuseLight(float3 pos, float3 normal)
 	for (int idx = 0; idx < lightCnt; idx++)
 	{
 		// Diffuse
-		float3 vLight = normalize(pos - g_SpotLightPos[idx].xyz);
-		float dist = distance(pos, g_SpotLightPos[idx].xyz);
+		float3 vLight = normalize(pos - g_SpotLightPos[idx].xyz); // v0 normalize
+		float dist = distance(pos, g_SpotLightPos[idx].xyz); // dist
 
-		float fDot = dot(g_SpotLightDir[idx].xyz, vLight);
-		float luminance = smoothstep(dist - 5.0f, dist, g_SpotLightRadius[idx].x);
+		float fDot = dot(g_SpotLightDir[idx].xyz, vLight); // d
+		float luminance = smoothstep(dist - g_SpotLightDistance[idx], dist, g_SpotLightRadius[idx].x);
 		float intensity = saturate(dot(normal, -vLight));
 
 		if (fDot >= 0.98)
@@ -141,9 +142,22 @@ float4 ComputeSpotDiffuseLight(float3 pos, float3 normal)
 			if (fDot >= 0.9)
 			{
 				float luminance2 = smoothstep(0.9, 0.98, fDot);
-				outputColor += float4(g_SpotLightColor[idx].rgb * min(min(luminance2, luminance), intensity), 1.0f);
+				//outputColor += float4(g_SpotLightColor[idx].rgb * min(min(luminance2, luminance), intensity), 1.0f);
+				outputColor += float4(float3(0.0f, 1.0f, 0.0f) * min(min(luminance2, luminance), intensity), 1.0f);
 			}
 		}
+
+		/*float3 v0 = pos.xyz - g_SpotLightPos[idx].xyz;
+		float3 v1 = g_SpotLightDir[idx].xyz * g_SpotLightDistance[idx].x;
+		float d = (dot(v0, v1) / pow(g_SpotLightDistance[idx].x, 2.0f)) * g_SpotLightDistance[idx].x;
+		float h = sqrt(pow(dist, 2.0f) - pow(d, 2.0f));
+		float r = g_SpotLightRadius[idx] * smoothstep(0, g_SpotLightDistance[idx].x, d);
+		if (h > r)
+		{
+			if(h < r + 0.05)
+			finalLightAmount += 1.0f;
+			continue;
+		}*/
 	}
 
 	return outputColor;
@@ -177,11 +191,11 @@ float4 ComputeSpotSpecularLight(float3 pos, float3 normal)
 	for (int idx = 0; idx < lightCnt; idx++)
 	{
 		// Diffuse
-		float3 vLight = reflect(g_SpotLightDir[idx].xyz, normal.xyz);;
+		float3 vLight = reflect(g_SpotLightDir[idx].xyz, normal.xyz);
 		float dist = distance(pos, g_SpotLightPos[idx].xyz);
 
 		float fDot = dot(g_SpotLightDir[idx].xyz, vLight);
-		float luminance = smoothstep(dist - 5.0f, dist, g_SpotLightRadius[idx].x);
+		float luminance = smoothstep(dist - g_SpotLightDistance[idx], dist, g_SpotLightRadius[idx].x);
 		float intensity = saturate(dot(g_EyeDir.xyz, vLight));
 
 		if (fDot >= 0.98)
@@ -228,33 +242,15 @@ float ComputeDirectionalLightShadowAmount(float4 pos)
 		lightAmount /= (3 * 3);
 		finalLightAmount += lightAmount;
 	}
-	finalLightAmount = finalLightAmount / (lightCnt + EPSILON);
-	return finalLightAmount;
-}
-
-float ComputeSpotLightShadowAmount(float4 pos)
-{
-	// Shadow Texture Coordinate
-	const float delta = 1.0f / g_SpotLightShadowTextureSize;
-	float finalLightAmount = 0.0f;
-	int lightCnt = g_SpotLightCnt;
-	for (int idx = 0; idx < lightCnt; idx++)
+	
+	if (lightCnt == 0)
 	{
-		float4 shadowUV = mul(pos, g_SpotLightView[idx]);
-		float3 shadowTexColor = shadowUV.xyz / shadowUV.w;
-		float lightAmount = 0.0f;
-		for (int v = -1; v <= 1; v++)
-		{
-			for (int u = -1; u <= 1; u++)
-			{
-				float2 offset = float2(u * delta, v * delta);
-				lightAmount += g_SpotLightShadowDepthMap.SampleCmpLevelZero(g_SampleCompShadowMap, float3(shadowTexColor.xy + offset, idx), shadowTexColor.z).r;
-			}
-		}
-		lightAmount /= (3 * 3);
-		finalLightAmount += lightAmount;
+		finalLightAmount = 1.0f;
 	}
-	finalLightAmount = finalLightAmount / (lightCnt + EPSILON);
+	else
+	{
+		finalLightAmount = finalLightAmount / (lightCnt + EPSILON);
+	}
 	return finalLightAmount;
 }
 
@@ -280,7 +276,70 @@ float ComputePointLightShadowAmount(float4 pos)
 		lightAmount /= (3 * 3);
 		finalLightAmount += lightAmount;
 	}
-	finalLightAmount = finalLightAmount / (lightCnt + EPSILON);
+	
+	if (lightCnt == 0)
+	{
+		finalLightAmount = 1.0f;
+	}
+	else
+	{
+		finalLightAmount = finalLightAmount / (lightCnt + EPSILON);
+	}
+	return finalLightAmount;
+}
+
+float ComputeSpotLightShadowAmount(float4 pos)
+{
+	// Shadow Texture Coordinate
+	const float delta = 1.0f / g_SpotLightShadowTextureSize;
+	float finalLightAmount = 0.0f;
+	int lightCnt = g_SpotLightCnt;
+	for (int idx = 0; idx < lightCnt; idx++)
+	{
+		float maxDist = sqrt(pow(g_SpotLightDistance[idx].x, 2.0f) + pow(g_SpotLightRadius[idx].x / 2.0f, 2.0f));
+		float dist = distance(pos, g_SpotLightPos[idx]);
+		if (dist > maxDist)
+		{
+			finalLightAmount += 1.0f;
+			continue;
+		}
+		else
+		{
+			float3 v0 = pos.xyz - g_SpotLightPos[idx].xyz;
+			float3 v1 = g_SpotLightDir[idx].xyz * g_SpotLightDistance[idx].x;
+			float proj = (dot(v0, v1) / pow(g_SpotLightDistance[idx].x, 2.0f)) * g_SpotLightDistance[idx].x;
+			float d = sqrt(pow(dist, 2.0f) - pow(proj, 2.0f));
+			float r = g_SpotLightRadius[idx] * smoothstep(0, g_SpotLightDistance[idx].x, proj);
+			if (d > r)
+			{
+				finalLightAmount += 1.0f;
+				continue;
+			}
+		}
+
+		float4 shadowUV = mul(pos, g_SpotLightView[idx]);
+		float3 shadowTexColor = shadowUV.xyz / shadowUV.w;
+		float lightAmount = 0.0f;
+		for (int v = -1; v <= 1; v++)
+		{
+			for (int u = -1; u <= 1; u++)
+			{
+				float2 offset = float2(u * delta, v * delta);
+				lightAmount += g_SpotLightShadowDepthMap.SampleCmpLevelZero(g_SampleCompShadowMap, float3(shadowTexColor.xy + offset, idx), shadowTexColor.z).r;
+			}
+		}
+		lightAmount /= (3 * 3);
+		finalLightAmount += lightAmount;
+	}
+
+	if (lightCnt == 0)
+	{
+		finalLightAmount = 1.0f;
+	}
+	else
+	{
+		finalLightAmount = finalLightAmount / (lightCnt + EPSILON);
+	}
 	return finalLightAmount;
 }
 
@@ -311,7 +370,7 @@ float4 PS(PixelShader_input _input) : SV_Target
 	float directionalLightShadowBright = ComputeDirectionalLightShadowAmount(_input.vWorld);
 	float pointLightShadowBright = ComputePointLightShadowAmount(_input.vWorld);
 	float spotLightShadowBright = ComputeSpotLightShadowAmount(_input.vWorld);	
-	float shadowBright = directionalLightShadowBright + pointLightShadowBright + spotLightShadowBright;
+	float shadowBright = directionalLightShadowBright * pointLightShadowBright * spotLightShadowBright;
 	//shadowBright /= 3.0f;
 
 	finalColor = finalColor * max(0.3f, shadowBright);

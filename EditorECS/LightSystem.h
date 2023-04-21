@@ -3,6 +3,8 @@
 #include "System.hpp"
 #include "Camera.h"
 
+#define EPSILON (float)0.0001f
+
 class LightSystem : public ECS::System
 {
 public:
@@ -39,4 +41,5 @@ public:
 
 	void Initialize();
 	void CleanUp();
+	Matrix CreateViewMatrix(const Vector4& eye, const Vector4& target, const Vector3& up);
 };

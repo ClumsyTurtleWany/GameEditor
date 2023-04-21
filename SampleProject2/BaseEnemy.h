@@ -17,6 +17,9 @@ public:
 	virtual void UpdateState();
 
 public:
+	Camera* MainCamera;
+
+public:
 	int hp;
 	int maxHp;
 	int armor;
@@ -29,11 +32,13 @@ public:
 
 public:
 	std::vector<WidgetObject*> ObjList;
+	WidgetObject* BG;
 	WidgetObject* CurrentHP1;
 	WidgetObject* CurrentHP2;
 	WidgetObject* MaxHP1;
 	WidgetObject* MaxHP2; 
-	WidgetObject* HPBar;
+	WidgetObject* Slash;
+	//WidgetObject* HPBar;
 
 	// 방어도도 해야하는데.. 귀찮으니까 좀 나중에
 	//WidgetObject* ArmorIcon;

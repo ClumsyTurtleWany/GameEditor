@@ -10,6 +10,7 @@ enum MaterialType
 	Light = 1,
 	Layer = 2,
 	Normal = 3,
+	Sky = 4,
 };
 
 class Material

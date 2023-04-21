@@ -213,11 +213,11 @@
     <ClInclude Include="RenderableStringComponent.h">
       <Filter>Component\EffectComponent</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationNotifier.h">
-      <Filter>Component\Animation</Filter>
+    <ClInclude Include="ActionCameraComponent.h">
+      <Filter>Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="NotifySystem.h">
-      <Filter>System\AnimSystem</Filter>
+    <ClInclude Include="ActionCamera.h">
+      <Filter>Entity\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,8 +323,11 @@
     <ClCompile Include="RenderableStringComponent.cpp">
       <Filter>Component\EffectComponent</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationNotifier.cpp">
-      <Filter>Component\Animation</Filter>
+    <ClCompile Include="ActionCameraComponent.cpp">
+      <Filter>Component\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionCamera.cpp">
+      <Filter>Entity\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

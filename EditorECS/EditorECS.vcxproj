@@ -29,6 +29,8 @@
     <ClInclude Include="..\include\EffectInclude\ParticleEffectComponent.h" />
     <ClInclude Include="..\include\EffectInclude\RNGenerator.h" />
     <ClInclude Include="..\include\EffectInclude\SpriteManager.h" />
+    <ClInclude Include="ActionCamera.h" />
+    <ClInclude Include="ActionCameraComponent.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="AnimationNotifier.h" />
@@ -75,6 +77,8 @@
     <ClCompile Include="..\include\EffectInclude\ParticleEmitter.cpp" />
     <ClCompile Include="..\include\EffectInclude\RNGenerator.cpp" />
     <ClCompile Include="..\include\EffectInclude\SpriteManager.cpp" />
+    <ClCompile Include="ActionCamera.cpp" />
+    <ClCompile Include="ActionCameraComponent.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="AnimationNotifier.cpp" />

@@ -31,6 +31,7 @@ public:
 	void EnemyTurnProcess();
 	void EnemyAttackAnimProcess();
 	void CardCheck();
+	void Reaction();
 	bool ManaCheck(int cost);
 	void UpdateHand(int handSize);
 	void UpdatePlayerState();
@@ -84,6 +85,9 @@ public:
 	WidgetObject* Damage1;
 	WidgetObject* Damage2;
 
+	WidgetObject* ToolTipBoard;
+	WidgetObject* ToolTipText;
+
 public:
 	Deck* MyDeck = nullptr;
 	Deck* YourDeck = nullptr;
@@ -111,8 +115,8 @@ public:
 public: //패킷 보내는 함수, S_ : server sends to client, C_ : client sends to server
 
 public:
-	int OtherPlayerUsedCardNum = 0; // 상대 플레이어가 사용한 카드 종류
-	int OtherPlayerTargetEnemyNum = 0; // 상대 플레이어가 카드의 타겟으로 정한 적의 넘버, 방어류 카드라면 0
-	bool hostTurnEnd;
-	bool clientTurnEnd;
+	int OtherPlayerUsedCardNum = 999; // 상대 플레이어가 사용한 카드 종류
+	int OtherPlayerTargetEnemyNum = 999; // 상대 플레이어가 카드의 타겟으로 정한 적의 넘버, 방어류 카드라면 999
+	bool hostTurnEnd = false;
+	bool clientTurnEnd = false;
 };

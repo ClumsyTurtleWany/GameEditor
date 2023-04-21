@@ -8,6 +8,7 @@ bool BaseEnemy::Init()
 	wc = wa->AddComponent<WidgetComponent>();
 	Loader.FileLoad(wc, L"../resource/UI/Save/EnemyState.txt");
 
+	BG = wc->FindObj(L"EnemyInfoBG");
 	CurrentHP1 = wc->FindObj(L"EnemyCurrentHp_1");
 	CurrentHP2 = wc->FindObj(L"EnemyCurrentHp_2");
 	MaxHP1 = wc->FindObj(L"EnemyMaxHp_1");
@@ -15,6 +16,8 @@ bool BaseEnemy::Init()
 	IntentIcon = wc->FindObj(L"EnemyIntent");
 	Intent1 = wc->FindObj(L"EnemyIntent_1");
 	Intent2 = wc->FindObj(L"EnemyIntent_2");
+	Slash = wc->FindObj(L"Slash2");
+
 	ObjList.push_back(CurrentHP1);
 	ObjList.push_back(CurrentHP2);
 	ObjList.push_back(MaxHP1);
@@ -22,8 +25,16 @@ bool BaseEnemy::Init()
 	ObjList.push_back(IntentIcon);
 	ObjList.push_back(Intent1);
 	ObjList.push_back(Intent2);
-	ObjList.push_back(wc->FindObj(L"EnemyInfoBG"));
-	ObjList.push_back(wc->FindObj(L"Slash2"));
+	ObjList.push_back(BG);
+	ObjList.push_back(Slash);
+
+	// ㅠㅠ... 빌보드 쓰고싶었는데,,
+	//for (auto obj : ObjList) 
+	//{
+	//	obj->MainCamera = MainCamera;
+	//	obj->m_b3D = true;
+	//	obj->scale = 20.0f;
+	//}
 
 	(*pWorld).AddEntity(wa);
 

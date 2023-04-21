@@ -173,6 +173,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat
     <ClInclude Include="Client.h" />
     <ClInclude Include="ClientPacketHandler.h" />
     <ClInclude Include="ClientSession.h" />
+    <ClInclude Include="CloudDomeComponent.h" />
     <ClInclude Include="Deck.h" />
     <ClInclude Include="Enemy_1.h" />
     <ClInclude Include="enum.pb.h" />
@@ -207,6 +208,7 @@ CALL $(SolutionDir)Common\protoc-3.17.1-win64\bin\genPackets.bat
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ClientPacketHandler.cpp" />
     <ClCompile Include="ClientSession.cpp" />
+    <ClCompile Include="CloudDomeComponent.cpp" />
     <ClCompile Include="Deck.cpp" />
     <ClCompile Include="Enemy_1.cpp" />
     <ClCompile Include="enum.pb.cc" />

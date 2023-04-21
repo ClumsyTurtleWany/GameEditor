@@ -4,6 +4,7 @@
 #include "DXShaderManager.h"
 #include "CameraMatrix.h" //Vector쓸라믄 여기에있어야카네..
 #include "Mesh.h"
+#include "CameraSystem.h"
 
 enum UIType
 {
@@ -47,6 +48,7 @@ public:
 	bool SetPosition(Vector2 orginPos);
 	bool AddCut(Vector2 pxWH, Vector4 uv, std::wstring tn);
 	bool UpdateCut(int cutNum);
+	bool UpdateCut3D(int cutNum);
 	Vector2 PtoN(Vector2 pxWH);		// 이건 너비/높이
 	Vector2 PtoN_Pos(Vector2 pxPos); // 이건 위치
 	Vector2 NtoP_Pos(Vector2 ndcPos);
@@ -77,8 +79,13 @@ public:
 	ID3D11PixelShader* PixelShader = nullptr;
 	ID3D11Buffer* TransformBuffer = nullptr;
 	TransformMatrix	TransformData;
+	CameraMatrix  CameraData;
 	ID3D11Buffer* CameraMatrixBuffer;
+	Camera* MainCamera;
 
+	Vector3	m_OrginPos3D;
+	float	scale = 1.0f;
+	Vector3 rotate;
 
 // 여서부터는 영민이 커스텀
 public:
@@ -110,5 +117,7 @@ public:
 	Vector2			m_AnimS[2]; // Scale, 시작크기/목적크기
 	float			m_AnimPT;	// Play Time, 즉 애니메이션 재생시간(길이)
 	float			m_AnimCT = 0.0f; // Current Time, 현재 애니메이션이 얼마나 진행되었는지 뭐 그런
+
+	bool			m_b3D = false;
 };
 
