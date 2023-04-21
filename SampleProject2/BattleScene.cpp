@@ -32,6 +32,7 @@
 ///////////////////
 #include "EffectInclude/EffectSystem.h"
 
+
 bool BattleScene::Init()
 {
 	ID = BATTLE;
@@ -42,7 +43,6 @@ bool BattleScene::Init()
 	TestActionCamera->Create(Vector3(0.0f, 50.0f, -70.0f), Vector3(0.0f, 20.0f, 50.0f), 1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 	MainCamera = TestActionCamera->GetComponent<ActionCameraComponent>();
-	
 	MainCameraSystem->MainCamera = MainCamera;
 
 	TheWorld.AddEntity(TestActionCamera);
@@ -99,9 +99,22 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(skyRenderSystem);
 
 	TheWorld.AddSystem(new WidgetRenderSystem);
-
-	//MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
+
+
+	//// 초기 카메라 위치 세팅, 좀 더 대이내믹한 스타팅 애니메이션으로 나중에 바꿀수도
+	//auto CameraStartPos = PlayerCharacter->Transform->Translation;
+	auto PlayerForward = PlayerCharacter->MovementComp->Destination - PlayerCharacter->Transform->Translation;
+	PlayerForward.Normalize();
+	player->Forward = PlayerForward;
+	//CameraStartPos -= PlayerForward * 100.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
+	//CameraStartPos.z += 100;					// 위로 좀 올려줌
+	//TestActionCamera->MoveTo(CameraStartPos, 1.0f);
+
+	//// 초기 카메라 타겟 세팅, 일단 플레이어 정면 500.0f 앞
+	//auto CameraStartTarget = PlayerCharacter->Transform->Translation;
+	//CameraStartTarget += PlayerForward * 100;
+	//TestActionCamera->LookAt(CameraStartTarget, 1.0f);
 
 	return true;
 }
@@ -113,7 +126,26 @@ bool BattleScene::Frame()
 	KeyState btnA = Input::GetInstance()->getKey('A');
 	if (btnA == KeyState::Hold || btnA == KeyState::Down)
 	{
-		MainCamera->Yaw -= 0.5f;
+		// Right 벡터 구할라고
+		DirectX::XMFLOAT3 upVec(0.0f, 1.0f, 0.0f);
+		Vector3 Right;	// Calculate the right vector	
+		DirectX::XMFLOAT3 crossProduct;
+		XMStoreFloat3(&crossProduct, DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&player->Forward), XMLoadFloat3(&upVec)));
+		DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
+
+		// 초기 카메라 위치 세팅, 좀 더 대이내믹한 스타팅 애니메이션으로 나중에 바꿀수도
+		auto CameraStartPos = PlayerCharacter->Transform->Translation;
+		CameraStartPos -= player->Forward * 1.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
+		CameraStartPos.y += 30.0f;					// 위로 좀 올려줌
+		CameraStartPos -= Right * 35.0f;			// 오른쪽으로 좀 빼주고
+		TestActionCamera->MoveTo(CameraStartPos, 1.1f);
+
+		// 초기 카메라 타겟 세팅, 일단 적캐릭 둘 사이
+		auto CameraStartTarget = (enemy1->chara->Transform->Translation + enemy2->chara->Transform->Translation) / 2;
+		//CameraStartTarget.y -= 10.0f;
+		TestActionCamera->LookAt(CameraStartTarget, 1.1f);
+
+		//MainCamera->Yaw -= 0.5f;
 	}
 	KeyState btnD = Input::GetInstance()->getKey('D');
 	if (btnD == KeyState::Hold || btnD == KeyState::Down)
@@ -250,8 +282,27 @@ bool BattleScene::Frame()
 			for (auto obj : enemy->ObjList) // 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
 			{
 				obj->m_bIsDead = false;
+			}	
+
+			if (TargetEnemy != enemy) // 타겟팅이 바뀌었을 때 한번만
+			{
+				TargetEnemy = enemy;
+
+				// 적 선택하면 그쪽으로 카메라 락온
+				auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+				CameraTarget.y += 10.0f;
+				TestActionCamera->LookAt(CameraTarget, 1.0f);
+
+				// 캐릭터 방향 회전, 애니메이션 줄라면 줄수있는데 여유생기면,,머,,
+				Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - player->chara->Transform->Translation;
+				NewPlayerForward.Normalize();
+
+				DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(player->Forward, NewPlayerForward);
+				Vector3 eulerAngles = quaternion.ToEuler();
+				eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+				player->chara->Transform->Rotation += eulerAngles;
+				player->Forward = NewPlayerForward;
 			}
-			TargetEnemy = enemy;
 		}
 		else
 		{
@@ -265,10 +316,10 @@ bool BattleScene::Frame()
 		}
 	}
 
-	enemy1->IntentIcon->m_OrginPos3D = enemy1->chara->MovementComp->Location;
-	enemy1->IntentIcon->m_OrginPos3D.z += 300.0f;
-	enemy2->IntentIcon->m_OrginPos3D = enemy2->chara->MovementComp->Location;
-	enemy1->IntentIcon->m_OrginPos3D.z += 500.0f;
+	//enemy1->IntentIcon->m_OrginPos3D = enemy1->chara->MovementComp->Location;
+	//enemy1->IntentIcon->m_OrginPos3D.z += 300.0f;
+	//enemy2->IntentIcon->m_OrginPos3D = enemy2->chara->MovementComp->Location;
+	//enemy1->IntentIcon->m_OrginPos3D.z += 500.0f;
 
 	return true;
 }
@@ -761,13 +812,19 @@ void BattleScene::EnemyTurnProcess()
 	UpdatePlayerState();
 	UpdateEnemyState();
 
-	//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
-	auto HitCam = player->chara->GetComponent<Camera>();
-	if (HitCam)
-	{
-		MainCameraSystem->TargetCamera = HitCam;
-	}
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// 카메라 워크
+	Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+	Vector3 t2 = InActionEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+	float dist = t1.Distance(t1, t2);
+	TestActionCamera->Lerp(t1, t2, dist, 0.5f);
+
+	////VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
+	//auto HitCam = player->chara->GetComponent<Camera>();
+	//if (HitCam)
+	//{
+	//	MainCameraSystem->TargetCamera = HitCam;
+	//}
+	////^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 	SoundMap.find(L"Hit2")->second->Play();
@@ -794,6 +851,11 @@ void BattleScene::EnemyAttackAnimProcess()
 		UpdateEnemyState();
 		PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 		SoundMap.find(L"Hit2")->second->Play();
+
+		Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+		Vector3 t2 = InActionEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+		float dist = t1.Distance(t1, t2);
+		TestActionCamera->Lerp(t1, t2, dist, 0.5f);
 	}
 }
 
@@ -846,14 +908,6 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1))
 				{
-					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
-					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
-					if (HitCam)
-					{
-						MainCameraSystem->TargetCamera = HitCam;
-					}
-					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 					TargetEnemy->hp -= 6;
 					DamageAnimation(6, true);
 					CanUse = true;
@@ -878,14 +932,6 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1))
 				{
-					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
-					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
-					if (HitCam)
-					{
-						MainCameraSystem->TargetCamera = HitCam;
-					}
-					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 					TargetEnemy->hp -= 9;
 					DamageAnimation(9, true);
 					Dick->Draw(1);
@@ -924,14 +970,6 @@ void BattleScene::CardCheck()
 			{
 				if (ManaCheck(1))
 				{
-					//VVVVVVVVVVVVVVVVVV카메라 테스트 추가부VVVVVVVVVVVVVVVVVVVVVVVV
-					auto HitCam = TargetEnemy->chara->GetComponent<Camera>();
-					if (HitCam)
-					{
-						MainCameraSystem->TargetCamera = HitCam;
-					}
-					//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 					TargetEnemy->hp -= 5;
 					DamageAnimation(5, true);
 					player->armor += 5;
@@ -952,6 +990,12 @@ void BattleScene::CardCheck()
 				UpdateHand(Dick->HandList.size(), cardNum, DrawedCard);
 				UpdatePlayerState();
 				UpdateEnemyState();
+
+				// 카메라 워크
+				Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+				Vector3 t2 = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+				float dist = t1.Distance(t1, t2);
+				TestActionCamera->Lerp(t1, t2, dist, 1.0f);
 			}
 			else {} // 여기서 마나부족 경고문구 출력
 
@@ -1046,7 +1090,7 @@ void BattleScene::UpdateHand(int handSize, int UsedCard, int DrawedCard)
 				AnimTime = 0.5f;
 			}	// 드로우된 카드는 멀리서 날라오니까 애니메이션 시간 좀 더줌
 
-// 드로우X
+			// 드로우X
 			else { AnimPos[0] = CardList[card]->NtoP_Pos(CardList[card + 1]->m_OriginalOriginPos); }
 		}
 		CardList[card]->SetAnimation(AnimPos, AnimTime);
