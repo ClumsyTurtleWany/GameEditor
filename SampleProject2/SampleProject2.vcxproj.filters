@@ -29,17 +29,17 @@
     <Filter Include="Network\Client">
       <UniqueIdentifier>{5c906170-d53f-4ca3-891e-270aecaf95bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Network\Utils">
-      <UniqueIdentifier>{d08ec1ed-7a41-4858-a104-6a7260ebfd60}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Network\Protocol">
-      <UniqueIdentifier>{91df5b85-a165-456f-8794-98795ac1d111}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network\Client\Packet">
       <UniqueIdentifier>{3a33299f-8540-40f8-be2a-78b9fa656e00}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network\Client\Session">
       <UniqueIdentifier>{3cc8fa8c-9f8c-4a6e-8e40-befd084e4743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Utils">
+      <UniqueIdentifier>{d08ec1ed-7a41-4858-a104-6a7260ebfd60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network\Protocol">
+      <UniqueIdentifier>{91df5b85-a165-456f-8794-98795ac1d111}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network\Server">
       <UniqueIdentifier>{a21d6128-0a50-40d1-b46a-771615a0b3ea}</UniqueIdentifier>

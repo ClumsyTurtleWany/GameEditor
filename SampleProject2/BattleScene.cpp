@@ -18,6 +18,8 @@
 #include "BoundingBoxComponent.h"
 #include "CameraArmComponent.h"
 #include "OscillationComponent.h"
+#include "AnimationNotifier.h"
+#include "NotifySystem.h"
 
 //추가
 #include "ColliderSystem.h"
@@ -67,9 +69,11 @@ bool BattleScene::Init()
 
 	Init_UI();
 	Init_Map();
+	Init_Sound();
 	Init_Chara();
 	Init_Effect();
-	Init_Sound();
+	// ADD NOTIFY SYSTEM
+	TheWorld.AddSystem(new ECS::NotifySystem);
 
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	TheWorld.AddSystem(MainCameraSystem);
@@ -96,6 +100,8 @@ bool BattleScene::Init()
 
 	MainCameraSystem->MainCamera = PlayerCharacter->GetComponent<Camera>();
 	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
+
+
 
 	return true;
 }
@@ -217,6 +223,7 @@ bool BattleScene::Frame()
 	{
 		int a = 10;
 	}
+
 
 	return true;
 }
@@ -443,6 +450,34 @@ void BattleScene::Init_Chara()
 
 
 	playerCharAnimComp->SetClipByName(L"Idle");
+
+	/////////////// NOTIFIER 사용 예제/////////////////
+	// 1. 노티파이어 매니저 컴포넌트를 추가하고
+	auto notiMgr = PlayerCharacter->AddComponent<NotifierMgrComponent>();
+
+	// 2. 노티파이어 생성 (여러개 생성 가능하며 한 노티파이어에서 사운드, 이펙트 동시에 발생시킬 수 있음)
+	//		 생성시 인자는 노티파이어 이름 , 발생시키고자 하는 프레임(정수) , 노티파이어 수명(프레임, 정수) <- 아무값도 안넣으면 1이 기본
+	Notifier* newNoti = notiMgr->CreateNotifier(L"step1", 7);
+	// 3. 이펙트 발생을 위해 노티파이어에 이펙트를 달아주기
+	//		 사운드, 이펙트 각각 두가지 방법으로 달 수 있음
+	// 
+	//		 MakeFmodSound(노티파이어 이름 , FmodSound*) <- 기존 사운드맵을 활용할 수 있지만 second로 바로 접근하기때문에 로드 안된 거 잘못 넣으면 뻑나니 주의
+	notiMgr->MakeFmodSound(L"step1", SoundMap.find(L"Hit2")->second);
+
+	//		 MakeEffect(노티파이어 이름, 이펙트 키 이름 , 이펙트 위치(트랜스폼 컴포넌트) , 파티클 속성)
+	//		 이때 이펙트 위치에 Vector3 값만 넣어도 됨 (오버로딩)
+	notiMgr->MakeEffect(L"step1", L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+
+	Notifier* newNoti2 = notiMgr->CreateNotifier(L"step2", 20);
+
+	//		 MakeSound(노티파이어 이름 , 기존에 로드했던 사운드 파일(FmodSoundManager의 사운드 맵에서 받아옴) , 볼륨, 루프 상태)
+	notiMgr->MakeSound(L"step2", L"Attack_Bludgeon.ogg", 0.5f, false);
+
+	// 4. 만들어진 노티파이어를 애니메이션 컴포넌트에 붙여주기
+	//		 AddNotifier(애니메이션 컴포넌트 , 해당 컴포넌트가 들고 있는 애니메이션 클립의 이름 , 생성한 노티파이어)
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti);
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti2);
+
 
 	// 소켓 컴포넌트 추가
 	auto socketComp = PlayerCharacter->AddComponent<SocketComponent>();

@@ -31,6 +31,7 @@
     <ClInclude Include="..\include\EffectInclude\SpriteManager.h" />
     <ClInclude Include="Actor.h" />
     <ClInclude Include="AnimationComponent.h" />
+    <ClInclude Include="AnimationNotifier.h" />
     <ClInclude Include="ArrowComponent.h" />
     <ClInclude Include="BoundingBoxComponent.h" />
     <ClInclude Include="BoundingSphereComponent.h" />
@@ -51,6 +52,7 @@
     <ClInclude Include="LightSystem.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
+    <ClInclude Include="NotifySystem.h" />
     <ClInclude Include="OscillationComponent.h" />
     <ClInclude Include="PlaneComponent.h" />
     <ClInclude Include="PointLight.h" />
@@ -75,6 +77,7 @@
     <ClCompile Include="..\include\EffectInclude\SpriteManager.cpp" />
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="AnimationComponent.cpp" />
+    <ClCompile Include="AnimationNotifier.cpp" />
     <ClCompile Include="ArrowComponent.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraArmComponent.cpp" />

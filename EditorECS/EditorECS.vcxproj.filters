@@ -213,6 +213,12 @@
     <ClInclude Include="RenderableStringComponent.h">
       <Filter>Component\EffectComponent</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationNotifier.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="NotifySystem.h">
+      <Filter>System\AnimSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -316,6 +322,9 @@
     </ClCompile>
     <ClCompile Include="RenderableStringComponent.cpp">
       <Filter>Component\EffectComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationNotifier.cpp">
+      <Filter>Component\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

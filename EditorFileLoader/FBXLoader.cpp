@@ -1860,7 +1860,7 @@ bool FBXLoader::LoadAnimClip(std::string filename, AnimationComponent* ANIM, boo
 	if (CLP_in.is_open())
 	{
 		AnimationClip* newClip = new AnimationClip;
-
+		newClip->NotifierList.clear();
 		unsigned int uint;
 		CLP_in.read(reinterpret_cast<char*>(&uint), sizeof(unsigned int));
 		newClip->StartFrame = uint;
