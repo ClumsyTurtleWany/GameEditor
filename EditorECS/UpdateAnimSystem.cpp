@@ -17,6 +17,7 @@ void UpdateAnimSystem::Tick(ECS::World* world, float time)
 		if ((skeletalMesh != nullptr) && (animation != nullptr))
 		{
 			animation->UpdateAnim(skeletalMesh, time);
+			animation->Notify(world);
 		}
 		if (entity->has<SocketComponent>())
 		{

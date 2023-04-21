@@ -125,3 +125,25 @@ AnimationComponent::~AnimationComponent()
 
 	ClipList.clear();
 }
+
+void AnimationComponent::Notify(ECS::World* world)
+{
+	if (CurrentClip != nullptr && !CurrentClip->NotifierList.empty())
+	{
+		for (auto data : CurrentClip->NotifierList)
+		{
+			if (data->StartFrame == (unsigned int)m_currentAnimationFrame)
+			{
+				if (!data->IsOn) 
+				{
+					data->IsOn = true;
+					world->emit<Notifier>(*data);
+				}
+			}
+			else if((data->StartFrame + data->Lifespan) == (unsigned int)m_currentAnimationFrame)
+			{
+				data->IsOn = false;
+			}
+		}
+	}
+}

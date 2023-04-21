@@ -1,6 +1,50 @@
 #pragma once
 #include "Define.h"
 #include "SkeletalMeshComponent.h"
+#include "EffectInclude/ParticleEmitter.h"
+
+/**
+* @struct SoundDesc
+* @brief  사운드 노티파이어의 정보를 담은 구조체
+*/
+struct SoundDesc
+{
+	std::wstring	SoundName;										///< 사운드의 이름
+	float			Volume;											///< 사운드 볼륨
+	bool			Loop;											///< 루프 설정
+};
+
+/**
+* @struct EffectDesc
+* @brief  이펙트 노티파이어의 정보를 담은 구조체
+*/
+struct EffectDesc
+{
+	std::wstring						Key;						///< 이펙트의 이름
+	TransformComponent					TransformComp;				///< 이펙트 위치 정보
+	EFFECTUTIL::ParticlesystemProperty	PSProp;						///< 파티클 속성
+};
+
+
+/**
+* @struct Notifier
+* @brief 노티파이어의 정보를 담은 구조체 (시작 프레임, 유지 시간 등의 정보 제공)
+*/
+struct Notifier
+{
+	std::wstring	ClipName;										///< 애니메이션 클립의 이름
+	std::wstring	Lable;											///< 노티파이어의 이름
+	unsigned int	StartFrame;										///< 노티파이 시작 프레임
+	unsigned int	Lifespan;										///< 노티파이 유지 시간(프레임 단위) , 기본값은 1프레임
+	bool			IsOn = false;									///< 노티파이어가 활성화되어 있는지 구분하기 위한 bool 멤버
+	FMODSound*		FModSound = nullptr;							///< FmodSound* 
+	SoundDesc*		Sound = nullptr;								///< 사운드 정보
+	EffectDesc*		Effect = nullptr;								///< 이펙트 정보
+
+};
+
+
+
 
 /**
 * @struct AnimationClip
@@ -16,10 +60,10 @@ struct AnimationClip
 
 
 	std::map<std::string, std::vector<Matrix>> LerpFrameMatrixList; ///< FBXLoader::PreProcess()의 GenerateAnimationTrack()에서 생성된 보간 행렬
-	
 
+	std::vector<Notifier*>	NotifierList;
 
-	std::wstring	FileName;										///< Fbx 파일의 이름
+	std::wstring			FileName;										///< Fbx 파일의 이름
 };
 
 /**
@@ -74,4 +118,9 @@ public:
 	*/
 	virtual bool UpdateAnim(SkeletalMeshComponent* mesh, float tick);
 
+	/**
+	 * @brief 클립 내에 노티파이어가 있다면 조건 달성시 노티파이 이벤트를 발생시킨다
+	 * @param[in] world 이벤트를 emit 시켜줌
+	*/
+	void Notify(ECS::World* world);
 };
