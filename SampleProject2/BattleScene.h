@@ -91,6 +91,9 @@ public:
 	WidgetObject* ToolTipText;
 
 public:
+	WidgetRenderSystem* WRS; // UI ¼û±æ¶ó°í µû·Î ¸â¹ö·Î ¸¸µé¾îµÒ
+
+public:
 	Deck* Dick;
 	std::vector<DXTexture*> CardTextureList;
 	WidgetObject* CardList[3] = { 0, };

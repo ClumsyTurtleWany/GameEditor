@@ -13,5 +13,8 @@ public:
 
 public:
 	virtual void Tick(ECS::World* world, float time) override;
+
+public:
+	bool hide = false;
 };
 
