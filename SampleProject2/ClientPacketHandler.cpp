@@ -101,3 +101,19 @@ bool client::Handle_S_TURNEND(PacketSessionRef& session, protocol::S_TURNEND& pk
 
 	return true;
 }
+
+bool client::Handle_S_MOVECLICKED(PacketSessionRef& session, protocol::S_MOVECLICKED& pkt)
+{
+	multyclient->MoveClickCheck = pkt.bmoveclick();
+	
+	return true;
+}
+
+bool client::Handle_S_MOVETOPOINT(PacketSessionRef& session, protocol::S_MOVETOPOINT& pkt)
+{
+	multyclient->MoveLocation.x = pkt.vecx();
+	multyclient->MoveLocation.y = pkt.vecy();
+	multyclient->MoveLocation.z = pkt.vecz();
+
+	return true;
+}
