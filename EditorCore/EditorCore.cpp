@@ -127,8 +127,11 @@ bool EditorCore::CreateInputLayout()
         { "COLOR",      0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 24,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
         { "TEXCOORD",   0, DXGI_FORMAT_R32G32_FLOAT,        0, 40,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
         { "SPRITERT",   0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 48,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
-        { "ROTATION",   0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 64,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
-        { "SCALE",      0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 76,  D3D11_INPUT_PER_VERTEX_DATA, NULL}
+        { "ROTATION",   0, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 64,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "ROTATION",   1, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 80,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "ROTATION",   2, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 96,  D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "ROTATION",   3, DXGI_FORMAT_R32G32B32A32_FLOAT,  0, 112, D3D11_INPUT_PER_VERTEX_DATA, NULL},
+        { "SCALE",      0, DXGI_FORMAT_R32G32B32_FLOAT,     0, 128,  D3D11_INPUT_PER_VERTEX_DATA, NULL}
     };
     UINT particleEffectInputElementNum = sizeof(particleEffectInputDescs) / sizeof(particleEffectInputDescs[0]);
     DXShaderManager::GetInstance()->CreateInputLayout(particleEffectVSCode, particleEffectInputDescs, particleEffectInputElementNum, L"VL_PointParticle");

@@ -78,7 +78,6 @@ bool BattleScene::Init()
 	enemy2->NumberTextureList_Black = NumberTextureList_Black;
 	EnemyList.push_back(enemy2);
 
-
 	Init_UI();
 	Init_Map();
 	Init_Sound();

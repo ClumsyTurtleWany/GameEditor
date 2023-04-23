@@ -10,24 +10,24 @@
 
 struct VS_INPUT
 {
-	float3 pos			: POSITION0;
-	float3 normal		: NORMAL0;
-	float4 color		: COLOR0;
-	float2 uvCoord		: TEXCOORD0;
-	float4 spriteRT		: SPRITERT0;
-	float3 rot			: ROTATION0;
-	float3 scale		: SCALE0;
+	float3		pos			: POSITION0;
+	float3		normal		: NORMAL0;
+	float4		color		: COLOR0;
+	float2		uvCoord		: TEXCOORD0;
+	float4		spriteRT	: SPRITERT0;
+	float4x4	rot			: ROTATION;
+	float3		scale		: SCALE0;
 };
 
 struct VS_OUTPUT
 {
-	float4 pos			: SV_POSITION;
-	float3 normal		: NORMAL0;
-	float4 color		: COLOR0;
-	float2 uvCoord		: TEXCOORD0;
-	float4 spriteRT		: SPRITERT0;
-	float3 rot			: ROTATION0;
-	float3 scale		: SCALE0;
+	float4		pos			: SV_POSITION;
+	float3		normal		: NORMAL0;
+	float4		color		: COLOR0;
+	float2		uvCoord		: TEXCOORD0;
+	float4		spriteRT	: SPRITERT0;
+	float4x4	rot			: ROTATION;
+	float3		scale		: SCALE0;
 };
 
 //VS에서 따로 작업하지 않고 그대로 GS로 입력을 넘겨준다.
