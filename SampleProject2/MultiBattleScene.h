@@ -119,4 +119,7 @@ public:
 	int OtherPlayerTargetEnemyNum = 999; // 상대 플레이어가 카드의 타겟으로 정한 적의 넘버, 방어류 카드라면 999
 	bool hostTurnEnd = false;
 	bool clientTurnEnd = false;
+public:
+	Vector3 MoveLocation;
+	bool MoveClickCheck = false;
 };

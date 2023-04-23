@@ -102,3 +102,31 @@ message C_TURNEND
 
 	bool bTurnEnd = 1;
 }
+
+message S_MOVECLICKED
+{
+	bool bMoveClick = 1;
+}
+
+message C_MOVECLICKED
+{
+	bool bMoveClick = 1;
+}
+
+message S_MOVETOPOINT
+{
+	// vector3
+
+	float vecX = 1;
+	float vecY = 2;
+	float vecZ = 3;
+}
+
+message C_MOVETOPOINT
+{
+	// vector3
+
+	float vecX = 1;
+	float vecY = 2;
+	float vecZ = 3;
+}
