@@ -350,6 +350,12 @@ namespace EFFECTUTIL
 			m_shaderGroup.pPS = DXShaderManager::GetInstance()->GetPixelShader(L"PS_PointParticle_AlphaTest");
 		} break;
 
+		case BLENDSTATE_TYPE::BS_ADDITIVEBLEND:
+		{
+			m_pBState = DXSTATE_MGR.getBState(L"BS_ADDITIVEBLEND");
+			m_shaderGroup.pPS = DXShaderManager::GetInstance()->GetPixelShader(L"PS_PointParticle_Alphablend");
+		} break;
+
 		default:
 		{
 			m_pBState = DXSTATE_MGR.getBState(L"BS_DEFAULT");

@@ -1065,6 +1065,16 @@ void BattleScene::CardCheck()
 				if (ManaCheck(1))
 				{
 					player->armor += 5;
+
+					auto targetBox = player->chara->GetComponent<BoundingBoxComponent>();
+					auto trans = player->chara->GetComponent<TransformComponent>();
+
+					if (targetBox && trans)
+					{
+						float effectScale = targetBox->OBB.Extents.y * 0.25f;
+						PlayEffect(&TheWorld, L"Shield1", { targetBox->OBB.Center, {0.0f, 0.0f, 0.0f}, {effectScale, effectScale, effectScale} }, { false, 1.0f, 0.2f, 0.5f });
+					}
+					
 					CanUse = true;
 				}
 			}break;
@@ -1093,6 +1103,16 @@ void BattleScene::CardCheck()
 					player->armor += 8;
 					Dick->Draw(1);
 					DrawedCard = 1;
+
+					auto targetBox = player->chara->GetComponent<BoundingBoxComponent>();
+					auto trans = player->chara->GetComponent<TransformComponent>();
+
+					if (targetBox && trans)
+					{
+						float effectScale = targetBox->OBB.Extents.y * 0.25f;
+						PlayEffect(&TheWorld, L"Shield1", { targetBox->OBB.Center, {0.0f, 0.0f, 0.0f}, {effectScale, effectScale, effectScale} }, { false, 1.0f, 0.2f, 0.5f });
+					}
+
 					CanUse = true;
 				}
 			}break;
