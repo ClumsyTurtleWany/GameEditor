@@ -211,6 +211,12 @@ bool SampleCore::Initialize()
 
 	Spline->start();
 
+	ECS::EffectSystem* ESystem = new ECS::EffectSystem;
+	ESystem->init(&MainWorld);
+	MainWorld.AddSystem(ESystem);
+
+	PlayEffect(&MainWorld, L"Fire", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { true, 10.0f, 0.0f, 0.5f });
+
 	return true;
 }
 

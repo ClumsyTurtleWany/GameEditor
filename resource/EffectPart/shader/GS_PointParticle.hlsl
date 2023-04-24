@@ -22,13 +22,13 @@ cbuffer CBUF_BILLBOARD_MAT : register(b1)
 
 struct GS_INPUT
 {
-	float4 pos			: SV_POSITION;
-	float3 normal		: NORMAL0;
-	float4 color		: COLOR0;
-	float2 uvCoord		: TEXCOORD0;
-	float4 spriteRT		: SPRITERT0;
-	float3 rot			: ROTATION0;
-	float3 scale		: SCALE0;
+	float4		pos			: SV_POSITION;
+	float3		normal		: NORMAL0;
+	float4		color		: COLOR0;
+	float2		uvCoord		: TEXCOORD0;
+	float4		spriteRT	: SPRITERT0;
+	float4x4	rot			: ROTATION;
+	float3		scale		: SCALE0;
 };
 
 //PS단계에서 필요한 것만 넘겨준다
@@ -61,7 +61,7 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 	// v2 -> v3 -> v4	2번	...
 
 	//활성화 되어 있지 않으면 추가 안함
-	if (gIn[0].rot.z > 0.0f)
+	if (gIn[0].scale.z > 0.0f)
 	{
 		float3 newP[4] = {
 			{-0.5f, 0.5f, 0.0f},
@@ -77,13 +77,6 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 			{gIn[0].spriteRT.z, gIn[0].spriteRT.w}
 		};
 
-		matrix rot = {
-			gIn[0].rot.x, gIn[0].rot.y, 0.0f, 0.0f,
-			-gIn[0].rot.y, gIn[0].rot.x, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
-		};
-
 		matrix scale = {
 			gIn[0].scale.x, 0.0f, 0.0f, 0.0f,
 			0.0f, gIn[0].scale.y, 0.0f, 0.0f,
@@ -97,10 +90,11 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 		{
 			newV.pos = float4(newP[i].xyz, 1.0);
 			newV.pos = mul(newV.pos, scale);
-			newV.pos = mul(newV.pos, rot);
 			newV.pos.xyz = newV.pos.xyz * matWorld._11;
+			newV.pos = mul(newV.pos, gIn[0].rot);
 			newV.pos = mul(newV.pos, matBillboard);
 			newV.pos.xyz += gIn[0].pos.xyz;
+			newV.pos.xyz += float3(matWorld._41, matWorld._42, matWorld._43);
 
 			newV.normal = gIn[0].normal;
 			newV.color = gIn[0].color;

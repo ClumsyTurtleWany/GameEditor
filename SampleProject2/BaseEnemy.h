@@ -12,7 +12,9 @@ class BaseEnemy
 public:
 	virtual bool Init();
 	virtual int	 patern(Player* player, int turn);
-	virtual void attack(Player* player, int damage);
+	virtual void move(Player* player, int turn);
+	virtual void action(Player* player, int turn);
+	virtual void attackCalculate(Player* player, int damage);
 	virtual void SetIntentObj(int turn,  WidgetObject* image, WidgetObject* intent1, WidgetObject* intent2);
 	virtual void UpdateState();
 
@@ -24,6 +26,10 @@ public:
 	int maxHp;
 	int armor;
 	Character* chara;
+
+public:
+	bool doMove = false;
+	bool doAction = false;
 
 public:
 	ECS::World* pWorld;

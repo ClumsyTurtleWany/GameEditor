@@ -304,3 +304,26 @@ void MousePicker::SetPickingMode(PICKING_MODE PickMode)
 		}
 	}
 }
+
+void MousePicker::SetMoveUIColor(ECS::World* pWorld, Color CircleColor, Color ArrowColor)
+{
+	EFFECTEVENT_MOVEUI_MODIFYCOLOR newEvent;
+
+	newEvent.entity = pMoveUIEntity;
+	newEvent.CircleColor = CircleColor;
+	newEvent.ArrowColor = ArrowColor;
+
+	pWorld->emit<EFFECTEVENT_MOVEUI_MODIFYCOLOR>(newEvent);
+}
+
+void MousePicker::SetSelectedCharacterUIColor(ECS::World* pWorld, Color CircleColor, Color ArrowColor)
+{
+	EFFECTEVENT_SELECTUI_MODIFYCOLOR newEvent;
+
+	newEvent.pCircle = pSelectedCircleUIEntity;
+	newEvent.pArrow = pSelectedArrowUIEntity;
+	newEvent.CircleColor = CircleColor;
+	newEvent.ArrowColor = ArrowColor;
+
+	pWorld->emit<EFFECTEVENT_SELECTUI_MODIFYCOLOR>(newEvent);
+}

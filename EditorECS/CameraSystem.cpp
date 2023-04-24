@@ -40,16 +40,31 @@ void CameraSystem::Tick(ECS::World* world, float time)
 			{
 				camera->Pos = Vector3::Lerp(camera->Pos, TargetCamera->Pos, min(time, 1.0f));
 				camera->lastQ = Quaternion::Slerp(camera->lastQ, TargetCamera->lastQ, min(time, 1.0f));
+				camera->Target = TargetCamera->Target;
+				if (0)
+				{
+					Matrix matWorld = DirectX::XMMatrixAffineTransformation({ 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, camera->lastQ, camera->Pos);
 
-				Matrix matWorld = DirectX::XMMatrixAffineTransformation({ 1.0f, 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 0.0f, 1.0f }, camera->lastQ, camera->Pos);
+					DirectX::XMVECTOR determinant;
+					DirectX::XMMATRIX view = DirectX::XMMatrixInverse(&determinant, matWorld);
 
-				DirectX::XMVECTOR determinant;
-				DirectX::XMMATRIX view = DirectX::XMMatrixInverse(&determinant, matWorld);
-				camera->View = view;
-				camera->Update();
+					camera->View = view;
+					camera->Update();
 
-				DirectX::BoundingFrustum newFrustum(camera->Projection);
-				newFrustum.Transform(camera->Frustum, matWorld);
+					DirectX::BoundingFrustum newFrustum(camera->Projection);
+					newFrustum.Transform(camera->Frustum, matWorld);
+				}
+				else
+				{
+					camera->CreateViewMatrix(camera->Pos, TargetCamera->Target, Vector3(0.0f, 1.0f, 0.0f));
+					camera->Update();
+
+					DirectX::XMVECTOR determinant;
+					DirectX::XMMATRIX matWorld = DirectX::XMMatrixInverse(&determinant, camera->View);
+
+					DirectX::BoundingFrustum newFrustum(camera->Projection);
+					newFrustum.Transform(camera->Frustum, matWorld);
+				}
 			}
 			else
 			{

@@ -27,6 +27,14 @@ extern MultiBattleScene* multyserver;
 //
 //	PKT_C_TURNEND = 6,
 //
+//	PKT_S_MOVECLICKED = 7,
+//
+//	PKT_C_MOVECLICKED = 8,
+//
+//	PKT_S_MOVETOPOINT = 9,
+//
+//	PKT_C_MOVETOPOINT = 10,
+//
 //};
 
 namespace server
@@ -40,6 +48,10 @@ namespace server
 		PKT_C_USECARD = 4,
 		PKT_S_TURNEND = 5,
 		PKT_C_TURNEND = 6,
+		PKT_S_MOVECLICKED = 7,
+		PKT_C_MOVECLICKED = 8,
+		PKT_S_MOVETOPOINT = 9,
+		PKT_C_MOVETOPOINT = 10,
 	};
 
 	// 그 함수 포인터의 배열
@@ -52,6 +64,8 @@ namespace server
 	bool Handle_C_CONNECT(PacketSessionRef& session, protocol::C_CONNECT& pkt);
 	bool Handle_C_USECARD(PacketSessionRef& session, protocol::C_USECARD& pkt);
 	bool Handle_C_TURNEND(PacketSessionRef& session, protocol::C_TURNEND& pkt);
+	bool Handle_C_MOVECLICKED(PacketSessionRef& session, protocol::C_MOVECLICKED& pkt);
+	bool Handle_C_MOVETOPOINT(PacketSessionRef& session, protocol::C_MOVETOPOINT& pkt);
 }
 
 
@@ -75,6 +89,10 @@ public: //외부 사용(래핑?)
 		{return ServerPacketHandler::HandlePacket<protocol::C_USECARD>(server::Handle_C_USECARD, session, buffer, len); };
 		server::GPacketHandler[server::PKT_C_TURNEND] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
 		{return ServerPacketHandler::HandlePacket<protocol::C_TURNEND>(server::Handle_C_TURNEND, session, buffer, len); };
+		server::GPacketHandler[server::PKT_C_MOVECLICKED] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
+		{return ServerPacketHandler::HandlePacket<protocol::C_MOVECLICKED>(server::Handle_C_MOVECLICKED, session, buffer, len); };
+		server::GPacketHandler[server::PKT_C_MOVETOPOINT] = [](PacketSessionRef& session, BYTE* buffer, int32 len)
+		{return ServerPacketHandler::HandlePacket<protocol::C_MOVETOPOINT>(server::Handle_C_MOVETOPOINT, session, buffer, len); };
 	}
 
 	// C++에서 템플릿 함수와 비-템플릿 함수가 같은 이름을 가질 수 있습니다. 
@@ -90,6 +108,8 @@ public: //외부 사용(래핑?)
 static SendBufferRef MakeSendBuffer(protocol::S_CONNECT& pkt) { return MakeSendBuffer(pkt, server::PKT_S_CONNECT); }
 static SendBufferRef MakeSendBuffer(protocol::S_USECARD& pkt) { return MakeSendBuffer(pkt, server::PKT_S_USECARD); }
 static SendBufferRef MakeSendBuffer(protocol::S_TURNEND& pkt) { return MakeSendBuffer(pkt, server::PKT_S_TURNEND); }
+static SendBufferRef MakeSendBuffer(protocol::S_MOVECLICKED& pkt) { return MakeSendBuffer(pkt, server::PKT_S_MOVECLICKED); }
+static SendBufferRef MakeSendBuffer(protocol::S_MOVETOPOINT& pkt) { return MakeSendBuffer(pkt, server::PKT_S_MOVETOPOINT); }
 
 private:
 	template<typename PacketType, typename ProcessFunc>

@@ -172,6 +172,7 @@ bool SampleCore::Initialize()
 	Battle->CardTextureList = CardTextureList;
 	Battle->NumberTextureList_Red = NumberTextureList_Red;
 	Battle->NumberTextureList_Black = NumberTextureList_Black;
+	Battle->NumberTextureList_Damage = NumberTextureList_Damage;
 	Battle->TextTextureList = TextTextureList;
 	Battle->Init();
 	MultiBattle = new MultiBattleScene;
@@ -441,6 +442,57 @@ void SampleCore::LoadTexture()
 		NumberTextureList_Black.push_back(tc);
 	}
 
+	// 숫자 텍스처 로드, 데미지용 멋드러진 폰트
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/0.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/0.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/1.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/1.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/2.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/2.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/3.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/3.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/4.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/4.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/5.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/5.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/6.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/6.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/7.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/7.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/8.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/8.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Number/damage/9.png"))
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Number/damage/9.png");
+		NumberTextureList_Damage.push_back(tc);
+	}
 
 	// 텍스트 텍스처 로드, 일단 주로 툴팁용
 	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/base.png"))	// 베이스, 암것도 없음

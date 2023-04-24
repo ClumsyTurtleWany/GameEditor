@@ -13,6 +13,9 @@ public:
 
 	int maxCost = 3;
 	int cost;
+
+public:
 	Character* chara;
+	Vector3	 Forward;
 };
 

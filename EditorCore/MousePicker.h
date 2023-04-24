@@ -21,6 +21,22 @@ struct SelectState
 	float			fDistance;
 };
 
+struct EFFECTEVENT_MOVEUI_MODIFYCOLOR
+{
+	ECS::Entity*	entity;
+	Color			CircleColor;
+	Color			ArrowColor;
+};
+
+struct EFFECTEVENT_SELECTUI_MODIFYCOLOR
+{
+	ECS::Entity*	pCircle;
+	ECS::Entity*	pArrow;
+
+	Color			CircleColor;
+	Color			ArrowColor;
+};
+
 class MousePicker
 {
 public:
@@ -52,6 +68,13 @@ public:
 	bool			bPendingClicked;
 	bool			bOneTimeInputBlock;
 
+	//이동 UI Entity
+	ECS::Entity*	pMoveUIEntity;
+
+	//선택 캐릭터 강조 UI Entity
+	ECS::Entity*	pSelectedArrowUIEntity;
+	ECS::Entity*	pSelectedCircleUIEntity;
+
 public:
 	MousePicker();
 	~MousePicker();
@@ -72,6 +95,9 @@ public:
 	bool IntersectTriangle(const Vector3& origin, const Vector3& direction, const Vector3& v0, const Vector3& v1, const Vector3& v2, float* distance);
 
 	void SetPickingMode(PICKING_MODE pMode);
+
+	void SetMoveUIColor(ECS::World* pWorld, Color CircleColor, Color ArrowColor);
+	void SetSelectedCharacterUIColor(ECS::World* pWorld, Color CircleColor, Color ArrowColor);
 
 	static MousePicker& GetInstance()
 	{

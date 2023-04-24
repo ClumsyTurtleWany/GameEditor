@@ -87,3 +87,19 @@ bool server::Handle_C_TURNEND(PacketSessionRef& session, protocol::C_TURNEND& pk
 	    
 	return true;
 }
+
+bool server::Handle_C_MOVECLICKED(PacketSessionRef& session, protocol::C_MOVECLICKED& pkt)
+{
+	multyserver->MoveClickCheck = pkt.bmoveclick();
+
+	return true;
+}
+
+bool server::Handle_C_MOVETOPOINT(PacketSessionRef& session, protocol::C_MOVETOPOINT& pkt)
+{
+	multyserver->MoveLocation.x = pkt.vecx();
+	multyserver->MoveLocation.y = pkt.vecy();
+	multyserver->MoveLocation.z = pkt.vecz();
+
+	return true;
+}

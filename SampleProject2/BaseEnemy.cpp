@@ -41,12 +41,21 @@ bool BaseEnemy::Init()
 	return true;
 }
 
+void BaseEnemy::move(Player* player, int turn)
+{
+}
+
+void BaseEnemy::action(Player* player, int turn)
+{
+}
+
+
 int BaseEnemy::patern(Player* player, int turn)
 {
 	return 0;
 }
 
-void BaseEnemy::attack(Player* player, int damage)
+void BaseEnemy::attackCalculate(Player* player, int damage)
 {
 	if (player->armor > damage) { player->armor -= damage; }
 

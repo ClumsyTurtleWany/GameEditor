@@ -82,7 +82,9 @@ void ActionCamera::Create(Vector3 eye, Vector3 target, float nearDist, float far
 	Arrow->Right = (Arrow->Up.Cross(Arrow->Forward));
 	Arrow->Right.Normalize();
 
-	MoveTo(eye, 1.0f);
+	//MoveTo(eye, 1.0f);
+	Transform->Translation = eye;
+	MovementComp->Destination = eye;
 
 	ActionCameraComp->CreateViewMatrix(eye, target, Vector3(0.0f, 1.0f, 0.0f));
 	ActionCameraComp->CreateProjectionMatrix(nearDist, farDist, fov, aspectRatio);

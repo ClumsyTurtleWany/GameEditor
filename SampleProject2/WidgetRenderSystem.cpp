@@ -15,6 +15,8 @@ WidgetRenderSystem::~WidgetRenderSystem()
 
 void WidgetRenderSystem::Tick(ECS::World* world, float time)
 {
+	if (hide) { return; }
+
 	ID3D11RasterizerState* pOldRSState;
 	Context->RSGetState(&pOldRSState);
 	Context->RSSetState(DXSamplerState::pDefaultRSSolid);
