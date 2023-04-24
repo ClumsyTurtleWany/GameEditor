@@ -155,12 +155,6 @@ bool SampleCore::Initialize()
 	bgm_Current = bgm_Title;
 	bgm_Current->Play();
 
-	// 초기 로딩중에 로딩화면 바로 띄우기.. 인데 뭔가 원하는 그림이 안나오네..
-	//Loading = new LoadingScene;
-	//Loading->Init();
-	//Loading->Frame();
-	//Loading->Render();
-
 	Title = new TitleScene;
 	Title->Init();
 	Select = new SelectScene;

@@ -56,12 +56,15 @@ public:
 public:
 	Camera* CurrentCamera;
 	Camera* MoveCamera;
+	Camera* MoveCamera2;
 	Camera* CloseupCamera;
 	ActionCamera* TestActionCamera;
 	
 	CameraSystem* MainCameraSystem = nullptr;
 	RenderSystem* MainRenderSystem = nullptr;
 	Actor* MainCameraActor = nullptr;
+
+	Vector3 PlayerCameraPos;
 
 public:
 	std::map<std::wstring, FMODSound*> SoundMap;
