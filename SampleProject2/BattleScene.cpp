@@ -617,9 +617,11 @@ void BattleScene::Init_Chara()
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Shooting.clp", playerCharAnimComp, false);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Hit.clp", playerCharAnimComp, false);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Dying.clp", playerCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Pistol_Whip.clp", playerCharAnimComp, false); // 죽탱이
 
 
 	playerCharAnimComp->SetClipByName(L"Idle");
+
 
 	/////////////// NOTIFIER 사용 예제/////////////////
 	// 1. 노티파이어 매니저 컴포넌트를 추가하고
@@ -783,14 +785,14 @@ void BattleScene::Init_Effect()
 
 	ParticleEffect* pSelectedArrowUICursor = new ParticleEffect(L"BlackLineArrow",
 		TransformComponent(),
-		{ true, true, 10.0f, 0.0f, 1.0f });
+		{ false, true, 10.0f, 0.0f, 1.0f });
 	TheWorld.AddEntity(pSelectedArrowUICursor);
 
 	MAIN_PICKER.pSelectedArrowUIEntity = pSelectedArrowUICursor;
 
 	ParticleEffect* pSelectedCircleUICursor = new ParticleEffect(L"FloorCircle",
 		TransformComponent(),
-		{ true, true, 10.0f, 0.0f, 1.0f });
+		{ false, true, 10.0f, 0.0f, 1.0f });
 	TheWorld.AddEntity(pSelectedCircleUICursor);
 
 	MAIN_PICKER.pSelectedCircleUIEntity = pSelectedCircleUICursor;
@@ -1093,7 +1095,8 @@ void BattleScene::CardCheck()
 					DamageAnimation(6, true);
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Shooting");
+					//PAnime->SetClipByName(L"Shooting");
+					PAnime->SetClipByName(L"Pistol_Whip");
 					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
 					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					SoundMap.find(L"Hit1")->second->Play();

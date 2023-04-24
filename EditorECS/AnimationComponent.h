@@ -37,9 +37,9 @@ struct Notifier
 	unsigned int	StartFrame;										///< 노티파이 시작 프레임
 	unsigned int	Lifespan;										///< 노티파이 유지 시간(프레임 단위) , 기본값은 1프레임
 	bool			IsOn = false;									///< 노티파이어가 활성화되어 있는지 구분하기 위한 bool 멤버
-	FMODSound*		FModSound = nullptr;							///< FmodSound* 
-	SoundDesc*		Sound = nullptr;								///< 사운드 정보
-	EffectDesc*		Effect = nullptr;								///< 이펙트 정보
+	FMODSound* FModSound = nullptr;							///< FmodSound* 
+	SoundDesc* Sound = nullptr;								///< 사운드 정보
+	EffectDesc* Effect = nullptr;								///< 이펙트 정보
 
 };
 
@@ -75,11 +75,14 @@ class AnimationComponent
 public:
 	bool									IsDead = false;								///< 사망상태인지 확인
 	std::wstring							CurrentClipName = L"";						///< 현재 애니메이션 클립의 이름
-	AnimationClip*							CurrentClip = nullptr;						///< 현재 애니메이션 클립의 포인터
+	AnimationClip* PrevClip = nullptr;							///< 이전 애니메이션 클립의 포인터
+	float	elapsedT = 0.f;
+	AnimationClip* CurrentClip = nullptr;						///< 현재 애니메이션 클립의 포인터
 	std::map<std::wstring, AnimationClip*>	ClipList;									///< 애니메이션 클립 컨테이너
 	float									m_currentAnimationFrame = 0.f;				///< 틱마다 업데이트되는 현재 프레임
+	float									lastFrame = 0.f;
 	float									m_AnimationInverse = 1.f;					///< 프레임 연산시 역재생되도록 해주는 변수
-	
+
 
 public:
 	AnimationComponent() {};
@@ -123,4 +126,12 @@ public:
 	 * @param[in] world 이벤트를 emit 시켜줌
 	*/
 	void Notify(ECS::World* world);
+
+	/**
+	 * @brief 애니메이션이 변경될 때 전, 후 애니메이션을 블렌딩한다
+	 * @param[in] mesh 적용될 스켈레탈 메시
+	 * @param[in] tick 틱
+	 * @return 애니메이션이 전환 중이면 true 리턴
+	*/
+	bool BlendClip(SkeletalMeshComponent* mesh, float tick, float time);
 };
