@@ -100,6 +100,7 @@ public:
 	std::vector<Vector2> CardPosList[10];	// 카드가 각각 1~10장일 때의 위치값
 	std::vector<DXTexture*> NumberTextureList_Red;
 	std::vector<DXTexture*> NumberTextureList_Black;
+	std::vector<DXTexture*> NumberTextureList_Damage;
 	std::map<std::wstring, DXTexture*> TextTextureList;
 
 public:

@@ -212,7 +212,7 @@ OrginPos	-0.573751 0.475000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 100.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 80.000000 116.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	23
@@ -221,7 +221,7 @@ OrginPos	-0.450000 0.475000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 100.000000 160.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 80.000000 116.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	24
@@ -245,7 +245,7 @@ CutInfo	2 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\Git
 CutInfo	3 | 120.000000 120.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Button\Arrow2_D.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	27
+ID	26
 Name	ToolTipBoard
 OrginPos	0.000000 0.000000
 Depth	0.000000
@@ -254,7 +254,7 @@ CutNum	1
 CutInfo	0 | 400.000000 200.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\ToolTipBoard.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
-ID	28
+ID	27
 Name	ToolTipText
 OrginPos	0.000000 0.000000
 Depth	0.000000

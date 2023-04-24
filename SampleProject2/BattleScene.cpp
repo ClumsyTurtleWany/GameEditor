@@ -159,7 +159,7 @@ bool BattleScene::Frame()
 
 		//MoveCamera->CreateViewMatrix(CameraStartPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
 		//MainCameraSystem->TargetCamera = MoveCamera;
-		MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
+		//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 		//MainCameraSystem->MainCamera = MoveCamera;
 	}
 
@@ -643,42 +643,8 @@ void BattleScene::Init_Chara()
 	
 	TheWorld.AddEntity(PlayerCharacter);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	///////////////////////////캐릭터 추가//////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	Character* PlayerCharacter_B = new Character;
-	enemy2->chara = PlayerCharacter_B;
-
-	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
-	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
-
-
-	auto player_BCharAnimComp = PlayerCharacter_B->AddComponent<AnimationComponent>();
-
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Run.clp", player_BCharAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Idle.clp", player_BCharAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Attack.clp", player_BCharAnimComp, false);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Hit.clp", player_BCharAnimComp, false);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Dying.clp", player_BCharAnimComp, false);
-
-
-	auto player_BCharTransformComp = PlayerCharacter_B->GetComponent<TransformComponent>();
-	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
-	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
-
-	auto player_BCharMovementComp = PlayerCharacter_B->GetComponent<MovementComponent>();
-	player_BCharMovementComp->Speed = 25.0f;
-	PlayerCharacter_B->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
-
-	/////////////// Bounding Box Add ////////////
-	auto player_BOBBComp = PlayerCharacter_B->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
-
-	TheWorld.AddEntity(PlayerCharacter_B);
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	/////////////////////////////////////////// 적 테스트 //////////////////////////////////////////////////////
+	/////////////////////////////////////////// 적 캐릭터 1  //////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	EnemyCharacter = new Character;
 	enemy1->chara = EnemyCharacter;
@@ -723,6 +689,41 @@ void BattleScene::Init_Chara()
 
 	TheWorld.AddEntity(EnemyCharacter);
 
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////// 적 캐릭터 2 //////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	Character* PlayerCharacter_B = new Character;
+	enemy2->chara = PlayerCharacter_B;
+
+	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
+	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
+
+
+	auto player_BCharAnimComp = PlayerCharacter_B->AddComponent<AnimationComponent>();
+
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Run.clp", player_BCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Idle.clp", player_BCharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Attack.clp", player_BCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Hit.clp", player_BCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Dying.clp", player_BCharAnimComp, false);
+
+
+	auto player_BCharTransformComp = PlayerCharacter_B->GetComponent<TransformComponent>();
+	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
+	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
+
+	auto player_BCharMovementComp = PlayerCharacter_B->GetComponent<MovementComponent>();
+	player_BCharMovementComp->Speed = 25.0f;
+	PlayerCharacter_B->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
+
+	/////////////// Bounding Box Add ////////////
+	auto player_BOBBComp = PlayerCharacter_B->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
+
+	TheWorld.AddEntity(PlayerCharacter_B);
 }
 
 void BattleScene::Init_Effect()
@@ -834,6 +835,7 @@ void BattleScene::TurnStartProcess()
 
 	TurnStart = false;
 	TurnEndButton->m_bDisable = false;
+	MoveButton->m_bIsDead = false;
 }
 
 void BattleScene::TurnEndProcess()
@@ -974,7 +976,7 @@ void BattleScene::MoveProcess()
 
 			// 타겟팅한 적이 없다면 자동으로 첫번째 적 타겟팅
 			if (TargetEnemy == nullptr) { TargetEnemy = EnemyList[0]; }
-			// 캐릭터 방향 회전
+			// 플레이어 캐릭터 방향 회전 (타겟팅한 적 쪽으로)
 			player->Forward = player->chara->MovementComp->Forward;
 			Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - player->chara->Transform->Translation;
 			NewPlayerForward.Normalize();
@@ -984,6 +986,7 @@ void BattleScene::MoveProcess()
 			player->chara->Transform->Rotation += eulerAngles;
 			player->Forward = NewPlayerForward;
 
+			// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
 			for (auto enemy : EnemyList)
 			{
 				Vector3 CurrentForward = enemy->chara->MovementComp->Forward;
@@ -995,6 +998,9 @@ void BattleScene::MoveProcess()
 				enemy->chara->Transform->Rotation += eulerAngles;
 				enemy->chara->MovementComp->Forward = NewForward;
 			}
+
+			// 턴당 이동은 한번으로 제한, 코스트 먹을지 말지는 뭐 모르겠다
+			MoveButton->m_bIsDead = true;
 		}
 	}
 }
@@ -1128,13 +1134,13 @@ void BattleScene::DamageAnimation(int damage, bool hitEnemy)
 		if (damage/10 > 0) 
 		{
 			Damage1->m_bIsDead = false;
-			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage/10];
+			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage/10];
 			Vector2 AnimPos[2] = { {1000.0f, 450.0f},{1200.0f, 350.0f} };
 			Damage1->SetAnimation( AnimPos, 0.5f, true);
 		}
 		Damage2->m_bIsDead = false;
-		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage % 10];
-		Vector2 AnimPos[2] = { {1100.0f, 450.0f},{1300.0f, 350.0f} };
+		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage % 10];
+		Vector2 AnimPos[2] = { {1080.0f, 450.0f},{1280.0f, 350.0f} };
 		Damage2->SetAnimation(AnimPos, 0.5f, true);
 	}
 
@@ -1144,13 +1150,13 @@ void BattleScene::DamageAnimation(int damage, bool hitEnemy)
 		if (damage / 10 > 0)
 		{
 			Damage1->m_bIsDead = false;
-			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage / 10];
+			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage / 10];
 			Vector2 AnimPos[2] = { {400.0f, 450.0f},{200.0f, 350.0f} };
 			Damage1->SetAnimation(AnimPos, 0.5f, true);
 		}
 		Damage2->m_bIsDead = false;
-		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Red[damage % 10];
-		Vector2 AnimPos[2] = { {500.0f, 450.0f},{300.0f, 350.0f} };
+		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage % 10];
+		Vector2 AnimPos[2] = { {480.0f, 450.0f},{280.0f, 350.0f} };
 		Damage2->SetAnimation(AnimPos, 0.5f, true);
 	}
 }

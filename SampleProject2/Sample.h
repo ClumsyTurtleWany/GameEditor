@@ -62,5 +62,6 @@ public:
 	std::vector<DXTexture*> CardTextureList;
 	std::vector<DXTexture*> NumberTextureList_Red;
 	std::vector<DXTexture*> NumberTextureList_Black;
+	std::vector<DXTexture*> NumberTextureList_Damage;
 	std::map<std::wstring, DXTexture*> TextTextureList;
 };
