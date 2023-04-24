@@ -157,9 +157,9 @@ bool BattleScene::Frame()
 		//TestActionCamera->MoveTo(CameraStartPos,1.0f);
 		//TestActionCamera->LookAt(CameraStartTarget, 1.0f);
 
-		//MoveCamera->CreateViewMatrix(CameraStartPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
-		//MainCameraSystem->TargetCamera = MoveCamera;
-		MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
+		MoveCamera->CreateViewMatrix(CameraStartPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
+		MainCameraSystem->TargetCamera = MoveCamera;
+		//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 		//MainCameraSystem->MainCamera = MoveCamera;
 	}
 
