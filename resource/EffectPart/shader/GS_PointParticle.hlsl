@@ -106,6 +106,27 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 			gOut.Append(newV);
 		}
 
+		/*for (int i = 0; i < MAX_GS_VERTEXCOUNT; i++)
+		{
+			newV.pos = float4(newP[i].xyz, 1.0);
+			newV.pos = mul(newV.pos, scale);
+			newV.pos = mul(newV.pos, gIn[0].rot);
+			newV.pos.xyz += gIn[0].pos.xyz * float3(matWorld._11, matWorld._22, matWorld._33);
+			newV.pos = mul(newV.pos, matBillboard);
+
+			newV.pos.xyz += float3(matWorld._41, matWorld._42, matWorld._43);
+
+			newV.normal = gIn[0].normal;
+			newV.color = gIn[0].color;
+			newV.uvCoord = gIn[0].uvCoord;
+			newV.spriteUvCoord = newT[i];
+
+			newV.pos = mul(newV.pos, matView);
+			newV.pos = mul(newV.pos, matProj);
+
+			gOut.Append(newV);
+		}*/
+
 		gOut.RestartStrip();
 	}
 }

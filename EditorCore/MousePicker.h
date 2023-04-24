@@ -52,6 +52,9 @@ public:
 	bool			bPendingClicked;
 	bool			bOneTimeInputBlock;
 
+	//¿Ãµø UI Entity
+	ECS::Entity*	pMoveUIEntity;
+
 public:
 	MousePicker();
 	~MousePicker();

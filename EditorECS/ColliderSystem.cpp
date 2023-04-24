@@ -4,6 +4,7 @@
 #include "BoundingBoxComponent.h"
 #include "BoundingSphereComponent.h"
 #include "LandscapeComponents.h"
+#include "EffectInclude\ParticleEffectComponent.h"
 
 void ColliderSystem::Tick(ECS::World* world, float time)
 {
@@ -84,12 +85,30 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 				auto landscape = entity->GetComponent<LandscapeComponents>();
 				auto transform = entity->GetComponent<TransformComponent>();
 
+				//if (pPicker->pMoveUIEntity)
+				//{
+				//	auto moveUI = pPicker->pMoveUIEntity->GetComponent<ParticleEffectComponent>();
+
+				//	if (moveUI)
+				//	{
+				//		moveUI->m_pPPsystem->m_PSProp.bShow = true;
+				//	}
+				//}
+
 				if (landscape != nullptr)
 				{
 					for (auto it : landscape->Components)
 					{
 						DirectX::BoundingBox temp = it.Box;
 						temp.Center = temp.Center + transform->Translation;
+
+						//auto trans = pPicker->pMoveUIEntity->GetComponent<TransformComponent>();
+
+						//if (trans)
+						//{
+						//	trans->Translation = pPicker->vIntersection;
+						//	trans->Translation.y += trans->Scale.x * 0.5f + 0.005f;
+						//}
 
 						if (pPicker->RayToAABB(temp))
 						{
@@ -130,5 +149,17 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 
 			if (pPicker->bPendingClicked) { pPicker->bPendingClicked = false; }
 		}
+	}
+	else
+	{
+		//if (pPicker->pMoveUIEntity)
+		//{
+		//	auto moveUI = pPicker->pMoveUIEntity->GetComponent<ParticleEffectComponent>();
+
+		//	if (moveUI)
+		//	{
+		//		moveUI->m_pPPsystem->m_PSProp.bShow = false;
+		//	}
+		//}
 	}
 }

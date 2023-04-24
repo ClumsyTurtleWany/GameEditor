@@ -732,6 +732,13 @@ void BattleScene::Init_Effect()
 	ESystem->init(&TheWorld);
 	TheWorld.AddSystem(ESystem);
 
+	//ParticleEffect* pMoveUICursor = new ParticleEffect(L"Arrow", 
+	//	{ {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {10.0f, 10.0f, 10.0f} },
+	//	{ true, true, 10.0f, 0.0f, 1.0f });
+	//TheWorld.AddEntity(pMoveUICursor);
+
+	//MAIN_PICKER.pMoveUIEntity = pMoveUICursor;
+
 	//ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
 	//ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke", { true, 0.5, 0.0, 1.0 });
 	//ParticleEffect* testEffect3 = new ParticleEffect(L"Spark", { true, 0.5, 0.0, 1.0 });
