@@ -124,23 +124,13 @@ namespace EFFECTUTIL
 		if (pViewM) { m_matView = *pViewM; }
 		if (pProjM) { m_matProj = *pProjM; }
 
-		//카메라 회전 행렬의 역행렬을 사용해 월드행렬을 재구성한다.
-		//기존의 이동정보는 그대로 가지고 있어야 하기에 이동 성분을 반영한다.
-		m_matBillboard.BiilTMat = m_matView.Invert();
-		m_matBillboard.BiilTMat._41 = m_matWorld._41;
-		m_matBillboard.BiilTMat._42 = m_matWorld._42;
-		m_matBillboard.BiilTMat._43 = m_matWorld._43;
-		m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
-
-		updateBuffer(m_pCBufBillboard.Get(), &m_matBillboard, sizeof(CBUF_BILLBOARDMAT));
-
-		//if (m_eProp.bUseBillBoard)
-		//{
-		//	//카메라 회전 행렬의 역행렬을 사용해 월드행렬을 재구성한다.
-		//	//기존의 이동정보는 그대로 가지고 있어야 하기에 이동 성분을 반영한다.
-		//	m_matBillboard.BiilTMat = m_matView.Invert();
-		//	m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
-		//}
+		if (m_eProp.bUseBillBoard)
+		{
+			//카메라 회전 행렬의 역행렬을 사용해 월드행렬을 재구성한다.
+			//기존의 이동정보는 그대로 가지고 있어야 하기에 이동 성분을 반영한다.
+			m_matBillboard.BiilTMat = m_matView.Invert();
+			m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
+		}
 
 		//객체가 카메라의 정보를 들고있는 경우 다음의 함수를 대신 사용할 수 있다.
 		//m_matWorld = Matrix::CreateBillboard();
