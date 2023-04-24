@@ -1,11 +1,28 @@
 #include "SocketComponent.h"
 
-void SocketComponent::Update(const AnimationComponent& anim, const TransformComponent& transform)
+void SocketComponent::Update(const SkeletalMeshComponent& mesh, const TransformComponent& transform)
 {
-	if (anim.CurrentClip != nullptr) 
-	{
-		AnimMat = anim.CurrentClip->LerpFrameMatrixList.find(BoneName)->second[anim.m_currentAnimationFrame * 100];
-	}
+	//if (anim.CurrentClip != nullptr) 
+	//{
+	//	if (anim.m_currentAnimationFrame <= anim.CurrentClip->EndFrame)
+	//	{
+	//		AnimMat = anim.CurrentClip->LerpFrameMatrixList.find(BoneName)->second[anim.m_currentAnimationFrame * 100];
+	//
+	//	}
+	//	else
+	//	{
+	//		AnimMat = anim.PrevClip->LerpFrameMatrixList.find(BoneName)->second[anim.lastFrame * 100];
+	//	}
+	//}
+
+
+	AnimMat = mesh.BPAData.Bone[BoneIdx];
+	Matrix invBind = mesh.BindPoseMap.find(BoneName)->second.Invert();
+	AnimMat = AnimMat * invBind.Transpose();
+	AnimMat = AnimMat.Transpose();
+	
+
+
 	Matrix World;
 	T = transform.Translation;
 	Vector3 R = transform.Rotation;
@@ -29,6 +46,7 @@ bool SocketComponent::Attach(const SkeletalMeshComponent& mesh, std::string bone
 	if (it != mesh.BindPoseKeyToIndexMap.end())
 	{
 		BoneName = bone;
+		BoneIdx = it->second;
 		return true;
 	}
 	BoneName = "NoBoneFound";

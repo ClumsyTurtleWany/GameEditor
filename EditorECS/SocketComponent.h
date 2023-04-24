@@ -22,12 +22,14 @@ public:
 	TransformMatrix TransformData;
 	// Bone Name
 	std::string BoneName;
+	// Bone Idx
+	unsigned int BoneIdx;
 
 public:
 	/**
 	 * @brief 소켓의 위치를 업데이트한다
 	*/
-	void Update(const AnimationComponent& anim, const TransformComponent& transform);
+	void Update(const SkeletalMeshComponent& mesh, const TransformComponent& transform);
 
 	/**
 	 * @brief skeletalMeshComponent에 소켓을 부착한다
