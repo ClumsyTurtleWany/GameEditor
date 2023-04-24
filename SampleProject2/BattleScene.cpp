@@ -732,12 +732,26 @@ void BattleScene::Init_Effect()
 	ESystem->init(&TheWorld);
 	TheWorld.AddSystem(ESystem);
 
-	//ParticleEffect* pMoveUICursor = new ParticleEffect(L"Arrow", 
-	//	{ {0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {10.0f, 10.0f, 10.0f} },
-	//	{ true, true, 10.0f, 0.0f, 1.0f });
-	//TheWorld.AddEntity(pMoveUICursor);
+	ParticleEffect* pMoveUICursor = new ParticleEffect(L"Arrow", 
+		TransformComponent(),
+		{ true, true, 10.0f, 0.0f, 1.0f });
+	TheWorld.AddEntity(pMoveUICursor);
 
-	//MAIN_PICKER.pMoveUIEntity = pMoveUICursor;
+	MAIN_PICKER.pMoveUIEntity = pMoveUICursor;
+
+	ParticleEffect* pSelectedArrowUICursor = new ParticleEffect(L"BlackLineArrow",
+		TransformComponent(),
+		{ true, true, 10.0f, 0.0f, 1.0f });
+	TheWorld.AddEntity(pSelectedArrowUICursor);
+
+	MAIN_PICKER.pSelectedArrowUIEntity = pSelectedArrowUICursor;
+
+	ParticleEffect* pSelectedCircleUICursor = new ParticleEffect(L"FloorCircle",
+		TransformComponent(),
+		{ true, true, 10.0f, 0.0f, 1.0f });
+	TheWorld.AddEntity(pSelectedCircleUICursor);
+
+	MAIN_PICKER.pSelectedCircleUIEntity = pSelectedCircleUICursor;
 
 	//ParticleEffect* testEffect1 = new ParticleEffect(L"Fire", { true, 10.0, 0.0, 1.0 });
 	//ParticleEffect* testEffect2 = new ParticleEffect(L"Smoke", { true, 0.5, 0.0, 1.0 });
@@ -952,8 +966,7 @@ void BattleScene::MoveProcess()
 			float Distance = Forward.Length();
 			if (Distance < 50.0f) 
 			{
-				// 피킹될 지점 표시해주는 이펙트
-				PlayEffect(&TheWorld, L"Hit5", { MAIN_PICKER.vIntersection, {0.0f, 0.0f, 0.0f}, {2.0f, 2.0f, 2.0f} }, { false, 0.5f, 0.2f, 1.0f });
+				MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.0f, 0.0f, 0.0f, 0.5f }, { 0.5f, 1.0f, 0.0f, 0.5f });
 
 				// 땅 클릭하면 글로 이동
 				KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
@@ -962,6 +975,10 @@ void BattleScene::MoveProcess()
 					PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
 				}
+			}
+			else
+			{
+				MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.5f, 0.0f, 0.0f, 0.5f }, { 0.75f, 0.0f, 0.0f, 0.5f });
 			}
 		}
 

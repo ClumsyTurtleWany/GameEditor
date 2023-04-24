@@ -68,6 +68,52 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
+	if (pPicker->curSelect.pTarget)
+	{
+		if (pPicker->pSelectedArrowUIEntity)
+		{
+			auto SelectUI = pPicker->pSelectedArrowUIEntity->GetComponent<ParticleEffectComponent>();
+			auto trans = pPicker->pSelectedArrowUIEntity->GetComponent<TransformComponent>();
+			auto targetBox = pPicker->curSelect.pTarget->GetComponent<BoundingBoxComponent>();
+
+			if (SelectUI && trans && targetBox)
+			{
+				SelectUI->m_pPPsystem->m_PSProp.bShow = true;
+				float YOffset = targetBox->OBB.Extents.y + 5.0f;
+
+				trans->Translation = targetBox->OBB.Center;
+				trans->Translation.y += YOffset;
+			}
+			else
+			{
+				SelectUI->m_pPPsystem->m_PSProp.bShow = false;
+			}
+		}
+
+		if (pPicker->pSelectedCircleUIEntity)
+		{
+			auto SelectUI = pPicker->pSelectedCircleUIEntity->GetComponent<ParticleEffectComponent>();
+			auto trans = pPicker->pSelectedCircleUIEntity->GetComponent<TransformComponent>();
+			auto targetBox = pPicker->curSelect.pTarget->GetComponent<BoundingBoxComponent>();
+
+			if (SelectUI && trans && targetBox)
+			{
+				SelectUI->m_pPPsystem->m_PSProp.bShow = true;
+				float YOffset = -targetBox->OBB.Extents.y + 0.005f;
+				float CircleRadiusScale = 1.0f + targetBox->OBB.Extents.x * 0.20f;
+
+				trans->Translation = targetBox->OBB.Center;
+				trans->Translation.y += YOffset;
+
+				trans->Scale = { CircleRadiusScale , CircleRadiusScale , CircleRadiusScale };
+			}
+			else
+			{
+				SelectUI->m_pPPsystem->m_PSProp.bShow = false;
+			}
+		}
+	}
+
 	if (pPicker->optPickingMode == PICKING_MODE::PMOD_LAND)
 	{
 		if (pPicker->fLandTraceTimer > PICKING_OP_TIME_LIMIT)
@@ -80,20 +126,24 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 				pPicker->curSelect.fDistance = MAX_PICK_DIST;
 			}
 
+			if (pPicker->pMoveUIEntity)
+			{
+				auto moveUI = pPicker->pMoveUIEntity->GetComponent<ParticleEffectComponent>();
+				auto trans = pPicker->pMoveUIEntity->GetComponent<TransformComponent>();
+
+				if (moveUI && trans)
+				{
+					moveUI->m_pPPsystem->m_PSProp.bShow = true;
+
+					trans->Translation = pPicker->vIntersection;
+					trans->Translation.y += moveUI->m_pPPsystem->m_pEmitterList[0]->m_eProp.vInitScale.y * 0.5f + 0.005f;
+				}
+			}
+
 			for (auto& entity : world->GetEntities<LandscapeComponents, TransformComponent>())
 			{
 				auto landscape = entity->GetComponent<LandscapeComponents>();
 				auto transform = entity->GetComponent<TransformComponent>();
-
-				//if (pPicker->pMoveUIEntity)
-				//{
-				//	auto moveUI = pPicker->pMoveUIEntity->GetComponent<ParticleEffectComponent>();
-
-				//	if (moveUI)
-				//	{
-				//		moveUI->m_pPPsystem->m_PSProp.bShow = true;
-				//	}
-				//}
 
 				if (landscape != nullptr)
 				{
@@ -101,14 +151,6 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 					{
 						DirectX::BoundingBox temp = it.Box;
 						temp.Center = temp.Center + transform->Translation;
-
-						//auto trans = pPicker->pMoveUIEntity->GetComponent<TransformComponent>();
-
-						//if (trans)
-						//{
-						//	trans->Translation = pPicker->vIntersection;
-						//	trans->Translation.y += trans->Scale.x * 0.5f + 0.005f;
-						//}
 
 						if (pPicker->RayToAABB(temp))
 						{
@@ -152,14 +194,14 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 	}
 	else
 	{
-		//if (pPicker->pMoveUIEntity)
-		//{
-		//	auto moveUI = pPicker->pMoveUIEntity->GetComponent<ParticleEffectComponent>();
+		if (pPicker->pMoveUIEntity)
+		{
+			auto moveUI = pPicker->pMoveUIEntity->GetComponent<ParticleEffectComponent>();
 
-		//	if (moveUI)
-		//	{
-		//		moveUI->m_pPPsystem->m_PSProp.bShow = false;
-		//	}
-		//}
+			if (moveUI)
+			{
+				moveUI->m_pPPsystem->m_PSProp.bShow = false;
+			}
+		}
 	}
 }
