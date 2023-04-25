@@ -173,11 +173,26 @@ bool BattleScene::Frame()
 	{
 		for (auto enemy : EnemyList)
 		{
-			if (enemy == TargetEnemy) { for (auto obj : enemy->ObjList) { obj->m_bIsDead = false; } }
+			if (enemy == TargetEnemy) 
+			{ 
+				for (auto obj : enemy->ObjList) { obj->m_bIsDead = false; } 
+
+				// È­»ìÇ¥¶û ¹Ø¹Ù´Ú¿ø ÀÌÆåÆ® °»½Å
+				auto ArrowTrans = MAIN_PICKER.pSelectedArrowUIEntity->GetComponent<TransformComponent>();
+				ArrowTrans->Translation = enemy->chara->Transform->Translation;
+				ArrowTrans->Translation.y += enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y * 2.0f;
+				ArrowTrans->Translation.y += 7.0f;
+
+				auto CircleTrans = MAIN_PICKER.pSelectedCircleUIEntity->GetComponent<TransformComponent>();
+				CircleTrans->Translation = enemy->chara->Transform->Translation;
+				CircleTrans->Translation.y = 0.0f;
+			}
 			else { for (auto obj : enemy->ObjList) { obj->m_bIsDead = true; } }
-			enemy->HpEmpty->m_bIsDead = true;
-			enemy->HpFull->m_bIsDead = true;
+			enemy->HpEmpty->m_bIsDead = false;
+			enemy->HpFull->m_bIsDead = false;
 		}
+		MAIN_PICKER.pSelectedCircleUIEntity->GetComponent<ParticleEffectComponent>()->m_pPPsystem->m_PSProp.bShow = true;
+		MAIN_PICKER.pSelectedArrowUIEntity->GetComponent<ParticleEffectComponent>()->m_pPPsystem->m_PSProp.bShow = true;
 	}
 	else 
 	{
@@ -187,6 +202,9 @@ bool BattleScene::Frame()
 			enemy->HpEmpty->m_bIsDead = true;
 			enemy->HpFull->m_bIsDead = true;
 		}
+
+		MAIN_PICKER.pSelectedArrowUIEntity->GetComponent<ParticleEffectComponent>()->m_pPPsystem->m_PSProp.bShow = false;
+		MAIN_PICKER.pSelectedCircleUIEntity->GetComponent<ParticleEffectComponent>()->m_pPPsystem->m_PSProp.bShow = false;
 	}
 
 	KeyState btnA = Input::GetInstance()->getKey('A');
