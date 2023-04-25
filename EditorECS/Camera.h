@@ -1,7 +1,7 @@
 #pragma once
 #include "Define.h"
 
-class Camera
+class Camera : public ECS::Component
 {
 public:
 	DirectX::BoundingFrustum Frustum;
@@ -44,4 +44,8 @@ public:
 	void CreateProjectionMatrix(float nearDist, float farDist, float fov, float aspectRatio);
 	void Update();
 	void Apply();
+
+public:
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
 };

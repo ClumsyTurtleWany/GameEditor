@@ -46,7 +46,9 @@ bool TransformComponent::ReadXML(TiXmlElement* parent)
 		return false;
 	}
 
-	TiXmlElement* pTranslation = parent->FirstChildElement("Translation");
+	TiXmlElement* root = parent->FirstChildElement("Transform");
+
+	TiXmlElement* pTranslation = root->FirstChildElement("Translation");
 	if (pTranslation == nullptr)
 	{
 		return false;
@@ -59,7 +61,7 @@ bool TransformComponent::ReadXML(TiXmlElement* parent)
 		return false;
 	}
 	
-	TiXmlElement* pRotation = parent->FirstChildElement("Rotation");
+	TiXmlElement* pRotation = root->FirstChildElement("Rotation");
 	if (pRotation == nullptr)
 	{
 		return false;
@@ -72,7 +74,7 @@ bool TransformComponent::ReadXML(TiXmlElement* parent)
 		return false;
 	}
 
-	TiXmlElement* pScale = parent->FirstChildElement("Scale");
+	TiXmlElement* pScale = root->FirstChildElement("Scale");
 	if (pScale == nullptr)
 	{
 		return false;
@@ -87,4 +89,3 @@ bool TransformComponent::ReadXML(TiXmlElement* parent)
 
 	return true;
 }
-;

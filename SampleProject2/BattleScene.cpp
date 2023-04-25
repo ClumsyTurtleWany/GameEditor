@@ -36,6 +36,9 @@
 
 bool BattleScene::Init()
 {
+	MainSaveLoadSystem = new SaveLoadSystem;
+	TheWorld.AddSystem(MainSaveLoadSystem);
+	
 	ID = BATTLE;
 
 	// 메인 카메라
@@ -81,7 +84,19 @@ bool BattleScene::Init()
 	EnemyList.push_back(enemy2);
 
 	Init_UI();
+
 	Init_Map();
+	/*bool testFlag = true;
+	if (!testFlag)
+	{
+		Init_Map();
+		MainSaveLoadSystem->Save("../resource/Map/", "TestWorld");
+	}
+	else
+	{
+		MainSaveLoadSystem->Load("../resource/Map/", "TestWorld");
+	}*/
+	
 	Init_Sound();
 	Init_Chara();
 	Init_Effect();
@@ -496,6 +511,11 @@ void BattleScene::Init_Map()
 	//// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
 	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
+	/*if (!landscape->LoadXML(L"../resource/Map/TestMap.landscape"))
+	{
+		landscapeComponents->Build(16, 16, 7, 10);
+		landscape->SaveXML(L"../resource/Map/TestMap.landscape");
+	}*/
 	landscapeComponents->Build(16, 16, 7, 10);
 	landscapeComponents->SetCamera(MainCameraSystem->MainCamera);
 	TheWorld.AddEntity(landscape);

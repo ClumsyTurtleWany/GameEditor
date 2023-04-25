@@ -2,7 +2,7 @@
 
 Character::Character()
 {
-	this->Name = L"Character" + std::to_wstring(this->ID);
+	this->Name = L"Character"; // +std::to_wstring(this->ID);
 	MovementComp = this->AddComponent<MovementComponent>();
 	Arrow = this->AddComponent<ArrowComponent>();
 }

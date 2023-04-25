@@ -18,4 +18,8 @@ public:
 	MovementComponent(); 
 	MovementComponent(Vector3 location, Vector3 forword, Vector3 destination, float speed);
 	virtual ~MovementComponent();
+
+public:
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
 };

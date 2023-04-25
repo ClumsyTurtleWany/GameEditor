@@ -88,3 +88,161 @@ void Camera::Apply()
 {
 	DXDevice::g_pImmediateContext->VSSetConstantBuffers(1, 1, &CameraMatrixBuffer);
 }
+
+bool Camera::WriteXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* pCameraComponent = new TiXmlElement("CameraComponent");
+	parent->LinkEndChild(pCameraComponent);
+
+	if (!WriteVector3(pCameraComponent, Pos, "Position"))
+	{
+
+	}
+
+	if (!WriteVector3(pCameraComponent, Look, "Look"))
+	{
+
+	}
+
+	if (!WriteVector3(pCameraComponent, Right, "Right"))
+	{
+
+	}
+
+	if (!WriteVector3(pCameraComponent, Up, "Up"))
+	{
+
+	}
+
+	if (!WriteVector3(pCameraComponent, Target, "Target"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, FarDistance, "FarDistance"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, NearDistance, "NearDistance"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, AspectRatio, "AspectRatio"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, FovX, "FovX"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, FovY, "FovY"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, Pitch, "Pitch"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, Yaw, "Yaw"))
+	{
+
+	}
+
+	if (!WriteDouble(pCameraComponent, Roll, "Roll"))
+	{
+
+	}
+
+	return true;
+}
+
+bool Camera::ReadXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* root = parent->FirstChildElement("CameraComponent");
+
+	if (!ReadVector3(root, "Position", Pos))
+	{
+		return false;
+	}
+
+	if (!ReadVector3(root, "Look", Look))
+	{
+		return false;
+	}
+
+	if (!ReadVector3(root, "Right", Right))
+	{
+
+	}
+
+	if (!ReadVector3(root, "Up", Up))
+	{
+
+	}
+
+	if (!ReadVector3(root, "Target", Target))
+	{
+
+	}
+
+	if (!ReadDouble(root, "FarDistance", FarDistance))
+	{
+
+	}
+
+	if (!ReadDouble(root, "NearDistance", NearDistance))
+	{
+
+	}
+
+	if (!ReadDouble(root, "AspectRatio", AspectRatio))
+	{
+
+	}
+
+	if (!ReadDouble(root, "FovX", FovX))
+	{
+
+	}
+
+	if (!ReadDouble(root, "FovY", FovY))
+	{
+
+	}
+
+	if (!ReadDouble(root, "Pitch", Pitch))
+	{
+
+	}
+
+	if (!ReadDouble(root, "Yaw", Yaw))
+	{
+
+	}
+
+	if (!ReadDouble(root, "Roll", Roll))
+	{
+
+	}
+
+	CreateViewMatrix(Pos, Target, Up);
+	CreateProjectionMatrix(NearDistance, FarDistance, FovY, AspectRatio);
+
+	return true;
+}

@@ -33,6 +33,10 @@ namespace ECS
 		virtual ~Entity() {};
 
 	public:
+		virtual bool Save(std::string filename) { return true; };
+		virtual bool Load(std::string filename) { return true; };
+
+	public:
 		template<typename ComponentType, typename... ComponentArgs>
 		ComponentType* AddComponent(ComponentArgs&&... args)
 		{

@@ -1,5 +1,5 @@
 #include "AnimationComponent.h"
-
+#include <fstream>
 
 bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 {
@@ -283,3 +283,141 @@ bool AnimationComponent::BlendClip(SkeletalMeshComponent* mesh, float tick, floa
 //	}
 //	data->InterpolationFrameMatrixList.insert(std::make_pair(NodeName, InterpolationMatrixList));
 //}
+
+bool AnimationComponent::WriteXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* pAnimationComponent = new TiXmlElement("AnimationComponent");
+	parent->LinkEndChild(pAnimationComponent);
+
+	for (auto& it : ClipList)
+	{
+		TiXmlElement* pClip = new TiXmlElement("Clip");
+		pAnimationComponent->LinkEndChild(pClip);
+
+		if (!WriteString(pClip, it.second->FilePath, "Path"))
+		{
+
+		}
+
+		if (!WriteBoolean(pClip, it.second->LoopState, "Loop"))
+		{
+
+		}
+	}
+
+	return true;
+}
+
+bool AnimationComponent::ReadXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* root = parent->FirstChildElement("AnimationComponent");
+	TiXmlElement* pClip = root->FirstChildElement("Clip");
+	while (pClip != nullptr)
+	{
+		std::string filepath;
+		if (!ReadString(root, "Path", filepath))
+		{
+			
+		}
+
+		bool loop;
+		if (!ReadBoolean(root, "Loop", loop))
+		{
+			
+		}
+
+		if (!Load(filepath, loop))
+		{
+			
+		}
+
+		pClip = pClip->NextSiblingElement();
+	}
+}
+
+bool AnimationComponent::Load(std::string filename, bool loop)
+{
+	std::ifstream CLP_in(filename, std::ios::binary);
+	if (CLP_in.is_open())
+	{
+		AnimationClip* newClip = new AnimationClip;
+		newClip->FilePath = filename;
+
+		unsigned int uint;
+		CLP_in.read(reinterpret_cast<char*>(&uint), sizeof(unsigned int));
+		newClip->StartFrame = uint;
+		CLP_in.read(reinterpret_cast<char*>(&uint), sizeof(unsigned int));
+		newClip->EndFrame = uint;
+		float f;
+		CLP_in.read(reinterpret_cast<char*>(&f), sizeof(float));
+		newClip->TickPerFrame = f;
+		CLP_in.read(reinterpret_cast<char*>(&f), sizeof(float));
+		newClip->FrameSpeed = f;
+		bool b;
+		CLP_in.read(reinterpret_cast<char*>(&b), sizeof(bool));
+		newClip->LoopState = b;
+
+		int map_size;
+		CLP_in.read(reinterpret_cast<char*>(&map_size), sizeof(int));
+		for (int i = 0; i < map_size; i++)
+		{
+			int bonename_size;
+			std::string bone;
+			std::vector<Matrix> mat_list;
+
+			CLP_in.read(reinterpret_cast<char*>(&bonename_size), sizeof(int));
+			bone.resize(bonename_size);
+			CLP_in.read(reinterpret_cast<char*>(&bone[0]), bonename_size);
+			int list_size;
+			CLP_in.read(reinterpret_cast<char*>(&list_size), sizeof(int));
+			for (int i = 0; i < list_size; i++)
+			{
+				Matrix mat;
+				CLP_in.read(reinterpret_cast<char*>(&mat), sizeof(Matrix));
+				mat_list.push_back(mat);
+			}
+			int pointer = bone.size() - 1;
+			if (bone[pointer] == NULL)
+			{
+				bone.pop_back();
+			}
+
+			newClip->LerpFrameMatrixList.insert(std::make_pair(bone, mat_list));
+		}
+
+		int filename_size;
+		std::string temp;
+		CLP_in.read(reinterpret_cast<char*>(&filename_size), sizeof(int));
+		temp.resize(filename_size);
+		CLP_in.read(reinterpret_cast<char*>(&temp[0]), filename_size);
+
+		///add-
+		newClip->FileName = to_mw(temp);
+		int pointer = newClip->FileName.size() - 1;
+		if (newClip->FileName[pointer] == NULL)
+		{
+			newClip->FileName.pop_back();
+		}
+		///-add
+
+		//newClip->FileName = to_mw(temp);
+
+		newClip->LoopState = loop;	// Default = true
+
+		CLP_in.close();
+
+		AddClip(newClip->FileName, newClip);
+
+	}
+	return true;
+}
