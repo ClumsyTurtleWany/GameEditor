@@ -40,9 +40,7 @@ void CameraSystem::Tick(ECS::World* world, float time)
 			{
 				camera->Pos = Vector3::Lerp(camera->Pos, TargetCamera->Pos, min(time, 1.0f));
 				camera->lastQ = Quaternion::Slerp(camera->lastQ, TargetCamera->lastQ, min(time, 1.0f));
-				camera->Target = TargetCamera->Target;
-
-				Matrix newView = Matrix::Lerp(MainCamera->View, TargetCamera->View, min(time, 1.0f));
+				Vector3 Look = Vector3::Lerp(camera->Target, TargetCamera->Target, min(time, 1.0f));
 
 				if (0)
 				{
@@ -59,8 +57,7 @@ void CameraSystem::Tick(ECS::World* world, float time)
 				}
 				else
 				{
-					//camera->CreateViewMatrix(camera->Pos, TargetCamera->Target, Vector3(0.0f, 1.0f, 0.0f));
-					camera->View = newView;
+					camera->CreateViewMatrix(camera->Pos, Look, Vector3(0.0f, 1.0f, 0.0f));
 					camera->Update();
 
 					DirectX::XMVECTOR determinant;
