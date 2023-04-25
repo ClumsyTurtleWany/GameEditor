@@ -68,52 +68,6 @@ void ColliderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
-	if (pPicker->curSelect.pTarget)
-	{
-		if (pPicker->pSelectedArrowUIEntity)
-		{
-			auto SelectUI = pPicker->pSelectedArrowUIEntity->GetComponent<ParticleEffectComponent>();
-			auto trans = pPicker->pSelectedArrowUIEntity->GetComponent<TransformComponent>();
-			auto targetBox = pPicker->curSelect.pTarget->GetComponent<BoundingBoxComponent>();
-
-			if (SelectUI && trans && targetBox)
-			{
-				SelectUI->m_pPPsystem->m_PSProp.bShow = true;
-				float YOffset = targetBox->OBB.Extents.y + 5.0f;
-
-				trans->Translation = targetBox->OBB.Center;
-				trans->Translation.y += YOffset;
-			}
-			else
-			{
-				SelectUI->m_pPPsystem->m_PSProp.bShow = false;
-			}
-		}
-
-		if (pPicker->pSelectedCircleUIEntity)
-		{
-			auto SelectUI = pPicker->pSelectedCircleUIEntity->GetComponent<ParticleEffectComponent>();
-			auto trans = pPicker->pSelectedCircleUIEntity->GetComponent<TransformComponent>();
-			auto targetBox = pPicker->curSelect.pTarget->GetComponent<BoundingBoxComponent>();
-
-			if (SelectUI && trans && targetBox)
-			{
-				SelectUI->m_pPPsystem->m_PSProp.bShow = true;
-				float YOffset = -targetBox->OBB.Extents.y + 0.005f;
-				float CircleRadiusScale = 1.0f + targetBox->OBB.Extents.x * 0.20f;
-
-				trans->Translation = targetBox->OBB.Center;
-				trans->Translation.y += YOffset;
-
-				trans->Scale = { CircleRadiusScale , CircleRadiusScale , CircleRadiusScale };
-			}
-			else
-			{
-				SelectUI->m_pPPsystem->m_PSProp.bShow = false;
-			}
-		}
-	}
-
 	if (pPicker->optPickingMode == PICKING_MODE::PMOD_LAND)
 	{
 		if (pPicker->fLandTraceTimer > PICKING_OP_TIME_LIMIT)
