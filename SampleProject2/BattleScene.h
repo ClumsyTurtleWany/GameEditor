@@ -4,6 +4,7 @@
 #include "Enemy_1.h"
 #include "Character.h"
 #include "ActionCamera.h"
+#include "SaveLoadSystem.h"
 
 class BattleScene : public BaseScene
 {
@@ -62,6 +63,7 @@ public:
 	
 	CameraSystem* MainCameraSystem = nullptr;
 	RenderSystem* MainRenderSystem = nullptr;
+	SaveLoadSystem* MainSaveLoadSystem = nullptr;
 	Actor* MainCameraActor = nullptr;
 
 	Vector3 PlayerCameraPos;

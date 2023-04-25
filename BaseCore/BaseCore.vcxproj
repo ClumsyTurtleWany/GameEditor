@@ -202,7 +202,10 @@ copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Release\\"</Command>
     <ClInclude Include="FMODSoundManager.hpp" />
     <ClInclude Include="Input.hpp" />
     <ClInclude Include="Timer.hpp" />
+    <ClInclude Include="tinystr.h" />
+    <ClInclude Include="tinyxml.h" />
     <ClInclude Include="WindowsClient.h" />
+    <ClInclude Include="XmlParser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseCore.cpp" />
@@ -215,7 +218,12 @@ copy "BaseCore.lib" "..\\lib\\$(TargetName)\\Release\\"</Command>
     <ClCompile Include="FMODSoundManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="tinystr.cpp" />
+    <ClCompile Include="tinyxml.cpp" />
+    <ClCompile Include="tinyxmlerror.cpp" />
+    <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="WindowsClient.cpp" />
+    <ClCompile Include="XmlParser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,24 +2,24 @@
 #include "MaterialManager.h"
 #include <fstream>
 
-static std::wstring to_mw(const std::string& _src)
-{
-	if (_src.empty()) return std::wstring();
-	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &_src[0], (int)_src.size(), NULL, 0);
-	std::wstring wstrTo(size_needed, 0);
-	MultiByteToWideChar(CP_UTF8, 0, &_src[0], (int)_src.size(), &wstrTo[0], size_needed);
-	return wstrTo;
-};
-
-static std::string to_wm(const std::wstring& _src)
-{
-	if (_src.empty()) return std::string();
-	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &_src[0], (int)_src.size(), NULL, 0, NULL, NULL);
-	std::string strTo(size_needed, 0);
-	WideCharToMultiByte(CP_UTF8, 0, &_src[0], (int)_src.size(), &strTo[0], size_needed, NULL, NULL);
-	return strTo;
-
-};
+//static std::wstring to_mw(const std::string& _src)
+//{
+//	if (_src.empty()) return std::wstring();
+//	int size_needed = MultiByteToWideChar(CP_UTF8, 0, &_src[0], (int)_src.size(), NULL, 0);
+//	std::wstring wstrTo(size_needed, 0);
+//	MultiByteToWideChar(CP_UTF8, 0, &_src[0], (int)_src.size(), &wstrTo[0], size_needed);
+//	return wstrTo;
+//};
+//
+//static std::string to_wm(const std::wstring& _src)
+//{
+//	if (_src.empty()) return std::string();
+//	int size_needed = WideCharToMultiByte(CP_UTF8, 0, &_src[0], (int)_src.size(), NULL, 0, NULL, NULL);
+//	std::string strTo(size_needed, 0);
+//	WideCharToMultiByte(CP_UTF8, 0, &_src[0], (int)_src.size(), &strTo[0], size_needed, NULL, NULL);
+//	return strTo;
+//
+//};
 
 bool FBXLoader::Initialize()
 {
@@ -1756,6 +1756,7 @@ bool FBXLoader::LoadSkeletalMesh(std::string filename, SkeletalMeshComponent* SK
 	{
 		int meshCnt = 0;
 		skm_in.read(reinterpret_cast<char*>(&meshCnt), sizeof(int));
+		SKM->FilePath = filename;
 		SKM->Meshes.resize(meshCnt);
 		for (int i = 0; i < meshCnt; i++)
 		{
@@ -1981,6 +1982,7 @@ bool FBXLoader::LoadAnimClip(std::string filename, AnimationComponent* ANIM, boo
 
 		///add-
 		newClip->FileName = to_mw(temp);
+		newClip->FilePath = filename;
 		int pointer = newClip->FileName.size() - 1;
 		if (newClip->FileName[pointer] == NULL)
 		{
@@ -2007,6 +2009,7 @@ bool FBXLoader::LoadStaticMesh(std::string filename, StaticMeshComponent* STM)
 	{
 		int meshCnt = 0;
 		STM_in.read(reinterpret_cast<char*>(&meshCnt), sizeof(int));
+		STM->FilePath = filename;
 		STM->Meshes.resize(meshCnt);
 		for (int i = 0; i < meshCnt; i++)
 		{

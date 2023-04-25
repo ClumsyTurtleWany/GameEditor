@@ -1,4 +1,5 @@
 #pragma once
+#include "Define.h"
 #include "LandscapeComponent.h"
 #include "TransformComponent.h"
 #include "Camera.h"
@@ -26,6 +27,10 @@ public:
 	DXTexture* BaseTexture = nullptr;
 	std::vector<DXTexture*> LayerTextureList;
 
+	std::wstring BaseTextureName;
+	std::vector<std::wstring> LayerTextureNameList;
+	std::wstring MaterialName;
+
 	int Row;
 	int Column;
 	int SectionSize;
@@ -34,9 +39,6 @@ public:
 	ID3D11VertexShader* ShadowVertexShader = nullptr;
 	ID3D11PixelShader* ShadowPixelShader = nullptr;
 
-	Vector3 Center;
-
-	std::vector<DirectX::BoundingBox> BoundingBoxList;
 
 	TransformComponent* Transform;
 
@@ -56,4 +58,9 @@ public:
 	void SetBaseTexture(DXTexture* texture);
 	void AddLayerTexture(DXTexture* texture);
 	void Splatting(Vector3 pos, float radius, int idx, float strength);
+
+	bool Save(std::wstring filename);
+	bool Load(std::wstring filename);
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
 };

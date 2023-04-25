@@ -60,6 +60,7 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="RenderableStringComponent.h" />
     <ClInclude Include="RenderSystem.h" />
+    <ClInclude Include="SaveLoadSystem.h" />
     <ClInclude Include="SelectAnimSystem.h" />
     <ClInclude Include="SkeletalMeshComponent.h" />
     <ClInclude Include="SkyBoxComponent.h" />
@@ -93,6 +94,7 @@
     <ClCompile Include="LandscapeComponent.cpp" />
     <ClCompile Include="LandscapeComponents.cpp" />
     <ClCompile Include="Light.cpp" />
+    <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="LightSystem.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
@@ -100,6 +102,7 @@
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="RenderableStringComponent.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
+    <ClCompile Include="SaveLoadSystem.cpp" />
     <ClCompile Include="SelectAnimSystem.cpp" />
     <ClCompile Include="SkeletalMeshComponent.cpp" />
     <ClCompile Include="SkyBoxComponent.cpp" />
@@ -107,6 +110,7 @@
     <ClCompile Include="SplineComponent.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UpdateAnimSystem.cpp" />
   </ItemGroup>
   <ItemGroup>

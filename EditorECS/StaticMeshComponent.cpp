@@ -340,8 +340,190 @@ bool StaticMeshComponent::SplitString(std::string line, char delimiter, std::vec
 	return isValid;
 }
 
+bool StaticMeshComponent::WriteXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* pStaticMeshComponent = new TiXmlElement("StaticMeshComponent");
+	parent->LinkEndChild(pStaticMeshComponent);
+	
+	if (!WriteString(pStaticMeshComponent, FilePath, "Path"))
+	{
+
+	}
+
+	return true;
+}
+
+bool StaticMeshComponent::ReadXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* root = parent->FirstChildElement("StaticMeshComponent");
+
+	if (ReadString(root, "Path", FilePath))
+	{
+		if (!Load(FilePath))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 void StaticMeshComponent::UpdateTransformData(const TransformMatrix& transform)
 {
 	TransformData = transform;
 	return;
+}
+
+bool StaticMeshComponent::Load(std::string filename)
+{
+	std::ifstream STM_in(filename, std::ios::binary);
+	if (STM_in.is_open())
+	{
+		int meshCnt = 0;
+		STM_in.read(reinterpret_cast<char*>(&meshCnt), sizeof(int));
+		FilePath = filename;
+		Meshes.resize(meshCnt);
+		for (int i = 0; i < meshCnt; i++)
+		{
+			int name_size;
+			STM_in.read(reinterpret_cast<char*>(&name_size), sizeof(int));
+			char temp[256];
+			STM_in.read(reinterpret_cast<char*>(&temp[0]), name_size);
+			Meshes[i].Name = to_mw(temp);
+
+			int matname_size;
+			STM_in.read(reinterpret_cast<char*>(&matname_size), sizeof(int));
+			STM_in.read(reinterpret_cast<char*>(&temp[0]), matname_size);
+			Meshes[i].MaterialName = to_mw(temp);
+
+			int vertices_size;
+			STM_in.read(reinterpret_cast<char*>(&vertices_size), sizeof(int));
+			Meshes[i].Vertices.resize(vertices_size);
+			STM_in.read(reinterpret_cast<char*>(&Meshes[i].Vertices[0]), sizeof(Vertex) * vertices_size);
+			int faces_size;
+			STM_in.read(reinterpret_cast<char*>(&faces_size), sizeof(int));
+			if (faces_size > 0)
+			{
+				Meshes[i].Faces.resize(faces_size);
+				STM_in.read(reinterpret_cast<char*>(&Meshes[i].Faces[0]), sizeof(Face) * faces_size);
+			}
+
+			int indices_size;
+			STM_in.read(reinterpret_cast<char*>(&indices_size), sizeof(int));
+			if (indices_size > 0)
+			{
+				Meshes[i].Indices.resize(indices_size);
+				STM_in.read(reinterpret_cast<char*>(&Meshes[i].Indices[0]), sizeof(DWORD) * indices_size);
+			}
+
+		}
+		int fbxname_size;
+		STM_in.read(reinterpret_cast<char*>(&fbxname_size), sizeof(int));
+		std::string temp;
+		temp.resize(fbxname_size);
+		STM_in.read(reinterpret_cast<char*>(&temp[0]), fbxname_size);
+		FBXName = to_mw(temp);
+
+		int meshname_size;
+		STM_in.read(reinterpret_cast<char*>(&meshname_size), sizeof(int));
+		temp.resize(meshname_size);
+		STM_in.read(reinterpret_cast<char*>(&temp[0]), meshname_size);
+		Name = to_mw(temp);
+
+		for (int i = 0; i < meshCnt; i++)
+		{
+			std::string mtlname = "../resource/FBX/MTL/";
+			mtlname += to_wm(Meshes[i].MaterialName);
+			mtlname += ".mtl";
+
+			std::ifstream mtl_in(mtlname, std::ios::binary);
+			if (mtl_in.is_open())
+			{
+				Material* material = MaterialManager::GetInstance()->CreateMaterial(Meshes[i].MaterialName);
+				material->Type = MaterialType::Light;
+
+				int size;
+				std::string temp;
+				std::wstring _mtlPath = L"../resource/FBX/MTL/";
+				std::wstring _mtlName;
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->DiffuseTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->NormalTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->AmbientTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->SpecularTextureName = _mtlPath + _mtlName;
+				}
+
+				mtl_in.read(reinterpret_cast<char*>(&size), sizeof(int));
+				if (size > 1)
+				{
+					temp.resize(size);
+					mtl_in.read(reinterpret_cast<char*>(&temp[0]), size);
+					_mtlName = to_mw(temp);
+					_mtlName = _mtlName.substr(_mtlName.find_last_of(L"/") + 1);
+					material->EmissiveTextureName = _mtlPath + _mtlName;
+				}
+
+				if (!material->Create())
+				{
+					material = MaterialManager::GetInstance()->GetMaterial(L"Default");
+				}
+
+				mtl_in.close();
+			}
+
+			Meshes[i].MaterialSlot = MaterialManager::GetInstance()->GetMaterial(Meshes[i].MaterialName);
+			Meshes[i].Initialize();
+		}
+		isCreated = false;
+		Initialize();
+
+		STM_in.close();
+
+	}
+
+	return true;
 }

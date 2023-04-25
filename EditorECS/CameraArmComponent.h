@@ -1,4 +1,6 @@
 #pragma once
+#include "Define.h"
+//#include "XmlParser.h"
 
 class CameraArmComponent
 {
@@ -12,4 +14,8 @@ public:
 public:
 	CameraArmComponent();
 	virtual ~CameraArmComponent();
+
+public:
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
 };

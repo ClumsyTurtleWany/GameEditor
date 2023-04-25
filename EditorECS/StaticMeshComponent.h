@@ -9,6 +9,7 @@ class StaticMeshComponent : public ECS::Component
 public:
 	std::wstring Name;
 	std::wstring								FBXName;	// ADD
+	std::string FilePath;
 
 	std::vector<StaticMesh> Meshes;
 	ID3D11InputLayout* VertexLayout = nullptr;
@@ -32,12 +33,19 @@ public:
 	virtual bool Initialize();
 	virtual bool Render();
 	virtual bool RenderShadow();
-	virtual bool Save(std::wstring filename) override;
-	virtual bool Load(std::wstring filename) override;
+	virtual bool Save(std::wstring filename);// override;
+	virtual bool Load(std::wstring filename);// override;
 
 public:
 	void UpdateTransformData(const TransformMatrix& transform);
 	virtual void UpdateTransformMatrix(const TransformComponent& transform);
 	bool SplitString(std::string line, char delimiter, std::vector<std::string>& dst);
+
+public:
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
+
+public:
+	bool Load(std::string filename);
 };
 

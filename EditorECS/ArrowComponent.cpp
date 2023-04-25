@@ -94,3 +94,58 @@ void ArrowComponent::rotateArrow(Vector3 angle)
 
 	rotation = DirectX::XMQuaternionRotationRollPitchYawFromVector(angle);
 }
+
+bool ArrowComponent::WriteXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* pArrowComponent = new TiXmlElement("ArrowComponent");
+	parent->LinkEndChild(pArrowComponent);
+
+	if (!WriteVector3(pArrowComponent, Forward, "Forward"))
+	{
+
+	}
+
+	if (!WriteVector3(pArrowComponent, Up, "Up"))
+	{
+
+	}
+
+	if (!WriteVector3(pArrowComponent, Right, "Right"))
+	{
+
+	}
+
+	return true;
+}
+
+bool ArrowComponent::ReadXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* root = parent->FirstChildElement("ArrowComponent");
+
+	if (!ReadVector3(root, "Forward", Forward))
+	{
+		return false;
+	}
+
+	if (!ReadVector3(root, "Up", Up))
+	{
+		return false;
+	}
+
+	if (!ReadVector3(root, "Right", Right))
+	{
+
+	}
+
+	return true;
+}

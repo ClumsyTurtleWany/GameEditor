@@ -219,6 +219,9 @@
     <ClInclude Include="ActionCamera.h">
       <Filter>Entity\Actor</Filter>
     </ClInclude>
+    <ClInclude Include="SaveLoadSystem.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -328,6 +331,15 @@
     </ClCompile>
     <ClCompile Include="ActionCamera.cpp">
       <Filter>Entity\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Component</Filter>
+    </ClCompile>
+    <ClCompile Include="LightComponent.cpp">
+      <Filter>Component\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveLoadSystem.cpp">
+      <Filter>System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

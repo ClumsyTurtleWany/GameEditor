@@ -311,6 +311,660 @@ void LandscapeComponents::Splatting(Vector3 pos, float radius, int idx, float st
 	}
 }
 
+bool LandscapeComponents::Save(std::wstring filename)
+{
+	// XML 파일 선언
+	TiXmlDocument doc;
+	TiXmlDeclaration* decl = new TiXmlDeclaration("1.0", "", "");
+	doc.LinkEndChild(decl);
+
+	//루트 노드 추가
+	TiXmlElement* pRoot = new TiXmlElement("Landscape");
+	doc.LinkEndChild(pRoot);
+
+	////주석 문장 추가
+	//TiXmlComment* pComment = new TiXmlComment();
+	//pComment->SetValue("This is Test Comment");
+	//pRoot->LinkEndChild(pComment);
+
+	// 하위노드 및 데이터 추가
+	TiXmlElement* pInfo = new TiXmlElement("Information");
+	pRoot->LinkEndChild(pInfo);
+
+	//하위노드 및 속성 추가
+	TiXmlElement* pSizeInfo = new TiXmlElement("Size");
+	pInfo->LinkEndChild(pSizeInfo);
+	pSizeInfo->SetAttribute("ComponentsSize", Components.size());
+	pSizeInfo->SetAttribute("Row", Row);
+	pSizeInfo->SetAttribute("Column", Column);
+	pSizeInfo->SetAttribute("SectionSize", SectionSize);
+	pSizeInfo->SetAttribute("CellDistance", CellDistance);
+
+	TiXmlElement* pMaterial = new TiXmlElement("Material");
+	pInfo->LinkEndChild(pMaterial);
+	std::string material(MaterialName.begin(), MaterialName.end());
+	pMaterial->SetAttribute("Name", material.c_str());
+
+	// 컴포넌트 하위 노드
+	TiXmlElement* pComponents = new TiXmlElement("Components");
+	pRoot->LinkEndChild(pComponents);
+	for (auto& it : Components)
+	{
+		TiXmlElement* pComponent = new TiXmlElement("Component");
+		pComponents->LinkEndChild(pComponent);
+		pComponent->SetAttribute("Column", it.Column);
+		pComponent->SetAttribute("Row", it.Row);
+
+		// Vertices
+		TiXmlElement* pVertices = new TiXmlElement("Vertices");
+		pComponent->LinkEndChild(pVertices);
+		pVertices->SetAttribute("Count", it.Vertices.size());
+		pVertices->SetDoubleAttribute("MaxX", it.MaxVertex.x);
+		pVertices->SetDoubleAttribute("MaxY", it.MaxVertex.y);
+		pVertices->SetDoubleAttribute("MaxZ", it.MaxVertex.z);
+		pVertices->SetDoubleAttribute("MinX", it.MinVertex.x);
+		pVertices->SetDoubleAttribute("MinY", it.MinVertex.y);
+		pVertices->SetDoubleAttribute("MinZ", it.MinVertex.z);
+
+		for (size_t idx = 0; idx < it.Vertices.size(); idx++)
+		{
+			TiXmlElement* pVertexElem = new TiXmlElement("Vertex");
+			pVertices->LinkEndChild(pVertexElem);
+			pVertexElem->SetAttribute("Idx", idx);
+
+			TiXmlElement* pPosElem = new TiXmlElement("Position");
+			pVertexElem->LinkEndChild(pPosElem);
+			pPosElem->SetDoubleAttribute("X", it.Vertices[idx].Pos.x);
+			pPosElem->SetDoubleAttribute("Y", it.Vertices[idx].Pos.y);
+			pPosElem->SetDoubleAttribute("Z", it.Vertices[idx].Pos.z);
+			
+			TiXmlElement* pTexcoordElem = new TiXmlElement("Texcoord");
+			pVertexElem->LinkEndChild(pTexcoordElem);
+			pTexcoordElem->SetDoubleAttribute("X", it.Vertices[idx].Texture.x);
+			pTexcoordElem->SetDoubleAttribute("Y", it.Vertices[idx].Texture.y);
+
+			TiXmlElement* pColorElem = new TiXmlElement("Color");
+			pVertexElem->LinkEndChild(pColorElem);
+			pColorElem->SetDoubleAttribute("R", it.Vertices[idx].Color.x);
+			pColorElem->SetDoubleAttribute("G", it.Vertices[idx].Color.y);
+			pColorElem->SetDoubleAttribute("B", it.Vertices[idx].Color.z);
+			pColorElem->SetDoubleAttribute("W", it.Vertices[idx].Color.w);
+
+			TiXmlElement* pNormalElem = new TiXmlElement("Normal");
+			pVertexElem->LinkEndChild(pNormalElem);
+			pNormalElem->SetDoubleAttribute("X", it.Vertices[idx].Normal.x);
+			pNormalElem->SetDoubleAttribute("Y", it.Vertices[idx].Normal.y);
+			pNormalElem->SetDoubleAttribute("Z", it.Vertices[idx].Normal.z);
+
+			TiXmlElement* pTangentElem = new TiXmlElement("Tangent");
+			pVertexElem->LinkEndChild(pTangentElem);
+			pTangentElem->SetDoubleAttribute("X", it.Vertices[idx].Tangent.x);
+			pTangentElem->SetDoubleAttribute("Y", it.Vertices[idx].Tangent.y);
+			pTangentElem->SetDoubleAttribute("Z", it.Vertices[idx].Tangent.z);
+		}
+
+		// Indices
+		TiXmlElement* pIndices = new TiXmlElement("Indices");
+		pComponent->LinkEndChild(pIndices);
+		pIndices->SetAttribute("Count", it.Indices.size());
+
+		for (size_t idx = 0; idx < it.Indices.size(); idx++)
+		{
+			TiXmlElement* pIndexElem = new TiXmlElement("Index");
+			pIndices->LinkEndChild(pIndexElem);
+			pIndexElem->SetAttribute("Idx", idx);
+			pIndexElem->SetAttribute("Val", it.Indices[idx]);
+		}
+
+		// Faces
+		TiXmlElement* pFaces = new TiXmlElement("Faces");
+		pComponent->LinkEndChild(pFaces);
+		pFaces->SetAttribute("Count", it.Faces.size());
+
+		for (size_t idx = 0; idx < it.Faces.size(); idx++)
+		{
+			TiXmlElement* pFaceElem = new TiXmlElement("Face");
+			pFaces->LinkEndChild(pFaceElem);
+			pFaceElem->SetAttribute("Idx", idx);
+			pFaceElem->SetAttribute("V0", it.Faces[idx].V0);
+			pFaceElem->SetAttribute("V1", it.Faces[idx].V1);
+			pFaceElem->SetAttribute("V2", it.Faces[idx].V2);
+		}
+
+	}
+
+	std::string saveFile(filename.begin(), filename.end());
+	return doc.SaveFile(saveFile.c_str());
+}
+
+bool LandscapeComponents::Load(std::wstring filename)
+{
+	TiXmlDocument doc;
+	std::string readfile(filename.begin(), filename.end());
+	if (!doc.LoadFile(readfile.c_str()))
+	{
+		return false;
+	}
+
+	TiXmlElement* root = doc.FirstChildElement("Landscape");
+	
+	// Read Info
+	TiXmlElement* info = root->FirstChildElement("Information");
+	TiXmlElement* size = info->FirstChildElement("Size");
+	TiXmlAttribute* pAttribute = size->FirstAttribute();
+	int componentsSize = pAttribute->IntValue();
+	Components.resize(componentsSize);
+	pAttribute = pAttribute->Next();
+
+	Row = pAttribute->IntValue(); 
+	pAttribute = pAttribute->Next();
+
+	Column = pAttribute->IntValue();
+	pAttribute = pAttribute->Next();
+
+	SectionSize = pAttribute->IntValue();
+	pAttribute = pAttribute->Next();
+
+	CellDistance = pAttribute->IntValue();
+	pAttribute = pAttribute->Next();
+
+	// Read Material
+	TiXmlElement* pMaterial = info->FirstChildElement("Material");
+	pAttribute = pMaterial->FirstAttribute();
+	std::string materialName = pAttribute->Value();
+	if (!MaterialName.empty())
+	{
+		MaterialName.assign(materialName.begin(), materialName.end());
+	}
+
+	TiXmlElement* pComponents = root->FirstChildElement("Components");
+	TiXmlElement* pComponent = nullptr; // = pComponents->FirstChildElement("Component");
+	for (size_t compIdx = 0; compIdx < componentsSize; compIdx++)
+	{
+		if (compIdx == 0)
+		{
+			pComponent = pComponents->FirstChildElement("Component");
+		}
+		else
+		{
+			pComponent = pComponent->NextSiblingElement();
+		}
+
+		pAttribute = pComponent->FirstAttribute();
+
+		Components[compIdx].Column = pAttribute->IntValue();
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].Row = pAttribute->IntValue();
+		pAttribute = pAttribute->Next();
+
+
+		// Vertices
+		TiXmlElement* pVertices = pComponent->FirstChildElement("Vertices");
+		pAttribute = pVertices->FirstAttribute();
+
+		Components[compIdx].VertexCount = pAttribute->IntValue();
+		Components[compIdx].Vertices.resize(Components[compIdx].VertexCount);
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].MaxVertex.x = pAttribute->DoubleValue();
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].MaxVertex.y = pAttribute->DoubleValue();
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].MaxVertex.z = pAttribute->DoubleValue();
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].MinVertex.x = pAttribute->DoubleValue();
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].MinVertex.y = pAttribute->DoubleValue();
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].MinVertex.z = pAttribute->DoubleValue();
+		pAttribute = pAttribute->Next();
+
+		TiXmlElement* pVertex = nullptr;
+		for (size_t vertexIdx = 0; vertexIdx < Components[compIdx].VertexCount; vertexIdx++)
+		{
+			if (vertexIdx == 0)
+			{
+				pVertex = pVertices->FirstChildElement("Vertex");
+			}
+			else
+			{
+				pVertex = pVertex->NextSiblingElement();
+			}
+
+			pAttribute = pVertex->FirstAttribute();
+			int idx = pAttribute->IntValue();
+
+			TiXmlElement* pPos = pVertex->FirstChildElement("Position");
+			pAttribute = pPos->FirstAttribute();
+			Components[compIdx].Vertices[idx].Pos.x = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Pos.y = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Pos.z = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+
+			TiXmlElement* pTexcoord = pVertex->FirstChildElement("Texcoord");
+			pAttribute = pTexcoord->FirstAttribute();
+			Components[compIdx].Vertices[idx].Texture.x = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Texture.y = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			
+			TiXmlElement* pColor = pVertex->FirstChildElement("Color");
+			pAttribute = pColor->FirstAttribute();
+			Components[compIdx].Vertices[idx].Color.x = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Color.y = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Color.z = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Color.w = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+
+			TiXmlElement* pNormal = pVertex->FirstChildElement("Normal");
+			pAttribute = pNormal->FirstAttribute();
+			Components[compIdx].Vertices[idx].Normal.x = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Normal.y = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Normal.z = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			
+			TiXmlElement* pTangent = pVertex->FirstChildElement("Tangent");
+			pAttribute = pTangent->FirstAttribute();
+			Components[compIdx].Vertices[idx].Tangent.x = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Tangent.y = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Vertices[idx].Tangent.z = pAttribute->DoubleValue();
+			pAttribute = pAttribute->Next();
+		}
+
+
+		// Indices
+		TiXmlElement* pIndices = pComponent->FirstChildElement("Indices");
+		pAttribute = pIndices->FirstAttribute();
+
+		Components[compIdx].IndexCount = pAttribute->IntValue();
+		Components[compIdx].Indices.resize(Components[compIdx].IndexCount);
+
+		TiXmlElement* pIndex = nullptr;
+		for (size_t indicesIdx = 0; indicesIdx < Components[compIdx].IndexCount; indicesIdx++)
+		{
+			if (indicesIdx == 0)
+			{
+				pIndex = pIndices->FirstChildElement("Index");
+			}
+			else
+			{
+				pIndex = pIndex->NextSiblingElement();
+			}
+
+			pAttribute = pIndex->FirstAttribute();
+			int idx = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+
+			Components[compIdx].Indices[idx] = pAttribute->IntValue();
+		}
+
+		// Faces
+		TiXmlElement* pFaces = pComponent->FirstChildElement("Faces");
+		pAttribute = pFaces->FirstAttribute();
+
+		Components[compIdx].FaceCount = pAttribute->IntValue();
+		Components[compIdx].Faces.resize(Components[compIdx].FaceCount);
+
+		TiXmlElement* pFace = nullptr;
+		for (size_t faceIdx = 0; faceIdx < Components[compIdx].FaceCount; faceIdx++)
+		{
+			if (faceIdx == 0)
+			{
+				pFace = pFaces->FirstChildElement("Face");
+			}
+			else
+			{
+				pFace = pFace->NextSiblingElement();
+			}
+
+			pAttribute = pFace->FirstAttribute();
+			int idx = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+
+			Components[compIdx].Faces[idx].V0 = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Faces[idx].V1 = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Faces[idx].V2 = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+		}
+
+	}
+
+	return true;
+}
+
+bool LandscapeComponents::WriteXML(TiXmlElement* parent)
+{
+	TiXmlElement* pLandscapeComp = new TiXmlElement("LandscapeComponents");
+	parent->LinkEndChild(pLandscapeComp);
+
+	// 하위노드 및 데이터 추가
+	TiXmlElement* pInfo = new TiXmlElement("Information");
+	pLandscapeComp->LinkEndChild(pInfo);
+
+	//하위노드 및 속성 추가
+	TiXmlElement* pSizeInfo = new TiXmlElement("Size");
+	pInfo->LinkEndChild(pSizeInfo);
+	pSizeInfo->SetAttribute("ComponentsSize", Components.size());
+	pSizeInfo->SetAttribute("Row", Row);
+	pSizeInfo->SetAttribute("Column", Column);
+	pSizeInfo->SetAttribute("SectionSize", SectionSize);
+	pSizeInfo->SetAttribute("CellDistance", CellDistance);
+
+	TiXmlElement* pMaterial = new TiXmlElement("Material");
+	pInfo->LinkEndChild(pMaterial);
+	std::string material(MaterialName.begin(), MaterialName.end());
+	pMaterial->SetAttribute("Name", material.c_str());
+
+	// 컴포넌트 하위 노드
+	TiXmlElement* pComponents = new TiXmlElement("Components");
+	pLandscapeComp->LinkEndChild(pComponents);
+	for (auto& it : Components)
+	{
+		TiXmlElement* pComponent = new TiXmlElement("Component");
+		pComponents->LinkEndChild(pComponent);
+		pComponent->SetAttribute("Column", it.Column);
+		pComponent->SetAttribute("Row", it.Row);
+
+		// Vertices
+		TiXmlElement* pVertices = new TiXmlElement("Vertices");
+		pComponent->LinkEndChild(pVertices);
+		pVertices->SetAttribute("Count", it.Vertices.size());
+
+		if (!WriteVector3(pVertices, it.MaxVertex, "MaxVertex"))
+		{
+			OutputDebugString(L"EditorECS::LandscapeComponents::WriteXML::Failed Write Max Vertex.\n");
+		}
+
+		if (!WriteVector3(pVertices, it.MinVertex, "MinVertex"))
+		{
+			OutputDebugString(L"EditorECS::LandscapeComponents::WriteXML::Failed Write Min Vertex.\n");
+		}
+
+		for (size_t idx = 0; idx < it.Vertices.size(); idx++)
+		{
+			TiXmlElement* pVertexElem = new TiXmlElement("Vertex");
+			pVertices->LinkEndChild(pVertexElem);
+			pVertexElem->SetAttribute("Idx", idx);
+
+			if (!WriteVector3(pVertexElem, it.Vertices[idx].Pos, "Position"))
+			{
+				OutputDebugString(L"EditorECS::LandscapeComponents::WriteXML::Failed Write Vertex Position.\n");
+			}
+
+			if (!WriteVector2(pVertexElem, it.Vertices[idx].Texture, "Texcoord"))
+			{
+				OutputDebugString(L"EditorECS::LandscapeComponents::WriteXML::Failed Write Vertex Texcoord.\n");
+			}
+
+			if (!WriteVector4(pVertexElem, it.Vertices[idx].Color, "Color"))
+			{
+				OutputDebugString(L"EditorECS::LandscapeComponents::WriteXML::Failed Write Vertex Color.\n");
+			}
+
+			if (!WriteVector3(pVertexElem, it.Vertices[idx].Normal, "Normal"))
+			{
+				OutputDebugString(L"EditorECS::LandscapeComponents::WriteXML::Failed Write Vertex Normal.\n");
+			}
+
+			if (!WriteVector3(pVertexElem, it.Vertices[idx].Tangent, "Tangent"))
+			{
+				OutputDebugString(L"EditorECS::LandscapeComponents::WriteXML::Failed Write Vertex Tangent.\n");
+			}
+		}
+
+		// Indices
+		TiXmlElement* pIndices = new TiXmlElement("Indices");
+		pComponent->LinkEndChild(pIndices);
+		pIndices->SetAttribute("Count", it.Indices.size());
+
+		for (size_t idx = 0; idx < it.Indices.size(); idx++)
+		{
+			TiXmlElement* pIndexElem = new TiXmlElement("Index");
+			pIndices->LinkEndChild(pIndexElem);
+			pIndexElem->SetAttribute("Idx", idx);
+			pIndexElem->SetAttribute("Val", it.Indices[idx]);
+		}
+
+		// Faces
+		TiXmlElement* pFaces = new TiXmlElement("Faces");
+		pComponent->LinkEndChild(pFaces);
+		pFaces->SetAttribute("Count", it.Faces.size());
+
+		for (size_t idx = 0; idx < it.Faces.size(); idx++)
+		{
+			TiXmlElement* pFaceElem = new TiXmlElement("Face");
+			pFaces->LinkEndChild(pFaceElem);
+			pFaceElem->SetAttribute("Idx", idx);
+			pFaceElem->SetAttribute("V0", it.Faces[idx].V0);
+			pFaceElem->SetAttribute("V1", it.Faces[idx].V1);
+			pFaceElem->SetAttribute("V2", it.Faces[idx].V2);
+		}
+
+	}
+
+	return true;
+}
+
+bool LandscapeComponents::ReadXML(TiXmlElement* parent)
+{
+	if (parent == nullptr)
+	{
+		return false;
+	}
+
+	TiXmlElement* root = parent->FirstChildElement("LandscapeComponents");
+	if (root == nullptr)
+	{
+		return false;
+	}
+
+	// Read Info
+	TiXmlElement* info = root->FirstChildElement("Information");
+	TiXmlElement* size = info->FirstChildElement("Size");
+	TiXmlAttribute* pAttribute = size->FirstAttribute();
+	int componentsSize = pAttribute->IntValue();
+	Components.resize(componentsSize);
+	pAttribute = pAttribute->Next();
+
+	Row = pAttribute->IntValue();
+	pAttribute = pAttribute->Next();
+
+	Column = pAttribute->IntValue();
+	pAttribute = pAttribute->Next();
+
+	SectionSize = pAttribute->IntValue();
+	pAttribute = pAttribute->Next();
+
+	CellDistance = pAttribute->IntValue();
+	pAttribute = pAttribute->Next();
+
+	// Read Material
+	TiXmlElement* pMaterial = info->FirstChildElement("Material");
+	pAttribute = pMaterial->FirstAttribute();
+	std::string materialName = pAttribute->Value();
+	if (!MaterialName.empty())
+	{
+		MaterialName.assign(materialName.begin(), materialName.end());
+	}
+
+	TiXmlElement* pComponents = root->FirstChildElement("Components");
+	TiXmlElement* pComponent = nullptr; // = pComponents->FirstChildElement("Component");
+	for (size_t compIdx = 0; compIdx < componentsSize; compIdx++)
+	{
+		if (compIdx == 0)
+		{
+			pComponent = pComponents->FirstChildElement("Component");
+		}
+		else
+		{
+			pComponent = pComponent->NextSiblingElement();
+		}
+
+		pAttribute = pComponent->FirstAttribute();
+
+		Components[compIdx].Column = pAttribute->IntValue();
+		pAttribute = pAttribute->Next();
+
+		Components[compIdx].Row = pAttribute->IntValue();
+		pAttribute = pAttribute->Next();
+
+
+		// Vertices
+		TiXmlElement* pVertices = pComponent->FirstChildElement("Vertices");
+		pAttribute = pVertices->FirstAttribute();
+
+		Components[compIdx].VertexCount = pAttribute->IntValue();
+		Components[compIdx].Vertices.resize(Components[compIdx].VertexCount);
+		pAttribute = pAttribute->Next();
+
+		TiXmlElement* pMaxVertex = pVertices->FirstChildElement("MaxVertex");
+		pAttribute = pMaxVertex->FirstAttribute();
+		if (!ReadVector3(pAttribute, Components[compIdx].MaxVertex))
+		{
+
+		}
+
+		TiXmlElement* pMinVertex = pVertices->FirstChildElement("MinVertex");
+		pAttribute = pMinVertex->FirstAttribute();
+		if (!ReadVector3(pAttribute, Components[compIdx].MinVertex))
+		{
+
+		}
+
+		Components[compIdx].Box.Center = (Components[compIdx].MaxVertex + Components[compIdx].MinVertex) * 0.5f;
+		Components[compIdx].Box.Extents = (Components[compIdx].MaxVertex - Components[compIdx].MinVertex) * 0.5f;
+		Components[compIdx].Box.Extents.y += 0.01f;
+
+		TiXmlElement* pVertex = nullptr;
+		for (size_t vertexIdx = 0; vertexIdx < Components[compIdx].VertexCount; vertexIdx++)
+		{
+			if (vertexIdx == 0)
+			{
+				pVertex = pVertices->FirstChildElement("Vertex");
+			}
+			else
+			{
+				pVertex = pVertex->NextSiblingElement();
+			}
+
+			pAttribute = pVertex->FirstAttribute();
+			int idx = pAttribute->IntValue();
+
+			TiXmlElement* pPos = pVertex->FirstChildElement("Position");
+			pAttribute = pPos->FirstAttribute();
+			if (!ReadVector3(pAttribute, Components[compIdx].Vertices[idx].Pos))
+			{
+
+			}
+
+			TiXmlElement* pTexcoord = pVertex->FirstChildElement("Texcoord");
+			pAttribute = pTexcoord->FirstAttribute();
+			if (!ReadVector2(pAttribute, Components[compIdx].Vertices[idx].Texture))
+			{
+
+			}
+
+			TiXmlElement* pColor = pVertex->FirstChildElement("Color");
+			pAttribute = pColor->FirstAttribute();
+			if (!ReadVector4(pAttribute, Components[compIdx].Vertices[idx].Color))
+			{
+
+			}
+
+			TiXmlElement* pNormal = pVertex->FirstChildElement("Normal");
+			pAttribute = pNormal->FirstAttribute();
+			if (!ReadVector3(pAttribute, Components[compIdx].Vertices[idx].Normal))
+			{
+
+			}
+
+			TiXmlElement* pTangent = pVertex->FirstChildElement("Tangent");
+			pAttribute = pTangent->FirstAttribute();
+			if (!ReadVector3(pAttribute, Components[compIdx].Vertices[idx].Tangent))
+			{
+
+			}
+		}
+
+		// Indices
+		TiXmlElement* pIndices = pComponent->FirstChildElement("Indices");
+		pAttribute = pIndices->FirstAttribute();
+
+		Components[compIdx].IndexCount = pAttribute->IntValue();
+		Components[compIdx].Indices.resize(Components[compIdx].IndexCount);
+
+		TiXmlElement* pIndex = nullptr;
+		for (size_t indicesIdx = 0; indicesIdx < Components[compIdx].IndexCount; indicesIdx++)
+		{
+			if (indicesIdx == 0)
+			{
+				pIndex = pIndices->FirstChildElement("Index");
+			}
+			else
+			{
+				pIndex = pIndex->NextSiblingElement();
+			}
+
+			pAttribute = pIndex->FirstAttribute();
+			int idx = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+
+			Components[compIdx].Indices[idx] = pAttribute->IntValue();
+		}
+
+		// Faces
+		TiXmlElement* pFaces = pComponent->FirstChildElement("Faces");
+		pAttribute = pFaces->FirstAttribute();
+
+		Components[compIdx].FaceCount = pAttribute->IntValue();
+		Components[compIdx].Faces.resize(Components[compIdx].FaceCount);
+
+		TiXmlElement* pFace = nullptr;
+		for (size_t faceIdx = 0; faceIdx < Components[compIdx].FaceCount; faceIdx++)
+		{
+			if (faceIdx == 0)
+			{
+				pFace = pFaces->FirstChildElement("Face");
+			}
+			else
+			{
+				pFace = pFace->NextSiblingElement();
+			}
+
+			pAttribute = pFace->FirstAttribute();
+			int idx = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+
+			Components[compIdx].Faces[idx].V0 = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Faces[idx].V1 = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+			Components[compIdx].Faces[idx].V2 = pAttribute->IntValue();
+			pAttribute = pAttribute->Next();
+		}
+
+	}
+
+	return true;
+}
+
 void LandscapeComponents::UpdateTransformMatrix(const TransformComponent& transform)
 {
 	Vector3 rotation = transform.Rotation / 180.0f * PI;
