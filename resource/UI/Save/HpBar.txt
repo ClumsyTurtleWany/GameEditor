@@ -1,0 +1,18 @@
+Type	0
+ID	2
+Name	Empty
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 752.000000 77.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\Hurt2_Medium.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	3
+Name	Full
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 752.000000 77.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\Hurt4_Medium.png | ../../data/shader/DefaultObject_Orgin.txt
+=
