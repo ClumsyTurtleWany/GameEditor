@@ -203,16 +203,9 @@ bool BattleScene::Frame()
 			CameraTarget.y += 10.0f;
 			UpdateCameraPos();
 
-			if (MainCameraSystem->TargetCamera == MoveCamera) 
-			{ 
-				MoveCamera2->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
-				MainCameraSystem->TargetCamera = MoveCamera2;
-			}
-			else 
-			{
-				MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
-				MainCameraSystem->TargetCamera = MoveCamera;
-			}
+			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
+			
 		}
 	}
 
@@ -743,9 +736,9 @@ void BattleScene::Init_Chara()
 	// 적 캐릭터 용 카메라 및 카메라 암
 	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
 	auto enemyCameraArm = EnemyCharacter->AddComponent<CameraArmComponent>();
-	enemyCameraArm->Distance = 100.0f;
+	enemyCameraArm->Distance = 50.0f;
 	enemyCameraArm->Pitch = 35.0f;
-	enemyCameraArm->Yaw = 180.0f + 40.0f;
+	enemyCameraArm->Yaw = 180.0f + 30.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
@@ -757,14 +750,14 @@ void BattleScene::Init_Chara()
 	/////////////////////////// 적 캐릭터 2 //////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Character* PlayerCharacter_B = new Character;
-	enemy2->chara = PlayerCharacter_B;
+	Character* EnemyCharacter2 = new Character;
+	enemy2->chara = EnemyCharacter2;
 
-	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
+	auto player_BCharMeshComp = EnemyCharacter2->AddComponent<SkeletalMeshComponent>();
 	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
 
 
-	auto player_BCharAnimComp = PlayerCharacter_B->AddComponent<AnimationComponent>();
+	auto player_BCharAnimComp = EnemyCharacter2->AddComponent<AnimationComponent>();
 
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Run.clp", player_BCharAnimComp);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Idle.clp", player_BCharAnimComp);
@@ -773,19 +766,28 @@ void BattleScene::Init_Chara()
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Dying.clp", player_BCharAnimComp, false);
 
 
-	auto player_BCharTransformComp = PlayerCharacter_B->GetComponent<TransformComponent>();
+	auto player_BCharTransformComp = EnemyCharacter2->GetComponent<TransformComponent>();
 	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
 	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
 	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
 
-	auto player_BCharMovementComp = PlayerCharacter_B->GetComponent<MovementComponent>();
+	auto player_BCharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
 	player_BCharMovementComp->Speed = 25.0f;
-	PlayerCharacter_B->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
+	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
-	auto player_BOBBComp = PlayerCharacter_B->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
+	auto player_BOBBComp = EnemyCharacter2->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
 
-	TheWorld.AddEntity(PlayerCharacter_B);
+	// 적 캐릭터 용 카메라 및 카메라 암
+	auto enemyCamera2 = EnemyCharacter2->AddComponent<Camera>();
+	auto enemyCameraArm2 = EnemyCharacter2->AddComponent<CameraArmComponent>();
+	enemyCameraArm->Distance = 50.0f;
+	enemyCameraArm->Pitch = 35.0f;
+	enemyCameraArm->Yaw = 180.0f + 30.0f;
+	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	TheWorld.AddEntity(EnemyCharacter2);
 }
 
 void BattleScene::Init_Effect()
@@ -889,7 +891,7 @@ void BattleScene::UpdateCameraPos()
 
 	// 카메라 위치 세팅, 나중에 또 업데이트 필요할듯 (주로 이동 후에)
 	PlayerCameraPos = PlayerCharacter->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
-	PlayerCameraPos -= player->Forward * 10.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
+	PlayerCameraPos -= player->Forward * 30.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
 	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
 	PlayerCameraPos -= Right * 15.0f;			// 오른쪽으로 좀 빼주고
 }
@@ -973,7 +975,12 @@ void BattleScene::EnemyAttackAnimProcess()
 			player->Forward = NewPlayerForward;
 
 			// 카메라 워크
-			MainCameraSystem->TargetCamera = InActionEnemy->chara->GetComponent<Camera>();
+			auto CameraTarget = InActionEnemy->chara->Transform->Translation;
+			CameraTarget.y += 10.0f;
+			UpdateCameraPos();
+
+			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
 
 			// UI 숨겨줌, 골라서 숨기는 기능 없으니까 걍 다 숨겨 몰랑 -> 굳이같다;
 			//WRS->hide = true;
@@ -1032,7 +1039,7 @@ void BattleScene::MoveProcess()
 	{
 		Vector3 SkyCamPos = PlayerCameraPos;
 		SkyCamPos -= player->Forward * 200.0f;
-		SkyCamPos.y += 200.0f;
+		SkyCamPos.y += 150.0f;
 		Vector3 CameraTarget;
 		MoveCamera->CreateViewMatrix(SkyCamPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
 		MainCameraSystem->TargetCamera = MoveCamera;
@@ -1064,7 +1071,7 @@ void BattleScene::MoveProcess()
 					// 이쪽은 메인카메라로 확 바꾸는게?
 					//MainCamera->CreateViewMatrix(player->chara->GetComponent<Camera>()->Pos, player->chara->GetComponent<Camera>()->Target, Vector3(0.0f, 1.0, 0.0f));
 					//MainCameraSystem->MainCamera = player->chara->GetComponent<Camera>();
-					MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
+					//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 					PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
 				}
@@ -1233,11 +1240,14 @@ void BattleScene::CardCheck()
 				Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 				Vector3 t2 = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 				float dist = t1.Distance(t1, t2);
-				if (dist < 50.0f) { dist = 50.0f; }
-				TestActionCamera->Lerp(t1, t2, dist, 0.1f);
+				if (dist < 30.0f) // 어느정도 이상 가까울 때만 카메라 변경
+				{ 
+					dist = 40.0f; 
+					TestActionCamera->Lerp(t1, t2, dist, 0.1f);
 
-				MoveCamera->CreateViewMatrix(TestActionCamera->MovementComp->Destination, TestActionCamera->ActionCameraComp->NextLook, Vector3(0.0f, 1.0, 0.0f));
-				MainCameraSystem->TargetCamera = MoveCamera;
+					MoveCamera->CreateViewMatrix(TestActionCamera->MovementComp->Destination, TestActionCamera->ActionCameraComp->NextLook, Vector3(0.0f, 1.0, 0.0f));
+					MainCameraSystem->TargetCamera = MoveCamera;
+				}
 			}
 			else {} // 여기서 마나부족 경고문구 출력
 

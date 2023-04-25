@@ -33,7 +33,8 @@ int Enemy_1::patern(Player* player, int turn)
             attackCalculate(player, 5);
             damage = 5;
             PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Kick");
+            //EAnime->SetClipByName(L"Attack");
         }
     }break;
 
@@ -44,7 +45,8 @@ int Enemy_1::patern(Player* player, int turn)
             attackCalculate(player, 10);
             damage = 10;
             PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Kick");
+            //EAnime->SetClipByName(L"Attack");
         }
     }break;
 
@@ -55,7 +57,8 @@ int Enemy_1::patern(Player* player, int turn)
             attackCalculate(player, 15);
             damage = 15;
             PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Kick");
+            //EAnime->SetClipByName(L"Attack");
         }
     }break;
 
