@@ -1980,7 +1980,13 @@ bool FBXLoader::LoadAnimClip(std::string filename, AnimationComponent* ANIM, boo
 		CLP_in.read(reinterpret_cast<char*>(&temp[0]), filename_size);
 
 		///add-
-		newClip->FileName = to_mw(temp);
+		std::filesystem::path path(filename);
+		std::wstring FBXname = path.filename();
+		FBXname = FBXname.substr(0,FBXname.find_last_of(L"."));
+
+		
+		newClip->FileName = FBXname;
+
 		int pointer = newClip->FileName.size() - 1;
 		if (newClip->FileName[pointer] == NULL)
 		{
@@ -1988,7 +1994,6 @@ bool FBXLoader::LoadAnimClip(std::string filename, AnimationComponent* ANIM, boo
 		}
 		///-add
 
-		//newClip->FileName = to_mw(temp);
 
 		newClip->LoopState = Loop;	// Default = true
 
