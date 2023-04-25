@@ -134,6 +134,7 @@ bool BattleScene::Init()
 	PlayerCameraPos -= player->Forward * 1.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
 	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
 	PlayerCameraPos -= Right * 35.0f;			// 오른쪽으로 좀 빼주고
+
 	// 카메라 타겟 세팅
 	auto CameraStartTarget = (enemy1->chara->MovementComp->Destination + enemy2->chara->MovementComp->Destination) / 2;
 	//CameraStartTarget.y -= 10.0f;
@@ -186,19 +187,19 @@ bool BattleScene::Frame()
 			auto CameraStartTarget = TargetEnemy->chara->Transform->Translation;
 			CameraStartTarget.y += 10.0f;
 
-
-			MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
-
-			//if (MainCameraSystem->TargetCamera == MoveCamera) 
-			//{
-			//	MoveCamera2->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
-			//	MainCameraSystem->TargetCamera = MoveCamera2;
-			//}
-			//else 
-			//{
-			//	MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
-			//	MainCameraSystem->TargetCamera = MoveCamera;
-			//}
+			UpdateCameraPos();
+			if (MainCameraSystem->TargetCamera == MoveCamera) 
+			{ 
+				MoveCamera2->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f)); 
+				MainCameraSystem->TargetCamera = MoveCamera2;
+			}
+			else 
+			{
+				MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
+				MainCameraSystem->TargetCamera = MoveCamera;
+			}
+			
+			//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 		}
 	}
 
@@ -858,8 +859,21 @@ void BattleScene::Init_Sound()
 	}
 }
 
-void BattleScene::CameraMove(Vector3& eye, Vector3& target)
+// 카메라 위치 세팅, 이 함수는 플레이어 캐릭터 우상단으로 카메라 위치를 셋팅함
+void BattleScene::UpdateCameraPos()
 {
+	// Right 벡터 구할라고
+	DirectX::XMFLOAT3 upVec(0.0f, 1.0f, 0.0f);
+	Vector3 Right;	// Calculate the right vector	
+	DirectX::XMFLOAT3 crossProduct;
+	XMStoreFloat3(&crossProduct, DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&player->Forward), XMLoadFloat3(&upVec)));
+	DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
+
+	// 카메라 위치 세팅, 나중에 또 업데이트 필요할듯 (주로 이동 후에)
+	PlayerCameraPos = PlayerCharacter->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
+	PlayerCameraPos -= player->Forward * 10.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
+	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
+	PlayerCameraPos -= Right * 15.0f;			// 오른쪽으로 좀 빼주고
 }
 
 void BattleScene::BattleProcess()

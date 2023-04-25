@@ -21,7 +21,7 @@ public:
 	void Init_Sound();
 
 public:
-	void CameraMove(Vector3& eye, Vector3& target);
+	void UpdateCameraPos();
 
 public:
 	void BattleProcess();
