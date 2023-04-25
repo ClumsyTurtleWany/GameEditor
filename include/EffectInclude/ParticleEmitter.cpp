@@ -129,6 +129,10 @@ namespace EFFECTUTIL
 			case 0:
 			{
 				m_matBillboard.BiilTMat = Matrix::Identity;
+				m_matBillboard.BiilTMat._41 = m_matWorld._41;
+				m_matBillboard.BiilTMat._42 = m_matWorld._42;
+				m_matBillboard.BiilTMat._43 = m_matWorld._43;
+				m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
 			} break;
 
 			case 1:
