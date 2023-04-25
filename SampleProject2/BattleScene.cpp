@@ -179,10 +179,13 @@ bool BattleScene::Frame()
 
 				// È­»ìÇ¥¶û ¹Ø¹Ù´Ú¿ø ÀÌÆåÆ® °»½Å
 				auto ArrowTrans = MAIN_PICKER.pSelectedArrowUIEntity->GetComponent<TransformComponent>();
-				ArrowTrans = enemy->chara->Transform;
+				ArrowTrans->Translation = enemy->chara->Transform->Translation;
+				ArrowTrans->Translation.y += enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y * 2.0f;
+				ArrowTrans->Translation.y += 7.0f;
 
 				auto CircleTrans = MAIN_PICKER.pSelectedCircleUIEntity->GetComponent<TransformComponent>();
-				CircleTrans = enemy->chara->Transform;
+				CircleTrans->Translation = enemy->chara->Transform->Translation;
+				CircleTrans->Translation.y = 0.0f;
 			}
 			else { for (auto obj : enemy->ObjList) { obj->m_bIsDead = true; } }
 			enemy->HpEmpty->m_bIsDead = false;
