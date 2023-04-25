@@ -185,7 +185,7 @@ bool BattleScene::Frame()
 
 				auto CircleTrans = MAIN_PICKER.pSelectedCircleUIEntity->GetComponent<TransformComponent>();
 				CircleTrans->Translation = enemy->chara->Transform->Translation;
-				CircleTrans->Translation.y = 0.0f;
+				CircleTrans->Translation.y = 0.005f;
 			}
 			else { for (auto obj : enemy->ObjList) { obj->m_bIsDead = true; } }
 			enemy->HpEmpty->m_bIsDead = false;
