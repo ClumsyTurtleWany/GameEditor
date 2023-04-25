@@ -973,7 +973,7 @@ void BattleScene::EnemyAttackAnimProcess()
 			player->Forward = NewPlayerForward;
 
 			// 카메라 워크
-			//MainCameraSystem->TargetCamera = InActionEnemy->chara->GetComponent<Camera>();
+			MainCameraSystem->TargetCamera = InActionEnemy->chara->GetComponent<Camera>();
 
 			// UI 숨겨줌, 골라서 숨기는 기능 없으니까 걍 다 숨겨 몰랑 -> 굳이같다;
 			//WRS->hide = true;
@@ -1043,18 +1043,17 @@ void BattleScene::MoveProcess()
 
 	if (MoveTimer >= 0.3f)
 	{
-		// 카메라 좀 바꿔주고
-
 		// 이동 끝날때까지 UI 숨겨줌, 취소버튼? 그런건없다
 		WRS->hide = true;
 
 		// 땅을 찍은 적이 없다면 (이동 명령을 아직 내리지 않았다면)
 		if (MAIN_PICKER.optPickingMode != PMOD_CHARACTER) 
 		{
-			// 거리가 50 이상이면 이동불가 (일단 테스트하기 쉽게 짜게 줌)
+			// 거리가 일정 수치 이상이면 이동불가
 			Vector3 Forward = player->chara->Transform->Translation - MAIN_PICKER.vIntersection;
+			float CanMoveRange = 150.0f; // 수치 설정
 			float Distance = Forward.Length();
-			if (Distance < 50.0f) 
+			if (Distance < CanMoveRange) 
 			{
 				MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.0f, 0.0f, 0.0f, 0.5f }, { 0.5f, 1.0f, 0.0f, 0.5f });
 
@@ -1062,6 +1061,9 @@ void BattleScene::MoveProcess()
 				KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 				if (btnLC == KeyState::Down)
 				{
+					// 이쪽은 메인카메라로 확 바꾸는게?
+					//MainCamera->CreateViewMatrix(player->chara->GetComponent<Camera>()->Pos, player->chara->GetComponent<Camera>()->Target, Vector3(0.0f, 1.0, 0.0f));
+					//MainCameraSystem->MainCamera = player->chara->GetComponent<Camera>();
 					MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 					PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
@@ -1109,6 +1111,7 @@ void BattleScene::MoveProcess()
 			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
 			CameraTarget.y += 10.0f;
 			UpdateCameraPos();
+			MainCameraSystem->MainCamera = MainCamera;
 			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
 			MainCameraSystem->TargetCamera = MoveCamera;
 

@@ -59,8 +59,8 @@ void CameraSystem::Tick(ECS::World* world, float time)
 				}
 				else
 				{
-					//camera->CreateViewMatrix(camera->Pos, TargetCamera->Target, Vector3(0.0f, 1.0f, 0.0f));
-					camera->View = newView;
+					camera->CreateViewMatrix(camera->Pos, TargetCamera->Target, Vector3(0.0f, 1.0f, 0.0f));
+					//camera->View = newView; // 팀장님 추가본, 근데 지금 차원축이 좀 뒤틀려서 잠시 주석,,
 					camera->Update();
 
 					DirectX::XMVECTOR determinant;
