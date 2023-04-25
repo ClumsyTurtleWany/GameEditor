@@ -130,7 +130,7 @@ bool BattleScene::Init()
 
 
 
-	//////  초기 카메라 세팅, 좀 더 대이내믹한 스타팅 애니메이션으로 나중에 바꿀수도  //////
+	//////  초기 카메라 세팅  //////
 	
 	// 플레이어 캐릭터 포워드 벡터 셋팅
 	auto PlayerForward = PlayerCharacter->MovementComp->Destination - PlayerCharacter->Transform->Translation;
@@ -152,8 +152,8 @@ bool BattleScene::Init()
 
 	// 카메라 타겟 세팅
 	auto CameraStartTarget = (enemy1->chara->MovementComp->Destination + enemy2->chara->MovementComp->Destination) / 2;
-	//CameraStartTarget.y -= 10.0f;
 
+	// 카메라 뷰 매트릭스 재설정하고 타겟 카메라로 임명
 	MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
 	MainCameraSystem->TargetCamera = MoveCamera;
 
@@ -199,22 +199,20 @@ bool BattleScene::Frame()
 			player->Forward = NewPlayerForward;
 
 			// 카메라 타겟 세팅
-			auto CameraStartTarget = TargetEnemy->chara->Transform->Translation;
-			CameraStartTarget.y += 10.0f;
-
+			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+			CameraTarget.y += 10.0f;
 			UpdateCameraPos();
+
 			if (MainCameraSystem->TargetCamera == MoveCamera) 
 			{ 
-				MoveCamera2->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f)); 
+				MoveCamera2->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
 				MainCameraSystem->TargetCamera = MoveCamera2;
 			}
 			else 
 			{
-				MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
+				MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
 				MainCameraSystem->TargetCamera = MoveCamera;
 			}
-			
-			//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 		}
 	}
 
@@ -1029,6 +1027,17 @@ void BattleScene::EnemyAttackAnimProcess()
 static float MoveTimer = 0.0f;
 void BattleScene::MoveProcess()
 {
+	// 이동버튼 눌리고 최초 실행시에만, 카메라 바꿔줌
+	if (MoveTimer == 0.0f) 
+	{
+		Vector3 SkyCamPos = PlayerCameraPos;
+		SkyCamPos -= player->Forward * 200.0f;
+		SkyCamPos.y += 200.0f;
+		Vector3 CameraTarget;
+		MoveCamera->CreateViewMatrix(SkyCamPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+		MainCameraSystem->TargetCamera = MoveCamera;
+	}
+
 	// 딜레이주려고
 	MoveTimer += Timer::GetInstance()->GetDeltaTime();
 
@@ -1049,10 +1058,11 @@ void BattleScene::MoveProcess()
 			{
 				MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.0f, 0.0f, 0.0f, 0.5f }, { 0.5f, 1.0f, 0.0f, 0.5f });
 
-				// 땅 클릭하면 글로 이동
+				// 땅을 찍었다면, 이동명령 내리고 카메라 바꿔줌
 				KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 				if (btnLC == KeyState::Down)
 				{
+					MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 					PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
 				}
@@ -1094,6 +1104,13 @@ void BattleScene::MoveProcess()
 				enemy->chara->Transform->Rotation += eulerAngles;
 				enemy->chara->MovementComp->Forward = NewForward;
 			}
+
+			// 카메라 셋팅
+			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+			CameraTarget.y += 10.0f;
+			UpdateCameraPos();
+			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
 
 			// 턴당 이동은 한번으로 제한, 코스트 먹을지 말지는 뭐 모르겠다
 			MoveButton->m_bIsDead = true;
