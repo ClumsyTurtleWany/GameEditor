@@ -223,10 +223,21 @@ bool WidgetObject::UpdateCut3D(int cutNum)
 	//Vertices[2].Pos = {-1.0f,-1.0f, 0.0f}; // p3-LB
 	//Vertices[3].Pos = { 1.0f,-1.0f, 0.0f}; // p4-RB
 	Vector2 ndcWH = PtoN(m_pCutInfoList[cutNum]->pxWH);
-	Vertices[0].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, 0.0f }; // p1-LT
-	Vertices[1].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, 0.0f }; // p2-RT
-	Vertices[2].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, 0.0f }; // p3-LB
-	Vertices[3].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, 0.0f }; // p4-RB
+
+	if (m_bOPS) // 원점이 중앙일 경우
+	{
+		Vertices[0].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, 0.0f }; // p1-LT
+		Vertices[1].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y + ndcWH.y / 2, 0.0f }; // p2-RT
+		Vertices[2].Pos = { m_OriginPos.x - ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, 0.0f }; // p3-LB
+		Vertices[3].Pos = { m_OriginPos.x + ndcWH.x / 2, m_OriginPos.y - ndcWH.y / 2, 0.0f }; // p4-RB
+	}
+	else // 원점이 좌상단일 경우 
+	{
+		Vertices[0].Pos = { m_OriginPos.x ,			  m_OriginPos.y			 , 0.0f }; // p1-LT
+		Vertices[1].Pos = { m_OriginPos.x + ndcWH.x , m_OriginPos.y			 , 0.0f }; // p2-RT
+		Vertices[2].Pos = { m_OriginPos.x ,			  m_OriginPos.y - ndcWH.y, 0.0f }; // p3-LB
+		Vertices[3].Pos = { m_OriginPos.x + ndcWH.x , m_OriginPos.y - ndcWH.y, 0.0f }; // p4-RB
+	}
 
 	// Color, 알파값 적용용
 	Vertices[0].Color = { 1.0f, 1.0f, 1.0f, m_fAlpha }; // p1-LT
@@ -251,6 +262,8 @@ bool WidgetObject::UpdateCut3D(int cutNum)
 
 	TransformData.Mat = BiilTMat;
 	TransformData.InversedMat = TransformData.Mat.Invert().Transpose();
+
+	Texture = m_pCutInfoList[cutNum]->tc;
 
 	return true;
 }

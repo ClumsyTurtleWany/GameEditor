@@ -1,0 +1,108 @@
+Type	0
+ID	1
+Name	EnemyInfoBG
+OrginPos	0.000000 0.000000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 300.000000 150.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\¤·¤·\DXÆÀÇÁ\¸®¼Ò½º\gdm-futuristic-game-ui\PURPLE.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	2
+Name	HPBar_Empty
+OrginPos	0.000000 -0.065000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 200.000000 40.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\Hurt2_Medium.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	3
+Name	HPBar_Full
+OrginPos	0.000000 -0.065000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 200.000000 40.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\Hurt4_Medium.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	4
+Name	EnemyCurrentHp_1
+OrginPos	-0.050000 -0.070000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	5
+Name	EnemyCurrentHp_2
+OrginPos	-0.025000 -0.070000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	6
+Name	Slash2
+OrginPos	0.000000 -0.070000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 16.000000 25.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\slash.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	7
+Name	EnemyMaxHp_1
+OrginPos	0.025000 -0.070000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	8
+Name	EnemyMaxHp_2
+OrginPos	0.050000 -0.070000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KingYoungminEdition\GameEditor-master\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	9
+Name	EnemyIntent
+OrginPos	-0.052500 0.043000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 100.000000 100.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\KGCA_2\data\img\intent\attack_intent_3.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	10
+Name	EnemyIntent_1
+OrginPos	-0.008750 0.043333
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	11
+Name	EnemyIntent_2
+OrginPos	0.016000 0.043333
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 20.000000 32.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+=
+Type	0
+ID	12
+Name	EnemyName
+OrginPos	0.000000 0.200000
+Depth	0.000000
+Alpha	1.000000
+CutNum	1
+CutInfo	0 | 400.000000 200.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\EnemyName1.png | ../../data/shader/DefaultObject_Orgin.txt
+=

@@ -514,6 +514,18 @@ void SampleCore::LoadTexture()
 		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/move.png");
 		TextTextureList.insert(make_pair(L"move", tc));
 	}
+
+	// 여기는 적 이름 텍스처 파일 ㅇㅇ
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/EnemyName1.png"))	// 적1
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/EnemyName1.png");
+		TextTextureList.insert(make_pair(L"enemy1", tc));
+	}
+	if (DXTextureManager::GetInstance()->Load(L"../resource/UI/Text/EnemyName2.png"))	// 적2
+	{
+		DXTexture* tc = DXTextureManager::GetInstance()->GetTexture(L"../resource/UI/Text/EnemyName2.png");
+		TextTextureList.insert(make_pair(L"enemy2", tc));
+	}
 }
 
 void SampleCore::LoadBGM()

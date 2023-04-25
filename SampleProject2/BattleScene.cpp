@@ -74,6 +74,7 @@ bool BattleScene::Init()
 	enemy1->Init();
 	enemy1->NumberTextureList_Red = NumberTextureList_Red;
 	enemy1->NumberTextureList_Black = NumberTextureList_Black;
+	enemy1->Name->m_pCutInfoList[0]->tc = TextTextureList.find(L"enemy1")->second;
 	EnemyList.push_back(enemy1);
 	enemy2 = new Enemy_2;
 	enemy2->pWorld = &TheWorld;
@@ -81,6 +82,7 @@ bool BattleScene::Init()
 	enemy2->Init();
 	enemy2->NumberTextureList_Red = NumberTextureList_Red;
 	enemy2->NumberTextureList_Black = NumberTextureList_Black;
+	enemy2->Name->m_pCutInfoList[0]->tc = TextTextureList.find(L"enemy2")->second;
 	EnemyList.push_back(enemy2);
 
 	Init_UI();
@@ -167,10 +169,24 @@ bool BattleScene::Frame()
 	BaseScene::Frame();
 
 	// 적 상태창 업데이트
-	for (auto enemy : EnemyList)
+	if(TurnState) // 적 턴에는 그냥 적 상태창 안보이게끔
 	{
-		if (enemy == TargetEnemy) { for (auto obj : enemy->ObjList) { obj->m_bIsDead = false; } }
-		else { for (auto obj : enemy->ObjList) { obj->m_bIsDead = true; } }
+		for (auto enemy : EnemyList)
+		{
+			if (enemy == TargetEnemy) { for (auto obj : enemy->ObjList) { obj->m_bIsDead = false; } }
+			else { for (auto obj : enemy->ObjList) { obj->m_bIsDead = true; } }
+			enemy->HpEmpty->m_bIsDead = true;
+			enemy->HpFull->m_bIsDead = true;
+		}
+	}
+	else 
+	{
+		for (auto enemy : EnemyList)
+		{
+			for (auto obj : enemy->ObjList) { obj->m_bIsDead = true; }
+			enemy->HpEmpty->m_bIsDead = true;
+			enemy->HpFull->m_bIsDead = true;
+		}
 	}
 
 	KeyState btnA = Input::GetInstance()->getKey('A');
@@ -379,12 +395,24 @@ bool BattleScene::Frame()
 	//	}
 	//}
 
-	//enemy1->IntentIcon->m_OrginPos3D = enemy1->chara->MovementComp->Location;
-	//enemy1->IntentIcon->m_OrginPos3D.z += 300.0f;
-	//enemy2->IntentIcon->m_OrginPos3D = enemy2->chara->MovementComp->Location;
-	//enemy1->IntentIcon->m_OrginPos3D.z += 500.0f;
-
-
+	//for (auto enemy : EnemyList) 
+	//{
+	//	for (auto obj : enemy->ObjList) 
+	//	{
+	//		obj->m_OrginPos3D = enemy->chara->MovementComp->Location;
+	//		obj->m_OrginPos3D.y += enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y * 2.0f;
+	//		obj->m_OrginPos3D.y += 3.0f;
+	//	}
+	//}
+	for (auto enemy : EnemyList) 
+	{
+		enemy->HpEmpty->m_OrginPos3D = enemy->chara->MovementComp->Location;
+		enemy->HpEmpty->m_OrginPos3D.y += enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y * 2.0f;
+		//enemy->HpEmpty->m_OrginPos3D.y += 1.0f;
+		enemy->HpFull->m_OrginPos3D = enemy->chara->MovementComp->Location;
+		enemy->HpFull->m_OrginPos3D.y += enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y * 2.0f;
+		//enemy->HpFull->m_OrginPos3D.y += 1.0f;
+	}
 	return true;
 }
 
@@ -682,7 +710,7 @@ void BattleScene::Init_Chara()
 	playerCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
 	playerCharTransformComp->Translation = Vector3(-100.0f, 0.0f, 0.0f);
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
-	playerCharMovementComp->Speed = 25.0f;
+	playerCharMovementComp->Speed = 50.0f;
 	PlayerCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
 	//Picking Info Test
 	playerCharMeshComp->Name = "player";
@@ -724,14 +752,14 @@ void BattleScene::Init_Chara()
 	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
 
 	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
-	E1MC->Speed = 25.0f;
+	E1MC->Speed = 40.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
 	enemyCharMeshComp->Name = "Enemy";
 
 	/////////////// Bounding Box Add ////////////
-	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.2f, 0.45f, 0.2f), Vector3(0.0f, 0.45f, 0.0f));
+	auto enemyOBBComp = EnemyCharacter->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 1.0f, 0.5f), Vector3(0.0f, 1.0f, 0.0f));
 
 	// 적 캐릭터 용 카메라 및 카메라 암
 	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
@@ -772,7 +800,7 @@ void BattleScene::Init_Chara()
 	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
 
 	auto player_BCharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
-	player_BCharMovementComp->Speed = 25.0f;
+	player_BCharMovementComp->Speed = 50.0f;
 	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
