@@ -162,8 +162,8 @@ namespace EFFECTUTIL
 		Color			initColorOverLifespan;
 		Color			lastColorOverLifespan;
 
-		//빌보드 행렬 사용 여부
-		bool				bUseBillBoard;
+		//사용할 빌보드 행렬 
+		int					iUseBillBoard;
 
 		//파티클 가시 여부
 		bool				bShow;
@@ -174,8 +174,8 @@ namespace EFFECTUTIL
 		PointParticleEmitterProperty()
 		{
 			bShow = true;
-			bUseBillBoard = false;
 			bLoop = false;
+			iUseBillBoard = 0;
 			vInitScale = { 1.0f, 1.0f };
 			iMaxParticleNum = 0;
 			fSpawnRate = 0.0f;

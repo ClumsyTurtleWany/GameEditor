@@ -94,7 +94,6 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 			newV.pos = mul(newV.pos, gIn[0].rot);
 			newV.pos = mul(newV.pos, matBillboard);
 			newV.pos.xyz += gIn[0].pos.xyz;
-			newV.pos.xyz += float3(matWorld._41, matWorld._42, matWorld._43);
 
 			newV.normal = gIn[0].normal;
 			newV.color = gIn[0].color;

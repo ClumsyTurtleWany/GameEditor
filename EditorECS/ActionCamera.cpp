@@ -2,7 +2,7 @@
 
 ActionCamera::ActionCamera()
 {
-	this->Name = L"ActionCamera" + std::to_wstring(this->ID);
+	this->Name = L"ActionCamera"; // +std::to_wstring(this->ID);
 	ActionCameraComp = this->AddComponent<ActionCameraComponent>();
 	SplineComp = this->AddComponent<SplineComponent>();
 	OscillationComp = this->AddComponent<OscillationComponent>();

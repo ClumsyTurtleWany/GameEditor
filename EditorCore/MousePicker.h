@@ -4,7 +4,7 @@
 #include "ECS/World.hpp"
 
 #define MAX_PICK_DIST				10000.0f
-#define PICKING_OP_TIME_LIMIT		0.0167f		//1 / 60 
+#define PICKING_OP_TIME_LIMIT		0.0083f		//1 / 120.0f 
 
 //피킹 모드
 enum PICKING_MODE

@@ -21,5 +21,9 @@ public:
 	void rotateArrow(Matrix& rot);
 	void rotateArrow(Quaternion rot);
 	void rotateArrow(Vector3 angle);
+
+public:
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
 };
 

@@ -9,14 +9,10 @@ public:
 	Vector3 Scale;
 
 public:
-	TransformComponent() : Translation(Vector3(0.0, 0.0, 0.0)), Rotation(Vector3(0.0, 0.0, 0.0)), Scale(Vector3(1.0, 1.0, 1.0)) 
-	{
-
-	};
-	TransformComponent(Vector3 translation, Vector3 rotation, Vector3 scale) : Translation(translation), Rotation(rotation), Scale(scale) 
-	{
-		
-	};
-
-
+	TransformComponent();
+	TransformComponent(Vector3 translation, Vector3 rotation, Vector3 scale);
+	
+public:
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
 };

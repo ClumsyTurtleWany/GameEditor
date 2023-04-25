@@ -64,6 +64,7 @@ struct AnimationClip
 	std::vector<Notifier*>	NotifierList;
 
 	std::wstring			FileName;										///< Fbx 파일의 이름
+	std::string		FilePath;
 };
 
 /**
@@ -134,4 +135,11 @@ public:
 	 * @return 애니메이션이 전환 중이면 true 리턴
 	*/
 	bool BlendClip(SkeletalMeshComponent* mesh, float tick, float time);
+	
+public:
+	bool WriteXML(TiXmlElement* parent);
+	bool ReadXML(TiXmlElement* parent);
+
+public:
+	bool Load(std::string filename, bool loop = true);
 };

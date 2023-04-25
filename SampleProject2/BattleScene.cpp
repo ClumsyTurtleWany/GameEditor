@@ -36,13 +36,16 @@
 
 bool BattleScene::Init()
 {
+	MainSaveLoadSystem = new SaveLoadSystem;
+	TheWorld.AddSystem(MainSaveLoadSystem);
+	
 	ID = BATTLE;
 
 	// 메인 카메라
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
 	MainCamera = MainCameraActor->AddComponent<Camera>();
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 20.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 300.0f, -600.0f), Vector3(150.0f, 20.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	MainCameraSystem->MainCamera = MainCamera;
 	MainCameraActor->AddComponent<OscillationComponent>();
@@ -50,8 +53,10 @@ bool BattleScene::Init()
 
 	// 타겟 카메라로 쓰기 위한 놈
 	MoveCamera = new Camera;
-	//MoveCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 20.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
 	MoveCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+	// 타겟 카메라로 쓰기 위한 놈2
+	MoveCamera2 = new Camera;
+	MoveCamera2->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 	// 액션 카메라, 당장은 화면 흔들림을 위해
 	TestActionCamera = new ActionCamera;
@@ -79,7 +84,19 @@ bool BattleScene::Init()
 	EnemyList.push_back(enemy2);
 
 	Init_UI();
+
 	Init_Map();
+	/*bool testFlag = true;
+	if (!testFlag)
+	{
+		Init_Map();
+		MainSaveLoadSystem->Save("../resource/Map/", "TestWorld");
+	}
+	else
+	{
+		MainSaveLoadSystem->Load("../resource/Map/", "TestWorld");
+	}*/
+	
 	Init_Sound();
 	Init_Chara();
 	Init_Effect();
@@ -112,20 +129,35 @@ bool BattleScene::Init()
 	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
 
 
-	////// 초기 카메라 위치 세팅, 좀 더 대이내믹한 스타팅 애니메이션으로 나중에 바꿀수도
-	//auto CameraStartPos = PlayerCharacter->Transform->Translation;
-	//auto PlayerForward = PlayerCharacter->MovementComp->Destination - PlayerCharacter->Transform->Translation;
-	//PlayerForward.Normalize();
-	//player->Forward = PlayerForward;
-	//CameraStartPos -= PlayerForward * 100.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
-	//CameraStartPos.z += 100;					// 위로 좀 올려줌
-	//// 초기 카메라 타겟 세팅, 일단 플레이어 정면 500.0f 앞
-	//auto CameraStartTarget = PlayerCharacter->Transform->Translation;
-	//CameraStartTarget += PlayerForward * 100;
 
-	//TestActionCamera->LookAt(CameraStartTarget, 1.0f);
-	//TestActionCamera->MoveTo(CameraStartPos, 1.0f);
+	//////  초기 카메라 세팅  //////
+	
+	// 플레이어 캐릭터 포워드 벡터 셋팅
+	auto PlayerForward = PlayerCharacter->MovementComp->Destination - PlayerCharacter->Transform->Translation;
+	PlayerForward.Normalize();
+	player->Forward = PlayerForward;
 
+	// Right 벡터 구할라고
+	DirectX::XMFLOAT3 upVec(0.0f, 1.0f, 0.0f);
+	Vector3 Right;	// Calculate the right vector	
+	DirectX::XMFLOAT3 crossProduct;
+	XMStoreFloat3(&crossProduct, DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&player->Forward), XMLoadFloat3(&upVec)));
+	DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
+
+	// 카메라 위치 세팅, 나중에 또 업데이트 필요할듯 (주로 이동 후에)
+	PlayerCameraPos = PlayerCharacter->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
+	PlayerCameraPos -= player->Forward * 1.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
+	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
+	PlayerCameraPos -= Right * 35.0f;			// 오른쪽으로 좀 빼주고
+
+	// 카메라 타겟 세팅
+	auto CameraStartTarget = (enemy1->chara->MovementComp->Destination + enemy2->chara->MovementComp->Destination) / 2;
+
+	// 카메라 뷰 매트릭스 재설정하고 타겟 카메라로 임명
+	MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
+	MainCameraSystem->TargetCamera = MoveCamera;
+
+	TargetEnemy = EnemyList[0];
 
 	return true;
 }
@@ -134,33 +166,47 @@ bool BattleScene::Frame()
 {
 	BaseScene::Frame();
 
-	KeyState btnA = Input::GetInstance()->getKey('A');
-	if (btnA == KeyState::Hold || btnA == KeyState::Down)
+	// 적 상태창 업데이트
+	for (auto enemy : EnemyList)
 	{
-		// Right 벡터 구할라고
-		DirectX::XMFLOAT3 upVec(0.0f, 1.0f, 0.0f);
-		Vector3 Right;	// Calculate the right vector	
-		DirectX::XMFLOAT3 crossProduct;
-		XMStoreFloat3(&crossProduct, DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&player->Forward), XMLoadFloat3(&upVec)));
-		DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
+		if (enemy == TargetEnemy) { for (auto obj : enemy->ObjList) { obj->m_bIsDead = false; } }
+		else { for (auto obj : enemy->ObjList) { obj->m_bIsDead = true; } }
+	}
 
-		// 초기 카메라 위치 세팅, 좀 더 대이내믹한 스타팅 애니메이션으로 나중에 바꿀수도
-		auto CameraStartPos = PlayerCharacter->Transform->Translation;
-		CameraStartPos -= player->Forward * 1.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
-		CameraStartPos.y += 30.0f;					// 위로 좀 올려줌
-		CameraStartPos -= Right * 35.0f;			// 오른쪽으로 좀 빼주고
-		// 초기 카메라 타겟 세팅, 일단 적캐릭 둘 사이
-		auto CameraStartTarget = (enemy1->chara->Transform->Translation + enemy2->chara->Transform->Translation) / 2;
-		//CameraStartTarget.y -= 10.0f;
+	KeyState btnA = Input::GetInstance()->getKey('A');
+	if (btnA == KeyState::Down)
+	{
+		if (TargetEnemy != nullptr) 
+		{
+			int enemyNum = 0;
+			for (int i = 0; i <EnemyList.size(); i++)
+			{
+				if (EnemyList[i] == TargetEnemy)
+				{ enemyNum = i; }
+			
+			}
+			// 현재 타겟중인 적이 마지막 적이라면, 첫 적으로 돌림
+			if (enemyNum + 1 == EnemyList.size()) { TargetEnemy = EnemyList[0]; }
+			else { TargetEnemy = EnemyList[enemyNum + 1]; }
 
-		//MainCameraSystem->MainCamera = TestActionCamera->GetComponent<ActionCameraComponent>();
-		//TestActionCamera->MoveTo(CameraStartPos,1.0f);
-		//TestActionCamera->LookAt(CameraStartTarget, 1.0f);
+			// 캐릭터 방향 회전, 애니메이션 줄라면 줄수있는데 여유생기면,,머,,
+			Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - player->chara->Transform->Translation;
+			NewPlayerForward.Normalize();
+			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(player->Forward, NewPlayerForward);
+			Vector3 eulerAngles = quaternion.ToEuler();
+			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+			player->chara->Transform->Rotation += eulerAngles;
+			player->Forward = NewPlayerForward;
 
-		MoveCamera->CreateViewMatrix(CameraStartPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
-		MainCameraSystem->TargetCamera = MoveCamera;
-		//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
-		//MainCameraSystem->MainCamera = MoveCamera;
+			// 카메라 타겟 세팅
+			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+			CameraTarget.y += 10.0f;
+			UpdateCameraPos();
+
+			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
+			
+		}
 	}
 
 	KeyState btnD = Input::GetInstance()->getKey('D');
@@ -290,46 +336,48 @@ bool BattleScene::Frame()
 		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
 	}
 
-	PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
-	for (auto enemy : EnemyList)
-	{
-		if (PickedCharacter == enemy->chara)
-		{
-			for (auto obj : enemy->ObjList) // 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
-			{
-				obj->m_bIsDead = false;
-			}	
+	//PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
+	//for (auto enemy : EnemyList)
+	//{
+	//	if (PickedCharacter == enemy->chara)
+	//	{
+	//		for (auto obj : enemy->ObjList) // 이쪽은 나중에 빌보드 띄우고 나면 쓸모없을지도.. 흠
+	//		{
+	//			obj->m_bIsDead = false;
+	//		}	
 
-			if (TargetEnemy != enemy) // 타겟팅이 바뀌었을 때 한번만
-			{
-				TargetEnemy = enemy;
+	//		if (TargetEnemy != enemy) // 타겟팅이 바뀌었을 때 한번만
+	//		{
+	//			TargetEnemy = enemy;
 
-				// 적 선택하면 그쪽으로 카메라 락온
-				auto CameraTarget = TargetEnemy->chara->Transform->Translation;
-				CameraTarget.y += 10.0f;
-				TestActionCamera->LookAt(CameraTarget, 1.0f);
+	//			// 캐릭터 방향 회전, 애니메이션 줄라면 줄수있는데 여유생기면,,머,,
+	//			Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - player->chara->Transform->Translation;
+	//			NewPlayerForward.Normalize();
+	//			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(player->Forward, NewPlayerForward);
+	//			Vector3 eulerAngles = quaternion.ToEuler();
+	//			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+	//			player->chara->Transform->Rotation += eulerAngles;
+	//			player->Forward = NewPlayerForward;
 
-				// 캐릭터 방향 회전, 애니메이션 줄라면 줄수있는데 여유생기면,,머,,
-				Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - player->chara->Transform->Translation;
-				NewPlayerForward.Normalize();
-				DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(player->Forward, NewPlayerForward);
-				Vector3 eulerAngles = quaternion.ToEuler();
-				eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
-				player->chara->Transform->Rotation += eulerAngles;
-				player->Forward = NewPlayerForward;
-			}
-		}
-		else
-		{
-			if (enemy != TargetEnemy)
-			{
-				for (auto obj : enemy->ObjList)
-				{
-					obj->m_bIsDead = true;
-				}
-			}
-		}
-	}
+	//			// 카메라 타겟 세팅
+	//			auto CameraStartTarget = TargetEnemy->chara->Transform->Translation;
+	//			CameraStartTarget.y += 10.0f;
+
+	//			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraStartTarget, Vector3(0.0f, 1.0, 0.0f));
+	//			MainCameraSystem->TargetCamera = MoveCamera;
+	//		}
+	//	}
+	//	else
+	//	{
+	//		if (enemy != TargetEnemy)
+	//		{
+	//			for (auto obj : enemy->ObjList)
+	//			{
+	//				obj->m_bIsDead = true;
+	//			}
+	//		}
+	//	}
+	//}
 
 	//enemy1->IntentIcon->m_OrginPos3D = enemy1->chara->MovementComp->Location;
 	//enemy1->IntentIcon->m_OrginPos3D.z += 300.0f;
@@ -455,6 +503,11 @@ void BattleScene::Init_Map()
 	//// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
 	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
+	/*if (!landscape->LoadXML(L"../resource/Map/TestMap.landscape"))
+	{
+		landscapeComponents->Build(16, 16, 7, 10);
+		landscape->SaveXML(L"../resource/Map/TestMap.landscape");
+	}*/
 	landscapeComponents->Build(16, 16, 7, 10);
 	landscapeComponents->SetCamera(MainCameraSystem->MainCamera);
 	TheWorld.AddEntity(landscape);
@@ -640,8 +693,8 @@ void BattleScene::Init_Chara()
 	// 플레이어용 카메라 및 카메라 암 설정.
 	auto playerCamera = PlayerCharacter->AddComponent<Camera>();
 	auto playerCameraArm = PlayerCharacter->AddComponent<CameraArmComponent>();
-	playerCameraArm->Distance = 100.0f;
-	playerCameraArm->Pitch = 35.0f;
+	playerCameraArm->Distance = 30.0f;
+	playerCameraArm->Pitch = 15.0f;
 	playerCameraArm->Yaw = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	
@@ -685,9 +738,9 @@ void BattleScene::Init_Chara()
 	// 적 캐릭터 용 카메라 및 카메라 암
 	auto enemyCamera = EnemyCharacter->AddComponent<Camera>();
 	auto enemyCameraArm = EnemyCharacter->AddComponent<CameraArmComponent>();
-	enemyCameraArm->Distance = 100.0f;
+	enemyCameraArm->Distance = 50.0f;
 	enemyCameraArm->Pitch = 35.0f;
-	enemyCameraArm->Yaw = 180.0f + 40.0f;
+	enemyCameraArm->Yaw = 180.0f + 30.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
@@ -699,14 +752,14 @@ void BattleScene::Init_Chara()
 	/////////////////////////// 적 캐릭터 2 //////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Character* PlayerCharacter_B = new Character;
-	enemy2->chara = PlayerCharacter_B;
+	Character* EnemyCharacter2 = new Character;
+	enemy2->chara = EnemyCharacter2;
 
-	auto player_BCharMeshComp = PlayerCharacter_B->AddComponent<SkeletalMeshComponent>();
+	auto player_BCharMeshComp = EnemyCharacter2->AddComponent<SkeletalMeshComponent>();
 	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
 
 
-	auto player_BCharAnimComp = PlayerCharacter_B->AddComponent<AnimationComponent>();
+	auto player_BCharAnimComp = EnemyCharacter2->AddComponent<AnimationComponent>();
 
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Run.clp", player_BCharAnimComp);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Idle.clp", player_BCharAnimComp);
@@ -715,19 +768,28 @@ void BattleScene::Init_Chara()
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Dying.clp", player_BCharAnimComp, false);
 
 
-	auto player_BCharTransformComp = PlayerCharacter_B->GetComponent<TransformComponent>();
+	auto player_BCharTransformComp = EnemyCharacter2->GetComponent<TransformComponent>();
 	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
 	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
 	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
 
-	auto player_BCharMovementComp = PlayerCharacter_B->GetComponent<MovementComponent>();
+	auto player_BCharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
 	player_BCharMovementComp->Speed = 25.0f;
-	PlayerCharacter_B->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
+	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
-	auto player_BOBBComp = PlayerCharacter_B->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
+	auto player_BOBBComp = EnemyCharacter2->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
 
-	TheWorld.AddEntity(PlayerCharacter_B);
+	// 적 캐릭터 용 카메라 및 카메라 암
+	auto enemyCamera2 = EnemyCharacter2->AddComponent<Camera>();
+	auto enemyCameraArm2 = EnemyCharacter2->AddComponent<CameraArmComponent>();
+	enemyCameraArm->Distance = 50.0f;
+	enemyCameraArm->Pitch = 35.0f;
+	enemyCameraArm->Yaw = 180.0f + 30.0f;
+	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
+	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	TheWorld.AddEntity(EnemyCharacter2);
 }
 
 void BattleScene::Init_Effect()
@@ -746,14 +808,14 @@ void BattleScene::Init_Effect()
 
 	ParticleEffect* pSelectedArrowUICursor = new ParticleEffect(L"BlackLineArrow",
 		TransformComponent(),
-		{ true, true, 10.0f, 0.0f, 1.0f });
+		{ false, true, 10.0f, 0.0f, 1.0f });
 	TheWorld.AddEntity(pSelectedArrowUICursor);
 
 	MAIN_PICKER.pSelectedArrowUIEntity = pSelectedArrowUICursor;
 
 	ParticleEffect* pSelectedCircleUICursor = new ParticleEffect(L"FloorCircle",
 		TransformComponent(),
-		{ true, true, 10.0f, 0.0f, 1.0f });
+		{ false, true, 10.0f, 0.0f, 1.0f });
 	TheWorld.AddEntity(pSelectedCircleUICursor);
 
 	MAIN_PICKER.pSelectedCircleUIEntity = pSelectedCircleUICursor;
@@ -819,8 +881,21 @@ void BattleScene::Init_Sound()
 	}
 }
 
-void BattleScene::CameraMove(Vector3& eye, Vector3& target)
+// 카메라 위치 세팅, 이 함수는 플레이어 캐릭터 우상단으로 카메라 위치를 셋팅함
+void BattleScene::UpdateCameraPos()
 {
+	// Right 벡터 구할라고
+	DirectX::XMFLOAT3 upVec(0.0f, 1.0f, 0.0f);
+	Vector3 Right;	// Calculate the right vector	
+	DirectX::XMFLOAT3 crossProduct;
+	XMStoreFloat3(&crossProduct, DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&player->Forward), XMLoadFloat3(&upVec)));
+	DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
+
+	// 카메라 위치 세팅, 나중에 또 업데이트 필요할듯 (주로 이동 후에)
+	PlayerCameraPos = PlayerCharacter->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
+	PlayerCameraPos -= player->Forward * 30.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
+	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
+	PlayerCameraPos -= Right * 15.0f;			// 오른쪽으로 좀 빼주고
 }
 
 void BattleScene::BattleProcess()
@@ -902,7 +977,12 @@ void BattleScene::EnemyAttackAnimProcess()
 			player->Forward = NewPlayerForward;
 
 			// 카메라 워크
-			//MainCameraSystem->TargetCamera = InActionEnemy->chara->GetComponent<Camera>();
+			auto CameraTarget = InActionEnemy->chara->Transform->Translation;
+			CameraTarget.y += 10.0f;
+			UpdateCameraPos();
+
+			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
 
 			// UI 숨겨줌, 골라서 숨기는 기능 없으니까 걍 다 숨겨 몰랑 -> 굳이같다;
 			//WRS->hide = true;
@@ -920,11 +1000,13 @@ void BattleScene::EnemyAttackAnimProcess()
 			SoundMap.find(L"Hit2")->second->Play();
 
 			// 카메라 워크
-			//MainCameraSystem->TargetCamera = InActionEnemy->chara->GetComponent<Camera>();
 			Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 			Vector3 t2 = InActionEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 			float dist = t1.Distance(t1, t2);
-			TestActionCamera->Lerp(t1, t2, dist, 0.5f);
+			TestActionCamera->Lerp(t1, t2, 50.0f, 0.1f);
+
+			MoveCamera->CreateViewMatrix(TestActionCamera->MovementComp->Destination, TestActionCamera->ActionCameraComp->NextLook, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
 
 			// UI 다시 살려줌-> 굳이같다;
 			//WRS->hide = false;
@@ -954,30 +1036,44 @@ void BattleScene::EnemyAttackAnimProcess()
 static float MoveTimer = 0.0f;
 void BattleScene::MoveProcess()
 {
+	// 이동버튼 눌리고 최초 실행시에만, 카메라 바꿔줌
+	if (MoveTimer == 0.0f) 
+	{
+		Vector3 SkyCamPos = PlayerCameraPos;
+		SkyCamPos -= player->Forward * 200.0f;
+		SkyCamPos.y += 150.0f;
+		Vector3 CameraTarget;
+		MoveCamera->CreateViewMatrix(SkyCamPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+		MainCameraSystem->TargetCamera = MoveCamera;
+	}
+
 	// 딜레이주려고
 	MoveTimer += Timer::GetInstance()->GetDeltaTime();
 
 	if (MoveTimer >= 0.3f)
 	{
-		// 카메라 좀 바꿔주고
-
 		// 이동 끝날때까지 UI 숨겨줌, 취소버튼? 그런건없다
 		WRS->hide = true;
 
 		// 땅을 찍은 적이 없다면 (이동 명령을 아직 내리지 않았다면)
 		if (MAIN_PICKER.optPickingMode != PMOD_CHARACTER) 
 		{
-			// 거리가 50 이상이면 이동불가 (일단 테스트하기 쉽게 짜게 줌)
+			// 거리가 일정 수치 이상이면 이동불가
 			Vector3 Forward = player->chara->Transform->Translation - MAIN_PICKER.vIntersection;
+			float CanMoveRange = 150.0f; // 수치 설정
 			float Distance = Forward.Length();
-			if (Distance < 50.0f) 
+			if (Distance < CanMoveRange) 
 			{
 				MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.0f, 0.0f, 0.0f, 0.5f }, { 0.5f, 1.0f, 0.0f, 0.5f });
 
-				// 땅 클릭하면 글로 이동
+				// 땅을 찍었다면, 이동명령 내리고 카메라 바꿔줌
 				KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 				if (btnLC == KeyState::Down)
 				{
+					// 이쪽은 메인카메라로 확 바꾸는게?
+					//MainCamera->CreateViewMatrix(player->chara->GetComponent<Camera>()->Pos, player->chara->GetComponent<Camera>()->Target, Vector3(0.0f, 1.0, 0.0f));
+					//MainCameraSystem->MainCamera = player->chara->GetComponent<Camera>();
+					//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
 					PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
 				}
@@ -1019,6 +1115,14 @@ void BattleScene::MoveProcess()
 				enemy->chara->Transform->Rotation += eulerAngles;
 				enemy->chara->MovementComp->Forward = NewForward;
 			}
+
+			// 카메라 셋팅
+			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+			CameraTarget.y += 10.0f;
+			UpdateCameraPos();
+			MainCameraSystem->MainCamera = MainCamera;
+			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
 
 			// 턴당 이동은 한번으로 제한, 코스트 먹을지 말지는 뭐 모르겠다
 			MoveButton->m_bIsDead = true;
@@ -1138,7 +1242,14 @@ void BattleScene::CardCheck()
 				Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 				Vector3 t2 = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 				float dist = t1.Distance(t1, t2);
-				TestActionCamera->Lerp(t1, t2, dist, 1.0f);
+				if (dist < 30.0f) // 어느정도 이상 가까울 때만 카메라 변경
+				{ 
+					dist = 40.0f; 
+					TestActionCamera->Lerp(t1, t2, dist, 0.1f);
+
+					MoveCamera->CreateViewMatrix(TestActionCamera->MovementComp->Destination, TestActionCamera->ActionCameraComp->NextLook, Vector3(0.0f, 1.0, 0.0f));
+					MainCameraSystem->TargetCamera = MoveCamera;
+				}
 			}
 			else {} // 여기서 마나부족 경고문구 출력
 
@@ -1342,7 +1453,7 @@ void BattleScene::ToolTipCheck()
 		ToolTipBoard->m_bIsDead = false;
 		ToolTipText->m_bIsDead = false;
 	}
-	else if (MoveButton->m_bHover) // 이동 버튼
+	else if (MoveButton->m_bHover && !MoveButton->m_bIsDead) // 이동 버튼
 	{
 		ToolTipText->m_pCutInfoList[0]->tc = TextTextureList.find(L"move")->second;
 		ToolTipBoard->m_bIsDead = false;

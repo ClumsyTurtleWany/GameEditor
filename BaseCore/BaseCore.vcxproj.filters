@@ -32,6 +32,9 @@
     <Filter Include="Common">
       <UniqueIdentifier>{2a75d0c1-87c2-49ce-9c0d-0d60ad8b56d5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="TinyXML">
+      <UniqueIdentifier>{1a1f8521-085a-49ba-9d37-da322824ceae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FMODSound.hpp">
@@ -70,6 +73,15 @@
     <ClInclude Include="BaseCore.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="tinystr.h">
+      <Filter>TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="XmlParser.h">
+      <Filter>TinyXML</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FMODSound.cpp">
@@ -104,6 +116,21 @@
     </ClCompile>
     <ClCompile Include="BaseCore.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="tinystr.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlparser.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlParser.cpp">
+      <Filter>TinyXML</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

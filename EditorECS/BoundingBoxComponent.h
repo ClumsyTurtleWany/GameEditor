@@ -49,4 +49,69 @@ public:
 	~BoundingBoxComponent() 
 	{
 	}
+
+public:
+
+	bool WriteXML(TiXmlElement* parent)
+	{
+		if (parent == nullptr)
+		{
+			return false;
+		}
+
+		TiXmlElement* pBoundingBox = new TiXmlElement("BoundingBoxComponent");
+		parent->LinkEndChild(pBoundingBox);
+
+		if (!WriteVector3(pBoundingBox, InitOBB.Center, "Center"))
+		{
+
+		}
+
+		if (!WriteVector3(pBoundingBox, InitOBB.Extents, "Extents"))
+		{
+
+		}
+
+		if (!WriteVector4(pBoundingBox, InitOBB.Orientation, "Orientation"))
+		{
+
+		}
+
+		return true;
+	}
+
+	bool ReadXML(TiXmlElement* parent)
+	{
+		if (parent == nullptr)
+		{
+			return false;
+		}
+
+		
+		Vector3 center;
+		if (!ReadVector3(parent, "Center", center))
+		{
+			OutputDebugString(L"EditorECS::BoundingBoxComponent::ReadXML::Failed Get Center.");
+			return false;
+		}
+		InitOBB.Center = center;
+
+		Vector3 extents;
+		if (!ReadVector3(parent, "Extents", extents))
+		{
+			OutputDebugString(L"EditorECS::BoundingBoxComponent::ReadXML::Failed Get Extents.");
+			return false;
+		}
+		InitOBB.Extents = extents;
+
+		Vector4 orientation;
+		if (!ReadVector4(parent, "Orientation", orientation))
+		{
+			OutputDebugString(L"EditorECS::BoundingBoxComponent::ReadXML::Failed Get Orientation.");
+			return false;
+		}
+		InitOBB.Orientation = orientation;
+
+		return true;
+	}
 };

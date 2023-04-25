@@ -124,13 +124,38 @@ namespace EFFECTUTIL
 		if (pViewM) { m_matView = *pViewM; }
 		if (pProjM) { m_matProj = *pProjM; }
 
-		if (m_eProp.bUseBillBoard)
+		switch (m_eProp.iUseBillBoard)
 		{
-			//카메라 회전 행렬의 역행렬을 사용해 월드행렬을 재구성한다.
-			//기존의 이동정보는 그대로 가지고 있어야 하기에 이동 성분을 반영한다.
-			m_matBillboard.BiilTMat = m_matView.Invert();
-			m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
+			case 0:
+			{
+				m_matBillboard.BiilTMat = Matrix::Identity;
+			} break;
+
+			case 1:
+			{
+				m_matBillboard.BiilTMat = m_matView.Invert();
+				m_matBillboard.BiilTMat._41 = m_matWorld._41;
+				m_matBillboard.BiilTMat._42 = m_matWorld._42;
+				m_matBillboard.BiilTMat._43 = m_matWorld._43;
+				m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
+			} break;
+
+			case 2:
+			{
+				m_matBillboard.BiilTMat = Matrix::Identity;
+				m_matBillboard.BiilTMat._11 = m_matView._11;
+				m_matBillboard.BiilTMat._13 = m_matView._31;
+				m_matBillboard.BiilTMat._31 = m_matView._13;
+				m_matBillboard.BiilTMat._33 = m_matView._33;
+				m_matBillboard.BiilTMat._41 = m_matWorld._41;
+				m_matBillboard.BiilTMat._42 = m_matWorld._42;
+				m_matBillboard.BiilTMat._43 = m_matWorld._43;
+				m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
+
+			} break;
 		}
+
+		updateBuffer(m_pCBufBillboard.Get(), &m_matBillboard, sizeof(CBUF_BILLBOARDMAT));
 
 		//객체가 카메라의 정보를 들고있는 경우 다음의 함수를 대신 사용할 수 있다.
 		//m_matWorld = Matrix::CreateBillboard();
@@ -348,6 +373,12 @@ namespace EFFECTUTIL
 		{
 			m_pBState = DXSTATE_MGR.getBState(L"BS_MSALPHATEST");
 			m_shaderGroup.pPS = DXShaderManager::GetInstance()->GetPixelShader(L"PS_PointParticle_AlphaTest");
+		} break;
+
+		case BLENDSTATE_TYPE::BS_ADDITIVEBLEND:
+		{
+			m_pBState = DXSTATE_MGR.getBState(L"BS_ADDITIVEBLEND");
+			m_shaderGroup.pPS = DXShaderManager::GetInstance()->GetPixelShader(L"PS_PointParticle_Alphablend");
 		} break;
 
 		default:

@@ -4,6 +4,7 @@
 #include "Enemy_1.h"
 #include "Character.h"
 #include "ActionCamera.h"
+#include "SaveLoadSystem.h"
 
 class BattleScene : public BaseScene
 {
@@ -21,7 +22,7 @@ public:
 	void Init_Sound();
 
 public:
-	void CameraMove(Vector3& eye, Vector3& target);
+	void UpdateCameraPos();
 
 public:
 	void BattleProcess();
@@ -56,12 +57,16 @@ public:
 public:
 	Camera* CurrentCamera;
 	Camera* MoveCamera;
+	Camera* MoveCamera2;
 	Camera* CloseupCamera;
 	ActionCamera* TestActionCamera;
 	
 	CameraSystem* MainCameraSystem = nullptr;
 	RenderSystem* MainRenderSystem = nullptr;
+	SaveLoadSystem* MainSaveLoadSystem = nullptr;
 	Actor* MainCameraActor = nullptr;
+
+	Vector3 PlayerCameraPos;
 
 public:
 	std::map<std::wstring, FMODSound*> SoundMap;

@@ -16,4 +16,11 @@ public:
 public:
 	Landscape();
 	virtual ~Landscape();
+
+public:
+	bool SaveXML(std::wstring filename);
+	bool LoadXML(std::wstring filename);
+
+	virtual bool Save(std::string filename) override;
+	virtual bool Load(std::string filename) override;
 };

@@ -6,6 +6,7 @@
 #include "DXSamplerState.hpp"
 #include "DXTextureManager.hpp"
 #include "FMODSoundManager.hpp"
+#include "XmlParser.h"
 
 class BaseCore
 {
