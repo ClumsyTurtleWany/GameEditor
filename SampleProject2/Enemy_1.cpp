@@ -64,7 +64,11 @@ int Enemy_1::patern(Player* player, int turn)
 
     }
 
-    if (player->hp < 0) player->hp = 0;
+    if (player->hp < 0) 
+    {
+        player->hp = 0;
+        player->isDead = true;
+    }
     doAction = true;
     return  damage;
 }
@@ -183,7 +187,11 @@ int Enemy_2::patern(Player* player, int turn)
 
     }
 
-    if (player->hp < 0) player->hp = 0;
+    if (player->hp < 0)
+    {
+        player->hp = 0;
+        player->isDead = true;
+    }
     doAction = true;
     return damage;
 }

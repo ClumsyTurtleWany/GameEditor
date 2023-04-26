@@ -616,13 +616,16 @@ void SampleCore::SceneChange()
 
 		case BATTLE:
 		{
+			if (CurrentScene->ID != DECKVIEW && CurrentScene->ID != REMAINVIEW) 
+			{
+				bgm_Current->Stop();
+				bgm_Current = bgm_Battle;
+				bgm_Current->Play();
+				bgm_Current->SetVolume(0.3);
+			}
+
 			CurrentScene->SS = MAINTAIN;
 			CurrentScene = Battle;
-
-			bgm_Current->Stop();
-			bgm_Current = bgm_Battle;
-			bgm_Current->Play();
-			bgm_Current->SetVolume(0.3);
 		}break;
 
 		case MULTIBATTLE:

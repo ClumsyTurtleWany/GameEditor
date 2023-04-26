@@ -85,8 +85,14 @@ bool BattleScene::Init()
 	enemy2->Name->m_pCutInfoList[0]->tc = TextTextureList.find(L"enemy2")->second;
 	EnemyList.push_back(enemy2);
 
-	Init_UI();
+	// 잘죽는지 테스트용
+	// player->hp = 1;
+	// enemy1->hp = 5;
+	// enemy2->hp = 10;
 
+
+	Init_Sound();
+	Init_UI();
 	Init_Map();
 	/*bool testFlag = true;
 	if (!testFlag)
@@ -98,12 +104,10 @@ bool BattleScene::Init()
 	{
 		MainSaveLoadSystem->Load("../resource/Map/", "TestWorld");
 	}*/
-	
-	Init_Sound();
 	Init_Chara();
 	Init_Effect();
-	// ADD NOTIFY SYSTEM
-	TheWorld.AddSystem(new ECS::NotifySystem);
+	
+
 
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	TheWorld.AddSystem(MainCameraSystem);
@@ -112,6 +116,8 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(new UpdateAnimSystem);
 	// SelectAnimSystem 추가
 	TheWorld.AddSystem(new SelectAnimSystem);
+	// ADD NOTIFY SYSTEM
+	TheWorld.AddSystem(new ECS::NotifySystem);
 
 	LightSystem* lightSystem = new LightSystem;
 	lightSystem->MainCamera = MainCameraSystem->MainCamera;
@@ -677,38 +683,43 @@ void BattleScene::Init_Chara()
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Dying.clp", playerCharAnimComp, false);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Pistol_Whip.clp", playerCharAnimComp, false); // 죽탱이
 	//FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Inward_Block.clp", playerCharAnimComp, false); // 가드
-
-
-
 	playerCharAnimComp->SetClipByName(L"Idle");
 
+	///////////////// NOTIFIER 사용 예제/////////////////
+	//// 1. 노티파이어 매니저 컴포넌트를 추가하고
+	//auto notiMgr = PlayerCharacter->AddComponent<NotifierMgrComponent>();
 
-	/////////////// NOTIFIER 사용 예제/////////////////
-	// 1. 노티파이어 매니저 컴포넌트를 추가하고
+	//// 2. 노티파이어 생성 (여러개 생성 가능하며 한 노티파이어에서 사운드, 이펙트 동시에 발생시킬 수 있음)
+	////		 생성시 인자는 노티파이어 이름 , 발생시키고자 하는 프레임(정수) , 노티파이어 수명(프레임, 정수) <- 아무값도 안넣으면 1이 기본
+	//Notifier* newNoti = notiMgr->CreateNotifier(L"step1", 7);
+	//// 3. 이펙트 발생을 위해 노티파이어에 이펙트를 달아주기
+	////		 사운드, 이펙트 각각 두가지 방법으로 달 수 있음
+	//// 
+	////		 MakeFmodSound(노티파이어 이름 , FmodSound*) <- 기존 사운드맵을 활용할 수 있지만 second로 바로 접근하기때문에 로드 안된 거 잘못 넣으면 뻑나니 주의
+	//notiMgr->MakeFmodSound(L"step1", SoundMap.find(L"Hit2")->second);
+
+	////		 MakeEffect(노티파이어 이름, 이펙트 키 이름 , 이펙트 위치(트랜스폼 컴포넌트) , 파티클 속성)
+	////		 이때 이펙트 위치에 Vector3 값만 넣어도 됨 (오버로딩)
+	//notiMgr->MakeEffect(L"step1", L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+
+	//Notifier* newNoti2 = notiMgr->CreateNotifier(L"step2", 20);
+
+	////		 MakeSound(노티파이어 이름 , 기존에 로드했던 사운드 파일(FmodSoundManager의 사운드 맵에서 받아옴) , 볼륨, 루프 상태)
+	//notiMgr->MakeSound(L"step2", L"Attack_Bludgeon.ogg", 0.5f, false);
+
+	//// 4. 만들어진 노티파이어를 애니메이션 컴포넌트에 붙여주기
+	////		 AddNotifier(애니메이션 컴포넌트 , 해당 컴포넌트가 들고 있는 애니메이션 클립의 이름 , 생성한 노티파이어)
+	//notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti);
+	//notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti2);
+
+
 	auto notiMgr = PlayerCharacter->AddComponent<NotifierMgrComponent>();
+	Notifier* Fire_ready = notiMgr->CreateNotifier(L"Fire_ready", 3);
+	Notifier* Fire = notiMgr->CreateNotifier(L"Fire", 6);
+	notiMgr->MakeSound(L"Fire", L"Fire1.mp3", 0.5f, false);
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire_ready);
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire);
 
-	// 2. 노티파이어 생성 (여러개 생성 가능하며 한 노티파이어에서 사운드, 이펙트 동시에 발생시킬 수 있음)
-	//		 생성시 인자는 노티파이어 이름 , 발생시키고자 하는 프레임(정수) , 노티파이어 수명(프레임, 정수) <- 아무값도 안넣으면 1이 기본
-	Notifier* newNoti = notiMgr->CreateNotifier(L"step1", 7);
-	// 3. 이펙트 발생을 위해 노티파이어에 이펙트를 달아주기
-	//		 사운드, 이펙트 각각 두가지 방법으로 달 수 있음
-	// 
-	//		 MakeFmodSound(노티파이어 이름 , FmodSound*) <- 기존 사운드맵을 활용할 수 있지만 second로 바로 접근하기때문에 로드 안된 거 잘못 넣으면 뻑나니 주의
-	notiMgr->MakeFmodSound(L"step1", SoundMap.find(L"Hit2")->second);
-
-	//		 MakeEffect(노티파이어 이름, 이펙트 키 이름 , 이펙트 위치(트랜스폼 컴포넌트) , 파티클 속성)
-	//		 이때 이펙트 위치에 Vector3 값만 넣어도 됨 (오버로딩)
-	notiMgr->MakeEffect(L"step1", L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
-
-	Notifier* newNoti2 = notiMgr->CreateNotifier(L"step2", 20);
-
-	//		 MakeSound(노티파이어 이름 , 기존에 로드했던 사운드 파일(FmodSoundManager의 사운드 맵에서 받아옴) , 볼륨, 루프 상태)
-	notiMgr->MakeSound(L"step2", L"Attack_Bludgeon.ogg", 0.5f, false);
-
-	// 4. 만들어진 노티파이어를 애니메이션 컴포넌트에 붙여주기
-	//		 AddNotifier(애니메이션 컴포넌트 , 해당 컴포넌트가 들고 있는 애니메이션 클립의 이름 , 생성한 노티파이어)
-	notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti);
-	notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti2);
 
 
 	// 소켓 컴포넌트 추가
@@ -817,7 +828,7 @@ void BattleScene::Init_Chara()
 	auto player_BCharTransformComp = EnemyCharacter2->GetComponent<TransformComponent>();
 	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
 	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-	player_BCharTransformComp->Translation = Vector3(0.0f, 0.0f, 200.0f);
+	player_BCharTransformComp->Translation = Vector3(70.0f, 0.0f, 100.0f);
 
 	auto player_BCharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
 	player_BCharMovementComp->Speed = 50.0f;
@@ -925,6 +936,33 @@ void BattleScene::Init_Sound()
 		Hit2->Stop();
 		SoundMap.insert(std::make_pair(L"Hit2", Hit2));
 	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Fire1.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Fire1.mp3");
+		Sound->Play();
+		Sound->SetVolume(0.5); 
+		Sound->SetLoop(false); 
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Fire1", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Fire2.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Fire2.mp3");
+		Sound->Play();
+		Sound->SetVolume(0.5); 
+		Sound->SetLoop(false); 
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Fire2", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Fire3.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Fire3.mp3");
+		Sound->Play();
+		Sound->SetVolume(0.5); 
+		Sound->SetLoop(false); 
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Fire3", Sound));
+	}
 }
 
 // 카메라 위치 세팅, 이 함수는 플레이어 캐릭터 우상단으로 카메라 위치를 셋팅함
@@ -944,6 +982,53 @@ void BattleScene::UpdateCameraPos()
 	PlayerCameraPos -= Right * 15.0f;			// 오른쪽으로 좀 빼주고
 }
 
+// 노티파이 체크해서 플레이어랑 적 캐릭터랑 애니메이션 합을 맞추고 이펙트 터트림(위치필요해서), 사운드는 노티파이 안에서 터트림
+void BattleScene::NotifierCheck()
+{
+	// 애니메이션 세팅에 필요한거
+	auto PAnime = PlayerCharacter->GetComponent<AnimationComponent>();		//멀티가면좀바꿔야
+	auto EAnime = TargetEnemy->chara->GetComponent<AnimationComponent>();
+
+	// 플레이어의 행동에서 발생한 노티파이를 기준으로 실행, 플레이어 턴에서만 작동할듯
+	// for(auto player : PlayerList) // 이건 멀티용,,,, 멀티까지 내일안에 해결할 수 있을까?
+	for (auto noti : player->chara->GetComponent<AnimationComponent>()->CurrentClip->NotifierList) 
+	{
+		if (noti->IsOn) 
+		{
+			if (noti->Lable == L"Fire_ready") 
+			{
+				// if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
+			}
+			else if (noti->Lable == L"Fire")
+			{
+				if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
+
+				//Vector3 EffectPos = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+				Vector3 EffectPos = TargetEnemy->chara->GetComponent<MovementComponent>()->Location;
+				EffectPos.y += TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y;
+				PlayEffect(&TheWorld, L"Hit5", { EffectPos, Vector3(), {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+			}
+		}
+	}
+
+	// 적 행동에서 발생한 노티파이를 기준으로 실행, 얘도 아마 적턴에만 ㅇㅇ
+	for (auto enemy : EnemyList) 
+	{
+		for (auto noti : enemy->chara->GetComponent<AnimationComponent>()->CurrentClip->NotifierList)
+		{
+			if (noti->IsOn)
+			{
+				if (noti->Lable == L"Fire")
+				{
+				}
+				else if (noti->Lable == L"Fire")
+				{
+				}
+			}
+		}
+	}
+}
+
 void BattleScene::BattleProcess()
 {
 	if (TurnStart) { TurnStartProcess(); }
@@ -953,8 +1038,9 @@ void BattleScene::BattleProcess()
 
 	EnemyAttackAnimProcess();
 	CardCheck();
-	DeadCheck();
 	ToolTipCheck();
+	NotifierCheck();
+	DeadCheck();
 }
 
 void BattleScene::TurnStartProcess()
@@ -966,11 +1052,13 @@ void BattleScene::TurnStartProcess()
 
 	for (auto enemy : EnemyList) { enemy->SetIntentObj(TurnNum, enemy->IntentIcon, enemy->Intent1, enemy->Intent2); }
 
-	int drawNum = 3;
-	for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
-
-	Dick->Draw(drawNum);
-	UpdateHand(drawNum);
+	if (!player->isDead) 
+	{
+		int drawNum = 3;
+		for (int i = 0; i < drawNum; i++) { CardList[i]->m_bIsDead = false; }
+		Dick->Draw(drawNum);
+		UpdateHand(drawNum);
+	}
 
 	TurnStart = false;
 	TurnEndButton->m_bDisable = false;
@@ -1178,7 +1266,7 @@ void BattleScene::MoveProcess()
 
 void BattleScene::CardCheck()
 {
-	if (TargetEnemy == nullptr) { return; } // 타겟이 없다면 실행ㄴ
+	if (TargetEnemy == nullptr || TargetEnemy->hp <= 0) { return; } // 타겟이 없거나 죽었다면 실행ㄴ
 
 	for (int cardNum = 0; cardNum < Dick->HandList.size(); cardNum++)
 	{
@@ -1204,11 +1292,7 @@ void BattleScene::CardCheck()
 					DamageAnimation(6, true);
 					CanUse = true;
 
-					//PAnime->SetClipByName(L"Shooting");
-					PAnime->SetClipByName(L"Pistol_Whip");
-					EAnime->SetClipByName(L"Hit"); // 적 피격 모션
-					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
-					SoundMap.find(L"Hit1")->second->Play();
+					PAnime->SetClipByName(L"Shooting");
 				}
 			}break;
 
@@ -1232,9 +1316,6 @@ void BattleScene::CardCheck()
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Shooting");
-					EAnime->SetClipByName(L"Hit");
-					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
-					SoundMap.find(L"Hit1")->second->Play();
 				}
 			}break;
 
@@ -1269,9 +1350,6 @@ void BattleScene::CardCheck()
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Shooting");
-					EAnime->SetClipByName(L"Hit");
-					PlayEffect(&TheWorld, L"Hit5", { {10.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
-					SoundMap.find(L"Hit1")->second->Play();
 				}
 			}break;
 
@@ -1283,6 +1361,17 @@ void BattleScene::CardCheck()
 				UpdateHand(Dick->HandList.size(), cardNum, DrawedCard);
 				UpdatePlayerState();
 				UpdateEnemyState();
+				if (TargetEnemy->hp <= 0) 
+				{
+					// 적 캐릭터가 죽었다면 적 리스트에서 빼줌
+					auto iter = std::find(EnemyList.begin(), EnemyList.end(), TargetEnemy);
+					if (iter != EnemyList.end()) { EnemyList.erase(iter); }
+					
+					// 상태창 꺼줌
+					for (auto obj : TargetEnemy->ObjList) { obj->m_bIsDead = true; }
+					TargetEnemy->HpEmpty->m_bIsDead = true;
+					TargetEnemy->HpFull->m_bIsDead = true;
+				}
 
 				// 카메라 워크
 				Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
@@ -1466,10 +1555,14 @@ void BattleScene::DeadCheck()
 	}
 	else
 	{
-		for (auto enemy : EnemyList)
-		{
-			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
-		}
+		//for (auto enemy : EnemyList)
+		//{
+		//	if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
+		//}
+
+		// 살아있는 적 리스트, 원래 있던 모든 적 리스트를 따로 만들어야 할 것 같은데 몰라 일단 하드코딩해
+		if (enemy1->hp > 0 || enemy1->chara->GetComponent<AnimationComponent>()->IsInAction()) return;
+		else if (enemy2->hp > 0 || enemy2->chara->GetComponent<AnimationComponent>()->IsInAction()) return;
 		SS = CLEAR;
 	}
 }

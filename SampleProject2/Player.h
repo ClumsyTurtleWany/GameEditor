@@ -9,6 +9,7 @@ public:
 	int maxHp;
 	int hp;
 	int armor;
+	bool isDead = false;
 	std::map<std::wstring, int> stateMap;
 
 	int maxCost = 3;

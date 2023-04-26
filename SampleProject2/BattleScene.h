@@ -23,6 +23,7 @@ public:
 
 public:
 	void UpdateCameraPos();
+	void NotifierCheck();
 
 public:
 	void BattleProcess();
