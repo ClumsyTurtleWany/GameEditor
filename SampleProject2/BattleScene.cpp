@@ -41,7 +41,7 @@ bool BattleScene::Init()
 {
 	MainSaveLoadSystem = new SaveLoadSystem;
 	TheWorld.AddSystem(MainSaveLoadSystem);
-	
+
 	ID = BATTLE;
 
 	// 메인 카메라
@@ -57,11 +57,8 @@ bool BattleScene::Init()
 	// 타겟 카메라로 쓰기 위한 놈
 	MoveCamera = new Camera;
 	MoveCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
-	// 타겟 카메라로 쓰기 위한 놈2
-	MoveCamera2 = new Camera;
-	MoveCamera2->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
-	// 액션 카메라, 당장은 화면 흔들림을 위해
+	// 액션 카메라, 지금은 그냥 lerp함수로 거리구하기용
 	TestActionCamera = new ActionCamera;
 	TestActionCamera->Create(Vector3(0.0f, 50.0f, -70.0f), Vector3(0.0f, 20.0f, 50.0f), 1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	TheWorld.AddEntity(TestActionCamera);
@@ -92,8 +89,8 @@ bool BattleScene::Init()
 
 	// 잘죽는지 테스트용
 	// player->hp = 1;
-	 enemy1->hp = 5;
-	 enemy2->hp = 10;
+	// enemy1->hp = 5;
+	// enemy2->hp = 10;
 
 
 	Init_Sound();
@@ -237,8 +234,6 @@ bool BattleScene::Frame()
 			if (enemyNum + 1 == EnemyList.size()) { TargetEnemy = EnemyList[0]; }
 			else { TargetEnemy = EnemyList[enemyNum + 1]; }
 
-			
-			
 			/*auto PlayerForward = PlayerCharacter->MovementComp->Destination - PlayerCharacter->Transform->Translation; 
 			PlayerForward.Normalize();
 			player->Forward = PlayerForward;*/
@@ -461,6 +456,7 @@ bool BattleScene::Frame()
 	//		obj->m_OrginPos3D.y += 3.0f;
 	//	}
 	//}
+
 	for (auto enemy : EnemyList) 
 	{
 		enemy->HpEmpty->m_OrginPos3D = enemy->chara->MovementComp->Location;
@@ -470,6 +466,7 @@ bool BattleScene::Frame()
 		enemy->HpFull->m_OrginPos3D.y += enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y * 2.0f;
 		//enemy->HpFull->m_OrginPos3D.y += 1.0f;
 	}
+
 	return true;
 }
 
@@ -558,9 +555,6 @@ void BattleScene::Init_UI()
 	ToolTipText->SetOrginStandard(false);
 	ToolTipBoard->m_bIsDead = true;
 	ToolTipText->m_bIsDead = true;
-
-
-
 
 
 	// 메인 월드에 액터 추가.
@@ -1283,9 +1277,9 @@ void BattleScene::NotifierCheck()
 					PlayEffect(&TheWorld, L"Hit3", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
 				}
-			}
 
-			UpdatePlayerState();
+				UpdatePlayerState();
+			}
 		}
 	}
 }
@@ -1297,7 +1291,7 @@ void BattleScene::BattleProcess()
 	if (MoveButton->m_bClicked) { IsMoving = true; MoveButton->m_bClicked = false; MAIN_PICKER.optPickingMode = PMOD_LAND; }
 	if (IsMoving) { MoveProcess(); }
 
-	EnemyAttackAnimProcess();
+	EnemyAnimProcess();
 	CardCheck();
 	ToolTipCheck();
 	NotifierCheck();
@@ -1354,7 +1348,7 @@ void BattleScene::EnemyTurnProcess()
 	InActionEnemy = EnemyList[InActionEnemyNum];
 }
 
-void BattleScene::EnemyAttackAnimProcess()
+void BattleScene::EnemyAnimProcess()
 {
 	// 적 턴이고, 현재 행동중인 적이 아직 이동이나 공격을 하지 않았을 경우
 	if (!TurnState && (!InActionEnemy->doMove || !InActionEnemy->doAction)) 
@@ -1819,6 +1813,10 @@ void BattleScene::DeadCheck()
 {
 	if (player->hp <= 0 && !PlayerCharacter->GetComponent<AnimationComponent>()->IsInAction())
 	{
+		for (auto enemy : AllEnemyList)
+		{
+			if (enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 애니메이션중이라면 탈출!
+		}
 		SS = GAMEOVER;
 	}
 	else

@@ -174,6 +174,8 @@ bool SampleCore::Initialize()
 	MultiBattle->CardTextureList = CardTextureList;
 	MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
 	MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
+	MultiBattle->NumberTextureList_Damage = NumberTextureList_Damage;
+	MultiBattle->TextTextureList = TextTextureList;
 	MultiBattle->Init();
 	//serverpackethandler에서 연결하기 위한 포인터
 	multyserver = MultiBattle;

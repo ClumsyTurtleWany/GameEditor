@@ -22,6 +22,9 @@ public:
 	Camera* MainCamera;
 
 public:
+	Player* TargetPlayer = nullptr;
+
+public:
 	int hp;
 	int maxHp;
 	int armor;

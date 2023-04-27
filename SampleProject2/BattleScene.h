@@ -30,7 +30,7 @@ public:
 	void TurnStartProcess();
 	void TurnEndProcess();
 	void EnemyTurnProcess();
-	void EnemyAttackAnimProcess();
+	void EnemyAnimProcess();
 	void MoveProcess();
 	void CardCheck();
 	void DamageAnimation(int damage, bool hitEnemy);
@@ -62,7 +62,6 @@ public:
 public:
 	Camera* CurrentCamera;
 	Camera* MoveCamera;
-	Camera* MoveCamera2;
 	Camera* CloseupCamera;
 	ActionCamera* TestActionCamera;
 	
