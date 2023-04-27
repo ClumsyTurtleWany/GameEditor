@@ -68,6 +68,8 @@
     <ClInclude Include="SplineComponent.h" />
     <ClInclude Include="SpotLight.h" />
     <ClInclude Include="StaticMeshComponent.h" />
+    <ClInclude Include="TimelineComponent.h" />
+    <ClInclude Include="TimelineSystem.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="UpdateAnimSystem.h" />
   </ItemGroup>
@@ -110,6 +112,8 @@
     <ClCompile Include="SplineComponent.cpp" />
     <ClCompile Include="SpotLight.cpp" />
     <ClCompile Include="StaticMeshComponent.cpp" />
+    <ClCompile Include="TimelineComponent.cpp" />
+    <ClCompile Include="TimelineSystem.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
     <ClCompile Include="UpdateAnimSystem.cpp" />
   </ItemGroup>

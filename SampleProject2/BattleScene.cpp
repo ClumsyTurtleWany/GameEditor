@@ -11,6 +11,9 @@
 #include "SkyRenderSystem.h"
 #include "SkyDomeComponent.h"
 //추가
+#include "TimelineComponent.h"
+#include "TimelineSystem.h"
+
 #include "SocketComponent.h"
 #include "AnimationComponent.h"
 #include "UpdateAnimSystem.h"
@@ -118,6 +121,8 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(new SelectAnimSystem);
 	// ADD NOTIFY SYSTEM
 	TheWorld.AddSystem(new ECS::NotifySystem);
+	// ADD TIMLELINE SYSTEM
+	TheWorld.AddSystem(new TimelineSystem);
 
 	LightSystem* lightSystem = new LightSystem;
 	lightSystem->MainCamera = MainCameraSystem->MainCamera;
@@ -229,13 +234,36 @@ bool BattleScene::Frame()
 			if (enemyNum + 1 == EnemyList.size()) { TargetEnemy = EnemyList[0]; }
 			else { TargetEnemy = EnemyList[enemyNum + 1]; }
 
+			
+			
+			/*auto PlayerForward = PlayerCharacter->MovementComp->Destination - PlayerCharacter->Transform->Translation; 
+			PlayerForward.Normalize();
+			player->Forward = PlayerForward;*/
+
 			// 캐릭터 방향 회전, 애니메이션 줄라면 줄수있는데 여유생기면,,머,,
 			Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - player->chara->Transform->Translation;
 			NewPlayerForward.Normalize();
 			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(player->Forward, NewPlayerForward);
 			Vector3 eulerAngles = quaternion.ToEuler();
+
+			Vector3 cross = DirectX::XMVector3Cross(player->Forward, NewPlayerForward);
+			Vector3 dot = DirectX::XMVector3Dot(cross, Vector3(0,1,0));
+
+			if (dot.y < 0.f)
+			{
+				// 좌우 판별
+			}
+			
 			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
-			player->chara->Transform->Rotation += eulerAngles;
+			//player->chara->Transform->Rotation += eulerAngles;
+			auto timeline = PlayerCharacter->GetComponent<TimelineComponent>();
+			if (timeline != nullptr)
+			{
+				timeline->CreateTimeline(player->chara->Transform->Rotation.y, player->chara->Transform->Rotation.y+eulerAngles.y,0.2f);
+				timeline->SetTarget(&player->chara->Transform->Rotation.y);
+				timeline->PlayFromStart();
+			}
+			
 			player->Forward = NewPlayerForward;
 
 			// 카메라 타겟 세팅
@@ -755,6 +783,9 @@ void BattleScene::Init_Chara()
 	playerCameraArm->Yaw = 180.0f - 40.0f;
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	
+	auto timeline = PlayerCharacter->AddComponent <TimelineComponent>();
+	
+
 	TheWorld.AddEntity(PlayerCharacter);
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -800,6 +831,9 @@ void BattleScene::Init_Chara()
 	enemyCameraArm->Yaw = 180.0f + 30.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+
+
 
 	TheWorld.AddEntity(EnemyCharacter);
 
