@@ -1267,6 +1267,58 @@ void MultiBattleScene::TurnEndProcess()
 		(*session)->Send(sendBuf);
 	}
 
+	{	// moveClicked, movementPoint
+		if (gpHost != nullptr && gpHost->IsConnected())
+		{
+			//moveclicked
+			{
+				protocol::S_MOVECLICKED p1MoveClicked;
+				p1MoveClicked.set_bmoveclick(true);
+
+				auto sendBuf = ServerPacketHandler::MakeSendBuffer(p1MoveClicked);
+				auto session = gpHost->GetService()->GetSessions().begin();
+				(*session)->Send(sendBuf);
+			}
+
+			//movementPoint
+			{
+				protocol::S_MOVETOPOINT p1Point;
+				p1Point.set_vecx(0.0f);
+				p1Point.set_vecy(0.0f);
+				p1Point.set_vecz(0.0f);
+
+				auto sendBuf = ServerPacketHandler::MakeSendBuffer(p1Point);
+				auto session = gpHost->GetService()->GetSessions().begin();
+				(*session)->Send(sendBuf);
+			}
+		}
+		if (gpClient != nullptr && gpClient->IsConnected())
+		{
+			//moveclicked
+			{
+				protocol::C_MOVECLICKED p2MoveClicked;
+				p2MoveClicked.set_bmoveclick(true);
+
+				auto sendBuf = ClientPacketHandler::MakeSendBuffer(p2MoveClicked);
+				auto session = gpClient->GetClientservice()->GetSessions().begin();
+				(*session)->Send(sendBuf);
+			}
+
+			//movementPoint
+			{
+				protocol::C_MOVETOPOINT p2Point;
+				p2Point.set_vecx(0.0f);
+				p2Point.set_vecy(0.0f);
+				p2Point.set_vecz(0.0f);
+
+				auto sendBuf = ClientPacketHandler::MakeSendBuffer(p2Point);
+				auto session = gpClient->GetClientservice()->GetSessions().begin();
+				(*session)->Send(sendBuf);
+			}
+		}
+	}
+}
+
 	SoundMap.find(L"TurnEnd")->second->Play();	// 턴종 소리
 	for (int card = 0; card < MyDeck->HandList.size(); card++)	// 카드들 화면 밖으로 날리는 애니메이션	
 	{

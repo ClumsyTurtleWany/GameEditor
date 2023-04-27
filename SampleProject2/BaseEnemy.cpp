@@ -51,10 +51,10 @@ bool BaseEnemy::Init()
 	HpEmpty = wc->FindObj(L"Empty");
 	HpFull = wc->FindObj(L"Full");
 	HpEmpty->MainCamera = MainCamera;
-	HpEmpty->m_b3D = true;
+	///HpEmpty->m_b3D = true;
 	HpEmpty->scale = 5.0f;
 	HpFull->MainCamera = MainCamera;
-	HpFull->m_b3D = true;
+	//HpFull->m_b3D = true;
 	HpFull->scale = 5.0f;
 
 	// 프로그레스 바를 위해서 좌상단 원점으로 바꿔줌
