@@ -76,6 +76,7 @@ bool BattleScene::Init()
 	enemy1->NumberTextureList_Black = NumberTextureList_Black;
 	enemy1->Name->m_pCutInfoList[0]->tc = TextTextureList.find(L"enemy1")->second;
 	EnemyList.push_back(enemy1);
+	AllEnemyList.push_back(enemy1);
 	enemy2 = new Enemy_2;
 	enemy2->pWorld = &TheWorld;
 	enemy2->MainCamera = MainCamera;
@@ -84,11 +85,12 @@ bool BattleScene::Init()
 	enemy2->NumberTextureList_Black = NumberTextureList_Black;
 	enemy2->Name->m_pCutInfoList[0]->tc = TextTextureList.find(L"enemy2")->second;
 	EnemyList.push_back(enemy2);
+	AllEnemyList.push_back(enemy2);
 
 	// 잘죽는지 테스트용
 	// player->hp = 1;
-	// enemy1->hp = 5;
-	// enemy2->hp = 10;
+	 enemy1->hp = 5;
+	 enemy2->hp = 10;
 
 
 	Init_Sound();
@@ -729,7 +731,7 @@ void BattleScene::Init_Chara()
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire);
 	//좀쎈사격
-	soundFrame = 22;
+	soundFrame = 20;
 	Notifier* Fire2_ready = notiMgr->CreateNotifier(L"Fire2_ready", soundFrame - delayFrame);
 	Notifier* Fire2 = notiMgr->CreateNotifier(L"Fire2", soundFrame);
 	notiMgr->MakeSound(L"Fire2", L"Fire2.mp3", 1.0f, false);
@@ -1040,6 +1042,24 @@ void BattleScene::Init_Sound()
 		Sound->Stop();
 		SoundMap.insert(std::make_pair(L"LockOn", Sound));
 	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Shield.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Shield.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Shield", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Shield2.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Shield2.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Shield2", Sound));
+	}
 }
 
 // 카메라 위치 세팅, 이 함수는 플레이어 캐릭터 우상단으로 카메라 위치를 셋팅함
@@ -1107,7 +1127,7 @@ void BattleScene::NotifierCheck()
 	}
 
 	// 적 행동에서 발생한 노티파이를 기준으로 실행, 얘도 아마 적턴에만 ㅇㅇ
-	for (auto enemy : EnemyList) 
+	for (auto enemy : AllEnemyList)
 	{
 		for (auto noti : enemy->chara->GetComponent<AnimationComponent>()->CurrentClip->NotifierList)
 		{
@@ -1428,6 +1448,7 @@ void BattleScene::CardCheck()
 
 				PAnime->SetClipByName(L"Inward_Block");
 				PlayEffect(&TheWorld, L"Shield1", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+				SoundMap.find(L"Shield")->second->Play();
 			}break;
 
 			case PommelStrike:
@@ -1455,6 +1476,7 @@ void BattleScene::CardCheck()
 
 					PAnime->SetClipByName(L"Inward_Block");
 					PlayEffect(&TheWorld, L"Shield1", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+					SoundMap.find(L"Shield2")->second->Play();
 				}
 			}break;
 
@@ -1674,7 +1696,7 @@ void BattleScene::UpdatePlayerState()
 
 void BattleScene::UpdateEnemyState()
 {
-	for (auto enemy : EnemyList) { enemy->UpdateState(); }
+	for (auto enemy : AllEnemyList) { enemy->UpdateState(); }
 }
 
 void BattleScene::DeadCheck()
@@ -1685,14 +1707,11 @@ void BattleScene::DeadCheck()
 	}
 	else
 	{
-		//for (auto enemy : EnemyList)
-		//{
-		//	if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
-		//}
-
-		// 살아있는 적 리스트, 원래 있던 모든 적 리스트를 따로 만들어야 할 것 같은데 몰라 일단 하드코딩해
-		if (enemy1->hp > 0 || enemy1->chara->GetComponent<AnimationComponent>()->IsInAction()) return;
-		else if (enemy2->hp > 0 || enemy2->chara->GetComponent<AnimationComponent>()->IsInAction()) return;
+		for (auto enemy : AllEnemyList)
+		{
+			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
+			else if (player->chara->GetComponent<AnimationComponent>()->IsInAction()) { return; }	// 플레이어가 행동중이어도 안끝나게, 그,, 노티파이맞추면서암튼이래야함
+		}
 		SS = CLEAR;
 	}
 }

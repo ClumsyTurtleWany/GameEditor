@@ -45,6 +45,7 @@ public:
 public:
 	Player* player;
 	std::vector<BaseEnemy*> EnemyList;
+	std::vector<BaseEnemy*> AllEnemyList;
 	Enemy_1* enemy1;
 	Enemy_2* enemy2;
 
