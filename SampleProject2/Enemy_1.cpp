@@ -13,7 +13,6 @@ bool Enemy_1::Init()
 
 int Enemy_1::patern(Player* player, int turn)
 {
-    auto PAnime = player->chara->GetComponent<AnimationComponent>();
     auto EAnime = chara->GetComponent<AnimationComponent>();
     int  damage = 0;
 
@@ -32,9 +31,7 @@ int Enemy_1::patern(Player* player, int turn)
         {
             attackCalculate(player, 5);
             damage = 5;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Kick");
-            //EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack1");
         }
     }break;
 
@@ -44,9 +41,7 @@ int Enemy_1::patern(Player* player, int turn)
         {
             attackCalculate(player, 10);
             damage = 10;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Kick");
-            //EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack2");
         }
     }break;
 
@@ -56,9 +51,7 @@ int Enemy_1::patern(Player* player, int turn)
         {
             attackCalculate(player, 15);
             damage = 15;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Kick");
-            //EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack3");
         }
     }break;
 
@@ -140,7 +133,6 @@ bool Enemy_2::Init()
 
 int Enemy_2::patern(Player* player, int turn)
 {
-    auto PAnime = player->chara->GetComponent<AnimationComponent>();
     auto EAnime = chara->GetComponent<AnimationComponent>();
     int  damage = 0;
 
@@ -158,8 +150,7 @@ int Enemy_2::patern(Player* player, int turn)
         {
             attackCalculate(player, 4);
             damage = 4;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack1");
         }
     }break;
 
@@ -169,8 +160,7 @@ int Enemy_2::patern(Player* player, int turn)
         {
             attackCalculate(player, 6);
             damage = 6;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack2");
         }
     }break;
 
@@ -180,8 +170,7 @@ int Enemy_2::patern(Player* player, int turn)
         {
             attackCalculate(player, 12);
             damage = 12;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack3");
         }
     }break;
 

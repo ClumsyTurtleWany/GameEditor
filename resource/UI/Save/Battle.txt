@@ -212,7 +212,7 @@ OrginPos	-0.573751 0.475000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 80.000000 116.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 110.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	23
@@ -221,7 +221,7 @@ OrginPos	-0.450000 0.475000
 Depth	0.000000
 Alpha	1.000000
 CutNum	1
-CutInfo	0 | 80.000000 116.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
+CutInfo	0 | 110.000000 140.000000 | 0.000000 0.000000 1.000000 1.000000 | D:\GitHub\GameEditor\resource\UI\Image\0.png | ../../data/shader/DefaultObject_Orgin.txt
 =
 Type	0
 ID	24

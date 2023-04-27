@@ -55,6 +55,9 @@ public:
 	BaseEnemy* InActionEnemy = nullptr;
 	int		   InActionEnemyNum = 0;
 
+	int	PlayerDamage = 0;
+	int	EnemyDamage = 0;
+
 public:
 	Camera* CurrentCamera;
 	Camera* MoveCamera;
