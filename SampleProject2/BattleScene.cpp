@@ -810,19 +810,23 @@ void BattleScene::Init_Chara()
 	// 펀치
 	soundFrame = 40;
 	Notifier* E1A1 = notiMgr->CreateNotifier(L"E1A1", soundFrame);		// Enemy1 Attack1
-	notiMgr->MakeSound(L"E1A1", L"Attack_Bludgeon.ogg", 1.0f, false);	// 좀 긁는? 써는듯한? 소리로 바꾸고싶음 걍 씨발 좀 찾지 뭐 얼마나 걸린다고
+	notiMgr->MakeSound(L"E1A1", L"E1A1.ogg", 1.0f, false);	
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack1", E1A1);
 	// 킦꾸
 	soundFrame = 25;
 	Notifier* E1A2 = notiMgr->CreateNotifier(L"E1A2", soundFrame);
-	notiMgr->MakeSound(L"E1A2", L"Attack_Bludgeon.ogg", 1.0f, false);	// 소리는 나중에 찾고 일단 돌려막아
+	notiMgr->MakeSound(L"E1A2", L"Attack_Bludgeon.ogg", 1.0f, false);	
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack2", E1A2);
 	// 쑤꾸림(비명)
 	soundFrame = 60;
 	Notifier* E1A3 = notiMgr->CreateNotifier(L"E1A3", soundFrame);
-	notiMgr->MakeSound(L"E1A3", L"Attack_Bludgeon.ogg", 1.0f, false);	// 얘는 진짜 소리 찾아서 바꿔야함ㅋㅋ
+	notiMgr->MakeSound(L"E1A3", L"E1A3.mp3", 1.0f, false);	
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack3", E1A3);
-
+	// 사망, 소리붙이려고
+	soundFrame = 1;
+	Notifier* E1Defeat = notiMgr->CreateNotifier(L"E1Defeat", soundFrame);
+	notiMgr->MakeSound(L"E1Defeat", L"E1Defeat.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*enemyCharAnimComp, L"Dying", E1Defeat);
 
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
 	enemyCharTransformComp->Scale = Vector3(15.0f, 15.0f, 15.0f);
@@ -879,19 +883,23 @@ void BattleScene::Init_Chara()
 	// 쎄게긁기
 	soundFrame = 39;
 	Notifier* E2A1 = notiMgr->CreateNotifier(L"E2A1", soundFrame);		// Enemy2 Attack1
-	notiMgr->MakeSound(L"E2A1", L"Attack_Bludgeon.ogg", 1.0f, false);
+	notiMgr->MakeSound(L"E2A1", L"E2A1.wav", 1.0f, false);
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack1", E2A1);
 	// 살짝긁기
 	soundFrame = 31;
 	Notifier* E2A2 = notiMgr->CreateNotifier(L"E2A2", soundFrame);
-	notiMgr->MakeSound(L"E2A2", L"Attack_Bludgeon.ogg", 1.0f, false);	
+	notiMgr->MakeSound(L"E2A2", L"E2A2.mp3", 1.0f, false);	
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack2", E2A2);
 	// 중간긁기
 	soundFrame = 31;
 	Notifier* E2A3 = notiMgr->CreateNotifier(L"E2A3", soundFrame);
-	notiMgr->MakeSound(L"E2A3", L"Attack_Bludgeon.ogg", 1.0f, false);	 
+	notiMgr->MakeSound(L"E2A3", L"E2A3.mp3", 1.0f, false);	 
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack3", E2A3);
-
+	// 사망, 소리붙이려고
+	soundFrame = 1;
+	Notifier* E2Defeat = notiMgr->CreateNotifier(L"E2Defeat", soundFrame);
+	notiMgr->MakeSound(L"E2Defeat", L"E2Defeat.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Dying", E2Defeat);
 
 	auto Enemy2_CharTransformComp = EnemyCharacter2->GetComponent<TransformComponent>();
 	Enemy2_CharTransformComp->Scale = Vector3(13.0f, 13.0f, 13.0f);
@@ -988,6 +996,24 @@ void BattleScene::Init_Effect()
 
 void BattleScene::Init_Sound()
 {
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/TurnEnd.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"TurnEnd.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"TurnEnd", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Shield.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Shield.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Shield", Sound));
+	}
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Attack_Bludgeon.ogg", SoundType::BGM))
 	{
 		FMODSound* Hit1 = FMODSoundManager::GetInstance()->GetSound(L"Attack_Bludgeon.ogg");
@@ -1042,15 +1068,6 @@ void BattleScene::Init_Sound()
 		Sound->Stop();
 		SoundMap.insert(std::make_pair(L"LockOn", Sound));
 	}
-	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Shield.ogg", SoundType::BGM))
-	{
-		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Shield.ogg");
-		Sound->Play();
-		Sound->SetVolume(1.0);
-		Sound->SetLoop(false);
-		Sound->Stop();
-		SoundMap.insert(std::make_pair(L"Shield", Sound));
-	}
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Shield2.ogg", SoundType::BGM))
 	{
 		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Shield2.ogg");
@@ -1059,6 +1076,69 @@ void BattleScene::Init_Sound()
 		Sound->SetLoop(false);
 		Sound->Stop();
 		SoundMap.insert(std::make_pair(L"Shield2", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E1A1.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E1A1.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E1A1", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E1A3.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E1A3.mp3");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E1A3", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2A1.wav", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2A1.wav");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2A1", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E1Defeat.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E1Defeat.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E1Defeat", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2A2.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2A2.mp3");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2A2", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2A3.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2A3.mp3");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2A3", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2Defeat.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2Defeat.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2Defeat", Sound));
 	}
 }
 
@@ -1214,6 +1294,8 @@ void BattleScene::TurnStartProcess()
 
 void BattleScene::TurnEndProcess()
 {
+	SoundMap.find(L"TurnEnd")->second->Play();
+
 	TurnNum++;
 
 	for (int card = 0; card < Dick->HandList.size(); card++)
