@@ -222,6 +222,14 @@
     <ClInclude Include="SaveLoadSystem.h">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationNotifier.h" />
+    <ClInclude Include="TimelineComponent.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="NotifySystem.h">
+      <Filter>System</Filter>
+    </ClInclude>
+    <ClInclude Include="TimelineSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -341,6 +349,11 @@
     <ClCompile Include="SaveLoadSystem.cpp">
       <Filter>System</Filter>
     </ClCompile>
+    <ClCompile Include="AnimationNotifier.cpp" />
+    <ClCompile Include="TimelineComponent.cpp">
+      <Filter>Component\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="TimelineSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">
