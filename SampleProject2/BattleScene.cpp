@@ -79,6 +79,7 @@ bool BattleScene::Init()
 	enemy1->NumberTextureList_Black = NumberTextureList_Black;
 	enemy1->Name->m_pCutInfoList[0]->tc = TextTextureList.find(L"enemy1")->second;
 	EnemyList.push_back(enemy1);
+	AllEnemyList.push_back(enemy1);
 	enemy2 = new Enemy_2;
 	enemy2->pWorld = &TheWorld;
 	enemy2->MainCamera = MainCamera;
@@ -87,11 +88,12 @@ bool BattleScene::Init()
 	enemy2->NumberTextureList_Black = NumberTextureList_Black;
 	enemy2->Name->m_pCutInfoList[0]->tc = TextTextureList.find(L"enemy2")->second;
 	EnemyList.push_back(enemy2);
+	AllEnemyList.push_back(enemy2);
 
 	// 잘죽는지 테스트용
 	// player->hp = 1;
-	// enemy1->hp = 5;
-	// enemy2->hp = 10;
+	 enemy1->hp = 5;
+	 enemy2->hp = 10;
 
 
 	Init_Sound();
@@ -218,6 +220,7 @@ bool BattleScene::Frame()
 		MAIN_PICKER.pSelectedCircleUIEntity->GetComponent<ParticleEffectComponent>()->m_pPPsystem->m_PSProp.bShow = false;
 	}
 
+	// A키 누르면 타겟변경
 	KeyState btnA = Input::GetInstance()->getKey('A');
 	if (btnA == KeyState::Down)
 	{
@@ -274,6 +277,8 @@ bool BattleScene::Frame()
 			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
 			MainCameraSystem->TargetCamera = MoveCamera;
 			
+			// 락온 사운드 출력
+			SoundMap.find(L"LockOn")->second->Play();
 		}
 	}
 
@@ -706,11 +711,12 @@ void BattleScene::Init_Chara()
 
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Run.clp", playerCharAnimComp);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Idle.clp", playerCharAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Shooting.clp", playerCharAnimComp, false);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Hit.clp", playerCharAnimComp, false);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Dying.clp", playerCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Shooting.clp", playerCharAnimComp, false);	// 일반사격
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Gunplay.clp", playerCharAnimComp, false);	// 좀쎈사격
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Pistol_Whip.clp", playerCharAnimComp, false); // 죽탱이
-	//FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Inward_Block.clp", playerCharAnimComp, false); // 가드
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Adam/Adam_anim/Inward_Block.clp", playerCharAnimComp, false); // 가드
 	playerCharAnimComp->SetClipByName(L"Idle");
 
 	///////////////// NOTIFIER 사용 예제/////////////////
@@ -739,15 +745,33 @@ void BattleScene::Init_Chara()
 	////		 AddNotifier(애니메이션 컴포넌트 , 해당 컴포넌트가 들고 있는 애니메이션 클립의 이름 , 생성한 노티파이어)
 	//notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti);
 	//notiMgr->AddNotifier(*playerCharAnimComp, L"Run", newNoti2);
-
-
+	
+	// 노티파이 설정
+	int soundFrame = 0;
+	int delayFrame = 0;
 	auto notiMgr = PlayerCharacter->AddComponent<NotifierMgrComponent>();
-	Notifier* Fire_ready = notiMgr->CreateNotifier(L"Fire_ready", 3);
-	Notifier* Fire = notiMgr->CreateNotifier(L"Fire", 6);
-	notiMgr->MakeSound(L"Fire", L"Fire1.mp3", 0.5f, false);
+	delayFrame = 5;
+	// 일반사격
+	soundFrame = 6;
+	Notifier* Fire_ready = notiMgr->CreateNotifier(L"Fire_ready", soundFrame - delayFrame);
+	Notifier* Fire = notiMgr->CreateNotifier(L"Fire", soundFrame);
+	notiMgr->MakeSound(L"Fire", L"Fire1.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire);
-
+	//좀쎈사격
+	soundFrame = 20;
+	Notifier* Fire2_ready = notiMgr->CreateNotifier(L"Fire2_ready", soundFrame - delayFrame);
+	Notifier* Fire2 = notiMgr->CreateNotifier(L"Fire2", soundFrame);
+	notiMgr->MakeSound(L"Fire2", L"Fire2.mp3", 1.0f, false);
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Gunplay", Fire2_ready);
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Gunplay", Fire2);
+	// 손잡이 후리기
+	soundFrame = 17;
+	Notifier* Strike_ready = notiMgr->CreateNotifier(L"Strike_ready", soundFrame - delayFrame);
+	Notifier* Strike = notiMgr->CreateNotifier(L"Strike", soundFrame);
+	notiMgr->MakeSound(L"Strike", L"Attack_Strike.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Pistol_Whip", Strike_ready);
+	notiMgr->AddNotifier(*playerCharAnimComp, L"Pistol_Whip", Strike);
 
 
 	// 소켓 컴포넌트 추가
@@ -768,9 +792,12 @@ void BattleScene::Init_Chara()
 	playerCharTransformComp->Scale = Vector3(15.f, 15.f, 15.f);
 	playerCharTransformComp->Rotation = Vector3(0.0f, -90.0f, 0.0f);
 	playerCharTransformComp->Translation = Vector3(-100.0f, 0.0f, 0.0f);
+	//playerCharTransformComp->Translation = Vector3(10.0f, 0.0f, 0.0f);
+
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
 	playerCharMovementComp->Speed = 50.0f;
 	PlayerCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
+	
 	//Picking Info Test
 	playerCharMeshComp->Name = "player";
 	////////////// Bounding Box Add /////////////////
@@ -800,21 +827,47 @@ void BattleScene::Init_Chara()
 	auto enemyCharAnimComp = EnemyCharacter->AddComponent<AnimationComponent>();
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Run.clp", enemyCharAnimComp);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Idle.clp", enemyCharAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Kick.clp", enemyCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Attack1.clp", enemyCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Attack2.clp", enemyCharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Attack3.clp", enemyCharAnimComp, false);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Hit.clp", enemyCharAnimComp, false);
 	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Monster/Monster_anim/Dying.clp", enemyCharAnimComp, false);
-
 	enemyCharAnimComp->SetClipByName(L"Idle");
 
+	// 노티파이 설정
+	notiMgr = EnemyCharacter->AddComponent<NotifierMgrComponent>();
+	delayFrame = 5;
+	// 플레이어 캐릭터 1은 미리 맞는 애니 없어도 ㄱㅊ은듯? 멀티가면 어케될지 모르지
+	// 펀치
+	soundFrame = 40;
+	Notifier* E1A1 = notiMgr->CreateNotifier(L"E1A1", soundFrame);		// Enemy1 Attack1
+	notiMgr->MakeSound(L"E1A1", L"E1A1.ogg", 1.0f, false);	
+	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack1", E1A1);
+	// 킦꾸
+	soundFrame = 25;
+	Notifier* E1A2 = notiMgr->CreateNotifier(L"E1A2", soundFrame);
+	notiMgr->MakeSound(L"E1A2", L"Attack_Bludgeon.ogg", 1.0f, false);	
+	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack2", E1A2);
+	// 쑤꾸림(비명)
+	soundFrame = 60;
+	Notifier* E1A3 = notiMgr->CreateNotifier(L"E1A3", soundFrame);
+	notiMgr->MakeSound(L"E1A3", L"E1A3.mp3", 1.0f, false);	
+	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack3", E1A3);
+	// 사망, 소리붙이려고
+	soundFrame = 1;
+	Notifier* E1Defeat = notiMgr->CreateNotifier(L"E1Defeat", soundFrame);
+	notiMgr->MakeSound(L"E1Defeat", L"E1Defeat.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*enemyCharAnimComp, L"Dying", E1Defeat);
+
 	auto enemyCharTransformComp = EnemyCharacter->GetComponent<TransformComponent>();
-
-
-	enemyCharTransformComp->Scale = Vector3(10.f, 10.f, 10.f);
+	enemyCharTransformComp->Scale = Vector3(15.0f, 15.0f, 15.0f);
 	enemyCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
 	enemyCharTransformComp->Translation = Vector3(100.0f, 0.0f, 0.0f);
+	//enemyCharTransformComp->Translation =  Vector3(40.0f, 0.0f, 0.0f);
 
 	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
-	E1MC->Speed = 40.0f;
+	//E1MC->Speed = 40.0f;
+	E1MC->Speed = 30.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
@@ -846,26 +899,51 @@ void BattleScene::Init_Chara()
 	Character* EnemyCharacter2 = new Character;
 	enemy2->chara = EnemyCharacter2;
 
-	auto player_BCharMeshComp = EnemyCharacter2->AddComponent<SkeletalMeshComponent>();
-	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Wolverine/WOLVERINE.skm", player_BCharMeshComp);
+	auto Enemy2_MeshComp = EnemyCharacter2->AddComponent<SkeletalMeshComponent>();
+	FBXLoader::GetInstance()->LoadSkeletalMesh("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange.skm", Enemy2_MeshComp);
 
+	auto Enemy2_CharAnimComp = EnemyCharacter2->AddComponent<AnimationComponent>();
 
-	auto player_BCharAnimComp = EnemyCharacter2->AddComponent<AnimationComponent>();
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange_anim/Run.clp", Enemy2_CharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange_anim/Idle.clp", Enemy2_CharAnimComp);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange_anim/Attack1.clp", Enemy2_CharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange_anim/Attack2.clp", Enemy2_CharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange_anim/Attack3.clp", Enemy2_CharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange_anim/Hit.clp", Enemy2_CharAnimComp, false);
+	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Skeletonzombie_T_Avelange/Skeletonzombie_T_Avelange_anim/Dying.clp", Enemy2_CharAnimComp, false);
 
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Run.clp", player_BCharAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Idle.clp", player_BCharAnimComp);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Attack.clp", player_BCharAnimComp, false);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Hit.clp", player_BCharAnimComp, false);
-	FBXLoader::GetInstance()->LoadAnimClip("../resource/FBX/Wolverine/Wolverine_anim/Dying.clp", player_BCharAnimComp, false);
+	// 노티파이 설정
+	notiMgr = EnemyCharacter2->AddComponent<NotifierMgrComponent>();
+	// 쎄게긁기
+	soundFrame = 39;
+	Notifier* E2A1 = notiMgr->CreateNotifier(L"E2A1", soundFrame);		// Enemy2 Attack1
+	notiMgr->MakeSound(L"E2A1", L"E2A1.wav", 1.0f, false);
+	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack1", E2A1);
+	// 살짝긁기
+	soundFrame = 31;
+	Notifier* E2A2 = notiMgr->CreateNotifier(L"E2A2", soundFrame);
+	notiMgr->MakeSound(L"E2A2", L"E2A2.mp3", 1.0f, false);	
+	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack2", E2A2);
+	// 중간긁기
+	soundFrame = 31;
+	Notifier* E2A3 = notiMgr->CreateNotifier(L"E2A3", soundFrame);
+	notiMgr->MakeSound(L"E2A3", L"E2A3.mp3", 1.0f, false);	 
+	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack3", E2A3);
+	// 사망, 소리붙이려고
+	soundFrame = 1;
+	Notifier* E2Defeat = notiMgr->CreateNotifier(L"E2Defeat", soundFrame);
+	notiMgr->MakeSound(L"E2Defeat", L"E2Defeat.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Dying", E2Defeat);
 
+	auto Enemy2_CharTransformComp = EnemyCharacter2->GetComponent<TransformComponent>();
+	Enemy2_CharTransformComp->Scale = Vector3(13.0f, 13.0f, 13.0f);
+	Enemy2_CharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
+	Enemy2_CharTransformComp->Translation = Vector3(70.0f, 0.0f, 100.0f);
+	//Enemy2_CharTransformComp->Translation = Vector3(20.0f, 0.0f, 70.0f);
 
-	auto player_BCharTransformComp = EnemyCharacter2->GetComponent<TransformComponent>();
-	player_BCharTransformComp->Scale = Vector3(13.f, 13.f, 13.f);
-	player_BCharTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-	player_BCharTransformComp->Translation = Vector3(70.0f, 0.0f, 100.0f);
-
-	auto player_BCharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
-	player_BCharMovementComp->Speed = 50.0f;
+	auto Enemy2_CharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
+	//Enemy2_CharMovementComp->Speed = 50.0f;
+	Enemy2_CharMovementComp->Speed = 30.0f;
 	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
@@ -874,9 +952,9 @@ void BattleScene::Init_Chara()
 	// 적 캐릭터 용 카메라 및 카메라 암
 	auto enemyCamera2 = EnemyCharacter2->AddComponent<Camera>();
 	auto enemyCameraArm2 = EnemyCharacter2->AddComponent<CameraArmComponent>();
-	enemyCameraArm->Distance = 50.0f;
-	enemyCameraArm->Pitch = 35.0f;
-	enemyCameraArm->Yaw = 180.0f + 30.0f;
+	enemyCameraArm2->Distance = 50.0f;
+	enemyCameraArm2->Pitch = 35.0f;
+	enemyCameraArm2->Yaw = 180.0f + 30.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
@@ -932,11 +1010,11 @@ void BattleScene::Init_Effect()
 	//testEffectTransform1->Translation = { 10.0f, 50.0f, 0.0f };
 	//testEffectTransform2->Translation = { 20.0f, 50.0f, 0.0f };
 	//testEffectTransform3->Translation = { 30.0f, 50.0f, 0.0f };
-	//testEffectTransform4->Translation = { 40.0f, 50.0f, 0.0f };
-	//testEffectTransform5->Translation = { 50.0f, 50.0f, 0.0f };
-	//testEffectTransform6->Translation = { 60.0f, 50.0f, 0.0f };
-	//testEffectTransform7->Translation = { 70.0f, 50.0f, 0.0f };
-	//testEffectTransform8->Translation = { 80.0f, 50.0f, 0.0f };
+	//testEffectTransform4->Translation = { 40.0f, 20.0f, 0.0f };
+	//testEffectTransform5->Translation = { 50.0f, 20.0f, 0.0f };
+	//testEffectTransform6->Translation = { 60.0f, 20.0f, 0.0f };
+	//testEffectTransform7->Translation = { 70.0f, 20.0f, 0.0f };
+	//testEffectTransform8->Translation = { 80.0f, 20.0f, 0.0f };
 
 	//TheWorld.AddEntity(testEffect1);
 	//TheWorld.AddEntity(testEffect2);
@@ -952,6 +1030,24 @@ void BattleScene::Init_Effect()
 
 void BattleScene::Init_Sound()
 {
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/TurnEnd.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"TurnEnd.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"TurnEnd", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Shield.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Shield.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Shield", Sound));
+	}
 	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Attack_Bludgeon.ogg", SoundType::BGM))
 	{
 		FMODSound* Hit1 = FMODSoundManager::GetInstance()->GetSound(L"Attack_Bludgeon.ogg");
@@ -997,6 +1093,87 @@ void BattleScene::Init_Sound()
 		Sound->Stop();
 		SoundMap.insert(std::make_pair(L"Fire3", Sound));
 	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/LockOn.wav", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"LockOn.wav");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"LockOn", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/Shield2.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"Shield2.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"Shield2", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E1A1.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E1A1.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E1A1", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E1A3.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E1A3.mp3");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E1A3", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2A1.wav", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2A1.wav");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2A1", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E1Defeat.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E1Defeat.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E1Defeat", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2A2.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2A2.mp3");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2A2", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2A3.mp3", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2A3.mp3");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2A3", Sound));
+	}
+	if (FMODSoundManager::GetInstance()->Load(L"../resource/Sound/Effect/E2Defeat.ogg", SoundType::BGM))
+	{
+		FMODSound* Sound = FMODSoundManager::GetInstance()->GetSound(L"E2Defeat.ogg");
+		Sound->Play();
+		Sound->SetVolume(1.0);
+		Sound->SetLoop(false);
+		Sound->Stop();
+		SoundMap.insert(std::make_pair(L"E2Defeat", Sound));
+	}
 }
 
 // 카메라 위치 세팅, 이 함수는 플레이어 캐릭터 우상단으로 카메라 위치를 셋팅함
@@ -1031,34 +1208,84 @@ void BattleScene::NotifierCheck()
 		{
 			if (noti->Lable == L"Fire_ready") 
 			{
-				// if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
+				if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
 			}
 			else if (noti->Lable == L"Fire")
 			{
-				if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
-
-				//Vector3 EffectPos = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
-				Vector3 EffectPos = TargetEnemy->chara->GetComponent<MovementComponent>()->Location;
-				EffectPos.y += TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center.y;
-				PlayEffect(&TheWorld, L"Hit5", { EffectPos, Vector3(), {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+				PlayEffect(&TheWorld, L"Hit5", { TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
+				if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
 			}
+			else if (noti->Lable == L"Fire2_ready")
+			{
+				if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
+			}
+			else if (noti->Lable == L"Fire2")
+			{
+				PlayEffect(&TheWorld, L"Hit5", { TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {4.0f, 4.0f, 4.0f} }, { false, 0.5f, 0.2f, 1.0f });
+				if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
+			}
+			else if (noti->Lable == L"Strike_ready")
+			{
+				if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
+			}
+			else if (noti->Lable == L"Strike")
+			{
+				Vector3 EffectPos = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+				EffectPos.y += 5.0f;
+				PlayEffect(&TheWorld, L"Hit5", { EffectPos, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
+				if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
+			}
+
+			UpdateEnemyState();
 		}
 	}
 
 	// 적 행동에서 발생한 노티파이를 기준으로 실행, 얘도 아마 적턴에만 ㅇㅇ
-	for (auto enemy : EnemyList) 
+	for (auto enemy : AllEnemyList)
 	{
 		for (auto noti : enemy->chara->GetComponent<AnimationComponent>()->CurrentClip->NotifierList)
 		{
 			if (noti->IsOn)
 			{
-				if (noti->Lable == L"Fire")
+				if (noti->Lable == L"E1A1") // 적1 후리기
 				{
+					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
+					PlayEffect(&TheWorld, L"Hit3", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
 				}
-				else if (noti->Lable == L"Fire")
+				else if (noti->Lable == L"E1A2") // 적1 발차기
 				{
+					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
+					PlayEffect(&TheWorld, L"Hit5", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
+				}
+				else if (noti->Lable == L"E1A3")	// 적1 비명
+				{
+					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
+					PlayEffect(&TheWorld, L"Hit5", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 2.5f, 0.2f, 1.0f });
+					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
+				}
+				if (noti->Lable == L"E2A1")	// 적2 강긁기
+				{
+					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
+					PlayEffect(&TheWorld, L"Hit1", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
+				}
+				if (noti->Lable == L"E2A2") // 적2 약긁기
+				{
+					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
+					PlayEffect(&TheWorld, L"Hit2", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
+				}
+				if (noti->Lable == L"E2A3") // 적2 중긁기
+				{
+					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
+					PlayEffect(&TheWorld, L"Hit3", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
 				}
 			}
+
+			UpdatePlayerState();
 		}
 	}
 }
@@ -1101,6 +1328,8 @@ void BattleScene::TurnStartProcess()
 
 void BattleScene::TurnEndProcess()
 {
+	SoundMap.find(L"TurnEnd")->second->Play();
+
 	TurnNum++;
 
 	for (int card = 0; card < Dick->HandList.size(); card++)
@@ -1159,13 +1388,8 @@ void BattleScene::EnemyAttackAnimProcess()
 		// 이동이 끝나고, 적이 아직 행동하지 않았을 경우
 		else if (InActionEnemy->doMove && !InActionEnemy->chara->MovementComp->IsMoving && !InActionEnemy->doAction)
 		{
-			int damage = InActionEnemy->patern(player, TurnNum);
-			if (damage > 0) { DamageAnimation(damage, false); }
-			UpdatePlayerState();
+			EnemyDamage = InActionEnemy->patern(player, TurnNum);
 			UpdateEnemyState();
-
-			PlayEffect(&TheWorld, L"Hit5", { {0.0f, 10.0f, 0.0f}, {0.0f, 0.0f, 0.0f}, {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
-			SoundMap.find(L"Hit2")->second->Play();
 
 			// 카메라 워크
 			Vector3 t1 = player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
@@ -1228,7 +1452,7 @@ void BattleScene::MoveProcess()
 		{
 			// 거리가 일정 수치 이상이면 이동불가
 			Vector3 Forward = player->chara->Transform->Translation - MAIN_PICKER.vIntersection;
-			float CanMoveRange = 150.0f; // 수치 설정
+			float CanMoveRange = 100.0f; // 수치 설정
 			float Distance = Forward.Length();
 			if (Distance < CanMoveRange) 
 			{
@@ -1323,7 +1547,7 @@ void BattleScene::CardCheck()
 				if (ManaCheck(1))
 				{
 					TargetEnemy->hp -= 6;
-					DamageAnimation(6, true);
+					PlayerDamage = 6;
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Shooting");
@@ -1337,6 +1561,10 @@ void BattleScene::CardCheck()
 					player->armor += 5;
 					CanUse = true;
 				}
+
+				PAnime->SetClipByName(L"Inward_Block");
+				PlayEffect(&TheWorld, L"Shield1", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+				SoundMap.find(L"Shield")->second->Play();
 			}break;
 
 			case PommelStrike:
@@ -1344,12 +1572,12 @@ void BattleScene::CardCheck()
 				if (ManaCheck(1))
 				{
 					TargetEnemy->hp -= 9;
-					DamageAnimation(9, true);
+					PlayerDamage = 9;
 					Dick->Draw(1);
 					DrawedCard = 1;
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Shooting");
+					PAnime->SetClipByName(L"Gunplay");
 				}
 			}break;
 
@@ -1361,6 +1589,10 @@ void BattleScene::CardCheck()
 					Dick->Draw(1);
 					DrawedCard = 1;
 					CanUse = true;
+
+					PAnime->SetClipByName(L"Inward_Block");
+					PlayEffect(&TheWorld, L"Shield1", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+					SoundMap.find(L"Shield2")->second->Play();
 				}
 			}break;
 
@@ -1379,11 +1611,11 @@ void BattleScene::CardCheck()
 				if (ManaCheck(1))
 				{
 					TargetEnemy->hp -= 5;
-					DamageAnimation(5, true);
+					PlayerDamage = 5;
 					player->armor += 5;
 					CanUse = true;
 
-					PAnime->SetClipByName(L"Shooting");
+					PAnime->SetClipByName(L"Pistol_Whip");
 				}
 			}break;
 
@@ -1394,7 +1626,7 @@ void BattleScene::CardCheck()
 				Dick->Use(cardNum);
 				UpdateHand(Dick->HandList.size(), cardNum, DrawedCard);
 				UpdatePlayerState();
-				UpdateEnemyState();
+				// UpdateEnemyState();		// 여기서 빼고 노티파이에서 처리해도 무방한가?
 				if (TargetEnemy->hp <= 0) 
 				{
 					// 적 캐릭터가 죽었다면 적 리스트에서 빼줌
@@ -1429,6 +1661,8 @@ void BattleScene::CardCheck()
 // 데미지 애니메이션, 
 void BattleScene::DamageAnimation(int damage, bool hitEnemy)
 {
+	int fontWidth = 140.0f;	// 한 글자 너비
+
 	// 아군 캐릭터가 적 공격, 뭐 큰차인 없고 걍 데미지 날라가는 방향
 	if (hitEnemy) 
 	{
@@ -1437,13 +1671,13 @@ void BattleScene::DamageAnimation(int damage, bool hitEnemy)
 		{
 			Damage1->m_bIsDead = false;
 			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage/10];
-			Vector2 AnimPos[2] = { {1000.0f, 450.0f},{1200.0f, 350.0f} };
-			Damage1->SetAnimation( AnimPos, 0.5f, true);
+			Vector2 AnimPos[2] = { {1000.0f, 450.0f},{1400.0f, 250.0f} };
+			Damage1->SetAnimation( AnimPos, 1.2f, true);
 		}
 		Damage2->m_bIsDead = false;
 		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage % 10];
-		Vector2 AnimPos[2] = { {1080.0f, 450.0f},{1280.0f, 350.0f} };
-		Damage2->SetAnimation(AnimPos, 0.5f, true);
+		Vector2 AnimPos[2] = { {1000.0f + fontWidth, 450.0f},{1400.0f + fontWidth, 250.0f} };
+		Damage2->SetAnimation(AnimPos, 1.2f, true);
 	}
 
 	// 적이 아군 공격
@@ -1453,13 +1687,13 @@ void BattleScene::DamageAnimation(int damage, bool hitEnemy)
 		{
 			Damage1->m_bIsDead = false;
 			Damage1->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage / 10];
-			Vector2 AnimPos[2] = { {400.0f, 450.0f},{200.0f, 350.0f} };
-			Damage1->SetAnimation(AnimPos, 0.5f, true);
+			Vector2 AnimPos[2] = { {400.0f, 450.0f},{0.0f, 250.0f} };
+			Damage1->SetAnimation(AnimPos, 1.2f, true);
 		}
 		Damage2->m_bIsDead = false;
 		Damage2->m_pCutInfoList[0]->tc = NumberTextureList_Damage[damage % 10];
-		Vector2 AnimPos[2] = { {480.0f, 450.0f},{280.0f, 350.0f} };
-		Damage2->SetAnimation(AnimPos, 0.5f, true);
+		Vector2 AnimPos[2] = { {400.0f + fontWidth, 450.0f},{0.0f + fontWidth, 250.0f} };
+		Damage2->SetAnimation(AnimPos, 1.2f, true);
 	}
 }
 
@@ -1578,7 +1812,7 @@ void BattleScene::UpdatePlayerState()
 
 void BattleScene::UpdateEnemyState()
 {
-	for (auto enemy : EnemyList) { enemy->UpdateState(); }
+	for (auto enemy : AllEnemyList) { enemy->UpdateState(); }
 }
 
 void BattleScene::DeadCheck()
@@ -1589,14 +1823,11 @@ void BattleScene::DeadCheck()
 	}
 	else
 	{
-		//for (auto enemy : EnemyList)
-		//{
-		//	if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
-		//}
-
-		// 살아있는 적 리스트, 원래 있던 모든 적 리스트를 따로 만들어야 할 것 같은데 몰라 일단 하드코딩해
-		if (enemy1->hp > 0 || enemy1->chara->GetComponent<AnimationComponent>()->IsInAction()) return;
-		else if (enemy2->hp > 0 || enemy2->chara->GetComponent<AnimationComponent>()->IsInAction()) return;
+		for (auto enemy : AllEnemyList)
+		{
+			if (enemy->hp > 0 || enemy->chara->GetComponent<AnimationComponent>()->IsInAction()) return; // 적이 하나라도 살아있거나 죽는 애니메이션중이라면 탈출!
+			else if (player->chara->GetComponent<AnimationComponent>()->IsInAction()) { return; }	// 플레이어가 행동중이어도 안끝나게, 그,, 노티파이맞추면서암튼이래야함
+		}
 		SS = CLEAR;
 	}
 }

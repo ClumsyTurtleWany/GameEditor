@@ -600,8 +600,8 @@ void SampleCore::SceneChange()
 			CurrentScene = Select;
 
 			bgm_Current->Stop();
-			//bgm_Current = bgm_Title;
-			//bgm_Current->Play();
+			bgm_Current = bgm_Map;
+			bgm_Current->Play();
 		}break;
 
 		case MAP:

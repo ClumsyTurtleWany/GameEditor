@@ -13,7 +13,6 @@ bool Enemy_1::Init()
 
 int Enemy_1::patern(Player* player, int turn)
 {
-    auto PAnime = player->chara->GetComponent<AnimationComponent>();
     auto EAnime = chara->GetComponent<AnimationComponent>();
     int  damage = 0;
 
@@ -30,11 +29,9 @@ int Enemy_1::patern(Player* player, int turn)
     {
         if (canAttack)
         {
-            attackCalculate(player, 5);
+            attackCalculate(player, 8);
             damage = 5;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Kick");
-            //EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack1");
         }
     }break;
 
@@ -42,11 +39,9 @@ int Enemy_1::patern(Player* player, int turn)
     {
         if (canAttack)
         {
-            attackCalculate(player, 10);
+            attackCalculate(player, 5);
             damage = 10;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Kick");
-            //EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack2");
         }
     }break;
 
@@ -54,11 +49,9 @@ int Enemy_1::patern(Player* player, int turn)
     {
         if (canAttack)
         {
-            attackCalculate(player, 15);
+            attackCalculate(player, 12);
             damage = 15;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Kick");
-            //EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack3");
         }
     }break;
 
@@ -108,21 +101,21 @@ void Enemy_1::SetIntentObj(int turn, WidgetObject* image, WidgetObject* intent1,
     {
         //image->m_pCutInfoList[0]->tc = IntentImageList[0];
         intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[0];
-        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[5];
+        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[8];
     }break;
 
     case 1:
     {
         //image->m_pCutInfoList[0]->tc = IntentImageList[0];
-        intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[1];
-        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[0];
+        intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[0];
+        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[5];
     }break;
 
     case 2:
     {
         //image->m_pCutInfoList[0]->tc = IntentImageList[0];
         intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[1];
-        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[5];
+        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[2];
     }break;
     }
 }
@@ -140,7 +133,6 @@ bool Enemy_2::Init()
 
 int Enemy_2::patern(Player* player, int turn)
 {
-    auto PAnime = player->chara->GetComponent<AnimationComponent>();
     auto EAnime = chara->GetComponent<AnimationComponent>();
     int  damage = 0;
 
@@ -156,10 +148,9 @@ int Enemy_2::patern(Player* player, int turn)
     {
         if (canAttack) 
         {
-            attackCalculate(player, 4);
+            attackCalculate(player, 10);
             damage = 4;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack1");
         }
     }break;
 
@@ -167,10 +158,9 @@ int Enemy_2::patern(Player* player, int turn)
     {
         if (canAttack)
         {
-            attackCalculate(player, 6);
+            attackCalculate(player, 4);
             damage = 6;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack2");
         }
     }break;
 
@@ -178,10 +168,9 @@ int Enemy_2::patern(Player* player, int turn)
     {
         if (canAttack)
         {
-            attackCalculate(player, 12);
+            attackCalculate(player, 7);
             damage = 12;
-            PAnime->SetClipByName(L"Hit");
-            EAnime->SetClipByName(L"Attack");
+            EAnime->SetClipByName(L"Attack3");
         }
     }break;
 
@@ -229,22 +218,22 @@ void Enemy_2::SetIntentObj(int turn, WidgetObject* image, WidgetObject* intent1,
     case 0:
     {
         //image->m_pCutInfoList[0]->tc = IntentImageList[0];
-        intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[0];
-        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[4];
+        intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[1];
+        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[0];
     }break;
 
     case 1:
     {
         //image->m_pCutInfoList[0]->tc = IntentImageList[0];
         intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[0];
-        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[6];
+        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[4];
     }break;
 
     case 2:
     {
         //image->m_pCutInfoList[0]->tc = IntentImageList[0];
-        intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[1];
-        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[2];
+        intent1->m_pCutInfoList[0]->tc = NumberTextureList_Red[0];
+        intent2->m_pCutInfoList[0]->tc = NumberTextureList_Red[7];
     }break;
     }
 }

@@ -11,7 +11,16 @@ Deck::Deck()
 	DeckList.push_back(PommelStrike);
 	DeckList.push_back(IronWave);
 	DeckList.push_back(ShrugItOff);
-
+	
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
+	//DeckList.push_back(IronWave);
 
 	for (auto obj : DeckList)
 	{
