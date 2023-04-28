@@ -20,9 +20,11 @@ void MovementSystem::Tick(ECS::World* world, float time)
 			movement->Forward = arrow->Forward;
 
 			Vector3 diff = movement->Destination - movement->Location;
+			diff.Normalize();
+			float dir = diff.Dot(arrow->Forward);
 
 			// ADD -> 목적지에 도달했다면 IsMoving = false
-			if (diff.Distance(movement->Destination, movement->Location) <= 0.5f)
+			if (diff.Distance(movement->Destination, movement->Location) <= 0.5f || dir < 0)
 			{
 				movement->Location = movement->Destination;
 				transform->Translation = movement->Location;
