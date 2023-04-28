@@ -148,7 +148,7 @@ void AnimationComponent::Notify(ECS::World* world)
 					world->emit<Notifier>(*data);
 				}
 			}
-			else if ((data->StartFrame + data->Lifespan) <= (unsigned int)m_currentAnimationFrame)
+			else// if ((unsigned int)m_currentAnimationFrame < data->StartFrame ||(data->StartFrame + data->Lifespan) <= (unsigned int)m_currentAnimationFrame)
 			{
 				data->IsOn = false;
 			}
