@@ -117,7 +117,7 @@ bool MultiBattleScene::Init()
 		MainSaveLoadSystem->Load("../resource/Map/", "TestWorld");
 	}*/
 	Init_Chara();
-	Init_Effect();
+	// Init_Effect(); -> 배틀씬 피커 이펙트를 멀티씬이 뺏어가버리는 이슈가 존재해서, 이건 그 프레임의 거시기 인잇에서 해야..? 
 
 
 	// 카메라 시스템 및 랜더링 시스템 추가.
@@ -188,6 +188,8 @@ bool MultiBattleScene::Frame()
 	//서버 추가
 	if (initTriger)
 	{
+		Init_Effect();	// 피커 이펙트 뺏기는 이슈땜에 여기
+
 		//서버에서 추가
 		if (gpHost != nullptr && gpHost->IsConnected())
 		{
@@ -591,7 +593,7 @@ void MultiBattleScene::Init_Chara()
 	//playerCharTransformComp->Translation = Vector3(10.0f, 0.0f, 0.0f);
 
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
-	playerCharMovementComp->Speed = 40.0f;
+	playerCharMovementComp->Speed = 5.0f; //40.0f;
 	PlayerCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
@@ -661,7 +663,7 @@ void MultiBattleScene::Init_Chara()
 	Char2PTransformComp->Translation = Vector3(0.0f, 0.0f, 40.0f);
 
 	auto Char2PMovementComp = Chara_2P->GetComponent<MovementComponent>();
-	Char2PMovementComp->Speed = 45.0f;
+	Char2PMovementComp->Speed = 5.0f; // = 45.0f;
 	Chara_2P->MoveTo(Vector3(0.0f, 0.0f, 40.0f));
 
 	/////////////// Bounding Box Add ////////////
@@ -722,8 +724,7 @@ void MultiBattleScene::Init_Chara()
 	//enemyCharTransformComp->Translation =  Vector3(40.0f, 0.0f, 0.0f);
 
 	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
-	//E1MC->Speed = 40.0f;
-	E1MC->Speed = 30.0f;
+	E1MC->Speed = 5.0f; // = 30.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
@@ -793,8 +794,7 @@ void MultiBattleScene::Init_Chara()
 	//Enemy2_CharTransformComp->Translation = Vector3(20.0f, 0.0f, 70.0f);
 
 	auto Enemy2_CharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
-	//Enemy2_CharMovementComp->Speed = 50.0f;
-	Enemy2_CharMovementComp->Speed = 30.0f;
+	Enemy2_CharMovementComp->Speed = 5.0f; // = 30.0f;
 	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
@@ -825,20 +825,18 @@ void MultiBattleScene::Init_Effect()
 		{ true, true, 10.0f, 0.0f, 1.0f });
 	TheWorld.AddEntity(pMoveUICursor);
 
-	MAIN_PICKER.pMoveUIEntity = pMoveUICursor;
-
 	ParticleEffect* pSelectedArrowUICursor = new ParticleEffect(L"BlackLineArrow",
 		TransformComponent(),
 		{ false, true, 10.0f, 0.0f, 1.0f });
 	TheWorld.AddEntity(pSelectedArrowUICursor);
-
-	MAIN_PICKER.pSelectedArrowUIEntity = pSelectedArrowUICursor;
 
 	ParticleEffect* pSelectedCircleUICursor = new ParticleEffect(L"FloorCircle",
 		TransformComponent(),
 		{ false, true, 10.0f, 0.0f, 1.0f });
 	TheWorld.AddEntity(pSelectedCircleUICursor);
 
+	MAIN_PICKER.pMoveUIEntity = pMoveUICursor;
+	MAIN_PICKER.pSelectedArrowUIEntity = pSelectedArrowUICursor;
 	MAIN_PICKER.pSelectedCircleUIEntity = pSelectedCircleUICursor;
 }
 
@@ -1247,6 +1245,20 @@ void MultiBattleScene::TurnEndProcess()
 		EnemyTurnProcess();
 	}
 
+	SoundMap.find(L"TurnEnd")->second->Play();	// 턴종 소리
+	for (int card = 0; card < MyDeck->HandList.size(); card++)	// 카드들 화면 밖으로 날리는 애니메이션	
+	{
+		CardList[card]->m_bIsDead = false;
+		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), {1800.0f,700.0f} };
+		CardList[card]->SetAnimation(AnimPos, 0.5f);
+	}
+	MyDeck->TurnEnd();
+	TurnEndButton->m_bClicked = false;
+	TurnEndButton->m_bDisable = true;
+
+
+
+
 	//실제 턴 앤드시 보내는 패킷
 	if (gpHost != nullptr && gpHost->IsConnected())
 	{
@@ -1319,17 +1331,7 @@ void MultiBattleScene::TurnEndProcess()
 	}
 }
 
-	SoundMap.find(L"TurnEnd")->second->Play();	// 턴종 소리
-	for (int card = 0; card < MyDeck->HandList.size(); card++)	// 카드들 화면 밖으로 날리는 애니메이션	
-	{
-		CardList[card]->m_bIsDead = false;
-		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), {1800.0f,700.0f} };
-		CardList[card]->SetAnimation(AnimPos, 0.5f);
-	}
-	MyDeck->TurnEnd();
-	TurnEndButton->m_bClicked = false;
-	TurnEndButton->m_bDisable = true;
-}
+
 
 void MultiBattleScene::EnemyTurnProcess()
 {

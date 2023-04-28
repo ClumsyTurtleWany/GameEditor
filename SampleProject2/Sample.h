@@ -43,8 +43,8 @@ public:
 	TitleScene*			Title;
 	SelectScene*		Select;
 	MapScene*			Map;
-	BattleScene*		Battle;
-	MultiBattleScene*	MultiBattle;
+	BattleScene*		Battle = nullptr;
+	MultiBattleScene*	MultiBattle = nullptr;
 	CardViewScene*		CardView;
 	ClearScene*			Clear;
 	GameOverScene*		GameOver;

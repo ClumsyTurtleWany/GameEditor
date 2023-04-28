@@ -161,6 +161,7 @@ bool SampleCore::Initialize()
 	Select->Init();
 	Map = new MapScene;
 	Map->Init();
+	// 둘중 하나만 인잇할 필요가 있을지도..?
 	Battle = new BattleScene;
 	Battle->Dick = Dick;
 	Battle->CardTextureList = CardTextureList;
@@ -618,6 +619,17 @@ void SampleCore::SceneChange()
 
 		case BATTLE:
 		{
+			//if (Battle == nullptr)
+			//{
+			//	Battle = new BattleScene;
+			//	Battle->Dick = Dick;
+			//	Battle->CardTextureList = CardTextureList;
+			//	Battle->NumberTextureList_Red = NumberTextureList_Red;
+			//	Battle->NumberTextureList_Black = NumberTextureList_Black;
+			//	Battle->NumberTextureList_Damage = NumberTextureList_Damage;
+			//	Battle->TextTextureList = TextTextureList;
+			//	Battle->Init();
+			//}
 			if (CurrentScene->ID != DECKVIEW && CurrentScene->ID != REMAINVIEW) 
 			{
 				bgm_Current->Stop();
@@ -632,6 +644,22 @@ void SampleCore::SceneChange()
 
 		case MULTIBATTLE:
 		{
+			//if (MultiBattle == nullptr)
+			//{
+			//	MultiBattle = new MultiBattleScene;
+			//	MultiBattle->MyDeck = Dick;
+			//	MultiBattle->CardTextureList = CardTextureList;
+			//	MultiBattle->NumberTextureList_Red = NumberTextureList_Red;
+			//	MultiBattle->NumberTextureList_Black = NumberTextureList_Black;
+			//	MultiBattle->NumberTextureList_Damage = NumberTextureList_Damage;
+			//	MultiBattle->TextTextureList = TextTextureList;
+			//	MultiBattle->Init();
+			//	//serverpackethandler에서 연결하기 위한 포인터
+			//	multyserver = MultiBattle;
+			//	//clientpackethandler에서 연결하기 위한 포인터
+			//	multyclient = MultiBattle;
+			//}
+
 			CurrentScene->SS = MAINTAIN;
 			CurrentScene = MultiBattle;
 			//서버에서 주석
