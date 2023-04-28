@@ -258,7 +258,7 @@ bool BattleScene::Frame()
 			if (timeline != nullptr)
 			{
 				timeline->CreateTimeline(player->chara->Transform->Rotation.y, player->chara->Transform->Rotation.y+eulerAngles.y,0.2f);
-				timeline->SetTarget(&player->chara->Transform->Rotation.y);
+				//timeline->SetTarget(&player->chara->Transform->Rotation.y); // 컴포넌트 추가할 때 미리 해두기?
 				timeline->PlayFromStart();
 			}
 			
@@ -805,7 +805,7 @@ void BattleScene::Init_Chara()
 	playerCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	
 	auto timeline = PlayerCharacter->AddComponent <TimelineComponent>();
-	
+	timeline->SetTarget(&player->chara->Transform->Rotation.y);
 
 	TheWorld.AddEntity(PlayerCharacter);
 
@@ -880,7 +880,8 @@ void BattleScene::Init_Chara()
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 
 
-
+	auto timeline_e1 = EnemyCharacter->AddComponent <TimelineComponent>();
+	timeline_e1->SetTarget(&enemy1->chara->Transform->Rotation.y);
 
 	TheWorld.AddEntity(EnemyCharacter);
 
@@ -951,6 +952,9 @@ void BattleScene::Init_Chara()
 	enemyCameraArm2->Yaw = 180.0f + 30.0f;
 	enemyCamera->CreateViewMatrix(Vector3(0.0f, 25.0f, -100.0f), Vector3(0.0f, 0.0f, 00.0f), Vector3(0.0f, 1.0, 0.0f));
 	enemyCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
+
+	auto timeline_e2 = EnemyCharacter2->AddComponent <TimelineComponent>();
+	timeline_e2->SetTarget(&enemy2->chara->Transform->Rotation.y);
 
 	TheWorld.AddEntity(EnemyCharacter2);
 }
@@ -1364,7 +1368,14 @@ void BattleScene::EnemyAnimProcess()
 			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(player->Forward, NewPlayerForward);
 			Vector3 eulerAngles = quaternion.ToEuler();
 			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
-			player->chara->Transform->Rotation += eulerAngles;
+			//player->chara->Transform->Rotation += eulerAngles;
+			auto timeline = PlayerCharacter->GetComponent<TimelineComponent>();
+			if (timeline != nullptr)
+			{
+				timeline->CreateTimeline(player->chara->Transform->Rotation.y, player->chara->Transform->Rotation.y + eulerAngles.y, 0.2f);
+				timeline->PlayFromStart();
+			}
+
 			player->Forward = NewPlayerForward;
 
 			// 카메라 워크
@@ -1486,7 +1497,15 @@ void BattleScene::MoveProcess()
 			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(player->Forward, NewPlayerForward);
 			Vector3 eulerAngles = quaternion.ToEuler();
 			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
-			player->chara->Transform->Rotation += eulerAngles;
+			//player->chara->Transform->Rotation += eulerAngles;
+			auto timeline = PlayerCharacter->GetComponent<TimelineComponent>();
+			if (timeline != nullptr)
+			{
+				timeline->CreateTimeline(player->chara->Transform->Rotation.y, player->chara->Transform->Rotation.y + eulerAngles.y, 0.2f);
+				//timeline->SetTarget(&player->chara->Transform->Rotation.y); // 컴포넌트 추가할 때 미리 해두기?
+				timeline->PlayFromStart();
+			}
+
 			player->Forward = NewPlayerForward;
 
 			// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
@@ -1498,7 +1517,14 @@ void BattleScene::MoveProcess()
 				DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
 				Vector3 eulerAngles = quaternion.ToEuler();
 				eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
-				enemy->chara->Transform->Rotation += eulerAngles;
+				//enemy->chara->Transform->Rotation += eulerAngles;
+				auto timeline = enemy->chara->GetComponent<TimelineComponent>();
+				if (timeline != nullptr)
+				{
+					timeline->CreateTimeline(enemy->chara->Transform->Rotation.y, enemy->chara->Transform->Rotation.y + eulerAngles.y, 0.2f);
+					//timeline->SetTarget(&player->chara->Transform->Rotation.y); // 컴포넌트 추가할 때 미리 해두기?
+					timeline->PlayFromStart();
+				}
 				enemy->chara->MovementComp->Forward = NewForward;
 			}
 
