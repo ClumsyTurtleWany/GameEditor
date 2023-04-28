@@ -294,6 +294,7 @@ bool MultiBattleScene::Frame()
 			// 카메라 타겟 세팅
 			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
 			CameraTarget.y += 10.0f;
+			TargetPlayer = CurrentPlayer;
 			UpdateCameraPos();
 
 			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
@@ -593,7 +594,7 @@ void MultiBattleScene::Init_Chara()
 	//playerCharTransformComp->Translation = Vector3(10.0f, 0.0f, 0.0f);
 
 	auto playerCharMovementComp = PlayerCharacter->GetComponent<MovementComponent>();
-	playerCharMovementComp->Speed = 5.0f; //40.0f;
+	playerCharMovementComp->Speed = 40.0f;
 	PlayerCharacter->MoveTo(Vector3(-20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
@@ -644,14 +645,14 @@ void MultiBattleScene::Init_Chara()
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A1);
 	// 발차기 2 (살짝 화려)
 	soundFrame = 30;
-	Notifier* P2A2_R = notiMgr->CreateNotifier(L"P2A2_R", soundFrame - delayFrame);	
+	Notifier* P2A2_R = notiMgr->CreateNotifier(L"P2A2_R", soundFrame - delayFrame);
 	Notifier* P2A2 = notiMgr->CreateNotifier(L"P2A2", soundFrame);
 	notiMgr->MakeSound(L"P2A2", L"Attack_Bludgeon.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A2_R);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A2);
 	// 발차기 3 (겐세이 겁나넣다가 때림)
 	soundFrame = 56;
-	Notifier* P2A3_R = notiMgr->CreateNotifier(L"P2A3_R", soundFrame - delayFrame);	
+	Notifier* P2A3_R = notiMgr->CreateNotifier(L"P2A3_R", soundFrame - delayFrame);
 	Notifier* P2A3 = notiMgr->CreateNotifier(L"P2A1", soundFrame);
 	notiMgr->MakeSound(L"P2A3", L"Hit.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A3_R);
@@ -663,7 +664,7 @@ void MultiBattleScene::Init_Chara()
 	Char2PTransformComp->Translation = Vector3(0.0f, 0.0f, 40.0f);
 
 	auto Char2PMovementComp = Chara_2P->GetComponent<MovementComponent>();
-	Char2PMovementComp->Speed = 5.0f; // = 45.0f;
+	Char2PMovementComp->Speed = 45.0f;
 	Chara_2P->MoveTo(Vector3(0.0f, 0.0f, 40.0f));
 
 	/////////////// Bounding Box Add ////////////
@@ -724,7 +725,7 @@ void MultiBattleScene::Init_Chara()
 	//enemyCharTransformComp->Translation =  Vector3(40.0f, 0.0f, 0.0f);
 
 	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
-	E1MC->Speed = 5.0f; // = 30.0f;
+	E1MC->Speed = 30.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
 
 	//Picking Info Test
@@ -794,7 +795,7 @@ void MultiBattleScene::Init_Chara()
 	//Enemy2_CharTransformComp->Translation = Vector3(20.0f, 0.0f, 70.0f);
 
 	auto Enemy2_CharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
-	Enemy2_CharMovementComp->Speed = 5.0f; // = 30.0f;
+	Enemy2_CharMovementComp->Speed = 30.0f;
 	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
@@ -998,29 +999,29 @@ void MultiBattleScene::Init_Sound()
 }
 
 void MultiBattleScene::UpdateCameraPos()
-{	
+{
 	// Right 벡터 구할라고
 	DirectX::XMFLOAT3 upVec(0.0f, 1.0f, 0.0f);
 	Vector3 Right;	// Calculate the right vector	
 	DirectX::XMFLOAT3 crossProduct;
-	XMStoreFloat3(&crossProduct, DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&CurrentPlayer->Forward), XMLoadFloat3(&upVec)));
+	XMStoreFloat3(&crossProduct, DirectX::XMVector3Cross(DirectX::XMLoadFloat3(&TargetPlayer->Forward), XMLoadFloat3(&upVec)));
 	DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
 
 	// 카메라 위치 세팅, 나중에 또 업데이트 필요할듯 (주로 이동 후에)
 	PlayerCameraPos = PlayerCharacter->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
-	PlayerCameraPos -= CurrentPlayer->Forward * 30.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
+	PlayerCameraPos -= TargetPlayer->Forward * 30.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
 	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
 	PlayerCameraPos -= Right * 15.0f;			// 오른쪽으로 좀 빼주고
 }
 
 // 노티파이 체크해서 플레이어랑 적 캐릭터랑 애니메이션 합을 맞추고 이펙트 터트림(위치필요해서), 사운드는 노티파이 안에서 터트림
 void MultiBattleScene::NotifierCheck()
-{	
+{
 	// 애니메이션 세팅에 필요한거
-	auto PAnime = CurrentPlayer->chara->GetComponent<AnimationComponent>();		
+	auto PAnime = CurrentPlayer->chara->GetComponent<AnimationComponent>();
 	auto EAnime = TargetEnemy->chara->GetComponent<AnimationComponent>();
 
-	for (auto player : PlayerList) 
+	for (auto player : PlayerList)
 	{
 		for (auto noti : player->chara->GetComponent<AnimationComponent>()->CurrentClip->NotifierList)
 		{
@@ -1094,7 +1095,7 @@ void MultiBattleScene::NotifierCheck()
 			}
 		}
 	}
-	
+
 
 	// 적 행동에서 발생한 노티파이를 기준으로 실행, 얘도 아마 적턴에만 ㅇㅇ
 	for (auto enemy : AllEnemyList)
@@ -1177,6 +1178,8 @@ void MultiBattleScene::TurnStartProcess()
 	TurnStart = false;
 	MyTurnStart = true;
 	WhoseTurn = 1;
+
+	TurnEndButton->m_bDisable = false;	// 일단 둘다 턴종 꺼놓고 밑에서 켜줌
 }
 
 void MultiBattleScene::MyTurnProcess()
@@ -1188,8 +1191,9 @@ void MultiBattleScene::MyTurnProcess()
 	MyDeck->Draw(drawNum);
 	UpdateHand(drawNum);
 
+	TurnEndButton->m_bDisable = false;
 	MyTurnStart = false;
-
+	
 	//if (gpHost != nullptr && gpHost->IsConnected())
 	//{
 	//	protocol::S_DRAWCARD hostDraw;
@@ -1230,54 +1234,77 @@ void MultiBattleScene::MyTurnProcess()
 
 void MultiBattleScene::TurnEndProcess()
 {
-	// 내가 호스트, 즉 1p일 경우, 2p에게 턴을 넘겨줌
+	// 내 턴일때, 즉 내가 턴을 종료한 주체일 경우
+	if (WhoseTurn == playerNum)
+	{
+		// 다른 플레이어에게 패킷을 보냄
+		if (gpHost != nullptr && gpHost->IsConnected())
+		{
+			protocol::S_TURNEND hostEnd;
+			hostEnd.set_bturnend(true);
+
+			auto sendBuf = ServerPacketHandler::MakeSendBuffer(hostEnd);
+			auto session = gpHost->GetService()->GetSessions().begin();
+			(*session)->Send(sendBuf);
+		}
+		if (gpClient != nullptr && gpClient->IsConnected())
+		{
+			protocol::C_TURNEND clientEnd;
+			clientEnd.set_bturnend(true);
+
+			auto sendBuf = ClientPacketHandler::MakeSendBuffer(clientEnd);
+			auto session = gpClient->GetClientservice()->GetSessions().begin();
+			(*session)->Send(sendBuf);
+		}
+
+		// 내가 턴종했을때만 작동해야 하는 것들
+		for (int card = 0; card < MyDeck->HandList.size(); card++)	// 카드들 화면 밖으로 날리는 애니메이션	
+		{
+			CardList[card]->m_bIsDead = false;
+			Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), {1800.0f,700.0f} };
+			CardList[card]->SetAnimation(AnimPos, 0.5f);
+		}
+		MyDeck->TurnEnd();
+		TurnEndButton->m_bClicked = false;
+		TurnEndButton->m_bDisable = true;
+	}
+
+	// 내가 호스트, 즉 1p일 경우
 	if (gpHost != nullptr && gpHost->IsConnected())
 	{
-		WhoseTurn = 2;
-		CurrentPlayer = player2;
+		if (WhoseTurn == 1)
+		{
+			WhoseTurn = 2;
+			CurrentPlayer = player2;
+		}
+		else
+		{
+			WhoseTurn = 1;
+			CurrentPlayer = player1;			// 근데 이거 여기저기서 만지지 않나... 오류날듯?
+			TurnNum++;
+			EnemyTurnProcess();
+		}
 	}
-	// 내가 고객, 즉 2p일 경우, 적에게 턴을 넘겨줌
+	// 내가 고객, 즉 2p일 경우
 	else if (gpClient != nullptr && gpClient->IsConnected())
 	{
-		WhoseTurn = 1;
-		CurrentPlayer = player1;			// 근데 이거 여기저기서 만지지 않나... 오류날듯?
-		TurnNum++;
-		EnemyTurnProcess();
+		if (WhoseTurn == 1)
+		{
+			WhoseTurn = 2;
+			CurrentPlayer = player2;
+		}
+		else
+		{
+			WhoseTurn = 1;
+			CurrentPlayer = player1;			// 근데 이거 여기저기서 만지지 않나... 오류날듯?
+			TurnNum++;
+			EnemyTurnProcess();
+		}
 	}
 
 	SoundMap.find(L"TurnEnd")->second->Play();	// 턴종 소리
-	for (int card = 0; card < MyDeck->HandList.size(); card++)	// 카드들 화면 밖으로 날리는 애니메이션	
-	{
-		CardList[card]->m_bIsDead = false;
-		Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), {1800.0f,700.0f} };
-		CardList[card]->SetAnimation(AnimPos, 0.5f);
-	}
-	MyDeck->TurnEnd();
-	TurnEndButton->m_bClicked = false;
-	TurnEndButton->m_bDisable = true;
 
 
-
-
-	//실제 턴 앤드시 보내는 패킷
-	if (gpHost != nullptr && gpHost->IsConnected())
-	{
-		protocol::S_TURNEND hostEnd;
-		hostEnd.set_bturnend(true);
-
-		auto sendBuf = ServerPacketHandler::MakeSendBuffer(hostEnd);
-		auto session = gpHost->GetService()->GetSessions().begin();
-		(*session)->Send(sendBuf);
-	}
-	if (gpClient != nullptr && gpClient->IsConnected())
-	{
-		protocol::C_TURNEND clientEnd;
-		clientEnd.set_bturnend(true);
-
-		auto sendBuf = ClientPacketHandler::MakeSendBuffer(clientEnd);
-		auto session = gpClient->GetClientservice()->GetSessions().begin();
-		(*session)->Send(sendBuf);
-	}
 
 	{	// moveClicked, movementPoint
 		if (gpHost != nullptr && gpHost->IsConnected())
@@ -1339,9 +1366,6 @@ void MultiBattleScene::EnemyTurnProcess()
 
 	InActionEnemyNum = 0;
 	InActionEnemy = EnemyList[InActionEnemyNum];
-
-	InActionEnemy = EnemyList[0];
-	EnemyList[0]->patern(player1, TurnNum); 
 }
 
 void MultiBattleScene::EnemyAnimProcess()
@@ -1351,12 +1375,12 @@ void MultiBattleScene::EnemyAnimProcess()
 	{
 		// 현재 행동중인 적에게서 가장 가까운 아군을 타겟팅
 		float distance = 100000.0f;
-		for (auto player : PlayerList) 
+		for (auto player : PlayerList)
 		{
 			Vector3 ForDis = InActionEnemy->chara->Transform->Translation - player->chara->Transform->Translation;
-			if (ForDis.Length() < distance) 
+			if (ForDis.Length() < distance)
 			{
-				InActionEnemy->TargetPlayer = player;	
+				InActionEnemy->TargetPlayer = player;
 				distance = ForDis.Length();
 			}
 		}
@@ -1378,7 +1402,7 @@ void MultiBattleScene::EnemyAnimProcess()
 			// 카메라 워크
 			auto CameraTarget = InActionEnemy->chara->Transform->Translation;
 			CameraTarget.y += 10.0f;
-			CurrentPlayer = InActionEnemy->TargetPlayer;
+			TargetPlayer = InActionEnemy->TargetPlayer;
 			UpdateCameraPos();
 
 			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
@@ -1459,11 +1483,7 @@ void MultiBattleScene::MoveProcess()
 				KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 				if (btnLC == KeyState::Down)
 				{
-					// 이쪽은 메인카메라로 확 바꾸는게?
-					//MainCamera->CreateViewMatrix(player->chara->GetComponent<Camera>()->Pos, player->chara->GetComponent<Camera>()->Target, Vector3(0.0f, 1.0, 0.0f));
-					//MainCameraSystem->MainCamera = player->chara->GetComponent<Camera>();
-					//MainCameraSystem->TargetCamera = player->chara->GetComponent<Camera>();
-					PlayerCharacter->MoveTo(MAIN_PICKER.vIntersection);
+					CurrentPlayer->chara->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
 				}
 			}
@@ -1508,6 +1528,7 @@ void MultiBattleScene::MoveProcess()
 			// 카메라 셋팅
 			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
 			CameraTarget.y += 10.0f;
+			TargetPlayer = CurrentPlayer;
 			UpdateCameraPos();
 			MainCameraSystem->MainCamera = MainCamera;
 			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
@@ -1627,12 +1648,12 @@ void MultiBattleScene::CardCheck()
 			if (CanUse)
 			{
 				// 내가 1P일때
-				if ( (gpHost != nullptr && gpHost->IsConnected()) )
+				if ((gpHost != nullptr && gpHost->IsConnected()))
 				{
 					protocol::S_USECARD hostUseCard;
 					for (int i = 0; i < EnemyList.size(); i++)
 					{
-						if (EnemyList[i] == TargetEnemy){ hostUseCard.set_targetenemynum(i); }
+						if (EnemyList[i] == TargetEnemy) { hostUseCard.set_targetenemynum(i); }
 					}
 					hostUseCard.set_usedcardnum(MyDeck->HandList[cardNum]);
 
@@ -1658,7 +1679,7 @@ void MultiBattleScene::CardCheck()
 				MyDeck->Use(cardNum);
 				UpdateHand(MyDeck->HandList.size(), cardNum, DrawedCard);
 				UpdatePlayerState();
-	
+
 				if (TargetEnemy->hp <= 0)
 				{
 					// 적 캐릭터가 죽었다면 적 리스트에서 빼줌
@@ -1757,7 +1778,7 @@ void MultiBattleScene::Reaction()
 		{
 			TargetEnemy->hp -= 6;
 			PlayerDamage = 6;
-			
+
 			if (playerNum == 2) { PAnime->SetClipByName(L"Shooting"); }
 			else { PAnime->SetClipByName(L"Chapa_2"); }
 		}break;
@@ -1781,11 +1802,11 @@ void MultiBattleScene::Reaction()
 
 		case ShrugItOff:
 		{
-				CurrentPlayer->armor += 8;
+			CurrentPlayer->armor += 8;
 
-				PAnime->SetClipByName(L"Inward_Block");
-				PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
-				SoundMap.find(L"Shield")->second->Play();
+			PAnime->SetClipByName(L"Inward_Block");
+			PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+			SoundMap.find(L"Shield")->second->Play();
 		}break;
 
 		case Hemokinesis:
@@ -1800,12 +1821,12 @@ void MultiBattleScene::Reaction()
 
 		case IronWave:
 		{
-				TargetEnemy->hp -= 5;
-				PlayerDamage = 5;
-				CurrentPlayer->armor += 5;
+			TargetEnemy->hp -= 5;
+			PlayerDamage = 5;
+			CurrentPlayer->armor += 5;
 
-				if (playerNum == 2) { PAnime->SetClipByName(L"Pistol_Whip"); }
-				else { PAnime->SetClipByName(L"Kick"); }
+			if (playerNum == 2) { PAnime->SetClipByName(L"Pistol_Whip"); }
+			else { PAnime->SetClipByName(L"Kick"); }
 		}break;
 
 		}
@@ -1831,7 +1852,7 @@ void MultiBattleScene::UpdateHand(int handSize)
 			CardList[card]->m_pCutInfoList[ci]->tc = CardTextureList[MyDeck->HandList[card]];
 		}
 		CardList[card]->m_bIsDead = false;
-
+		CardList[card]->m_fAlpha = 1.0f;
 		// Vector2 AnimPos[2] = { CardList[card]->NtoP_Pos(CardList[card]->m_OriginalOriginPos), CardPosList[card][handSize - 1] };
 		Vector2 AnimPos[2] = { { -200.0f, 700.0f }, CardPosList[card][handSize - 1] };
 		CardList[card]->SetAnimation(AnimPos, 0.5f);
