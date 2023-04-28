@@ -140,7 +140,7 @@ void AnimationComponent::Notify(ECS::World* world)
 	{
 		for (auto data : CurrentClip->NotifierList)
 		{
-			if (data->StartFrame == (unsigned int)m_currentAnimationFrame)
+			if (data->StartFrame <= (unsigned int)m_currentAnimationFrame && (unsigned int)m_currentAnimationFrame < (data->StartFrame + data->Lifespan))
 			{
 				if (!data->IsOn)
 				{
@@ -148,7 +148,7 @@ void AnimationComponent::Notify(ECS::World* world)
 					world->emit<Notifier>(*data);
 				}
 			}
-			else if ((data->StartFrame + data->Lifespan) == (unsigned int)m_currentAnimationFrame)
+			else if ((data->StartFrame + data->Lifespan) <= (unsigned int)m_currentAnimationFrame)
 			{
 				data->IsOn = false;
 			}
