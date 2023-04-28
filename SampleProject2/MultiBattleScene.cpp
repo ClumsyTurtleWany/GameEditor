@@ -1095,7 +1095,7 @@ void MultiBattleScene::NotifierCheck()
 					if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
 				}
 
-				noti->IsOn = false;
+				noti->Disable = true;
 				UpdateEnemyState();
 			}
 		}
@@ -1146,7 +1146,7 @@ void MultiBattleScene::NotifierCheck()
 					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
 				}
 
-				noti->IsOn = false;
+				noti->Disable = true;
 				UpdatePlayerState();
 			}
 		}

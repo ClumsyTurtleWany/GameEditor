@@ -747,22 +747,22 @@ void BattleScene::Init_Chara()
 	delayFrame = 5;
 	// 일반사격
 	soundFrame = 6;
-	Notifier* Fire_ready = notiMgr->CreateNotifier(L"Fire_ready", soundFrame - delayFrame);
-	Notifier* Fire = notiMgr->CreateNotifier(L"Fire", soundFrame);
+	Notifier* Fire_ready = notiMgr->CreateNotifier(L"Fire_ready", soundFrame - delayFrame, 10);
+	Notifier* Fire = notiMgr->CreateNotifier(L"Fire", soundFrame, 10);
 	notiMgr->MakeSound(L"Fire", L"Fire1.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire);
 	//좀쎈사격
 	soundFrame = 20;
-	Notifier* Fire2_ready = notiMgr->CreateNotifier(L"Fire2_ready", soundFrame - delayFrame);
-	Notifier* Fire2 = notiMgr->CreateNotifier(L"Fire2", soundFrame);
+	Notifier* Fire2_ready = notiMgr->CreateNotifier(L"Fire2_ready", soundFrame - delayFrame, 10);
+	Notifier* Fire2 = notiMgr->CreateNotifier(L"Fire2", soundFrame, 10);
 	notiMgr->MakeSound(L"Fire2", L"Fire2.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Gunplay", Fire2_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Gunplay", Fire2);
 	// 손잡이 후리기
 	soundFrame = 17;
-	Notifier* Strike_ready = notiMgr->CreateNotifier(L"Strike_ready", soundFrame - delayFrame);
-	Notifier* Strike = notiMgr->CreateNotifier(L"Strike", soundFrame);
+	Notifier* Strike_ready = notiMgr->CreateNotifier(L"Strike_ready", soundFrame - delayFrame, 10);
+	Notifier* Strike = notiMgr->CreateNotifier(L"Strike", soundFrame, 10);
 	notiMgr->MakeSound(L"Strike", L"Attack_Strike.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Pistol_Whip", Strike_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Pistol_Whip", Strike);
@@ -834,22 +834,22 @@ void BattleScene::Init_Chara()
 	// 플레이어 캐릭터 1은 미리 맞는 애니 없어도 ㄱㅊ은듯? 멀티가면 어케될지 모르지
 	// 펀치
 	soundFrame = 40;
-	Notifier* E1A1 = notiMgr->CreateNotifier(L"E1A1", soundFrame);		// Enemy1 Attack1
+	Notifier* E1A1 = notiMgr->CreateNotifier(L"E1A1", soundFrame, 10);		// Enemy1 Attack1
 	notiMgr->MakeSound(L"E1A1", L"E1A1.ogg", 1.0f, false);	
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack1", E1A1);
 	// 킦꾸
 	soundFrame = 25;
-	Notifier* E1A2 = notiMgr->CreateNotifier(L"E1A2", soundFrame);
+	Notifier* E1A2 = notiMgr->CreateNotifier(L"E1A2", soundFrame, 10);
 	notiMgr->MakeSound(L"E1A2", L"Attack_Bludgeon.ogg", 1.0f, false);	
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack2", E1A2);
 	// 쑤꾸림(비명)
 	soundFrame = 60;
-	Notifier* E1A3 = notiMgr->CreateNotifier(L"E1A3", soundFrame);
+	Notifier* E1A3 = notiMgr->CreateNotifier(L"E1A3", soundFrame, 10);
 	notiMgr->MakeSound(L"E1A3", L"E1A3.mp3", 1.0f, false);	
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack3", E1A3);
 	// 사망, 소리붙이려고
 	soundFrame = 1;
-	Notifier* E1Defeat = notiMgr->CreateNotifier(L"E1Defeat", soundFrame);
+	Notifier* E1Defeat = notiMgr->CreateNotifier(L"E1Defeat", soundFrame, 10);
 	notiMgr->MakeSound(L"E1Defeat", L"E1Defeat.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Dying", E1Defeat);
 
@@ -911,22 +911,22 @@ void BattleScene::Init_Chara()
 	notiMgr = EnemyCharacter2->AddComponent<NotifierMgrComponent>();
 	// 쎄게긁기
 	soundFrame = 39;
-	Notifier* E2A1 = notiMgr->CreateNotifier(L"E2A1", soundFrame);		// Enemy2 Attack1
+	Notifier* E2A1 = notiMgr->CreateNotifier(L"E2A1", soundFrame, 10);		// Enemy2 Attack1
 	notiMgr->MakeSound(L"E2A1", L"E2A1.wav", 1.0f, false);
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack1", E2A1);
 	// 살짝긁기
 	soundFrame = 31;
-	Notifier* E2A2 = notiMgr->CreateNotifier(L"E2A2", soundFrame);
+	Notifier* E2A2 = notiMgr->CreateNotifier(L"E2A2", soundFrame, 10);
 	notiMgr->MakeSound(L"E2A2", L"E2A2.mp3", 1.0f, false);	
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack2", E2A2);
 	// 중간긁기
 	soundFrame = 31;
-	Notifier* E2A3 = notiMgr->CreateNotifier(L"E2A3", soundFrame);
+	Notifier* E2A3 = notiMgr->CreateNotifier(L"E2A3", soundFrame, 10);
 	notiMgr->MakeSound(L"E2A3", L"E2A3.mp3", 1.0f, false);	 
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack3", E2A3);
 	// 사망, 소리붙이려고
 	soundFrame = 1;
-	Notifier* E2Defeat = notiMgr->CreateNotifier(L"E2Defeat", soundFrame);
+	Notifier* E2Defeat = notiMgr->CreateNotifier(L"E2Defeat", soundFrame, 10);
 	notiMgr->MakeSound(L"E2Defeat", L"E2Defeat.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Dying", E2Defeat);
 
@@ -1234,6 +1234,7 @@ void BattleScene::NotifierCheck()
 				if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
 			}
 
+			noti->Disable = true;
 			UpdateEnemyState();
 		}
 	}
@@ -1282,6 +1283,7 @@ void BattleScene::NotifierCheck()
 					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
 				}
 
+				noti->Disable = true;
 				UpdatePlayerState();
 			}
 		}

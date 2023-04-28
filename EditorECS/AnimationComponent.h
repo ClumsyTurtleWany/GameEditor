@@ -37,6 +37,7 @@ struct Notifier
 	unsigned int	StartFrame;										///< 노티파이 시작 프레임
 	unsigned int	Lifespan;										///< 노티파이 유지 시간(프레임 단위) , 기본값은 1프레임
 	bool			IsOn = false;									///< 노티파이어가 활성화되어 있는지 구분하기 위한 bool 멤버
+	bool			Disable = false;								///< 무조건 비활성화, 영민제 
 	FMODSound* FModSound = nullptr;							///< FmodSound* 
 	SoundDesc* Sound = nullptr;								///< 사운드 정보
 	EffectDesc* Effect = nullptr;								///< 이펙트 정보
