@@ -62,6 +62,7 @@ bool SelectScene::Frame()
 
 		if (gpHost == nullptr)
 		{
+			//gpHost = new Host(L"192.168.0.46", 7777);
 			gpHost = new Host(L"127.0.0.1", 7777);
 			gpHost->Init();
 		}
