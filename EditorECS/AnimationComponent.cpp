@@ -12,7 +12,7 @@ bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 		SetClipByName(L"Idle");
 		return false;
 	}
-	 if(BlendClip(mesh , tick, 0.2f)) // true면 애니메이션 전환중 , 0.5초동안 블렌딩
+	 if(BlendClip(mesh , tick, 0.2f)) // true면 애니메이션 전환중 , 0.2초동안 블렌딩
 	{
 		return true;
 	}
@@ -28,14 +28,12 @@ bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 		}
 		m_currentAnimationFrame = min(m_currentAnimationFrame, CurrentClip->EndFrame);
 		m_currentAnimationFrame = max(m_currentAnimationFrame, CurrentClip->StartFrame);
-		//m_AnimationInverse *= -1.0f;
 		if (CurrentClip->LoopState)
 		{
 			m_currentAnimationFrame = 0.f;
 		}
 		else
 		{
-			//CurrentClip = nullptr;
 			SetClipByName(L"Idle");
 			m_currentAnimationFrame = 0.f;
 			return true;
@@ -51,7 +49,6 @@ bool AnimationComponent::UpdateAnim(SkeletalMeshComponent* mesh, float tick)
 		if (it != CurrentClip->LerpFrameMatrixList.end())
 		{
 			Matrix matTranspose = it->second[InterpolationIdx].Transpose();
-			//ConstantBufferData_Bone CBData_Bone;
 			mesh->BPAData.Bone[0] = matTranspose;
 		}
 	}
@@ -111,8 +108,6 @@ bool AnimationComponent::SetClipByName(std::wstring name)
 	{
 		return false;
 	}
-
-
 	return true;
 }
 
@@ -159,7 +154,7 @@ void AnimationComponent::Notify(ECS::World* world)
 						world->emit<Notifier>(*data);
 					}
 				}
-				else// if ((unsigned int)m_currentAnimationFrame < data->StartFrame ||(data->StartFrame + data->Lifespan) <= (unsigned int)m_currentAnimationFrame)
+				else
 				{
 					data->IsOn = false;
 				}
@@ -168,22 +163,12 @@ void AnimationComponent::Notify(ECS::World* world)
 	}
 }
 
-
-
-///////////////////////////////// 애니메이션 전환 블렌딩 ////////////////////////
-//	update anim 상단에서 애니메이션 전환이 먼저 호출 
-// bool ChangeAnim(tick) . static time
-// if(prev != current) -> ChangeAnim
-// 프레임 값 들고 있으니까 그거로 prev matrix 구하기
-// 전환될 프레임은 0 고정이니까 current clip mat[0]
-//
 bool AnimationComponent::BlendClip(SkeletalMeshComponent* mesh, float tick, float time)
 {
 	if (PrevClip == nullptr || PrevClip == CurrentClip)
 	{
 		return false;
 	}
-	//static float elapsedT= 0.f;
 	elapsedT += tick;
 	float interpolateT = elapsedT / time;
 	if (interpolateT >= 1.0f)
@@ -196,7 +181,6 @@ bool AnimationComponent::BlendClip(SkeletalMeshComponent* mesh, float tick, floa
 
 	size_t BoneIdx = 0;
 	int k = m_currentAnimationFrame;
-	
 
 	for (auto& it : mesh->BindPoseMap)
 	{
@@ -212,12 +196,9 @@ bool AnimationComponent::BlendClip(SkeletalMeshComponent* mesh, float tick, floa
 		A.Decompose(A_s, A_r, A_t);
 		B.Decompose(B_s, B_r, B_t);
 
-		//Vector3 I_s = DirectX::XMVectorLerp(A_s, B_s, interpolateT);
 		Vector3 I_s = B_s;
 		Quaternion I_r = DirectX::XMQuaternionSlerp(A_r, B_r, interpolateT);
 		Vector3 I_t = DirectX::XMVectorLerp(A_t, B_t, interpolateT);
-
-		//InterpolatedMat = DirectX::XMMatrixTransformation(Vector3(0.0f, 0.0f, 0.0f),DirectX::XMQuaternionIdentity(), I_s, Vector3(0.0f, 0.0f, 0.0f), I_r, I_t);
 
 		Matrix matScale;
 		matScale._11 = I_s.x;
@@ -229,72 +210,12 @@ bool AnimationComponent::BlendClip(SkeletalMeshComponent* mesh, float tick, floa
 		InterpolatedMat._42 = I_t.y;
 		InterpolatedMat._43 = I_t.z;
 
-
-
-		//Matrix MergedMatrix;
-		//using namespace DirectX::SimpleMath;							// * 연산자 모호성 이슈로 네임스페이스 사용해봄
-		//{
-		//	Matrix temp = it.second * InterpolatedMat;
-		//	MergedMatrix = temp;
-		//}
 		Matrix MergedMatrix = it.second * InterpolatedMat;
 		mesh->BPAData.Bone[BoneIdx++] = MergedMatrix.Transpose();
-
 		
 	}
 	return true;
 }
-
-// 
-//for (size_t NodeIdx = 0; NodeIdx < NodeNum; NodeIdx++)
-// for(auto size : CurrentClip->lerpframematlist)
-//{
-//	
-//	data->AnimationTrackMap.insert(std::make_pair(NodeName, TrackList[NodeIdx]));
-//
-//	// Generate Matrix List Map of Interpolation Animation.
-//	size_t TrackSize = TrackList[NodeIdx].size();
-//	std::vector<Matrix> InterpolationMatrixList;
-//	//InterpolationMatrixList.resize(TrackSize * _data->InterpolationSampling);
-//	for (size_t FrameIdx = 0; FrameIdx < TrackSize; FrameIdx++)
-//	{
-//		FBXAnimationTrack A, B;
-//		UINT FrameA = max(FrameIdx + 0, data->AnimationSceneInfo.StartFrame);
-//		UINT FrameB = min(FrameIdx + 1, data->AnimationSceneInfo.EndFrame);
-//		A = TrackList[NodeIdx][FrameA];
-//		B = TrackList[NodeIdx][FrameB];
-//		if (A.Frame == B.Frame) // End Frame
-//		{
-//			//InterpolationMatrixList[FrameIdx] = TrackList[NodeIdx][FrameIdx].matAnimation;
-//			InterpolationMatrixList.push_back(TrackList[NodeIdx][FrameIdx].AnimationMatrix);
-//			continue;
-//		}
-//
-//		//float t = (FrameIdx - A.frame) / (B.frame - A.frame);
-//		float tick = 1.0f / sampling; // / _data->InterpolationSampling; // Sampling 수 만큼 보간.
-//		for (float t = 0.0f; t < 1.0f; t += tick)
-//		{
-//			Vector3 translation = LinearInterpolation(A.Translation, B.Translation, t);
-//			Vector3 scale = LinearInterpolation(A.Scale, B.Scale, t);
-//			Matrix matScale;
-//			//matScale = matScale.Identity();
-//			//matScale.Identity();
-//			matScale._11 = scale.x;
-//			matScale._22 = scale.y;
-//			matScale._33 = scale.z;
-//			Vector4 qRotation = SphereLinearInterpolation(A.Rotation, B.Rotation, t);
-//			Matrix matRotation = QuaternionToMatrix4x4(qRotation);
-//			Matrix rst = matScale * matRotation;
-//			rst._41 = translation.x;
-//			rst._42 = translation.y;
-//			rst._43 = translation.z;
-//
-//			//InterpolationMatrixList[FrameIdx] = rst;
-//			InterpolationMatrixList.push_back(rst);
-//		}
-//	}
-//	data->InterpolationFrameMatrixList.insert(std::make_pair(NodeName, InterpolationMatrixList));
-//}
 
 bool AnimationComponent::WriteXML(TiXmlElement* parent)
 {
@@ -413,16 +334,12 @@ bool AnimationComponent::Load(std::string filename, bool loop)
 		temp.resize(filename_size);
 		CLP_in.read(reinterpret_cast<char*>(&temp[0]), filename_size);
 
-		///add-
 		newClip->FileName = to_mw(temp);
 		int pointer = newClip->FileName.size() - 1;
 		if (newClip->FileName[pointer] == NULL)
 		{
 			newClip->FileName.pop_back();
 		}
-		///-add
-
-		//newClip->FileName = to_mw(temp);
 
 		newClip->LoopState = loop;	// Default = true
 

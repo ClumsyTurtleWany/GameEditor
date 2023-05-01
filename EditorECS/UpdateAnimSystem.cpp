@@ -22,7 +22,6 @@ void UpdateAnimSystem::Tick(ECS::World* world, float time)
 		if (entity->has<SocketComponent>())
 		{
 			auto socket = entity->GetComponent<SocketComponent>();
-			//socket->Update(*animation,*transform);
 			socket->Update(*skeletalMesh,*transform);
 		}
 	}

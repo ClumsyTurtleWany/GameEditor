@@ -1,6 +1,5 @@
 #include "AnimationNotifier.h"
 
-
 NotifierMgrComponent::~NotifierMgrComponent()
 {
 	for (auto iter = NotifierList.begin() ; iter != NotifierList.end() ; iter++)

@@ -9,9 +9,7 @@ void TimelineSystem::Tick(ECS::World* world, float time)
 
 		if (timeline != nullptr)
 		{
-			
 			timeline->Update(time);
 		}
 	}
-
 }
