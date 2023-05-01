@@ -61,14 +61,14 @@ public:
 		return CSTATE_NOHIT;
 	}
 
-	COLLISION_STATE HitTest(BoundingSphereComponent& Sphere)
+	/*COLLISION_STATE HitTest(BoundingSphereComponent& Sphere)
 	{
 		bool ret = this->OBB.Intersects(Sphere.Sphere);
 
 		if (ret) { return CSTATE_OVERLAPPED; }
 
 		return CSTATE_NOHIT;
-	}
+	}*/
 
 	bool WriteXML(TiXmlElement* parent)
 	{

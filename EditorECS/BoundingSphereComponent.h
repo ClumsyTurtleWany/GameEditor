@@ -42,14 +42,14 @@ public:
 	{
 	}
 
-	COLLISION_STATE HitTest(BoundingBoxComponent& OBB)
+	/*COLLISION_STATE HitTest(BoundingBoxComponent& OBB)
 	{
 		bool ret = this->Sphere.Intersects(OBB.OBB);
 
 		if (ret) { return CSTATE_OVERLAPPED; }
 
 		return CSTATE_NOHIT;
-	}
+	}*/
 
 	COLLISION_STATE HitTest(BoundingSphereComponent& Sphere)
 	{
