@@ -23,8 +23,8 @@ namespace EFFECTUTIL
 	#define PI								3.1415926f
 	#define TAU								6.2831853f
 	
-	#define RAD2DEG(x)						(x)*(180.0f/PI)
-	#define DEG2RAD(x)						(x)*(PI/180.0f)
+	#define RadianToDegree(x)				(x)*(180.0f/PI)
+	#define DegreeToRadian(x)				(x)*(PI/180.0f)
 	
 	#define FZERO_BOUND						1.0E-5F
 	
@@ -213,7 +213,7 @@ namespace EFFECTUTIL
 			lastColor = { 0.0f, 0.0f, 0.0f, 1.0f };
 		}
 
-		void setParticle(PointParticleEmitterProperty& eProp)
+		void setParticle(PointParticleEmitterProperty& eProp, Vector3 vInitWorldScale = {1.0f, 1.0f, 1.0f})
 		{
 			bEnable = true;
 			bLoop = eProp.bLoop;
@@ -241,16 +241,16 @@ namespace EFFECTUTIL
 
 			fPYR =
 			{
-				DEG2RAD(eProp.fInitPYR.x + RNG.getF(eProp.fExtraPYRMinRange.x, eProp.fExtraPYRMaxRange.x)),
-				DEG2RAD(eProp.fInitPYR.y + RNG.getF(eProp.fExtraPYRMinRange.y, eProp.fExtraPYRMaxRange.y)),
-				DEG2RAD(eProp.fInitPYR.z + RNG.getF(eProp.fExtraPYRMinRange.z, eProp.fExtraPYRMaxRange.z))
+				DegreeToRadian(eProp.fInitPYR.x + RNG.getF(eProp.fExtraPYRMinRange.x, eProp.fExtraPYRMaxRange.x)),
+				DegreeToRadian(eProp.fInitPYR.y + RNG.getF(eProp.fExtraPYRMinRange.y, eProp.fExtraPYRMaxRange.y)),
+				DegreeToRadian(eProp.fInitPYR.z + RNG.getF(eProp.fExtraPYRMinRange.z, eProp.fExtraPYRMaxRange.z))
 			};
 
 			fPYRVelocity =
 			{
-				DEG2RAD(RNG.getF(eProp.fMinPYRVelocity.x, eProp.fMaxPYRVelocity.x)),
-				DEG2RAD(RNG.getF(eProp.fMinPYRVelocity.y, eProp.fMaxPYRVelocity.y)),
-				DEG2RAD(RNG.getF(eProp.fMinPYRVelocity.z, eProp.fMaxPYRVelocity.z))
+				DegreeToRadian(RNG.getF(eProp.fMinPYRVelocity.x, eProp.fMaxPYRVelocity.x)),
+				DegreeToRadian(RNG.getF(eProp.fMinPYRVelocity.y, eProp.fMaxPYRVelocity.y)),
+				DegreeToRadian(RNG.getF(eProp.fMinPYRVelocity.z, eProp.fMaxPYRVelocity.z))
 			};
 
 			vInitScale =

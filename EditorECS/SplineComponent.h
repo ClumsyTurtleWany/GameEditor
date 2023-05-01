@@ -2,7 +2,7 @@
 #include "Define.h"
 
 #define BOUNDEPSILON	0.0005f
-#define DEG2RAD(x)		(x)*((float)PI/180.0f)
+#define DegreeToRadian(x)		(x)*((float)PI/180.0f)
 
 #define PYR_INTERP
 //#define USE_SLERP
@@ -42,7 +42,7 @@ struct TRANSFORM_KEY
 		fTime = time;
 
 		vPos = Pos;
-		vRot = { DEG2RAD(PitchYawRoll.x), DEG2RAD(PitchYawRoll.y), DEG2RAD(PitchYawRoll.z) };
+		vRot = { DegreeToRadian(PitchYawRoll.x), DegreeToRadian(PitchYawRoll.y), DegreeToRadian(PitchYawRoll.z) };
 		qRot = DirectX::XMQuaternionRotationRollPitchYawFromVector(vRot);
 
 		vScale = Scale;

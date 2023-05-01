@@ -75,12 +75,12 @@ bool SampleCore::Initialize()
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
 	MainCamera = MainCameraActor->AddComponent<Camera>();
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(150.0f, 50.0f, 50.0f), Vector3(0.0f, 1.0, 0.0f));
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(0.0f, 0.0f, 50.0f), Vector3(0.0f, 1.0f, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	MainCameraSystem->MainCamera = MainCamera;
 	MainWorld.AddEntity(MainCameraActor);
 
-	//// 지형 액터 추가.
+	// 지형 액터 추가.
 	Landscape* landscape = new Landscape;
 	auto landscapeComponents = landscape->GetComponent<LandscapeComponents>();
 	landscapeComponents->Build(16, 16, 7, 10);
@@ -229,6 +229,8 @@ bool SampleCore::Frame()
 		MainCameraSystem->MainCamera = MainCamera;
 		MainRenderSystem->MainCamera = MainCamera;
 	}
+
+	MainCamera->Update();
 
 	return true;
 }
