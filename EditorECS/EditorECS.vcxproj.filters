@@ -210,9 +210,6 @@
     <ClInclude Include="ArrowComponent.h">
       <Filter>Component\Arrow</Filter>
     </ClInclude>
-    <ClInclude Include="RenderableStringComponent.h">
-      <Filter>Component\EffectComponent</Filter>
-    </ClInclude>
     <ClInclude Include="ActionCameraComponent.h">
       <Filter>Component\Camera</Filter>
     </ClInclude>
@@ -334,9 +331,6 @@
     </ClCompile>
     <ClCompile Include="ArrowComponent.cpp">
       <Filter>Component\Arrow</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderableStringComponent.cpp">
-      <Filter>Component\EffectComponent</Filter>
     </ClCompile>
     <ClCompile Include="ActionCameraComponent.cpp">
       <Filter>Component\Camera</Filter>

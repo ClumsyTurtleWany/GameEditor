@@ -46,11 +46,29 @@ public:
 #endif //_DEBUG
 	}
 
-	~BoundingBoxComponent() 
+	~BoundingBoxComponent()
 	{
 	}
 
 public:
+
+	COLLISION_STATE HitTest(BoundingBoxComponent& OBB)
+	{
+		bool ret = this->OBB.Intersects(OBB.OBB);
+
+		if (ret) { return CSTATE_OVERLAPPED; }
+		
+		return CSTATE_NOHIT;
+	}
+
+	COLLISION_STATE HitTest(BoundingSphereComponent& Sphere)
+	{
+		bool ret = this->OBB.Intersects(Sphere.Sphere);
+
+		if (ret) { return CSTATE_OVERLAPPED; }
+
+		return CSTATE_NOHIT;
+	}
 
 	bool WriteXML(TiXmlElement* parent)
 	{

@@ -1,5 +1,6 @@
 #pragma once
 #include "Define.h"
+#include "BVRender.h"
 
 class BoundingSphereComponent
 {
@@ -39,6 +40,24 @@ public:
 
 	~BoundingSphereComponent() 
 	{
+	}
+
+	COLLISION_STATE HitTest(BoundingBoxComponent& OBB)
+	{
+		bool ret = this->Sphere.Intersects(OBB.OBB);
+
+		if (ret) { return CSTATE_OVERLAPPED; }
+
+		return CSTATE_NOHIT;
+	}
+
+	COLLISION_STATE HitTest(BoundingSphereComponent& Sphere)
+	{
+		bool ret = this->Sphere.Intersects(Sphere.Sphere);
+
+		if (ret) { return CSTATE_OVERLAPPED; }
+
+		return CSTATE_NOHIT;
 	}
 };
 

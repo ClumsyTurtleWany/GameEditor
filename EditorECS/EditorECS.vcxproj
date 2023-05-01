@@ -58,7 +58,6 @@
     <ClInclude Include="OscillationComponent.h" />
     <ClInclude Include="PlaneComponent.h" />
     <ClInclude Include="PointLight.h" />
-    <ClInclude Include="RenderableStringComponent.h" />
     <ClInclude Include="RenderSystem.h" />
     <ClInclude Include="SaveLoadSystem.h" />
     <ClInclude Include="SelectAnimSystem.h" />
@@ -102,7 +101,6 @@
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="OscillationComponent.cpp" />
     <ClCompile Include="PointLight.cpp" />
-    <ClCompile Include="RenderableStringComponent.cpp" />
     <ClCompile Include="RenderSystem.cpp" />
     <ClCompile Include="SaveLoadSystem.cpp" />
     <ClCompile Include="SelectAnimSystem.cpp" />
