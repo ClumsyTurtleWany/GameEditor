@@ -101,6 +101,11 @@ bool AnimationComponent::SetClipByName(std::wstring name)
 		CurrentClipName = name;
 		lastFrame = m_currentAnimationFrame;
 		m_currentAnimationFrame = 0.f;
+
+		for (auto data : CurrentClip->NotifierList) 
+		{
+			data->Disable = false;
+		}
 	}
 	else
 	{
@@ -140,17 +145,24 @@ void AnimationComponent::Notify(ECS::World* world)
 	{
 		for (auto data : CurrentClip->NotifierList)
 		{
-			if (data->StartFrame <= (unsigned int)m_currentAnimationFrame && (unsigned int)m_currentAnimationFrame < (data->StartFrame + data->Lifespan))
-			{
-				if (!data->IsOn)
-				{
-					data->IsOn = true;
-					world->emit<Notifier>(*data);
-				}
-			}
-			else// if ((unsigned int)m_currentAnimationFrame < data->StartFrame ||(data->StartFrame + data->Lifespan) <= (unsigned int)m_currentAnimationFrame)
-			{
+			if (data->Disable) 
+			{  
 				data->IsOn = false;
+			}
+			else 
+			{
+				if (data->StartFrame <= (unsigned int)m_currentAnimationFrame && (unsigned int)m_currentAnimationFrame < (data->StartFrame + data->Lifespan))
+				{
+					if (!data->IsOn)
+					{
+						data->IsOn = true;
+						world->emit<Notifier>(*data);
+					}
+				}
+				else// if ((unsigned int)m_currentAnimationFrame < data->StartFrame ||(data->StartFrame + data->Lifespan) <= (unsigned int)m_currentAnimationFrame)
+				{
+					data->IsOn = false;
+				}
 			}
 		}
 	}
