@@ -75,6 +75,9 @@
     <Filter Include="Component\Arrow">
       <UniqueIdentifier>{c01f17e3-8fba-4de6-817b-0bbb68a4458c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Component\Utility">
+      <UniqueIdentifier>{5155f917-9b6c-48a9-a0d7-fb75348f9ae6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SkeletalMeshComponent.h">
@@ -198,9 +201,6 @@
     <ClInclude Include="CameraArmComponent.h">
       <Filter>Component\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="SocketComponent.h">
-      <Filter>Component</Filter>
-    </ClInclude>
     <ClInclude Include="SplineComponent.h">
       <Filter>Component\Spline</Filter>
     </ClInclude>
@@ -222,14 +222,21 @@
     <ClInclude Include="SaveLoadSystem.h">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationNotifier.h" />
-    <ClInclude Include="TimelineComponent.h">
-      <Filter>Component\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="NotifySystem.h">
       <Filter>System</Filter>
     </ClInclude>
-    <ClInclude Include="TimelineSystem.h" />
+    <ClInclude Include="SocketComponent.h">
+      <Filter>Component\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="TimelineComponent.h">
+      <Filter>Component\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationNotifier.h">
+      <Filter>Component\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="TimelineSystem.h">
+      <Filter>System</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -307,9 +314,6 @@
     <ClCompile Include="CameraArmComponent.cpp">
       <Filter>Component\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="SocketComponent.cpp">
-      <Filter>Component</Filter>
-    </ClCompile>
     <ClCompile Include="DirectionalLight.cpp">
       <Filter>Entity\Actor</Filter>
     </ClCompile>
@@ -349,11 +353,18 @@
     <ClCompile Include="SaveLoadSystem.cpp">
       <Filter>System</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationNotifier.cpp" />
+    <ClCompile Include="SocketComponent.cpp">
+      <Filter>Component\Utility</Filter>
+    </ClCompile>
     <ClCompile Include="TimelineComponent.cpp">
+      <Filter>Component\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationNotifier.cpp">
       <Filter>Component\Animation</Filter>
     </ClCompile>
-    <ClCompile Include="TimelineSystem.cpp" />
+    <ClCompile Include="TimelineSystem.cpp">
+      <Filter>System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">
