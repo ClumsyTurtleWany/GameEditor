@@ -44,21 +44,22 @@ cbuffer CameraMatrixData : register(b1)
 
 VertexShader_output VS(VertexShader_input input)
 {
-	//VertexShader_output output;
 	VertexShader_output output = (VertexShader_output)0;
 
-	float4 vLocal = float4(input.p, 1.0f);
+	float4 vLocalPos = float4(input.p, 1.0f);
+	float4 vWorldPos = mul(vLocalPos, g_WorldTransform);
+	float3 vWorldNormal = mul(input.n, (float3x3)g_WorldTransform);
+	float3 vWorldTangent = mul(input.tangent, (float3x3)g_WorldTransform);
 
-	float4 vWorld = mul(vLocal, g_WorldTransform);
-	float4 vView = mul(vWorld, g_View);
-	float4 vProj = mul(vView, g_Projection);
+	float4 vViewPos = mul(vWorldPos, g_View);
+	float4 vProjPos = mul(vViewPos, g_Projection);
 
-	output.p = vProj;
-	output.n = input.n;
+	output.p = vProjPos;
+	output.n = normalize(vWorldNormal).xyz;
 	output.c = input.c;
 	output.t = input.t;
-	output.tangent = input.tangent;
-	output.vWorld = vWorld;
+	output.tangent = normalize(vWorldTangent).xyz;
+	output.vWorld = vWorldPos;
 
 	return output;
 }
