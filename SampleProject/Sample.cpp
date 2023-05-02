@@ -75,7 +75,7 @@ bool SampleCore::Initialize()
 	MainCameraSystem = new CameraSystem;
 	MainCameraActor = new Actor;
 	MainCamera = MainCameraActor->AddComponent<Camera>();
-	MainCamera->CreateViewMatrix(Vector3(0.0f, 50.0f, -70.0f), Vector3(0.0f, 0.0f, 50.0f), Vector3(0.0f, 1.0f, 0.0f));
+	MainCamera->CreateViewMatrix(Vector3(0.0f, 30.0f, -70.0f), Vector3(0.0f, 0.0f, 50.0f), Vector3(0.0f, 1.0f, 0.0f));
 	MainCamera->CreateProjectionMatrix(1.0f, 10000.0f, PI * 0.25, (DXDevice::g_ViewPort.Width) / (DXDevice::g_ViewPort.Height));
 	MainCameraSystem->MainCamera = MainCamera;
 	MainWorld.AddEntity(MainCameraActor);
@@ -222,12 +222,46 @@ bool SampleCore::Initialize()
 
 bool SampleCore::Frame()
 {
+	float dt = Timer::GetInstance()->SecondPerFrame;
+	float camMoveSpeed = 100.0f;
+	float camRotSpeed = 10.0f;
+
 	if (Input::GetInstance()->getKey(VK_F2) == KeyState::Down)
 	{
 		swaping(MainCamera, SubCamera, temp);
 
 		MainCameraSystem->MainCamera = MainCamera;
 		MainRenderSystem->MainCamera = MainCamera;
+	}
+
+	if (Input::GetInstance()->getKey('A') == KeyState::Hold)
+	{
+		MainCamera->Yaw -= camRotSpeed * dt;
+	}
+
+	if (Input::GetInstance()->getKey('D') == KeyState::Hold)
+	{
+		MainCamera->Yaw += camRotSpeed * dt;
+	}
+
+	if (Input::GetInstance()->getKey('W') == KeyState::Hold)
+	{
+		MainCamera->Pos += MainCamera->Look * dt * camMoveSpeed;
+	}
+
+	if (Input::GetInstance()->getKey('S') == KeyState::Hold)
+	{
+		MainCamera->Pos -= MainCamera->Look * dt * camMoveSpeed;
+	}
+
+	if (Input::GetInstance()->getKey('Q') == KeyState::Hold)
+	{
+		MainCamera->Pos += MainCamera->Up * dt * camMoveSpeed;
+	}
+
+	if (Input::GetInstance()->getKey('E') == KeyState::Hold)
+	{
+		MainCamera->Pos -= MainCamera->Up * dt * camMoveSpeed;
 	}
 
 	MainCamera->Update();

@@ -112,6 +112,7 @@ namespace EFFECTUTIL
 	struct CBUF_COORDCONV_MATSET
 	{
 		Matrix	matTWorld;
+		Matrix	matTInvWorld;
 		Matrix	matTView;
 		Matrix	matTProj;
 	};
@@ -225,6 +226,8 @@ namespace EFFECTUTIL
 				eProp.vInitPos.z + RNG.getF(eProp.vMinPosOffset.z, eProp.vMaxPosOffset.z)
 			};
 
+			vPos *= vInitWorldScale;
+
 			vVelocity =
 			{
 				RNG.getF(eProp.vInitMinVelocity.x, eProp.vInitMaxVelocity.x),
@@ -232,12 +235,16 @@ namespace EFFECTUTIL
 				RNG.getF(eProp.vInitMinVelocity.z, eProp.vInitMaxVelocity.z)
 			};
 
+			vVelocity *= vInitWorldScale;
+
 			vAccelelation =
 			{
 				RNG.getF(eProp.vInitMinAcceleration.x, eProp.vInitMaxAcceleration.x),
 				RNG.getF(eProp.vInitMinAcceleration.y, eProp.vInitMaxAcceleration.y),
 				RNG.getF(eProp.vInitMinAcceleration.z, eProp.vInitMaxAcceleration.z)
 			};
+
+			vAccelelation *= vInitWorldScale;
 
 			fPYR =
 			{
@@ -269,23 +276,23 @@ namespace EFFECTUTIL
 
 	struct POINTPARTICLEEMITTER_FILE
 	{
-		WCHAR							wszEmitterName[EFFECT_PROP_PATH_LIMIT];
+		WCHAR									wszEmitterName[EFFECT_PROP_PATH_LIMIT];
 
-		WCHAR							wszSpriteName[EFFECT_PROP_PATH_LIMIT];
-		WCHAR							wszSpritePath[EFFECT_PROP_PATH_LIMIT];
+		WCHAR									wszSpriteName[EFFECT_PROP_PATH_LIMIT];
+		WCHAR									wszSpritePath[EFFECT_PROP_PATH_LIMIT];
 
-		WCHAR							wszTextureName[EFFECT_PROP_PATH_LIMIT];
-		WCHAR							wszTexturePath[EFFECT_PROP_PATH_LIMIT];
+		WCHAR									wszTextureName[EFFECT_PROP_PATH_LIMIT];
+		WCHAR									wszTexturePath[EFFECT_PROP_PATH_LIMIT];
 
-		Vector3							vEmitterPos;
+		Vector3									vEmitterPos;
 
-		UINT							iSpriteType;
-		UINT							spriteRC[2];
+		UINT									iSpriteType;
+		UINT									spriteRC[2];
 
-		int								iBlendStateOption;
-		bool							bEnableDepth;
-		bool							bEnableDepthWrite;
-		bool							bBackCull;
+		int										iBlendStateOption;
+		bool									bEnableDepth;
+		bool									bEnableDepthWrite;
+		bool									bBackCull;
 
 		PointParticleEmitterProperty			eProp;
 	};

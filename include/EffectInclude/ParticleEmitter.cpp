@@ -118,11 +118,14 @@ namespace EFFECTUTIL
 		m_pDContext->OMSetDepthStencilState(m_pDSState, 1);
 	}
 
-	void ParticleEmitter::setMatrix(const Matrix* pWorldM, const Matrix* pViewM, const Matrix* pProjM)
+	void ParticleEmitter::setMatrix(const Matrix* pWorld, const Matrix* pView, const Matrix* pProj, const Matrix* pParentWorld)
 	{
-		if (pWorldM) { m_matWorld = *pWorldM; }
-		if (pViewM) { m_matView = *pViewM; }
-		if (pProjM) { m_matProj = *pProjM; }
+		if (pWorld)				{ m_matLocalWorld = *pWorld; }
+		if (pView)				{ m_matView = *pView; }
+		if (pProj)				{ m_matProj = *pProj; }
+		if (pParentWorld)		{ m_matParentWorld = *pParentWorld; }
+
+		m_matWorld = m_matLocalWorld * m_matParentWorld;
 
 		switch (m_eProp.iUseBillBoard)
 		{
@@ -202,7 +205,12 @@ namespace EFFECTUTIL
 
 	void ParticleEmitter::updateCoordConvMat()
 	{
-		m_matWorld.Transpose(m_wvpMat.matTWorld);
+		m_wvpMat.matTWorld = m_matWorld * m_matParentWorld;
+		m_wvpMat.matTWorld.Transpose(m_wvpMat.matTWorld);
+
+		m_matWorld.Invert(m_wvpMat.matTInvWorld);
+		m_wvpMat.matTInvWorld.Transpose(m_wvpMat.matTInvWorld);
+
 		m_matView.Transpose(m_wvpMat.matTView);
 		m_matProj.Transpose(m_wvpMat.matTProj);
 
@@ -452,7 +460,8 @@ namespace EFFECTUTIL
 
 			if (replaceTarget)
 			{
-				replaceTarget->setParticle(m_eProp);
+				Vector3 scale = Vector3(m_wvpMat.matTWorld._11, m_wvpMat.matTWorld._22, m_wvpMat.matTWorld._33);
+				replaceTarget->setParticle(m_eProp, scale);
 			}
 		}
 	}

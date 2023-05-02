@@ -76,6 +76,9 @@ namespace EFFECTUTIL
 		Matrix											m_matView;
 		Matrix											m_matProj;
 
+		Matrix											m_matLocalWorld;
+		Matrix											m_matParentWorld;
+
 		//파티클 생성 타이머
 		float											m_fSpawnTime;
 		float											m_fTimer;
@@ -129,7 +132,7 @@ namespace EFFECTUTIL
 
 		virtual void	bindToPipeline();
 
-		virtual void	setMatrix(const Matrix* pWorldM, const Matrix* pViewM, const Matrix* pProjM);
+		virtual void	setMatrix(const Matrix* pWorld, const Matrix* pView, const Matrix* pProj, const Matrix* pParentWorld = nullptr);
 		virtual void	updateState();
 		virtual void	updateCoordConvMat();
 
@@ -201,6 +204,13 @@ namespace EFFECTUTIL
 
 		std::vector<EFFECTUTIL::ParticleEmitter*>			m_pEmitterList;
 
+		Matrix												m_matWorld;
+		Matrix												m_matView;
+		Matrix												m_matProj;
+
+		Matrix												m_matLocalWorld;
+		Matrix												m_matParentWorld;
+
 	public:
 		ParticleSystem();
 		~ParticleSystem();
@@ -209,7 +219,9 @@ namespace EFFECTUTIL
 
 		bool init();
 		bool update();
-		bool preRender(Matrix* pWorld, Matrix* pView, Matrix* pProj);
+
+		void setMatrix(Matrix* pWorld, Matrix* pView, Matrix* pProj, Matrix* pParentWorld = nullptr);
+
 		bool render();
 		bool release();
 

@@ -139,7 +139,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 			{
 				pPSystem->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
 				pPSystem->update();
-				pPSystem->preRender(&retMat,
+				pPSystem->setMatrix(&retMat,
 					&MainCamera->View, &MainCamera->Projection);
 				pPSystem->render();
 			}

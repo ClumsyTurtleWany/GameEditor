@@ -11,8 +11,9 @@
 cbuffer CBUF_COORDCONV_MATSET : register(b0)
 {
 	matrix matWorld		: register(c0);
-	matrix matView		: register(c4);
-	matrix matProj		: register(c8);
+	matrix matInvWorld	: register(c4);
+	matrix matView		: register(c8);
+	matrix matProj		: register(c12);
 };
 
 cbuffer CBUF_BILLBOARD_MAT : register(b1)

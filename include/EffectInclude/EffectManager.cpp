@@ -63,17 +63,22 @@ namespace EFFECTUTIL
 		return true;
 	}
 
-    bool ParticleSystem::preRender(Matrix* pWorld, Matrix* pView, Matrix* pProj)
+    void ParticleSystem::setMatrix(Matrix* pWorld, Matrix* pView, Matrix* pProj, Matrix* pParentWorld)
     {
         if (m_PSProp.bShow && !m_bPendingDelete)
         {
+            if (pWorld)         { m_matLocalWorld = *pWorld; }
+            if (pView)          { m_matView = *pView; }
+            if (pProj)          { m_matProj = *pProj; }
+            if (pParentWorld)   { m_matParentWorld = *pParentWorld; }
+
+             m_matWorld = m_matLocalWorld * m_matParentWorld;
+
             for (auto it : m_pEmitterList)
             {
-                it->setMatrix(pWorld, pView, pProj);
+                it->setMatrix(nullptr, pView, pProj, &m_matWorld);
             }
         }
-
-        return true;
     }
 
 	bool ParticleSystem::render()
