@@ -1,7 +1,7 @@
 //////////////////////////////////////
 //
-// GS_PointParticle.hlsl
-//		PointParticle을 위한 Gemometry Shader
+// GS_ParticleTrail.hlsl
+//		Trail 이펙트를 위한 Gemometry Shader
 //		VS에서 입력으로 받은 단일 정점을 GS셰이더에서 면으로 변경해 트랜스폼을 적용한다.
 // 
 //////////////////////////////////////
@@ -10,10 +10,10 @@
 
 cbuffer CBUF_COORDCONV_MATSET : register(b0)
 {
-	matrix matWorld		: register(c0);
-	matrix matInvWorld	: register(c4);
-	matrix matView		: register(c8);
-	matrix matProj		: register(c12);
+	matrix matWorld			: register(c0);
+	matrix matInvWorld		: register(c4);
+	matrix matView			: register(c8);
+	matrix matProj			: register(c12);
 };
 
 cbuffer CBUF_BILLBOARD_MAT : register(b1)
@@ -51,8 +51,8 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 	//출력을 일정 단위로 끊고 싶은 경우 작업 요소 단위 별로 출력후 추가 기하요소에 대해
 	//RestartStrip()함수를 호출해 연결 관계를 끊는 작업이 필요하다.
 
-	//추가하고자 하는 정점을 새로만든다. 당연히 정점 구조를 출력형식에 맞춘다.
-	// 시스템에서의 삼각형 스트립의 생성은 다음의 구조를 따른다.
+	//추가하고자 하는 정점을 새로 만든다. 당연히 정점 구조를 출력형식에 맞춘다.
+	//시스템에서의 삼각형 스트립의 생성은 다음의 구조를 따른다.
 	//    v1 -  v3 -  v5 
 	//  /	\  /  \  /   \  ...
 	// v0  - v2  - v4  - v6
@@ -92,15 +92,17 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 			newV.pos = float4(newP[i].xyz, 1.0);
 			newV.pos = mul(newV.pos, scale);
 			newV.pos.xyz = newV.pos.xyz * matWorld._11;
-			newV.pos.xyz = mul(newV.pos.xyz, (float3x3)gIn[0].rot);
-			newV.pos = mul(newV.pos, matBillboard);
+			newV.pos.xyz = mul(newV.pos,xyz, (float3x3)gIn[0].rot);
 			newV.pos.xyz += gIn[0].pos.xyz;
+
+			//newV.pos.xyz += float3(matWorld._14, matWorld._24, matWorld._34);	이 부분이 GS_PointParticle과 다르다
 
 			newV.normal = gIn[0].normal;
 			newV.color = gIn[0].color;
 			newV.uvCoord = gIn[0].uvCoord;
 			newV.spriteUvCoord = newT[i];
 
+			newV.pos = mul(newV.pos, matBillboard);
 			newV.pos = mul(newV.pos, matView);
 			newV.pos = mul(newV.pos, matProj);
 

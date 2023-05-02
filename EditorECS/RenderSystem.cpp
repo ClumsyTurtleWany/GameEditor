@@ -126,7 +126,7 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		auto transform = entity->GetComponent<TransformComponent>();
 
 		Matrix retMat = Matrix::CreateScale(transform->Scale);
-		retMat *= DirectX::XMMatrixRotationRollPitchYawFromVector(transform->Rotation);
+		//retMat *= DirectX::XMMatrixRotationRollPitchYawFromVector(transform->Rotation);
 		retMat *= Matrix::CreateTranslation(transform->Translation);
 
 		if (MainCamera != nullptr && pPSystem != nullptr)

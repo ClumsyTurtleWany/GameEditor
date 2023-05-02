@@ -401,7 +401,10 @@ bool BattleScene::Frame()
 	//Effect test
 	if (Input::GetInstance()->getKey('U') == KeyState::Up)
 	{
-		PlayEffect(&TheWorld, L"Hit5", { { 20.0f, 20.0f, 0.0f }, Vector3(), {10.0f, 10.0f, 10.0f} }, { false, 1.0f, 1.0f, 1.0f });
+		PlaySimpleTrail(&TheWorld, L"SmokeTrail2",
+			{ -50.0f, 10.0f, 0.0f }, { 50.0f, 10.0f, 0.0f },
+			100.0f, 0.0f,
+			{ 0.5f, 0.5f, 0.5f }, { false, 10.0f, 0.0f, 1.0f });
 	}
 
 	//PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
@@ -1249,7 +1252,7 @@ void BattleScene::NotifierCheck()
 				if (noti->Lable == L"E1A1") // 적1 후리기
 				{
 					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
-					PlayEffect(&TheWorld, L"Hit3", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {5.0f, 5.0f, 5.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit3", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {2.0f, 2.0f, 2.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
 				}
 				else if (noti->Lable == L"E1A2") // 적1 발차기
@@ -1279,7 +1282,7 @@ void BattleScene::NotifierCheck()
 				if (noti->Lable == L"E2A3") // 적2 중긁기
 				{
 					if (player->hp > 0) { PAnime->SetClipByName(L"Hit"); }
-					PlayEffect(&TheWorld, L"Hit3", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					PlayEffect(&TheWorld, L"Hit3", { enemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {2.0f, 2.0f, 2.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					if (EnemyDamage > 0) { DamageAnimation(EnemyDamage, false); EnemyDamage = 0; }
 				}
 

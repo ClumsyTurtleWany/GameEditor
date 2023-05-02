@@ -376,5 +376,8 @@
     <FxCompile Include="..\resource\EffectPart\shader\VS_PointParticle.hlsl">
       <Filter>EffectUtility\HLSL</Filter>
     </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\GS_ParticleTrail.hlsl">
+      <Filter>EffectUtility\HLSL</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

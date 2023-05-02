@@ -4,6 +4,7 @@
 #include "ArrowComponent.h"
 #include "SplineComponent.h"
 #include "OscillationComponent.h"
+#include "EffectInclude\ParticleEffectComponent.h"
 #include "Camera.h"
 
 void MovementSystem::Tick(ECS::World* world, float time)
@@ -13,6 +14,7 @@ void MovementSystem::Tick(ECS::World* world, float time)
 		auto transform = entity->GetComponent<TransformComponent>();
 		auto movement = entity->GetComponent<MovementComponent>();
 		auto arrow = entity->GetComponent<ArrowComponent>();
+		auto effect = entity->GetComponent<ParticleEffectComponent>();
 		
 		if (transform && movement && arrow)
 		{
@@ -39,6 +41,24 @@ void MovementSystem::Tick(ECS::World* world, float time)
 
 			movement->Location += movement->Forward * movement->Speed * time;
 			transform->Translation = movement->Location;
+		}
+		else if (effect)
+		{
+			movement->Location = transform->Translation;
+
+			Vector3 Direction = movement->Destination - movement->Location;
+			Direction.Normalize();
+
+			if (Direction.Dot(movement->InitVelocity) < 0.0f) 
+			{
+				//effect->m_pPPsystem->m_bPendingDelete = true;
+				effect->m_pPPsystem->toggleActivation(false);
+			}
+			else
+			{
+				movement->CurrentVelocity += movement->InitAcceleration * time;
+				transform->Translation += movement->CurrentVelocity * time;
+			}
 		}
 	}
 

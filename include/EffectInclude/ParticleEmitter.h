@@ -8,6 +8,8 @@ namespace EFFECTUTIL
 	class EffectEmitter
 	{
 	public:
+		EFFECT_EMITTER_TYPE							m_emitterType;
+
 		std::string									m_szName;
 		std::wstring								m_wszName;
 		ID3D11Device*								m_pDevice;
@@ -16,6 +18,7 @@ namespace EFFECTUTIL
 	public:
 		EffectEmitter() 
 		{
+			m_emitterType = EFFECT_EMITTER_TYPE::EET_DEFAULT;
 			m_pDevice = nullptr;
 			m_pDContext = nullptr;
 		}
@@ -60,6 +63,9 @@ namespace EFFECTUTIL
 	class ParticleEmitter : public EffectEmitter
 	{
 	public:
+		//이미터 활성화 여부
+		bool											m_bActivate;
+
 		//이미터의 위치
 		Vector3											m_vPos;
 		Vector3											m_vPrevPos;
@@ -126,7 +132,7 @@ namespace EFFECTUTIL
 		virtual ~ParticleEmitter();
 
 		virtual bool	init();
-		virtual bool	update();
+		virtual bool	update(float dt);
 		virtual bool	render();
 		virtual bool	release();
 
@@ -152,8 +158,56 @@ namespace EFFECTUTIL
 
 		virtual HRESULT updateBuffer(ID3D11Resource* pBuf, void* pResource, UINT iBufSize);
 
-		void activateTarget(float dt);
-		void updateParticleState(int i, float dt);
+		virtual void activateTarget(float dt, bool bActivate = true);
+		virtual void updateParticleState(int i, float dt);
+	};
+
+	class TrailEmitter : public ParticleEmitter
+	{
+	public:
+		int		m_iActivateIdx;
+	public:
+		TrailEmitter();
+		virtual ~TrailEmitter();
+
+		virtual bool	init();
+		virtual bool	update(float dt);
+
+		virtual HRESULT		createEmitter(PointParticleEmitterProperty eProp,
+			std::wstring wszTexName);
+
+		virtual HRESULT		createUVSpriteEmitter(PointParticleEmitterProperty eProp,
+			std::wstring wszSpriteName);
+
+		virtual HRESULT		createMTSpriteEmitter(PointParticleEmitterProperty eProp,
+			std::wstring wszSpriteName);
+
+		virtual void	activateTarget(float dt, bool bActivate = true);
+
+		virtual void	setMatrix(const Matrix* pWorld, const Matrix* pView, const Matrix* pProj, const Matrix* pParentWorld = nullptr);
+	};
+
+	class BurstEmitter : public ParticleEmitter
+	{
+	public:
+		int		m_iActivateIdx;
+	public:
+		BurstEmitter();
+		virtual ~BurstEmitter();
+
+		virtual bool	init();
+		virtual bool	update(float dt);
+
+		virtual HRESULT		createEmitter(PointParticleEmitterProperty eProp,
+			std::wstring wszTexName);
+
+		virtual HRESULT		createUVSpriteEmitter(PointParticleEmitterProperty eProp,
+			std::wstring wszSpriteName);
+
+		virtual HRESULT		createMTSpriteEmitter(PointParticleEmitterProperty eProp,
+			std::wstring wszSpriteName);
+
+		virtual void	activateTarget(float dt, bool bActivate = true);
 	};
 
 	struct ParticlesystemProperty
@@ -226,6 +280,7 @@ namespace EFFECTUTIL
 		bool release();
 
 		void setProp(ParticlesystemProperty PSProp);
+		void toggleActivation(bool bActivate);
 	};
 }
 
