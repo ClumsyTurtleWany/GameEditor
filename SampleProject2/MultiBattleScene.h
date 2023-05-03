@@ -149,6 +149,7 @@ public:
 	bool hostTurnEnd = false;
 	bool clientTurnEnd = false;
 public:
-	Vector3 MoveLocation;
 	bool MoveClickCheck = false;
+	bool OtherPlayerIsMoving = false;
+	Vector3 MoveLocation = { 99999.0f, 99999.0f, 99999.0f };  // 호오오옥시 0이되는 경우를 대비해서 입력이 없었을 경우 99999로 세팅
 };

@@ -1582,11 +1582,11 @@ void BattleScene::CardCheck()
 				{
 					player->armor += 5;
 					CanUse = true;
-				}
 
-				PAnime->SetClipByName(L"Inward_Block");
-				PlayEffect(&TheWorld, L"Shield1", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
-				SoundMap.find(L"Shield")->second->Play();
+					PAnime->SetClipByName(L"Inward_Block");
+					PlayEffect(&TheWorld, L"Shield1", { player->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+					SoundMap.find(L"Shield")->second->Play();
+				}
 			}break;
 
 			case PommelStrike:

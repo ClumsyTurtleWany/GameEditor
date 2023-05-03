@@ -152,11 +152,11 @@ bool MultiBattleScene::Init()
 	//////  초기 카메라 세팅  //////
 
 	// 플레이어 캐릭터 포워드 벡터 셋팅, 1P 기준
-	auto PlayerForward = PlayerCharacter->MovementComp->Destination - PlayerCharacter->Transform->Translation;
+	auto PlayerForward = player1->chara->MovementComp->Destination - player1->chara->Transform->Translation;
 	PlayerForward.Normalize();
 	player1->Forward = PlayerForward;
 	// 플레이어 캐릭터 포워드 벡터 셋팅, 2P
-	auto PlayerForward2 = player2->chara->MovementComp->Destination - PlayerCharacter->Transform->Translation;
+	auto PlayerForward2 = player2->chara->MovementComp->Destination - player2->chara->Transform->Translation;
 	PlayerForward2.Normalize();
 	player2->Forward = PlayerForward2;
 
@@ -168,7 +168,7 @@ bool MultiBattleScene::Init()
 	DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
 
 	// 카메라 위치 세팅, 나중에 또 업데이트 필요할듯 (주로 이동 후에)
-	PlayerCameraPos = PlayerCharacter->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
+	PlayerCameraPos = player1->chara->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
 	PlayerCameraPos -= player1->Forward * 1.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
 	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
 	PlayerCameraPos -= Right * 35.0f;			// 오른쪽으로 좀 빼주고
@@ -285,7 +285,7 @@ bool MultiBattleScene::Frame()
 
 			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
 			//player->chara->Transform->Rotation += eulerAngles;
-			auto timeline = PlayerCharacter->GetComponent<TimelineComponent>();
+			auto timeline = CurrentPlayer->chara->GetComponent<TimelineComponent>();
 			if (timeline != nullptr)
 			{
 				timeline->CreateTimeline(CurrentPlayer->chara->Transform->Rotation.y, CurrentPlayer->chara->Transform->Rotation.y + eulerAngles.y, 0.2f);
@@ -1012,7 +1012,7 @@ void MultiBattleScene::UpdateCameraPos()
 	DirectX::XMStoreFloat3(&Right, DirectX::XMVector3Normalize(XMLoadFloat3(&crossProduct)));
 
 	// 카메라 위치 세팅, 나중에 또 업데이트 필요할듯 (주로 이동 후에)
-	PlayerCameraPos = PlayerCharacter->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
+	PlayerCameraPos = TargetPlayer->chara->MovementComp->Destination;	// 플레이어 도착예상지점 기준..
 	PlayerCameraPos -= TargetPlayer->Forward * 30.0f;	// 플레이어 캐릭터가 향하는 방향에서 살짝 뒤로 뺌
 	PlayerCameraPos.y += 30.0f;					// 위로 좀 올려줌
 	PlayerCameraPos -= Right * 15.0f;			// 오른쪽으로 좀 빼주고
@@ -1308,60 +1308,8 @@ void MultiBattleScene::TurnEndProcess()
 		}
 	}
 
+
 	SoundMap.find(L"TurnEnd")->second->Play();	// 턴종 소리
-
-
-
-	{	// moveClicked, movementPoint
-		if (gpHost != nullptr && gpHost->IsConnected())
-		{
-			//moveclicked
-			{
-				protocol::S_MOVECLICKED p1MoveClicked;
-				p1MoveClicked.set_bmoveclick(true);
-
-				auto sendBuf = ServerPacketHandler::MakeSendBuffer(p1MoveClicked);
-				auto session = gpHost->GetService()->GetSessions().begin();
-				(*session)->Send(sendBuf);
-			}
-
-			//movementPoint
-			{
-				protocol::S_MOVETOPOINT p1Point;
-				p1Point.set_vecx(0.0f);
-				p1Point.set_vecy(0.0f);
-				p1Point.set_vecz(0.0f);
-
-				auto sendBuf = ServerPacketHandler::MakeSendBuffer(p1Point);
-				auto session = gpHost->GetService()->GetSessions().begin();
-				(*session)->Send(sendBuf);
-			}
-		}
-		if (gpClient != nullptr && gpClient->IsConnected())
-		{
-			//moveclicked
-			{
-				protocol::C_MOVECLICKED p2MoveClicked;
-				p2MoveClicked.set_bmoveclick(true);
-
-				auto sendBuf = ClientPacketHandler::MakeSendBuffer(p2MoveClicked);
-				auto session = gpClient->GetClientservice()->GetSessions().begin();
-				(*session)->Send(sendBuf);
-			}
-
-			//movementPoint
-			{
-				protocol::C_MOVETOPOINT p2Point;
-				p2Point.set_vecx(0.0f);
-				p2Point.set_vecy(0.0f);
-				p2Point.set_vecz(0.0f);
-
-				auto sendBuf = ClientPacketHandler::MakeSendBuffer(p2Point);
-				auto session = gpClient->GetClientservice()->GetSessions().begin();
-				(*session)->Send(sendBuf);
-			}
-		}
-	}
 }
 
 
@@ -1464,6 +1412,27 @@ void MultiBattleScene::MoveProcess()
 		Vector3 CameraTarget;
 		MoveCamera->CreateViewMatrix(SkyCamPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
 		MainCameraSystem->TargetCamera = MoveCamera;
+
+		// 다른 플레이어한테 너도 카메라 바꿔 명령
+		if (gpHost != nullptr && gpHost->IsConnected())	// 내가 1P(호스트)일 경우
+		{
+			protocol::S_MOVECLICKED p1MoveClicked;
+			p1MoveClicked.set_bmoveclick(true);
+
+			auto sendBuf = ServerPacketHandler::MakeSendBuffer(p1MoveClicked);
+			auto session = gpHost->GetService()->GetSessions().begin();
+			(*session)->Send(sendBuf);
+			
+		}
+		else if (gpClient != nullptr && gpClient->IsConnected()) 
+		{
+			protocol::C_MOVECLICKED p2MoveClicked;
+			p2MoveClicked.set_bmoveclick(true);
+
+			auto sendBuf = ClientPacketHandler::MakeSendBuffer(p2MoveClicked);
+			auto session = gpClient->GetClientservice()->GetSessions().begin();
+			(*session)->Send(sendBuf);
+		}
 	}
 
 	// 딜레이주려고
@@ -1485,22 +1454,45 @@ void MultiBattleScene::MoveProcess()
 			{
 				MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.0f, 0.0f, 0.0f, 0.5f }, { 0.5f, 1.0f, 0.0f, 0.5f });
 
-				// 땅을 찍었다면, 이동명령 내리고 카메라 바꿔줌
+				// 땅을 찍었다면
 				KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 				if (btnLC == KeyState::Down)
 				{
+					// 이동명령 내리고 카메라 바꿔줌
 					CurrentPlayer->chara->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
+
+					// 타 플레이어에게 위치정보 패킷 보냄
+					if (gpHost != nullptr && gpHost->IsConnected())	// 내가 1P(호스트)일 경우
+					{
+						protocol::S_MOVETOPOINT p1Point;
+						p1Point.set_vecx(MAIN_PICKER.vIntersection.x);
+						p1Point.set_vecy(MAIN_PICKER.vIntersection.y);
+						p1Point.set_vecz(MAIN_PICKER.vIntersection.z);
+
+						auto sendBuf = ServerPacketHandler::MakeSendBuffer(p1Point);
+						auto session = gpHost->GetService()->GetSessions().begin();
+						(*session)->Send(sendBuf);
+					}
+					if (gpClient != nullptr && gpClient->IsConnected())	// 내가 2P(게스트)일 경우 
+					{
+						protocol::C_MOVETOPOINT p2Point;
+						p2Point.set_vecx(MAIN_PICKER.vIntersection.x);
+						p2Point.set_vecy(MAIN_PICKER.vIntersection.y);
+						p2Point.set_vecz(MAIN_PICKER.vIntersection.z);
+
+						auto sendBuf = ClientPacketHandler::MakeSendBuffer(p2Point);
+						auto session = gpClient->GetClientservice()->GetSessions().begin();
+						(*session)->Send(sendBuf);
+					}
 				}
-			}
-			else
-			{
-				MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.5f, 0.0f, 0.0f, 0.5f }, { 0.75f, 0.0f, 0.0f, 0.5f });
-			}
+				}
+			// 마우스가 이동 가능 범위를 벗어났을 경우
+			else { MAIN_PICKER.SetMoveUIColor(&TheWorld, { 0.5f, 0.0f, 0.0f, 0.5f }, { 0.75f, 0.0f, 0.0f, 0.5f }); }
 		}
 
 		// 땅을 찍었고, 플레이어의 이동이 끝났다면
-		else if (!PlayerCharacter->MovementComp->IsMoving)
+		else if (!CurrentPlayer->chara->MovementComp->IsMoving)
 		{
 			IsMoving = false;
 			MoveTimer = 0.0f;
@@ -1765,7 +1757,71 @@ void MultiBattleScene::Reaction()
 		clientTurnEnd = false;
 	}
 
-	if (OtherPlayerUsedCardNum != 999) // 상대방이 카드를 사용했을 때
+
+	// 다른 플레이어가 이동버튼을 눌렀을 때, 카메라를 같이 위로 띄워줌
+	if (MoveClickCheck)
+	{
+		Vector3 SkyCamPos = PlayerCameraPos;
+		SkyCamPos -= CurrentPlayer->Forward * 200.0f;
+		SkyCamPos.y += 150.0f;
+		Vector3 CameraTarget;
+		MoveCamera->CreateViewMatrix(SkyCamPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+		MainCameraSystem->TargetCamera = MoveCamera;
+
+		MoveClickCheck = false;
+	}
+
+	// 다른 플레이어가 이동 위치를 확정했을 때
+	if(MoveLocation.x != 99999.0f && MoveLocation.y != 99999.0f && MoveLocation.z != 99999.0f)
+	{
+		CurrentPlayer->chara->MoveTo(MoveLocation);
+		OtherPlayerIsMoving = true;
+
+		MoveLocation = { 99999.0f, 99999.0f, 99999.0f };	// 초기화
+	}
+	// 다른 플레이어가 이동이 끝났을 때, moveto 주고 한프레임 돌아야 하는 것 같으니 여기는 else if 붙여줌
+	else if (OtherPlayerIsMoving && !CurrentPlayer->chara->MovementComp->IsMoving) 
+	{
+		// 타겟팅한 적이 없다면 자동으로 첫번째 적 타겟팅
+		if (TargetEnemy == nullptr) { TargetEnemy = EnemyList[0]; }
+		// 플레이어 캐릭터 방향 회전 (타겟팅한 적 쪽으로)
+		CurrentPlayer->Forward = CurrentPlayer->chara->MovementComp->Forward;
+		Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - CurrentPlayer->chara->Transform->Translation;
+		NewPlayerForward.Normalize();
+		DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentPlayer->Forward, NewPlayerForward);
+		Vector3 eulerAngles = quaternion.ToEuler();
+		eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+		CurrentPlayer->chara->Transform->Rotation += eulerAngles;
+		CurrentPlayer->Forward = NewPlayerForward;
+
+		// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
+		for (auto enemy : EnemyList)
+		{
+			Vector3 CurrentForward = enemy->chara->MovementComp->Forward;
+			Vector3 NewForward = CurrentPlayer->chara->Transform->Translation - enemy->chara->Transform->Translation;
+			NewForward.Normalize();
+			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
+			Vector3 eulerAngles = quaternion.ToEuler();
+			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+			enemy->chara->Transform->Rotation += eulerAngles;
+			enemy->chara->MovementComp->Forward = NewForward;
+		}
+
+		// 카메라 셋팅
+		auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+		CameraTarget.y += 10.0f;
+		TargetPlayer = CurrentPlayer;
+		UpdateCameraPos();
+		MainCameraSystem->MainCamera = MainCamera;
+		MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+		MainCameraSystem->TargetCamera = MoveCamera;
+
+		OtherPlayerIsMoving = false;
+	}
+
+
+	// 다른 플레이어가 카드를 사용했을 때
+	if (OtherPlayerUsedCardNum != 999) 
 	{
 		TargetEnemy = EnemyList[OtherPlayerTargetEnemyNum];
 
