@@ -29,6 +29,20 @@ cbuffer CameraMatrixData : register(b1)
 	matrix g_Projection : packoffset(c4);
 }
 
+cbuffer MaterialData : register(b3)
+{
+	float4 g_DiffuseColor;
+	float4 g_AmbientColor;
+	float4 g_SpecularColor;
+	float4 g_EmissiveColor;
+	float4 g_ColorFilter;
+
+	float4 g_Reflection;
+	float4 g_Refraction;
+	float4 g_Alpha;
+	float4 g_Intensive;
+}
+
 VSOutputShadow VS(VSInputShadow input)
 {
 	VSOutputShadow output = (VSOutputShadow)0;
@@ -36,6 +50,14 @@ VSOutputShadow VS(VSInputShadow input)
 	float4 view = mul(world, g_View);
 	float4 proj = mul(view, g_Projection);
 	output.pos = proj;
+
+	float alpha = min(g_Alpha, input.c.w);
+	if (alpha <= 0.98)
+	{
+		output.pos.z = 1.0f * (1.0f - alpha);
+		output.pos.w = 1.0f;
+	}
+
 	output.depth = output.pos.zw;
 	output.world = world;
 	output.view = view;

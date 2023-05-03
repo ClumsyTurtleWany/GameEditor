@@ -10,6 +10,13 @@ MovementComponent::MovementComponent(Vector3 location, Vector3 forword, Vector3 
 {
 };
 
+MovementComponent::MovementComponent(Vector3 location, Vector3 destination, Vector3 initVelo, Vector3 initAccel)
+	: Location(location), Destination(destination), InitVelocity(initVelo), InitAcceleration(initAccel)
+{
+	Speed = 0.0f;
+	IsMoving = true;
+}
+
 MovementComponent::~MovementComponent()
 {
 	

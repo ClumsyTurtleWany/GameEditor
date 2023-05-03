@@ -49,6 +49,20 @@ cbuffer ConstantData_Bone : register(b2)
 	matrix g_matBone[255];
 }
 
+cbuffer MaterialData : register(b3)
+{
+	float4 g_DiffuseColor;
+	float4 g_AmbientColor;
+	float4 g_SpecularColor;
+	float4 g_EmissiveColor;
+	float4 g_ColorFilter;
+
+	float4 g_Reflection;
+	float4 g_Refraction;
+	float4 g_Alpha;
+	float4 g_Intensive;
+}
+
 VertexShader_output VS(VertexShader_input input)
 {
 	VertexShader_output output = (VertexShader_output)0;
@@ -76,6 +90,14 @@ VertexShader_output VS(VertexShader_input input)
 	float4 vProjNormal = mul(vViewNormal, g_Projection);
 
 	output.pos = vProj;
+
+	float alpha = min(g_Alpha, input.c.w);
+	if (alpha <= 0.98)
+	{
+		output.pos.z = 1.0f * (1.0f - alpha);
+		output.pos.w = 1.0f;
+	}
+
 	output.depth = output.pos.zw;
 
 	output.world = vWorld;

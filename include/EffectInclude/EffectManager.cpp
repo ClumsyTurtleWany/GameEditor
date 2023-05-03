@@ -35,7 +35,8 @@ namespace EFFECTUTIL
 	{
         if (m_PSProp.bShow)
         {
-            m_fCurTime += Timer::GetInstance()->SecondPerFrame;
+            float dt = Timer::GetInstance()->SecondPerFrame * m_PSProp.fPlaySpeed;
+            m_fCurTime += dt;
 
             if (m_fCurTime < m_PSProp.fDuration + m_PSProp.fStDelay)
             {
@@ -43,7 +44,7 @@ namespace EFFECTUTIL
                 {
                     for (auto it : m_pEmitterList)
                     {
-                        it->update();
+                        it->update(dt);
                     }
                 }
             }
@@ -115,6 +116,14 @@ namespace EFFECTUTIL
         }
     }
 
+    void ParticleSystem::toggleActivation(bool bActivate)
+    {
+        for (auto it : m_pEmitterList)
+        {
+            it->m_bActivate = bActivate;
+        }
+    }
+
 	EffectManager::EffectManager()
 	{
 	}
@@ -133,6 +142,12 @@ namespace EFFECTUTIL
 
 	bool EffectManager::release()
 	{
+        for (auto it : m_PSFileMap)
+        {
+            delete it.second;
+            it.second = nullptr;
+        }
+
         m_PSFileMap.clear();
 
         for (auto it : m_pPSSet)
@@ -169,18 +184,22 @@ namespace EFFECTUTIL
 	{
         if (m_PSFileMap.find(key) == m_PSFileMap.end())
         {
-            PARTICLESYSTEM_FILE loadFile;
-            ZeroMemory(&loadFile, sizeof(loadFile));
+            PARTICLESYSTEM_FILE* pLoadFile = new PARTICLESYSTEM_FILE;
+            ZeroMemory(pLoadFile, sizeof(PARTICLESYSTEM_FILE));
 
-            bool bRet = FILEIO_MGR.loadFile(wszEffectFilePath, &loadFile);
+            bool bRet = FILEIO_MGR.loadFile(wszEffectFilePath, pLoadFile);
 
-            if (bRet)
+            if (bRet) 
             {
-                m_PSFileMap.insert(std::make_pair(key, loadFile));
-
-                return bRet;
+                m_PSFileMap.insert(std::make_pair(key, pLoadFile));
             }
-            else { return false; }
+            else
+            {
+                delete pLoadFile;
+            }
+            
+            return bRet;
+
         }
         else { return true; }
 	}
@@ -194,77 +213,64 @@ namespace EFFECTUTIL
             ParticleSystem* newPPS;
             newPPS = new ParticleSystem;
 
-            int numEmit = it->second.iEmiiterCnt;
+            int numEmit = it->second->iEmiiterCnt;
+            bool bRet = true;
 
             for (int i = 0; i < numEmit; i++)
             {
-                if (it->second.emitters[i].wszEmitterName[0] != NULL)
+                if (it->second->emitters[i].wszEmitterName[0] != NULL)
                 {
-                    ParticleEmitter* newE = new ParticleEmitter;
-                    newE->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
-                    newE->setName(it->second.emitters[i].wszEmitterName);
+                    ParticleEmitter* pNew = nullptr;
 
-                    if (it->second.emitters[i].wszSpriteName[0] != NULL)
+                    switch (it->second->emitters[i].emitterType)
                     {
-                        if (it->second.emitters[i].iSpriteType == SPRITE_TYPE::SPRITE_UV)
+                        case EFFECT_EMITTER_TYPE::EET_DEFAULT :
                         {
-                            if (!SPRITE_MGR.getUVPtr(it->second.emitters[i].wszSpriteName))
-                            {
-                                newE->release();
-                                delete newE;
-                                newE = nullptr;
+                            bRet = createDefaultEmitter(&pNew, it->second->emitters[i]);
 
+                            if (!bRet)
+                            {
                                 newPPS->release();
                                 delete newPPS;
                                 newPPS = nullptr;
+
                                 return nullptr;
                             }
 
-                            newE->createUVSpriteEmitter(it->second.emitters[i].eProp,
-                                it->second.emitters[i].wszSpriteName);
-                        }
-                        else
-                        {
-                            if (!SPRITE_MGR.getMTPtr(it->second.emitters[i].wszSpriteName))
-                            {
-                                newE->release();
-                                delete newE;
-                                newE = nullptr;
+                            newPPS->m_pEmitterList.push_back(pNew);
+                        } break;
 
+                        case EFFECT_EMITTER_TYPE::EET_TRAIL:
+                        {
+                            bRet = createTrailEmitter(&pNew, it->second->emitters[i]);
+
+                            if (!bRet)
+                            {
                                 newPPS->release();
                                 delete newPPS;
                                 newPPS = nullptr;
+
                                 return nullptr;
                             }
 
-                            newE->createMTSpriteEmitter(it->second.emitters[i].eProp,
-                                it->second.emitters[i].wszSpriteName);
-                        }
+                            newPPS->m_pEmitterList.push_back(pNew);
+                        } break;
 
-                        newE->setRenderOption(it->second.emitters[i].iBlendStateOption,
-                            it->second.emitters[i].bEnableDepth,
-                            it->second.emitters[i].bEnableDepthWrite, 
-                            it->second.emitters[i].bBackCull);
+                        case EFFECT_EMITTER_TYPE::EET_BURST:
+                        {
+                            bRet = createBurstEmitter(&pNew, it->second->emitters[i]);
 
-                        newE->init();
+                            if (!bRet)
+                            {
+                                newPPS->release();
+                                delete newPPS;
+                                newPPS = nullptr;
 
-                        newPPS->m_pEmitterList.push_back(newE);
-                    }
-                    else
-                    {
-                        DXTextureManager::GetInstance()->Load(it->second.emitters[i].wszTexturePath);
+                                return nullptr;
+                            }
 
-                        newE->createEmitter(it->second.emitters[i].eProp,
-                            it->second.emitters[i].wszTexturePath);
-
-                        newE->setRenderOption(it->second.emitters[i].iBlendStateOption,
-                            it->second.emitters[i].bEnableDepth,
-                            it->second.emitters[i].bEnableDepthWrite,
-                            it->second.emitters[i].bBackCull);
-
-                        newE->init();
-
-                        newPPS->m_pEmitterList.push_back(newE);
+                            newPPS->m_pEmitterList.push_back(pNew);
+                        } break;
                     }
                 }
             }
@@ -275,6 +281,199 @@ namespace EFFECTUTIL
 
 		return nullptr;
 	}
+
+    bool EffectManager::createDefaultEmitter(ParticleEmitter** ppOut, POINTPARTICLEEMITTER_FILE& eFile)
+    {
+        ParticleEmitter* newE = new ParticleEmitter;
+
+        newE->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
+        newE->setName(eFile.wszEmitterName);
+
+        if (eFile.wszSpriteName[0] != NULL)
+        {
+            if (eFile.iSpriteType == SPRITE_TYPE::SPRITE_UV)
+            {
+                if (!SPRITE_MGR.getUVPtr(eFile.wszSpriteName))
+                {
+                    newE->release();
+                    delete newE;
+                    newE = nullptr;
+
+                    return false;
+                }
+
+                newE->createUVSpriteEmitter(eFile.eProp,
+                    eFile.wszSpriteName);
+            }
+            else
+            {
+                if (!SPRITE_MGR.getMTPtr(eFile.wszSpriteName))
+                {
+                    newE->release();
+                    delete newE;
+                    newE = nullptr;
+
+                    return false;
+                }
+
+                newE->createMTSpriteEmitter(eFile.eProp,
+                    eFile.wszSpriteName);
+            }
+
+            newE->setRenderOption(eFile.iBlendStateOption,
+                eFile.bEnableDepth,
+                eFile.bEnableDepthWrite,
+                eFile.bBackCull);
+
+            newE->init();
+        }
+        else
+        {
+            DXTextureManager::GetInstance()->Load(eFile.wszTexturePath);
+
+            newE->createEmitter(eFile.eProp,
+                eFile.wszTexturePath);
+
+            newE->setRenderOption(eFile.iBlendStateOption,
+                eFile.bEnableDepth,
+                eFile.bEnableDepthWrite,
+                eFile.bBackCull);
+
+            newE->init();
+        }
+
+        *ppOut = newE;
+        return true;
+    }
+
+    bool EffectManager::createTrailEmitter(ParticleEmitter** ppOut, POINTPARTICLEEMITTER_FILE& eFile)
+    {
+        TrailEmitter* newE = new TrailEmitter;
+
+        newE->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
+        newE->setName(eFile.wszEmitterName);
+
+        if (eFile.wszSpriteName[0] != NULL)
+        {
+            if (eFile.iSpriteType == SPRITE_TYPE::SPRITE_UV)
+            {
+                if (!SPRITE_MGR.getUVPtr(eFile.wszSpriteName))
+                {
+                    newE->release();
+                    delete newE;
+                    newE = nullptr;
+
+                    return false;
+                }
+
+                newE->createUVSpriteEmitter(eFile.eProp,
+                    eFile.wszSpriteName);
+            }
+            else
+            {
+                if (!SPRITE_MGR.getMTPtr(eFile.wszSpriteName))
+                {
+                    newE->release();
+                    delete newE;
+                    newE = nullptr;
+
+                    return false;
+                }
+
+                newE->createMTSpriteEmitter(eFile.eProp,
+                    eFile.wszSpriteName);
+            }
+
+            newE->setRenderOption(eFile.iBlendStateOption,
+                eFile.bEnableDepth,
+                eFile.bEnableDepthWrite,
+                eFile.bBackCull);
+
+            newE->init();
+        }
+        else
+        {
+            DXTextureManager::GetInstance()->Load(eFile.wszTexturePath);
+
+            newE->createEmitter(eFile.eProp,
+                eFile.wszTexturePath);
+
+            newE->setRenderOption(eFile.iBlendStateOption,
+                eFile.bEnableDepth,
+                eFile.bEnableDepthWrite,
+                eFile.bBackCull);
+
+            newE->init();
+        }
+
+        *ppOut = newE;
+        return true;
+    }
+
+    bool EffectManager::createBurstEmitter(ParticleEmitter** ppOut, POINTPARTICLEEMITTER_FILE& eFile)
+    {
+        BurstEmitter* newE = new BurstEmitter;
+
+        newE->setDevice(DXDevice::g_pd3dDevice, DXDevice::g_pImmediateContext);
+        newE->setName(eFile.wszEmitterName);
+
+        if (eFile.wszSpriteName[0] != NULL)
+        {
+            if (eFile.iSpriteType == SPRITE_TYPE::SPRITE_UV)
+            {
+                if (!SPRITE_MGR.getUVPtr(eFile.wszSpriteName))
+                {
+                    newE->release();
+                    delete newE;
+                    newE = nullptr;
+
+                    return false;
+                }
+
+                newE->createUVSpriteEmitter(eFile.eProp,
+                    eFile.wszSpriteName);
+            }
+            else
+            {
+                if (!SPRITE_MGR.getMTPtr(eFile.wszSpriteName))
+                {
+                    newE->release();
+                    delete newE;
+                    newE = nullptr;
+
+                    return false;
+                }
+
+                newE->createMTSpriteEmitter(eFile.eProp,
+                    eFile.wszSpriteName);
+            }
+
+            newE->setRenderOption(eFile.iBlendStateOption,
+                eFile.bEnableDepth,
+                eFile.bEnableDepthWrite,
+                eFile.bBackCull);
+
+            newE->init();
+        }
+        else
+        {
+            DXTextureManager::GetInstance()->Load(eFile.wszTexturePath);
+
+            newE->createEmitter(eFile.eProp,
+                eFile.wszTexturePath);
+
+            newE->setRenderOption(eFile.iBlendStateOption,
+                eFile.bEnableDepth,
+                eFile.bEnableDepthWrite,
+                eFile.bBackCull);
+
+            newE->init();
+        }
+
+        *ppOut = newE;
+        return true;
+    }
+
     bool EffectManager::erase(ParticleSystem* pTarget)
     {
         auto it = m_pPSSet.find(pTarget);

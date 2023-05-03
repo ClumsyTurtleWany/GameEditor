@@ -7,7 +7,7 @@ namespace EFFECTUTIL
 	class EffectManager
 	{
 	private:
-		std::map<std::wstring, PARTICLESYSTEM_FILE>		m_PSFileMap;
+		std::map<std::wstring, PARTICLESYSTEM_FILE*>	m_PSFileMap;
 		std::unordered_set<ParticleSystem*>				m_pPSSet;
 		std::wstring									m_wszDefaultPointParticleFilePath;
 
@@ -25,6 +25,10 @@ namespace EFFECTUTIL
 		bool loadDefaultEffectDir();
 		bool loadPointParticleEffect(std::wstring wszEffectFilePath, std::wstring key);
 		ParticleSystem* getPointParticleEffect(std::wstring key);
+
+		bool createDefaultEmitter(ParticleEmitter** ppOut, POINTPARTICLEEMITTER_FILE& eFile);
+		bool createTrailEmitter(ParticleEmitter** ppOut, POINTPARTICLEEMITTER_FILE& eFile);
+		bool createBurstEmitter(ParticleEmitter** ppOut, POINTPARTICLEEMITTER_FILE& eFile);
 
 		bool erase(ParticleSystem* pTarget);
 

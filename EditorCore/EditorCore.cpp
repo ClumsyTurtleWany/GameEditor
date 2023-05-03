@@ -302,5 +302,10 @@ bool EditorCore::CreateGeometryShader()
         OutputDebugString(L"EditorCore::Initialize::CreateGeometryShader::Failed Create Geometry Shader.(../resource/EffectPart/shader/GS_PointParticle.hlsl)");
     }
 
+    if (!DXShaderManager::GetInstance()->CreateGeometryShader(L"../resource/EffectPart/shader/GS_ParticleTrail.hlsl", L"GS_ParticleTrail"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreateGeometryShader::Failed Create Geometry Shader.(../resource/EffectPart/shader/GS_ParticleTrail.hlsl)");
+    }
+
     return true;
 }

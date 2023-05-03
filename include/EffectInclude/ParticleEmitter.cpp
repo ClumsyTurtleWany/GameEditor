@@ -25,6 +25,10 @@ namespace EFFECTUTIL
 		m_UVRect = { {0.0f, 0.0f}, {1.0f, 1.0f} };
 
 		m_playSpeed = 1.0f;
+
+		m_emitterType = EFFECT_EMITTER_TYPE::EET_DEFAULT;
+
+		m_bActivate = true;
 	}
 
 	ParticleEmitter::~ParticleEmitter()
@@ -36,10 +40,8 @@ namespace EFFECTUTIL
 		return true;
 	}
 
-	bool ParticleEmitter::update()
+	bool ParticleEmitter::update(float dt)
 	{
-		float dt = Timer::GetInstance()->SecondPerFrame * m_playSpeed;
-
 		activateTarget(dt);
 
 		for (UINT i = 0; i < m_iVertexCount; i++)
@@ -140,10 +142,14 @@ namespace EFFECTUTIL
 
 			case 1:
 			{
-				m_matBillboard.BiilTMat = m_matView.Invert();
+				m_matBillboard.BiilTMat = m_matView.Transpose();
+				m_matBillboard.BiilTMat._14 = 0.0f;
+				m_matBillboard.BiilTMat._24 = 0.0f;
+				m_matBillboard.BiilTMat._34 = 0.0f;
 				m_matBillboard.BiilTMat._41 = m_matWorld._41;
 				m_matBillboard.BiilTMat._42 = m_matWorld._42;
 				m_matBillboard.BiilTMat._43 = m_matWorld._43;
+				m_matBillboard.BiilTMat._44 = 1.0f;
 				m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
 			} break;
 
@@ -439,7 +445,7 @@ namespace EFFECTUTIL
 
 		return hr;
 	}
-	void ParticleEmitter::activateTarget(float dt)
+	void ParticleEmitter::activateTarget(float dt, bool bActivate)
 	{
 		m_fTimer += dt;
 
@@ -447,21 +453,24 @@ namespace EFFECTUTIL
 		{
 			m_fTimer -= m_fSpawnTime;
 
-			PointParticle* replaceTarget = nullptr;
-
-			for (UINT i = 0; i < m_iVertexCount; i++)
+			if (m_bActivate)
 			{
-				if (m_particles[i].bEnable == false)
+				PointParticle* replaceTarget = nullptr;
+
+				for (UINT i = 0; i < m_iVertexCount; i++)
 				{
-					replaceTarget = &m_particles[i];
-					break;
+					if (m_particles[i].bEnable == false)
+					{
+						replaceTarget = &m_particles[i];
+						break;
+					}
 				}
-			}
 
-			if (replaceTarget)
-			{
-				Vector3 scale = Vector3(m_wvpMat.matTWorld._11, m_wvpMat.matTWorld._22, m_wvpMat.matTWorld._33);
-				replaceTarget->setParticle(m_eProp, scale);
+				if (replaceTarget)
+				{
+					Vector3 scale = Vector3(m_wvpMat.matTWorld._11, m_wvpMat.matTWorld._22, m_wvpMat.matTWorld._33);
+					replaceTarget->setParticle(m_eProp, scale);
+				}
 			}
 		}
 	}
@@ -510,5 +519,195 @@ namespace EFFECTUTIL
 		m_vertices[idx].rot = DirectX::XMMatrixRotationRollPitchYawFromVector(m_particles[idx].fPYR);
 		m_vertices[idx].rot = m_vertices[idx].rot.Transpose();
 		m_vertices[idx].scale = { m_particles[idx].vScale.x, m_particles[idx].vScale.y, 1.0f };
+	}
+
+	TrailEmitter::TrailEmitter() : ParticleEmitter()
+	{
+		m_emitterType = EFFECT_EMITTER_TYPE::EET_TRAIL;
+		m_iActivateIdx = 0;
+	}
+
+	TrailEmitter::~TrailEmitter()
+	{
+	}
+
+	bool TrailEmitter::init()
+	{
+		return true;
+	}
+
+	bool TrailEmitter::update(float dt)
+	{
+		activateTarget(dt);
+
+		for (UINT i = 0; i < m_iVertexCount; i++)
+		{
+			m_particles[i].fElapsedTime += dt;
+
+			if (!m_particles[i].bLoop)
+			{
+				if (m_particles[i].fElapsedTime > m_particles[i].fLifeSpan)
+				{
+					m_particles[i].bEnable = false;
+
+					//정점의 스케일 속성의 마지막 성분을 활성화 여부로 사용한다.
+					m_vertices[i].scale.z = 0.0f;
+				}
+
+				if (m_particles[i].fElapsedTime <= m_particles[i].fLifeSpan)
+				{
+					updateParticleState(i, dt);
+				}
+			}
+			else
+			{
+				updateParticleState(i, dt);
+			}
+		}
+
+		updateBuffer(m_pVBuf.Get(), &m_vertices.at(0), m_vertices.size() * sizeof(PointParticleVertex));
+
+		return true;
+	}
+
+	HRESULT TrailEmitter::createEmitter(PointParticleEmitterProperty eProp, std::wstring wszTexName)
+	{
+		HRESULT hr = ParticleEmitter::createEmitter(eProp, wszTexName);
+
+		if (FAILED(hr)) { return hr; }
+
+		m_shaderGroup.pGS = DXShaderManager::GetInstance()->GetGeometryShader(L"GS_ParticleTrail");
+
+		return hr;
+	}
+
+	HRESULT TrailEmitter::createUVSpriteEmitter(PointParticleEmitterProperty eProp, std::wstring wszSpriteName)
+	{
+		HRESULT hr = ParticleEmitter::createUVSpriteEmitter(eProp, wszSpriteName);
+
+		if (FAILED(hr)) { return hr; }
+
+		m_shaderGroup.pGS = DXShaderManager::GetInstance()->GetGeometryShader(L"GS_ParticleTrail");
+
+		return hr;
+	}
+
+	HRESULT TrailEmitter::createMTSpriteEmitter(PointParticleEmitterProperty eProp, std::wstring wszSpriteName)
+	{
+		HRESULT hr = ParticleEmitter::createMTSpriteEmitter(eProp, wszSpriteName);
+
+		if (FAILED(hr)) { return hr; }
+
+		m_shaderGroup.pGS = DXShaderManager::GetInstance()->GetGeometryShader(L"GS_ParticleTrail");
+
+		return hr;
+	}
+
+	void TrailEmitter::activateTarget(float dt, bool bActivate)
+	{
+		m_fTimer += dt;
+
+		if (m_fTimer > m_fSpawnTime)
+		{
+			m_fTimer -= m_fSpawnTime;
+
+			if (m_bActivate)
+			{
+				PointParticle* replaceTarget = &m_particles[m_iActivateIdx++];
+
+				if (m_iActivateIdx >= m_particles.size()) { m_iActivateIdx = 0; }
+
+				Vector3 scale = Vector3(m_wvpMat.matTWorld._11, m_wvpMat.matTWorld._22, m_wvpMat.matTWorld._33);
+				replaceTarget->setTrailParticle(m_eProp, m_vPos, scale);
+			}
+		}
+	}
+
+	void TrailEmitter::setMatrix(const Matrix* pWorld, const Matrix* pView, const Matrix* pProj, const Matrix* pParentWorld)
+	{
+		//ParticleEmitter::setMatrix(pWorld, pView, pProj, pParentWorld);
+
+		if (pWorld)			{ m_matLocalWorld = *pWorld; }
+		if (pView)			{ m_matView = *pView; }
+		if (pProj)			{ m_matProj = *pProj; }
+		if (pParentWorld)	{ m_matParentWorld = *pParentWorld; }
+
+		m_matWorld = m_matLocalWorld * m_matParentWorld;
+
+		switch (m_eProp.iUseBillBoard)
+		{
+		case 0:
+		{
+			m_matBillboard.BiilTMat = Matrix::Identity;
+			m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
+		} break;
+
+		case 1:
+		{
+			m_matBillboard.BiilTMat = m_matView;
+			m_matBillboard.BiilTMat._41 = 0.0f;
+			m_matBillboard.BiilTMat._42 = 0.0f;
+			m_matBillboard.BiilTMat._43 = 0.0f;
+			m_matBillboard.BiilTMat._44 = 1.0f;
+		} break;
+
+		case 2:
+		{
+			m_matBillboard.BiilTMat = Matrix::Identity;
+			m_matBillboard.BiilTMat._11 = m_matView._11;
+			m_matBillboard.BiilTMat._13 = m_matView._31;
+			m_matBillboard.BiilTMat._31 = m_matView._13;
+			m_matBillboard.BiilTMat._33 = m_matView._33;
+			m_matBillboard.BiilTMat = m_matBillboard.BiilTMat.Transpose();
+
+		} break;
+		}
+
+		updateBuffer(m_pCBufBillboard.Get(), &m_matBillboard, sizeof(CBUF_BILLBOARDMAT));
+
+		//객체가 카메라의 정보를 들고있는 경우 다음의 함수를 대신 사용할 수 있다.
+		//m_matWorld = Matrix::CreateBillboard();
+
+		updateState();
+		updateCoordConvMat();
+	}
+
+	BurstEmitter::BurstEmitter()
+	{
+		m_emitterType = EFFECT_EMITTER_TYPE::EET_BURST;
+		m_iActivateIdx = 0;
+	}
+
+	BurstEmitter::~BurstEmitter()
+	{
+	}
+
+	bool BurstEmitter::init()
+	{
+		return false;
+	}
+
+	bool BurstEmitter::update(float dt)
+	{
+		return false;
+	}
+
+	HRESULT BurstEmitter::createEmitter(PointParticleEmitterProperty eProp, std::wstring wszTexName)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT BurstEmitter::createUVSpriteEmitter(PointParticleEmitterProperty eProp, std::wstring wszSpriteName)
+	{
+		return E_NOTIMPL;
+	}
+
+	HRESULT BurstEmitter::createMTSpriteEmitter(PointParticleEmitterProperty eProp, std::wstring wszSpriteName)
+	{
+		return E_NOTIMPL;
+	}
+
+	void BurstEmitter::activateTarget(float dt, bool bActivate)
+	{
 	}
 }
