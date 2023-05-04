@@ -144,8 +144,8 @@ public:
 public: //패킷 보내는 함수, S_ : server sends to client, C_ : client sends to server
 
 public:
-	int OtherPlayerUsedCardNum = 999; // 상대 플레이어가 사용한 카드 종류
-	int OtherPlayerTargetEnemyNum = 999; // 상대 플레이어가 카드의 타겟으로 정한 적의 넘버, 방어류 카드라면 999
+	int OtherPlayerUsedCardNum = -1; // 상대 플레이어가 사용한 카드 종류, 안썼다면 -1
+	int OtherPlayerTargetEnemyNum = -1; // 상대 플레이어가 카드의 타겟으로 정한 적의 넘버, 방어류 카드라면 -1
 	bool hostTurnEnd = false;
 	bool clientTurnEnd = false;
 public:

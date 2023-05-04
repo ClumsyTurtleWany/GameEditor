@@ -306,9 +306,42 @@ bool MultiBattleScene::Frame()
 
 			// 락온 사운드 출력
 			SoundMap.find(L"LockOn")->second->Play();
+
+
+
+			// 상대 플레이어에게 락온변경 알림
+			// 내가 1P일때
+			if ((gpHost != nullptr && gpHost->IsConnected()))
+			{
+				protocol::S_USECARD hostUseCard;
+				for (int i = 0; i < EnemyList.size(); i++)
+				{
+					if (EnemyList[i] == TargetEnemy) { hostUseCard.set_targetenemynum(i); }
+				}
+				hostUseCard.set_usedcardnum(-1);
+
+				auto sendBuf = ServerPacketHandler::MakeSendBuffer(hostUseCard);
+				auto session = gpHost->GetService()->GetSessions().begin();
+				(*session)->Send(sendBuf);
+			}
+			// 내가 2P일때
+			if (gpClient != nullptr && gpClient->IsConnected())
+			{
+				protocol::C_USECARD clientUseCard;
+				for (int i = 0; i < EnemyList.size(); i++)
+				{
+					if (EnemyList[i] == TargetEnemy) { clientUseCard.set_targetenemynum(i); }
+				}
+				clientUseCard.set_usedcardnum(-1);
+
+				auto sendBuf = ClientPacketHandler::MakeSendBuffer(clientUseCard);
+				auto session = gpClient->GetClientservice()->GetSessions().begin();
+				(*session)->Send(sendBuf);
+			}
 		}
 	}
 
+	// HP바 (빌보드 UI) 위치 업데이트
 	for (auto enemy : EnemyList)
 	{
 		enemy->HpEmpty->m_OrginPos3D = enemy->chara->MovementComp->Location;
@@ -556,22 +589,22 @@ void MultiBattleScene::Init_Chara()
 	delayFrame = 5;
 	// 일반사격
 	soundFrame = 6;
-	Notifier* Fire_ready = notiMgr->CreateNotifier(L"Fire_ready", soundFrame - delayFrame, 20);
-	Notifier* Fire = notiMgr->CreateNotifier(L"Fire", soundFrame, 20);
+	Notifier* Fire_ready = notiMgr->CreateNotifier(L"Fire_ready", soundFrame - delayFrame, 60);
+	Notifier* Fire = notiMgr->CreateNotifier(L"Fire", soundFrame, 60);
 	notiMgr->MakeSound(L"Fire", L"Fire1.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Shooting", Fire);
 	//좀쎈사격
 	soundFrame = 20;
-	Notifier* Fire2_ready = notiMgr->CreateNotifier(L"Fire2_ready", soundFrame - delayFrame, 20);
-	Notifier* Fire2 = notiMgr->CreateNotifier(L"Fire2", soundFrame, 20);
+	Notifier* Fire2_ready = notiMgr->CreateNotifier(L"Fire2_ready", soundFrame - delayFrame, 60);
+	Notifier* Fire2 = notiMgr->CreateNotifier(L"Fire2", soundFrame, 60);
 	notiMgr->MakeSound(L"Fire2", L"Fire2.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Gunplay", Fire2_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Gunplay", Fire2);
 	// 손잡이 후리기
 	soundFrame = 17;
-	Notifier* Strike_ready = notiMgr->CreateNotifier(L"Strike_ready", soundFrame - delayFrame, 20);
-	Notifier* Strike = notiMgr->CreateNotifier(L"Strike", soundFrame, 20);
+	Notifier* Strike_ready = notiMgr->CreateNotifier(L"Strike_ready", soundFrame - delayFrame, 60);
+	Notifier* Strike = notiMgr->CreateNotifier(L"Strike", soundFrame, 60);
 	notiMgr->MakeSound(L"Strike", L"Attack_Strike.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Pistol_Whip", Strike_ready);
 	notiMgr->AddNotifier(*playerCharAnimComp, L"Pistol_Whip", Strike);
@@ -642,22 +675,22 @@ void MultiBattleScene::Init_Chara()
 	delayFrame = 5;
 	// 발차기 1 (간단)
 	soundFrame = 15;
-	Notifier* P2A1_R = notiMgr->CreateNotifier(L"P2A1_R", soundFrame - delayFrame, 20);	// Player2 Attack1 Ready
-	Notifier* P2A1 = notiMgr->CreateNotifier(L"P2A1", soundFrame, 20);
+	Notifier* P2A1_R = notiMgr->CreateNotifier(L"P2A1_R", soundFrame - delayFrame, 60);	// Player2 Attack1 Ready
+	Notifier* P2A1 = notiMgr->CreateNotifier(L"P2A1", soundFrame, 60);
 	notiMgr->MakeSound(L"P2A1", L"Attack_Strike.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A1_R);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A1);
 	// 발차기 2 (살짝 화려)
 	soundFrame = 30;
-	Notifier* P2A2_R = notiMgr->CreateNotifier(L"P2A2_R", soundFrame - delayFrame, 20);
-	Notifier* P2A2 = notiMgr->CreateNotifier(L"P2A2", soundFrame, 20);
+	Notifier* P2A2_R = notiMgr->CreateNotifier(L"P2A2_R", soundFrame - delayFrame, 30);
+	Notifier* P2A2 = notiMgr->CreateNotifier(L"P2A2", soundFrame, 30);
 	notiMgr->MakeSound(L"P2A2", L"Attack_Bludgeon.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A2_R);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A2);
 	// 발차기 3 (겐세이 겁나넣다가 때림)
 	soundFrame = 56;
-	Notifier* P2A3_R = notiMgr->CreateNotifier(L"P2A3_R", soundFrame - delayFrame, 20);
-	Notifier* P2A3 = notiMgr->CreateNotifier(L"P2A1", soundFrame, 20);
+	Notifier* P2A3_R = notiMgr->CreateNotifier(L"P2A3_R", soundFrame - delayFrame, 30);
+	Notifier* P2A3 = notiMgr->CreateNotifier(L"P2A1", soundFrame, 30);
 	notiMgr->MakeSound(L"P2A3", L"Hit.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A3_R);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A3);
@@ -703,22 +736,22 @@ void MultiBattleScene::Init_Chara()
 	// 플레이어 캐릭터 1은 미리 맞는 애니 없어도 ㄱㅊ은듯? 멀티가면 어케될지 모르지
 	// 펀치
 	soundFrame = 40;
-	Notifier* E1A1 = notiMgr->CreateNotifier(L"E1A1", soundFrame, 20);		// Enemy1 Attack1
+	Notifier* E1A1 = notiMgr->CreateNotifier(L"E1A1", soundFrame, 60);		// Enemy1 Attack1
 	notiMgr->MakeSound(L"E1A1", L"E1A1.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack1", E1A1);
 	// 킦꾸
 	soundFrame = 25;
-	Notifier* E1A2 = notiMgr->CreateNotifier(L"E1A2", soundFrame, 20);
+	Notifier* E1A2 = notiMgr->CreateNotifier(L"E1A2", soundFrame, 60);
 	notiMgr->MakeSound(L"E1A2", L"Attack_Bludgeon.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack2", E1A2);
 	// 쑤꾸림(비명)
 	soundFrame = 60;
-	Notifier* E1A3 = notiMgr->CreateNotifier(L"E1A3", soundFrame, 20);
+	Notifier* E1A3 = notiMgr->CreateNotifier(L"E1A3", soundFrame, 60);
 	notiMgr->MakeSound(L"E1A3", L"E1A3.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Attack3", E1A3);
 	// 사망, 소리붙이려고
 	soundFrame = 1;
-	Notifier* E1Defeat = notiMgr->CreateNotifier(L"E1Defeat", soundFrame, 20);
+	Notifier* E1Defeat = notiMgr->CreateNotifier(L"E1Defeat", soundFrame, 60);
 	notiMgr->MakeSound(L"E1Defeat", L"E1Defeat.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*enemyCharAnimComp, L"Dying", E1Defeat);
 
@@ -773,22 +806,22 @@ void MultiBattleScene::Init_Chara()
 	notiMgr = EnemyCharacter2->AddComponent<NotifierMgrComponent>();
 	// 쎄게긁기
 	soundFrame = 39;
-	Notifier* E2A1 = notiMgr->CreateNotifier(L"E2A1", soundFrame, 20);		// Enemy2 Attack1
+	Notifier* E2A1 = notiMgr->CreateNotifier(L"E2A1", soundFrame, 60);		// Enemy2 Attack1
 	notiMgr->MakeSound(L"E2A1", L"E2A1.wav", 1.0f, false);
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack1", E2A1);
 	// 살짝긁기
 	soundFrame = 31;
-	Notifier* E2A2 = notiMgr->CreateNotifier(L"E2A2", soundFrame, 20);
+	Notifier* E2A2 = notiMgr->CreateNotifier(L"E2A2", soundFrame, 60);
 	notiMgr->MakeSound(L"E2A2", L"E2A2.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack2", E2A2);
 	// 중간긁기
 	soundFrame = 31;
-	Notifier* E2A3 = notiMgr->CreateNotifier(L"E2A3", soundFrame, 20);
+	Notifier* E2A3 = notiMgr->CreateNotifier(L"E2A3", soundFrame, 60);
 	notiMgr->MakeSound(L"E2A3", L"E2A3.mp3", 1.0f, false);
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Attack3", E2A3);
 	// 사망, 소리붙이려고
 	soundFrame = 1;
-	Notifier* E2Defeat = notiMgr->CreateNotifier(L"E2Defeat", soundFrame, 20);
+	Notifier* E2Defeat = notiMgr->CreateNotifier(L"E2Defeat", soundFrame, 60);
 	notiMgr->MakeSound(L"E2Defeat", L"E2Defeat.ogg", 1.0f, false);
 	notiMgr->AddNotifier(*Enemy2_CharAnimComp, L"Dying", E2Defeat);
 
@@ -1198,8 +1231,17 @@ void MultiBattleScene::MyTurnProcess()
 	UpdateHand(drawNum);
 
 	TurnEndButton->m_bDisable = false;
+	MoveButton->m_bIsDead = false;
 	MyTurnStart = false;
-	
+
+	// 카메라  세팅
+	auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+	CameraTarget.y += 10.0f;
+	TargetPlayer = CurrentPlayer;
+	UpdateCameraPos();
+	MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+	MainCameraSystem->TargetCamera = MoveCamera;
+
 	//if (gpHost != nullptr && gpHost->IsConnected())
 	//{
 	//	protocol::S_DRAWCARD hostDraw;
@@ -1244,7 +1286,7 @@ void MultiBattleScene::TurnEndProcess()
 	if (WhoseTurn == playerNum)
 	{
 		// 다른 플레이어에게 패킷을 보냄
-		if (gpHost != nullptr && gpHost->IsConnected())
+		if (gpHost != nullptr && gpHost->IsConnected())	
 		{
 			protocol::S_TURNEND hostEnd;
 			hostEnd.set_bturnend(true);
@@ -1275,18 +1317,26 @@ void MultiBattleScene::TurnEndProcess()
 		TurnEndButton->m_bDisable = true;
 	}
 
-	// 내가 호스트, 즉 1p일 경우
+	// 내가 호스트 즉 1p일 경우, 화면도 2P 캐릭터로 돌려줌
 	if (gpHost != nullptr && gpHost->IsConnected())
 	{
 		if (WhoseTurn == 1)
 		{
 			WhoseTurn = 2;
 			CurrentPlayer = player2;
+
+			// 카메라  세팅
+			auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+			CameraTarget.y += 10.0f;
+			TargetPlayer = CurrentPlayer;
+			UpdateCameraPos();
+			MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
 		}
 		else
 		{
 			WhoseTurn = 1;
-			CurrentPlayer = player1;			// 근데 이거 여기저기서 만지지 않나... 오류날듯?
+			CurrentPlayer = player1;
 			TurnNum++;
 			EnemyTurnProcess();
 		}
@@ -1307,7 +1357,6 @@ void MultiBattleScene::TurnEndProcess()
 			EnemyTurnProcess();
 		}
 	}
-
 
 	SoundMap.find(L"TurnEnd")->second->Play();	// 턴종 소리
 }
@@ -1366,6 +1415,16 @@ void MultiBattleScene::EnemyAnimProcess()
 		// 이동이 끝나고, 적이 아직 행동하지 않았을 경우
 		else if (InActionEnemy->doMove && !InActionEnemy->chara->MovementComp->IsMoving && !InActionEnemy->doAction)
 		{
+			// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
+			Vector3 CurrentForward = InActionEnemy->chara->MovementComp->Forward;
+			Vector3 NewForward = InActionEnemy->TargetPlayer->chara->Transform->Translation - InActionEnemy->chara->Transform->Translation;
+			NewForward.Normalize();
+			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
+			Vector3 eulerAngles = quaternion.ToEuler();
+			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+			InActionEnemy->chara->Transform->Rotation += eulerAngles;
+			InActionEnemy->chara->MovementComp->Forward = NewForward;
+
 			EnemyDamage = InActionEnemy->patern(InActionEnemy->TargetPlayer, TurnNum);
 			UpdateEnemyState();
 
@@ -1753,6 +1812,15 @@ void MultiBattleScene::Reaction()
 	if (hostTurnEnd || clientTurnEnd)
 	{
 		TurnEndProcess();
+
+		// 카메라  세팅
+		auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+		CameraTarget.y += 10.0f;
+		TargetPlayer = CurrentPlayer;
+		UpdateCameraPos();
+		MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+		MainCameraSystem->TargetCamera = MoveCamera;
+
 		hostTurnEnd = false;
 		clientTurnEnd = false;
 	}
@@ -1812,18 +1880,75 @@ void MultiBattleScene::Reaction()
 		CameraTarget.y += 10.0f;
 		TargetPlayer = CurrentPlayer;
 		UpdateCameraPos();
-		MainCameraSystem->MainCamera = MainCamera;
+		//MainCameraSystem->MainCamera = MainCamera;
 		MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
 		MainCameraSystem->TargetCamera = MoveCamera;
 
 		OtherPlayerIsMoving = false;
 	}
 
+	if (OtherPlayerUsedCardNum == -1 && OtherPlayerTargetEnemyNum != -1) // 상대 플레이어가 타겟을 바꿨을 때
+	{
+		TargetEnemy = EnemyList[OtherPlayerTargetEnemyNum];	// 타겟을 바꿔줌
+
+		// 캐릭터 방향 회전, 애니메이션 줄라면 줄수있는데 여유생기면,,머,,
+		Vector3 NewPlayerForward = TargetEnemy->chara->Transform->Translation - CurrentPlayer->chara->Transform->Translation;
+		NewPlayerForward.Normalize();
+		DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentPlayer->Forward, NewPlayerForward);
+		Vector3 eulerAngles = quaternion.ToEuler();
+
+		Vector3 cross = DirectX::XMVector3Cross(CurrentPlayer->Forward, NewPlayerForward);
+		Vector3 dot = DirectX::XMVector3Dot(cross, Vector3(0, 1, 0));
+
+		if (dot.y < 0.f)
+		{
+			// 좌우 판별
+		}
+
+		eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+		//player->chara->Transform->Rotation += eulerAngles;
+		auto timeline = CurrentPlayer->chara->GetComponent<TimelineComponent>();
+		if (timeline != nullptr)
+		{
+			timeline->CreateTimeline(CurrentPlayer->chara->Transform->Rotation.y, CurrentPlayer->chara->Transform->Rotation.y + eulerAngles.y, 0.2f);
+			timeline->SetTarget(&CurrentPlayer->chara->Transform->Rotation.y);
+			timeline->PlayFromStart();
+		}
+
+		CurrentPlayer->Forward = NewPlayerForward;
+
+		// 카메라 타겟 세팅
+		auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+		CameraTarget.y += 10.0f;
+		TargetPlayer = CurrentPlayer;
+		UpdateCameraPos();
+
+		MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+		MainCameraSystem->TargetCamera = MoveCamera;
+
+		// 락온 사운드 출력
+		SoundMap.find(L"LockOn")->second->Play();
+
+		OtherPlayerTargetEnemyNum = -1; // 초기화
+	}
+
 
 	// 다른 플레이어가 카드를 사용했을 때
-	if (OtherPlayerUsedCardNum != 999) 
+	else if (OtherPlayerUsedCardNum != -1) 
 	{
-		TargetEnemy = EnemyList[OtherPlayerTargetEnemyNum];
+		if (OtherPlayerTargetEnemyNum != -1) { TargetEnemy = EnemyList[OtherPlayerTargetEnemyNum]; }
+		// 카메라 워크
+		Vector3 t1 = CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+		Vector3 t2 = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
+		float dist = t1.Distance(t1, t2);
+		if (dist < 30.0f) // 어느정도 이상 가까울 때만 카메라 변경
+		{
+			dist = 40.0f;
+			TestActionCamera->Lerp(t1, t2, dist, 0.1f);
+
+			MoveCamera->CreateViewMatrix(TestActionCamera->MovementComp->Destination, TestActionCamera->ActionCameraComp->NextLook, Vector3(0.0f, 1.0, 0.0f));
+			MainCameraSystem->TargetCamera = MoveCamera;
+		}
 
 		CardList[0]->m_bIsDead = false;
 		CardList[0]->m_pCutInfoList[0]->tc = CardTextureList[OtherPlayerUsedCardNum];
@@ -1893,7 +2018,21 @@ void MultiBattleScene::Reaction()
 
 		}
 		UpdatePlayerState();
-		OtherPlayerUsedCardNum = 999;
+
+		if (TargetEnemy->hp <= 0)
+		{
+			// 적 캐릭터가 죽었다면 적 리스트에서 빼줌
+			auto iter = std::find(EnemyList.begin(), EnemyList.end(), TargetEnemy);
+			if (iter != EnemyList.end()) { EnemyList.erase(iter); }
+
+			// 상태창 꺼줌
+			for (auto obj : TargetEnemy->ObjList) { obj->m_bIsDead = true; }
+			TargetEnemy->HpEmpty->m_bIsDead = true;
+			TargetEnemy->HpFull->m_bIsDead = true;
+		}
+
+		OtherPlayerUsedCardNum = -1;	// 초기화
+		OtherPlayerTargetEnemyNum = -1; // 초기화
 	}
 }
 
@@ -2011,7 +2150,7 @@ void MultiBattleScene::UpdatePlayerState()
 
 void MultiBattleScene::UpdateEnemyState()
 {
-	for (auto enemy : EnemyList) { enemy->UpdateState(); }
+	for (auto enemy : AllEnemyList) { enemy->UpdateState(); }
 }
 
 void MultiBattleScene::DeadCheck()
