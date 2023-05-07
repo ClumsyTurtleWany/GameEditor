@@ -248,7 +248,7 @@ bool MultiBattleScene::Frame()
 
 	// A키 누르면 타겟변경, 내 턴일 때만
 	KeyState btnA = Input::GetInstance()->getKey('A');
-	if (btnA == KeyState::Down && WhoseTurn == playerNum)
+	if (btnA == KeyState::Down && CurrentPlayer == PlayerList[playerNum])
 	{
 		if (TargetEnemy != nullptr)
 		{
@@ -682,27 +682,27 @@ void MultiBattleScene::Init_Chara()
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A1);
 	// 발차기 2 (살짝 화려)
 	soundFrame = 30;
-	Notifier* P2A2_R = notiMgr->CreateNotifier(L"P2A2_R", soundFrame - delayFrame, 30);
-	Notifier* P2A2 = notiMgr->CreateNotifier(L"P2A2", soundFrame, 30);
+	Notifier* P2A2_R = notiMgr->CreateNotifier(L"P2A2_R", soundFrame - delayFrame, 60);
+	Notifier* P2A2 = notiMgr->CreateNotifier(L"P2A2", soundFrame, 60);
 	notiMgr->MakeSound(L"P2A2", L"Attack_Bludgeon.ogg", 1.0f, false);
-	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A2_R);
-	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A2);
+	notiMgr->AddNotifier(*Char2PAnimComp, L"Kick", P2A2_R);
+	notiMgr->AddNotifier(*Char2PAnimComp, L"Kick", P2A2);
 	// 발차기 3 (겐세이 겁나넣다가 때림)
 	soundFrame = 56;
-	Notifier* P2A3_R = notiMgr->CreateNotifier(L"P2A3_R", soundFrame - delayFrame, 30);
-	Notifier* P2A3 = notiMgr->CreateNotifier(L"P2A1", soundFrame, 30);
+	Notifier* P2A3_R = notiMgr->CreateNotifier(L"P2A3_R", soundFrame - delayFrame, 60);
+	Notifier* P2A3 = notiMgr->CreateNotifier(L"P2A3", soundFrame, 60);
 	notiMgr->MakeSound(L"P2A3", L"Hit.ogg", 1.0f, false);
-	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A3_R);
-	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A3);
+	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_Giratoria_2", P2A3_R);
+	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_Giratoria_2", P2A3);
 
 	auto Char2PTransformComp = Chara_2P->GetComponent<TransformComponent>();
 	Char2PTransformComp->Scale = Vector3(13.0f, 13.0f, 13.0f);
 	Char2PTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-	Char2PTransformComp->Translation = Vector3(0.0f, 0.0f, 40.0f);
+	Char2PTransformComp->Translation = Vector3(-100.0f, 0.0f, 40.0f);
 
 	auto Char2PMovementComp = Chara_2P->GetComponent<MovementComponent>();
 	Char2PMovementComp->Speed = 45.0f;
-	Chara_2P->MoveTo(Vector3(0.0f, 0.0f, 40.0f));
+	Chara_2P->MoveTo(Vector3(-20.0f, 0.0f, 40.0f));
 
 	/////////////// Bounding Box Add ////////////
 	auto BBComp = Chara_2P->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
