@@ -73,18 +73,22 @@ void Enemy_1::move(Player* player, int turn)
     ToPlayer.Normalize();
 
     // 플레이어랑 거리가 20 미만일 경우, 안움직임
-    if (Distance < 20.0f) { doMove = true; }
+    if (Distance < 20.0f) { doMove = true; dontMove = true; }
     // 거리가 20 이상 120 미만일 경우, 19.9까지 움직임(혹시 미묘한 오차땜에 안때릴까봐)
     else if (Distance >= 20.0f && Distance < 120.0f) 
     {
+        Forward = ToPlayer;
         chara->MoveTo(chara->Transform->Translation + ToPlayer * (Distance - 19.9));
         doMove = true;
+        dontMove = false;
     }
     // 거리가 120 이상일 경우, 100만큼만 움직임
     else 
     {
+        Forward = ToPlayer;
         chara->MoveTo(chara->Transform->Translation + ToPlayer * 100.0f);
         doMove = true;
+        dontMove = false;
     }
     // doMove = true; // 아 걍 여따가 한번만넣을걸ㅋㅋ
 }
@@ -192,18 +196,22 @@ void Enemy_2::move(Player* player, int turn)
     ToPlayer.Normalize();
 
     // 플레이어랑 거리가 20 미만일 경우, 안움직임
-    if (Distance < 20.0f) { doMove = true; }
+    if (Distance < 20.0f) { doMove = true; dontMove = true; }
     // 거리가 20 이상 120 미만일 경우, 19.9까지 움직임(혹시 미묘한 오차땜에 안때릴까봐)
     else if (Distance >= 20.0f && Distance < 120.0f)
     {
+        Forward = ToPlayer;
         chara->MoveTo(chara->Transform->Translation + ToPlayer * (Distance - 19.9));
         doMove = true;
+        dontMove = false;
     }
     // 거리가 120 이상일 경우, 100만큼만 움직임
     else
     {
+        Forward = ToPlayer;
         chara->MoveTo(chara->Transform->Translation + ToPlayer * 100.0f);
         doMove = true;
+        dontMove = false;
     }
 }
 

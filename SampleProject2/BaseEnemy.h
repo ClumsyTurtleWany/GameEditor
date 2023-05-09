@@ -29,9 +29,11 @@ public:
 	int maxHp;
 	int armor;
 	Character* chara;
+	Vector3	 Forward;
 
 public:
 	bool doMove = false;
+	bool dontMove = false;
 	bool doAction = false;
 
 public:

@@ -193,6 +193,7 @@ bool MultiBattleScene::Frame()
 	if (initTriger)
 	{
 		Init_Effect();	// 피커 이펙트 뺏기는 이슈땜에 여기
+		for (auto enemy : EnemyList) { enemy->Forward = enemy->chara->MovementComp->Forward; }	// 적 캐릭터들 포워드 벡터 설정
 
 		//서버에서 추가
 		if (gpHost != nullptr && gpHost->IsConnected())
@@ -248,7 +249,7 @@ bool MultiBattleScene::Frame()
 
 	// A키 누르면 타겟변경, 내 턴일 때만
 	KeyState btnA = Input::GetInstance()->getKey('A');
-	if (btnA == KeyState::Down && CurrentPlayer == PlayerList[playerNum])
+	if (btnA == KeyState::Down && CurrentPlayer == PlayerList[playerNum-1])
 	{
 		if (TargetEnemy != nullptr)
 		{
@@ -698,11 +699,11 @@ void MultiBattleScene::Init_Chara()
 	auto Char2PTransformComp = Chara_2P->GetComponent<TransformComponent>();
 	Char2PTransformComp->Scale = Vector3(13.0f, 13.0f, 13.0f);
 	Char2PTransformComp->Rotation = Vector3(0.0f, 90.0f, 0.0f);
-	Char2PTransformComp->Translation = Vector3(-100.0f, 0.0f, 40.0f);
+	Char2PTransformComp->Translation = Vector3(-100.0f, 0.0f, 70.0f);
 
 	auto Char2PMovementComp = Chara_2P->GetComponent<MovementComponent>();
 	Char2PMovementComp->Speed = 45.0f;
-	Chara_2P->MoveTo(Vector3(-20.0f, 0.0f, 40.0f));
+	Chara_2P->MoveTo(Vector3(-20.0f, 0.0f, 70.0f));
 
 	/////////////// Bounding Box Add ////////////
 	auto BBComp = Chara_2P->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
@@ -764,6 +765,9 @@ void MultiBattleScene::Init_Chara()
 	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
 	E1MC->Speed = 30.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
+	Vector3 NewForward = EnemyCharacter->Transform->Translation - EnemyCharacter->MovementComp->Destination;
+	NewForward.Normalize();
+	enemy1->Forward = NewForward;
 
 	//Picking Info Test
 	enemyCharMeshComp->Name = "Enemy";
@@ -834,6 +838,9 @@ void MultiBattleScene::Init_Chara()
 	auto Enemy2_CharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
 	Enemy2_CharMovementComp->Speed = 30.0f;
 	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
+	NewForward = EnemyCharacter2->Transform->Translation - EnemyCharacter2->MovementComp->Destination;
+	NewForward.Normalize();
+	enemy2->Forward = NewForward;
 
 	/////////////// Bounding Box Add ////////////
 	auto player_BOBBComp = EnemyCharacter2->AddComponent<BoundingBoxComponent>(Vector3(0.5f, 0.9f, 0.5f), Vector3(0.0f, 0.9f, 0.0f));
@@ -1216,7 +1223,16 @@ void MultiBattleScene::TurnStartProcess()
 	TurnState = true;
 	TurnStart = false;
 	MyTurnStart = true;
+	CurrentPlayer = player1;
 	WhoseTurn = 1;
+
+	// 카메라  세팅, 2P도 똑같은 화면 보게 하려고
+	auto CameraTarget = TargetEnemy->chara->Transform->Translation;
+	CameraTarget.y += 10.0f;
+	TargetPlayer = CurrentPlayer;
+	UpdateCameraPos();
+	MoveCamera->CreateViewMatrix(PlayerCameraPos, CameraTarget, Vector3(0.0f, 1.0, 0.0f));
+	MainCameraSystem->TargetCamera = MoveCamera;
 
 	TurnEndButton->m_bDisable = false;	// 일단 둘다 턴종 꺼놓고 밑에서 켜줌
 }
@@ -1384,6 +1400,7 @@ void MultiBattleScene::EnemyAnimProcess()
 			if (ForDis.Length() < distance)
 			{
 				InActionEnemy->TargetPlayer = player;
+				CurrentPlayer = player;
 				distance = ForDis.Length();
 			}
 		}
@@ -1415,15 +1432,19 @@ void MultiBattleScene::EnemyAnimProcess()
 		// 이동이 끝나고, 적이 아직 행동하지 않았을 경우
 		else if (InActionEnemy->doMove && !InActionEnemy->chara->MovementComp->IsMoving && !InActionEnemy->doAction)
 		{
-			// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
-			Vector3 CurrentForward = InActionEnemy->chara->MovementComp->Forward;
-			Vector3 NewForward = InActionEnemy->TargetPlayer->chara->Transform->Translation - InActionEnemy->chara->Transform->Translation;
-			NewForward.Normalize();
-			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
-			Vector3 eulerAngles = quaternion.ToEuler();
-			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
-			InActionEnemy->chara->Transform->Rotation += eulerAngles;
-			InActionEnemy->chara->MovementComp->Forward = NewForward;
+			// 적이 움직였다면 굳이 회전시켜줄 필요가 없으니
+			if (InActionEnemy->dontMove) 
+			{
+				// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
+				Vector3 CurrentForward = InActionEnemy->Forward;
+				Vector3 NewForward = InActionEnemy->TargetPlayer->chara->Transform->Translation - InActionEnemy->chara->Transform->Translation;
+				NewForward.Normalize();
+				InActionEnemy->Forward = NewForward;
+				DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
+				Vector3 eulerAngles = quaternion.ToEuler();
+				eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+				InActionEnemy->chara->Transform->Rotation += eulerAngles;
+			}
 
 			EnemyDamage = InActionEnemy->patern(InActionEnemy->TargetPlayer, TurnNum);
 			UpdateEnemyState();
@@ -1572,14 +1593,14 @@ void MultiBattleScene::MoveProcess()
 			// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
 			for (auto enemy : EnemyList)
 			{
-				Vector3 CurrentForward = enemy->chara->MovementComp->Forward;
+				Vector3 CurrentForward = enemy->Forward;
 				Vector3 NewForward = CurrentPlayer->chara->Transform->Translation - enemy->chara->Transform->Translation;
 				NewForward.Normalize();
+				enemy->Forward = NewForward;
 				DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
 				Vector3 eulerAngles = quaternion.ToEuler();
 				eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
 				enemy->chara->Transform->Rotation += eulerAngles;
-				enemy->chara->MovementComp->Forward = NewForward;
 			}
 
 			// 카메라 셋팅
@@ -1737,6 +1758,19 @@ void MultiBattleScene::CardCheck()
 				UpdateHand(MyDeck->HandList.size(), cardNum, DrawedCard);
 				UpdatePlayerState();
 
+				// 적 캐릭터 방향 회전 (때리는 플레이어 캐릭터 쪽으로)
+				Vector3 CurrentForward = TargetEnemy->Forward;
+				Vector3 NewForward = CurrentPlayer->chara->Transform->Translation - TargetEnemy->chara->Transform->Translation;
+				NewForward.Normalize();
+				TargetEnemy->Forward = NewForward;
+
+				DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
+				Vector3 eulerAngles = quaternion.ToEuler();
+				eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+				TargetEnemy->chara->Transform->Rotation += eulerAngles;
+
+
+				// 적을 죽였는지 체크
 				if (TargetEnemy->hp <= 0)
 				{
 					// 적 캐릭터가 죽었다면 적 리스트에서 빼줌
@@ -1865,14 +1899,16 @@ void MultiBattleScene::Reaction()
 		// 적 캐릭터 방향 회전 (플레이어 캐릭터 쪽으로)
 		for (auto enemy : EnemyList)
 		{
-			Vector3 CurrentForward = enemy->chara->MovementComp->Forward;
+			Vector3 CurrentForward;
+			CurrentForward = enemy->Forward; 
 			Vector3 NewForward = CurrentPlayer->chara->Transform->Translation - enemy->chara->Transform->Translation;
 			NewForward.Normalize();
+			enemy->Forward = NewForward;
+
 			DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
 			Vector3 eulerAngles = quaternion.ToEuler();
 			eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
 			enemy->chara->Transform->Rotation += eulerAngles;
-			enemy->chara->MovementComp->Forward = NewForward;
 		}
 
 		// 카메라 셋팅
@@ -2018,6 +2054,17 @@ void MultiBattleScene::Reaction()
 
 		}
 		UpdatePlayerState();
+
+		// 적 캐릭터가 때리는 플레이어 방향을 보도록
+		Vector3 CurrentForward = TargetEnemy->Forward;
+		Vector3 NewForward = CurrentPlayer->chara->Transform->Translation - TargetEnemy->chara->Transform->Translation;
+		NewForward.Normalize();
+		TargetEnemy->Forward = NewForward;
+		DirectX::SimpleMath::Quaternion quaternion = Quaternion::FromToRotation(CurrentForward, NewForward);
+		Vector3 eulerAngles = quaternion.ToEuler();
+		eulerAngles.y = DirectX::XMConvertToDegrees(eulerAngles.y);
+		TargetEnemy->chara->Transform->Rotation += eulerAngles;
+		TargetEnemy->chara->MovementComp->Forward = NewForward;
 
 		if (TargetEnemy->hp <= 0)
 		{
