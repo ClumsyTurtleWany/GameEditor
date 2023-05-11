@@ -272,6 +272,11 @@ bool EditorCore::CreatePixelShader()
         OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/EffectPart/shader/PS_PointParticle_Dualsource.hlsl)");
     }
 
+    if (!DXShaderManager::GetInstance()->CreatePixelShader(L"../resource/EffectPart/shader/PS_RimLightTrail.hlsl", L"PS_RimLightTrail"))
+    {
+        OutputDebugString(L"EditorCore::Initialize::CreatePixelShader::Failed Create Pixel Shader.(../resource/EffectPart/shader/PS_RimLightTrail.hlsl)");
+    }
+
     //------------------------------------------------------------------------------------
     // Line Object Shader
     //------------------------------------------------------------------------------------

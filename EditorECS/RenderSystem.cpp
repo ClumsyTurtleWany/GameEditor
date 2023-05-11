@@ -146,6 +146,11 @@ void RenderSystem::Tick(ECS::World* world, float time)
 		}
 	}
 
+	if (pTest)
+	{
+		pTest->render(time);
+	}
+
 	DXDevice::g_pImmediateContext->GSSetShader(NULL, NULL, 0);
 
 	DXDevice::g_pImmediateContext->RSSetState(pOldRSState);

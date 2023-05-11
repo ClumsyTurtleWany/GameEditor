@@ -52,6 +52,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightComponent.h" />
     <ClInclude Include="LightSystem.h" />
+    <ClInclude Include="MotionTrail.h" />
     <ClInclude Include="MovementComponent.h" />
     <ClInclude Include="MovementSystem.h" />
     <ClInclude Include="NotifySystem.h" />
@@ -97,6 +98,7 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="LightComponent.cpp" />
     <ClCompile Include="LightSystem.cpp" />
+    <ClCompile Include="MotionTrail.cpp" />
     <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="MovementSystem.cpp" />
     <ClCompile Include="OscillationComponent.cpp" />
@@ -153,6 +155,12 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PS</EntryPointName>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_RimLightTrail.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PS</EntryPointName>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="..\resource\EffectPart\shader\VS_PointParticle.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

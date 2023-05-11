@@ -30,6 +30,7 @@
 
 //추가
 #include "ColliderSystem.h"
+#include "MotionTrail.h"
 
 ///////////////////
 //Effect Include
@@ -108,8 +109,6 @@ bool BattleScene::Init()
 	}*/
 	Init_Chara();
 	Init_Effect();
-	
-
 
 	// 카메라 시스템 및 랜더링 시스템 추가.
 	TheWorld.AddSystem(MainCameraSystem);
@@ -131,6 +130,21 @@ bool BattleScene::Init()
 	MainRenderSystem = new RenderSystem;
 	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 	TheWorld.AddSystem(MainRenderSystem);
+
+	MainRenderSystem->pTest = new MotionTrail;
+
+	MainRenderSystem->pTest->create(
+		DXDevice::g_pd3dDevice,
+		DXDevice::g_pImmediateContext,
+		&TheWorld,
+		player->chara,
+		MainCameraSystem->MainCamera,
+		6,
+		1.25f,
+		0.2f
+	);
+
+	MainRenderSystem->pTest->play();
 
 	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
 	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
@@ -399,12 +413,24 @@ bool BattleScene::Frame()
 	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 
 	//Effect test
-	if (Input::GetInstance()->getKey('U') == KeyState::Up)
+	if (Input::GetInstance()->getKey(VK_F7) == KeyState::Up)
 	{
-		PlaySimpleTrail(&TheWorld, L"SmokeTrail2",
-			{ -50.0f, 10.0f, 0.0f }, { 50.0f, 10.0f, 0.0f },
-			100.0f, 0.0f,
-			{ 0.5f, 0.5f, 0.5f }, { false, 10.0f, 0.0f, 1.0f });
+		MainRenderSystem->pTest->targetChange(enemy1->chara);
+	}
+
+	if (Input::GetInstance()->getKey(VK_F8) == KeyState::Up)
+	{
+		MainRenderSystem->pTest->targetChange(player->chara);
+	}
+
+	if (Input::GetInstance()->getKey(VK_F9) == KeyState::Up)
+	{
+		MainRenderSystem->pTest->play();
+	}
+
+	if (Input::GetInstance()->getKey(VK_F10) == KeyState::Up)
+	{
+		MainRenderSystem->pTest->Pause();
 	}
 
 	//PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;

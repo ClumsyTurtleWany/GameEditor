@@ -91,12 +91,12 @@ VertexShader_output VS(VertexShader_input input)
 
 	output.pos = vProj;
 
-	float alpha = min(g_Alpha, input.c.w);
+	/*float alpha = min(g_Alpha, input.c.w);
 	if (alpha <= 0.98)
 	{
 		output.pos.z = 1.0f * (1.0f - alpha);
 		output.pos.w = 1.0f;
-	}
+	}*/
 
 	output.depth = output.pos.zw;
 

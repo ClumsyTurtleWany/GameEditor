@@ -234,6 +234,9 @@
     <ClInclude Include="TimelineSystem.h">
       <Filter>System</Filter>
     </ClInclude>
+    <ClInclude Include="MotionTrail.h">
+      <Filter>EffectUtility\헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SkeletalMeshComponent.cpp">
@@ -359,6 +362,9 @@
     <ClCompile Include="TimelineSystem.cpp">
       <Filter>System</Filter>
     </ClCompile>
+    <ClCompile Include="MotionTrail.cpp">
+      <Filter>EffectUtility\소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="..\resource\EffectPart\shader\GS_PointParticle.hlsl">
@@ -377,6 +383,9 @@
       <Filter>EffectUtility\HLSL</Filter>
     </FxCompile>
     <FxCompile Include="..\resource\EffectPart\shader\GS_ParticleTrail.hlsl">
+      <Filter>EffectUtility\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\resource\EffectPart\shader\PS_RimLightTrail.hlsl">
       <Filter>EffectUtility\HLSL</Filter>
     </FxCompile>
   </ItemGroup>
