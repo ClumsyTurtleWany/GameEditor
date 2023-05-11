@@ -35,6 +35,30 @@ bool SkeletalMeshComponent::Render()
 	return true;
 }
 
+bool SkeletalMeshComponent::RenderTrail()
+{
+	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);
+	DXDevice::g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DXDevice::g_pImmediateContext->VSSetShader(VertexShader, NULL, 0);
+	DXDevice::g_pImmediateContext->HSSetShader(HullShader, NULL, 0);
+	DXDevice::g_pImmediateContext->DSSetShader(DomainShader, NULL, 0);
+	DXDevice::g_pImmediateContext->GSSetShader(GeometryShader, NULL, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(TransformBuffer, 0, NULL, &TransformData, 0, 0);
+	DXDevice::g_pImmediateContext->UpdateSubresource(BPABuffer, 0, NULL, &BPAData, 0, 0);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(0, 1, &TransformBuffer);
+	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
+	DXDevice::g_pImmediateContext->VSSetConstantBuffers(2, 1, &BPABuffer);
+
+	DXDevice::g_pImmediateContext->PSSetConstantBuffers(4, 1, &TransformBuffer);
+
+	for (auto& it : Meshes)
+	{
+		it.RenderTrail();
+	}
+
+	return true;
+}
+
 bool SkeletalMeshComponent::RenderShadow()
 {
 	DXDevice::g_pImmediateContext->IASetInputLayout(VertexLayout);

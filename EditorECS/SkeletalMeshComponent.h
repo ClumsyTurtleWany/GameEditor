@@ -36,6 +36,7 @@ public:
 
 public:
 	virtual bool Render();
+	virtual bool RenderTrail();
 	virtual bool RenderShadow();
 	virtual bool Initialize();
 

@@ -92,7 +92,7 @@ void GS(in point GS_INPUT gIn[1], inout TriangleStream<GS_OUTPUT> gOut)
 			newV.pos = float4(newP[i].xyz, 1.0);
 			newV.pos = mul(newV.pos, scale);
 			newV.pos.xyz = newV.pos.xyz * matWorld._11;
-			newV.pos.xyz = mul(newV.pos,xyz, (float3x3)gIn[0].rot);
+			newV.pos.xyz = mul(newV.pos.xyz, (float3x3)gIn[0].rot);
 			newV.pos.xyz += gIn[0].pos.xyz;
 
 			//newV.pos.xyz += float3(matWorld._14, matWorld._24, matWorld._34);	이 부분이 GS_PointParticle과 다르다
