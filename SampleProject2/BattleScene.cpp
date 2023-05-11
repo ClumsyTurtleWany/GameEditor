@@ -423,6 +423,16 @@ bool BattleScene::Frame()
 		MainRenderSystem->pTest->targetChange(player->chara);
 	}
 
+	if (Input::GetInstance()->getKey(VK_F9) == KeyState::Up)
+	{
+		MainRenderSystem->pTest->play();
+	}
+
+	if (Input::GetInstance()->getKey(VK_F10) == KeyState::Up)
+	{
+		MainRenderSystem->pTest->Pause();
+	}
+
 	//PickedCharacter = (Character*)MAIN_PICKER.curSelect.pTarget;
 	//for (auto enemy : EnemyList)
 	//{
