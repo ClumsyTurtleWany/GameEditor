@@ -35,9 +35,10 @@
 //Effect Include
 ///////////////////
 #include "EffectInclude/EffectSystem.h"
+#include "MotionTrail.h"
+
 
 //서버 추가
-
 #include"ServerPacketHandler.h"
 #include"ClientPacketHandler.h"
 #include"protocol.pb.h"
@@ -141,6 +142,21 @@ bool MultiBattleScene::Init()
 	MainRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 	TheWorld.AddSystem(MainRenderSystem);
 
+	// 잔상효과 이닛
+	MainRenderSystem->pTest = new MotionTrail;
+	MainRenderSystem->pTest->create(
+		DXDevice::g_pd3dDevice,
+		DXDevice::g_pImmediateContext,
+		&TheWorld,
+		player2->chara,
+		MainCameraSystem->MainCamera,
+		6,
+		1.25f,
+		0.2f
+	);
+	MainRenderSystem->pTest->play();
+	MainRenderSystem->pTest->Pause();
+
 	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
 	skyRenderSystem->MainCamera = MainCameraSystem->MainCamera;
 	TheWorld.AddSystem(skyRenderSystem);
@@ -148,6 +164,7 @@ bool MultiBattleScene::Init()
 	WRS = new WidgetRenderSystem;
 	TheWorld.AddSystem(WRS);
 	MAIN_PICKER.SetPickingMode(PMOD_CHARACTER);
+
 
 	//////  초기 카메라 세팅  //////
 
@@ -341,6 +358,9 @@ bool MultiBattleScene::Frame()
 			}
 		}
 	}
+
+	// 2P가 Idle상태라면 잔상효과 꺼줌
+	if (CurrentPlayer == player2 && !player2->chara->GetComponent<AnimationComponent>()->IsInAction() && !player2->chara->MovementComp->IsMoving) { MainRenderSystem->pTest->Pause(); }
 
 	// HP바 (빌보드 UI) 위치 업데이트
 	for (auto enemy : EnemyList)
@@ -676,23 +696,29 @@ void MultiBattleScene::Init_Chara()
 	delayFrame = 5;
 	// 발차기 1 (간단)
 	soundFrame = 15;
+	Notifier* P2A1_S = notiMgr->CreateNotifier(L"P2A1_S", 1, 60);	// Player2 Attack1 Start
 	Notifier* P2A1_R = notiMgr->CreateNotifier(L"P2A1_R", soundFrame - delayFrame, 60);	// Player2 Attack1 Ready
-	Notifier* P2A1 = notiMgr->CreateNotifier(L"P2A1", soundFrame, 60);
+	Notifier* P2A1 = notiMgr->CreateNotifier(L"P2A1", soundFrame, 60); 
 	notiMgr->MakeSound(L"P2A1", L"Attack_Strike.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A1_S);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A1_R);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_2", P2A1);
 	// 발차기 2 (살짝 화려)
 	soundFrame = 30;
+	Notifier* P2A2_S = notiMgr->CreateNotifier(L"P2A2_S", 1, 60);
 	Notifier* P2A2_R = notiMgr->CreateNotifier(L"P2A2_R", soundFrame - delayFrame, 60);
 	Notifier* P2A2 = notiMgr->CreateNotifier(L"P2A2", soundFrame, 60);
 	notiMgr->MakeSound(L"P2A2", L"Attack_Bludgeon.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*Char2PAnimComp, L"Kick", P2A2_S);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Kick", P2A2_R);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Kick", P2A2);
 	// 발차기 3 (겐세이 겁나넣다가 때림)
 	soundFrame = 56;
+	Notifier* P2A3_S = notiMgr->CreateNotifier(L"P2A3_S", 1, 60);
 	Notifier* P2A3_R = notiMgr->CreateNotifier(L"P2A3_R", soundFrame - delayFrame, 60);
 	Notifier* P2A3 = notiMgr->CreateNotifier(L"P2A3", soundFrame, 60);
 	notiMgr->MakeSound(L"P2A3", L"Hit.ogg", 1.0f, false);
+	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_Giratoria_2", P2A3_S);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_Giratoria_2", P2A3_R);
 	notiMgr->AddNotifier(*Char2PAnimComp, L"Chapa_Giratoria_2", P2A3);
 
@@ -765,7 +791,7 @@ void MultiBattleScene::Init_Chara()
 	auto E1MC = EnemyCharacter->GetComponent<MovementComponent>();
 	E1MC->Speed = 30.0f;
 	EnemyCharacter->MoveTo(Vector3(20.0f, 0.0f, 0.0f));
-	Vector3 NewForward = EnemyCharacter->Transform->Translation - EnemyCharacter->MovementComp->Destination;
+	Vector3 NewForward = EnemyCharacter->MovementComp->Destination - EnemyCharacter->Transform->Translation;
 	NewForward.Normalize();
 	enemy1->Forward = NewForward;
 
@@ -838,7 +864,7 @@ void MultiBattleScene::Init_Chara()
 	auto Enemy2_CharMovementComp = EnemyCharacter2->GetComponent<MovementComponent>();
 	Enemy2_CharMovementComp->Speed = 30.0f;
 	EnemyCharacter2->MoveTo(Vector3(20.0f, 0.0f, 70.0f));
-	NewForward = EnemyCharacter2->Transform->Translation - EnemyCharacter2->MovementComp->Destination;
+	NewForward = EnemyCharacter2->MovementComp->Destination - EnemyCharacter2->Transform->Translation;
 	NewForward.Normalize();
 	enemy2->Forward = NewForward;
 
@@ -1108,6 +1134,7 @@ void MultiBattleScene::NotifierCheck()
 
 
 				// 여기서부턴 P2 노티파이 처리 
+				else if (noti->Lable == L"P2A1_S") { MainRenderSystem->pTest->targetChange(player2->chara); MainRenderSystem->pTest->play(); }	// 공격모션 시작할때 잔상효과 키기
 				else if (noti->Lable == L"P2A1_R")
 				{
 					if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
@@ -1118,6 +1145,7 @@ void MultiBattleScene::NotifierCheck()
 					PlayEffect(&TheWorld, L"Hit5", { EffectPos, Vector3(), {2.0f, 2.0f, 2.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
 				}
+				else if (noti->Lable == L"P2A2_S") { MainRenderSystem->pTest->targetChange(player2->chara); MainRenderSystem->pTest->play(); }	// 공격모션 시작할때 잔상효과 키기
 				else if (noti->Lable == L"P2A2_R")
 				{
 					if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
@@ -1128,6 +1156,7 @@ void MultiBattleScene::NotifierCheck()
 					PlayEffect(&TheWorld, L"Hit5", { EffectPos, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
 					if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
 				}
+				else if (noti->Lable == L"P2A3_S") { MainRenderSystem->pTest->targetChange(player2->chara); MainRenderSystem->pTest->play(); }	// 공격모션 시작할때 잔상효과 키기
 				else if (noti->Lable == L"P2A3_R")
 				{
 					if (TargetEnemy->hp > 0) { EAnime->SetClipByName(L"Hit"); }
@@ -1222,6 +1251,7 @@ void MultiBattleScene::TurnStartProcess()
 	player2->armor = 0;
 	player2->cost = player2->maxCost;
 
+	UpdatePlayerState();
 	for (auto enemy : EnemyList) { enemy->SetIntentObj(TurnNum, enemy->IntentIcon, enemy->Intent1, enemy->Intent2); }
 
 	TurnState = true;
@@ -1542,9 +1572,14 @@ void MultiBattleScene::MoveProcess()
 				KeyState btnLC = Input::GetInstance()->getKey(VK_LBUTTON);
 				if (btnLC == KeyState::Down)
 				{
-					// 이동명령 내리고 카메라 바꿔줌
+					// 이동명령 내림
 					CurrentPlayer->chara->MoveTo(MAIN_PICKER.vIntersection);
 					MAIN_PICKER.optPickingMode = PMOD_CHARACTER;
+					CurrentPlayer->chara->MovementComp->IsMoving = true;
+
+					// 잔상효과 ON
+					MainRenderSystem->pTest->targetChange(CurrentPlayer->chara);
+					MainRenderSystem->pTest->play();
 
 					// 타 플레이어에게 위치정보 패킷 보냄
 					if (gpHost != nullptr && gpHost->IsConnected())	// 내가 1P(호스트)일 경우
@@ -1581,6 +1616,8 @@ void MultiBattleScene::MoveProcess()
 			IsMoving = false;
 			MoveTimer = 0.0f;
 			WRS->hide = false;
+
+			MainRenderSystem->pTest->Pause(); // 잔상효과 OFF
 
 			// 타겟팅한 적이 없다면 자동으로 첫번째 적 타겟팅
 			if (TargetEnemy == nullptr) { TargetEnemy = EnemyList[0]; }
@@ -1665,7 +1702,7 @@ void MultiBattleScene::CardCheck()
 				}
 
 				PAnime->SetClipByName(L"Inward_Block");
-				PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+				PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {2.0f, 2.0f, 2.0f} }, { false, 1.0f, 0.2f, 1.0f });
 				SoundMap.find(L"Shield")->second->Play();
 			}break;
 
@@ -1695,7 +1732,7 @@ void MultiBattleScene::CardCheck()
 					CanUse = true;
 
 					PAnime->SetClipByName(L"Inward_Block");
-					PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+					PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {2.0f, 2.0f, 2.0f} }, { false, 1.0f, 0.2f, 1.0f });
 					SoundMap.find(L"Shield2")->second->Play();
 				}
 			}break;
@@ -1882,13 +1919,20 @@ void MultiBattleScene::Reaction()
 	if(MoveLocation.x != 99999.0f && MoveLocation.y != 99999.0f && MoveLocation.z != 99999.0f)
 	{
 		CurrentPlayer->chara->MoveTo(MoveLocation);
+		CurrentPlayer->chara->MovementComp->IsMoving = true;
 		OtherPlayerIsMoving = true;
+
+		// 잔상효과 ON
+		MainRenderSystem->pTest->targetChange(CurrentPlayer->chara);
+		MainRenderSystem->pTest->play();
 
 		MoveLocation = { 99999.0f, 99999.0f, 99999.0f };	// 초기화
 	}
 	// 다른 플레이어가 이동이 끝났을 때, moveto 주고 한프레임 돌아야 하는 것 같으니 여기는 else if 붙여줌
 	else if (OtherPlayerIsMoving && !CurrentPlayer->chara->MovementComp->IsMoving) 
 	{
+		MainRenderSystem->pTest->Pause(); // 잔상효과 OFF
+
 		// 타겟팅한 적이 없다면 자동으로 첫번째 적 타겟팅
 		if (TargetEnemy == nullptr) { TargetEnemy = EnemyList[0]; }
 		// 플레이어 캐릭터 방향 회전 (타겟팅한 적 쪽으로)
@@ -2016,7 +2060,7 @@ void MultiBattleScene::Reaction()
 		{
 			CurrentPlayer->armor += 5;
 			PAnime->SetClipByName(L"Inward_Block");
-			PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+			PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {2.0f, 2.0f, 2.0f} }, { false, 1.0f, 0.2f, 1.0f });
 			SoundMap.find(L"Shield")->second->Play();
 		}break;
 
@@ -2034,7 +2078,7 @@ void MultiBattleScene::Reaction()
 			CurrentPlayer->armor += 8;
 
 			PAnime->SetClipByName(L"Inward_Block");
-			PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 1.0f, 0.2f, 1.0f });
+			PlayEffect(&TheWorld, L"Shield1", { CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {2.0f, 2.0f, 2.0f} }, { false, 1.0f, 0.2f, 1.0f });
 			SoundMap.find(L"Shield")->second->Play();
 		}break;
 

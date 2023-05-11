@@ -132,7 +132,6 @@ bool BattleScene::Init()
 	TheWorld.AddSystem(MainRenderSystem);
 
 	MainRenderSystem->pTest = new MotionTrail;
-
 	MainRenderSystem->pTest->create(
 		DXDevice::g_pd3dDevice,
 		DXDevice::g_pImmediateContext,
@@ -143,7 +142,6 @@ bool BattleScene::Init()
 		1.25f,
 		0.2f
 	);
-
 	MainRenderSystem->pTest->play();
 
 	SkyRenderSystem* skyRenderSystem = new SkyRenderSystem;
