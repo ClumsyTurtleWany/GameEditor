@@ -1079,6 +1079,8 @@ void MultiBattleScene::NotifierCheck()
 				else if (noti->Lable == L"Fire")
 				{
 					PlayEffect(&TheWorld, L"Hit5", { TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {3.0f, 3.0f, 3.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					auto socket = PlayerCharacter->GetComponent<SocketComponent>();
+					PlaySimpleTrail(&TheWorld, L"SmokeTrail2", socket->GetTranslation(), TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, 200.0f, 0.0f, {0.5f, 0.5f, 0.5f});
 					if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
 				}
 				else if (noti->Lable == L"Fire2_ready")
@@ -1088,6 +1090,8 @@ void MultiBattleScene::NotifierCheck()
 				else if (noti->Lable == L"Fire2")
 				{
 					PlayEffect(&TheWorld, L"Hit5", { TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, Vector3(), {4.0f, 4.0f, 4.0f} }, { false, 0.5f, 0.2f, 1.0f });
+					auto socket = PlayerCharacter->GetComponent<SocketComponent>();
+					PlaySimpleTrail(&TheWorld, L"SmokeTrail2", socket->GetTranslation(), TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center, 200.0f, 0.0f, { 0.5f, 0.5f, 0.5f });
 					if (PlayerDamage > 0) { DamageAnimation(PlayerDamage, true); PlayerDamage = 0; }
 				}
 				else if (noti->Lable == L"Strike_ready")
@@ -1787,7 +1791,8 @@ void MultiBattleScene::CardCheck()
 				Vector3 t1 = CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 				Vector3 t2 = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 				float dist = t1.Distance(t1, t2);
-				if (dist < 30.0f) // 어느정도 이상 가까울 때만 카메라 변경
+				//if (dist < 30.0f) // 어느정도 이상 가까울 때만 카메라 변경
+				if (1) // 어느정도 이상 가까울 때만 카메라 변경
 				{
 					dist = 40.0f;
 					TestActionCamera->Lerp(t1, t2, dist, 0.1f);
@@ -1977,7 +1982,8 @@ void MultiBattleScene::Reaction()
 		Vector3 t1 = CurrentPlayer->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 		Vector3 t2 = TargetEnemy->chara->GetComponent<BoundingBoxComponent>()->OBB.Center;
 		float dist = t1.Distance(t1, t2);
-		if (dist < 30.0f) // 어느정도 이상 가까울 때만 카메라 변경
+		//if (dist < 30.0f) // 어느정도 이상 가까울 때만 카메라 변경
+		if(1)
 		{
 			dist = 40.0f;
 			TestActionCamera->Lerp(t1, t2, dist, 0.1f);
